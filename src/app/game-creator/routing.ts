@@ -3,7 +3,7 @@ import {IndexComponent} from './index/index.component';
 
 export const routes: Routes = [
     {
-        path: 'games/create',
+        path: 'games/editor',
         component: IndexComponent,
         pathMatch: 'full',
         canActivate: []
