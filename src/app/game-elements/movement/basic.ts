@@ -1,18 +1,13 @@
-export interface ValidMoveTargetParams {
-    currentPosition: number;
-    allPositions: object;
-    boardWidth: number;
-}
+import { ValidMoveTargetParams, ValidMoveTarget } from '../models/Movement';
 
-export interface ValidMoveTarget {
-    from: number;
-    options: number[];
-}
+export const movement = {
+    findValidMoveTargets
+};
 
-export function findValidMoveTargets(params: ValidMoveTargetParams): ValidMoveTarget {
-    const {currentPosition, boardWidth} = params;
-    const result = {options: [], from: currentPosition};
-    const {options} = result;
+function findValidMoveTargets(params: ValidMoveTargetParams): ValidMoveTarget {
+    const { currentPosition, boardWidth } = params;
+    const result = { options: [], from: currentPosition };
+    const { options } = result;
 
     applyIfPossible(findLeft(currentPosition, boardWidth), options);
     applyIfPossible(findRight(currentPosition, boardWidth), options);
