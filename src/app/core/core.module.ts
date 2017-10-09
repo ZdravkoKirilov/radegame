@@ -8,21 +8,22 @@ import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 import { HomeModule } from '../home/home.module';
 import { GameCreatorModule } from '../game-creator/game-creator.module';
+import { NotFoundComponent } from './not-found/not-found.component';
 
 @NgModule({
     imports: [
         CommonModule,
         BrowserModule,
         StateStoreModule,
-        AppRoutingModule,
         StoreRouterConnectingModule,
         HomeModule,
-        GameCreatorModule
+        GameCreatorModule,
+        AppRoutingModule,
     ],
     exports: [
         AppRoutingModule
     ],
-    declarations: []
+    declarations: [NotFoundComponent]
 })
 export class CoreModule {
 }
