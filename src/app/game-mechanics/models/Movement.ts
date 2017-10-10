@@ -9,10 +9,12 @@ export interface ValidMoveTarget {
     options: number[];
 }
 
-export interface FindValidMoveTargets {
-    (params: ValidMoveTargetParams): ValidMoveTarget;
-}
+export type FindValidMoveTargets = (params: ValidMoveTargetParams) => ValidMoveTarget;
 
 export interface Movement {
-    findValidMoveTargets: FindValidMoveTargets
+    findValidMoveTargets: FindValidMoveTargets;
+}
+
+export interface MovementsList {
+    [key: string]: Movement;
 }

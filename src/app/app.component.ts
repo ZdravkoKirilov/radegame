@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from './state-store/state/store/index';
+import { AppState } from './state-store/index';
 import 'rxjs/add/operator/map';
 
 @Component({
