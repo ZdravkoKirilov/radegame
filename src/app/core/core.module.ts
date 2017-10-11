@@ -7,7 +7,7 @@ import {AppRoutingModule} from '../app-routing.module';
 import {StoreRouterConnectingModule} from '@ngrx/router-store';
 
 import {HomeModule} from '../home/home.module';
-import {GameCreatorModule} from '../game-creator/game-creator.module';
+import {GameEditorModule} from '../game-editor/game-editor.module';
 import {NotFoundComponent} from './components/not-found/not-found.component';
 
 @NgModule({
@@ -17,7 +17,7 @@ import {NotFoundComponent} from './components/not-found/not-found.component';
         StateStoreModule,
         StoreRouterConnectingModule,
         HomeModule,
-        GameCreatorModule,
+        GameEditorModule,
         AppRoutingModule,
     ],
     exports: [AppRoutingModule],
