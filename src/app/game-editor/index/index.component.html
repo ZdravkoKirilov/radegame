@@ -1,0 +1,87 @@
+<mat-vertical-stepper>
+
+    <mat-step>
+        <ng-template matStepLabel>Game Settings</ng-template>
+        <section>
+            <rg-general-settings></rg-general-settings>
+        </section>
+        <section>
+            <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Resources</ng-template>
+        <section>
+            <rg-resources></rg-resources>
+        </section>
+        <section>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Characters</ng-template>
+        <section>
+            <rg-characters></rg-characters>
+        </section>
+        <section>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Trivia</ng-template>
+        <section>
+            <rg-trivia></rg-trivia>
+        </section>
+        <section>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Traps</ng-template>
+        <section>
+            <rg-traps></rg-traps>
+        </section>
+        <section>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Fields</ng-template>
+        <section>
+            <rg-fields></rg-fields>
+        </section>
+        <section>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Turn flow</ng-template>
+        <section>
+            <rg-turn-flow></rg-turn-flow>
+        </section>
+        <section>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Resolutions</ng-template>
+        <div>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button>Done</button>
+        </div>
+    </mat-step>
+
+</mat-vertical-stepper>
