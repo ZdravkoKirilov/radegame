@@ -1,3 +1,23 @@
-<p>
-  general-settings works!
-</p>
+<section>
+    <form [formGroup]="rForm" class="form-container">
+
+        <mat-form-field>
+            <mat-placeholder>Game title</mat-placeholder>
+            <mat-hint>3 characters at least</mat-hint>
+            <mat-error *ngIf="!isValid('title')">The game title must be 3 characters at least</mat-error>
+            <input required matInput formControlName="title"/>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-placeholder>Pick a board type</mat-placeholder>
+            <mat-error *ngIf="!isValid('boardType')">A game needs a board</mat-error>
+            <mat-select formControlName="boardType" required>
+                <mat-option *ngFor="let board of boardTypes" [value]="board.id">{{board.displayName}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <ng-container *ngIf="allowedMovements && allowedMovements.length">
+            <mat-checkbox *ngFor="let movement of allowedMovements">{{movement}}</mat-checkbox>
+        </ng-container>
+    </form>
+</section>

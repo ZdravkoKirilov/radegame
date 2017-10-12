@@ -1,8 +1,7 @@
-import { MovementsList } from './Movement';
-
 export interface GameBoard {
     displayName: string;
-    allowedMovements: MovementsList;
+    allowedMovements: string[];
+    id: string;
 }
 export interface GameBoardTypes {
     [key: string]: GameBoard;

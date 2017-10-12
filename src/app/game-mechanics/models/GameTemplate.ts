@@ -6,11 +6,13 @@ import { AbilityList } from './Ability';
 import { TrapsList } from './Trap';
 import { EffectsList } from './FieldEffect';
 import { EndCondition } from './EndCondition';
+import { GameMetadata } from './GameMetadata';
 
 export interface GameTemplate {
-    id: number;
-    movements: Movement;
-    endCondition: EndCondition;
+    id?: number;
+    metadata?: GameMetadata;
+    movements?: Movement;
+    endCondition?: EndCondition;
     trivia?: Trivia[];
     resources?: ResourceList;
     characters?: CharacterList;

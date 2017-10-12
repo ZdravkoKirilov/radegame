@@ -12,7 +12,10 @@ export interface ValidMoveTarget {
 export type FindValidMoveTargets = (params: ValidMoveTargetParams) => ValidMoveTarget;
 
 export interface Movement {
-    findValidMoveTargets: FindValidMoveTargets;
+    findValidMoveTargets?: FindValidMoveTargets;
+    displayName?: string;
+    description?: string;
+    id?: string;
 }
 
 export interface MovementsList {
