@@ -1,16 +1,6 @@
 <mat-vertical-stepper>
 
     <mat-step>
-        <ng-template matStepLabel>Game Settings</ng-template>
-        <section>
-            <rg-general-settings></rg-general-settings>
-        </section>
-        <section>
-            <button mat-raised-button matStepperNext>Next</button>
-        </section>
-    </mat-step>
-
-    <mat-step>
         <ng-template matStepLabel>Resources</ng-template>
         <section>
             <rg-resources></rg-resources>
@@ -18,6 +8,16 @@
         <section>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Game Settings</ng-template>
+        <section>
+            <rg-general-settings></rg-general-settings>
+        </section>
+        <section>
+            <button mat-raised-button matStepperNext>Next</button>
         </section>
     </mat-step>
 

@@ -22,6 +22,7 @@ import {TurnFlowComponent} from './components/turn-flow/turn-flow.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG, FEATURE_NAME } from './config';
 import { SharedModule } from '../shared/shared.module';
+import { ResourceEditorComponent } from './components/resource-editor/resource-editor.component';
 
 @NgModule({
     imports: [
@@ -40,7 +41,7 @@ import { SharedModule } from '../shared/shared.module';
         SharedModule
     ],
     declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent, FieldsComponent,
-        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent]
+        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent, ResourceEditorComponent]
 })
 export class GameEditorModule {
 }

@@ -1,0 +1,15 @@
+@mixin undecorated-link {
+  text-decoration: none;
+  text-underline: none;
+  color: currentColor;
+}
+
+.create-resource-btn {
+  display: block;
+  width: 150px;
+  height: 150px;
+  @include undecorated-link;
+  &:active, &:visited, &:link {
+    @include undecorated-link;
+  }
+}
