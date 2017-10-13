@@ -54,10 +54,8 @@ export class GeneralSettingsComponent implements OnDestroy, OnInit {
         }
     }
 
-    handleSliderChange(data: {name: string, value: number}) {
-        this.rForm.patchValue({
-            [data.name]: data.value
-        });
+    handleSliderChange(data) {
+        this.rForm.patchValue(data);
     }
 
     getSupportedMoves(boardType: string): string[] {

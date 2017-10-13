@@ -7,7 +7,9 @@ import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 })
 export class SliderComponent implements OnInit {
 
-    constructor() {}
+    constructor() {
+    }
+
     @Input() max: number;
     @Input() min: number;
     @Input() step: number;
@@ -19,11 +21,13 @@ export class SliderComponent implements OnInit {
         value = Number(value);
         value = value > this.max ? this.max : value;
         this._sliderValue = value;
-        this.change.emit({name: this.name, value});
+        this.change.emit({[this.name]: value});
     }
+
     get sliderValue() {
         return this._sliderValue;
     }
+
     ngOnInit() {
         this.sliderValue = this.min;
     }
