@@ -3,11 +3,18 @@
   text-underline: none;
   color: currentColor;
 }
+/deep/ {
+  . {
+    height: 100%;
+  }
+}
+.box {
+  display: block;
+  width: 200px;
+  height: 170px;
+}
 
 .create-resource-btn {
-  display: block;
-  width: 150px;
-  height: 150px;
   @include undecorated-link;
   &:active, &:visited, &:link {
     @include undecorated-link;
