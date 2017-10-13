@@ -1,4 +1,15 @@
 .form-container {
   display: flex;
   flex-direction: column;
+  .add-image-btn {
+    max-width: 200px;
+    text-align: left;
+    padding: 20px 0;
+    input {
+      display: none;
+    }
+  }
+  .file-input-thumbnail {
+    max-width: 200px;
+  }
 }

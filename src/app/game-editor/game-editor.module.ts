@@ -19,20 +19,25 @@ import {TrapsComponent} from './components/traps/traps.component';
 import {ResolutionsComponent} from './components/resolutions/resolutions.component';
 import {TurnFlowComponent} from './components/turn-flow/turn-flow.component';
 
-import { FEATURE_NAME } from './config';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { DROPZONE_CONFIG, FEATURE_NAME } from './config';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
     imports: [
         CommonModule,
+        SharedModule,
         StoreModule.forFeature(FEATURE_NAME, reducers),
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
         GameElementsModule,
-        NgMaterialModule
+        NgMaterialModule,
+        DropzoneModule.forRoot(DROPZONE_CONFIG)
     ],
     exports: [
-        RouterModule
+        RouterModule,
+        SharedModule
     ],
     declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent, FieldsComponent,
         TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent]

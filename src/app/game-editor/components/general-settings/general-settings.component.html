@@ -5,19 +5,34 @@
             <mat-placeholder>Game title</mat-placeholder>
             <mat-hint>3 characters at least</mat-hint>
             <mat-error *ngIf="!isValid('title')">The game title must be 3 characters at least</mat-error>
-            <input required matInput formControlName="title"/>
+            <input matInput formControlName="title"/>
         </mat-form-field>
 
         <mat-form-field>
             <mat-placeholder>Pick a board type</mat-placeholder>
             <mat-error *ngIf="!isValid('boardType')">A game needs a board</mat-error>
-            <mat-select formControlName="boardType" required>
+            <mat-select formControlName="boardType">
                 <mat-option *ngFor="let board of boardTypes" [value]="board.id">{{board.displayName}}</mat-option>
             </mat-select>
         </mat-form-field>
 
-        <ng-container *ngIf="allowedMovements && allowedMovements.length">
-            <mat-checkbox *ngFor="let movement of allowedMovements">{{movement}}</mat-checkbox>
-        </ng-container>
+        <rg-slider [min]="4" [max]="12" [step]="2" [name]="'boardWidth'"
+                   [label]="'Pick board width'" (change)="handleSliderChange($event)"></rg-slider>
+        <rg-slider [min]="6" [max]="20" [step]="2" [name]="'boardHeight'"
+                   [label]="'Pick board height'" (change)="handleSliderChange($event)"></rg-slider>
+
+        <mat-form-field>
+            <mat-placeholder>Pick movements</mat-placeholder>
+            <mat-error *ngIf="!isValid('movements')">A boards needs a movement</mat-error>
+            <mat-select formControlName="movements" required multiple>
+                <mat-option *ngFor="let movement of allowedMovements" [value]="movement">{{movement}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <dropzone (addedfile)="handleFileUpload($event)"
+                  [config]="{clickable: true, addRemoveLinks: true}"
+                  [message]="'Click here to upload'">
+        </dropzone>
+
     </form>
 </section>
