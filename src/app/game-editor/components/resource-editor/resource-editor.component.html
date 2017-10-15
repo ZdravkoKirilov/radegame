@@ -1,3 +1,10 @@
-<p>
-  resource-editor works!
-</p>
+<div>
+  <form [formGroup]="rForm" class="form-container">
+      <mat-form-field>
+          <mat-placeholder>Resource name</mat-placeholder>
+          <mat-hint>3 characters at least</mat-hint>
+          <mat-error *ngIf="!isValid('name')">The game title must be 3 characters at least</mat-error>
+          <input matInput formControlName="name"/>
+      </mat-form-field>
+  </form>
+</div>

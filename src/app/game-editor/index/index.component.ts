@@ -7,7 +7,9 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+  constructor() {
+    //TODO: clear store editor data and start fresh
+   }
 
   ngOnInit() {
   }

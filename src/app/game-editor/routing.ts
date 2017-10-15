@@ -9,7 +9,7 @@ export const routes: Routes = [
         pathMatch: 'full',
         canActivate: []
     }, {
-        path: 'games/editor/:title/resources/:resource',
+        path: 'games/editor/resources/:resource',
         component: ResourceEditorComponent,
         pathMatch: 'full',
         canActivate: []

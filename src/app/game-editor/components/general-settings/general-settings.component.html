@@ -1,5 +1,5 @@
 <section>
-    <form [formGroup]="rForm" class="form-container">
+    <form [formGroup]="form" class="form-container">
 
         <mat-form-field>
             <mat-placeholder>Game title</mat-placeholder>
@@ -25,14 +25,11 @@
             <mat-placeholder>Pick movements</mat-placeholder>
             <mat-error *ngIf="!isValid('movements')">A boards needs a movement</mat-error>
             <mat-select formControlName="movements" required multiple>
-                <mat-option *ngFor="let movement of allowedMovements" [value]="movement">{{movement}}</mat-option>
+                <mat-option *ngFor="let movement of movements" [value]="movement">{{movement}}</mat-option>
             </mat-select>
         </mat-form-field>
 
-        <dropzone (addedfile)="handleFileUpload($event)"
-                  [config]="{clickable: true, addRemoveLinks: true}"
-                  [message]="'Click here to upload'">
-        </dropzone>
+        <rg-image-picker (gotImage)="handleFile($event)"></rg-image-picker>
 
     </form>
 </section>

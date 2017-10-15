@@ -1,7 +1,9 @@
 export interface Resource {
-    id: number;
-    name: string;
-    quantity: number;
+    id?: number;
+    name?: string;
+    image?: string;
+    plural?: string;
+    description?: string;
 }
 
 export interface ResourceList {
