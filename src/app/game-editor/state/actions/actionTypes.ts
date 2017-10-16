@@ -1,3 +1,5 @@
-export default {
-    UPDATE_FIELD: 'UPDATE_FIELD'
-};
+export const UPDATE_FIELD = 'UPDATE_FIELD';
+
+export const SAVE_RESOURCE = 'SAVE_RESOURCE';
+export const SAVE_RESOURCE_SUCCESS = 'SAVE_RESOURCE_SUCCESS';
+export const SAVE_RESOURCE_FAIL = 'SAVE_RESOURCE_FAIL';

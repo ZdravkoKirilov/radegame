@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'rg-index',
@@ -7,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class IndexComponent implements OnInit {
 
-  constructor() {
+  constructor(private titleService: Title) {
+    
     //TODO: clear store editor data and start fresh
    }
 

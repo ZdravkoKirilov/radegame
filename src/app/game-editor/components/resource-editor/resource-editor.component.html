@@ -1,10 +1,24 @@
 <div>
-  <form [formGroup]="rForm" class="form-container">
-      <mat-form-field>
-          <mat-placeholder>Resource name</mat-placeholder>
-          <mat-hint>3 characters at least</mat-hint>
-          <mat-error *ngIf="!isValid('name')">The game title must be 3 characters at least</mat-error>
-          <input matInput formControlName="name"/>
-      </mat-form-field>
-  </form>
+    <form [formGroup]="rForm" class="form-container">
+
+        <mat-form-field>
+            <mat-placeholder>Resource name</mat-placeholder>
+            <mat-hint>3 characters at least</mat-hint>
+            <mat-error *ngIf="!isValid('name')">The game title must be 3 characters at least</mat-error>
+            <input required matInput formControlName="name" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-placeholder>Plural form</mat-placeholder>
+            <input matInput formControlName="plural" />
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-placeholder>Description</mat-placeholder>
+            <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+
+        <rg-image-picker (gotImage)="handleFileUpload($event)"></rg-image-picker>
+    </form>
+    <button mat-raised-button [disabled]="!rForm.valid" (click)="saveGameResource()">Save</button>
 </div>

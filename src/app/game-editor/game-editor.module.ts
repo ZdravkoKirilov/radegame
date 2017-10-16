@@ -2,6 +2,8 @@ import { FEATURE_NAME } from './config';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { EffectsModule } from '@ngrx/effects';
+import { GameResourcesEffectsService } from './state/effects/game-resources-effects.service';
 
 import { IndexComponent } from './index/index.component';
 import { RouterModule } from '@angular/router';
@@ -21,13 +23,14 @@ import { ResolutionsComponent } from './components/resolutions/resolutions.compo
 import { TurnFlowComponent } from './components/turn-flow/turn-flow.component';
 import { ResourceEditorComponent } from './components/resource-editor/resource-editor.component';
 import { SharedModule } from '../shared/shared.module';
-import { GeneralSettingsSmartComponent } from './containers/general-settings-smart/general-settings-smart.component';
+import { SmartGeneralSettingsComponent } from './containers/smart-general-settings/smart-general-settings.component';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
         StoreModule.forFeature(FEATURE_NAME, reducers),
+        EffectsModule.forRoot([GameResourcesEffectsService]),
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
@@ -39,7 +42,7 @@ import { GeneralSettingsSmartComponent } from './containers/general-settings-sma
         SharedModule
     ],
     declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent, FieldsComponent,
-        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent, ResourceEditorComponent, GeneralSettingsSmartComponent]
+        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent, ResourceEditorComponent, SmartGeneralSettingsComponent]
 })
 export class GameEditorModule {
 }
