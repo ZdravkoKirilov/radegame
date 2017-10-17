@@ -1,19 +1,26 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component, Input } from '@angular/core';
+
+import { Resource } from '../../../game-mechanics/models/Resource';
 
 @Component({
-  selector: 'rg-resources',
-  templateUrl: './resources.component.html',
-  styleUrls: ['./resources.component.scss']
+    selector: 'rg-resources',
+    templateUrl: './resources.component.html',
+    styleUrls: ['./resources.component.scss']
 })
-export class ResourcesComponent implements OnInit {
+export class ResourcesComponent {
 
-  constructor(private router: Router) { }
+    constructor() {
+    }
+    @Input() resources: Resource[];
+    public showEditor = false;
 
-  ngOnInit() {
-  }
-  goToResourceEditor() {
-    this.router.navigate(['games/editor/resources/create']);
-  }
-
+    showResourceEditor() {
+        this.showEditor = true;
+    }
+    saveResource() {
+        this.showEditor = false;
+    }
+    hideEditor() {
+        this.showEditor = false;
+    }
 }

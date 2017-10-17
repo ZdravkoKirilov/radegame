@@ -11,7 +11,9 @@ export const reducers: ActionReducerMap<GameEditorFeature> = {
 
 const initialState: GameTemplate = {
     metadata: {},
-    resources: {}
+    resources: {
+        items: {}
+    }
 };
 
 export function gameEditorFormReducer(state: GameTemplate = initialState, action: Actions): GameTemplate {
@@ -30,11 +32,12 @@ export function gameEditorFormReducer(state: GameTemplate = initialState, action
                 resources: {
                     ...state.resources,
                     items: {
+                        ...state.resources.items,
                         [action.payload.id]: action.payload
                     },
                     lastInsert: action.payload
                 }
-            }
+            };
         default:
             return state;
     }

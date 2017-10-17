@@ -1,4 +1,3 @@
-<rg-general-settings [form]="rForm" [movements]="allowedMovements" [boards]="boardTypes" (gotImage)="handleFileUpload($event)"
-  (sliderChange)="handleSliderChange($event)">
+<rg-general-settings (change)="handleFormValueChange($event)" [gameBoards]="gameBoards" [boardTypes]="boardTypes">
 
 </rg-general-settings>

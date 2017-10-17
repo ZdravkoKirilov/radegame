@@ -1,26 +1,5 @@
-@mixin undecorated-link {
-  text-decoration: none;
-  text-underline: none;
-  color: currentColor;
-}
-.wrapper {
-  display: flex;
-}
-.box {
-  display: block;
-  width: 200px;
-  height: 170px;
-  margin-right: 10px;
-  button {
-    height: 100%;
-    width: 100%;
-    background: rgba(175, 220, 238, 0.3);
-  }
-}
-
-.create-resource-btn {
-  @include undecorated-link;
-  &:active, &:visited, &:link {
-    @include undecorated-link;
-  }
+.create-resource-toolbar {
+  margin: 10px;
+  width: 100%;
+  text-align: center;
 }

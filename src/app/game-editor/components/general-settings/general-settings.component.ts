@@ -1,8 +1,8 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit} from '@angular/core';
+import {FormGroup, FormBuilder, Validators as vd} from '@angular/forms';
 
-import { GameBoard } from '../../../game-mechanics/models/GameBoard';
-import { GameMetadata } from './../../../game-mechanics/models/GameMetadata';
+import {GameBoard} from '../../../game-mechanics/models/GameBoard';
+import {GameMetadata} from '../../../game-mechanics/models/GameMetadata';
 
 @Component({
     selector: 'rg-general-settings',
@@ -10,22 +10,48 @@ import { GameMetadata } from './../../../game-mechanics/models/GameMetadata';
     styleUrls: ['./general-settings.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GeneralSettingsComponent {
-    @Input('form') form: FormGroup;
-    @Input('movements') movements: string[];
-    @Input('boards') boardTypes: GameBoard[];
-    @Output('gotImage') gotImage: EventEmitter<GameMetadata> = new EventEmitter<GameMetadata>();
-    @Output('sliderChange') sliderChange: EventEmitter<GameMetadata> = new EventEmitter<GameMetadata>();
+export class GeneralSettingsComponent implements OnInit {
+    @Input() boardTypes: GameBoard[];
+    @Input() gameBoards: any;
+    @Output() change: EventEmitter<GameMetadata> = new EventEmitter<GameMetadata>();
 
-    constructor() {
+    public rForm: FormGroup;
+    public allowedMovements: string[];
+
+    constructor(private fb: FormBuilder) {
+        this.rForm = fb.group({
+            'title': [null, vd.compose([vd.required, vd.minLength(3)])],
+            'boardType': [null, vd.required],
+            'movements': [null, vd.required],
+            'image': [null, vd.required],
+            'boardWidth': [null],
+            'boardHeight': [null]
+        });
     }
+
     handleSliderChange(data: GameMetadata): void {
-        this.sliderChange.emit(data);
+        this.rForm.patchValue(data);
     }
+
     handleFile(file): void {
-        this.gotImage.emit({image: file});
+        this.rForm.patchValue({image: file});
     }
+
     isValid(name): boolean {
-        return this.form.get(name).valid;
+        return this.rForm.get(name).valid;
+    }
+
+    getSupportedMoves(boardType: string): string[] {
+        return this.gameBoards[boardType] ? this.gameBoards[boardType].allowedMovements : [];
+    }
+
+    ngOnInit() {
+        this.rForm.valueChanges
+            .subscribe((data: GameMetadata) => this.change.emit(data));
+        this.rForm.get('boardType').valueChanges
+            .subscribe(() => {
+                this.rForm.get('movements').reset();
+                this.allowedMovements = this.getSupportedMoves(this.rForm.get('boardType').value);
+            });
     }
 }

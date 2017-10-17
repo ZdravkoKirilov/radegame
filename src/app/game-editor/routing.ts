@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
 import { IndexComponent } from './index/index.component';
-import { ResourceEditorComponent } from './components/resource-editor/resource-editor.component';
+import { SmartResourceEditorComponent } from './containers/smart-resource-editor/smart-resource-editor.component';
 
 export const routes: Routes = [
     {
@@ -13,7 +13,7 @@ export const routes: Routes = [
         },
     }, {
         path: 'games/editor/resources/:resource',
-        component: ResourceEditorComponent,
+        component: SmartResourceEditorComponent,
         pathMatch: 'full',
         canActivate: [],
         data: {

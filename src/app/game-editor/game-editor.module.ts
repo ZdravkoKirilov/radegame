@@ -24,6 +24,9 @@ import { TurnFlowComponent } from './components/turn-flow/turn-flow.component';
 import { ResourceEditorComponent } from './components/resource-editor/resource-editor.component';
 import { SharedModule } from '../shared/shared.module';
 import { SmartGeneralSettingsComponent } from './containers/smart-general-settings/smart-general-settings.component';
+import { SmartResourceEditorComponent } from './containers/smart-resource-editor/smart-resource-editor.component';
+import { SmartResourcesComponent } from './containers/smart-resources/smart-resources.component';
+import { ResourcesListComponent } from './components/resources-list/resources-list.component';
 
 @NgModule({
     imports: [
@@ -42,7 +45,7 @@ import { SmartGeneralSettingsComponent } from './containers/smart-general-settin
         SharedModule
     ],
     declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent, FieldsComponent,
-        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent, ResourceEditorComponent, SmartGeneralSettingsComponent]
+        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent, ResourceEditorComponent, SmartGeneralSettingsComponent, SmartResourceEditorComponent, SmartResourcesComponent, ResourcesListComponent]
 })
 export class GameEditorModule {
 }

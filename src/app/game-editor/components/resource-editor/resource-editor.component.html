@@ -20,5 +20,10 @@
 
         <rg-image-picker (gotImage)="handleFileUpload($event)"></rg-image-picker>
     </form>
-    <button mat-raised-button [disabled]="!rForm.valid" (click)="saveGameResource()">Save</button>
+
+    <div class="button-toolbar">
+        <button mat-raised-button color="primary" [disabled]="!rForm.valid" (click)="saveGameResource()">Save</button>
+        <button mat-raised-button (click)="cancelAction()">Cancel</button>
+    </div>
+
 </div>
