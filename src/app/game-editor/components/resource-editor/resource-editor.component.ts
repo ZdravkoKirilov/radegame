@@ -11,7 +11,6 @@ export class ResourceEditorComponent {
     @Output() save: EventEmitter<Resource> = new EventEmitter<Resource>();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     public rForm: FormGroup;
-
     constructor(private fb: FormBuilder) {
         this.rForm = fb.group({
             'name': [null, vd.compose([vd.required, vd.minLength(3)])],
