@@ -1,21 +1,19 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state-store/index';
 import * as actions from '../../state/actions/actions';
-
-import { GameBoards } from '../../../game-mechanics/configs/game-board-types';
-import { GameBoard } from '../../../game-mechanics/models/GameBoard';
-import { GameMetadata } from '../../../game-mechanics/models/GameMetadata';
+import { GameMetadata } from '../../../game-mechanics/models/index';
+import { Observable } from 'rxjs/Observable';
+import { selectAsset } from '../../state/reducers/selectors';
 
 @Component({
     selector: 'rg-smart-general-settings',
     templateUrl: './smart-general-settings.component.html',
     styleUrls: ['./smart-general-settings.component.scss']
 })
-export class SmartGeneralSettingsComponent {
+export class SmartGeneralSettingsComponent implements OnInit {
     readonly storeBranch: string = 'metadata';
-    public gameBoards = GameBoards;
-    public boardTypes: GameBoard[] = Object.values(GameBoards);
+    public allowedMovements: Observable<string[]>;
 
     constructor(private store: Store<AppState>) {
     }
@@ -25,5 +23,8 @@ export class SmartGeneralSettingsComponent {
             branch: this.storeBranch,
             data
         }));
+    }
+    ngOnInit() {
+        this.allowedMovements = this.store.map(state => selectAsset('supportedMovements')(state));
     }
 }

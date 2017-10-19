@@ -10,6 +10,7 @@ import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from './config/config';
 
 import { GameResourcesService } from './services/game-resources.service';
+import { GameCharactersService } from './services/game-characters.service';
 
 @NgModule({
     imports: [
@@ -19,6 +20,6 @@ import { GameResourcesService } from './services/game-resources.service';
         SliderComponent, ImagePickerComponent
     ],
     declarations: [SliderComponent, ImagePickerComponent],
-    providers: [GameResourcesService]
+    providers: [GameResourcesService, GameCharactersService]
 })
 export class SharedModule { }

@@ -1,19 +1,23 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { of } from 'rxjs/observable/of';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {of} from 'rxjs/observable/of';
+
+import { Resource } from '../../game-mechanics/models/Resource';
 
 @Injectable()
 export class GameResourcesService {
 
-	constructor() { }
+    constructor() {
+    }
 
-	saveGameResource(data): Observable<any> {
-		return of({
-			id: new Date().getTime(),
-			...data
-		});
-	}
-	getGameResources() {
+    saveGameResource(data: Resource): Observable<Resource> {
+        return of({
+            id: new Date().getTime(),
+            ...data
+        });
+    }
 
-	}
+    getGameResources() {
+
+    }
 }

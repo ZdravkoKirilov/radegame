@@ -1,7 +1,8 @@
 export interface Character {
-    id: number;
-    name: string;
-    abilities: number[];
+    id?: number;
+    name?: string;
+    image?: string;
+    abilities?: string[];
 }
 
 export interface CharacterList {

@@ -1,13 +1,20 @@
-<mat-vertical-stepper>
+<div *ngIf="!inProgress">
+    <rg-game-launch
+            [boards]="boardTypes"
+            (create)="handleGameCreate($event)"
+    ></rg-game-launch>
+</div>
+
+<mat-vertical-stepper *ngIf="inProgress">
 
     <mat-step>
-        <ng-template matStepLabel>Resources</ng-template>
+        <ng-template matStepLabel>Characters</ng-template>
         <section>
-            <rg-smart-resources></rg-smart-resources>
+            <rg-smart-characters></rg-smart-characters>
         </section>
         <section>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+            <button mat-raised-button matStepperPrevious>Back</button>
+            <button mat-raised-button matStepperNext>Next</button>
         </section>
     </mat-step>
 
@@ -22,13 +29,13 @@
     </mat-step>
 
     <mat-step>
-        <ng-template matStepLabel>Characters</ng-template>
+        <ng-template matStepLabel>Resources</ng-template>
         <section>
-            <rg-characters></rg-characters>
+            <rg-smart-resources></rg-smart-resources>
         </section>
         <section>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+            <button mat-raised-button matStepperPrevious>Back</button>
+            <button mat-raised-button matStepperNext>Next</button>
         </section>
     </mat-step>
 

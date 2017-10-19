@@ -1,21 +1,6 @@
 <section>
     <form [formGroup]="rForm" class="form-container">
 
-        <mat-form-field>
-            <mat-placeholder>Game title</mat-placeholder>
-            <mat-hint>3 characters at least</mat-hint>
-            <mat-error *ngIf="!isValid('title')">The game title must be 3 characters at least</mat-error>
-            <input matInput formControlName="title"/>
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-placeholder>Pick a board type</mat-placeholder>
-            <mat-error *ngIf="!isValid('boardType')">A game needs a board</mat-error>
-            <mat-select formControlName="boardType">
-                <mat-option *ngFor="let board of boardTypes" [value]="board.id">{{board.displayName}}</mat-option>
-            </mat-select>
-        </mat-form-field>
-
         <rg-slider [min]="4" [max]="12" [step]="2" [name]="'boardWidth'"
                    [label]="'Pick board width'" (change)="handleSliderChange($event)"></rg-slider>
         <rg-slider [min]="6" [max]="20" [step]="2" [name]="'boardHeight'"

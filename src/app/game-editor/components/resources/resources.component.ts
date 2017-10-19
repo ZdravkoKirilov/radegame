@@ -20,7 +20,7 @@ export class ResourcesComponent {
     saveResource() {
         this.showEditor = false;
     }
-    hideEditor() {
+    hideResourceEditor() {
         this.showEditor = false;
     }
 }

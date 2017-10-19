@@ -1,0 +1,19 @@
+<div>
+  <form [formGroup]="rForm" class="form-container">
+
+    <mat-form-field>
+      <mat-placeholder>Character name</mat-placeholder>
+      <mat-hint>3 characters at least</mat-hint>
+      <mat-error *ngIf="!isValid('name')">The game character name must be 3 characters at least</mat-error>
+      <input required matInput formControlName="name" />
+    </mat-form-field>
+
+    <rg-image-picker (gotImage)="handleFileUpload($event)"></rg-image-picker>
+  </form>
+
+  <div class="button-toolbar">
+    <button mat-raised-button color="primary" [disabled]="!rForm.valid" (click)="saveGameCharacter()">Save</button>
+    <button mat-raised-button (click)="cancelAction()">Cancel</button>
+  </div>
+
+</div>

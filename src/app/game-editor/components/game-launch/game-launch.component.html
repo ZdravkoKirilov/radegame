@@ -1,0 +1,19 @@
+<div>
+    <rg-game-board-list [boards]="boards" (change)="handleBoardChange($event)"></rg-game-board-list>
+
+    <form [formGroup]="form">
+        <mat-form-field>
+            <mat-hint>3 characters at least</mat-hint>
+            <mat-error *ngIf="!form.get('gameName').valid">The game title must be 3 characters at least</mat-error>
+            <mat-placeholder>Game name:</mat-placeholder>
+            <input required matInput formControlName="gameName"/>
+        </mat-form-field>
+    </form>
+
+    <div>
+        <button [disabled]="!form.valid" mat-raised-button color="primary" (click)="handleGameCreate()">Create new
+            game
+        </button>
+    </div>
+
+</div>

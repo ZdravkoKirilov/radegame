@@ -2,12 +2,13 @@
 
     <rg-resources-list *ngIf="!showEditor" [items]="resources"></rg-resources-list>
 
-    <div *ngIf="!showEditor" class="create-resource-toolbar" >
+    <div *ngIf="!showEditor" class="create-resource-toolbar">
         <button mat-raised-button color="primary" class="create-new-btn" (click)="showResourceEditor()">
             <mat-icon>add</mat-icon>
             <span>Create new resource</span>
         </button>
     </div>
 
-    <rg-smart-resource-editor *ngIf="showEditor" (save)="saveResource()" (cancel)="hideEditor()"></rg-smart-resource-editor>
+    <rg-smart-resource-editor *ngIf="showEditor" (save)="saveResource()"
+                              (cancel)="hideResourceEditor()"></rg-smart-resource-editor>
 </div>
