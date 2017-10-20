@@ -1,7 +1,6 @@
 import * as actionTypes from './actionTypes';
 import {Action} from '@ngrx/store';
-import {Resource} from '../../../game-mechanics/models/index';
-import {Character} from '../../../game-mechanics/models/index';
+import {Resource, Character, Trivia} from '../../../game-mechanics/models/index';
 
 export class UpdateFieldAction implements Action {
     constructor(public payload: {
@@ -51,6 +50,26 @@ export class SaveCharacterFailAction implements Action {
     readonly type = actionTypes.SAVE_CHARACTER_FAIL;
 }
 
+
+export class SaveTriviaAction implements Action {
+    constructor(public payload: Trivia) {
+    }
+
+    readonly type = actionTypes.SAVE_TRIVIA;
+}
+
+export class SaveTriviaSuccessAction implements Action {
+    constructor(public payload: Trivia) {
+    }
+
+    readonly type = actionTypes.SAVE_TRIVIA_SUCCESS;
+}
+
+export class SaveTriviaFailAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.SAVE_TRIVIA_FAIL;
+}
+
 export type Actions =
     UpdateFieldAction
     | SaveResourceAction
@@ -58,4 +77,7 @@ export type Actions =
     | SaveResourceFailAction
     | SaveCharacterAction
     | SaveCharacterSuccessAction
-    | SaveCharacterFailAction;
+    | SaveCharacterFailAction
+    | SaveTriviaAction
+    | SaveTriviaSuccessAction
+    | SaveTriviaFailAction;

@@ -1,10 +1,21 @@
-import { movement as basicMovement } from '../movement/basic';
-import { MovementsList } from '../models/Movement';
+import {MovementsList} from '../models/Movement';
 
 export const moveTypes = {
-    'Basic': 'BASIC'
+    'Basic': 'BASIC',
+    'Other': 'Other'
 };
 
-export const movements: MovementsList = {
-    [moveTypes.Basic]: basicMovement
+export const Movements: MovementsList = {
+    [moveTypes.Basic]: {
+        id: moveTypes.Basic,
+        displayName: 'Basic Movement',
+        description: ''
+    },
+
+    [moveTypes.Other]: {
+        id: moveTypes.Other,
+        displayName: 'Other Movement',
+        description: ''
+    }
+
 };

@@ -9,16 +9,19 @@ export const types = {
 
 export const Abilities: AbilityList = {
     [types.GainResource]: {
+        id: types.GainResource,
         name: 'Gain Resource',
         mode: abilityModes.TRIGGER,
         actions: [res.GAIN_RESOURCE]
     },
     [types.ReduceResource]: {
+        id: types.ReduceResource,
         name: 'Reduce Resource',
         mode: abilityModes.TRIGGER,
         actions: [res.REDUCE_RESOURCE]
     },
     [types.StealResource]: {
+        id: types.StealResource,
         name: 'Steal Resource',
         mode: abilityModes.TRIGGER,
         actions: [res.STEAL_RESOURCE]

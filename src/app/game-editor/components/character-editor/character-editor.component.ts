@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {FormGroup, Validators as vd, FormBuilder} from '@angular/forms';
 
-import {Character} from '../../../game-mechanics/models/index';
+import {Character, Ability} from '../../../game-mechanics/models/index';
 
 @Component({
     selector: 'rg-character-editor',
@@ -11,26 +11,35 @@ import {Character} from '../../../game-mechanics/models/index';
 export class CharacterEditorComponent {
     @Output() save: EventEmitter<Character> = new EventEmitter<Character>();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
-    @Input() supportedAbilities: string[];
+    @Input() abilities: Ability[];
     public rForm: FormGroup;
 
     constructor(private fb: FormBuilder) {
         this.rForm = fb.group({
             'name': [null, vd.compose([vd.required, vd.minLength(3)])],
-            'image': [null, vd.required]
+            'image': [null],
+            'abilities': [null],
+            'description': [null]
         });
     }
 
-    isValid(name) {
+    isValid(name): boolean {
         return this.rForm.get(name).valid;
     }
 
-    saveGameCharacter() {
+    saveGameCharacter(): void {
         this.save.emit(this.rForm.value);
     }
 
-    cancelAction() {
+    cancelAction(): void {
         this.cancel.emit();
+    }
+
+    handleAbilitiesChange({value}): void {
+        const currentValue = this.rForm.get('abilities').value;
+        const currentSet = currentValue ? new Set([...currentValue]) : new Set();
+        currentSet.has(value) ? currentSet.delete(value) : currentSet.add(value);
+        this.rForm.patchValue({abilities: Array.from(currentSet)});
     }
 
     handleFileUpload(file): void {

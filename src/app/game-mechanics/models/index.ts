@@ -12,3 +12,4 @@ export * from './Redirect';
 export * from './Resource';
 export * from './Trap';
 export * from './Trivia';
+export * from './TriviaOption';

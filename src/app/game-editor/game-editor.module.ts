@@ -5,6 +5,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {EffectsModule} from '@ngrx/effects';
 import {GameResourcesEffectsService} from './state/effects/game-resources-effects.service';
 import {GameCharactersEffectsService} from './state/effects/game-characters-effects.service';
+import {GameTriviaEffectsService} from './state/effects/game-trivia-effects.service';
 
 import {IndexComponent} from './index/index.component';
 import {RouterModule} from '@angular/router';
@@ -32,15 +33,19 @@ import {SmartCharactersComponent} from './containers/smart-characters/smart-char
 import {SmartCharacterEditorComponent} from './containers/smart-character-editor/smart-character-editor.component';
 import {CharactersListComponent} from './components/characters-list/characters-list.component';
 import {CharacterEditorComponent} from './components/character-editor/character-editor.component';
-import { GameBoardListComponent } from './components/game-board-list/game-board-list.component';
-import { GameLaunchComponent } from './components/game-launch/game-launch.component';
+import {GameBoardListComponent} from './components/game-board-list/game-board-list.component';
+import {GameLaunchComponent} from './components/game-launch/game-launch.component';
+import {SmartTriviaComponent} from './containers/smart-trivia/smart-trivia.component';
+import {SmartTriviaEditorComponent} from './containers/smart-trivia-editor/smart-trivia-editor.component';
+import {TriviaEditorComponent} from './components/trivia-editor/trivia-editor.component';
+import {TriviasListComponent} from './components/trivias-list/trivias-list.component';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
         StoreModule.forFeature(FEATURE_NAME, reducers),
-        EffectsModule.forRoot([GameResourcesEffectsService, GameCharactersEffectsService]),
+        EffectsModule.forRoot([GameResourcesEffectsService, GameCharactersEffectsService, GameTriviaEffectsService]),
         FormsModule,
         ReactiveFormsModule,
         RouterModule.forChild(routes),
@@ -52,7 +57,7 @@ import { GameLaunchComponent } from './components/game-launch/game-launch.compon
         SharedModule
     ],
     declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent, FieldsComponent,
-        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent, ResourceEditorComponent, SmartGeneralSettingsComponent, SmartResourceEditorComponent, SmartResourcesComponent, ResourcesListComponent, SmartCharactersComponent, SmartCharacterEditorComponent, CharactersListComponent, CharacterEditorComponent, GameBoardListComponent, GameLaunchComponent]
+        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent, ResourceEditorComponent, SmartGeneralSettingsComponent, SmartResourceEditorComponent, SmartResourcesComponent, ResourcesListComponent, SmartCharactersComponent, SmartCharacterEditorComponent, CharactersListComponent, CharacterEditorComponent, GameBoardListComponent, GameLaunchComponent, SmartTriviaComponent, SmartTriviaEditorComponent, TriviaEditorComponent, TriviasListComponent]
 })
 export class GameEditorModule {
 }

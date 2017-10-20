@@ -1,4 +1,4 @@
-import { ValidMoveTargetParams, ValidMoveTarget } from '../models/Movement';
+import { ValidMoveTargetParams, ValidMoveTarget } from '../../models/Movement';
 
 export const movement = {
     findValidMoveTargets

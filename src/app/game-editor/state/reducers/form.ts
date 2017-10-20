@@ -1,5 +1,5 @@
-import { GameTemplate} from '../../../game-mechanics/models/index';
-import { Actions } from '../actions/actions';
+import {GameTemplate} from '../../../game-mechanics/models/index';
+import {Actions} from '../actions/actions';
 import * as actionTypes from '../actions/actionTypes';
 
 const initialState: GameTemplate = {
@@ -8,6 +8,9 @@ const initialState: GameTemplate = {
         items: {}
     },
     characters: {
+        items: {}
+    },
+    trivia: {
         items: {}
     }
 };
@@ -41,6 +44,18 @@ export function gameEditorFormReducer(state: GameTemplate = initialState, action
                     ...state.characters,
                     items: {
                         ...state.characters.items,
+                        [action.payload.id]: action.payload
+                    },
+                    lastInsert: action.payload
+                }
+            };
+        case actionTypes.SAVE_TRIVIA_SUCCESS:
+            return {
+                ...state,
+                trivia: {
+                    ...state.trivia,
+                    items: {
+                        ...state.trivia.items,
                         [action.payload.id]: action.payload
                     },
                     lastInsert: action.payload

@@ -1,19 +1,30 @@
 <div>
-  <form [formGroup]="rForm" class="form-container">
+    <form [formGroup]="rForm" class="form-container">
 
-    <mat-form-field>
-      <mat-placeholder>Character name</mat-placeholder>
-      <mat-hint>3 characters at least</mat-hint>
-      <mat-error *ngIf="!isValid('name')">The game character name must be 3 characters at least</mat-error>
-      <input required matInput formControlName="name" />
-    </mat-form-field>
+        <mat-form-field>
+            <mat-placeholder>Character name</mat-placeholder>
+            <mat-hint>3 characters at least</mat-hint>
+            <mat-error *ngIf="!isValid('name')">The game character name must be 3 characters at least</mat-error>
+            <input required matInput formControlName="name"/>
+        </mat-form-field>
 
-    <rg-image-picker (gotImage)="handleFileUpload($event)"></rg-image-picker>
-  </form>
+        <rg-image-picker (gotImage)="handleFileUpload($event)"></rg-image-picker>
 
-  <div class="button-toolbar">
-    <button mat-raised-button color="primary" [disabled]="!rForm.valid" (click)="saveGameCharacter()">Save</button>
-    <button mat-raised-button (click)="cancelAction()">Cancel</button>
-  </div>
+        <mat-button-toggle-group multiple>
+            <mat-button-toggle *ngFor="let item of abilities" [value]="item.id" (change)="handleAbilitiesChange($event)">
+                {{item.name}}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+
+        <mat-form-field>
+            <mat-placeholder>About the character: </mat-placeholder>
+            <textarea matInput formControlName="description"></textarea>
+        </mat-form-field>
+    </form>
+
+    <div class="button-toolbar">
+        <button mat-raised-button color="primary" [disabled]="!rForm.valid" (click)="saveGameCharacter()">Save</button>
+        <button mat-raised-button (click)="cancelAction()">Cancel</button>
+    </div>
 
 </div>

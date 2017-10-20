@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit} from '@angular/core';
 import {FormGroup, FormBuilder, Validators as vd} from '@angular/forms';
 
-import {GameMetadata} from '../../../game-mechanics/models/index';
+import {GameMetadata, Movement} from '../../../game-mechanics/models/index';
 
 @Component({
     selector: 'rg-general-settings',
@@ -13,7 +13,7 @@ export class GeneralSettingsComponent implements OnInit {
     @Output() change: EventEmitter<GameMetadata> = new EventEmitter<GameMetadata>();
 
     public rForm: FormGroup;
-    @Input() public allowedMovements: string[];
+    @Input() public allowedMovements: Movement[];
 
     constructor(private fb: FormBuilder) {
         this.rForm = fb.group({

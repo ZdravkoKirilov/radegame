@@ -1,5 +1,5 @@
 import { Movement } from './Movement';
-import { Trivia } from './Trivia';
+import { TriviaList } from './Trivia';
 import { ResourceList } from './Resource';
 import { CharacterList } from './Character';
 import { AbilityList } from './Ability';
@@ -13,7 +13,7 @@ export interface GameTemplate {
     metadata?: GameMetadata;
     movements?: Movement;
     endCondition?: EndCondition;
-    trivia?: Trivia[];
+    trivia?: TriviaList;
     resources?: ResourceList;
     characters?: CharacterList;
     abilities?: AbilityList;

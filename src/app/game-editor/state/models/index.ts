@@ -1,8 +1,11 @@
-import { GameTemplate } from '../../../game-mechanics/models/GameTemplate';
+import { GameTemplate, GameBoardTypes, AbilityList, MovementsList } from '../../../game-mechanics/models/index';
 
 export interface GameEditorAssets {
     supportedMovements?: string[];
     supportedAbilities?: string[];
+    gameBoards?: GameBoardTypes;
+    abilities?: AbilityList;
+    movements?: MovementsList;
 }
 
 export interface GameEditorFeature {

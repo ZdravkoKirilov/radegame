@@ -10,7 +10,7 @@
             <mat-placeholder>Pick movements</mat-placeholder>
             <mat-error *ngIf="!isValid('movements')">A boards needs a movement</mat-error>
             <mat-select formControlName="movements" required multiple>
-                <mat-option *ngFor="let movement of allowedMovements" [value]="movement">{{movement}}</mat-option>
+                <mat-option *ngFor="let movement of allowedMovements" [value]="movement.id">{{movement.displayName}}</mat-option>
             </mat-select>
         </mat-form-field>
 

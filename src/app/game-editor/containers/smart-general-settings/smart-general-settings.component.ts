@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state-store/index';
 import * as actions from '../../state/actions/actions';
-import { GameMetadata } from '../../../game-mechanics/models/index';
+import { GameMetadata, Movement } from '../../../game-mechanics/models/index';
 import { Observable } from 'rxjs/Observable';
-import { selectAsset } from '../../state/reducers/selectors';
+import { selectMovements } from '../../state/reducers/selectors';
 
 @Component({
     selector: 'rg-smart-general-settings',
@@ -13,7 +13,7 @@ import { selectAsset } from '../../state/reducers/selectors';
 })
 export class SmartGeneralSettingsComponent implements OnInit {
     readonly storeBranch: string = 'metadata';
-    public allowedMovements: Observable<string[]>;
+    public allowedMovements: Observable<Movement[]>;
 
     constructor(private store: Store<AppState>) {
     }
@@ -25,6 +25,6 @@ export class SmartGeneralSettingsComponent implements OnInit {
         }));
     }
     ngOnInit() {
-        this.allowedMovements = this.store.map(state => selectAsset('supportedMovements')(state));
+        setTimeout(() => this.allowedMovements = this.store.map(state => selectMovements(state)));
     }
 }

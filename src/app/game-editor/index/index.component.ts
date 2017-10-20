@@ -2,6 +2,8 @@ import {Component} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../state-store/index';
 import {GameBoards} from '../../game-mechanics/configs/game-boards';
+import { Abilities } from '../../game-mechanics/configs/abilities';
+import { Movements } from '../../game-mechanics/configs/movements';
 import {GameBoard, GameMetadata} from '../../game-mechanics/models/index';
 import {UpdateEditorAssetsAction} from '../state/actions/assetActions';
 import * as actions from '../state/actions/actions';
@@ -15,7 +17,7 @@ export class IndexComponent {
     readonly storeBranch: string = 'metadata';
     public gameBoards = GameBoards;
     public boardTypes: GameBoard[] = Object.values(GameBoards);
-    public inProgress = false;
+    public inProgress = true;
 
     constructor(private store: Store<AppState>) {
     }
@@ -28,7 +30,10 @@ export class IndexComponent {
         this.inProgress = true;
         this.store.dispatch(new UpdateEditorAssetsAction({
             supportedMovements: this.getSupportedMoves(data.boardType),
-            supportedAbilities: this.getSupportedAbilities(data.boardType)
+            supportedAbilities: this.getSupportedAbilities(data.boardType),
+            abilities: Abilities,
+            gameBoards: GameBoards,
+            movements: Movements
         }));
     }
 

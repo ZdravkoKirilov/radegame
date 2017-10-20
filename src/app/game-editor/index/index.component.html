@@ -8,13 +8,13 @@
 <mat-vertical-stepper *ngIf="inProgress">
 
     <mat-step>
-        <ng-template matStepLabel>Characters</ng-template>
+        <ng-template matStepLabel>Trivia</ng-template>
         <section>
-            <rg-smart-characters></rg-smart-characters>
+            <rg-smart-trivia></rg-smart-trivia>
         </section>
         <section>
-            <button mat-raised-button matStepperPrevious>Back</button>
-            <button mat-raised-button matStepperNext>Next</button>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
         </section>
     </mat-step>
 
@@ -40,13 +40,13 @@
     </mat-step>
 
     <mat-step>
-        <ng-template matStepLabel>Trivia</ng-template>
+        <ng-template matStepLabel>Characters</ng-template>
         <section>
-            <rg-trivia></rg-trivia>
+            <rg-smart-characters></rg-smart-characters>
         </section>
         <section>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
+            <button mat-raised-button matStepperPrevious>Back</button>
+            <button mat-raised-button matStepperNext>Next</button>
         </section>
     </mat-step>
 
