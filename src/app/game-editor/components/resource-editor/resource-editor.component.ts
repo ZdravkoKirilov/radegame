@@ -1,5 +1,6 @@
-import {Component, Output, EventEmitter} from '@angular/core';
-import {FormBuilder, FormGroup, Validators as vd} from '@angular/forms';
+import { Component, Output, EventEmitter } from '@angular/core';
+import { FormBuilder, FormGroup, Validators as vd } from '@angular/forms';
+
 import { Resource } from '../../../game-mechanics/models/Resource';
 
 @Component({
@@ -33,6 +34,6 @@ export class ResourceEditorComponent {
     }
 
     handleFileUpload(file): void {
-        this.rForm.patchValue({image: file});
+        this.rForm.patchValue({ image: file });
     }
 }

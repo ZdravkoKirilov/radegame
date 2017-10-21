@@ -1,4 +1,12 @@
-import { GameTemplate, GameBoardTypes, AbilityList, MovementsList } from '../../../game-mechanics/models/index';
+import {
+    GameBoardTypes,
+    AbilityList,
+    MovementsList,
+    GameMetadata,
+    Resource,
+    Character,
+    Trivia
+} from '../../../game-mechanics/models/index';
 
 export interface GameEditorAssets {
     supportedMovements?: string[];
@@ -9,6 +17,26 @@ export interface GameEditorAssets {
 }
 
 export interface GameEditorFeature {
-    form: GameTemplate;
+    form: {
+        metadata?: GameMetadata;
+        resources?: {
+            items?: {
+                [key: string]: Resource;
+            };
+            lastInsert?: Resource;
+        };
+        characters?: {
+            items?: {
+                [key: string]: Character;
+            };
+            lastInsert?: Character;
+        };
+        trivia?: {
+            items?: {
+                [key: string]: Trivia
+            };
+            lastInsert?: Trivia;
+        }
+    };
     assets: GameEditorAssets;
 }

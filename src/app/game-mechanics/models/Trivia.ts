@@ -3,9 +3,7 @@ import {TriviaOption} from './TriviaOption';
 export interface Trivia {
     id?: number;
     question?: string;
-    choices?: {
-        [key: string]: TriviaOption
-    };
+    choices?: TriviaOption[];
     answer?: TriviaOption;
     description?: string;
 }
