@@ -1,5 +1,5 @@
-import {AbilityList, abilityModes} from '../models/Ability';
-import {resourceActionTypes as res} from '../constants/system-action-types';
+import { AbilityList, abilityModes } from '../models/Ability';
+import { systemActionTypes as res } from '../constants/system-action-types';
 
 export const types = {
     GainResource: 'GainResource',

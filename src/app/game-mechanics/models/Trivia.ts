@@ -1,10 +1,10 @@
-import {TriviaOption} from './TriviaOption';
+import { TriviaAnswer } from './TriviaAnswer';
 
 export interface Trivia {
     id?: number;
     question?: string;
-    choices?: TriviaOption[];
-    answer?: TriviaOption;
+    choices?: TriviaAnswer[];
+    answer?: TriviaAnswer;
     description?: string;
 }
 

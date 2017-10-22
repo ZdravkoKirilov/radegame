@@ -1,4 +1,4 @@
-export interface TriviaOption {
+export interface TriviaAnswer {
     id?: number|string;
     displayName?: string;
     content?: string;
