@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {FormGroup, Validators as vd, FormBuilder} from '@angular/forms';
 
-import {Character, Ability} from '../../../game-mechanics/models/index';
+import {Character, Ability} from '../../../../game-mechanics/models/index';
 
 @Component({
     selector: 'rg-character-editor',

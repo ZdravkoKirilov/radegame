@@ -1,0 +1,7 @@
+<div>
+    <form [formGroup]="form">
+        <div *ngFor="let control of controls">
+            <rg-abstract-control [form]="form" [data]="control"></rg-abstract-control>
+        </div>
+    </form>
+</div>

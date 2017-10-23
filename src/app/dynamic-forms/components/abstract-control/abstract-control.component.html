@@ -1,0 +1,22 @@
+<div [formGroup]="form">
+
+    <ng-container [ngSwitch]="data.controlType">
+
+        <ng-container *ngSwitchCase="types.TEXT_INPUT">
+            <rg-text-input [form]="form" [data]="data"></rg-text-input>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="types.IMAGE_BROWSER">
+            <rg-image-browser [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-image-browser>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="types.BUTTON_GROUP">
+            <rg-button-group [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-button-group>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="types.SLIDER">
+            <rg-slider [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-slider>
+        </ng-container>
+
+    </ng-container>
+</div>

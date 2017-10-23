@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators as vd } from '@angular/forms';
 
-import { Resource } from '../../../game-mechanics/models/Resource';
+import { Resource } from '../../../../game-mechanics/models/Resource';
 
 @Component({
     selector: 'rg-resource-editor',

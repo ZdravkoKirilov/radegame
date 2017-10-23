@@ -9,7 +9,7 @@ export class ImagePickerComponent {
   constructor() { }
   readonly returnTypes = {
     BASE64: 'base64'
-  }
+  };
   @Input() label: string = 'Drag image here or click to browse';
   @Input() config = { clickable: true, addRemoveLinks: true };
   @Input() returnType: string = 'base64';

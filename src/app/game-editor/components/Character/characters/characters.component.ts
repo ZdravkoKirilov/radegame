@@ -1,6 +1,6 @@
 import {Component, Input} from '@angular/core';
 
-import {Character} from '../../../game-mechanics/models/Character';
+import {Character} from '../../../../game-mechanics/models/Character';
 
 @Component({
     selector: 'rg-characters',

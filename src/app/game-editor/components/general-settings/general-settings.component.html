@@ -1,20 +1,22 @@
 <section>
-    <form [formGroup]="rForm" class="form-container">
+    <rg-dynamic-form *ngIf="formDefinition" (change)="handleChange($event)" [controls]="formDefinition"></rg-dynamic-form>
 
-        <rg-slider [min]="4" [max]="12" [step]="2" [name]="'boardWidth'"
-                   [label]="'Pick board width'" (change)="handleSliderChange($event)"></rg-slider>
-        <rg-slider [min]="6" [max]="20" [step]="2" [name]="'boardHeight'"
-                   [label]="'Pick board height'" (change)="handleSliderChange($event)"></rg-slider>
+    <!--<form [formGroup]="rForm" class="form-container">-->
 
-        <mat-form-field>
-            <mat-placeholder>Pick movements</mat-placeholder>
-            <mat-error *ngIf="!isValid('movements')">A boards needs a movement</mat-error>
-            <mat-select formControlName="movements" required multiple>
-                <mat-option *ngFor="let movement of allowedMovements" [value]="movement.id">{{movement.displayName}}</mat-option>
-            </mat-select>
-        </mat-form-field>
+        <!--<rg-slider [min]="4" [max]="12" [step]="2" [name]="'boardWidth'"-->
+                   <!--[label]="'Pick board width'" (change)="handleSliderChange($event)"></rg-slider>-->
+        <!--<rg-slider [min]="6" [max]="20" [step]="2" [name]="'boardHeight'"-->
+                   <!--[label]="'Pick board height'" (change)="handleSliderChange($event)"></rg-slider>-->
 
-        <rg-image-picker (gotImage)="handleFile($event)"></rg-image-picker>
+        <!--<mat-form-field>-->
+            <!--<mat-placeholder>Pick movements</mat-placeholder>-->
+            <!--<mat-error *ngIf="!isValid('movements')">A boards needs a movement</mat-error>-->
+            <!--<mat-select formControlName="movements" required multiple>-->
+                <!--<mat-option *ngFor="let movement of allowedMovements" [value]="movement.id">{{movement.displayName}}</mat-option>-->
+            <!--</mat-select>-->
+        <!--</mat-form-field>-->
 
-    </form>
+        <!--<rg-image-picker (gotImage)="handleFile($event)"></rg-image-picker>-->
+
+    <!--</form>-->
 </section>

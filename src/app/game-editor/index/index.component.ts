@@ -17,7 +17,7 @@ export class IndexComponent {
     readonly storeBranch: string = 'metadata';
     public gameBoards = GameBoards;
     public boardTypes: GameBoard[] = Object.values(GameBoards);
-    public inProgress = true;
+    public inProgress = false;
 
     constructor(private store: Store<AppState>) {
     }

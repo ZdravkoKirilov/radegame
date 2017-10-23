@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'rg-index',
-  templateUrl: './index.component.html',
-  styleUrls: ['./index.component.scss']
+    selector: 'rg-index',
+    templateUrl: './index.component.html',
+    styleUrls: ['./index.component.scss']
 })
 export class IndexComponent implements OnInit {
 
-  constructor() { }
+    constructor() {
+    }
 
-  ngOnInit() {
-  }
+    ngOnInit() {
+    }
 
 }

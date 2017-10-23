@@ -1,6 +1,6 @@
 import {Component, Input, EventEmitter} from '@angular/core';
 
-import {Resource} from '../../../game-mechanics/models/Resource';
+import {Resource} from '../../../../game-mechanics/models/Resource';
 import {Observable} from 'rxjs/Observable';
 
 @Component({

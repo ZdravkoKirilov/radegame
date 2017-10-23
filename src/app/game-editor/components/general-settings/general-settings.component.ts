@@ -1,7 +1,6 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy, OnInit} from '@angular/core';
-import {FormGroup, FormBuilder, Validators as vd} from '@angular/forms';
+import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 
-import {GameMetadata, Movement} from '../../../game-mechanics/models/index';
+import {GameMetadata} from '../../../game-mechanics/models/index';
 
 @Component({
     selector: 'rg-general-settings',
@@ -9,34 +8,14 @@ import {GameMetadata, Movement} from '../../../game-mechanics/models/index';
     styleUrls: ['./general-settings.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GeneralSettingsComponent implements OnInit {
+export class GeneralSettingsComponent {
     @Output() change: EventEmitter<GameMetadata> = new EventEmitter<GameMetadata>();
+    @Input() formDefinition: any[];
 
-    public rForm: FormGroup;
-    @Input() public allowedMovements: Movement[];
-
-    constructor(private fb: FormBuilder) {
-        this.rForm = fb.group({
-            'movements': [null, vd.required],
-            'image': [null, vd.required],
-            'boardWidth': [null],
-            'boardHeight': [null]
-        });
+    constructor() {
     }
 
-    handleSliderChange(data: GameMetadata): void {
-        this.rForm.patchValue(data);
-    }
-
-    handleFile(file): void {
-        this.rForm.patchValue({image: file});
-    }
-
-    isValid(name): boolean {
-        return this.rForm.get(name).valid;
-    }
-
-    ngOnInit() {
-        this.rForm.valueChanges.subscribe((data: GameMetadata) => this.change.emit(data));
+    handleChange(data: GameMetadata) {
+        this.change.emit(data);
     }
 }

@@ -1,0 +1,10 @@
+:host {
+  /deep/ {
+    .dz-progress {
+      display: none;
+    }
+    .dropzone {
+      max-width: 250px;
+    }
+  }
+}

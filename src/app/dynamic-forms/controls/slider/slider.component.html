@@ -1,0 +1,14 @@
+<div>
+  <label [attr.for]="" *ngIf="data.label" class="slider-label">{{data.label}}</label>
+  <div>
+    <span>{{data.min}}</span>
+    <mat-slider [min]="data.min" [max]="data.max" [step]="data.step"
+                [value]="_sliderValue" [(ngModel)]="sliderValue" [name]="data.name">
+
+    </mat-slider>
+    <span>{{data.max}}</span>
+
+    <input [value]="_sliderValue" [(ngModel)]="sliderValue"/>
+  </div>
+
+</div>

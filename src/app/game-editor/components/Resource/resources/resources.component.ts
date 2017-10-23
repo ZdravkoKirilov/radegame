@@ -1,6 +1,6 @@
 import {Component, Input } from '@angular/core';
 
-import { Resource } from '../../../game-mechanics/models/Resource';
+import { Resource } from '../../../../game-mechanics/models/Resource';
 
 @Component({
     selector: 'rg-resources',
