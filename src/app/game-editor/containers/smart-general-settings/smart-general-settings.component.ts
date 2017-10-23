@@ -9,6 +9,7 @@ import {BaseControl} from '../../../dynamic-forms/models/Base';
 import {GENERAL_SETTINGS} from '../../configs/form-definitions';
 import {selectMovementsAsOptionsList} from '../../state/reducers/selectors';
 import {Option} from '../../../dynamic-forms/models/Base';
+import 'rxjs/add/operator/take';
 
 @Component({
     selector: 'rg-smart-general-settings',
@@ -32,7 +33,7 @@ export class SmartGeneralSettingsComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.storeSub = this.store.subscribe(state => {
+        this.storeSub = this.store.take(1).subscribe(state => {
             const movements: Option[] = selectMovementsAsOptionsList(state);
             this.formDefinition = this.formDefinition ? this.formDefinition : GENERAL_SETTINGS(movements);
         });
