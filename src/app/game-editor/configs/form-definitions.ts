@@ -1,7 +1,8 @@
 import {BaseControl} from '../../dynamic-forms/models/Base';
 import {controlTypes} from '../../dynamic-forms/config/controlTypes';
+import { Option } from '../../dynamic-forms/models/Base';
 
-export function GENERAL_SETTINGS(movements): BaseControl<any>[] {
+export function GENERAL_SETTINGS(movements: Option[]): BaseControl<any>[] {
     return [
         {
             name: 'boardWidth',
