@@ -1,22 +1,3 @@
 <section>
     <rg-dynamic-form *ngIf="formDefinition" (change)="handleChange($event)" [controls]="formDefinition"></rg-dynamic-form>
-
-    <!--<form [formGroup]="rForm" class="form-container">-->
-
-        <!--<rg-slider [min]="4" [max]="12" [step]="2" [name]="'boardWidth'"-->
-                   <!--[label]="'Pick board width'" (change)="handleSliderChange($event)"></rg-slider>-->
-        <!--<rg-slider [min]="6" [max]="20" [step]="2" [name]="'boardHeight'"-->
-                   <!--[label]="'Pick board height'" (change)="handleSliderChange($event)"></rg-slider>-->
-
-        <!--<mat-form-field>-->
-            <!--<mat-placeholder>Pick movements</mat-placeholder>-->
-            <!--<mat-error *ngIf="!isValid('movements')">A boards needs a movement</mat-error>-->
-            <!--<mat-select formControlName="movements" required multiple>-->
-                <!--<mat-option *ngFor="let movement of allowedMovements" [value]="movement.id">{{movement.displayName}}</mat-option>-->
-            <!--</mat-select>-->
-        <!--</mat-form-field>-->
-
-        <!--<rg-image-picker (gotImage)="handleFile($event)"></rg-image-picker>-->
-
-    <!--</form>-->
 </section>
