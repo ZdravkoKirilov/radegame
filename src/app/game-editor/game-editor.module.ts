@@ -20,7 +20,7 @@ import { DynamicFormsModule } from '../dynamic-forms/dynamic-forms.module';
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResourcesComponent } from './components/Resource/resources/resources.component';
 import { CharactersComponent } from './components/Character/characters/characters.component';
-import { FieldsComponent } from './components/fields/fields.component';
+import { FieldsComponent } from './components/Field/fields/fields.component';
 import { TriviaComponent } from './components/Trivia/trivias/trivia.component';
 import { TrapsComponent } from './components/traps/traps.component';
 import { ResolutionsComponent } from './components/resolutions/resolutions.component';
@@ -41,6 +41,11 @@ import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.com
 import { SmartTriviaEditorComponent } from './containers/smart-trivia-editor/smart-trivia-editor.component';
 import { TriviaEditorComponent } from './components/Trivia/trivia-editor/trivia-editor.component';
 import { TriviasListComponent } from './components/Trivia/trivias-list/trivias-list.component';
+import { SmartFieldsComponent } from './containers/smart-fields/smart-fields.component';
+import { FieldEditorComponent } from './components/Field/field-editor/field-editor.component';
+import { EmptySlotComponent} from './components/Field/empty-slot/empty-slot.component';
+import { GridEditorComponent } from './components/Field/grid-editor/grid-editor.component';
+import { GridFieldComponent} from './components/Field/grid-field/grid-field.component';
 
 @NgModule({
     imports: [
@@ -64,7 +69,9 @@ import { TriviasListComponent } from './components/Trivia/trivias-list/trivias-l
         SmartResourcesComponent, ResourcesListComponent, SmartCharactersComponent,
         SmartCharacterEditorComponent, CharactersListComponent, CharacterEditorComponent,
         GameBoardListComponent, GameLaunchComponent, SmartTriviaComponent,
-        SmartTriviaEditorComponent, TriviaEditorComponent, TriviasListComponent]
+        SmartTriviaEditorComponent, TriviaEditorComponent, TriviasListComponent, SmartFieldsComponent, FieldEditorComponent,
+        EmptySlotComponent, GridFieldComponent, GridEditorComponent
+    ]
 })
 export class GameEditorModule {
 }

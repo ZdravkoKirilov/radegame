@@ -1,0 +1,5 @@
+<div>
+  <rg-grid-editor *ngIf="!showEditor" (fieldChange)="showFieldEditor($event)"></rg-grid-editor>
+
+  <rg-field-editor (save)="handleSave($event)" *ngIf="showEditor" [controls]="controls"></rg-field-editor>
+</div>

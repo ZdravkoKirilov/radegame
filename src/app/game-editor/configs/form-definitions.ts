@@ -1,6 +1,8 @@
 import {BaseControl} from '../../dynamic-forms/models/Base';
 import {controlTypes} from '../../dynamic-forms/config/controlTypes';
-import { Option } from '../../dynamic-forms/models/Base';
+import {Option} from '../../dynamic-forms/models/Base';
+import {promise} from 'selenium-webdriver';
+import controlFlow = promise.controlFlow;
 
 export function GENERAL_SETTINGS(movements: Option[]): BaseControl<any>[] {
     return [
@@ -36,6 +38,29 @@ export function GENERAL_SETTINGS(movements: Option[]): BaseControl<any>[] {
             label: 'Browse or drag image here',
             required: true,
             errorMessage: 'Image is a required field.'
+        }
+    ];
+}
+
+export function FIELD_SETTINGS(resources: Option[]): BaseControl<any>[] {
+    return [
+        {
+            name: 'name',
+            controlType: controlTypes.TEXT_INPUT,
+            value: '',
+            label: 'Pick field name',
+            required: true
+        }, {
+            name: 'description',
+            controlType: controlTypes.TEXT_INPUT,
+            value: '',
+            label: 'Field description',
+            required: false
+        }, {
+            name: 'image',
+            controlType: controlTypes.IMAGE_BROWSER,
+            label: 'Choose field image',
+            required: false
         }
     ];
 }

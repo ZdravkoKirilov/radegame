@@ -1,0 +1,45 @@
+<div class="wrapper">
+
+    <div class="remove-column-wrapper">
+        <div class="remove-box" *ngFor="let row of width">
+            <button mat-icon-button (click)="removeColumn()">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="remove-row-wrapper">
+        <div class="remove-box" *ngFor="let row of height;let rowIdx=index">
+            <button mat-icon-button (click)="removeRow(rowIdx)">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div class="grid-wrapper">
+        <div *ngFor="let row of data;let y = index" class="row">
+            <div *ngFor="let item of row;let x = index" class="cell">
+
+                <rg-empty-item *ngIf="!item" (change)="handleCreate($event)" [coords]="{x: x, y: y}" ></rg-empty-item>
+
+                <rg-grid-field *ngIf="item"></rg-grid-field>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="add-column-wrapper">
+        <button mat-icon-button (click)="addColumn()">
+            <mat-icon color="primary">add</mat-icon>
+        </button>
+    </div>
+
+    <div class="add-row-wrapper">
+        <button mat-icon-button (click)="addRow()">
+            <mat-icon color="primary">add</mat-icon>
+        </button>
+    </div>
+
+</div>
+
+

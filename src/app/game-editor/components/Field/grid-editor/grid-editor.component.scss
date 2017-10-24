@@ -1,0 +1,69 @@
+.wrapper {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  @mixin gridBox {
+    margin: 15px;
+    padding: 15px;
+    height: 100px;
+    width: 100px;
+    border-radius: 5px;
+  }
+  @mixin topMargin {
+    margin-top: 50px;
+  }
+  .remove-row-wrapper {
+    display: flex;
+    flex-direction: column;
+    @include topMargin;
+    .remove-box {
+      @include gridBox;
+      width: auto;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+  }
+  .remove-column-wrapper {
+    position: absolute;
+    display: flex;
+    .remove-box {
+      @include gridBox;
+      height: auto;
+      display: flex;
+      justify-content: center;
+    }
+  }
+  .add-row-wrapper {
+    display: flex;
+    justify-content: center;
+    position: absolute;
+    bottom: -40px;
+    button {
+      transform: translateX(10px);
+    }
+  }
+
+  .add-column-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    button {
+      transform: translateY(20px);
+    }
+  }
+
+  .grid-wrapper {
+    display: flex;
+    flex-direction: column;
+    @include topMargin;
+    .row {
+      display: flex;
+    }
+    .cell {
+      @include gridBox;
+      border: 1px dashed black;
+    }
+  }
+}
+

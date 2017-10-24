@@ -1,67 +1,22 @@
-import {GameTemplate} from '../../../game-mechanics/models/index';
+import { ActionReducer, combineReducers } from '@ngrx/store';
+
 import {Actions} from '../actions/actions';
 import * as actionTypes from '../actions/actionTypes';
+import { resourcesReducer, charactersReducer, metadataReducer, triviaReducer } from './exports';
+import { GameEditorForm } from '../models/index';
 
-const initialState: GameTemplate = {
-    metadata: {},
-    resources: {
-        items: {}
-    },
-    characters: {
-        items: {}
-    },
-    trivia: {
-        items: {}
-    }
+const reducers = {
+    metadata: metadataReducer,
+    characters: charactersReducer,
+    resources: resourcesReducer,
+    trivia: triviaReducer
 };
 
-export function gameEditorFormReducer(state: GameTemplate = initialState, action: Actions): GameTemplate {
-    switch (action.type) {
-        case actionTypes.UPDATE_FIELD:
-            return {
-                ...state,
-                [action.payload.branch]: {
-                    ...state[action.payload.branch],
-                    ...action.payload.data
-                }
-            };
-        case actionTypes.SAVE_RESOURCE_SUCCESS:
-            return {
-                ...state,
-                resources: {
-                    ...state.resources,
-                    items: {
-                        ...state.resources.items,
-                        [action.payload.id]: action.payload
-                    },
-                    lastInsert: action.payload
-                }
-            };
-        case actionTypes.SAVE_CHARACTER_SUCCESS:
-            return {
-                ...state,
-                characters: {
-                    ...state.characters,
-                    items: {
-                        ...state.characters.items,
-                        [action.payload.id]: action.payload
-                    },
-                    lastInsert: action.payload
-                }
-            };
-        case actionTypes.SAVE_TRIVIA_SUCCESS:
-            return {
-                ...state,
-                trivia: {
-                    ...state.trivia,
-                    items: {
-                        ...state.trivia.items,
-                        [action.payload.id]: action.payload
-                    },
-                    lastInsert: action.payload
-                }
-            };
-        default:
-            return state;
-    }
-}
+const initialState: GameEditorForm = {
+    metadata: {},
+    resources: {},
+    characters: {},
+    trivia: {}
+};
+
+export const gameEditorFormReducer: ActionReducer<GameEditorForm> = combineReducers(reducers);

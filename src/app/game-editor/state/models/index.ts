@@ -16,27 +16,35 @@ export interface GameEditorAssets {
     movements?: MovementsList;
 }
 
-export interface GameEditorFeature {
-    form: {
-        metadata?: GameMetadata;
-        resources?: {
-            items?: {
-                [key: string]: Resource;
-            };
-            lastInsert?: Resource;
-        };
-        characters?: {
-            items?: {
-                [key: string]: Character;
-            };
-            lastInsert?: Character;
-        };
-        trivia?: {
-            items?: {
-                [key: string]: Trivia
-            };
-            lastInsert?: Trivia;
-        }
+export interface Characters {
+    items?: {
+        [key: string]: Character
     };
+    lastInsert?: Character;
+}
+
+export interface Resources {
+    items?: {
+        [key: string]: Resource;
+    };
+    lastInsert?: Resource;
+}
+
+export interface Trivias {
+    items?: {
+        [key: string]: Trivia
+    };
+    lastInsert?: Trivia;
+}
+
+export interface GameEditorForm {
+    metadata?: GameMetadata;
+    resources?: Resources;
+    characters?: Characters;
+    trivia?: Trivias;
+}
+
+export interface GameEditorFeature {
+    form: GameEditorForm;
     assets: GameEditorAssets;
 }
