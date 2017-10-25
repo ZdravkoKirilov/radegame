@@ -1,16 +1,23 @@
-<div class="wrapper">
+<rg-smart-field-editor
+        *ngIf="showEditor"
+        (save)="handleHideEditor()"
+        (cancel)="handleHideEditor()"
+>
+</rg-smart-field-editor>
 
-    <div class="remove-column-wrapper">
-        <div class="remove-box" *ngFor="let row of width">
-            <button mat-icon-button (click)="removeColumn()">
+<div *ngIf="!showEditor" class="wrapper">
+
+    <div *ngIf="data && data.length" class="remove-column-wrapper">
+        <div class="remove-box" *ngFor="let cell of data[0];let cellIdx=index">
+            <button mat-icon-button (click)="handleRemoveColumn(cellIdx)">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
     </div>
 
-    <div class="remove-row-wrapper">
-        <div class="remove-box" *ngFor="let row of height;let rowIdx=index">
-            <button mat-icon-button (click)="removeRow(rowIdx)">
+    <div *ngIf="data && data.length" class="remove-row-wrapper">
+        <div class="remove-box" *ngFor="let row of data;let rowIdx=index">
+            <button mat-icon-button (click)="handleRemoveRow(rowIdx)">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
@@ -20,7 +27,7 @@
         <div *ngFor="let row of data;let y = index" class="row">
             <div *ngFor="let item of row;let x = index" class="cell">
 
-                <rg-empty-item *ngIf="!item" (change)="handleCreate($event)" [coords]="{x: x, y: y}" ></rg-empty-item>
+                <rg-empty-item *ngIf="!item" (create)="handleFieldCreate($event)" [coords]="{x: x, y: y}"></rg-empty-item>
 
                 <rg-grid-field *ngIf="item"></rg-grid-field>
 
@@ -29,13 +36,13 @@
     </div>
 
     <div class="add-column-wrapper">
-        <button mat-icon-button (click)="addColumn()">
+        <button mat-icon-button (click)="handleAddColumn()">
             <mat-icon color="primary">add</mat-icon>
         </button>
     </div>
 
     <div class="add-row-wrapper">
-        <button mat-icon-button (click)="addRow()">
+        <button mat-icon-button (click)="handleAddRow()">
             <mat-icon color="primary">add</mat-icon>
         </button>
     </div>

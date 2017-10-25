@@ -1,7 +1,6 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-
-import {GridEditorChangeEvent, eventTypes} from '../../../models/GridEditor';
-import { FieldCoord } from '../../../models/GridEditor';
+import {Grid} from '../../../../game-mechanics/models/BoardField';
+import { FieldCoord } from '../../../models/FieldCoord';
 
 @Component({
     selector: 'rg-grid-editor',
@@ -10,55 +9,43 @@ import { FieldCoord } from '../../../models/GridEditor';
 })
 export class GridEditorComponent {
 
-    @Input() startFrom: { x: number, y: number } = {x: 4, y: 3};
-    @Input() data: any[][] = Array(this.startFrom.y)
-        .fill(null)
-        .map(elem => Array(this.startFrom.x).fill(null));
-    @Output() change: EventEmitter<any[][]> = new EventEmitter();
-    @Output() fieldChange: EventEmitter<GridEditorChangeEvent> = new EventEmitter();
-    width: any[] = Array(this.startFrom.x);
-    height: any[] = Array(this.startFrom.y);
+    @Input() data: Grid = [];
+
+    @Output() addRow: EventEmitter<any> = new EventEmitter();
+    @Output() addColumn: EventEmitter<any> = new EventEmitter();
+    @Output() removeRow: EventEmitter<number> = new EventEmitter();
+    @Output() removeColumn: EventEmitter<number> = new EventEmitter();
+
+    public showEditor = false;
 
     constructor() {
     }
 
-    handleCreate(data: {
-        type: any,
-        data: FieldCoord
-    }): void {
-        this.fieldChange.emit(data);
+    handleAddRow() {
+        this.addRow.emit();
     }
 
-    handleRemove(x: number, y: number): void {
-        this.fieldChange.emit({
-            type: eventTypes.REMOVE,
-            data: {x, y}
-        });
+    handleAddColumn() {
+        this.addColumn.emit();
     }
 
-    removeRow(index: number) {
-        const clone = [...this.data];
-        clone.splice(index, 1);
-        this.data = clone;
-        this.height.pop();
+    handleRemoveRow(index: number) {
+        this.removeRow.emit(index);
     }
 
-    addRow() {
-        this.height.push(null);
-        this.data.push(Array(this.width.length).fill(null));
+    handleRemoveColumn(index: number) {
+        this.removeColumn.emit(index);
     }
 
-    removeColumn(index: number) {
-        this.data.forEach(arr => {
-            arr.splice(index, 1);
-        });
-        this.width.pop();
+    handleFieldCreate() {
+        this.handleShowEditor();
     }
 
-    addColumn() {
-        this.width.push(null);
-        this.data.forEach(arr => {
-            arr.push(null);
-        });
+    handleShowEditor() {
+        this.showEditor = true;
+    }
+
+    handleHideEditor() {
+        this.showEditor = false;
     }
 }

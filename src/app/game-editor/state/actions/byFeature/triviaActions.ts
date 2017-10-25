@@ -1,6 +1,6 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from '../actionTypes';
 import {Action} from '@ngrx/store';
-import {Trivia} from '../../../game-mechanics/models/index';
+import {Trivia} from '../../../../game-mechanics/models/index';
 
 export class SaveTriviaAction implements Action {
     constructor(public payload: Trivia) {

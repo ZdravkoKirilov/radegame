@@ -30,3 +30,10 @@ export const selectTrivia = createSelector(selectFeature, (state: GameEditorFeat
     return Object.keys(state.form.trivia.items);
 });
 
+export const selectFields = createSelector(selectFeature, (state: GameEditorFeature) => {
+    return Object.keys(state.form.fields.items);
+});
+export const selectFieldsGrid = createSelector(selectFeature, (state: GameEditorFeature) => {
+    return state.form.fields.grid;
+});
+

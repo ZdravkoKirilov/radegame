@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {AppState} from '../../../state-store/index';
 import {Character, Ability} from '../../../game-mechanics/models/index';
-import {SaveCharacterAction} from '../../state/actions/actions';
+import {SaveCharacterAction} from '../../state/actions/byFeature/characterActions';
 import {selectAbilities} from '../../state/reducers/selectors';
 
 @Component({

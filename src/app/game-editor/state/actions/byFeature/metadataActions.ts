@@ -1,6 +1,6 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from '../actionTypes';
 import {Action} from '@ngrx/store';
-import {GameMetadata} from '../../../game-mechanics/models/index';
+import {GameMetadata} from '../../../../game-mechanics/models/index';
 
 export class UpdateFieldAction implements Action {
     constructor(public payload: {

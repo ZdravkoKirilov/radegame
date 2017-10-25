@@ -5,8 +5,8 @@ import {GameBoards} from '../../game-mechanics/configs/game-boards';
 import { Abilities } from '../../game-mechanics/configs/abilities';
 import { Movements } from '../../game-mechanics/configs/movements';
 import {GameBoard, GameMetadata} from '../../game-mechanics/models/index';
-import {UpdateEditorAssetsAction} from '../state/actions/assetActions';
-import * as actions from '../state/actions/actions';
+import { UpdateEditorAssetsAction } from '../state/actions/byFeature/assetActions';
+import { UpdateFieldAction } from '../state/actions/byFeature/metadataActions';
 
 @Component({
     selector: 'rg-index',
@@ -23,7 +23,7 @@ export class IndexComponent {
     }
 
     handleGameCreate(data: GameMetadata): void {
-        this.store.dispatch(new actions.UpdateFieldAction({
+        this.store.dispatch(new UpdateFieldAction({
             branch: this.storeBranch,
             data
         }));

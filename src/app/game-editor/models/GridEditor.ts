@@ -1,17 +1,11 @@
-export type GridEditorChangeEventType = 'BROWSE' | 'CREATE' | 'REMOVE';
+import { FieldCoord } from './FieldCoord';
 
-export const eventTypes = {
-    BROWSE: <GridEditorChangeEventType>'BROWSE',
-    CREATE: <GridEditorChangeEventType>'CREATE',
-    REMOVE: <GridEditorChangeEventType>'REMOVE'
-};
-
-export interface FieldCoord {
-    x: number;
-    y: number;
+export enum eventTypes {
+    'CREATE',
+    'REMOVE'
 }
 
 export interface GridEditorChangeEvent {
-    type: GridEditorChangeEventType;
+    type: eventTypes;
     data: FieldCoord;
 }

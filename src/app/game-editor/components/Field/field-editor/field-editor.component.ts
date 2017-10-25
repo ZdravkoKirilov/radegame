@@ -9,8 +9,9 @@ import {BoardField} from '../../../../game-mechanics/models/index';
     styleUrls: ['./field-editor.component.scss']
 })
 export class FieldEditorComponent {
-    @Input() controls: BaseControl<any>[];
+    @Input() controls: BaseControl<any>[] = [];
     @Output() save: EventEmitter<BoardField> = new EventEmitter();
+    @Output() cancel: EventEmitter<any> = new EventEmitter();
 
     private data: BoardField;
 
@@ -21,11 +22,11 @@ export class FieldEditorComponent {
         this.data = data;
     }
 
-    handleFieldSave() {
+    handleSave() {
         this.save.emit(this.data);
     }
 
     handleCancel() {
-
+        this.cancel.emit();
     }
 }

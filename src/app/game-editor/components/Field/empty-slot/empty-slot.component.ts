@@ -1,7 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-
-import {GridEditorChangeEvent, eventTypes} from '../../../models/GridEditor';
-import { FieldCoord } from '../../../models/GridEditor';
+import {FieldCoord} from '../../../models/FieldCoord';
 
 @Component({
     selector: 'rg-empty-item',
@@ -9,16 +7,13 @@ import { FieldCoord } from '../../../models/GridEditor';
     styleUrls: ['./empty-slot.component.scss']
 })
 export class EmptySlotComponent {
-    @Output() change: EventEmitter<GridEditorChangeEvent> = new EventEmitter();
+    @Output() create: EventEmitter<FieldCoord> = new EventEmitter();
     @Input() coords: FieldCoord;
 
     constructor() {
     }
 
-    handleCreate(x: number, y: number): void {
-        this.change.emit({
-            type: eventTypes.CREATE,
-            data: this.coords
-        });
+    handleCreate(): void {
+        this.create.emit(this.coords);
     }
 }

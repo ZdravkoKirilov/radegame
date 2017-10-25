@@ -5,8 +5,10 @@ import {
     GameMetadata,
     Resource,
     Character,
-    Trivia
+    Trivia,
+    BoardField
 } from '../../../game-mechanics/models/index';
+import { Grid } from '../../../game-mechanics/models/BoardField';
 
 export interface GameEditorAssets {
     supportedMovements?: string[];
@@ -14,6 +16,14 @@ export interface GameEditorAssets {
     gameBoards?: GameBoardTypes;
     abilities?: AbilityList;
     movements?: MovementsList;
+}
+
+export interface BoardFields {
+    items?: {
+        [key: string]: BoardField
+    };
+    grid?: Grid;
+    lastInsert?: BoardField;
 }
 
 export interface Characters {
@@ -42,6 +52,7 @@ export interface GameEditorForm {
     resources?: Resources;
     characters?: Characters;
     trivia?: Trivias;
+    fields?: BoardFields;
 }
 
 export interface GameEditorFeature {

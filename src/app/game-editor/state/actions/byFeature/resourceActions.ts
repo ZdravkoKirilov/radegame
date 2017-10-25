@@ -1,6 +1,6 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from '../actionTypes';
 import {Action} from '@ngrx/store';
-import {Resource} from '../../../game-mechanics/models/index';
+import {Resource} from '../../../../game-mechanics/models/index';
 
 export class SaveResourceAction implements Action {
     constructor(public payload: Resource) {

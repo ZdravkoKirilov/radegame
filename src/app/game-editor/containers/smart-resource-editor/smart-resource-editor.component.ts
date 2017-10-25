@@ -3,7 +3,7 @@ import {Component, Output, EventEmitter} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state-store/index';
 import { Resource } from '../../../game-mechanics/models/Resource';
-import { SaveResourceAction } from '../../state/actions/actions';
+import { SaveResourceAction } from '../../state/actions/byFeature/resourceActions';
 
 @Component({
     selector: 'rg-smart-resource-editor',

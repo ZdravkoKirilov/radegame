@@ -3,7 +3,7 @@ import {Actions, Effect} from '@ngrx/effects';
 
 import {GameTriviaService} from '../../../shared/services/game-trivia.service';
 import * as actionTypes from '../actions/actionTypes';
-import {Actions as IActions, SaveTriviaSuccessAction, SaveTriviaFailAction} from '../actions/actions';
+import {Actions as IActions, SaveTriviaSuccessAction, SaveTriviaFailAction} from '../actions/byFeature/triviaActions';
 import {Trivia} from '../../../game-mechanics/models/index';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';

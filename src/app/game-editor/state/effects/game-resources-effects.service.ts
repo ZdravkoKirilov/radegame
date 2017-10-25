@@ -3,7 +3,7 @@ import {Actions, Effect} from '@ngrx/effects';
 
 import {GameResourcesService} from '../../../shared/services/game-resources.service';
 import * as actionTypes from '../actions/actionTypes';
-import {Actions as IActions, SaveResourceSuccessAction, SaveResourceFailAction} from '../actions/actions';
+import {Actions as IActions, SaveResourceSuccessAction, SaveResourceFailAction} from '../actions/byFeature/resourceActions';
 import {Resource} from '../../../game-mechanics/models/Resource';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';

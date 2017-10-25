@@ -4,3 +4,9 @@ export interface BoardField {
     description?: string;
     image?: string;
 }
+
+export interface BoardFieldList {
+    [key: string]: BoardField;
+}
+
+export type Grid = any[][];

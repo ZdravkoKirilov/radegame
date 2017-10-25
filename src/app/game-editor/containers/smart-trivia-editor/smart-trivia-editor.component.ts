@@ -2,7 +2,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../state-store/index';
-import { SaveTriviaAction } from '../../state/actions/actions';
+import { SaveTriviaAction } from '../../state/actions/byFeature/triviaActions';
 import { Trivia } from '../../../game-mechanics/models/index';
 
 @Component({

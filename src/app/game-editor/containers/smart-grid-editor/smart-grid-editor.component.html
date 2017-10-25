@@ -1,0 +1,10 @@
+<div>
+    <rg-grid-editor
+            [data]="grid | async"
+            (addRow)="addGridRow()"
+            (addColumn)="addGridColumn()"
+            (removeRow)="removeGridRow($event)"
+            (removeColumn)="removeGridColumn($event)"
+    ></rg-grid-editor>
+</div>
+

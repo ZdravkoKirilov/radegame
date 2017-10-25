@@ -1,6 +1,6 @@
-import { GameMetadata } from '../../../game-mechanics/models/index';
-import {Actions} from '../actions/metadataActions';
-import * as actionTypes from '../actions/actionTypes';
+import { GameMetadata } from '../../../../game-mechanics/models/index';
+import {Actions} from '../../actions/byFeature/metadataActions';
+import * as actionTypes from '../../actions/actionTypes';
 
 const initialState: GameMetadata = {};
 

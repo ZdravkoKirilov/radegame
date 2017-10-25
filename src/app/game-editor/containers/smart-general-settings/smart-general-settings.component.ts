@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs/Subscription';
 
 import {AppState} from '../../../state-store/index';
-import * as actions from '../../state/actions/actions';
+import * as actions from '../../state/actions/byFeature/metadataActions';
 import {GameMetadata} from '../../../game-mechanics/models/index';
 import {BaseControl} from '../../../dynamic-forms/models/Base';
 import {GENERAL_SETTINGS} from '../../configs/form-definitions';

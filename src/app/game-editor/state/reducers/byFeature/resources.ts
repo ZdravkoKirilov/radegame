@@ -1,6 +1,6 @@
-import {Actions} from '../actions/resourceActions';
-import * as actionTypes from '../actions/actionTypes';
-import { Resources } from '../models/index';
+import {Actions} from '../../actions/byFeature/resourceActions';
+import * as actionTypes from '../../actions/actionTypes';
+import { Resources } from '../../models/index';
 
 const initialState: Resources = {
     items: {},

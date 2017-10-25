@@ -1,7 +1,7 @@
-import * as actionTypes from './actionTypes';
+import * as actionTypes from '../actionTypes';
 import {Action} from '@ngrx/store';
 
-import {GameEditorAssets} from '../models/index';
+import {GameEditorAssets} from '../../models/index';
 
 export class UpdateEditorAssetsAction implements Action {
     constructor(public payload: GameEditorAssets) {

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SmartFieldsComponent } from './smart-fields.component';
+import { SmartFieldEditorComponent } from './smart-field-editor.component';
 
-describe('SmartFieldsComponent', () => {
-  let component: SmartFieldsComponent;
-  let fixture: ComponentFixture<SmartFieldsComponent>;
+describe('SmartFieldEditorComponent', () => {
+  let component: SmartFieldEditorComponent;
+  let fixture: ComponentFixture<SmartFieldEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmartFieldsComponent ]
+      declarations: [ SmartFieldEditorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SmartFieldsComponent);
+    fixture = TestBed.createComponent(SmartFieldEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

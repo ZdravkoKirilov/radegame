@@ -1,6 +1,6 @@
-import {Actions} from '../actions/characterActions';
-import * as actionTypes from '../actions/actionTypes';
-import { Characters } from '../models/index';
+import {Actions} from '../../actions/byFeature/characterActions';
+import * as actionTypes from '../../actions/actionTypes';
+import { Characters } from '../../models/index';
 
 const initialState: Characters = {
     items: {},
