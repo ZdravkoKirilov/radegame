@@ -1,6 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
+
 import {Grid} from '../../../../game-mechanics/models/BoardField';
-import { FieldCoord } from '../../../models/FieldCoord';
+import {FieldCoord} from '../../../models/FieldCoord';
 
 @Component({
     selector: 'rg-grid-editor',
@@ -9,35 +10,22 @@ import { FieldCoord } from '../../../models/FieldCoord';
 })
 export class GridEditorComponent {
 
-    @Input() data: Grid = [];
+    @Input() data: Grid;
 
     @Output() addRow: EventEmitter<any> = new EventEmitter();
     @Output() addColumn: EventEmitter<any> = new EventEmitter();
     @Output() removeRow: EventEmitter<number> = new EventEmitter();
     @Output() removeColumn: EventEmitter<number> = new EventEmitter();
+    @Output() removeField: EventEmitter<FieldCoord> = new EventEmitter();
 
     public showEditor = false;
+    public selectedCoord: FieldCoord;
 
     constructor() {
     }
 
-    handleAddRow() {
-        this.addRow.emit();
-    }
-
-    handleAddColumn() {
-        this.addColumn.emit();
-    }
-
-    handleRemoveRow(index: number) {
-        this.removeRow.emit(index);
-    }
-
-    handleRemoveColumn(index: number) {
-        this.removeColumn.emit(index);
-    }
-
-    handleFieldCreate() {
+    handleCreateClick(coord: FieldCoord) {
+        this.selectedCoord = coord;
         this.handleShowEditor();
     }
 

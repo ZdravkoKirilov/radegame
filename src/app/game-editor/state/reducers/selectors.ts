@@ -3,6 +3,8 @@ import {GameEditorFeature} from '../models/index';
 import {createSelector, createFeatureSelector} from '@ngrx/store';
 import {Movement} from '../../../game-mechanics/models/Movement';
 import {Option} from '../../../dynamic-forms/models/Base';
+import {Grid} from '../../../game-mechanics/models/index';
+import {BoardFieldList} from '../../../game-mechanics/models/BoardField';
 
 export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -30,10 +32,19 @@ export const selectTrivia = createSelector(selectFeature, (state: GameEditorFeat
     return Object.keys(state.form.trivia.items);
 });
 
-export const selectFields = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return Object.keys(state.form.fields.items);
+export const selectFields = createSelector(selectFeature, (state: GameEditorFeature): BoardFieldList => {
+    return state.form.fields.items;
 });
+
 export const selectFieldsGrid = createSelector(selectFeature, (state: GameEditorFeature) => {
     return state.form.fields.grid;
+});
+
+export const selectGridWithInnerItems = createSelector(selectFieldsGrid, selectFields, (grid: Grid, items: BoardFieldList) => {
+    return [...grid].map(innerArr => {
+        return [...innerArr].map(elem => {
+            return items[elem] || null;
+        });
+    });
 });
 

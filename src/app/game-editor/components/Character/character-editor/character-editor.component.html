@@ -8,8 +8,6 @@
             <input required matInput formControlName="name"/>
         </mat-form-field>
 
-        <rg-image-picker (gotImage)="handleFileUpload($event)"></rg-image-picker>
-
         <mat-button-toggle-group multiple>
             <mat-button-toggle *ngFor="let item of abilities" [value]="item.id" (change)="handleAbilitiesChange($event)">
                 {{item.name}}

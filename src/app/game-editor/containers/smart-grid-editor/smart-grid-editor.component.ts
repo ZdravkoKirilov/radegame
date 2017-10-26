@@ -4,14 +4,16 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 
 import {AppState} from '../../../state-store/index';
-import {Grid} from '../../../game-mechanics/models/BoardField';
-import {selectFieldsGrid} from '../../state/reducers/selectors';
+import {Grid} from '../../../game-mechanics/models/index';
+import {selectGridWithInnerItems} from '../../state/reducers/selectors';
 import {
     AddGridRowAction,
     AddGridColumnAction,
     RemoveGridRowAction,
-    RemoveGridColumnAction
+    RemoveGridColumnAction,
+    RemoveGridFieldAction
 } from '../../state/actions/byFeature/fieldActions';
+import {FieldCoord} from '../../models/FieldCoord';
 
 @Component({
     selector: 'rg-smart-grid-editor',
@@ -40,7 +42,11 @@ export class SmartGridEditorComponent implements OnInit {
         this.store.dispatch(new RemoveGridColumnAction(index));
     }
 
+    handleFieldRemove(coords: FieldCoord) {
+        this.store.dispatch(new RemoveGridFieldAction(coords));
+    }
+
     ngOnInit() {
-        this.grid = this.store.map((state: AppState) => selectFieldsGrid(state));
+        this.grid = this.store.map((state: AppState) => selectGridWithInnerItems(state));
     }
 }

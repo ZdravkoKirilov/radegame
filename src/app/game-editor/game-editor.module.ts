@@ -38,8 +38,8 @@ import {SmartCharactersComponent} from './containers/smart-characters/smart-char
 import {SmartCharacterEditorComponent} from './containers/smart-character-editor/smart-character-editor.component';
 import {CharactersListComponent} from './components/Character/characters-list/characters-list.component';
 import {CharacterEditorComponent} from './components/Character/character-editor/character-editor.component';
-import {GameBoardListComponent} from './components/game-board-list/game-board-list.component';
-import {GameLaunchComponent} from './components/game-launch/game-launch.component';
+import {GameBoardListComponent} from './components/Launch/game-board-list/game-board-list.component';
+import {GameLaunchComponent} from './components/Launch/game-launch/game-launch.component';
 import {SmartTriviaComponent} from './containers/smart-trivia/smart-trivia.component';
 import {SmartTriviaEditorComponent} from './containers/smart-trivia-editor/smart-trivia-editor.component';
 import {TriviaEditorComponent} from './components/Trivia/trivia-editor/trivia-editor.component';

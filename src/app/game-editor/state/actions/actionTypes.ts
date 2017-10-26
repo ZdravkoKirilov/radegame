@@ -18,6 +18,9 @@ export const SAVE_FIELD = 'SAVE_FIELD';
 export const SAVE_FIELD_SUCCESS = 'SAVE_FIELD_SUCCESS';
 export const SAVE_FIELD_FAIL = 'SAVE_FIELD_FAIL';
 
+export const ADD_GRID_FIELD = 'ADD_GRID_FIELD';
+export const REMOVE_GRID_FIELD = 'REMOVE_GRID_FIELD';
+
 export const ADD_GRID_ROW = 'ADD_GRID_ROW';
 export const ADD_GRID_COLUMN = 'ADD_GRID_COLUMN';
 export const REMOVE_GRID_ROW = 'REMOVE_GRID_ROW';

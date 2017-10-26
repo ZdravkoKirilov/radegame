@@ -11,7 +11,7 @@ export class ControlsService {
 
     toFormGroup(controls: BaseControl<any>[]) {
         const group = {};
-        controls.forEach(function (elem) {
+        controls.forEach(function (elem: BaseControl<any>) {
             const validators = elem.required ? [vd.required] : [];
             group[elem.name] = new FormControl(elem.value, vd.compose(validators));
         });

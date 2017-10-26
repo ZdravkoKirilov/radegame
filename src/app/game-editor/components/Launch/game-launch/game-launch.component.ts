@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 import {FormGroup, FormBuilder, Validators as vd} from '@angular/forms';
 
-import {GameBoard} from '../../../game-mechanics/models/index';
+import {GameBoard} from '../../../../game-mechanics/models/index';
 
 @Component({
     selector: 'rg-game-launch',

@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 
-import { Character } from '../../game-mechanics/models/index';
+import { BoardField } from '../../game-mechanics/models/BoardField';
 
 @Injectable()
-export class GameCharactersService {
+export class BoardFieldsService {
 
-  constructor() { }
+    constructor() { }
 
-    saveGameCharacter(data: Character): Observable<Character> {
+    saveBoardField(data: BoardField): Observable<BoardField> {
         return of({
             id: new Date().getTime(),
             ...data

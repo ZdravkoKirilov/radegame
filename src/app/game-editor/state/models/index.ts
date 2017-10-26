@@ -9,6 +9,7 @@ import {
     BoardField
 } from '../../../game-mechanics/models/index';
 import { Grid } from '../../../game-mechanics/models/BoardField';
+import { FieldCoord } from '../../models/FieldCoord';
 
 export interface GameEditorAssets {
     supportedMovements?: string[];
@@ -16,6 +17,11 @@ export interface GameEditorAssets {
     gameBoards?: GameBoardTypes;
     abilities?: AbilityList;
     movements?: MovementsList;
+}
+
+export interface GridFieldPayload {
+    coords?: FieldCoord;
+    data: BoardField;
 }
 
 export interface BoardFields {

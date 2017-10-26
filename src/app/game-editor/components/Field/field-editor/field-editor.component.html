@@ -1,9 +1,12 @@
 <div>
-    <rg-dynamic-form *ngIf="controls" (change)="handleFieldChange($event)" [controls]="controls"></rg-dynamic-form>
-
-    <div>
-        <button mat-raised-button (click)="handleSave()">Save</button>
-        <button mat-raised-button (click)="handleCancel()">Cancel</button>
-    </div>
-
+    <rg-dynamic-form
+            *ngIf="controls"
+            [controls]="controls"
+            [form]="form"
+    >
+        <div>
+            <button mat-raised-button (click)="handleSave()" [disabled]="!form.valid">Save</button>
+            <button mat-raised-button (click)="handleCancel()">Cancel</button>
+        </div>
+    </rg-dynamic-form>
 </div>

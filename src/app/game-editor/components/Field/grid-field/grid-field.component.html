@@ -1,3 +1,6 @@
-<p>
-  grid-field works!
-</p>
+<div>
+  {{data.name}}
+  <img [src]="data.image"/>
+
+  <button mat-button color="warn" (click)="remove.emit(coords)">Remove</button>
+</div>

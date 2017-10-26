@@ -2,6 +2,7 @@
         *ngIf="showEditor"
         (save)="handleHideEditor()"
         (cancel)="handleHideEditor()"
+        [fieldCoord]="selectedCoord"
 >
 </rg-smart-field-editor>
 
@@ -9,7 +10,7 @@
 
     <div *ngIf="data && data.length" class="remove-column-wrapper">
         <div class="remove-box" *ngFor="let cell of data[0];let cellIdx=index">
-            <button mat-icon-button (click)="handleRemoveColumn(cellIdx)">
+            <button mat-icon-button (click)="removeColumn.emit(cellIdx)">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
@@ -17,32 +18,41 @@
 
     <div *ngIf="data && data.length" class="remove-row-wrapper">
         <div class="remove-box" *ngFor="let row of data;let rowIdx=index">
-            <button mat-icon-button (click)="handleRemoveRow(rowIdx)">
+            <button mat-icon-button (click)="removeRow.emit(rowIdx)">
                 <mat-icon>delete</mat-icon>
             </button>
         </div>
     </div>
 
     <div class="grid-wrapper">
-        <div *ngFor="let row of data;let y = index" class="row">
-            <div *ngFor="let item of row;let x = index" class="cell">
+        <div *ngFor="let row of data;let x = index" class="row">
+            <div *ngFor="let item of row;let y = index" class="cell">
 
-                <rg-empty-item *ngIf="!item" (create)="handleFieldCreate($event)" [coords]="{x: x, y: y}"></rg-empty-item>
+                <rg-empty-item *ngIf="!item"
+                               (create)="handleCreateClick($event)"
+                               [coords]="{x: x, y: y}">
 
-                <rg-grid-field *ngIf="item"></rg-grid-field>
+                </rg-empty-item>
+
+                <rg-grid-field *ngIf="item"
+                               [data]="item"
+                               [coords]="{x: x, y: y}"
+                               (remove)="removeField.emit($event)">
+
+                </rg-grid-field>
 
             </div>
         </div>
     </div>
 
     <div class="add-column-wrapper">
-        <button mat-icon-button (click)="handleAddColumn()">
+        <button mat-icon-button (click)="addColumn.emit()">
             <mat-icon color="primary">add</mat-icon>
         </button>
     </div>
 
     <div class="add-row-wrapper">
-        <button mat-icon-button (click)="handleAddRow()">
+        <button mat-icon-button (click)="addRow.emit()">
             <mat-icon color="primary">add</mat-icon>
         </button>
     </div>
