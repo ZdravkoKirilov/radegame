@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../state-store/index';
+import {AppState} from '../../core/state/index';
 import {GameBoards} from '../../game-mechanics/configs/game-boards';
 import { Abilities } from '../../game-mechanics/configs/abilities';
 import { Movements } from '../../game-mechanics/configs/movements';

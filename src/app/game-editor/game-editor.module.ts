@@ -1,4 +1,3 @@
-import {FEATURE_NAME} from './configs/config';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
@@ -6,6 +5,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {RouterModule} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
 
+import {FEATURE_NAME} from './configs/config';
 import {GameResourcesEffectsService} from './state/effects/game-resources-effects.service';
 import {GameCharactersEffectsService} from './state/effects/game-characters-effects.service';
 import {GameTriviaEffectsService} from './state/effects/game-trivia-effects.service';

@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 
 import {Character} from '../../../game-mechanics/models/Character';
-import {AppState} from '../../../state-store/index';
+import {AppState} from '../../../core/state/index';
 import {selectCharacters} from '../../state/reducers/selectors';
 
 @Component({

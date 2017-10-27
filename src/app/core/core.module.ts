@@ -2,7 +2,9 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { CommonModule } from '@angular/common';
 
-import { StateStoreModule } from '../state-store/state-store.module';
+import {StoreModule} from '@ngrx/store';
+import {reducers} from './state/reducers/index';
+
 import { AppRoutingModule } from '../app-routing.module';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
@@ -14,7 +16,7 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
     imports: [
         CommonModule,
         BrowserModule,
-        StateStoreModule,
+        StoreModule.forRoot(reducers),
         StoreRouterConnectingModule,
         HomeModule,
         GameEditorModule,

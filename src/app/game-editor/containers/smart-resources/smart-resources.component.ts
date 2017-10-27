@@ -4,7 +4,7 @@ import {Observable} from 'rxjs/Observable';
 
 import {Resource} from '../../../game-mechanics/models/Resource';
 import {selectResources} from '../../state/reducers/selectors';
-import {AppState} from '../../../state-store/index';
+import {AppState} from '../../../core/state/index';
 
 @Component({
     selector: 'rg-smart-resources',

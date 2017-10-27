@@ -1,2 +1,5 @@
-<rg-character-editor (save)="saveCharacter($event)" (cancel)="cancelAction()"
-                     [abilities]="supportedAbilities | async"></rg-character-editor>
+<rg-character-editor (save)="saveCharacter($event)"
+                     (cancel)="cancelAction()"
+                     [abilities]="supportedAbilities | async"
+                     [formDefinition]="controls"
+></rg-character-editor>

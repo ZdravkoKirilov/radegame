@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
-import { AppState } from './state-store/index';
+import { AppState } from './core/state/index';
 import 'rxjs/add/operator/map';
 
 @Component({

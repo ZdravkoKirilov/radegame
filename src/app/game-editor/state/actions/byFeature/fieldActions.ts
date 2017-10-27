@@ -2,7 +2,7 @@ import * as actionTypes from '../actionTypes';
 import {Action} from '@ngrx/store';
 import {GridFieldPayload} from '../../models/index';
 import {BoardField} from '../../../../game-mechanics/models/BoardField';
-import {FieldCoord} from '../../../models/FieldCoord';
+import {FieldCoord} from '../../models/index';
 
 export class SaveFieldAction implements Action {
     constructor(public payload: GridFieldPayload) {

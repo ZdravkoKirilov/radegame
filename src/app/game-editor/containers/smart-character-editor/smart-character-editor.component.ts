@@ -2,10 +2,12 @@ import {Component, OnInit, Output, EventEmitter} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 
-import {AppState} from '../../../state-store/index';
+import {AppState} from '../../../core/state/index';
 import {Character, Ability} from '../../../game-mechanics/models/index';
 import {SaveCharacterAction} from '../../state/actions/byFeature/characterActions';
 import {selectAbilities} from '../../state/reducers/selectors';
+import { BaseControl } from '../../../dynamic-forms/models/Base';
+import {CHARACTER_DEF} from '../../configs/form-definitions';
 
 @Component({
     selector: 'rg-smart-character-editor',
@@ -20,6 +22,7 @@ export class SmartCharacterEditorComponent implements OnInit {
     @Output() save: EventEmitter<any> = new EventEmitter();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     public supportedAbilities: Observable<Ability[]>;
+    public controls: BaseControl<any>[] = CHARACTER_DEF();
 
     public saveCharacter(data: Character): void {
         this.store.dispatch(new SaveCharacterAction(data));

@@ -2,11 +2,11 @@ import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Subscription} from 'rxjs/Subscription';
 
-import {AppState} from '../../../state-store/index';
+import {AppState} from '../../../core/state/index';
 import * as actions from '../../state/actions/byFeature/metadataActions';
 import {GameMetadata} from '../../../game-mechanics/models/index';
 import {BaseControl} from '../../../dynamic-forms/models/Base';
-import {GENERAL_SETTINGS} from '../../configs/form-definitions';
+import {METADATA_DEF} from '../../configs/form-definitions';
 import {selectMovementsAsOptionsList} from '../../state/reducers/selectors';
 import {Option} from '../../../dynamic-forms/models/Base';
 import 'rxjs/add/operator/take';
@@ -35,7 +35,7 @@ export class SmartGeneralSettingsComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.storeSub = this.store.take(1).subscribe(state => {
             const movements: Option[] = selectMovementsAsOptionsList(state);
-            this.formDefinition = this.formDefinition ? this.formDefinition : GENERAL_SETTINGS(movements);
+            this.formDefinition = this.formDefinition ? this.formDefinition : METADATA_DEF(movements);
         });
     }
 

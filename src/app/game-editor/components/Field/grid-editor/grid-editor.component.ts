@@ -1,7 +1,7 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
 
 import {Grid} from '../../../../game-mechanics/models/BoardField';
-import {FieldCoord} from '../../../models/FieldCoord';
+import {FieldCoord} from '../../../state/models/index';
 
 @Component({
     selector: 'rg-grid-editor',

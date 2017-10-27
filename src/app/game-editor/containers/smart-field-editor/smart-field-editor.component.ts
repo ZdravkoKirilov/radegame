@@ -2,12 +2,12 @@ import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Store} from '@ngrx/store';
 
-import {AppState} from '../../../state-store/index';
+import {AppState} from '../../../core/state/index';
 import {BaseControl} from '../../../dynamic-forms/models/Base';
 import {BoardField} from '../../../game-mechanics/models/index';
 import { GridFieldPayload } from '../../state/models/index';
-import { FieldCoord } from '../../models/FieldCoord';
-import {FIELD_SETTINGS} from '../../configs/form-definitions';
+import { FieldCoord } from '../../state/models/index';
+import {FIELD_DEF} from '../../configs/form-definitions';
 import { SaveFieldAction } from '../../state/actions/byFeature/fieldActions';
 
 @Component({
@@ -39,7 +39,7 @@ export class SmartFieldEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.controls = this.store.map(state => FIELD_SETTINGS([]));
+        this.controls = this.store.map(state => FIELD_DEF([]));
     }
 
 }

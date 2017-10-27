@@ -1,1 +1,7 @@
-<rg-resource-editor (save)="saveResource($event)" (cancel)="cancelAction()"></rg-resource-editor>
+<rg-resource-editor
+        (save)="saveResource($event)"
+        (cancel)="cancelAction()"
+        [formDefinition]="controls"
+>
+
+</rg-resource-editor>

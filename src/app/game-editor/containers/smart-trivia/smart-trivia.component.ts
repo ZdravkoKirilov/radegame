@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {AppState} from '../../../state-store/index';
+import {AppState} from '../../../core/state/index';
 import {Observable} from 'rxjs/Observable';
 
 import {Trivia} from '../../../game-mechanics/models/index';
