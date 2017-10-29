@@ -1,7 +1,8 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import {BoardField} from '../../../../game-mechanics/models/index';
-import {FieldCoord} from '../../../state/models/index';
+import { BoardField } from '../../../../game-mechanics/models/index';
+import { FieldCoord } from '../../../state/models/index';
+import { GridFieldPayload } from '../../../state/models/index';
 
 @Component({
     selector: 'rg-grid-field',
@@ -13,7 +14,15 @@ export class GridFieldComponent {
     @Input() coords: FieldCoord;
 
     @Output() remove: EventEmitter<FieldCoord> = new EventEmitter();
+    @Output() edit: EventEmitter<GridFieldPayload> = new EventEmitter();
 
+    handleEditClick() {
+        const payload: GridFieldPayload = {
+            coords: this.coords,
+            data: this.data
+        };
+        this.edit.emit(payload);
+    }
     constructor() {
     }
 }

@@ -1,11 +1,13 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
-import {AppState} from '../../../core/state/index';
-import {Grid} from '../../../game-mechanics/models/index';
-import {selectGridWithInnerItems} from '../../state/reducers/selectors';
+import { AppState } from '../../../core/state/index';
+import { Grid } from '../../../game-mechanics/models/index';
+import { FieldCoord } from '../../state/models/index';
+import { BoardField } from '../../../game-mechanics/models/index';
+import { selectGridWithInnerItems } from '../../state/reducers/selectors';
 import {
     AddGridRowAction,
     AddGridColumnAction,
@@ -13,7 +15,6 @@ import {
     RemoveGridColumnAction,
     RemoveGridFieldAction
 } from '../../state/actions/byFeature/fieldActions';
-import {FieldCoord} from '../../state/models/index';
 
 @Component({
     selector: 'rg-smart-grid-editor',

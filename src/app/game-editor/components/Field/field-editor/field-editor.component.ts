@@ -1,9 +1,9 @@
-import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-import {BaseControl} from '../../../../dynamic-forms/models/Base';
-import {BoardField} from '../../../../game-mechanics/models/index';
-import {ControlsService} from '../../../../dynamic-forms/services/controls.service';
+import { BaseControl } from '../../../../dynamic-forms/models/Base';
+import { BoardField } from '../../../../game-mechanics/models/index';
+import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
 
 @Component({
     selector: 'rg-field-editor',
@@ -12,6 +12,7 @@ import {ControlsService} from '../../../../dynamic-forms/services/controls.servi
 })
 export class FieldEditorComponent implements OnInit {
     @Input() controls: BaseControl<any>[] = [];
+    @Input() data: BoardField;
     @Output() save: EventEmitter<BoardField> = new EventEmitter();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
 
@@ -30,5 +31,8 @@ export class FieldEditorComponent implements OnInit {
 
     ngOnInit() {
         this.form = this.cs.toFormGroup(this.controls);
+        if (this.data) {
+            this.form.patchValue(this.data);
+        }
     }
 }

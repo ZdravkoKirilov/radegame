@@ -3,6 +3,7 @@
         (save)="handleHideEditor()"
         (cancel)="handleHideEditor()"
         [fieldCoord]="selectedCoord"
+        [field]="selectedField"
 >
 </rg-smart-field-editor>
 
@@ -37,8 +38,9 @@
                 <rg-grid-field *ngIf="item"
                                [data]="item"
                                [coords]="{x: x, y: y}"
-                               (remove)="removeField.emit($event)">
-
+                               (remove)="removeField.emit($event)"
+                               (edit)="handleEditClick($event)"
+                               >
                 </rg-grid-field>
 
             </div>

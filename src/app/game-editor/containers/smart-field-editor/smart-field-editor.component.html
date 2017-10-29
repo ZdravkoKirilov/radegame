@@ -1,5 +1,6 @@
 <rg-field-editor
         [controls]="controls | async"
+        [data]="field"
         (save)="handleSave($event)"
         (cancel)="handleCancel()">
 </rg-field-editor>

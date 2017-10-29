@@ -1,2 +1,4 @@
+
+<img *ngIf="prepopulatedImage" [src]="prepopulatedImage" class="prepopulated-image"/>
 <dropzone (addedfile)="imageAdded($event)" [config]="config" [message]="data.label">
 </dropzone>
