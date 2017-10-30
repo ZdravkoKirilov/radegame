@@ -2,7 +2,7 @@
   <mat-card *ngFor="let item of items">
     <mat-card-header>
       <mat-card-title>{{item.name}}</mat-card-title>
-      <img mat-card-avatar [src]="item.image"/>
+      <img *ngIf="item.image" mat-card-avatar [src]="item.image"/>
     </mat-card-header>
     <mat-card-content>
 

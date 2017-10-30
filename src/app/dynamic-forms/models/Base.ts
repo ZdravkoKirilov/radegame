@@ -1,6 +1,7 @@
 export interface Option {
     label: string;
-    value: string;
+    value: string|number;
+    image?: string;
 }
 
 export abstract class BaseControl<T> {
@@ -14,6 +15,7 @@ export abstract class BaseControl<T> {
     controlType?: string;
     returnType?: string;
     options?: Option[];
+    childControls?: BaseControl<T>[];
     multiple?: boolean;
     min?: number;
     max?: number;

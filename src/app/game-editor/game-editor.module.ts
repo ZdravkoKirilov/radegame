@@ -6,10 +6,7 @@ import {RouterModule} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
 
 import {FEATURE_NAME} from './configs/config';
-import {GameResourcesEffectsService} from './state/effects/game-resources-effects.service';
-import {GameCharactersEffectsService} from './state/effects/game-characters-effects.service';
-import {GameTriviaEffectsService} from './state/effects/game-trivia-effects.service';
-import {GameFieldsEffectsService} from './state/effects/game-fields-effects.service';
+import {GameEditEffectsService} from './state/effects/game-edit-effects.service';
 
 import {IndexComponent} from './index/index.component';
 
@@ -38,7 +35,6 @@ import {SmartCharactersComponent} from './containers/smart-characters/smart-char
 import {SmartCharacterEditorComponent} from './containers/smart-character-editor/smart-character-editor.component';
 import {CharactersListComponent} from './components/Character/characters-list/characters-list.component';
 import {CharacterEditorComponent} from './components/Character/character-editor/character-editor.component';
-import {GameBoardListComponent} from './components/Launch/game-board-list/game-board-list.component';
 import {GameLaunchComponent} from './components/Launch/game-launch/game-launch.component';
 import {SmartTriviaComponent} from './containers/smart-trivia/smart-trivia.component';
 import {SmartTriviaEditorComponent} from './containers/smart-trivia-editor/smart-trivia-editor.component';
@@ -50,6 +46,8 @@ import {GridEditorComponent} from './components/Field/grid-editor/grid-editor.co
 import {GridFieldComponent} from './components/Field/grid-field/grid-field.component';
 import {SmartGridEditorComponent} from './containers/smart-grid-editor/smart-grid-editor.component';
 import {SmartFieldEditorComponent} from './containers/smart-field-editor/smart-field-editor.component';
+import {SmartLaunchComponent} from './containers/smart-launch/smart-launch.component';
+import { GamesListComponent } from './components/Launch/games-list/games-list.component';
 
 @NgModule({
     imports: [
@@ -57,10 +55,7 @@ import {SmartFieldEditorComponent} from './containers/smart-field-editor/smart-f
         SharedModule,
         StoreModule.forFeature(FEATURE_NAME, reducers),
         EffectsModule.forRoot([
-            GameResourcesEffectsService,
-            GameCharactersEffectsService,
-            GameTriviaEffectsService,
-            GameFieldsEffectsService
+            GameEditEffectsService
         ]),
         FormsModule,
         ReactiveFormsModule,
@@ -72,14 +67,17 @@ import {SmartFieldEditorComponent} from './containers/smart-field-editor/smart-f
     exports: [
         RouterModule
     ],
-    declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent, FieldsComponent,
-        TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent,
+    declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent,
+        FieldsComponent, TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent,
         ResourceEditorComponent, SmartGeneralSettingsComponent, SmartResourceEditorComponent,
         SmartResourcesComponent, ResourcesListComponent, SmartCharactersComponent,
         SmartCharacterEditorComponent, CharactersListComponent, CharacterEditorComponent,
-        GameBoardListComponent, GameLaunchComponent, SmartTriviaComponent,
+        GameLaunchComponent, SmartTriviaComponent,
         SmartTriviaEditorComponent, TriviaEditorComponent, TriviasListComponent, FieldEditorComponent,
-        EmptySlotComponent, GridFieldComponent, GridEditorComponent, SmartGridEditorComponent, SmartFieldEditorComponent
+        EmptySlotComponent, GridFieldComponent, GridEditorComponent, SmartGridEditorComponent,
+        SmartFieldEditorComponent,
+        SmartLaunchComponent,
+        GamesListComponent
     ]
 })
 export class GameEditorModule {

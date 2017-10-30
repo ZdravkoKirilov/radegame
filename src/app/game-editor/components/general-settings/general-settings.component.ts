@@ -18,11 +18,10 @@ export class GeneralSettingsComponent implements OnInit {
     constructor(private cs: ControlsService) {
     }
 
-    handleChange(data: GameMetadata) {
-        this.change.emit(data);
-    }
-
     ngOnInit() {
         this.form = this.cs.toFormGroup(this.formDefinition);
+        this.form.valueChanges.subscribe((data: GameMetadata) => {
+            this.change.emit(data);
+        });
     }
 }

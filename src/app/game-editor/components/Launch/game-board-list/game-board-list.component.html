@@ -1,6 +1,0 @@
-<mat-button-toggle-group (change)="handleBoardPick($event.value)" [value]="selectedBoard">
-    <mat-button-toggle *ngFor="let board of boards" [name]="board.id" [value]="board.id"
-                       [checked]="selectedBoard === board.displayName">
-      {{board.displayName}}
-    </mat-button-toggle>
-</mat-button-toggle-group>

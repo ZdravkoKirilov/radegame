@@ -1,7 +1,7 @@
 import {FEATURE_NAME} from '../../configs/config';
-import {GameEditorFeature} from '../models/index';
+import {GameEditorFeature, GamesList} from '../models/index';
 import {createSelector, createFeatureSelector} from '@ngrx/store';
-import {Movement} from '../../../game-mechanics/models/Movement';
+import {Movement, Game} from '../../../game-mechanics/models/index';
 import {Option} from '../../../dynamic-forms/models/Base';
 import {Grid} from '../../../game-mechanics/models/index';
 import {BoardFieldList} from '../../../game-mechanics/models/BoardField';
@@ -47,4 +47,18 @@ export const selectGridWithInnerItems = createSelector(selectFieldsGrid, selectF
         });
     });
 });
+
+export const selectGames = createSelector(selectFeature, (state: GameEditorFeature): Game[] => {
+    return Object.values(state.games.items);
+});
+
+export const selectGamesIndexed = createSelector(selectFeature, (state: GameEditorFeature) => {
+    return state.games.items;
+});
+
+export const selectGame = function (gameName) {
+    return createSelector(selectGamesIndexed, (games: any): Game => {
+        return games[gameName];
+    });
+};
 

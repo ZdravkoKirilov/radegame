@@ -14,6 +14,8 @@ import {TextInputComponent} from './controls/text-input/text-input.component';
 import {ImageBrowserComponent} from './controls/image-browser/image-browser.component';
 import {ButtonGroupComponent} from './controls/button-group/button-group.component';
 import {SliderComponent} from './controls/slider/slider.component';
+import {QuantityPickerComponent} from './controls/quantity-picker/quantity-picker.component';
+import { SwitchComponent } from './controls/switch/switch.component';
 
 @NgModule({
     imports: [
@@ -26,7 +28,8 @@ import {SliderComponent} from './controls/slider/slider.component';
     exports: [
         DynamicFormComponent
     ],
-    declarations: [DynamicFormComponent, AbstractControlComponent, TextInputComponent, ImageBrowserComponent, ButtonGroupComponent, SliderComponent],
+    declarations: [DynamicFormComponent, AbstractControlComponent, TextInputComponent,
+        ImageBrowserComponent, ButtonGroupComponent, SliderComponent, QuantityPickerComponent, SwitchComponent],
     providers: [
         ControlsService
     ]

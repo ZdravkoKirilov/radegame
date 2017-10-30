@@ -1,4 +1,4 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
 import {BaseControl} from '../../models/Base';
@@ -9,7 +9,6 @@ import {BaseControl} from '../../models/Base';
     styleUrls: ['./dynamic-form.component.scss']
 })
 export class DynamicFormComponent implements OnInit {
-    @Output() change: EventEmitter<any> = new EventEmitter();
     @Input() controls: BaseControl<any>[] = [];
     @Input() form: FormGroup;
 
@@ -18,5 +17,4 @@ export class DynamicFormComponent implements OnInit {
 
     ngOnInit() {
     }
-
 }

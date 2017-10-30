@@ -1,47 +1,48 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, OnDestroy} from '@angular/core';
 import {Store} from '@ngrx/store';
+import {Subscription} from 'rxjs/Subscription';
+
 import {AppState} from '../../core/state/index';
 import {GameBoards} from '../../game-mechanics/configs/game-boards';
-import { Abilities } from '../../game-mechanics/configs/abilities';
-import { Movements } from '../../game-mechanics/configs/movements';
-import {GameBoard, GameMetadata} from '../../game-mechanics/models/index';
-import { UpdateEditorAssetsAction } from '../state/actions/byFeature/assetActions';
-import { UpdateFieldAction } from '../state/actions/byFeature/metadataActions';
+import {Abilities} from '../../game-mechanics/configs/abilities';
+import {Movements} from '../../game-mechanics/configs/movements';
+import {UpdateEditorAssetsAction} from '../state/actions/byFeature/assetActions';
+import {selectRouterParam} from '../../core/state/reducers/selectors';
+import {selectGame} from '../state/reducers/selectors';
+import {Game} from '../../game-mechanics/models/index';
+import {ROUTER_PARAMS} from '../../shared/config/config';
 
 @Component({
     selector: 'rg-index',
     templateUrl: './index.component.html',
     styleUrls: ['./index.component.scss']
 })
-export class IndexComponent {
-    readonly storeBranch: string = 'metadata';
-    public gameBoards = GameBoards;
-    public boardTypes: GameBoard[] = Object.values(GameBoards);
-    public inProgress = false;
+export class IndexComponent implements OnInit, OnDestroy {
+    private gameBoards = GameBoards;
+    private boardType: string;
+    private storeSub: Subscription;
 
     constructor(private store: Store<AppState>) {
     }
 
-    handleGameCreate(data: GameMetadata): void {
-        this.store.dispatch(new UpdateFieldAction({
-            branch: this.storeBranch,
-            data
-        }));
-        this.inProgress = true;
-        this.store.dispatch(new UpdateEditorAssetsAction({
-            supportedMovements: this.getSupportedMoves(data.boardType),
-            supportedAbilities: this.getSupportedAbilities(data.boardType),
-            abilities: Abilities,
-            gameBoards: GameBoards,
-            movements: Movements
-        }));
+    ngOnInit() {
+        this.storeSub = this.store.subscribe(state => {
+            const gameName = selectRouterParam(ROUTER_PARAMS.GAME_NAME)(state);
+            const game: Game = selectGame(gameName)(state);
+            if (game && game.boardType !== this.boardType) {
+                this.store.dispatch(new UpdateEditorAssetsAction({
+                    supportedMovements: this.gameBoards[game.boardType].allowedMovements,
+                    supportedAbilities: this.gameBoards[game.boardType].supportedAbilities,
+                    abilities: Abilities,
+                    gameBoards: GameBoards,
+                    movements: Movements
+                }));
+                this.boardType = game.boardType;
+            }
+        });
     }
 
-    getSupportedMoves(boardType: string): string[] {
-        return this.gameBoards[boardType] ? this.gameBoards[boardType].allowedMovements : [];
-    }
-
-    getSupportedAbilities(boardType: string): string[] {
-        return this.gameBoards[boardType] ? this.gameBoards[boardType].supportedAbilities : [];
+    ngOnDestroy() {
+        this.storeSub.unsubscribe();
     }
 }

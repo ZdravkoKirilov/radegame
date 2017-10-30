@@ -18,4 +18,11 @@ export class TextInputComponent {
     get isValid() {
         return this.form.controls[this.data.name].valid;
     }
+
+    handleChange(event) {
+        event.stopPropagation();
+        this.form.patchValue({
+            [this.data.name]: event.currentTarget.value
+        });
+    }
 }

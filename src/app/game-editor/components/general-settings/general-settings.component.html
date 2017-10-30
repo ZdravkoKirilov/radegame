@@ -1,7 +1,6 @@
 <section>
     <rg-dynamic-form
             *ngIf="formDefinition"
-            (change)="handleChange($event)"
             [controls]="formDefinition"
             [form]="form"
     ></rg-dynamic-form>

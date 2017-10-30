@@ -1,5 +1,6 @@
 import {
     GameBoardTypes,
+    Game,
     AbilityList,
     MovementsList,
     GameMetadata,
@@ -9,6 +10,13 @@ import {
     BoardField
 } from '../../../game-mechanics/models/index';
 import { Grid } from '../../../game-mechanics/models/BoardField';
+
+export interface GamesList {
+    items: {
+        [key: string]: Game
+    };
+    lastInsert?: Game;
+}
 
 export interface GameEditorAssets {
     supportedMovements?: string[];
@@ -63,6 +71,7 @@ export interface GameEditorForm {
 export interface GameEditorFeature {
     form: GameEditorForm;
     assets: GameEditorAssets;
+    games: GamesList;
 }
 
 export interface FieldCoord {

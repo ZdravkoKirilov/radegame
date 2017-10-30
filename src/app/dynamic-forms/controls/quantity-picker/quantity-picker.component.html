@@ -1,0 +1,6 @@
+<div>
+    <label>{{data.label}}</label>
+    <div *ngFor="let item of data.childControls">
+        <rg-slider [data]="item" (change)="handleChange($event)"></rg-slider>
+    </div>
+</div>

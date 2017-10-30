@@ -13,3 +13,4 @@ export * from './Resource';
 export * from './Trap';
 export * from './Trivia';
 export * from './TriviaAnswer';
+export * from './Game';

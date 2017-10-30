@@ -1,30 +1,34 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {FormGroup, FormBuilder, Validators as vd} from '@angular/forms';
+import {Component, OnChanges, SimpleChanges, Input, Output, EventEmitter} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
-import {GameBoard} from '../../../../game-mechanics/models/index';
+import {BaseControl} from '../../../../dynamic-forms/models/Base';
+import {ControlsService} from '../../../../dynamic-forms/services/controls.service';
+import { Game } from '../../../../game-mechanics/models/Game';
 
 @Component({
     selector: 'rg-game-launch',
     templateUrl: './game-launch.component.html',
     styleUrls: ['./game-launch.component.scss']
 })
-export class GameLaunchComponent {
+export class GameLaunchComponent implements OnChanges {
     @Output() create: EventEmitter<any> = new EventEmitter();
-    @Input() boards: GameBoard[];
+    @Input() controls: BaseControl<any>[] = [];
+    @Input() games: Game[];
     public form: FormGroup;
 
-    constructor(fb: FormBuilder) {
-        this.form = fb.group({
-            'gameName': [null, vd.required],
-            'boardType': [null, vd.required]
-        });
+    constructor(private cs: ControlsService) {
+
     }
-    handleBoardChange(board: string): void {
-        this.form.patchValue({
-            boardType: board
-        });
-    }
+
     handleGameCreate() {
-        this.create.emit(this.form.value);
+        const value: Game = this.form.value;
+        value.boardType = value.boardType[0];
+        this.create.emit(value);
+    }
+
+    ngOnChanges(c: SimpleChanges) {
+        if (c.controls && c.controls.currentValue && c.controls.currentValue !== c.controls.previousValue) {
+            this.form = this.cs.toFormGroup(this.controls);
+        }
     }
 }

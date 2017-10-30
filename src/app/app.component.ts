@@ -14,7 +14,9 @@ export class AppComponent implements OnInit {
         this.store.select('router')
             .map(data => data ? data.state.root.children[0].data : null)
             .subscribe(routeData => {
-                routeData && this.titleService.setTitle((routeData as any).title);
+                if (routeData) {
+                    this.titleService.setTitle((routeData as any).title);
+                }
             });
     }
     ngOnInit() {

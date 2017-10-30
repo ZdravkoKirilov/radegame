@@ -1,5 +1,4 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
-import {FormGroup} from '@angular/forms';
 
 import {BaseControl} from '../../models/Base';
 
@@ -14,7 +13,6 @@ export class SliderComponent implements OnInit {
     }
 
     @Input() data: BaseControl<any>;
-    @Input() form: FormGroup;
 
     @Output() change: EventEmitter<any> = new EventEmitter<any>();
     public _sliderValue: number;
@@ -31,6 +29,6 @@ export class SliderComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.sliderValue = this.data.value;
+        this.sliderValue = this.data.value || this.data.min;
     }
 }
