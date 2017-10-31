@@ -1,7 +1,7 @@
 import {ActionReducer, combineReducers} from '@ngrx/store';
 
 import {resourcesReducer, charactersReducer, metadataReducer, triviaReducer, fieldsReducer} from './exports';
-import {GameEditorForm} from '../../models/index';
+import {GameEditorForm} from '../../../models/index';
 
 const reducers: GameEditorForm = {
     metadata: metadataReducer,

@@ -41,9 +41,9 @@ import {SmartTriviaEditorComponent} from './containers/smart-trivia-editor/smart
 import {TriviaEditorComponent} from './components/Trivia/trivia-editor/trivia-editor.component';
 import {TriviasListComponent} from './components/Trivia/trivias-list/trivias-list.component';
 import {FieldEditorComponent} from './components/Field/field-editor/field-editor.component';
-import {EmptySlotComponent} from './components/Field/empty-slot/empty-slot.component';
-import {GridEditorComponent} from './components/Field/grid-editor/grid-editor.component';
-import {GridFieldComponent} from './components/Field/grid-field/grid-field.component';
+import {EmptySlotComponent} from './components/Field/Grid/empty-slot/empty-slot.component';
+import {GridEditorComponent} from './components/Field/Grid/grid-editor/grid-editor.component';
+import {GridFieldComponent} from './components/Field/Grid/grid-field/grid-field.component';
 import {SmartGridEditorComponent} from './containers/smart-grid-editor/smart-grid-editor.component';
 import {SmartFieldEditorComponent} from './containers/smart-field-editor/smart-field-editor.component';
 import {SmartLaunchComponent} from './containers/smart-launch/smart-launch.component';

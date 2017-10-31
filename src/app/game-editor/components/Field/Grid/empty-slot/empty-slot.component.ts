@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {FieldCoord} from '../../../state/models/index';
+import {FieldCoord} from '../../../../models/index';
 
 @Component({
     selector: 'rg-empty-item',

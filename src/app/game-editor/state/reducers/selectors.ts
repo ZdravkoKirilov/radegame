@@ -1,5 +1,5 @@
 import {FEATURE_NAME} from '../../configs/config';
-import {GameEditorFeature, GamesList} from '../models/index';
+import {GameEditorFeature, GamesList} from '../../models/index';
 import {createSelector, createFeatureSelector} from '@ngrx/store';
 import {Movement, Game} from '../../../game-mechanics/models/index';
 import {Option} from '../../../dynamic-forms/models/Base';

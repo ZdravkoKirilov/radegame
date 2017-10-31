@@ -3,7 +3,7 @@ import {Actions, Effect} from '@ngrx/effects';
 
 import {GameEditService} from '../../../shared/services/game-edit.service';
 import {Character, BoardField, Resource, Trivia, Game} from '../../../game-mechanics/models/index';
-import {GridFieldPayload} from '../models/index';
+import {GridFieldPayload} from '../../models/index';
 import * as actionTypes from '../actions/actionTypes';
 import {
     Actions as CharacterAction,

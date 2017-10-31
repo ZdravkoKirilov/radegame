@@ -21,8 +21,8 @@ export class TextInputComponent {
 
     handleChange(event) {
         event.stopPropagation();
-        this.form.patchValue({
-            [this.data.name]: event.currentTarget.value
-        });
+        // this.form.patchValue({
+        //     [this.data.name]: event.currentTarget.value
+        // });
     }
 }

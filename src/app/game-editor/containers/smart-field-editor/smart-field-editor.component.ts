@@ -5,8 +5,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/state/index';
 import { BaseControl } from '../../../dynamic-forms/models/Base';
 import { BoardField } from '../../../game-mechanics/models/index';
-import { GridFieldPayload } from '../../state/models/index';
-import { FieldCoord } from '../../state/models/index';
+import { GridFieldPayload } from '../../models/index';
+import { FieldCoord } from '../../models/index';
 import { FIELD_DEF } from '../../configs/form-definitions';
 import { SaveFieldAction } from '../../state/actions/byFeature/fieldActions';
 

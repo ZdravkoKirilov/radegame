@@ -8,8 +8,8 @@ import {
     Character,
     Trivia,
     BoardField
-} from '../../../game-mechanics/models/index';
-import { Grid } from '../../../game-mechanics/models/BoardField';
+} from '../../game-mechanics/models/index';
+import { Grid } from '../../game-mechanics/models/BoardField';
 
 export interface GamesList {
     items: {

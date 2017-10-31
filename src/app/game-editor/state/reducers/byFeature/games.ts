@@ -1,6 +1,6 @@
 import {Actions} from '../../actions/byFeature/launcherActions';
 import * as actionTypes from '../../actions/actionTypes';
-import {GamesList} from '../../models/index';
+import {GamesList} from '../../../models/index';
 
 const initialState: GamesList = {
     items: {},

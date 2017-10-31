@@ -1,6 +1,6 @@
 import { Actions } from '../../actions/byFeature/assetActions';
 import * as actionTypes from '../../actions/actionTypes';
-import { GameEditorAssets } from '../../models/index';
+import { GameEditorAssets } from '../../../models/index';
 
 const initialState: GameEditorAssets = {
     supportedMovements: [],

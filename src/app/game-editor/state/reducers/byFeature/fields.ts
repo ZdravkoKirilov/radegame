@@ -1,6 +1,6 @@
 import {Actions} from '../../actions/byFeature/fieldActions';
 import * as actionTypes from '../../actions/actionTypes';
-import {BoardFields} from '../../models/index';
+import {BoardFields} from '../../../models/index';
 
 const defaultGridDimensions = {
     x: 3,

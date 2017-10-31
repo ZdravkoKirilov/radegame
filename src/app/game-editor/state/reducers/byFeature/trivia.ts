@@ -1,6 +1,6 @@
 import {Actions} from '../../actions/byFeature/triviaActions';
 import * as actionTypes from '../../actions/actionTypes';
-import { Trivias } from '../../models/index';
+import { Trivias } from '../../../models/index';
 
 const initialState: Trivias = {
     items: {},

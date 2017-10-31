@@ -40,6 +40,13 @@ export class ImageBrowserComponent implements OnInit {
         }
     }
 
+    imageRemoved() {
+        this.prepopulatedImage = null;
+        this.change.emit({
+            [this.data.name]: null
+        });
+    }
+
     ngOnInit() {
         this.prepopulatedImage = this.form.controls[this.data.name].value;
     }

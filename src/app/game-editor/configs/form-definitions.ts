@@ -23,10 +23,6 @@ export function METADATA_DEF(movements: Option[]): BaseControl<any>[] {
         required: true,
         multiple: true,
         options: movements
-    }, {
-        name: 'duplicateCharacters',
-        controlType: controlTypes.SWITCH,
-        label: 'Allow duplicate characters?'
     }
     ];
 }

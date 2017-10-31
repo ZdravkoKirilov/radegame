@@ -1,9 +1,9 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Grid } from '../../../../game-mechanics/models/BoardField';
-import { FieldCoord } from '../../../state/models/index';
-import { BoardField } from '../../../../game-mechanics/models/index';
-import { GridFieldPayload } from '../../../state/models/index';
+import { Grid } from '../../../../../game-mechanics/models/BoardField';
+import { FieldCoord } from '../../../../models/index';
+import { BoardField } from '../../../../../game-mechanics/models/index';
+import { GridFieldPayload } from '../../../../models/index';
 
 @Component({
     selector: 'rg-grid-editor',
