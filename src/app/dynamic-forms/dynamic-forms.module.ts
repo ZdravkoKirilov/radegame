@@ -16,6 +16,7 @@ import {ButtonGroupComponent} from './controls/button-group/button-group.compone
 import {SliderComponent} from './controls/slider/slider.component';
 import {QuantityPickerComponent} from './controls/quantity-picker/quantity-picker.component';
 import { SwitchComponent } from './controls/switch/switch.component';
+import { ImagePickerComponent } from './controls/image-picker/image-picker.component';
 
 @NgModule({
     imports: [
@@ -26,10 +27,10 @@ import { SwitchComponent } from './controls/switch/switch.component';
         DropzoneModule.forRoot(DROPZONE_CONFIG)
     ],
     exports: [
-        DynamicFormComponent
+        DynamicFormComponent, ImagePickerComponent
     ],
     declarations: [DynamicFormComponent, AbstractControlComponent, TextInputComponent,
-        ImageBrowserComponent, ButtonGroupComponent, SliderComponent, QuantityPickerComponent, SwitchComponent],
+        ImageBrowserComponent, ButtonGroupComponent, SliderComponent, QuantityPickerComponent, SwitchComponent, ImagePickerComponent],
     providers: [
         ControlsService
     ]

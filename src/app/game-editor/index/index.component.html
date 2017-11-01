@@ -1,6 +1,17 @@
 <mat-vertical-stepper>
 
     <mat-step>
+        <ng-template matStepLabel>Fields</ng-template>
+        <section>
+            <rg-smart-fields></rg-smart-fields>
+        </section>
+        <section>
+            <button mat-button matStepperPrevious>Back</button>
+            <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
         <ng-template matStepLabel>Game Settings</ng-template>
         <section>
             <rg-smart-general-settings></rg-smart-general-settings>
@@ -36,17 +47,6 @@
         <ng-template matStepLabel>Trivia</ng-template>
         <section>
             <rg-smart-trivia></rg-smart-trivia>
-        </section>
-        <section>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-        </section>
-    </mat-step>
-
-    <mat-step>
-        <ng-template matStepLabel>Fields</ng-template>
-        <section>
-            <rg-fields></rg-fields>
         </section>
         <section>
             <button mat-button matStepperPrevious>Back</button>

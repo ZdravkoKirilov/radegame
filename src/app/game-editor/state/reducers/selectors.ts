@@ -4,7 +4,7 @@ import {createSelector, createFeatureSelector} from '@ngrx/store';
 import {Movement, Game} from '../../../game-mechanics/models/index';
 import {Option} from '../../../dynamic-forms/models/Base';
 import {Grid} from '../../../game-mechanics/models/index';
-import {BoardFieldList} from '../../../game-mechanics/models/BoardField';
+import {BoardField, BoardFieldList} from '../../../game-mechanics/models/BoardField';
 
 export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -36,6 +36,10 @@ export const selectFields = createSelector(selectFeature, (state: GameEditorFeat
     return state.form.fields.items;
 });
 
+export const selectFieldsAsArray = createSelector(selectFeature, (state: GameEditorFeature): BoardField[] => {
+    return Object.values(state.form.fields.items);
+});
+
 export const selectFieldsGrid = createSelector(selectFeature, (state: GameEditorFeature) => {
     return state.form.fields.grid;
 });
@@ -61,4 +65,12 @@ export const selectGame = function (gameName) {
         return games[gameName];
     });
 };
+
+export const selectBoardType = createSelector(selectFeature, (state: GameEditorFeature): string => {
+    return state.assets.boardType;
+});
+
+export const selectCanvasImage = createSelector(selectFeature, (state: GameEditorFeature): string => {
+    return state.form.map.canvas.image;
+});
 

@@ -1,0 +1,8 @@
+<rg-image-picker [data]="imagePickerConfig" (change)="addBackground.emit($event)">
+    Add background image
+</rg-image-picker>
+
+<button mat-button color="warn" (click)="removeBackground.emit()">Remove background image</button>
+<button mat-button color="primary" (click)="addField.emit()">Add field</button>
+
+

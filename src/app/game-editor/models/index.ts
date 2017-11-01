@@ -10,6 +10,7 @@ import {
     BoardField
 } from '../../game-mechanics/models/index';
 import { Grid } from '../../game-mechanics/models/BoardField';
+import { boardTypes } from '../../game-mechanics/configs/game-boards';
 
 export interface GamesList {
     items: {
@@ -24,6 +25,7 @@ export interface GameEditorAssets {
     gameBoards?: GameBoardTypes;
     abilities?: AbilityList;
     movements?: MovementsList;
+    boardType?: boardTypes;
 }
 
 export interface GridFieldPayload {
@@ -60,12 +62,19 @@ export interface Trivias {
     lastInsert?: Trivia;
 }
 
+export interface Map {
+    canvas?: {
+        image?: string
+    };
+}
+
 export interface GameEditorForm {
     metadata?: GameMetadata;
     resources?: Resources;
     characters?: Characters;
     trivia?: Trivias;
     fields?: BoardFields;
+    map?: Map;
 }
 
 export interface GameEditorFeature {

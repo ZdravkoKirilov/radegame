@@ -20,6 +20,7 @@ export abstract class BaseControl<T> {
     min?: number;
     max?: number;
     step?: number;
+    buttonColor?: string;
 
     constructor(options: BaseControl<any> = {}) {
         this.value = options.value;

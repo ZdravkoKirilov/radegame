@@ -1,3 +1,4 @@
+export const CLEAR_FORM = 'CLEAR_FORM';
 export const UPDATE_FIELD = 'UPDATE_FIELD';
 
 export const SAVE_RESOURCE = 'SAVE_RESOURCE';
@@ -29,4 +30,6 @@ export const REMOVE_GRID_COLUMN = 'REMOVE_GRID_COLUMN';
 export const CREATE_GAME = 'CREATE_GAME';
 export const CREATE_GAME_SUCCESS = 'CREATE_GAME_SUCCESS';
 export const CREATE_GAME_FAIL = 'CREATE_GAME_FAIL';
+
+export const UPDATE_MAP = 'UPDATE_MAP';
 

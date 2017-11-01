@@ -1,4 +1,5 @@
-import {Component} from '@angular/core';
+import {Component, Input} from '@angular/core';
+import { types as boardTypes } from '../../../../game-mechanics/configs/game-boards';
 
 @Component({
     selector: 'rg-fields',
@@ -6,6 +7,8 @@ import {Component} from '@angular/core';
     styleUrls: ['./fields.component.scss']
 })
 export class FieldsComponent {
+    @Input() boardType: string;
+    types = boardTypes;
     constructor() {
     }
 }

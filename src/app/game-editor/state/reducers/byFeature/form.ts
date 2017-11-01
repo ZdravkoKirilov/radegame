@@ -1,14 +1,16 @@
 import {ActionReducer, combineReducers} from '@ngrx/store';
 
-import {resourcesReducer, charactersReducer, metadataReducer, triviaReducer, fieldsReducer} from './exports';
+import {resourcesReducer, charactersReducer, metadataReducer, triviaReducer, fieldsReducer, mapReducer} from './exports';
 import {GameEditorForm} from '../../../models/index';
+import * as actionTypes from '../../actions/actionTypes';
 
 const reducers: GameEditorForm = {
     metadata: metadataReducer,
     characters: charactersReducer,
     resources: resourcesReducer,
     trivia: triviaReducer,
-    fields: fieldsReducer
+    fields: fieldsReducer,
+    map: mapReducer
 };
 
 const reducer: ActionReducer<GameEditorForm> = combineReducers(reducers);
@@ -17,4 +19,16 @@ function gameEditorFormReducer(state: any, action: any) {
     return reducer(state, action);
 }
 
-export {gameEditorFormReducer};
+function gameEditorFormMetareducer(anyReducer: ActionReducer<any>): any {
+    return function newReducer(state, action) {
+        if (action.type === actionTypes.CLEAR_FORM) {
+            state = {
+                ...state,
+                form: undefined
+            };
+        }
+        return anyReducer(state, action);
+    };
+}
+
+export {gameEditorFormReducer, gameEditorFormMetareducer};

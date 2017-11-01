@@ -1,0 +1,22 @@
+<div [ngClass]="{'hidden': showEditor}">
+    <rg-map-toolbar
+            (addBackground)="addBackground.emit($event)"
+            (removeBackground)="removeBackground.emit()"
+            (addField)="showFieldEditor()"
+    ></rg-map-toolbar>
+    <div class="canvas-wrapper" #canvasWrapper>
+        <canvas #canvas id="fCanvas"></canvas>
+    </div>
+
+    <ng-container>
+        <rg-map-field
+                *ngFor="let field of fields"
+                [image]="field.image"
+                [fCanvas]="fCanvas"
+        >
+
+        </rg-map-field>
+    </ng-container>
+</div>
+
+<rg-smart-field-editor *ngIf="showEditor" (save)="hideFieldEditor()" (cancel)="hideFieldEditor()"></rg-smart-field-editor>

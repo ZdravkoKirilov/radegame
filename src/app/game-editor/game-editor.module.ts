@@ -12,6 +12,7 @@ import {IndexComponent} from './index/index.component';
 
 import {routes} from './routing';
 import {reducers} from './state/reducers/index';
+import {metaReducers} from './state/reducers/index';
 
 import {NgMaterialModule} from '../ng-material/ng-material.module';
 import {GameElementsModule} from '../game-elements/game-elements.module';
@@ -47,13 +48,18 @@ import {GridFieldComponent} from './components/Field/Grid/grid-field/grid-field.
 import {SmartGridEditorComponent} from './containers/smart-grid-editor/smart-grid-editor.component';
 import {SmartFieldEditorComponent} from './containers/smart-field-editor/smart-field-editor.component';
 import {SmartLaunchComponent} from './containers/smart-launch/smart-launch.component';
-import { GamesListComponent } from './components/Launch/games-list/games-list.component';
+import {GamesListComponent} from './components/Launch/games-list/games-list.component';
+import {MapEditorComponent} from './components/Field/Map/map-editor/map-editor.component';
+import {SmartMapEditorComponent} from './containers/smart-map-editor/smart-map-editor.component';
+import {MapFieldComponent} from './components/Field/Map/map-field/map-field.component';
+import {MapToolbarComponent} from './components/Field/Map/map-toolbar/map-toolbar.component';
+import {SmartFieldsComponent} from './containers/smart-fields/smart-fields.component';
 
 @NgModule({
     imports: [
         CommonModule,
         SharedModule,
-        StoreModule.forFeature(FEATURE_NAME, reducers),
+        StoreModule.forFeature(FEATURE_NAME, reducers, {metaReducers}),
         EffectsModule.forRoot([
             GameEditEffectsService
         ]),
@@ -77,7 +83,12 @@ import { GamesListComponent } from './components/Launch/games-list/games-list.co
         EmptySlotComponent, GridFieldComponent, GridEditorComponent, SmartGridEditorComponent,
         SmartFieldEditorComponent,
         SmartLaunchComponent,
-        GamesListComponent
+        GamesListComponent,
+        MapEditorComponent,
+        SmartMapEditorComponent,
+        MapFieldComponent,
+        MapToolbarComponent,
+        SmartFieldsComponent
     ]
 })
 export class GameEditorModule {

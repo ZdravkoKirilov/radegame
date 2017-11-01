@@ -1,4 +1,4 @@
-import { DropzoneConfigInterface } from 'ngx-dropzone-wrapper';
+import {DropzoneConfigInterface} from 'ngx-dropzone-wrapper';
 
 export const FEATURE_NAME = 'editor';
 
@@ -10,3 +10,10 @@ export const DROPZONE_CONFIG: DropzoneConfigInterface = {
     autoProcessQueue: false,
     maxFiles: 1
 };
+
+export const FABRIC_CANVAS_CONFIG = (data: { width: number, height: number }) => (
+    {
+        ...data,
+        allowTouchScrolling: true,
+    }
+);

@@ -1,0 +1,9 @@
+<div>
+    <button mat-button [color]="data?.buttonColor" (click)="browseImage()">
+        <ng-content></ng-content>
+    </button>
+
+    <form class="hidden" #form>
+        <input type="file" #filePicker (change)="handleImage($event)"/>
+    </form>
+</div>

@@ -7,10 +7,12 @@ import {GameBoards} from '../../game-mechanics/configs/game-boards';
 import {Abilities} from '../../game-mechanics/configs/abilities';
 import {Movements} from '../../game-mechanics/configs/movements';
 import {UpdateEditorAssetsAction} from '../state/actions/byFeature/assetActions';
+import {ClearFormAction} from '../state/actions/byFeature/formActions';
 import {selectRouterParam} from '../../core/state/reducers/selectors';
 import {selectGame} from '../state/reducers/selectors';
 import {Game} from '../../game-mechanics/models/index';
 import {ROUTER_PARAMS} from '../../shared/config/config';
+import {boardTypes} from '../../game-mechanics/configs/game-boards';
 
 @Component({
     selector: 'rg-index',
@@ -26,6 +28,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
+        this.store.dispatch(new ClearFormAction());
         this.storeSub = this.store.subscribe(state => {
             const gameName = selectRouterParam(ROUTER_PARAMS.GAME_NAME)(state);
             const game: Game = selectGame(gameName)(state);
@@ -35,7 +38,8 @@ export class IndexComponent implements OnInit, OnDestroy {
                     supportedAbilities: this.gameBoards[game.boardType].supportedAbilities,
                     abilities: Abilities,
                     gameBoards: GameBoards,
-                    movements: Movements
+                    movements: Movements,
+                    boardType: <boardTypes>game.boardType
                 }));
                 this.boardType = game.boardType;
             }

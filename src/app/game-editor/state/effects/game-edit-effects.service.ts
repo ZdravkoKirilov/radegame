@@ -61,11 +61,17 @@ export class GameEditEffectsService {
         })
         .mergeMap((res: any[]) => {
             const field: BoardField = res[0];
-            const fieldWithCoords: GridFieldPayload = {
-                data: field,
-                coords: res[1]
-            };
-            return [new SaveFieldSuccessAction(field), new AddGridFieldAction(fieldWithCoords)];
+            const coords = res[1];
+            if (coords) {
+                const fieldWithCoords: GridFieldPayload = {
+                    data: field,
+                    coords
+                };
+                return [new SaveFieldSuccessAction(field), new AddGridFieldAction(fieldWithCoords)];
+            } else {
+                return [new SaveFieldSuccessAction(field)];
+            }
+
         })
         .catch(() => {
             return of(new SaveFieldFailAction());
