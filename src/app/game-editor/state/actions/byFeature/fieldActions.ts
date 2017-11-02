@@ -23,6 +23,26 @@ export class SaveFieldFailAction implements Action {
     readonly type = actionTypes.SAVE_FIELD_FAIL;
 }
 
+export class DeleteFieldAction implements Action {
+    constructor(public payload: BoardField) {
+    }
+
+    readonly type = actionTypes.DELETE_FIELD;
+}
+
+export class DeleteFieldSuccessAction implements Action {
+    constructor(public payload: BoardField) {
+    }
+
+    readonly type = actionTypes.DELETE_FIELD_SUCCESS;
+}
+
+export class DeleteFieldFailAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.DELETE_FIELD_FAIL;
+}
+
+
 export class AddGridRowAction implements Action {
     readonly payload = null;
     readonly type = actionTypes.ADD_GRID_ROW;
@@ -65,6 +85,9 @@ export type Actions =
     | SaveFieldAction
     | SaveFieldSuccessAction
     | SaveFieldFailAction
+    | DeleteFieldAction
+    | DeleteFieldSuccessAction
+    | DeleteFieldFailAction
     | AddGridRowAction
     | AddGridColumnAction
     | RemoveGridRowAction

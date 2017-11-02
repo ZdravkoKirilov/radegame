@@ -4,14 +4,15 @@
             (removeBackground)="removeBackground.emit()"
             (addField)="showFieldEditor()"
     ></rg-map-toolbar>
-    <div class="canvas-wrapper" #canvasWrapper>
+    <div class="canvas-wrapper" #canvasWrapper tabindex="0">
         <canvas #canvas id="fCanvas"></canvas>
     </div>
 
     <ng-container>
         <rg-map-field
                 *ngFor="let field of fields"
-                [image]="field.image"
+                [data]="field"
+                [mapFieldSettings]="canvasItems[field.id]"
                 [fCanvas]="fCanvas"
         >
 
@@ -19,4 +20,10 @@
     </ng-container>
 </div>
 
-<rg-smart-field-editor *ngIf="showEditor" (save)="hideFieldEditor()" (cancel)="hideFieldEditor()"></rg-smart-field-editor>
+<rg-smart-field-editor *ngIf="showEditor"
+                       (save)="hideFieldEditor()"
+                       (cancel)="hideFieldEditor()"
+                       [field]="activeObject"
+>
+
+</rg-smart-field-editor>

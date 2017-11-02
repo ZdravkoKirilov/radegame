@@ -1,6 +1,9 @@
 <rg-map-editor
         (addBackground)="addBackground($event)"
         (removeBackground)="removeBackground()"
+        (saveMapCoords)="saveMapField($event)"
+        (deleteMapField)="deleteField($event)"
         [canvasImage]="canvasImage | async"
         [fields]="fields | async"
+        [canvasItems]="canvasItems | async"
 ></rg-map-editor>

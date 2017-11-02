@@ -17,3 +17,8 @@ export const FABRIC_CANVAS_CONFIG = (data: { width: number, height: number }) =>
         allowTouchScrolling: true,
     }
 );
+
+export const KEYCODES = {
+    Enter: 13,
+    Delete: 46
+};

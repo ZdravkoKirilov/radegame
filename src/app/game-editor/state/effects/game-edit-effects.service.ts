@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
 
 import {GameEditService} from '../../../shared/services/game-edit.service';
-import {Character, BoardField, Resource, Trivia, Game} from '../../../game-mechanics/models/index';
+import {Character, BoardField, Resource, Trivia, Game, MapFieldSettings} from '../../../game-mechanics/models/index';
 import {GridFieldPayload} from '../../models/index';
 import * as actionTypes from '../actions/actionTypes';
 import {
@@ -12,7 +12,7 @@ import {
 } from '../actions/byFeature/characterActions';
 
 import {
-    SaveFieldSuccessAction, SaveFieldFailAction, AddGridFieldAction, Actions as FieldAction
+    SaveFieldSuccessAction, SaveFieldFailAction, AddGridFieldAction, Actions as FieldAction, DeleteFieldSuccessAction, DeleteFieldFailAction
 } from '../actions/byFeature/fieldActions';
 
 import {
@@ -28,12 +28,15 @@ import {
     Actions as GameLauncherAction
 } from '../actions/byFeature/launcherActions';
 
+import {SaveMapFieldFailAction, SaveMapFieldSuccessAction, MapActions} from '../actions/byFeature/mapActions';
+
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/observable/forkJoin';
+
 
 @Injectable()
 export class GameEditEffectsService {
@@ -75,6 +78,30 @@ export class GameEditEffectsService {
         })
         .catch(() => {
             return of(new SaveFieldFailAction());
+        });
+
+    @Effect() deleteField: Observable<any> = this.actions$
+        .ofType(actionTypes.DELETE_FIELD)
+        .mergeMap((action: FieldAction) => {
+            return this.api.deleteBoardField(action.payload);
+        })
+        .map((res: BoardField) => {
+            return new DeleteFieldSuccessAction(res);
+        })
+        .catch(() => {
+            return of(new DeleteFieldFailAction());
+        });
+
+    @Effect() saveMapField: Observable<any> = this.actions$
+        .ofType(actionTypes.SAVE_MAP_FIELD)
+        .mergeMap((action: MapActions) => {
+            return this.api.saveBoardMapField(action.payload);
+        })
+        .map((res: MapFieldSettings) => {
+            return new SaveMapFieldSuccessAction(res);
+        })
+        .catch(() => {
+            return of(new SaveMapFieldFailAction());
         });
 
     @Effect() saveResource: Observable<any> = this.actions$

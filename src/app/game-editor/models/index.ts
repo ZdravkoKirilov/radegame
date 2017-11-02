@@ -7,10 +7,11 @@ import {
     Resource,
     Character,
     Trivia,
-    BoardField
+    BoardField,
+    MapFieldSettings
 } from '../../game-mechanics/models/index';
-import { Grid } from '../../game-mechanics/models/BoardField';
-import { boardTypes } from '../../game-mechanics/configs/game-boards';
+import {Grid} from '../../game-mechanics/models/BoardField';
+import {boardTypes} from '../../game-mechanics/configs/game-boards';
 
 export interface GamesList {
     items: {
@@ -64,8 +65,10 @@ export interface Trivias {
 
 export interface Map {
     canvas?: {
-        image?: string
+        image?: string;
     };
+    items?: { [key: string]: MapFieldSettings };
+    lastInsert?: MapFieldSettings;
 }
 
 export interface GameEditorForm {

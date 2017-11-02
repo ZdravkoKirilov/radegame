@@ -1,14 +1,14 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { Store } from '@ngrx/store';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {Store} from '@ngrx/store';
 
-import { AppState } from '../../../core/state/index';
-import { BaseControl } from '../../../dynamic-forms/models/Base';
-import { BoardField } from '../../../game-mechanics/models/index';
-import { GridFieldPayload } from '../../models/index';
-import { FieldCoord } from '../../models/index';
-import { FIELD_DEF } from '../../configs/form-definitions';
-import { SaveFieldAction } from '../../state/actions/byFeature/fieldActions';
+import {AppState} from '../../../core/state/index';
+import {BaseControl} from '../../../dynamic-forms/models/Base';
+import {BoardField} from '../../../game-mechanics/models/index';
+import {GridFieldPayload} from '../../models/index';
+import {FieldCoord} from '../../models/index';
+import {FIELD_DEF} from '../../configs/form-definitions';
+import {SaveFieldAction} from '../../state/actions/byFeature/fieldActions';
 
 @Component({
     selector: 'rg-smart-field-editor',
@@ -27,6 +27,12 @@ export class SmartFieldEditorComponent implements OnInit {
     }
 
     handleSave(field: BoardField) {
+        if (this.field && this.field.id) {
+            field = {
+                ...field,
+                id: this.field.id
+            };
+        }
         const payload: GridFieldPayload = {
             coords: this.fieldCoord,
             data: field

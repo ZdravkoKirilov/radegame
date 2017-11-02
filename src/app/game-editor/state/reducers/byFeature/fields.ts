@@ -27,6 +27,15 @@ export function fieldsReducer(state: BoardFields = initialState, action: Actions
                 lastInsert: action.payload
 
             };
+        case actionTypes.DELETE_FIELD_SUCCESS:
+            const newItems = {...state.items};
+            delete newItems[action.payload.id];
+            return {
+                ...state,
+                items: {
+                    ...newItems
+                }
+            };
         case actionTypes.ADD_GRID_FIELD:
             const withAddedField = [...state.grid];
             withAddedField[action.payload.coords.x][action.payload.coords.y] = action.payload.data.id;

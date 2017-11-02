@@ -4,8 +4,10 @@ import * as actionTypes from '../../actions/actionTypes';
 
 const initialState: Map = {
     canvas: {
-        image: null
-    }
+        image: null,
+    },
+    items: {},
+    lastInsert: null
 };
 
 export function mapReducer(state: Map = initialState, action: MapActions): Map {
@@ -14,6 +16,15 @@ export function mapReducer(state: Map = initialState, action: MapActions): Map {
             return {
                 ...state,
                 ...action.payload
+            };
+        case actionTypes.SAVE_MAP_FIELD_SUCCESS:
+            return {
+                ...state,
+                items: {
+                    ...state.items,
+                    [action.payload.fieldId]: action.payload,
+                },
+                lastInsert: action.payload
             };
         default:
             return state;

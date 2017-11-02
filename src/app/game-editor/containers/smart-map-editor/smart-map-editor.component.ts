@@ -3,10 +3,11 @@ import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 
 import {AppState} from '../../../core/state/index';
-import {UpdateMapAction} from '../../state/actions/byFeature/mapActions';
+import {UpdateMapAction, SaveMapFieldAction} from '../../state/actions/byFeature/mapActions';
+import {DeleteFieldAction} from '../../state/actions/byFeature/fieldActions';
 import {Map} from '../../models/index';
-import { BoardField } from '../../../game-mechanics/models/index';
-import {selectCanvasImage, selectFieldsAsArray} from '../../state/reducers/selectors';
+import {BoardField, MapFieldSettings} from '../../../game-mechanics/models/index';
+import {selectCanvasImage, selectFieldsAsArray, selectCanvasItems} from '../../state/reducers/selectors';
 
 @Component({
     selector: 'rg-smart-map-editor',
@@ -16,8 +17,17 @@ import {selectCanvasImage, selectFieldsAsArray} from '../../state/reducers/selec
 export class SmartMapEditorComponent implements OnInit {
     canvasImage: Observable<string>;
     fields: Observable<BoardField[]>;
+    canvasItems: Observable<{ [key: string]: MapFieldSettings }>;
 
     constructor(private store: Store<AppState>) {
+    }
+
+    saveMapField(payload: MapFieldSettings) {
+        this.store.dispatch(new SaveMapFieldAction(payload));
+    }
+
+    deleteField(payload: BoardField) {
+        this.store.dispatch(new DeleteFieldAction(payload));
     }
 
     addBackground(image) {
@@ -43,5 +53,6 @@ export class SmartMapEditorComponent implements OnInit {
     ngOnInit() {
         this.canvasImage = this.store.map(state => selectCanvasImage(state));
         this.fields = this.store.map(state => selectFieldsAsArray(state));
+        this.canvasItems = this.store.map(state => selectCanvasItems(state));
     }
 }

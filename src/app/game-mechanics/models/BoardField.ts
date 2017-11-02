@@ -10,3 +10,12 @@ export interface BoardFieldList {
 }
 
 export type Grid = any[][];
+
+export interface MapFieldSettings {
+    id?: string|number;
+    width: string|number;
+    height: string|number;
+    top: string|number;
+    left: string|number;
+    fieldId: string|number;
+}
