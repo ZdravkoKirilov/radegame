@@ -51,7 +51,6 @@ export class SmartMapEditorComponent implements OnInit {
         const from = elems[0];
         const to = elems[1];
         if (from && to) {
-            debugger;
             const payload: MapPath = {from, to};
             this.store.dispatch(new SaveMapPathAction(payload));
         }
