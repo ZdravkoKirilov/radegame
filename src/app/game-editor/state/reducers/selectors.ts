@@ -1,10 +1,9 @@
 import {FEATURE_NAME} from '../../configs/config';
-import {GameEditorFeature, GamesList} from '../../models/index';
+import {GameEditorFeature} from '../../models/index';
 import {createSelector, createFeatureSelector} from '@ngrx/store';
-import {Movement, Game} from '../../../game-mechanics/models/index';
 import {Option} from '../../../dynamic-forms/models/Base';
-import {Grid} from '../../../game-mechanics/models/index';
-import {BoardField, BoardFieldList, MapFieldSettings} from '../../../game-mechanics/models/BoardField';
+import {BoardField, BoardFieldList, MapFieldSettings, Grid, Movement, Game} from '../../../game-mechanics/models/index';
+import {Map} from '../../models/index';
 
 export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -41,11 +40,11 @@ export const selectFieldsAsArray = createSelector(selectFeature, (state: GameEdi
 });
 
 export const selectFieldsGrid = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.form.fields.grid;
+    return state.form.grid;
 });
 
 export const selectGridWithInnerItems = createSelector(selectFieldsGrid, selectFields, (grid: Grid, items: BoardFieldList) => {
-    return [...grid].map(innerArr => {
+    return [...grid.matrix].map(innerArr => {
         return [...innerArr].map(elem => {
             return items[elem] || null;
         });
@@ -76,5 +75,17 @@ export const selectCanvasImage = createSelector(selectFeature, (state: GameEdito
 
 export const selectCanvasItems = createSelector(selectFeature, (state: GameEditorFeature): { [key: string]: MapFieldSettings } => {
     return state.form.map.items;
+});
+
+export const selectFieldEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
+    return state.form.fields.showFieldEditor;
+});
+
+export const getSelectedField = createSelector(selectFeature, (state: GameEditorFeature): BoardField => {
+    return state.form.fields.items[state.form.fields.selectedField];
+});
+
+export const selectPathCreationMode = createSelector(selectFeature, (state: GameEditorFeature): Map => {
+    return state.form.map.pathCreationMode;
 });
 

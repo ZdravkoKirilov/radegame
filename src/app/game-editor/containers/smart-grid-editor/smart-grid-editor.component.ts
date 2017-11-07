@@ -13,7 +13,7 @@ import {
     RemoveGridRowAction,
     RemoveGridColumnAction,
     RemoveGridFieldAction
-} from '../../state/actions/byFeature/fieldActions';
+} from '../../state/actions/byFeature/gridActions';
 
 @Component({
     selector: 'rg-smart-grid-editor',

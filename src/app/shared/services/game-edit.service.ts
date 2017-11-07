@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 
-import {Trivia, BoardField, Character, Resource, Game, MapFieldSettings} from '../../game-mechanics/models/index';
+import {Trivia, BoardField, Character, Resource, Game, MapFieldSettings, MapPath} from '../../game-mechanics/models/index';
 
 @Injectable()
 export class GameEditService {
@@ -30,7 +30,28 @@ export class GameEditService {
         });
     }
 
-    saveBoardMapField(data: MapFieldSettings): Observable<MapFieldSettings> {
+    saveMapField(data: MapFieldSettings): Observable<MapFieldSettings> {
+        return of({
+            id: new Date().getTime(),
+            ...data
+        });
+    }
+
+    deleteMapField(data: MapFieldSettings): Observable<MapFieldSettings> {
+        return of({
+            id: new Date().getTime(),
+            ...data
+        });
+    }
+
+    saveMapPath(data: MapPath): Observable<MapPath> {
+        return of({
+            id: new Date().getTime(),
+            ...data
+        });
+    }
+
+    deleteMapPath(data: MapPath): Observable<MapPath> {
         return of({
             id: new Date().getTime(),
             ...data

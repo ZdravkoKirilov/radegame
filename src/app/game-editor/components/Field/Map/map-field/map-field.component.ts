@@ -1,39 +1,40 @@
-import {Component, OnInit, OnChanges, OnDestroy, SimpleChanges, Input} from '@angular/core';
+import {Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy} from '@angular/core';
 
-import {fabric} from 'fabric';
 import {BoardField, MapFieldSettings} from '../../../../../game-mechanics/models/index';
+import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
+import {FabricObject} from '../../../../../shared/models/FabricObject';
 
 @Component({
     selector: 'rg-map-field',
     templateUrl: './map-field.component.html',
-    styleUrls: ['./map-field.component.scss']
+    styleUrls: ['./map-field.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MapFieldComponent implements OnInit, OnChanges, OnDestroy {
-    @Input() fCanvas: any;
+export class MapFieldComponent implements OnInit, OnDestroy {
     @Input() data: BoardField;
     @Input() mapFieldSettings: MapFieldSettings;
     private elem: any;
 
-    constructor() {
+    constructor(private rs: RenderingService) {
     }
 
-    ngOnInit() {
+    async ngOnInit() {
         const options = this.mapFieldSettings;
         const initialSettings = options || {
             width: 100,
             height: 100
         };
-        fabric.Image.fromURL(this.data.image, (img) => {
-            this.elem = img;
-            this.elem.itemId = this.data.id;
-            this.fCanvas.add(img);
-            this.fCanvas.renderAll();
-        }, initialSettings);
+        try {
+            const obj: FabricObject = await this.rs.createImage(this.data.image, initialSettings);
+            obj.itemId = this.data.id;
+            this.elem = obj;
+            this.rs.addObject(this.elem);
+        } catch (err) {
+            console.log(err);
+        }
     }
-    ngOnChanges(c: SimpleChanges) {
-        this.fCanvas.renderAll();
-    }
+
     ngOnDestroy() {
-        this.fCanvas.remove(this.elem);
+        this.rs.removeObject(this.elem);
     }
 }

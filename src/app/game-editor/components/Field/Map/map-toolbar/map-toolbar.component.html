@@ -5,4 +5,7 @@
 <button mat-button color="warn" (click)="removeBackground.emit()">Remove background image</button>
 <button mat-button color="primary" (click)="addField.emit()">Add field</button>
 
+<button *ngIf="!pathCreationMode" mat-button (click)="enterPathCreationMode.emit()">Enter path creation mode</button>
+<button *ngIf="pathCreationMode" mat-button (click)="exitPathCreationMode.emit()">Exit path creation mode</button>
+
 

@@ -1,6 +1,7 @@
 import {ActionReducer, combineReducers} from '@ngrx/store';
 
-import {resourcesReducer, charactersReducer, metadataReducer, triviaReducer, fieldsReducer, mapReducer} from './exports';
+import {resourcesReducer, charactersReducer, metadataReducer,
+    triviaReducer, fieldsReducer, mapReducer, gridReducer} from './exports';
 import {GameEditorForm} from '../../../models/index';
 import * as actionTypes from '../../actions/actionTypes';
 
@@ -10,7 +11,8 @@ const reducers: GameEditorForm = {
     resources: resourcesReducer,
     trivia: triviaReducer,
     fields: fieldsReducer,
-    map: mapReducer
+    map: mapReducer,
+    grid: gridReducer
 };
 
 const reducer: ActionReducer<GameEditorForm> = combineReducers(reducers);

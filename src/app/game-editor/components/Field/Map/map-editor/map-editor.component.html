@@ -1,8 +1,11 @@
-<div [ngClass]="{'hidden': showEditor}">
+<div [ngClass]="{'hidden': showFieldEditor}">
     <rg-map-toolbar
             (addBackground)="addBackground.emit($event)"
             (removeBackground)="removeBackground.emit()"
-            (addField)="showFieldEditor()"
+            (addField)="handleFieldEditorToggle(true)"
+            (enterPathCreationMode)="togglePathCreation.emit(true)"
+            (exitPathCreationMode)="togglePathCreation.emit(false)"
+            [pathCreationMode]="pathCreationMode"
     ></rg-map-toolbar>
     <div class="canvas-wrapper" #canvasWrapper tabindex="0">
         <canvas #canvas id="fCanvas"></canvas>
@@ -13,17 +16,16 @@
                 *ngFor="let field of fields"
                 [data]="field"
                 [mapFieldSettings]="canvasItems[field.id]"
-                [fCanvas]="fCanvas"
         >
 
         </rg-map-field>
     </ng-container>
 </div>
 
-<rg-smart-field-editor *ngIf="showEditor"
-                       (save)="hideFieldEditor()"
-                       (cancel)="hideFieldEditor()"
-                       [field]="activeObject"
+<rg-smart-field-editor *ngIf="showFieldEditor"
+                       (save)="handleFieldEditorToggle(false)"
+                       (cancel)="handleFieldEditorToggle(false)"
+                       [field]="selectedField"
 >
 
 </rg-smart-field-editor>

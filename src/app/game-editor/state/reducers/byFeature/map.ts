@@ -7,7 +7,11 @@ const initialState: Map = {
         image: null,
     },
     items: {},
-    lastInsert: null
+    paths: {},
+    siblingsList: {},
+    lastInsert: null,
+    lastDelete: null,
+    pathCreationMode: false
 };
 
 export function mapReducer(state: Map = initialState, action: MapActions): Map {
@@ -24,7 +28,35 @@ export function mapReducer(state: Map = initialState, action: MapActions): Map {
                     ...state.items,
                     [action.payload.fieldId]: action.payload,
                 },
-                lastInsert: action.payload
+                lastInsert: action.payload.fieldId
+            };
+        case actionTypes.DELETE_MAP_FIELD_SUCCESS:
+            const newItems = {...state.items};
+            delete newItems[action.payload.fieldId];
+            return {
+                ...state,
+                lastDelete: state.items[action.payload.fieldId],
+                items: {...newItems}
+            };
+        case actionTypes.TOGGLE_PATH_CREATION_MODE:
+            return {
+                ...state,
+                pathCreationMode: action.payload
+            };
+        case actionTypes.SAVE_MAP_PATH_SUCCESS:
+            return {
+                ...state,
+                paths: {
+                    ...state.paths,
+                    [action.payload.id]: action.payload
+                }
+            };
+        case actionTypes.DELETE_MAP_PATH_SUCCESS:
+            const newPaths = {...state.items};
+            delete newPaths[action.payload.id];
+            return {
+                ...state,
+                paths: {...newPaths}
             };
         default:
             return state;
