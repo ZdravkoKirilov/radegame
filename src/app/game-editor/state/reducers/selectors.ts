@@ -59,14 +59,18 @@ export const selectGamesIndexed = createSelector(selectFeature, (state: GameEdit
     return state.games.items;
 });
 
-export const selectGame = function (gameName) {
+export const selectGameById = function (gameId: number) {
     return createSelector(selectGamesIndexed, (games: any): Game => {
-        return games[gameName];
+        return games[gameId];
     });
 };
 
-export const selectBoardType = createSelector(selectFeature, (state: GameEditorFeature): string => {
-    return state.assets.boardType;
+export const selectGame = createSelector(selectFeature, (state: GameEditorFeature): Game => {
+    return state.assets.game;
+});
+
+export const selectBoardType = createSelector(selectGame, (game: Game): string => {
+    return game ? game.boardType : null;
 });
 
 export const selectCanvasImage = createSelector(selectFeature, (state: GameEditorFeature): string => {

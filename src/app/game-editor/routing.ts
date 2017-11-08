@@ -3,6 +3,7 @@ import {Routes} from '@angular/router';
 import {IndexComponent} from './index/index.component';
 import {SmartLaunchComponent} from './containers/smart-launch/smart-launch.component';
 import {ROUTER_PARAMS} from '../shared/config/config';
+import { GameResolverService } from './guards/game-resolver.service';
 
 export const routes: Routes = [
     {
@@ -15,12 +16,15 @@ export const routes: Routes = [
         },
     },
     {
-        path: `games/editor/:${ROUTER_PARAMS.GAME_NAME}`,
+        path: `games/editor/:${ROUTER_PARAMS.GAME_ID}`,
         component: IndexComponent,
         pathMatch: 'full',
         canActivate: [],
         data: {
             title: 'Radegast: setup a new game'
         },
+        resolve: {
+            game: GameResolverService
+        }
     }
 ];

@@ -27,6 +27,9 @@ import {SaveTriviaSuccessAction, SaveTriviaFailAction, Actions as TriviaAction} 
 import {
     CreateGameSuccessAction,
     CreateGameFailAction,
+    GetGamesSuccessAction,
+    GetGamesFailAction,
+    GetGamesAction,
     Actions as GameLauncherAction
 } from '../actions/byFeature/launcherActions';
 
@@ -178,10 +181,21 @@ export class GameEditEffectsService {
         .mergeMap((action: GameLauncherAction) => {
             return this.api.saveGame(action.payload);
         })
-        .map((res: Game) => {
-            return new CreateGameSuccessAction(res);
+        .mergeMap((res: Game) => {
+            return [new CreateGameSuccessAction(res)];
         })
         .catch(() => {
             return of(new CreateGameFailAction());
+        });
+    @Effect() getGames: Observable<any> = this.actions$
+        .ofType(actionTypes.GET_GAMES)
+        .mergeMap(() => {
+            return this.api.getGames();
+        })
+        .map((res: Game[]) => {
+            return new GetGamesSuccessAction(res);
+        })
+        .catch(() => {
+            return of(new GetGamesFailAction());
         });
 }

@@ -11,6 +11,7 @@ import {Option} from '../../../dynamic-forms/models/Base';
 import {GAME_LAUNCH_DEF} from '../../configs/form-definitions';
 import {CreateGameAction} from '../../state/actions/byFeature/launcherActions';
 import {selectGames} from '../../state/reducers/selectors';
+import {GetGamesAction} from '../../state/actions/byFeature/launcherActions';
 
 @Component({
     selector: 'rg-smart-launch',
@@ -30,6 +31,7 @@ export class SmartLaunchComponent implements OnInit {
     }
 
     ngOnInit() {
+        this.store.dispatch(new GetGamesAction());
         setTimeout(() => {
             const boardTypes: Option[] = Object
                 .values(GameBoards)

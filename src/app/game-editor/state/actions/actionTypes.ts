@@ -35,6 +35,10 @@ export const CREATE_GAME = 'CREATE_GAME';
 export const CREATE_GAME_SUCCESS = 'CREATE_GAME_SUCCESS';
 export const CREATE_GAME_FAIL = 'CREATE_GAME_FAIL';
 
+export const GET_GAMES = 'GET_GAMES';
+export const GET_GAMES_SUCCESS = 'GET_GAMES_SUCCESS';
+export const GET_GAMES_FAIL = 'GET_GAMES_FAIL';
+
 export const UPDATE_MAP = 'UPDATE_MAP';
 
 export const SAVE_MAP_FIELD = 'SAVE_MAP_FIELD';

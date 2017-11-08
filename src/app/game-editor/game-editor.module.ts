@@ -18,6 +18,7 @@ import {NgMaterialModule} from '../ng-material/ng-material.module';
 import {GameElementsModule} from '../game-elements/game-elements.module';
 import {DynamicFormsModule} from '../dynamic-forms/dynamic-forms.module';
 import {RenderingService} from '../game-mechanics/services/rendering.service';
+import {GameResolverService} from './guards/game-resolver.service';
 
 import {GeneralSettingsComponent} from './components/general-settings/general-settings.component';
 import {ResourcesComponent} from './components/Resource/resources/resources.component';
@@ -75,7 +76,8 @@ import {SmartFieldsComponent} from './containers/smart-fields/smart-fields.compo
         RouterModule
     ],
     providers: [
-        RenderingService
+        RenderingService,
+        GameResolverService
     ],
     declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent,
         FieldsComponent, TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent,

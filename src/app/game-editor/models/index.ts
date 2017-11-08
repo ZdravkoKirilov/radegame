@@ -28,6 +28,7 @@ export interface GameEditorAssets {
     abilities?: AbilityList;
     movements?: MovementsList;
     boardType?: boardTypes;
+    game?: Game;
 }
 
 export interface GridFieldPayload {
