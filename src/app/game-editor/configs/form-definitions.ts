@@ -45,7 +45,7 @@ export function FIELD_DEF(resources: Option[]): BaseControl<any>[] {
             name: 'image',
             controlType: controlTypes.IMAGE_BROWSER,
             label: 'Choose field image',
-            required: false
+            required: false,
         }
     ];
 }

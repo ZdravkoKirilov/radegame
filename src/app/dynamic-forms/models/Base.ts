@@ -13,7 +13,6 @@ export abstract class BaseControl<T> {
     required?: boolean;
     order?: number;
     controlType?: string;
-    returnType?: string;
     options?: Option[];
     childControls?: BaseControl<T>[];
     multiple?: boolean;
@@ -31,7 +30,6 @@ export abstract class BaseControl<T> {
         this.controlType = options.controlType || '';
         this.hint = options.hint || '';
         this.errorMessage = options.errorMessage || '';
-        this.returnType = options.returnType || '';
         this.options = options.options || [];
         this.multiple = !!options.multiple;
         this.min = options.min || null;

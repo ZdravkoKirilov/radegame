@@ -2,7 +2,8 @@ export interface BoardField {
     id?: number;
     name?: string;
     description?: string;
-    image?: string;
+    image?: any;
+    game?: number;
 }
 
 export interface BoardFieldList {

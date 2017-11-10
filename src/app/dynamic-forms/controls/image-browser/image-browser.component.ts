@@ -1,7 +1,7 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
+import {FormGroup} from '@angular/forms';
 
-import { BaseControl } from '../../models/Base';
+import {BaseControl} from '../../models/Base';
 
 @Component({
     selector: 'rg-image-browser',
@@ -10,33 +10,22 @@ import { BaseControl } from '../../models/Base';
 })
 export class ImageBrowserComponent implements OnInit {
 
-    readonly returnTypes = {
-        BASE64: 'base64'
-    };
     @Input() form: FormGroup;
     @Input() data: BaseControl<string>;
     @Output() change: EventEmitter<BaseControl<any>> = new EventEmitter();
 
-    config = { clickable: true, addRemoveLinks: true };
+    config = {clickable: true, addRemoveLinks: true};
     prepopulatedImage?: string;
 
     imageAdded(file) {
         if (file) {
+            this.prepopulatedImage = null;
             const reader = new FileReader();
+            reader.readAsDataURL(file);
             reader.onloadend = () => {
-                this.prepopulatedImage = null;
-                this.change.emit({
-                    [this.data.name]: reader.result
-                });
+                const payload = {[this.data.name]: reader.result};
+                this.change.emit(payload);
             };
-            switch (this.data.returnType) {
-                case this.returnTypes.BASE64:
-                    reader.readAsDataURL(file);
-                    break;
-                default:
-                    reader.readAsDataURL(file);
-                    break;
-            }
         }
     }
 

@@ -1,6 +1,8 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
 
+import {decode} from 'base64-arraybuffer';
+
 import {GameEditService} from '../../../shared/services/game-edit.service';
 import {Character, BoardField, Resource, Trivia, Game, MapFieldSettings, MapPath} from '../../../game-mechanics/models/index';
 import {GridFieldPayload} from '../../models/index';
@@ -29,7 +31,6 @@ import {
     CreateGameFailAction,
     GetGamesSuccessAction,
     GetGamesFailAction,
-    GetGamesAction,
     Actions as GameLauncherAction
 } from '../actions/byFeature/launcherActions';
 
@@ -80,10 +81,7 @@ export class GameEditEffectsService {
             const field: BoardField = res[0];
             const coords = res[1];
             if (coords) {
-                const fieldWithCoords: GridFieldPayload = {
-                    data: field,
-                    coords
-                };
+                const fieldWithCoords: GridFieldPayload = {data: field, coords};
                 return [new SaveFieldSuccessAction(field), new AddGridFieldAction(fieldWithCoords)];
             } else {
                 return [new SaveFieldSuccessAction(field)];

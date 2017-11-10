@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Trivia, BoardField, Character, Resource, Game, MapFieldSettings, MapPath} from '../../game-mechanics/models/index';
 import {API_URLS} from '../config/config';
@@ -13,13 +13,6 @@ export class GameEditService {
     }
 
     saveGameTrivia(data: Trivia): Observable<Trivia> {
-        return of({
-            id: new Date().getTime(),
-            ...data
-        });
-    }
-
-    saveBoardField(data: BoardField): Observable<BoardField> {
         return of({
             id: new Date().getTime(),
             ...data
@@ -72,6 +65,10 @@ export class GameEditService {
             id: new Date().getTime(),
             ...data
         });
+    }
+
+    saveBoardField(data: BoardField): Observable<BoardField> {
+        return this.http.post(API_URLS.FIELDS(data.game), data);
     }
 
     saveGame(data: Game): Observable<Game> {

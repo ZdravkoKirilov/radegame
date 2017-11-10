@@ -1,5 +1,5 @@
 export interface Game {
-    id?: string|number;
+    id?: number;
     title?: string;
     boardType?: string;
     published?: boolean;

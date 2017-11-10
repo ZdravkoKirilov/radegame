@@ -15,7 +15,8 @@ export class ImagePickerComponent {
     @ViewChild('form') form: ElementRef;
 
     readonly returnTypes = {
-        BASE64: 'base64'
+        BASE64: 'base64',
+        BLOB: 'blob'
     };
 
     browseImage() {
@@ -27,18 +28,10 @@ export class ImagePickerComponent {
         const file = event.currentTarget.files[0];
         if (file) {
             const reader = new FileReader();
+            reader.readAsDataURL(file);
             reader.onloadend = () => {
                 this.change.emit(reader.result);
-                this.form.nativeElement.reset();
             };
-            switch (this.data.returnType) {
-                case this.returnTypes.BASE64:
-                    reader.readAsDataURL(file);
-                    break;
-                default:
-                    reader.readAsDataURL(file);
-                    break;
-            }
         }
     }
 
