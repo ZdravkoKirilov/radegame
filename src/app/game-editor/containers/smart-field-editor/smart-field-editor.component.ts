@@ -38,12 +38,8 @@ export class SmartFieldEditorComponent implements OnInit, OnDestroy {
             };
         }
         field.game = this.game.id;
-        const payload: GridFieldPayload = {
-            coords: this.fieldCoord,
-            data: field
-        };
 
-        this.store.dispatch(new SaveFieldAction(payload));
+        this.store.dispatch(new SaveFieldAction(field));
         this.save.emit(field);
     }
 
