@@ -2,10 +2,10 @@ import {
     Component, ViewChild, ElementRef, ChangeDetectionStrategy,
     OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges
 } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 
-import {BoardField, MapFieldSettings} from '../../../../../game-mechanics/models/index';
-import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
+import { BoardField, MapFieldSettings } from '../../../../../game-mechanics/models/index';
+import { RenderingService } from '../../../../../game-mechanics/services/rendering.service';
 
 @Component({
     selector: 'rg-map-editor',
@@ -18,7 +18,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
     @Output() addBackground: EventEmitter<any> = new EventEmitter();
     @Output() removeBackground: EventEmitter<any> = new EventEmitter();
-    @Output() saveMapField: EventEmitter<MapFieldSettings> = new EventEmitter();
+    @Output() saveMapField: EventEmitter<BoardField> = new EventEmitter();
     @Output() deleteMapField: EventEmitter<any> = new EventEmitter();
     @Output() selectField: EventEmitter<number> = new EventEmitter();
     @Output() deselectField: EventEmitter<number> = new EventEmitter();
@@ -45,14 +45,17 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     attachListeners() {
-        const {canvas} = this;
+        const { canvas } = this;
         const objAdded = canvas.objectAdded
             .subscribe((obj: MapFieldSettings) => {
-                this.saveMapField.emit(obj);
+
             });
         const objModified = canvas.objectModified
             .subscribe((obj: MapFieldSettings) => {
-                this.saveMapField.emit(obj);
+                const field = this.fields.find(elem => elem.id === obj.fieldId);
+                const mapItem = { ...obj };
+                delete mapItem.fieldId;
+                this.saveMapField.emit({ ...field, asMapItem: mapItem });
             });
         const onEnter = canvas.onEnterKey
             .subscribe(() => {
@@ -63,7 +66,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
         const onDelete = canvas.onDeleteKey
             .subscribe(() => {
                 this.deleteMapField.emit({
-                    field: {...this.selectedField},
+                    field: { ...this.selectedField },
                     mapField: this.canvasItems[this.selectedField.id]
                 });
             });

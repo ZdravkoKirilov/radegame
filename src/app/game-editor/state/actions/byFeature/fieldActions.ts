@@ -1,10 +1,10 @@
 import * as actionTypes from '../actionTypes';
-import {Action} from '@ngrx/store';
-import {GridFieldPayload} from '../../../models/index';
-import {BoardField} from '../../../../game-mechanics/models/BoardField';
+import { Action } from '@ngrx/store';
+import { GridFieldPayload } from '../../../models/index';
+import { BoardField, MapFieldSettings } from '../../../../game-mechanics/models/BoardField';
 
 export class SaveFieldAction implements Action {
-    constructor(public payload: GridFieldPayload) {
+    constructor(public payload: BoardField) {
     }
 
     readonly type = actionTypes.SAVE_FIELD;
@@ -41,6 +41,25 @@ export class DeleteFieldFailAction implements Action {
     readonly type = actionTypes.DELETE_FIELD_FAIL;
 }
 
+export class GetFieldsAction implements Action {
+    constructor(public payload: { gameId: number }) {
+    }
+
+    readonly type = actionTypes.GET_FIELDS;
+}
+
+export class GetFieldsSuccessAction implements Action {
+    constructor(public payload: BoardField[]) {
+    }
+
+    readonly type = actionTypes.GET_FIELDS_SUCCESS;
+}
+
+export class GetFieldsFailAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.GET_FIELDS_FAIL;
+}
+
 export class ToggleFieldEditorAction implements Action {
     constructor(public payload: boolean) {
     }
@@ -55,6 +74,13 @@ export class ChangeSelectedFieldAction implements Action {
     readonly type = actionTypes.CHANGE_SELECTED_FIELD;
 }
 
+export class SaveMapFieldAction implements Action {
+    constructor(public payload: MapFieldSettings) {
+    }
+
+    readonly type = actionTypes.SAVE_MAP_FIELD;
+}
+
 export type Actions =
     | SaveFieldAction
     | SaveFieldSuccessAction
@@ -62,5 +88,9 @@ export type Actions =
     | DeleteFieldAction
     | DeleteFieldSuccessAction
     | DeleteFieldFailAction
+    | GetFieldsAction
+    | GetFieldsSuccessAction
+    | GetFieldsFailAction
     | ToggleFieldEditorAction
-    | ChangeSelectedFieldAction;
+    | ChangeSelectedFieldAction
+    | SaveMapFieldAction;

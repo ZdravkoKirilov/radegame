@@ -48,7 +48,7 @@ export class RenderingService {
                 height: target.height,
                 left: 0,
                 top: 0,
-                fieldId: target.itemId
+                fieldId: target.fieldId
             };
             this.objectAdded.next(payload);
         });
@@ -61,7 +61,7 @@ export class RenderingService {
                 height,
                 left: target.left,
                 top: target.top,
-                fieldId: target.itemId
+                fieldId: target.fieldId
             };
             this.objectModified.next(payload);
         });
@@ -73,7 +73,7 @@ export class RenderingService {
                 height: target.getHeight(),
                 left: target.left,
                 top: target.top,
-                fieldId: target.itemId
+                fieldId: target.fieldId
             };
             this.objectSelected.next(payload);
         });

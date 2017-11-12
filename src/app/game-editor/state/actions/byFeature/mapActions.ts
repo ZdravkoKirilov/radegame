@@ -1,8 +1,8 @@
 import * as actionTypes from '../actionTypes';
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
-import {Map} from '../../../models/index';
-import {MapFieldSettings, MapPath} from '../../../../game-mechanics/models/index';
+import { Map } from '../../../models/index';
+import { MapFieldSettings, MapPath } from '../../../../game-mechanics/models/index';
 
 export class UpdateMapAction implements Action {
     constructor(public payload: Map) {

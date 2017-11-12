@@ -4,6 +4,7 @@ export interface BoardField {
     description?: string;
     image?: any;
     game?: number;
+    asMapItem?: MapFieldSettings|string;
 }
 
 export interface BoardFieldList {

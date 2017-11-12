@@ -1,8 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {Observable} from 'rxjs/Observable';
+import { Component, OnInit } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs/Observable';
 
-import {AppState} from '../../../core/state/index';
+import { AppState } from '../../../core/state/index';
 import {
     UpdateMapAction,
     SaveMapFieldAction,
@@ -10,9 +10,12 @@ import {
     SaveMapPathAction,
     TogglePathCreationModeAction
 } from '../../state/actions/byFeature/mapActions';
-import {DeleteFieldAction, ToggleFieldEditorAction, ChangeSelectedFieldAction} from '../../state/actions/byFeature/fieldActions';
-import {Map} from '../../models/index';
-import {BoardField, MapFieldSettings, MapPath} from '../../../game-mechanics/models/index';
+import {
+    SaveFieldAction, DeleteFieldAction,
+    ToggleFieldEditorAction, ChangeSelectedFieldAction
+} from '../../state/actions/byFeature/fieldActions';
+import { Map } from '../../models/index';
+import { BoardField, MapFieldSettings, MapPath } from '../../../game-mechanics/models/index';
 import {
     selectCanvasImage,
     selectFieldsAsArray,
@@ -51,7 +54,7 @@ export class SmartMapEditorComponent implements OnInit {
         const from = elems[0];
         const to = elems[1];
         if (from && to) {
-            const payload: MapPath = {from, to};
+            const payload: MapPath = { from, to };
             this.store.dispatch(new SaveMapPathAction(payload));
         }
     }
@@ -60,8 +63,8 @@ export class SmartMapEditorComponent implements OnInit {
         this.store.dispatch(new ChangeSelectedFieldAction(id));
     }
 
-    saveMapField(payload: MapFieldSettings) {
-        this.store.dispatch(new SaveMapFieldAction(payload));
+    saveMapField(payload: BoardField) {
+        this.store.dispatch(new SaveFieldAction(payload));
     }
 
     deleteField(payload: {
@@ -74,13 +77,13 @@ export class SmartMapEditorComponent implements OnInit {
 
     addBackground(image) {
         if (image) {
-            const payload: Map = {canvas: {image}};
+            const payload: Map = { canvas: { image } };
             this.store.dispatch(new UpdateMapAction(payload));
         }
     }
 
     removeBackground() {
-        const payload: Map = {canvas: {image: null}};
+        const payload: Map = { canvas: { image: null } };
         this.store.dispatch(new UpdateMapAction(payload));
     }
 

@@ -8,6 +8,6 @@ export const API_URLS = {
     GAMES: `${BASE_URL}/games/`,
     FIELDS: (gameId: number, fieldId?: number) => {
         const base = `${BASE_URL}/games/${gameId}/fields/`;
-        return fieldId ? `${base}/${fieldId}` : base;
+        return fieldId ? `${base}${fieldId}/` : base;
     }
 };

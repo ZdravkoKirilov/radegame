@@ -1,6 +1,7 @@
-import {Actions} from '../../actions/byFeature/fieldActions';
+import { Actions } from '../../actions/byFeature/fieldActions';
 import * as actionTypes from '../../actions/actionTypes';
-import {BoardFields} from '../../../models/index';
+import { BoardFields } from '../../../models/index';
+import { BoardField, MapFieldSettings, BoardFieldList } from '../../../../game-mechanics/models/index';
 
 const initialState: BoardFields = {
     items: {},
@@ -23,7 +24,7 @@ export function fieldsReducer(state: BoardFields = initialState, action: Actions
 
             };
         case actionTypes.DELETE_FIELD_SUCCESS:
-            const newItems = {...state.items};
+            const newItems = { ...state.items };
             delete newItems[action.payload.id];
             return {
                 ...state,
@@ -32,6 +33,27 @@ export function fieldsReducer(state: BoardFields = initialState, action: Actions
                     ...newItems
                 }
             };
+        case actionTypes.GET_FIELDS_SUCCESS:
+            const fields = action.payload.reduce((acc: BoardFieldList, elem: BoardField) => {
+                acc[elem.id] = elem;
+                return acc;
+            }, {});
+            return {
+                ...state,
+                items: fields
+            };
+        // case actionTypes.SAVE_MAP_FIELD:
+        //     const updatedField: BoardField = state.items[action.payload.fieldId];
+        //     const mapField: MapFieldSettings = action.payload;
+        //     delete mapField.fieldId;
+        //     updatedField.asMapItem = mapField;
+        //     return {
+        //         ...state,
+        //         items: {
+        //             ...state.items,
+        //             [action.payload.fieldId]: updatedField
+        //         }
+        //     };
         case actionTypes.TOGGLE_FIELD_EDITOR:
             return {
                 ...state,

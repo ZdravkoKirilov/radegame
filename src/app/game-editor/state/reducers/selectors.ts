@@ -89,7 +89,7 @@ export const getSelectedField = createSelector(selectFeature, (state: GameEditor
     return state.form.fields.items[state.form.fields.selectedField];
 });
 
-export const selectPathCreationMode = createSelector(selectFeature, (state: GameEditorFeature): Map => {
+export const selectPathCreationMode = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.map.pathCreationMode;
 });
 

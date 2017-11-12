@@ -1,11 +1,11 @@
-import {Injectable} from '@angular/core';
-import {Actions, Effect} from '@ngrx/effects';
+import { Injectable } from '@angular/core';
+import { Actions, Effect } from '@ngrx/effects';
 
-import {decode} from 'base64-arraybuffer';
+import { decode } from 'base64-arraybuffer';
 
-import {GameEditService} from '../../../shared/services/game-edit.service';
-import {Character, BoardField, Resource, Trivia, Game, MapFieldSettings, MapPath} from '../../../game-mechanics/models/index';
-import {GridFieldPayload} from '../../models/index';
+import { GameEditService } from '../../../shared/services/game-edit.service';
+import { Character, BoardField, Resource, Trivia, Game, MapFieldSettings, MapPath } from '../../../game-mechanics/models/index';
+import { GridFieldPayload } from '../../models/index';
 import * as actionTypes from '../actions/actionTypes';
 import {
     Actions as CharacterAction,
@@ -14,10 +14,11 @@ import {
 } from '../actions/byFeature/characterActions';
 
 import {
-    SaveFieldSuccessAction, SaveFieldFailAction, Actions as FieldAction, DeleteFieldSuccessAction, DeleteFieldFailAction
+    SaveFieldSuccessAction, SaveFieldFailAction, Actions as FieldAction, DeleteFieldSuccessAction, DeleteFieldFailAction, GetFieldsAction,
+    GetFieldsSuccessAction, GetFieldsFailAction
 } from '../actions/byFeature/fieldActions';
 
-import {AddGridFieldAction} from '../actions/byFeature/gridActions';
+import { AddGridFieldAction } from '../actions/byFeature/gridActions';
 
 import {
     SaveResourceSuccessAction,
@@ -25,7 +26,7 @@ import {
     Actions as ResourceAction
 } from '../actions/byFeature/resourceActions';
 
-import {SaveTriviaSuccessAction, SaveTriviaFailAction, Actions as TriviaAction} from '../actions/byFeature/triviaActions';
+import { SaveTriviaSuccessAction, SaveTriviaFailAction, Actions as TriviaAction } from '../actions/byFeature/triviaActions';
 import {
     CreateGameSuccessAction,
     CreateGameFailAction,
@@ -46,12 +47,11 @@ import {
     MapActions
 } from '../actions/byFeature/mapActions';
 
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/forkJoin';
 
 @Injectable()
 export class GameEditEffectsService {
@@ -73,23 +73,46 @@ export class GameEditEffectsService {
 
     @Effect() saveField: Observable<any> = this.actions$
         .ofType(actionTypes.SAVE_FIELD)
-        .map((action: FieldAction) => action.payload)
-        .mergeMap((payload: GridFieldPayload) => {
-            return Observable.forkJoin([this.api.saveBoardField(payload.data), of(payload.coords)]);
-        })
-        .mergeMap((res: any[]) => {
-            const field: BoardField = res[0];
-            const coords = res[1];
-            if (coords) {
-                const fieldWithCoords: GridFieldPayload = {data: field, coords};
-                return [new SaveFieldSuccessAction(field), new AddGridFieldAction(fieldWithCoords)];
-            } else {
-                return [new SaveFieldSuccessAction(field)];
+        .map((action: FieldAction) => {
+            const payload: BoardField = action.payload;
+            if (payload.image && payload.image.startsWith('http://')) {
+                delete payload.image;
             }
-
+            if (payload.asMapItem) {
+                payload.asMapItem = JSON.stringify(payload.asMapItem);
+            }
+            return payload;
+        })
+        .mergeMap((payload: BoardField) => {
+            return this.api.saveBoardField(payload);
+        })
+        .mergeMap((res: BoardField) => {
+            const field: BoardField = res;
+            if (field.asMapItem) {
+                field.asMapItem = JSON.parse((field.asMapItem as any));
+            }
+            return [new SaveFieldSuccessAction(field as any)];
         })
         .catch(() => {
             return of(new SaveFieldFailAction());
+        });
+
+    @Effect() getFields: Observable<any> = this.actions$
+        .ofType(actionTypes.GET_FIELDS)
+        .mergeMap((action: GetFieldsAction) => {
+            return this.api.getFields(action.payload.gameId);
+        })
+        .map((res: BoardField[]) => {
+            const formatted = res.map(elem => {
+                if (elem.asMapItem) {
+                    elem.asMapItem = JSON.parse((elem.asMapItem as any));
+                }
+                return elem;
+            });
+            return new GetFieldsSuccessAction(formatted);
+        })
+        .catch(() => {
+            return of(new GetFieldsFailAction());
         });
 
     @Effect() deleteField: Observable<any> = this.actions$
@@ -104,17 +127,17 @@ export class GameEditEffectsService {
             return of(new DeleteFieldFailAction());
         });
 
-    @Effect() saveMapField: Observable<any> = this.actions$
-        .ofType(actionTypes.SAVE_MAP_FIELD)
-        .mergeMap((action: MapActions) => {
-            return this.api.saveMapField(action.payload);
-        })
-        .map((res: MapFieldSettings) => {
-            return new SaveMapFieldSuccessAction(res);
-        })
-        .catch(() => {
-            return of(new SaveMapFieldFailAction());
-        });
+    // @Effect() saveMapField: Observable<any> = this.actions$
+    //     .ofType(actionTypes.SAVE_MAP_FIELD)
+    //     .mergeMap((action: MapActions) => {
+    //         return this.api.saveMapField(action.payload);
+    //     })
+    //     .map((res: MapFieldSettings) => {
+    //         return new SaveMapFieldSuccessAction(res);
+    //     })
+    //     .catch(() => {
+    //         return of(new SaveMapFieldFailAction());
+    //     });
     @Effect() deleteMapField: Observable<any> = this.actions$
         .ofType(actionTypes.DELETE_MAP_FIELD)
         .mergeMap((action: MapActions) => {

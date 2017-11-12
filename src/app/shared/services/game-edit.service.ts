@@ -1,10 +1,10 @@
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import {Trivia, BoardField, Character, Resource, Game, MapFieldSettings, MapPath} from '../../game-mechanics/models/index';
-import {API_URLS} from '../config/config';
+import { Trivia, BoardField, Character, Resource, Game, MapFieldSettings, MapPath } from '../../game-mechanics/models/index';
+import { API_URLS } from '../config/config';
 
 @Injectable()
 export class GameEditService {
@@ -68,18 +68,26 @@ export class GameEditService {
     }
 
     saveBoardField(data: BoardField): Observable<BoardField> {
-        return this.http.post(API_URLS.FIELDS(data.game), data);
+        if (data.id) {
+            return this.http.patch(API_URLS.FIELDS(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.FIELDS(data.game), data);
+        }
     }
 
     saveGame(data: Game): Observable<Game> {
         return this.http.post(API_URLS.GAMES, data);
     }
 
-    getGames(): Observable<Game[]> {
+    getGames(): Observable<any> {
         return this.http.get(API_URLS.GAMES);
     }
 
     getGame(id: number): Observable<Game> {
         return this.http.get(`${API_URLS.GAMES}${id}`);
+    }
+
+    getFields(gameId: number) {
+        return this.http.get(API_URLS.FIELDS(gameId));
     }
 }

@@ -5,7 +5,7 @@ import {resourcesReducer, charactersReducer, metadataReducer,
 import {GameEditorForm} from '../../../models/index';
 import * as actionTypes from '../../actions/actionTypes';
 
-const reducers: GameEditorForm = {
+const reducers = {
     metadata: metadataReducer,
     characters: charactersReducer,
     resources: resourcesReducer,
