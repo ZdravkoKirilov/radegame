@@ -1,7 +1,7 @@
 <rg-map-editor
         (addBackground)="addBackground($event)"
         (removeBackground)="removeBackground()"
-        (saveMapField)="saveMapField($event)"
+        (saveMapLocation)="saveMapLocation($event)"
         (deleteMapField)="deleteField($event)"
         (toggleFieldEditor)="toggleFieldEditor($event)"
         (togglePathCreation)="togglePathCreationMode($event)"
@@ -10,7 +10,7 @@
         (createPath)="createPath($event)"
         [canvasImage]="canvasImage | async"
         [fields]="fields | async"
-        [canvasItems]="canvasItems | async"
+        [mapLocations]="mapLocations | async"
         [showFieldEditor]="showFieldEditor | async"
         [selectedField]="selectedField | async"
         [pathCreationMode]="pathCreationMode | async"

@@ -23,7 +23,7 @@ export class ImageBrowserComponent implements OnInit {
             const reader = new FileReader();
             reader.readAsDataURL(file);
             reader.onloadend = () => {
-                const payload = {[this.data.name]: reader.result};
+                const payload = {[this.data.name]: file};
                 this.change.emit(payload);
             };
         }

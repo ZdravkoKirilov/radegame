@@ -6,7 +6,6 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../../core/state/index';
 import {BaseControl} from '../../../dynamic-forms/models/Base';
 import {BoardField, Game} from '../../../game-mechanics/models/index';
-import {GridFieldPayload} from '../../models/index';
 import {FieldCoord} from '../../models/index';
 import {FIELD_DEF} from '../../configs/form-definitions';
 import {SaveFieldAction} from '../../state/actions/byFeature/fieldActions';
@@ -32,13 +31,9 @@ export class SmartFieldEditorComponent implements OnInit, OnDestroy {
 
     handleSave(field: BoardField) {
         if (this.field && this.field.id) {
-            field = {
-                ...field,
-                id: this.field.id
-            };
+            field = {...field, id: this.field.id};
         }
         field.game = this.game.id;
-
         this.store.dispatch(new SaveFieldAction(field));
         this.save.emit(field);
     }

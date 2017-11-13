@@ -15,14 +15,14 @@
         <rg-map-field
                 *ngFor="let field of fields"
                 [data]="field"
+                [mapLocation]="mapLocations[field.id]"
         >
-
         </rg-map-field>
     </ng-container>
 </div>
 
 <rg-smart-field-editor *ngIf="showFieldEditor"
-                       (save)="handleFieldEditorToggle(false)"
+                       (save)="fieldWasSaved($event)"
                        (cancel)="handleFieldEditorToggle(false)"
                        [field]="selectedField"
 >

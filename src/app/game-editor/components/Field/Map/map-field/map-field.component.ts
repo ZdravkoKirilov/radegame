@@ -1,8 +1,8 @@
-import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
+import {Component, OnInit, OnDestroy, OnChanges, Input, ChangeDetectionStrategy, SimpleChanges} from '@angular/core';
 
-import { BoardField, MapFieldSettings } from '../../../../../game-mechanics/models/index';
-import { RenderingService } from '../../../../../game-mechanics/services/rendering.service';
-import { FabricObject } from '../../../../../shared/models/FabricObject';
+import {BoardField, MapLocation} from '../../../../../game-mechanics/models/index';
+import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
+import {FabricObject} from '../../../../../shared/models/FabricObject';
 
 @Component({
     selector: 'rg-map-field',
@@ -10,24 +10,26 @@ import { FabricObject } from '../../../../../shared/models/FabricObject';
     styleUrls: ['./map-field.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MapFieldComponent implements OnInit, OnDestroy {
+export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
     @Input() data: BoardField;
+    @Input() mapLocation: MapLocation;
     private elem: any;
 
     constructor(private rs: RenderingService) {
     }
 
+    // caused by simultataneous getFields() / getLocations() - this one should be handled by a preload guard in the future
+    // could be a "LoadGameResources" service: can be reused @ game run stage;
     async ngOnInit() {
-        const options = this.data.asMapItem;
-        const initialSettings = options || {
-            width: 100,
-            height: 100
-        };
         try {
-            const obj: FabricObject = await this.rs.createImage(this.data.image, (initialSettings as any));
-            obj.fieldId = this.data.id;
+            const obj: FabricObject = await this.rs.createImage(this.data.image);
+            const initialSettings = this.mapLocation || {width: 100, height: 100, top: 10, left: 10};
+            obj.field = this.data.id;
+            obj.game = this.data.game;
+            obj.id = this.mapLocation ? this.mapLocation.id : null;
             this.elem = obj;
             this.rs.addObject(this.elem);
+            this.rs.updateObject(this.elem, initialSettings);
         } catch (err) {
             console.log(err);
         }
@@ -35,5 +37,12 @@ export class MapFieldComponent implements OnInit, OnDestroy {
 
     ngOnDestroy() {
         this.rs.removeObject(this.elem);
+    }
+
+    ngOnChanges(c: SimpleChanges) {
+        const loc = c.mapLocation;
+        if (this.elem && loc && loc.currentValue && loc.currentValue !== loc.previousValue) {
+            this.rs.updateObject(this.elem, loc.currentValue);
+        }
     }
 }

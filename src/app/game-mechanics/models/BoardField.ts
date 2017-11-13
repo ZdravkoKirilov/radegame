@@ -4,7 +4,6 @@ export interface BoardField {
     description?: string;
     image?: any;
     game?: number;
-    asMapItem?: MapFieldSettings|string;
 }
 
 export interface BoardFieldList {
@@ -15,13 +14,14 @@ export interface Grid {
     matrix?: any[][];
 }
 
-export interface MapFieldSettings {
+export interface MapLocation {
     id?: number;
-    width: number;
-    height: number;
-    top: number;
-    left: number;
-    fieldId: number;
+    width?: number;
+    height?: number;
+    top?: number;
+    left?: number;
+    field?: number;
+    game?: number;
 }
 
 export interface MapPath {

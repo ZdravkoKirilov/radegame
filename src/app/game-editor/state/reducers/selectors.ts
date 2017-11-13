@@ -2,7 +2,7 @@ import {FEATURE_NAME} from '../../configs/config';
 import {GameEditorFeature} from '../../models/index';
 import {createSelector, createFeatureSelector} from '@ngrx/store';
 import {Option} from '../../../dynamic-forms/models/Base';
-import {BoardField, BoardFieldList, MapFieldSettings, Grid, Movement, Game} from '../../../game-mechanics/models/index';
+import {BoardField, BoardFieldList, MapLocation, Grid, Movement, Game} from '../../../game-mechanics/models/index';
 import {Map} from '../../models/index';
 
 export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
@@ -77,7 +77,7 @@ export const selectCanvasImage = createSelector(selectFeature, (state: GameEdito
     return state.form.map.canvas.image;
 });
 
-export const selectCanvasItems = createSelector(selectFeature, (state: GameEditorFeature): { [key: string]: MapFieldSettings } => {
+export const selectMapLocations = createSelector(selectFeature, (state: GameEditorFeature): { [key: string]: MapLocation } => {
     return state.form.map.items;
 });
 

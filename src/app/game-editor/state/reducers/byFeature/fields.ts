@@ -1,7 +1,7 @@
 import { Actions } from '../../actions/byFeature/fieldActions';
 import * as actionTypes from '../../actions/actionTypes';
 import { BoardFields } from '../../../models/index';
-import { BoardField, MapFieldSettings, BoardFieldList } from '../../../../game-mechanics/models/index';
+import { BoardField, BoardFieldList } from '../../../../game-mechanics/models/index';
 
 const initialState: BoardFields = {
     items: {},
@@ -42,18 +42,6 @@ export function fieldsReducer(state: BoardFields = initialState, action: Actions
                 ...state,
                 items: fields
             };
-        // case actionTypes.SAVE_MAP_FIELD:
-        //     const updatedField: BoardField = state.items[action.payload.fieldId];
-        //     const mapField: MapFieldSettings = action.payload;
-        //     delete mapField.fieldId;
-        //     updatedField.asMapItem = mapField;
-        //     return {
-        //         ...state,
-        //         items: {
-        //             ...state.items,
-        //             [action.payload.fieldId]: updatedField
-        //         }
-        //     };
         case actionTypes.TOGGLE_FIELD_EDITOR:
             return {
                 ...state,

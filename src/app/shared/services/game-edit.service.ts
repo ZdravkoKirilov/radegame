@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {Observable} from 'rxjs/Observable';
+import {of} from 'rxjs/observable/of';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 
-import { Trivia, BoardField, Character, Resource, Game, MapFieldSettings, MapPath } from '../../game-mechanics/models/index';
-import { API_URLS } from '../config/config';
+import {Trivia, BoardField, Character, Resource, Game, MapLocation, MapPath} from '../../game-mechanics/models/index';
+import {API_URLS} from '../config/config';
+import {toMultipartFormData} from '../utils/ToMultipartFormData';
 
 @Injectable()
 export class GameEditService {
@@ -13,26 +14,6 @@ export class GameEditService {
     }
 
     saveGameTrivia(data: Trivia): Observable<Trivia> {
-        return of({
-            id: new Date().getTime(),
-            ...data
-        });
-    }
-
-    deleteBoardField(data: BoardField): Observable<BoardField> {
-        return of({
-            ...data
-        });
-    }
-
-    saveMapField(data: MapFieldSettings): Observable<MapFieldSettings> {
-        return of({
-            id: new Date().getTime(),
-            ...data
-        });
-    }
-
-    deleteMapField(data: MapFieldSettings): Observable<MapFieldSettings> {
         return of({
             id: new Date().getTime(),
             ...data
@@ -67,12 +48,30 @@ export class GameEditService {
         });
     }
 
-    saveBoardField(data: BoardField): Observable<BoardField> {
+    saveMapLocation(data: MapLocation): Observable<MapLocation> {
         if (data.id) {
-            return this.http.patch(API_URLS.FIELDS(data.game, data.id), data);
+            return this.http.patch(API_URLS.LOCATIONS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.FIELDS(data.game), data);
+            return this.http.post(API_URLS.LOCATIONS(data.game), data);
         }
+    }
+
+    getMapLocations(gameId: number): Observable<MapLocation[]> {
+        return this.http.get(API_URLS.LOCATIONS(gameId));
+    }
+
+    saveBoardField(data: BoardField): Observable<BoardField> {
+        const formData = toMultipartFormData(data);
+        const options = {headers: new HttpHeaders({})};
+        if (data.id) {
+            return this.http.patch(API_URLS.FIELDS(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.FIELDS(data.game), formData, options);
+        }
+    }
+
+    deleteBoardField(data: BoardField) {
+        return this.http.delete(API_URLS.FIELDS(data.game, data.id));
     }
 
     saveGame(data: Game): Observable<Game> {

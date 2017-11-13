@@ -1,11 +1,10 @@
 import * as actionTypes from '../actionTypes';
 import {Action} from '@ngrx/store';
-import {GridFieldPayload} from '../../../models/index';
 import {BoardField} from '../../../../game-mechanics/models/BoardField';
 import {FieldCoord} from '../../../models/index';
 
 export class SaveFieldAction implements Action {
-    constructor(public payload: GridFieldPayload) {
+    constructor(public payload: any) {
     }
 
     readonly type = actionTypes.SAVE_FIELD;
@@ -68,7 +67,7 @@ export class RemoveGridColumnAction implements Action {
 }
 
 export class AddGridFieldAction implements Action {
-    constructor(public payload: GridFieldPayload) {
+    constructor(public payload: any) {
     }
 
     readonly type = actionTypes.ADD_GRID_FIELD;

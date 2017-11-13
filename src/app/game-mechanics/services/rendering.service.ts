@@ -4,7 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {fabric} from 'fabric';
 import {FABRIC_CANVAS_CONFIG, KEYCODES} from '../../game-editor/configs/config';
 import {WindowRefService} from '../../shared/services/window-ref.service';
-import {MapFieldSettings} from '../models/BoardField';
+import {MapLocation} from '../models/BoardField';
 import {ICanvasDimensions, Canvas, IObjectOptions, Object} from '@types/fabric';
 import {FabricObject} from '../../shared/models/FabricObject';
 
@@ -13,9 +13,9 @@ export class RenderingService {
 
     private stage: Canvas;
     private canvasWrapper: ElementRef;
-    public objectAdded: Subject<MapFieldSettings> = new Subject();
-    public objectModified: Subject<MapFieldSettings> = new Subject();
-    public objectSelected: Subject<MapFieldSettings> = new Subject();
+    public objectAdded: Subject<MapLocation> = new Subject();
+    public objectModified: Subject<MapLocation> = new Subject();
+    public objectSelected: Subject<MapLocation> = new Subject();
     public objectDeselected: Subject<number> = new Subject();
     public onEnterKey: Subject<any> = new Subject();
     public onDeleteKey: Subject<any> = new Subject();
@@ -39,7 +39,7 @@ export class RenderingService {
     }
 
     attachListeners() {
-        let payload: MapFieldSettings;
+        let payload: MapLocation;
         const {stage} = this;
         stage.on('object:added', (event) => {
             const target = (event.target as FabricObject);
@@ -48,7 +48,7 @@ export class RenderingService {
                 height: target.height,
                 left: 0,
                 top: 0,
-                fieldId: target.fieldId
+                field: target.field
             };
             this.objectAdded.next(payload);
         });
@@ -61,7 +61,9 @@ export class RenderingService {
                 height,
                 left: target.left,
                 top: target.top,
-                fieldId: target.fieldId
+                field: target.field,
+                game: target.game,
+                id: target.id
             };
             this.objectModified.next(payload);
         });
@@ -73,7 +75,7 @@ export class RenderingService {
                 height: target.getHeight(),
                 left: target.left,
                 top: target.top,
-                fieldId: target.fieldId
+                field: target.field
             };
             this.objectSelected.next(payload);
         });
@@ -95,7 +97,7 @@ export class RenderingService {
         });
     }
 
-    createImage(imageSrc: any, opts: IObjectOptions): Promise<FabricObject> {
+    createImage(imageSrc: any, opts: IObjectOptions = {}): Promise<FabricObject> {
         return new Promise((resolve, reject) => {
             const image: HTMLImageElement = document.createElement('img');
             image.src = imageSrc;
@@ -116,6 +118,11 @@ export class RenderingService {
 
     addObject(obj: Object) {
         this.stage.add(obj);
+        this.render();
+    }
+
+    updateObject(obj: Object, opts: IObjectOptions = {}) {
+        obj.set(opts);
         this.render();
     }
 

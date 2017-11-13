@@ -4,10 +4,10 @@ import {GameBoardTypes} from '../models/index';
 
 export const types = {
     BASIC_GRID: 'BASIC_GRID',
-    TERRITORY_MAP: 'TERRITORY_MAP'
+    MAP: 'MAP'
 };
 
-export type boardTypes = 'BASIC_GRID' | 'TERRITORY_MAP';
+export type boardTypes = 'BASIC_GRID' | 'MAP';
 
 export const GameBoards: GameBoardTypes = {
     [types.BASIC_GRID]: {
@@ -20,9 +20,9 @@ export const GameBoards: GameBoardTypes = {
             abilities.StealResource
         ]
     },
-    [types.TERRITORY_MAP]: {
+    [types.MAP]: {
         displayName: 'Territory Map',
-        id: types.TERRITORY_MAP,
+        id: types.MAP,
         allowedMovements: [moveTypes.Other],
         supportedAbilities: [
             abilities.GainResource,

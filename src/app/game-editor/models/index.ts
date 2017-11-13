@@ -8,7 +8,7 @@ import {
     Character,
     Trivia,
     BoardField,
-    MapFieldSettings,
+    MapLocation,
     MapPath,
     Grid
 } from '../../game-mechanics/models/index';
@@ -31,11 +31,6 @@ export interface GameEditorAssets {
     game?: Game;
 }
 
-export interface GridFieldPayload {
-    coords?: FieldCoord;
-    data: BoardField;
-}
-
 export interface BoardFields {
     items?: {
         [key: string]: BoardField
@@ -50,11 +45,11 @@ export interface Map {
     canvas?: {
         image?: string;
     };
-    items?: { [key: string]: MapFieldSettings };
+    items?: { [key: string]: MapLocation };
     paths?: { [key: string]: MapPath };
     siblingsList?: { [key: string]: number[] };
     lastInsert?: number;
-    lastDelete?: MapFieldSettings;
+    lastDelete?: MapLocation;
     pathCreationMode?: boolean;
 }
 

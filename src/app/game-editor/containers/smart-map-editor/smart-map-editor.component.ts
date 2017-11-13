@@ -4,22 +4,21 @@ import { Observable } from 'rxjs/Observable';
 
 import { AppState } from '../../../core/state/index';
 import {
+    SaveMapLocationAction,
     UpdateMapAction,
-    SaveMapFieldAction,
-    DeleteMapFieldAction,
     SaveMapPathAction,
     TogglePathCreationModeAction
 } from '../../state/actions/byFeature/mapActions';
 import {
-    SaveFieldAction, DeleteFieldAction,
+    DeleteFieldAction,
     ToggleFieldEditorAction, ChangeSelectedFieldAction
 } from '../../state/actions/byFeature/fieldActions';
 import { Map } from '../../models/index';
-import { BoardField, MapFieldSettings, MapPath } from '../../../game-mechanics/models/index';
+import { BoardField, MapLocation, MapPath } from '../../../game-mechanics/models/index';
 import {
     selectCanvasImage,
     selectFieldsAsArray,
-    selectCanvasItems,
+    selectMapLocations,
     selectFieldEditorToggleState,
     getSelectedField,
     selectPathCreationMode
@@ -33,7 +32,7 @@ import {
 export class SmartMapEditorComponent implements OnInit {
     canvasImage: Observable<string>;
     fields: Observable<BoardField[]>;
-    canvasItems: Observable<{ [key: string]: MapFieldSettings }>;
+    mapLocations: Observable<{ [key: string]: MapLocation }>;
     showFieldEditor: Observable<boolean>;
     selectedField: Observable<BoardField>;
     pathCreationMode: Observable<boolean>;
@@ -63,16 +62,12 @@ export class SmartMapEditorComponent implements OnInit {
         this.store.dispatch(new ChangeSelectedFieldAction(id));
     }
 
-    saveMapField(payload: BoardField) {
-        this.store.dispatch(new SaveFieldAction(payload));
+    saveMapLocation(payload: MapLocation) {
+        this.store.dispatch(new SaveMapLocationAction(payload));
     }
 
-    deleteField(payload: {
-        field: BoardField,
-        mapField: MapFieldSettings
-    }) {
-        this.store.dispatch(new DeleteFieldAction(payload.field));
-        this.store.dispatch(new DeleteMapFieldAction(payload.mapField));
+    deleteField(payload: BoardField) {
+        this.store.dispatch(new DeleteFieldAction(payload));
     }
 
     addBackground(image) {
@@ -90,7 +85,7 @@ export class SmartMapEditorComponent implements OnInit {
     ngOnInit() {
         this.canvasImage = this.store.map(state => selectCanvasImage(state));
         this.fields = this.store.map(state => selectFieldsAsArray(state));
-        this.canvasItems = this.store.map(state => selectCanvasItems(state));
+        this.mapLocations = this.store.map(state => selectMapLocations(state));
         this.showFieldEditor = this.store.map(state => selectFieldEditorToggleState(state));
         this.selectedField = this.store.map(state => getSelectedField(state));
         this.pathCreationMode = this.store.map(state => selectPathCreationMode(state));

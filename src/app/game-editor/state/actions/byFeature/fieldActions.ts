@@ -1,7 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { Action } from '@ngrx/store';
-import { GridFieldPayload } from '../../../models/index';
-import { BoardField, MapFieldSettings } from '../../../../game-mechanics/models/BoardField';
+import { BoardField, MapLocation } from '../../../../game-mechanics/models/index';
 
 export class SaveFieldAction implements Action {
     constructor(public payload: BoardField) {
@@ -74,13 +73,6 @@ export class ChangeSelectedFieldAction implements Action {
     readonly type = actionTypes.CHANGE_SELECTED_FIELD;
 }
 
-export class SaveMapFieldAction implements Action {
-    constructor(public payload: MapFieldSettings) {
-    }
-
-    readonly type = actionTypes.SAVE_MAP_FIELD;
-}
-
 export type Actions =
     | SaveFieldAction
     | SaveFieldSuccessAction
@@ -92,5 +84,4 @@ export type Actions =
     | GetFieldsSuccessAction
     | GetFieldsFailAction
     | ToggleFieldEditorAction
-    | ChangeSelectedFieldAction
-    | SaveMapFieldAction;
+    | ChangeSelectedFieldAction;

@@ -2,10 +2,10 @@ import {
     Component, ViewChild, ElementRef, ChangeDetectionStrategy,
     OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges
 } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import {Subscription} from 'rxjs/Subscription';
 
-import { BoardField, MapFieldSettings } from '../../../../../game-mechanics/models/index';
-import { RenderingService } from '../../../../../game-mechanics/services/rendering.service';
+import {BoardField, MapLocation} from '../../../../../game-mechanics/models/index';
+import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
 
 @Component({
     selector: 'rg-map-editor',
@@ -18,7 +18,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
     @Output() addBackground: EventEmitter<any> = new EventEmitter();
     @Output() removeBackground: EventEmitter<any> = new EventEmitter();
-    @Output() saveMapField: EventEmitter<BoardField> = new EventEmitter();
+    @Output() saveMapLocation: EventEmitter<MapLocation> = new EventEmitter();
     @Output() deleteMapField: EventEmitter<any> = new EventEmitter();
     @Output() selectField: EventEmitter<number> = new EventEmitter();
     @Output() deselectField: EventEmitter<number> = new EventEmitter();
@@ -28,7 +28,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() canvasImage: string;
     @Input() fields: BoardField[];
-    @Input() canvasItems: { [key: string]: MapFieldSettings } = {};
+    @Input() mapLocations: { [key: string]: MapLocation } = {};
     @Input() showFieldEditor: boolean;
     @Input() pathCreationMode: boolean;
     @Input() selectedField: BoardField;
@@ -39,23 +39,24 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     constructor(private canvas: RenderingService) {
     }
 
+    fieldWasSaved(field: BoardField) {
+        this.handleFieldEditorToggle(false);
+    }
+
     handleFieldEditorToggle(value) {
         this.deselectField.emit();
         this.toggleFieldEditor.emit(value);
     }
 
     attachListeners() {
-        const { canvas } = this;
+        const {canvas} = this;
         const objAdded = canvas.objectAdded
-            .subscribe((obj: MapFieldSettings) => {
+            .subscribe((obj: MapLocation) => {
 
             });
         const objModified = canvas.objectModified
-            .subscribe((obj: MapFieldSettings) => {
-                const field = this.fields.find(elem => elem.id === obj.fieldId);
-                const mapItem = { ...obj };
-                delete mapItem.fieldId;
-                this.saveMapField.emit({ ...field, asMapItem: mapItem });
+            .subscribe((obj: MapLocation) => {
+                this.saveMapLocation.emit(obj);
             });
         const onEnter = canvas.onEnterKey
             .subscribe(() => {
@@ -65,18 +66,15 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
             });
         const onDelete = canvas.onDeleteKey
             .subscribe(() => {
-                this.deleteMapField.emit({
-                    field: { ...this.selectedField },
-                    mapField: this.canvasItems[this.selectedField.id]
-                });
+                this.deleteMapField.emit(this.selectedField);
             });
         const onFieldSelect = canvas.objectSelected
-            .subscribe((obj: MapFieldSettings) => {
+            .subscribe((obj: MapLocation) => {
                 if (this.pathCreationMode) {
                     const selected = this.selectedField ? this.selectedField.id : null;
-                    this.createPath.emit([selected, obj.fieldId]);
+                    this.createPath.emit([selected, obj.field]);
                 }
-                this.selectField.emit(obj.fieldId);
+                this.selectField.emit(obj.field);
             });
         const onFieldDeselect = canvas.objectDeselected
             .subscribe(() => {
@@ -87,6 +85,10 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
         this.subs = [objAdded, objModified, onEnter,
             onDelete, onFieldSelect, onFieldDeselect];
+    }
+
+    hasLoadedLocations() {
+        return this.mapLocations && Object.keys(this.mapLocations).length;
     }
 
     ngOnInit() {

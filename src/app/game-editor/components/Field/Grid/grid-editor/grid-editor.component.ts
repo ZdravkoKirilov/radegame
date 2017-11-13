@@ -3,7 +3,6 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { Grid } from '../../../../../game-mechanics/models/BoardField';
 import { FieldCoord } from '../../../../models/index';
 import { BoardField } from '../../../../../game-mechanics/models/index';
-import { GridFieldPayload } from '../../../../models/index';
 
 @Component({
     selector: 'rg-grid-editor',
@@ -27,7 +26,7 @@ export class GridEditorComponent {
     constructor() {
     }
 
-    handleEditClick(payload: GridFieldPayload) {
+    handleEditClick(payload: any) {
         this.selectedField = payload.data;
         this.selectedCoord = payload.coords;
         this.handleShowEditor();
