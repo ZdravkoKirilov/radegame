@@ -16,7 +16,7 @@ import {
 declare const __karma__: any;
 declare const require: any;
 
-// Prevent Karma from running prematurely.
+// Prevent Karma fromLoc running prematurely.
 __karma__.loaded = function () {};
 
 // First, initialize the Angular testing environment.
@@ -28,5 +28,5 @@ getTestBed().initTestEnvironment(
 const context = require.context('./', true, /\.spec\.ts$/);
 // And load the modules.
 context.keys().map(context);
-// Finally, start Karma to run the tests.
+// Finally, start Karma toLoc run the tests.
 __karma__.start();

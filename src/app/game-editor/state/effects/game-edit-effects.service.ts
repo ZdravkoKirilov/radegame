@@ -4,7 +4,7 @@ import {Actions, Effect} from '@ngrx/effects';
 import {decode} from 'base64-arraybuffer';
 
 import {GameEditService} from '../../../shared/services/game-edit.service';
-import {Character, BoardField, Resource, Trivia, Game, MapLocation, MapPath} from '../../../game-mechanics/models/index';
+import {Character, BoardField, Resource, Trivia, Game, MapLocation, MapPath, Map} from '../../../game-mechanics/models/index';
 import * as actionTypes from '../actions/actionTypes';
 import {
     Actions as CharacterAction,
@@ -42,6 +42,12 @@ import {
     SaveMapPathFailAction,
     DeleteMapPathSuccessAction,
     DeleteMapPathFailAction,
+    GetMapPathsSuccessAction,
+    GetMapPathsFailAction,
+    SaveMapSuccessAction,
+    SaveMapFailAction,
+    GetMapSuccessAction,
+    GetMapFailAction,
     MapActions
 } from '../actions/byFeature/mapActions';
 
@@ -57,6 +63,34 @@ export class GameEditEffectsService {
 
     constructor(private actions$: Actions, private api: GameEditService) {
     }
+
+    @Effect() saveMap: Observable<any> = this.actions$
+        .ofType(actionTypes.SAVE_MAP)
+        .map((action: MapActions) => {
+            const payload: Map = action.payload;
+            return payload;
+        })
+        .mergeMap((payload: Map) => {
+            return this.api.saveMap(payload);
+        })
+        .mergeMap((res: Map) => {
+            return [new SaveMapSuccessAction(res)];
+        })
+        .catch(() => {
+            return of(new SaveMapFailAction());
+        });
+
+    @Effect() getMap: Observable<any> = this.actions$
+        .ofType(actionTypes.GET_MAP)
+        .mergeMap((action: MapActions) => {
+            return this.api.getMaps(action.payload.gameId);
+        })
+        .map((res: Map[]) => {
+            return new GetMapSuccessAction(res[0]);
+        })
+        .catch(() => {
+            return of(new GetMapFailAction());
+        });
 
     @Effect() saveField: Observable<any> = this.actions$
         .ofType(actionTypes.SAVE_FIELD)
@@ -114,7 +148,7 @@ export class GameEditEffectsService {
             return of(new SaveMapLocationFailAction());
         });
 
-    @Effect() getMapLocation: Observable<any> = this.actions$
+    @Effect() getMapLocations: Observable<any> = this.actions$
         .ofType(actionTypes.GET_MAP_LOCATIONS)
         .mergeMap((action: MapActions) => {
             return this.api.getMapLocations(action.payload.gameId);
@@ -149,16 +183,30 @@ export class GameEditEffectsService {
         .catch(() => {
             return of(new SaveMapPathFailAction());
         });
+
     @Effect() deleteMapPath: Observable<any> = this.actions$
         .ofType(actionTypes.DELETE_MAP_PATH)
         .mergeMap((action: MapActions) => {
-            return this.api.deleteMapPath(action.payload);
+            return Observable.forkJoin([of(action.payload), this.api.deleteMapPath(action.payload)]);
         })
-        .map((res: MapPath) => {
-            return new DeleteMapPathSuccessAction(res);
+        .mergeMap((res: any[]) => {
+            const path = res[0];
+            return [new DeleteMapPathSuccessAction(path)];
         })
         .catch(() => {
             return of(new DeleteMapPathFailAction());
+        });
+
+    @Effect() getMapPaths: Observable<any> = this.actions$
+        .ofType(actionTypes.GET_MAP_PATHS)
+        .mergeMap((action: MapActions) => {
+            return this.api.getPaths(action.payload.gameId);
+        })
+        .map((res: MapPath[]) => {
+            return new GetMapPathsSuccessAction(res);
+        })
+        .catch(() => {
+            return of(new GetMapPathsFailAction());
         });
 
     @Effect() saveResource: Observable<any> = this.actions$

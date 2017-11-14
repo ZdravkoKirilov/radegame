@@ -8,7 +8,7 @@ import {selectBoardType} from '../../state/reducers/selectors';
 import {selectRouterData} from '../../../core/state/reducers/selectors';
 import {Game} from '../../../game-mechanics/models/index';
 import {GetFieldsAction} from '../../state/actions/byFeature/fieldActions';
-import {GetMapLocationsAction} from '../../state/actions/byFeature/mapActions';
+import {GetMapLocationsAction, GetMapPathsAction, GetMapAction} from '../../state/actions/byFeature/mapActions';
 
 @Component({
     selector: 'rg-smart-fields',
@@ -33,6 +33,8 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
                     const payload = {gameId: game.id};
                     this.store.dispatch(new GetFieldsAction(payload));
                     this.store.dispatch(new GetMapLocationsAction(payload));
+                    this.store.dispatch(new GetMapPathsAction(payload));
+                    this.store.dispatch(new GetMapAction(payload));
                     this.game = game;
                 }
             });

@@ -19,6 +19,15 @@
         >
         </rg-map-field>
     </ng-container>
+
+    <ng-container *ngIf="fields.length">
+        <rg-map-path
+                *ngFor="let path of mapPaths"
+                [data]="path"
+                [mapLocations]="mapLocations"
+        >
+        </rg-map-path>
+    </ng-container>
 </div>
 
 <rg-smart-field-editor *ngIf="showFieldEditor"

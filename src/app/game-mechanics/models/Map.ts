@@ -1,0 +1,22 @@
+export interface Map {
+    id?: number;
+    image?: any;
+    game?: number;
+}
+
+export interface MapLocation {
+    id?: number;
+    top: number;
+    left: number;
+    width: number;
+    height: number;
+    field?: number;
+    game?: number;
+}
+
+export interface MapPath {
+    id?: number;
+    game?: number;
+    fromLoc?: number;
+    toLoc?: number;
+}

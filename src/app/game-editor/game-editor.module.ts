@@ -56,6 +56,7 @@ import {SmartMapEditorComponent} from './containers/smart-map-editor/smart-map-e
 import {MapFieldComponent} from './components/Field/Map/map-field/map-field.component';
 import {MapToolbarComponent} from './components/Field/Map/map-toolbar/map-toolbar.component';
 import {SmartFieldsComponent} from './containers/smart-fields/smart-fields.component';
+import { MapPathComponent } from './components/Field/Map/map-path/map-path.component';
 
 @NgModule({
     imports: [
@@ -94,7 +95,8 @@ import {SmartFieldsComponent} from './containers/smart-fields/smart-fields.compo
         SmartMapEditorComponent,
         MapFieldComponent,
         MapToolbarComponent,
-        SmartFieldsComponent
+        SmartFieldsComponent,
+        MapPathComponent
     ]
 })
 export class GameEditorModule {

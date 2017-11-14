@@ -28,8 +28,8 @@ export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
             obj.game = this.data.game;
             obj.id = this.mapLocation ? this.mapLocation.id : null;
             this.elem = obj;
-            this.rs.addObject(this.elem);
             this.rs.updateObject(this.elem, initialSettings);
+            this.rs.addObject(this.elem);
         } catch (err) {
             console.log(err);
         }

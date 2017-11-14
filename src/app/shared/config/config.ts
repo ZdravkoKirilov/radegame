@@ -13,5 +13,13 @@ export const API_URLS = {
     LOCATIONS: (gameId: number, locId?: number) => {
         const base = `${BASE_URL}/games/${gameId}/locations/`;
         return locId ? `${base}${locId}/` : base;
-    }
+    },
+    PATHS: (gameId: number, pathId?: number) => {
+        const base = `${BASE_URL}/games/${gameId}/paths/`;
+        return pathId ? `${base}${pathId}/` : base;
+    },
+    MAPS: (gameId: number, mapId?: number) => {
+        const base = `${BASE_URL}/games/${gameId}/maps/`;
+        return mapId ? `${base}${mapId}/` : base;
+    },
 };

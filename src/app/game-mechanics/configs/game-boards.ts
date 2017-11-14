@@ -21,7 +21,7 @@ export const GameBoards: GameBoardTypes = {
         ]
     },
     [types.MAP]: {
-        displayName: 'Territory Map',
+        displayName: 'Territory MapState',
         id: types.MAP,
         allowedMovements: [moveTypes.Other],
         supportedAbilities: [

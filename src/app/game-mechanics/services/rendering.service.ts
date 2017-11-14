@@ -4,8 +4,8 @@ import {Subject} from 'rxjs/Subject';
 import {fabric} from 'fabric';
 import {FABRIC_CANVAS_CONFIG, KEYCODES} from '../../game-editor/configs/config';
 import {WindowRefService} from '../../shared/services/window-ref.service';
-import {MapLocation} from '../models/BoardField';
-import {ICanvasDimensions, Canvas, IObjectOptions, Object} from '@types/fabric';
+import {MapLocation} from '../models/index';
+import {ICanvasDimensions, Canvas, IObjectOptions, Object, StaticCanvas} from '@types/fabric';
 import {FabricObject} from '../../shared/models/FabricObject';
 
 @Injectable()
@@ -13,10 +13,13 @@ export class RenderingService {
 
     private stage: Canvas;
     private canvasWrapper: ElementRef;
+    private background: StaticCanvas;
     public objectAdded: Subject<MapLocation> = new Subject();
     public objectModified: Subject<MapLocation> = new Subject();
     public objectSelected: Subject<MapLocation> = new Subject();
     public objectDeselected: Subject<number> = new Subject();
+    public pathSelected: Subject<number> = new Subject();
+    public pathDeselected: Subject<any> = new Subject();
     public onEnterKey: Subject<any> = new Subject();
     public onDeleteKey: Subject<any> = new Subject();
 
@@ -56,11 +59,13 @@ export class RenderingService {
             const target = (event.target as FabricObject);
             const height = target.getHeight();
             const width = target.getWidth();
+            const left = target.left;
+            const top = target.top;
             payload = {
-                width,
-                height,
-                left: target.left,
-                top: target.top,
+                width: parseInt((width as any), 10),
+                height: parseInt((height as any), 10),
+                left: parseInt((left as any), 10),
+                top: parseInt((top as any), 10),
                 field: target.field,
                 game: target.game,
                 id: target.id
@@ -70,17 +75,28 @@ export class RenderingService {
 
         stage.on('object:selected', (event) => {
             const target = (event.target as FabricObject);
-            payload = {
-                width: target.getWidth(),
-                height: target.getHeight(),
-                left: target.left,
-                top: target.top,
-                field: target.field
-            };
-            this.objectSelected.next(payload);
+            if (target.type === 'line') {
+                this.pathSelected.next(target.id);
+            } else {
+                const height = target.getHeight();
+                const width = target.getWidth();
+                const left = target.left;
+                const top = target.top;
+                payload = {
+                    width: parseInt((width as any), 10),
+                    height: parseInt((height as any), 10),
+                    left: parseInt((left as any), 10),
+                    top: parseInt((top as any), 10),
+                    field: target.field,
+                    game: target.game,
+                    id: target.id
+                };
+                this.objectSelected.next(payload);
+            }
         });
 
         stage.on('selection:cleared', () => {
+            this.pathDeselected.next(null);
             this.objectDeselected.next(null);
         });
 
@@ -94,6 +110,25 @@ export class RenderingService {
                 this.onDeleteKey.next(activeObject);
             }
 
+        });
+    }
+
+    createPath(coords: number[] = [250, 125, 350, 475]) {
+        return new Promise((resolve, reject) => {
+            try {
+                const elem = new fabric.Line(coords, {
+                    fill: '',
+                    stroke: 'lightblue',
+                    strokeWidth: 5,
+                    hasControls: false,
+                    lockMovementX: true,
+                    lockMovementY: true,
+                    opacity: .7
+                });
+                resolve(elem);
+            } catch (err) {
+                reject(err);
+            }
         });
     }
 
@@ -111,6 +146,34 @@ export class RenderingService {
         });
     }
 
+    calculatePathCoords(from: MapLocation, to: MapLocation): any {
+        let x1, x2, y1, y2;
+
+        x1 = from.left + from.width / 2;
+        y1 = from.top + from.height / 2;
+        x2 = to.left + to.width / 2;
+        y2 = to.top + to.height / 2;
+        return {x1, x2, y2, y1};
+    }
+
+    sendToBack(elem: FabricObject) {
+        if (elem) {
+            elem.sendToBack();
+        }
+    }
+
+    sendBackwards(elem: FabricObject) {
+        if (elem) {
+            elem.sendBackwards();
+        }
+    }
+
+    bringForward(elem: FabricObject) {
+        if (elem) {
+            elem.bringForward();
+        }
+    }
+
     removeObject(obj: FabricObject) {
         this.stage.remove(obj);
         this.render();
@@ -122,7 +185,16 @@ export class RenderingService {
     }
 
     updateObject(obj: Object, opts: IObjectOptions = {}) {
-        obj.set(opts);
+        const data = {...opts};
+        if ('width' in data) {
+            obj.setWidth(data.width);
+            delete data.width;
+        }
+        if ('height' in data) {
+            obj.setHeight(data.height);
+            delete data.height;
+        }
+        obj.set(data);
         this.render();
     }
 
@@ -139,15 +211,15 @@ export class RenderingService {
         if (stage) {
             stage.backgroundImage = null;
             stage
-                .setBackgroundImage('', stage.renderAll.bind(stage))
-                .setBackgroundImage(image, (img) => {
-                    this.setDimensions({
-                        width: img.width, height: img.height
-                    });
-                }, {
-                    originX: 'left',
-                    originY: 'top'
+                .setBackgroundImage('', stage.renderAll.bind(stage));
+            this.background = stage.setBackgroundImage(image, (img) => {
+                this.setDimensions({
+                    width: img.width, height: img.height
                 });
+            }, {
+                originX: 'left',
+                originY: 'top'
+            });
         }
         return this;
     }

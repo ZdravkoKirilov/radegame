@@ -2,8 +2,7 @@ import {FEATURE_NAME} from '../../configs/config';
 import {GameEditorFeature} from '../../models/index';
 import {createSelector, createFeatureSelector} from '@ngrx/store';
 import {Option} from '../../../dynamic-forms/models/Base';
-import {BoardField, BoardFieldList, MapLocation, Grid, Movement, Game} from '../../../game-mechanics/models/index';
-import {Map} from '../../models/index';
+import {BoardField, BoardFieldList, MapLocation, MapPath, Grid, Movement, Game} from '../../../game-mechanics/models/index';
 
 export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -81,6 +80,10 @@ export const selectMapLocations = createSelector(selectFeature, (state: GameEdit
     return state.form.map.items;
 });
 
+export const selectMapPaths = createSelector(selectFeature, (state: GameEditorFeature): MapPath[] => {
+    return Object.values(state.form.map.paths);
+});
+
 export const selectFieldEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.fields.showFieldEditor;
 });
@@ -89,7 +92,15 @@ export const getSelectedField = createSelector(selectFeature, (state: GameEditor
     return state.form.fields.items[state.form.fields.selectedField];
 });
 
+export const getSelectedPath = createSelector(selectFeature, (state: GameEditorFeature): MapPath => {
+    return state.form.map.paths[state.form.map.selectedPath];
+});
+
 export const selectPathCreationMode = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.map.pathCreationMode;
+});
+
+export const selectMap = createSelector(selectFeature, (state: GameEditorFeature): any => {
+    return state.form.map.canvas;
 });
 

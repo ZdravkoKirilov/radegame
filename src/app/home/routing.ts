@@ -9,7 +9,7 @@ export const routes: Routes = [
         pathMatch: 'full',
         canActivate: [],
         data: routeData({
-            title: 'Welcome to radegast'
+            title: 'Welcome toLoc radegast'
         })
     }
 ];

@@ -41,9 +41,11 @@ export interface BoardFields {
     selectedField?: number;
 }
 
-export interface Map {
+export interface MapState {
     canvas?: {
         image?: string;
+        id?: number;
+        game?: number;
     };
     items?: { [key: string]: MapLocation };
     paths?: { [key: string]: MapPath };
@@ -51,6 +53,7 @@ export interface Map {
     lastInsert?: number;
     lastDelete?: MapLocation;
     pathCreationMode?: boolean;
+    selectedPath?: number;
 }
 
 export interface Characters {
@@ -80,7 +83,7 @@ export interface GameEditorForm {
     characters?: Characters;
     trivia?: Trivias;
     fields?: BoardFields;
-    map?: Map;
+    map?: MapState;
     grid?: Grid;
 }
 

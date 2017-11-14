@@ -1,11 +1,11 @@
 import * as actionTypes from '../actionTypes';
 import {Action} from '@ngrx/store';
 
-import {Map} from '../../../models/index';
-import {MapLocation, MapPath} from '../../../../game-mechanics/models/index';
+import {MapState} from '../../../models/index';
+import {MapLocation, MapPath, Map} from '../../../../game-mechanics/models/index';
 
 export class UpdateMapAction implements Action {
-    constructor(public payload: Map) {
+    constructor(public payload: MapState) {
     }
 
     readonly type = actionTypes.UPDATE_MAP;
@@ -42,6 +42,25 @@ export class DeleteMapPathSuccessAction implements Action {
     }
 
     readonly type = actionTypes.DELETE_MAP_PATH_SUCCESS;
+}
+
+export class GetMapPathsAction implements Action {
+    constructor(public payload: { gameId: number }) {
+    }
+
+    readonly type = actionTypes.GET_MAP_PATHS;
+}
+
+export class GetMapPathsSuccessAction implements Action {
+    constructor(public payload: MapPath[]) {
+    }
+
+    readonly type = actionTypes.GET_MAP_PATHS_SUCCESS;
+}
+
+export class GetMapPathsFailAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.GET_MAP_PATHS_FAIL;
 }
 
 export class DeleteMapPathFailAction implements Action {
@@ -113,6 +132,51 @@ export class GetMapLocationsFailAction implements Action {
     readonly type = actionTypes.GET_MAP_LOCATIONS_FAIL;
 }
 
+export class ChangeSelectedPathAction implements Action {
+    constructor(public payload: number) {
+    }
+
+    readonly type = actionTypes.CHANGE_SELECTED_PATH;
+}
+
+export class SaveMapAction implements Action {
+    constructor(public payload: Map) {
+    }
+
+    readonly type = actionTypes.SAVE_MAP;
+}
+
+export class SaveMapSuccessAction implements Action {
+    constructor(public payload: Map) {
+    }
+
+    readonly type = actionTypes.SAVE_MAP_SUCCESS;
+}
+
+export class SaveMapFailAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.SAVE_MAP_FAIL;
+}
+
+export class GetMapAction implements Action {
+    constructor(public payload: {gameId: number}) {
+    }
+
+    readonly type = actionTypes.GET_MAP;
+}
+
+export class GetMapSuccessAction implements Action {
+    constructor(public payload: Map) {
+    }
+
+    readonly type = actionTypes.GET_MAP_SUCCESS;
+}
+
+export class GetMapFailAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.GET_MAP_FAIL;
+}
+
 export type MapActions =
     UpdateMapAction |
     SaveMapLocationAction |
@@ -127,7 +191,17 @@ export type MapActions =
     DeleteMapPathAction |
     DeleteMapPathSuccessAction |
     DeleteMapPathFailAction |
+    GetMapPathsAction |
+    GetMapPathsSuccessAction |
+    GetMapPathsFailAction |
     TogglePathCreationModeAction |
     GetMapLocationsAction |
     GetMapLocationsSuccessAction |
-    GetMapLocationsFailAction;
+    GetMapLocationsFailAction |
+    ChangeSelectedPathAction |
+    GetMapAction |
+    GetMapSuccessAction |
+    GetMapFailAction |
+    SaveMapAction |
+    SaveMapSuccessAction |
+    SaveMapFailAction;

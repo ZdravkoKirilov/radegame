@@ -1,21 +1,24 @@
-import {Map} from '../../../models/index';
+import {MapState} from '../../../models/index';
 import {MapActions} from '../../actions/byFeature/mapActions';
 import * as actionTypes from '../../actions/actionTypes';
-import {MapLocation} from '../../../../game-mechanics/models/BoardField';
+import {MapLocation, MapPath, Map} from '../../../../game-mechanics/models/index';
 
-const initialState: Map = {
+const initialState: MapState = {
     canvas: {
         image: null,
+        id: null,
+        game: null
     },
     items: {},
     paths: {},
     siblingsList: {},
     lastInsert: null,
     lastDelete: null,
-    pathCreationMode: false
+    pathCreationMode: false,
+    selectedPath: null
 };
 
-export function mapReducer(state: Map = initialState, action: MapActions): Map {
+export function mapReducer(state: MapState = initialState, action: MapActions): MapState {
     switch (action.type) {
         case actionTypes.UPDATE_MAP:
             return {
@@ -46,7 +49,7 @@ export function mapReducer(state: Map = initialState, action: MapActions): Map {
                 acc[elem.field] = elem;
                 return acc;
             }, {});
-            return {...state, items};
+            return {...state, items: {...items}};
         case actionTypes.TOGGLE_PATH_CREATION_MODE:
             return {
                 ...state,
@@ -61,11 +64,37 @@ export function mapReducer(state: Map = initialState, action: MapActions): Map {
                 }
             };
         case actionTypes.DELETE_MAP_PATH_SUCCESS:
-            const newPaths = {...state.items};
+            const newPaths = {...state.paths};
             delete newPaths[action.payload.id];
             return {
                 ...state,
                 paths: {...newPaths}
+            };
+        case actionTypes.GET_MAP_PATHS_SUCCESS:
+            return {
+                ...state,
+                paths: action.payload.reduce((acc: { [key: string]: MapPath }, elem: MapPath) => {
+                    acc[elem.id] = elem;
+                    return acc;
+                }, {})
+            };
+        case actionTypes.CHANGE_SELECTED_PATH:
+            return {
+                ...state,
+                selectedPath: action.payload
+            };
+        case actionTypes.SAVE_MAP_SUCCESS:
+            return {
+                ...state,
+                canvas: {
+                    ...state.canvas,
+                    ...action.payload
+                }
+            };
+        case actionTypes.GET_MAP_SUCCESS:
+            return {
+                ...state,
+                canvas: {...action.payload}
             };
         default:
             return state;

@@ -20,12 +20,8 @@ export class ImageBrowserComponent implements OnInit {
     imageAdded(file) {
         if (file) {
             this.prepopulatedImage = null;
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                const payload = {[this.data.name]: file};
-                this.change.emit(payload);
-            };
+            const payload = {[this.data.name]: file};
+            this.change.emit(payload);
         }
     }
 

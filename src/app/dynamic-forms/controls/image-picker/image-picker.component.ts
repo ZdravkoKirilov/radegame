@@ -27,11 +27,8 @@ export class ImagePickerComponent {
         event.stopPropagation();
         const file = event.currentTarget.files[0];
         if (file) {
-            const reader = new FileReader();
-            reader.readAsDataURL(file);
-            reader.onloadend = () => {
-                this.change.emit(reader.result);
-            };
+            this.change.emit(file);
+            this.form.nativeElement.reset();
         }
     }
 

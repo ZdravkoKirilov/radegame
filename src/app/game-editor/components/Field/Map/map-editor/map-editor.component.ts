@@ -4,8 +4,9 @@ import {
 } from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
 
-import {BoardField, MapLocation} from '../../../../../game-mechanics/models/index';
+import {BoardField, MapLocation, MapPath} from '../../../../../game-mechanics/models/index';
 import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
+import {FabricObject} from '../../../../../shared/models/FabricObject';
 
 @Component({
     selector: 'rg-map-editor',
@@ -24,14 +25,18 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @Output() deselectField: EventEmitter<number> = new EventEmitter();
     @Output() toggleFieldEditor: EventEmitter<boolean> = new EventEmitter();
     @Output() togglePathCreation: EventEmitter<boolean> = new EventEmitter();
-    @Output() createPath: EventEmitter<number[]> = new EventEmitter();
+    @Output() createPath: EventEmitter<MapPath> = new EventEmitter();
+    @Output() deletePath: EventEmitter<MapPath> = new EventEmitter();
+    @Output() selectPath: EventEmitter<any> = new EventEmitter();
 
     @Input() canvasImage: string;
     @Input() fields: BoardField[];
     @Input() mapLocations: { [key: string]: MapLocation } = {};
+    @Input() mapPaths: MapPath[];
     @Input() showFieldEditor: boolean;
     @Input() pathCreationMode: boolean;
     @Input() selectedField: BoardField;
+    @Input() selectedPath: MapPath;
 
     private subs: Subscription[] = [];
 
@@ -65,16 +70,33 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
                 }
             });
         const onDelete = canvas.onDeleteKey
-            .subscribe(() => {
-                this.deleteMapField.emit(this.selectedField);
+            .subscribe((obj: FabricObject) => {
+                if (obj.type === 'line') {
+                    this.deletePath.emit({...this.selectedPath});
+                } else {
+                    this.deleteMapField.emit({...this.selectedField});
+                }
             });
         const onFieldSelect = canvas.objectSelected
             .subscribe((obj: MapLocation) => {
-                if (this.pathCreationMode) {
-                    const selected = this.selectedField ? this.selectedField.id : null;
-                    this.createPath.emit([selected, obj.field]);
+                const selected = this.selectedField ? this.selectedField.id : null;
+                if (this.pathCreationMode && obj && selected) {
+                    const fromLoc = this.mapLocations[selected].id;
+                    const toLoc = this.mapLocations[obj.field].id;
+                    if (fromLoc && toLoc) {
+                        const payload: MapPath = {fromLoc, toLoc};
+                        this.createPath.emit(payload);
+                    }
                 }
                 this.selectField.emit(obj.field);
+            });
+        const onPathSelect = canvas.pathSelected
+            .subscribe((pathId: number) => {
+                this.selectPath.emit(pathId);
+            });
+        const onPathDeselect = canvas.objectDeselected
+            .subscribe(() => {
+                this.selectPath.emit(null);
             });
         const onFieldDeselect = canvas.objectDeselected
             .subscribe(() => {
@@ -84,11 +106,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
             });
 
         this.subs = [objAdded, objModified, onEnter,
-            onDelete, onFieldSelect, onFieldDeselect];
-    }
-
-    hasLoadedLocations() {
-        return this.mapLocations && Object.keys(this.mapLocations).length;
+            onDelete, onFieldSelect, onFieldDeselect, onPathSelect, onPathDeselect];
     }
 
     ngOnInit() {

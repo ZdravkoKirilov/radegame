@@ -13,22 +13,3 @@ export interface BoardFieldList {
 export interface Grid {
     matrix?: any[][];
 }
-
-export interface MapLocation {
-    id?: number;
-    width?: number;
-    height?: number;
-    top?: number;
-    left?: number;
-    field?: number;
-    game?: number;
-}
-
-export interface MapPath {
-    id?: number;
-    from?: number;
-    to?: number;
-    bidirectional?: boolean;
-    image?: string;
-    name?: string;
-}
