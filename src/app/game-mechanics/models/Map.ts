@@ -6,10 +6,10 @@ export interface Map {
 
 export interface MapLocation {
     id?: number;
-    top: number;
-    left: number;
-    width: number;
-    height: number;
+    top?: number;
+    left?: number;
+    width?: number;
+    height?: number;
     field?: number;
     game?: number;
 }

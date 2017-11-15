@@ -36,7 +36,7 @@ export function mapReducer(state: MapState = initialState, action: MapActions): 
             };
         case actionTypes.DELETE_MAP_LOCATION_SUCCESS:
             const newItems = {...state.items};
-            delete newItems[action.payload.id];
+            delete newItems[action.payload.field];
             return {
                 ...state,
                 lastDelete: state.items[action.payload.id],

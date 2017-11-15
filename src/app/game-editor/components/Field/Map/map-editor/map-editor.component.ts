@@ -41,7 +41,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     private subs: Subscription[] = [];
 
 
-    constructor(private canvas: RenderingService) {
+    constructor(private rs: RenderingService) {
     }
 
     fieldWasSaved(field: BoardField) {
@@ -54,22 +54,22 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     attachListeners() {
-        const {canvas} = this;
-        const objAdded = canvas.objectAdded
+        const {rs} = this;
+        const objAdded = rs.objectAdded
             .subscribe((obj: MapLocation) => {
 
             });
-        const objModified = canvas.objectModified
+        const objModified = rs.objectModified
             .subscribe((obj: MapLocation) => {
                 this.saveMapLocation.emit(obj);
             });
-        const onEnter = canvas.onEnterKey
+        const onEnter = rs.onEnterKey
             .subscribe(() => {
                 if (!this.pathCreationMode) {
                     this.toggleFieldEditor.emit(true);
                 }
             });
-        const onDelete = canvas.onDeleteKey
+        const onDelete = rs.onDeleteKey
             .subscribe((obj: FabricObject) => {
                 if (obj.type === 'line') {
                     this.deletePath.emit({...this.selectedPath});
@@ -77,7 +77,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
                     this.deleteMapField.emit({...this.selectedField});
                 }
             });
-        const onFieldSelect = canvas.objectSelected
+        const onFieldSelect = rs.objectSelected
             .subscribe((obj: MapLocation) => {
                 const selected = this.selectedField ? this.selectedField.id : null;
                 if (this.pathCreationMode && obj && selected) {
@@ -90,15 +90,15 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 this.selectField.emit(obj.field);
             });
-        const onPathSelect = canvas.pathSelected
+        const onPathSelect = rs.pathSelected
             .subscribe((pathId: number) => {
                 this.selectPath.emit(pathId);
             });
-        const onPathDeselect = canvas.objectDeselected
+        const onPathDeselect = rs.objectDeselected
             .subscribe(() => {
                 this.selectPath.emit(null);
             });
-        const onFieldDeselect = canvas.objectDeselected
+        const onFieldDeselect = rs.objectDeselected
             .subscribe(() => {
                 if (this.pathCreationMode) {
                     this.selectField.emit(null);
@@ -110,15 +110,16 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit() {
-        this.canvas.initialize('fCanvas', this.canvasWrapper);
-        this.canvas.attachListeners();
+        this.rs.initialize('fCanvas', this.canvasWrapper);
+        this.rs.attachListeners();
+        this.rs.updateBackground(this.canvasImage);
         this.attachListeners();
     }
 
     ngOnChanges(c: SimpleChanges) {
-        if (this.canvas && c.canvasImage &&
+        if (this.rs && c.canvasImage &&
             c.canvasImage.currentValue !== c.canvasImage.previousValue) {
-            this.canvas.updateBackground(c.canvasImage.currentValue);
+            this.rs.updateBackground(c.canvasImage.currentValue);
         }
     }
 

@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
@@ -6,7 +6,6 @@ import {Subscription} from 'rxjs/Subscription';
 import {AppState} from '../../../core/state/index';
 import {
     SaveMapLocationAction,
-    UpdateMapAction,
     SaveMapPathAction,
     TogglePathCreationModeAction,
     ChangeSelectedPathAction,
@@ -17,7 +16,6 @@ import {
     DeleteFieldAction,
     ToggleFieldEditorAction, ChangeSelectedFieldAction
 } from '../../state/actions/byFeature/fieldActions';
-import {MapState} from '../../models/index';
 import {BoardField, MapLocation, MapPath, Map, Game} from '../../../game-mechanics/models/index';
 import {
     selectCanvasImage,
@@ -35,7 +33,8 @@ import {
 @Component({
     selector: 'rg-smart-map-editor',
     templateUrl: './smart-map-editor.component.html',
-    styleUrls: ['./smart-map-editor.component.scss']
+    styleUrls: ['./smart-map-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SmartMapEditorComponent implements OnInit, OnDestroy {
     canvasImage: Observable<string>;
@@ -93,19 +92,13 @@ export class SmartMapEditorComponent implements OnInit, OnDestroy {
 
     addBackground(image) {
         if (image) {
-            const payload: Map = {
-                ...this.map,
-                image
-            };
+            const payload: Map = {...this.map, image};
             this.store.dispatch(new SaveMapAction(payload));
         }
     }
 
     removeBackground() {
-        const payload: Map = {
-            ...this.map,
-            image: ''
-        };
+        const payload: Map = {...this.map, image: ''};
         this.store.dispatch(new SaveMapAction(payload));
     }
 

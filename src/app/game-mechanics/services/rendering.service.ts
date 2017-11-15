@@ -210,8 +210,7 @@ export class RenderingService {
         const {stage} = this;
         if (stage) {
             stage.backgroundImage = null;
-            stage
-                .setBackgroundImage('', stage.renderAll.bind(stage));
+            stage.setBackgroundImage('', stage.renderAll.bind(stage));
             this.background = stage.setBackgroundImage(image, (img) => {
                 this.setDimensions({
                     width: img.width, height: img.height
@@ -220,6 +219,7 @@ export class RenderingService {
                 originX: 'left',
                 originY: 'top'
             });
+            stage.renderAll();
         }
         return this;
     }
