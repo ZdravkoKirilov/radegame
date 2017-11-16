@@ -6,7 +6,7 @@ import {FABRIC_CANVAS_CONFIG, KEYCODES} from '../../game-editor/configs/config';
 import {WindowRefService} from '../../shared/services/window-ref.service';
 import {MapLocation} from '../models/index';
 import {ICanvasDimensions, Canvas, IObjectOptions, Object, StaticCanvas} from '@types/fabric';
-import {FabricObject} from '../../shared/models/FabricObject';
+import {FabricObject, FabricObjectData} from '../../shared/models/FabricObject';
 
 @Injectable()
 export class RenderingService {
@@ -14,6 +14,9 @@ export class RenderingService {
     private stage: Canvas;
     private canvasWrapper: ElementRef;
     private background: StaticCanvas;
+    private nodes: { [key: string]: FabricObject };
+    private paths: { [key: string]: FabricObject };
+
     public objectAdded: Subject<MapLocation> = new Subject();
     public objectModified: Subject<MapLocation> = new Subject();
     public objectSelected: Subject<MapLocation> = new Subject();
@@ -33,6 +36,8 @@ export class RenderingService {
         };
         this.stage = new fabric.Canvas(canvasId, FABRIC_CANVAS_CONFIG(dynamicConfig));
         this.canvasWrapper = wrapper;
+        this.nodes = {};
+        this.paths = {};
         return this;
     }
 
@@ -51,7 +56,7 @@ export class RenderingService {
                 height: target.height,
                 left: 0,
                 top: 0,
-                field: target.field
+                field: target.data.field
             };
             this.objectAdded.next(payload);
         });
@@ -66,9 +71,9 @@ export class RenderingService {
                 height: parseInt((height as any), 10),
                 left: parseInt((left as any), 10),
                 top: parseInt((top as any), 10),
-                field: target.field,
-                game: target.game,
-                id: target.id
+                field: target.data.field,
+                game: target.data.game,
+                id: target.data.id
             };
             this.objectModified.next(payload);
         });
@@ -76,7 +81,7 @@ export class RenderingService {
         stage.on('object:selected', (event) => {
             const target = (event.target as FabricObject);
             if (target.type === 'line') {
-                this.pathSelected.next(target.id);
+                this.pathSelected.next(target.data.id);
             } else {
                 const height = target.getHeight();
                 const width = target.getWidth();
@@ -87,9 +92,9 @@ export class RenderingService {
                     height: parseInt((height as any), 10),
                     left: parseInt((left as any), 10),
                     top: parseInt((top as any), 10),
-                    field: target.field,
-                    game: target.game,
-                    id: target.id
+                    field: target.data.field,
+                    game: target.data.game,
+                    id: target.data.id
                 };
                 this.objectSelected.next(payload);
             }
@@ -111,76 +116,111 @@ export class RenderingService {
             }
 
         });
-    }
 
-    createPath(coords: number[] = [250, 125, 350, 475]) {
-        return new Promise((resolve, reject) => {
-            try {
-                const elem = new fabric.Line(coords, {
-                    fill: '',
-                    stroke: 'lightblue',
-                    strokeWidth: 5,
-                    hasControls: false,
-                    lockMovementX: true,
-                    lockMovementY: true,
-                    opacity: .7
+        stage.on('object:moving', (event) => {
+            const target = (event.target as FabricObject);
+            if (target.type !== 'line') {
+                const paths = target.data.paths;
+                paths.forEach((id: number) => {
+                    const path = this.paths[id];
+                    const from = this.nodes[path.data.from];
+                    const to = this.nodes[path.data.to];
+                    const newPathCoords = this.calculatePathCoords(from, to);
+                    this.updateObject(path, newPathCoords);
                 });
-                resolve(elem);
-            } catch (err) {
-                reject(err);
             }
         });
     }
 
-    createImage(imageSrc: any, opts: IObjectOptions = {}): Promise<FabricObject> {
-        return new Promise((resolve, reject) => {
-            const image: HTMLImageElement = document.createElement('img');
-            image.src = imageSrc;
-            image.onload = () => {
-                const imgElem = new fabric.Image(image, opts);
-                resolve(imgElem);
-            };
-            image.onerror = (err: ErrorEvent) => {
-                reject(err);
-            };
+    createPath(coords: number[], data?: FabricObjectData): FabricObject {
+        const elem = new fabric.Line(coords, {
+            fill: '',
+            stroke: 'lightblue',
+            strokeWidth: 5,
+            hasControls: false,
+            lockMovementX: true,
+            lockMovementY: true,
+            opacity: .7
         });
+        if (data) {
+            elem.data = data;
+            this.paths[data.id] = elem;
+            this.addPathToNodes(data);
+        }
+        return elem;
+    }
+
+    addPathToNodes(data: FabricObjectData) {
+        const from = this.nodes[data.from];
+        const to = this.nodes[data.to];
+        from.data.paths.add(data.id);
+        to.data.paths.add(data.id);
+    }
+
+    createNode(imageSrc: any, opts: IObjectOptions = {}, data: FabricObjectData): FabricObject {
+        const groupOptions = {
+            left: opts.left,
+            top: opts.top,
+            width: opts.width,
+            height: opts.height
+        };
+        const group = new fabric.Group([], groupOptions);
+        group.data = data;
+        this.nodes[data.id] = group;
+
+        const image: HTMLImageElement = document.createElement('img');
+        image.src = imageSrc;
+        image.onload = () => {
+            const options: IObjectOptions = {
+                originX: 'center',
+                originY: 'center',
+                width: opts.width,
+                height: opts.height,
+                selectable: false,
+                hasControls: false,
+            };
+            const imgElem = new fabric.Image(image, options);
+            group.add(imgElem);
+            group.addWithUpdate();
+            this.render();
+        };
+
+        return group;
     }
 
     calculatePathCoords(from: MapLocation, to: MapLocation): any {
         let x1, x2, y1, y2;
-
-        x1 = from.left + from.width / 2;
-        y1 = from.top + from.height / 2;
-        x2 = to.left + to.width / 2;
-        y2 = to.top + to.height / 2;
-        return {x1, x2, y2, y1};
-    }
-
-    sendToBack(elem: FabricObject) {
-        if (elem) {
-            elem.sendToBack();
+        let result = {};
+        if (from) {
+            x1 = from.left + from.width / 2;
+            y1 = from.top + from.height / 2;
+            result = {x1, y1};
         }
-    }
-
-    sendBackwards(elem: FabricObject) {
-        if (elem) {
-            elem.sendBackwards();
+        if (to) {
+            x2 = to.left + to.width / 2;
+            y2 = to.top + to.height / 2;
+            result = {...result, ...{x2, y2}};
         }
-    }
-
-    bringForward(elem: FabricObject) {
-        if (elem) {
-            elem.bringForward();
-        }
+        return result;
     }
 
     removeObject(obj: FabricObject) {
-        this.stage.remove(obj);
-        this.render();
+        if (obj) {
+            // if (obj.type !== 'line') {
+            //     obj.data.paths.forEach(pathId => this.removeObject(this.paths[pathId]));
+            // }
+            this.stage.remove(obj);
+            this.render();
+        }
     }
 
     addObject(obj: Object) {
         this.stage.add(obj);
+        if (obj.type === 'line') {
+            this.stage.moveTo(obj, 0);
+        } else {
+            this.stage.moveTo(obj, 1);
+        }
         this.render();
     }
 
@@ -196,6 +236,7 @@ export class RenderingService {
         }
         obj.set(data);
         this.render();
+        console.log(this);
     }
 
     updateBackground(image) {

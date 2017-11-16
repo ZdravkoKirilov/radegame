@@ -2,7 +2,8 @@ import {Component, OnInit, OnDestroy, OnChanges, Input, ChangeDetectionStrategy,
 
 import {BoardField, MapLocation} from '../../../../../game-mechanics/models/index';
 import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
-import {FabricObject} from '../../../../../shared/models/FabricObject';
+import {FabricObjectData} from '../../../../../shared/models/FabricObject';
+import { DEFAULT_MAP_LOCATION } from '../../../../configs/config';
 
 @Component({
     selector: 'rg-map-field',
@@ -22,13 +23,15 @@ export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
     // could be a "LoadGameResources" service: can be reused @ game run stage;
     async ngOnInit() {
         try {
-            const obj: FabricObject = await this.rs.createImage(this.data.image);
-            const initialSettings = this.mapLocation || {width: 100, height: 100, top: 10, left: 10};
-            obj.field = this.data.id;
-            obj.game = this.data.game;
-            obj.id = this.mapLocation ? this.mapLocation.id : null;
-            this.elem = obj;
-            this.rs.updateObject(this.elem, initialSettings);
+            const id = this.mapLocation ? this.mapLocation.id : null;
+            const data: FabricObjectData = {
+                field: this.data.id,
+                game: this.data.game,
+                paths: new Set(),
+                id
+            };
+            const initialSettings = this.mapLocation || DEFAULT_MAP_LOCATION;
+            this.elem = await this.rs.createNode(this.data.image, initialSettings, data);
             this.rs.addObject(this.elem);
         } catch (err) {
             console.log(err);
@@ -42,7 +45,11 @@ export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
     ngOnChanges(c: SimpleChanges) {
         const loc = c.mapLocation;
         if (this.elem && loc && loc.currentValue && loc.currentValue !== loc.previousValue) {
-            this.rs.updateObject(this.elem, loc.currentValue);
+            const data = {...loc.currentValue, data: {
+                ...this.elem.data,
+                id: loc.currentValue.id
+            }};
+            this.rs.updateObject(this.elem, data);
         }
     }
 }

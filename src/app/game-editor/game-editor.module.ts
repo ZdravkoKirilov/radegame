@@ -63,7 +63,7 @@ import { MapPathComponent } from './components/Field/Map/map-path/map-path.compo
         CommonModule,
         SharedModule,
         StoreModule.forFeature(FEATURE_NAME, reducers, {metaReducers}),
-        EffectsModule.forRoot([
+        EffectsModule.forFeature([
             GameEditEffectsService
         ]),
         FormsModule,

@@ -3,6 +3,8 @@ import {BrowserModule, Title} from '@angular/platform-browser';
 import {CommonModule} from '@angular/common';
 
 import {StoreModule} from '@ngrx/store';
+import {EffectsModule} from '@ngrx/effects';
+import {CoreEffectsService} from './state/effects/core-effects.service';
 import {reducers} from './state/reducers/index';
 
 import {AppRoutingModule} from '../app-routing.module';
@@ -18,6 +20,9 @@ import {NotFoundComponent} from './components/not-found/not-found.component';
         CommonModule,
         BrowserModule,
         StoreModule.forRoot(reducers),
+        EffectsModule.forRoot([
+            CoreEffectsService
+        ]),
         StoreRouterConnectingModule,
         HomeModule,
         GameEditorModule,

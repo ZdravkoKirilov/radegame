@@ -4,7 +4,7 @@ import {CommonModule} from '@angular/common';
 import {
     MatStepperModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
     MatSelectModule, MatCheckboxModule, MatSliderModule, MatCardModule, MatButtonToggleModule,
-    MatMenuModule, MatSlideToggleModule
+    MatMenuModule, MatSlideToggleModule, MatSnackBarModule
 } from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
@@ -23,7 +23,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         MatCardModule,
         MatButtonToggleModule,
         MatMenuModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatSnackBarModule
     ],
     exports: [
         MatStepperModule,
@@ -37,7 +38,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         MatCardModule,
         MatButtonToggleModule,
         MatMenuModule,
-        MatSlideToggleModule
+        MatSlideToggleModule,
+        MatSnackBarModule
     ],
     declarations: []
 })

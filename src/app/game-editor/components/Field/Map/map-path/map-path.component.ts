@@ -19,16 +19,20 @@ export class MapPathComponent implements OnInit, OnChanges, OnDestroy {
 
     async ngOnInit() {
         try {
-            this.elem = await this.rs.createPath();
             const from = Object.values(this.mapLocations).find(elem => elem.id === this.data.fromLoc);
             const to = Object.values(this.mapLocations).find(elem => elem.id === this.data.toLoc);
+            const data = {
+                from: from.id,
+                to: to.id,
+                id: this.data.id
+            };
+            this.elem = await this.rs.createPath(null, data);
             const coords = this.rs.calculatePathCoords(from, to);
             this.rs.updateObject(this.elem, {
                 id: this.data.id,
                 ...coords
             });
             this.rs.addObject(this.elem);
-            this.rs.sendBackwards(this.elem);
         } catch (err) {
             console.log(err);
         }

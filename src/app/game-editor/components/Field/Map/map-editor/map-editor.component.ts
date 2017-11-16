@@ -7,6 +7,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {BoardField, MapLocation, MapPath} from '../../../../../game-mechanics/models/index';
 import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
 import {FabricObject} from '../../../../../shared/models/FabricObject';
+import {DEFAULT_MAP_LOCATION} from '../../../../configs/config';
 
 @Component({
     selector: 'rg-map-editor',
@@ -31,6 +32,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
     @Input() canvasImage: string;
     @Input() fields: BoardField[];
+    @Input() lastInsertedField: number;
     @Input() mapLocations: { [key: string]: MapLocation } = {};
     @Input() mapPaths: MapPath[];
     @Input() showFieldEditor: boolean;
@@ -56,7 +58,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     attachListeners() {
         const {rs} = this;
         const objAdded = rs.objectAdded
-            .subscribe((obj: MapLocation) => {
+            .subscribe((obj: FabricObject) => {
 
             });
         const objModified = rs.objectModified
@@ -120,6 +122,18 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
         if (this.rs && c.canvasImage &&
             c.canvasImage.currentValue !== c.canvasImage.previousValue) {
             this.rs.updateBackground(c.canvasImage.currentValue);
+        }
+        if (c.lastInsertedField && c.lastInsertedField.currentValue &&
+            c.lastInsertedField.currentValue !== c.lastInsertedField.previousValue) {
+            const field = this.fields.find(elem => elem.id === c.lastInsertedField.currentValue);
+            if (!this.mapLocations[field.id]) {
+                const data: MapLocation = {
+                    ...DEFAULT_MAP_LOCATION,
+                    field: field.id,
+                    game: field.game
+                };
+                this.saveMapLocation.emit(data);
+            }
         }
     }
 

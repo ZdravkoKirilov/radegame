@@ -104,3 +104,7 @@ export const selectMap = createSelector(selectFeature, (state: GameEditorFeature
     return state.form.map.canvas;
 });
 
+export const selectLastInsertedField = createSelector(selectFeature, (state: GameEditorFeature): number => {
+    return state.form.fields.lastInsert;
+});
+

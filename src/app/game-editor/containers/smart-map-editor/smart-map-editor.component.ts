@@ -27,7 +27,7 @@ import {
     getSelectedPath,
     selectPathCreationMode,
     selectGame,
-    selectMap
+    selectMap, selectLastInsertedField
 } from '../../state/reducers/selectors';
 
 @Component({
@@ -45,6 +45,7 @@ export class SmartMapEditorComponent implements OnInit, OnDestroy {
     selectedField: Observable<BoardField>;
     selectedPath: Observable<MapPath>;
     pathCreationMode: Observable<boolean>;
+    lastInsertedField: Observable<number>;
     storeSub: Subscription;
     game: Game;
     map: Map;
@@ -111,6 +112,7 @@ export class SmartMapEditorComponent implements OnInit, OnDestroy {
         this.selectedField = this.store.map(state => getSelectedField(state));
         this.selectedPath = this.store.map(state => getSelectedPath(state));
         this.pathCreationMode = this.store.map(state => selectPathCreationMode(state));
+        this.lastInsertedField = this.store.map(state => selectLastInsertedField(state));
 
         this.storeSub = this.store.subscribe(state => {
             this.game = selectGame(state);

@@ -59,8 +59,11 @@ import {
     SaveMapFailAction,
     GetMapSuccessAction,
     GetMapFailAction,
-    MapActions
+    MapActions, GetMapLocationsAction, GetMapPathsAction
 } from '../actions/byFeature/mapActions';
+
+import {OperationSuccessAction, OperationFailAction} from '../../../core/state/actions/actions';
+import {systemMessages as sm} from '../../../shared/config/messages';
 
 @Injectable()
 export class GameEditEffectsService {
@@ -96,16 +99,20 @@ export class GameEditEffectsService {
     @Effect() saveField: Observable<any> = this.actions$
         .ofType(actionTypes.SAVE_FIELD)
         .map((action: FieldAction) => {
-            return action.payload;
+            const payload = {...action.payload};
+            if (typeof payload.image === 'string') {
+                delete payload.image;
+            }
+            return payload;
         })
         .mergeMap((payload: BoardField) => {
             return this.api.saveBoardField(payload);
         })
         .mergeMap((res: BoardField) => {
-            return [new SaveFieldSuccessAction(res)];
+            return [new SaveFieldSuccessAction(res), new OperationSuccessAction(sm.SAVE_FIELD_SUCCESS)];
         })
         .catch(() => {
-            return of(new SaveFieldFailAction());
+            return [new SaveFieldFailAction(), new OperationFailAction(sm.SAVE_FIELD_FAIL)];
         });
 
     @Effect() getFields: Observable<any> = this.actions$
@@ -131,16 +138,37 @@ export class GameEditEffectsService {
         })
         .mergeMap((payload: BoardField) => {
             return this.api.deleteBoardField(payload)
-                .map(() => {
-                    return [new DeleteFieldSuccessAction(payload), new DeleteMapLocationSuccessAction({field: payload.id})];
+                .mergeMap(() => {
+                    return [
+                        new DeleteFieldSuccessAction(payload),
+                        new DeleteMapLocationSuccessAction({field: payload.id}),
+                        new GetMapPathsAction({gameId: payload.game}),
+                        new OperationSuccessAction(sm.DELETE_FIELD_SUCCESS)
+                    ];
                 })
                 .catch(() => {
-                    const actions: any[] = [new DeleteFieldFailAction()];
+                    const actions: any[] = [new DeleteFieldFailAction(), new OperationFailAction(sm.DELETE_FIELD_FAIL)];
                     if (payload.id) {
-                        actions.push([new SaveFieldSuccessAction(payload)]);
+                        actions.push(new SaveFieldSuccessAction(payload));
                     }
                     return actions;
                 });
+        });
+
+    @Effect() saveMapPath: Observable<any> = this.actions$
+        .ofType(actionTypes.SAVE_MAP_PATH)
+        .map((action: MapActions) => action.payload)
+        .map(payload => {
+            return payload;
+        })
+        .mergeMap(payload => {
+            return this.api.saveMapPath(payload);
+        })
+        .mergeMap((res: MapPath) => {
+            return [new SaveMapPathSuccessAction(res), new OperationSuccessAction(sm.SAVE_MAP_PATH_SUCCESS)];
+        })
+        .catch(() => {
+            return [new SaveMapPathFailAction(), new OperationFailAction(sm.SAVE_MAP_PATH_FAIL)];
         });
 
     @Effect() deleteMapPath: Observable<any> = this.actions$
@@ -152,11 +180,18 @@ export class GameEditEffectsService {
         })
         .mergeMap((payload: MapPath) => {
             return this.api.deleteMapPath(payload)
-                .map(() => {
-                    return new DeleteMapPathSuccessAction(payload);
+                .mergeMap(() => {
+                    return [
+                        new DeleteMapPathSuccessAction(payload),
+                        new OperationSuccessAction(sm.DELETE_MAP_PATH_SUCCESS)
+                    ];
                 })
                 .catch(() => {
-                    return [new SaveMapPathSuccessAction(payload), new DeleteMapPathFailAction()];
+                    return [
+                        new SaveMapPathSuccessAction(payload),
+                        new DeleteMapPathFailAction(),
+                        new OperationFailAction(sm.DELETE_MAP_PATH_FAIL)
+                    ];
                 });
         });
 
@@ -171,10 +206,16 @@ export class GameEditEffectsService {
         })
         .mergeMap((payload: MapLocation) => {
             return this.api.saveMapLocation(payload)
-                .map((res: MapLocation) => {
-                    return new SaveMapLocationSuccessAction(res);
+                .mergeMap((res: MapLocation) => {
+                    return [
+                        new SaveMapLocationSuccessAction(res),
+                        new OperationSuccessAction(sm.SAVE_MAP_LOCATION_SUCCESS)];
                 })
-                .catch(() => [new SaveMapLocationFailAction(), new DeleteMapLocationSuccessAction(payload)]);
+                .catch(() => [
+                    new SaveMapLocationFailAction(),
+                    new DeleteMapLocationSuccessAction(payload),
+                    new OperationFailAction(sm.SAVE_MAP_LOCATION_FAIL)
+                ]);
         });
 
     @Effect() getMapLocations: Observable<any> = this.actions$
@@ -199,18 +240,6 @@ export class GameEditEffectsService {
         })
         .catch(() => {
             return of(new SaveCharacterFailAction());
-        });
-
-    @Effect() saveMapPath: Observable<any> = this.actions$
-        .ofType(actionTypes.SAVE_MAP_PATH)
-        .mergeMap((action: MapActions) => {
-            return this.api.saveMapPath(action.payload);
-        })
-        .map((res: MapPath) => {
-            return new SaveMapPathSuccessAction(res);
-        })
-        .catch(() => {
-            return of(new SaveMapPathFailAction());
         });
 
     @Effect() getMapPaths: Observable<any> = this.actions$

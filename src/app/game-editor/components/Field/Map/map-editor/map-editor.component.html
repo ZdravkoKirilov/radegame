@@ -12,12 +12,14 @@
     </div>
 
     <ng-container>
-        <rg-map-field
-                *ngFor="let field of fields"
-                [data]="field"
-                [mapLocation]="mapLocations[field.id]"
-        >
+        <span *ngFor="let field of fields">
+            <rg-map-field
+                    *ngIf="mapLocations[field.id]"
+                    [data]="field"
+                    [mapLocation]="mapLocations[field.id]"
+            >
         </rg-map-field>
+        </span>
     </ng-container>
 
     <ng-container *ngIf="fields.length">
