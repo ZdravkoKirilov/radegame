@@ -5,15 +5,13 @@ import { HttpClientModule } from '@angular/common/http';
 
 import {NgMaterialModule} from '../ng-material/ng-material.module';
 
-import { GameEditService } from './services/game-edit.service';
-
 @NgModule({
     imports: [
         CommonModule, NgMaterialModule, FormsModule, HttpClientModule
     ],
     exports: [],
     declarations: [],
-    providers: [GameEditService]
+    providers: []
 })
 export class SharedModule {
 }

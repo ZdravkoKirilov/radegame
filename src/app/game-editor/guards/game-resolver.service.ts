@@ -8,8 +8,8 @@ import {Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot} from '@ang
 
 import {Game} from '../../game-mechanics/models/index';
 import {GameData} from '../../shared/models/GameData';
-import {GameEditService} from '../../shared/services/game-edit.service';
-import {ROUTER_PARAMS} from '../../shared/config/config';
+import {GameEditService} from '../../game-mechanics/services/game-edit.service';
+import {ROUTER_PARAMS} from '../../game-mechanics/services/config';
 
 @Injectable()
 export class GameResolverService implements Resolve<Game> {

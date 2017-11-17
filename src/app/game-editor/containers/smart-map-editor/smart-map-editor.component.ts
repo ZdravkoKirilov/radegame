@@ -82,6 +82,7 @@ export class SmartMapEditorComponent implements OnInit, OnDestroy {
     }
 
     saveMapLocation(payload: MapLocation) {
+        payload.game = this.game.id;
         this.store.dispatch(new SaveMapLocationAction(payload));
     }
 

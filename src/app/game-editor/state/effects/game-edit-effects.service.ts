@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import {GameEditService} from '../../../shared/services/game-edit.service';
+import {GameEditService} from '../../../game-mechanics/services/game-edit.service';
 import {Character, BoardField, Resource, Trivia, Game, MapLocation, MapPath, Map} from '../../../game-mechanics/models/index';
 import * as actionTypes from '../actions/actionTypes';
 import {

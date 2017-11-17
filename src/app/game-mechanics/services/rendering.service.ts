@@ -47,18 +47,21 @@ export class RenderingService {
     }
 
     attachListeners() {
-        let payload: MapLocation;
         const {stage} = this;
         stage.on('object:added', (event) => {
             const target = (event.target as FabricObject);
-            payload = {
-                width: target.width,
-                height: target.height,
-                left: 0,
-                top: 0,
-                field: target.data.field
-            };
-            this.objectAdded.next(payload);
+            if (target.type !== 'line') {
+                const payload = {
+                    width: parseInt((target.width as any), 10),
+                    height: parseInt((target.height as any), 10),
+                    left: parseInt((target.left as any), 10),
+                    top: parseInt((target.top as any), 10),
+                    field: target.data.field,
+                    game: target.data.game,
+                    id: target.data.id
+                };
+                this.objectAdded.next(payload);
+            }
         });
         stage.on('object:modified', (event) => {
             const target = (event.target as FabricObject);
@@ -66,7 +69,7 @@ export class RenderingService {
             const width = target.getWidth();
             const left = target.left;
             const top = target.top;
-            payload = {
+            const payload = {
                 width: parseInt((width as any), 10),
                 height: parseInt((height as any), 10),
                 left: parseInt((left as any), 10),
@@ -87,7 +90,7 @@ export class RenderingService {
                 const width = target.getWidth();
                 const left = target.left;
                 const top = target.top;
-                payload = {
+                const payload = {
                     width: parseInt((width as any), 10),
                     height: parseInt((height as any), 10),
                     left: parseInt((left as any), 10),

@@ -6,6 +6,7 @@ import {Subscription} from 'rxjs/Subscription';
 
 import {BoardField, MapLocation, MapPath} from '../../../../../game-mechanics/models/index';
 import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
+import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
 import {FabricObject} from '../../../../../shared/models/FabricObject';
 import {DEFAULT_MAP_LOCATION} from '../../../../configs/config';
 
@@ -43,7 +44,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     private subs: Subscription[] = [];
 
 
-    constructor(private rs: RenderingService) {
+    constructor(private rs: RenderingService, private scr: SceneRenderService) {
     }
 
     fieldWasSaved(field: BoardField) {
@@ -58,8 +59,14 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     attachListeners() {
         const {rs} = this;
         const objAdded = rs.objectAdded
-            .subscribe((obj: FabricObject) => {
-
+            .subscribe((obj: MapLocation) => {
+                if (!obj.id) {
+                    const data: MapLocation = {
+                        ...DEFAULT_MAP_LOCATION,
+                        ...obj,
+                    };
+                    this.saveMapLocation.emit(data);
+                }
             });
         const objModified = rs.objectModified
             .subscribe((obj: MapLocation) => {
@@ -112,28 +119,18 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit() {
-        this.rs.initialize('fCanvas', this.canvasWrapper);
-        this.rs.attachListeners();
-        this.rs.updateBackground(this.canvasImage);
-        this.attachListeners();
+        // this.rs.initialize('fCanvas', this.canvasWrapper);
+        // this.rs.attachListeners();
+        // this.rs.updateBackground(this.canvasImage);
+        // this.attachListeners();
+        this.scr.initialize(this.canvasWrapper.nativeElement);
+        this.scr.updateBackground(this.canvasImage);
     }
 
     ngOnChanges(c: SimpleChanges) {
         if (this.rs && c.canvasImage &&
             c.canvasImage.currentValue !== c.canvasImage.previousValue) {
-            this.rs.updateBackground(c.canvasImage.currentValue);
-        }
-        if (c.lastInsertedField && c.lastInsertedField.currentValue &&
-            c.lastInsertedField.currentValue !== c.lastInsertedField.previousValue) {
-            const field = this.fields.find(elem => elem.id === c.lastInsertedField.currentValue);
-            if (!this.mapLocations[field.id]) {
-                const data: MapLocation = {
-                    ...DEFAULT_MAP_LOCATION,
-                    field: field.id,
-                    game: field.game
-                };
-                this.saveMapLocation.emit(data);
-            }
+            this.scr.updateBackground(c.canvasImage.currentValue);
         }
     }
 

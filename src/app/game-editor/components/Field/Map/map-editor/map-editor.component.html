@@ -8,18 +8,18 @@
             [pathCreationMode]="pathCreationMode"
     ></rg-map-toolbar>
     <div class="canvas-wrapper" #canvasWrapper tabindex="0">
-        <canvas #canvas id="fCanvas"></canvas>
+        <!--<canvas #canvas id="fCanvas"></canvas>-->
     </div>
 
     <ng-container>
-        <span *ngFor="let field of fields">
-            <rg-map-field
-                    *ngIf="mapLocations[field.id]"
-                    [data]="field"
-                    [mapLocation]="mapLocations[field.id]"
-            >
+
+        <rg-map-field
+                *ngFor="let field of fields"
+                [data]="field"
+                [mapLocation]="mapLocations[field.id]"
+        >
         </rg-map-field>
-        </span>
+
     </ng-container>
 
     <ng-container *ngIf="fields.length">

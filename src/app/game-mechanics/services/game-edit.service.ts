@@ -3,9 +3,9 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
-import {Trivia, BoardField, Character, Resource, Game, MapLocation, MapPath, Map} from '../../game-mechanics/models/index';
-import {API_URLS} from '../config/config';
-import {toMultipartFormData} from '../utils/ToMultipartFormData';
+import {Trivia, BoardField, Character, Resource, Game, MapLocation, MapPath, Map} from '../models/index';
+import {API_URLS} from './config';
+import {toMultipartFormData} from '../../shared/utils/ToMultipartFormData';
 
 @Injectable()
 export class GameEditService {

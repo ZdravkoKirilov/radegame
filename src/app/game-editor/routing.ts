@@ -2,7 +2,7 @@ import {Routes} from '@angular/router';
 
 import {IndexComponent} from './index/index.component';
 import {SmartLaunchComponent} from './containers/smart-launch/smart-launch.component';
-import {ROUTER_PARAMS} from '../shared/config/config';
+import {ROUTER_PARAMS} from '../game-mechanics/services/config';
 import { GameResolverService } from './guards/game-resolver.service';
 
 export const routes: Routes = [
