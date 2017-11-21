@@ -11,12 +11,12 @@ export const selectRouterParam = function (name): any {
     });
 };
 
-// export const selectRouterData = function (name): any {
-//     return createSelector(selectFeature, (routerState) => {
-//         return routerState.state.root.children[0].data[name];
-//     });
-// };
-
-export const selectRouterData = function (name, routerState): any {
-    return routerState.state.root.children[0].data[name];
+export const selectRouterData = function (name): any {
+    return createSelector(selectFeature, (routerState) => {
+        return routerState.state.root.children[0].data[name];
+    });
 };
+
+// export const selectRouterData = function (name, routerState): any {
+//     return routerState.state.root.children[0].data[name];
+// };

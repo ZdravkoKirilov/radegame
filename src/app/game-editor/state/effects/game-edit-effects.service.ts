@@ -31,6 +31,12 @@ import {
 import {
     SaveResourceSuccessAction,
     SaveResourceFailAction,
+    SaveResourceAction,
+    AddResourceAction,
+    DeleteResourceAction,
+    RemoveResourceAction,
+    DeleteResourceSuccessAction,
+    DeleteResourceFailAction,
     Actions as ResourceAction
 } from '../actions/byFeature/resourceActions';
 
@@ -59,7 +65,7 @@ import {
     SaveMapFailAction,
     GetMapSuccessAction,
     GetMapFailAction,
-    MapActions, GetMapLocationsAction, GetMapPathsAction
+    MapActions, GetMapPathsAction
 } from '../actions/byFeature/mapActions';
 
 import {OperationSuccessAction, OperationFailAction} from '../../../core/state/actions/actions';
@@ -70,6 +76,40 @@ export class GameEditEffectsService {
 
     constructor(private actions$: Actions, private api: GameEditService, private store: Store<AppState>) {
     }
+
+    @Effect() saveResource: Observable<Resource> = this.actions$
+        .ofType(actionTypes.SAVE_RESOURCE)
+        .map((action: SaveResourceAction) => action.payload)
+        .mergeMap((payload: Resource) => {
+            return this.api.saveResource(payload);
+        })
+        .mergeMap((res: Resource) => {
+            return [
+                new AddResourceAction(res),
+                new SaveResourceSuccessAction(res),
+                new OperationSuccessAction(sm.SAVE_RESOURCE_SUCCESS)
+            ];
+        })
+        .catch(() => {
+            return [new SaveResourceFailAction(), new OperationFailAction(sm.SAVE_RESOURCE_FAIL)];
+        });
+
+    @Effect() deleteResource: Observable<Resource> = this.actions$
+        .ofType(actionTypes.DELETE_RESOURCE)
+        .map((action: DeleteResourceAction) => action.payload)
+        .mergeMap((payload: Resource) => {
+            return this.api.deleteResource(payload);
+        })
+        .mergeMap((res: Resource) => {
+            return [
+                new RemoveResourceAction(res),
+                new DeleteResourceSuccessAction(res),
+                new OperationSuccessAction(sm.DELETE_RESOURCE_SUCCESS)
+            ];
+        })
+        .catch(() => {
+            return [new DeleteResourceFailAction(), new OperationFailAction(sm.DELETE_RESOURCE_FAIL)];
+        });
 
     @Effect() saveMap: Observable<any> = this.actions$
         .ofType(actionTypes.SAVE_MAP)
@@ -115,7 +155,7 @@ export class GameEditEffectsService {
             return [new SaveFieldFailAction(), new OperationFailAction(sm.SAVE_FIELD_FAIL)];
         });
 
-    @Effect() getFields: Observable<any> = this.actions$
+    @Effect() getFields: Observable<BoardField> = this.actions$
         .ofType(actionTypes.GET_FIELDS)
         .mergeMap((action: GetFieldsAction) => {
             return this.api.getFields(action.payload.gameId);
@@ -252,18 +292,6 @@ export class GameEditEffectsService {
         })
         .catch(() => {
             return of(new GetMapPathsFailAction());
-        });
-
-    @Effect() saveResource: Observable<any> = this.actions$
-        .ofType(actionTypes.SAVE_RESOURCE)
-        .mergeMap((action: ResourceAction) => {
-            return this.api.saveGameResource(action.payload);
-        })
-        .map((res: Resource) => {
-            return new SaveResourceSuccessAction(res);
-        })
-        .catch(() => {
-            return of(new SaveResourceFailAction());
         });
 
     @Effect() saveTrivia: Observable<any> = this.actions$

@@ -2,7 +2,7 @@ import {Injectable, ElementRef} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 
 import {fabric} from 'fabric';
-import {FABRIC_CANVAS_CONFIG, KEYCODES} from '../../game-editor/configs/config';
+import {FABRIC_CANVAS_CONFIG, KEYCODES} from '../../game-editor/utils/config';
 import {WindowRefService} from '../../shared/services/window-ref.service';
 import {MapLocation} from '../models/index';
 import {ICanvasDimensions, Canvas, IObjectOptions, Object, StaticCanvas} from '@types/fabric';

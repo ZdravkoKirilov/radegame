@@ -8,7 +8,7 @@ import {GameBoards} from '../../../game-mechanics/configs/game-boards';
 import {GameBoard, Game} from '../../../game-mechanics/models/index';
 import {BaseControl} from '../../../dynamic-forms/models/Base';
 import {Option} from '../../../dynamic-forms/models/Base';
-import {GAME_LAUNCH_DEF} from '../../configs/form-definitions';
+import {GAME_LAUNCH_DEF} from '../../utils/form-definitions';
 import {CreateGameAction} from '../../state/actions/byFeature/launcherActions';
 import {selectGames} from '../../state/reducers/selectors';
 import {GetGamesAction} from '../../state/actions/byFeature/launcherActions';

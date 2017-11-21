@@ -4,7 +4,7 @@ import {BoardField, MapLocation} from '../../../../../game-mechanics/models/inde
 import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
 import {SceneRenderService} from '../../../../../game-mechanics/rendering/scene-render.service';
 import {FabricObjectData} from '../../../../../shared/models/FabricObject';
-import {DEFAULT_MAP_LOCATION} from '../../../../configs/config';
+import {DEFAULT_MAP_LOCATION} from '../../../../utils/config';
 
 @Component({
     selector: 'rg-map-field',

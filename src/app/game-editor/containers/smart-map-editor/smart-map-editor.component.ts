@@ -68,10 +68,12 @@ export class SmartMapEditorComponent implements OnInit, OnDestroy {
     }
 
     selectField(id?: number) {
+        this.store.dispatch(new ChangeSelectedPathAction(null));
         this.store.dispatch(new ChangeSelectedFieldAction(id));
     }
 
     selectPath(id?: number) {
+        this.store.dispatch(new ChangeSelectedFieldAction(null));
         this.store.dispatch(new ChangeSelectedPathAction(id));
     }
 
@@ -82,11 +84,11 @@ export class SmartMapEditorComponent implements OnInit, OnDestroy {
     }
 
     saveMapLocation(payload: MapLocation) {
-        payload.game = this.game.id;
         this.store.dispatch(new SaveMapLocationAction(payload));
     }
 
     deleteField(payload: BoardField) {
+        debugger;
         if (payload) {
             this.store.dispatch(new DeleteFieldAction(payload));
         }

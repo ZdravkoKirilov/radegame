@@ -17,7 +17,7 @@ function couldNotBeRemoved(entity) {
 }
 
 
-export const systemMessages: {[key: string]: string} = {
+export const systemMessages: { [key: string]: string } = {
     [editor.SAVE_FIELD_SUCCESS]: savedSuccessfully('Field'),
     [editor.SAVE_FIELD_FAIL]: couldNotBeSaved('Field'),
     [editor.DELETE_FIELD_SUCCESS]: removedSuccessfully('Field'),
@@ -27,5 +27,9 @@ export const systemMessages: {[key: string]: string} = {
     [editor.SAVE_MAP_PATH_SUCCESS]: savedSuccessfully('Path'),
     [editor.SAVE_MAP_PATH_FAIL]: couldNotBeSaved('Path'),
     [editor.DELETE_MAP_PATH_SUCCESS]: removedSuccessfully('Path'),
-    [editor.DELETE_MAP_PATH_FAIL]: couldNotBeRemoved('Path')
+    [editor.DELETE_MAP_PATH_FAIL]: couldNotBeRemoved('Path'),
+    [editor.SAVE_RESOURCE_SUCCESS]: savedSuccessfully('Resource'),
+    [editor.SAVE_RESOURCE_FAIL]: couldNotBeSaved('Resource'),
+    [editor.DELETE_RESOURCE_SUCCESS]: removedSuccessfully('Resource'),
+    [editor.DELETE_RESOURCE_FAIL]: couldNotBeRemoved('Resource')
 };

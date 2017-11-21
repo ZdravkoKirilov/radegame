@@ -1,6 +1,11 @@
 <div class="wrapper">
 
-    <rg-resources-list *ngIf="!showEditor" [items]="resources"></rg-resources-list>
+    <rg-resources-list *ngIf="!showEditor"
+                       [items]="resources"
+                       (removeItem)="removeResource.emit($event)"
+    >
+
+    </rg-resources-list>
 
     <div *ngIf="!showEditor" class="buttons-toolbar">
         <button mat-raised-button color="primary" class="create-new-btn" (click)="showResourceEditor()">

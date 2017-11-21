@@ -68,6 +68,8 @@ export interface Resources {
         [key: string]: Resource;
     };
     lastInsert?: Resource;
+    lastDelete?: Resource;
+    showEditor?: boolean;
 }
 
 export interface Trivias {

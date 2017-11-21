@@ -2,7 +2,7 @@ export interface Resource {
     id?: number;
     name?: string;
     image?: string;
-    plural?: string;
+    game?: number;
     description?: string;
 }
 

@@ -7,9 +7,9 @@ import {of} from 'rxjs/observable/of';
 import {Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot} from '@angular/router';
 
 import {Game} from '../../game-mechanics/models/index';
-import {GameData} from '../../shared/models/GameData';
+import {GameData} from '../../game-mechanics/models/GameData';
 import {GameEditService} from '../../game-mechanics/services/game-edit.service';
-import {ROUTER_PARAMS} from '../../game-mechanics/services/config';
+import {ROUTER_PARAMS} from '../../game-mechanics/configs/config';
 
 @Injectable()
 export class GameResolverService implements Resolve<Game> {
@@ -25,15 +25,17 @@ export class GameResolverService implements Resolve<Game> {
             this.api.getMaps(gameId),
             this.api.getMapLocations(gameId),
             this.api.getPaths(gameId),
-            this.api.getFields(gameId)
+            this.api.getFields(gameId),
+            this.api.getResources(gameId),
         ]).map((res: any[]): GameData => {
             const game = res[0];
             const map = res[1][0];
             const locations = res[2];
             const paths = res[3];
             const fields = res[4];
+            const resources = res[5];
             return {
-                game, map, locations, paths, fields
+                game, map, locations, paths, fields, resources
             };
         }).catch(() => {
             this.router.navigate(['/games/editor']);

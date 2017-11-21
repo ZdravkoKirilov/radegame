@@ -6,7 +6,7 @@ import {AppState} from '../../../core/state/index';
 import * as actions from '../../state/actions/byFeature/metadataActions';
 import {GameMetadata} from '../../../game-mechanics/models/index';
 import {BaseControl} from '../../../dynamic-forms/models/Base';
-import {METADATA_DEF} from '../../configs/form-definitions';
+import {METADATA_DEF} from '../../utils/form-definitions';
 import {selectMovementsAsOptionsList} from '../../state/reducers/selectors';
 import {Option} from '../../../dynamic-forms/models/Base';
 import 'rxjs/add/operator/take';

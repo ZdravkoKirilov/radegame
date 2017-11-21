@@ -15,3 +15,4 @@ export * from './Trivia';
 export * from './TriviaAnswer';
 export * from './Game';
 export * from './Map';
+export * from './GameData';

@@ -5,7 +5,7 @@ import {EffectsModule} from '@ngrx/effects';
 import {RouterModule} from '@angular/router';
 import {StoreModule} from '@ngrx/store';
 
-import {FEATURE_NAME} from './configs/config';
+import {FEATURE_NAME} from './utils/config';
 import {GameEditEffectsService} from './state/effects/game-edit-effects.service';
 
 import {IndexComponent} from './index/index.component';

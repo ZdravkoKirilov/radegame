@@ -4,7 +4,7 @@ import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
 import {Trivia, BoardField, Character, Resource, Game, MapLocation, MapPath, Map} from '../models/index';
-import {API_URLS} from './config';
+import {API_URLS} from '../configs/config';
 import {toMultipartFormData} from '../../shared/utils/ToMultipartFormData';
 
 @Injectable()
@@ -43,11 +43,23 @@ export class GameEditService {
         });
     }
 
-    saveGameResource(data: Resource): Observable<Resource> {
-        return of({
-            id: new Date().getTime(),
-            ...data
-        });
+    getResources(gameId: number): Observable<Resource[]> {
+        return this.http.get(API_URLS.RESOURCES(gameId));
+    }
+
+    saveResource(data: Resource): Observable<Resource> {
+        const formData = toMultipartFormData(data);
+        const options = {headers: new HttpHeaders({})};
+
+        if (data.id) {
+            return this.http.patch(API_URLS.RESOURCES(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.RESOURCES(data.game), formData, options);
+        }
+    }
+
+    deleteResource(data: Resource) {
+        return this.http.delete(API_URLS.RESOURCES(data.game, data.id));
     }
 
     saveMap(data: Map): Observable<Map> {
@@ -95,7 +107,7 @@ export class GameEditService {
         return this.http.post(API_URLS.GAMES, data);
     }
 
-    getGames(): Observable<any> {
+    getGames(): Observable<Game[]> {
         return this.http.get(API_URLS.GAMES);
     }
 
@@ -103,7 +115,7 @@ export class GameEditService {
         return this.http.get(`${API_URLS.GAMES}${id}`);
     }
 
-    getFields(gameId: number) {
+    getFields(gameId: number): Observable<BoardField[]> {
         return this.http.get(API_URLS.FIELDS(gameId));
     }
 }

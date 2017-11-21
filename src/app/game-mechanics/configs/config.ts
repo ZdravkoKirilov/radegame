@@ -22,4 +22,8 @@ export const API_URLS = {
         const base = `${BASE_URL}/games/${gameId}/maps/`;
         return mapId ? `${base}${mapId}/` : base;
     },
+    RESOURCES: (gameId: number, resourceId?: number) => {
+        const base = `${BASE_URL}/games/${gameId}/resources/`;
+        return resourceId ? `${base}${resourceId}/` : base;
+    },
 };

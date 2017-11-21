@@ -1,7 +1,6 @@
-import {Component, Input, EventEmitter} from '@angular/core';
+import {Component, Input, Output, EventEmitter} from '@angular/core';
 
-import {Resource} from '../../../../game-mechanics/models/Resource';
-import {Observable} from 'rxjs/Observable';
+import {Resource} from '../../../../game-mechanics/models/index';
 
 @Component({
     selector: 'rg-resources-list',
@@ -10,6 +9,7 @@ import {Observable} from 'rxjs/Observable';
 })
 export class ResourcesListComponent {
     @Input() items: Resource[];
+    @Output() removeItem: EventEmitter<Resource> = new EventEmitter();
 
     constructor() {
     }

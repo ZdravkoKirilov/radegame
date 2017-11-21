@@ -1,1 +1,6 @@
-<rg-resources [resources]="resources | async"></rg-resources>
+<rg-resources
+        [resources]="resources"
+        [showEditor]="showEditor"
+        (toggleEditor)="toggleEditor($event)"
+        (removeResource)="removeResource($event)"
+></rg-resources>

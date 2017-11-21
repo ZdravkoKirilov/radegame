@@ -27,9 +27,8 @@ export class IndexComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.store.dispatch(new ClearFormAction());
         this.storeSub = this.store
-            .select('router')
             .subscribe(state => {
-                const game: Game = selectRouterData('game', state).game;
+                const game: Game = selectRouterData('game')(state).game;
                 if (game && game.boardType !== this.boardType) {
                     this.store.dispatch(new UpdateEditorAssetsAction({
                         supportedMovements: this.gameBoards[game.boardType].allowedMovements,

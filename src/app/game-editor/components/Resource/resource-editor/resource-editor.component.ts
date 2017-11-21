@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Resource } from '../../../../game-mechanics/models/Resource';
@@ -8,7 +8,8 @@ import { ControlsService } from '../../../../dynamic-forms/services/controls.ser
 @Component({
     selector: 'rg-resource-editor',
     templateUrl: './resource-editor.component.html',
-    styleUrls: ['./resource-editor.component.scss']
+    styleUrls: ['./resource-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResourceEditorComponent implements OnInit {
     @Output() save: EventEmitter<Resource> = new EventEmitter<Resource>();
@@ -19,13 +20,14 @@ export class ResourceEditorComponent implements OnInit {
     constructor(private cs: ControlsService) {
     }
 
-    saveGameResource() {
+    saveResource() {
         this.save.emit(this.rForm.value);
     }
 
     cancelAction() {
         this.cancel.emit();
     }
+
     ngOnInit() {
         this.rForm = this.cs.toFormGroup(this.formDefinition);
     }

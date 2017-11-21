@@ -7,7 +7,7 @@ import {Character, Ability} from '../../../game-mechanics/models/index';
 import {SaveCharacterAction} from '../../state/actions/byFeature/characterActions';
 import {selectAbilities} from '../../state/reducers/selectors';
 import { BaseControl } from '../../../dynamic-forms/models/Base';
-import {CHARACTER_DEF} from '../../configs/form-definitions';
+import {CHARACTER_DEF} from '../../utils/form-definitions';
 
 @Component({
     selector: 'rg-smart-character-editor',

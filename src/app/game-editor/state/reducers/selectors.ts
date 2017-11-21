@@ -1,4 +1,4 @@
-import {FEATURE_NAME} from '../../configs/config';
+import {FEATURE_NAME} from '../../utils/config';
 import {GameEditorFeature} from '../../models/index';
 import {createSelector, createFeatureSelector} from '@ngrx/store';
 import {Option} from '../../../dynamic-forms/models/Base';
@@ -8,6 +8,10 @@ export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NA
 
 export const selectResources = createSelector(selectFeature, (state: GameEditorFeature) => {
     return state.form.resources.items ? Object.values(state.form.resources.items) : [];
+});
+
+export const selectResourceEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
+    return state.form.resources.showEditor;
 });
 
 export const selectCharacters = createSelector(selectFeature, (state: GameEditorFeature) => {

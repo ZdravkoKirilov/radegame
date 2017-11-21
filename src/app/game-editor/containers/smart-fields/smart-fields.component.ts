@@ -7,7 +7,7 @@ import {AppState} from '../../../core/state/index';
 import {selectBoardType} from '../../state/reducers/selectors';
 import {selectRouterData} from '../../../core/state/reducers/selectors';
 import {Game} from '../../../game-mechanics/models/index';
-import { GameData } from '../../../shared/models/GameData';
+import { GameData } from '../../../game-mechanics/models/GameData';
 import {GetFieldsSuccessAction} from '../../state/actions/byFeature/fieldActions';
 import {
     GetMapLocationsSuccessAction,
@@ -32,9 +32,9 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.boardType = this.store.map(state => selectBoardType(state));
-        this.storeSub = this.store.select('router')
+        this.storeSub = this.store
             .subscribe(state => {
-                const gameData: GameData = selectRouterData('game', state);
+                const gameData: GameData = selectRouterData('game')(state);
                 if (!this.game) {
                     this.store.dispatch(new GetFieldsSuccessAction(gameData.fields));
                     this.store.dispatch(new GetMapLocationsSuccessAction(gameData.locations));

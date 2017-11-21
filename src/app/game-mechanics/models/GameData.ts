@@ -1,4 +1,4 @@
-import { MapPath, Map, MapLocation, BoardField, Game } from '../../game-mechanics/models/index';
+import { MapPath, Map, MapLocation, BoardField, Game, Resource } from './index';
 
 export interface GameData {
     game?: Game;
@@ -6,4 +6,5 @@ export interface GameData {
     map?: Map;
     locations?: MapLocation[];
     paths?: MapPath[];
+    resources?: Resource[];
 }
