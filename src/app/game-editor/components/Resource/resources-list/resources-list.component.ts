@@ -9,6 +9,7 @@ import {Resource} from '../../../../game-mechanics/models/index';
 })
 export class ResourcesListComponent {
     @Input() items: Resource[];
+    @Output() editItem: EventEmitter<Resource> = new EventEmitter();
     @Output() removeItem: EventEmitter<Resource> = new EventEmitter();
 
     constructor() {

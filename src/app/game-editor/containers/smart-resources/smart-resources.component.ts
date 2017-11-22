@@ -1,31 +1,41 @@
-import {Component, OnInit, OnDestroy, ChangeDetectionStrategy} from '@angular/core';
-import {Store} from '@ngrx/store';
-import {Subscription} from 'rxjs/Subscription';
+import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { Subscription } from 'rxjs/Subscription';
 
-import {Resource, Game, GameData} from '../../../game-mechanics/models/index';
+import { Resource, Game, GameData } from '../../../game-mechanics/models/index';
 import {
     SetResourcesAction,
     ToggleEditorAction,
-    DeleteResourceAction
+    DeleteResourceAction,
+    ChangeSelectedResourceAction
 } from '../../state/actions/byFeature/resourceActions';
-import {selectResources, selectResourceEditorToggleState} from '../../state/reducers/selectors';
-import {selectRouterData} from '../../../core/state/reducers/selectors';
-import {AppState} from '../../../core/state/index';
+import { selectResources, selectResourceEditorToggleState, getSelectedResource } from '../../state/reducers/selectors';
+import { selectRouterData } from '../../../core/state/reducers/selectors';
+import { AppState } from '../../../core/state/index';
 
 @Component({
     selector: 'rg-smart-resources',
     templateUrl: './smart-resources.component.html',
-    styleUrls: ['./smart-resources.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./smart-resources.component.scss']
 })
 export class SmartResourcesComponent implements OnInit, OnDestroy {
 
     private storeSub: Subscription;
-    private game: Game;
+    public game: Game;
     public resources: Resource[] = [];
+    public selectedItem: Resource;
     public showEditor = false;
 
     constructor(private store: Store<AppState>) {
+    }
+
+    editResource(payload: Resource) {
+        this.changeSelectedItem(payload);
+        this.toggleEditor(true);
+    }
+
+    changeSelectedItem(payload: Resource) {
+        this.store.dispatch(new ChangeSelectedResourceAction(payload));
     }
 
     removeResource(payload: Resource) {
@@ -33,6 +43,9 @@ export class SmartResourcesComponent implements OnInit, OnDestroy {
     }
 
     toggleEditor(flag: boolean) {
+        if (!flag) {
+            this.changeSelectedItem(null);
+        }
         this.store.dispatch(new ToggleEditorAction(flag));
     }
 
@@ -40,6 +53,7 @@ export class SmartResourcesComponent implements OnInit, OnDestroy {
         this.storeSub = this.store.subscribe(state => {
             this.resources = selectResources(state);
             this.showEditor = selectResourceEditorToggleState(state);
+            this.selectedItem = getSelectedResource(state);
 
             const gameData: GameData = selectRouterData('game')(state);
             if (!this.game) {

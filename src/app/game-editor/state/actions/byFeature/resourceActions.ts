@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
-import {Action} from '@ngrx/store';
-import {Resource} from '../../../../game-mechanics/models/index';
+import { Action } from '@ngrx/store';
+import { Resource } from '../../../../game-mechanics/models/index';
 
 export class SaveResourceAction implements Action {
     constructor(public payload: Resource) {
@@ -92,6 +92,13 @@ export class ToggleEditorAction implements Action {
     readonly type = actionTypes.TOGGLE_RESOURCE_EDITOR;
 }
 
+export class ChangeSelectedResourceAction implements Action {
+    constructor(public payload?: Resource) {
+    }
+
+    readonly type = actionTypes.CHANGE_SELECTED_RESOURCE;
+}
+
 export type Actions =
     | SaveResourceAction
     | SaveResourceSuccessAction
@@ -105,4 +112,5 @@ export type Actions =
     | SetResourcesAction
     | GetResourcesSuccessAction
     | GetResourcesFailAction
-    | ToggleEditorAction;
+    | ToggleEditorAction
+    | ChangeSelectedResourceAction;

@@ -87,8 +87,11 @@ export class SmartMapEditorComponent implements OnInit, OnDestroy {
         this.store.dispatch(new SaveMapLocationAction(payload));
     }
 
+    editField() {
+        this.toggleFieldEditor(true);
+    }
+
     deleteField(payload: BoardField) {
-        debugger;
         if (payload) {
             this.store.dispatch(new DeleteFieldAction(payload));
         }

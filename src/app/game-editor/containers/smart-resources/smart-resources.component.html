@@ -1,6 +1,11 @@
 <rg-resources
         [resources]="resources"
         [showEditor]="showEditor"
+        [game]="game"
+        [selectedItem]="selectedItem"
         (toggleEditor)="toggleEditor($event)"
         (removeResource)="removeResource($event)"
+        (editResource)="editResource($event)"
 ></rg-resources>
+
+<ng-content *ngIf="!showEditor"></ng-content>

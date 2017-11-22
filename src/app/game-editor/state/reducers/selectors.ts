@@ -2,7 +2,7 @@ import {FEATURE_NAME} from '../../utils/config';
 import {GameEditorFeature} from '../../models/index';
 import {createSelector, createFeatureSelector} from '@ngrx/store';
 import {Option} from '../../../dynamic-forms/models/Base';
-import {BoardField, BoardFieldList, MapLocation, MapPath, Grid, Movement, Game} from '../../../game-mechanics/models/index';
+import {BoardField, BoardFieldList, MapLocation, MapPath, Grid, Movement, Game, Resource} from '../../../game-mechanics/models/index';
 
 export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -12,6 +12,10 @@ export const selectResources = createSelector(selectFeature, (state: GameEditorF
 
 export const selectResourceEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.resources.showEditor;
+});
+
+export const getSelectedResource = createSelector(selectFeature, (state: GameEditorFeature): Resource => {
+    return state.form.resources.selectedItem;
 });
 
 export const selectCharacters = createSelector(selectFeature, (state: GameEditorFeature) => {

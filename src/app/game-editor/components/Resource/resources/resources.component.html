@@ -3,6 +3,7 @@
     <rg-resources-list *ngIf="!showEditor"
                        [items]="resources"
                        (removeItem)="removeResource.emit($event)"
+                       (editItem)="editResource.emit($event)"
     >
 
     </rg-resources-list>
@@ -14,6 +15,10 @@
         </button>
     </div>
 
-    <rg-smart-resource-editor *ngIf="showEditor" (save)="saveResource()"
-                              (cancel)="hideResourceEditor()"></rg-smart-resource-editor>
+    <rg-smart-resource-editor
+            *ngIf="showEditor"
+            [game]="game"
+            [selectedItem]="selectedItem"
+            (save)="saveResource()"
+            (cancel)="hideResourceEditor()"></rg-smart-resource-editor>
 </div>

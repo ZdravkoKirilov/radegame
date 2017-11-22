@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
 
-import {Resource} from '../../../../game-mechanics/models/index';
+import {Resource, Game} from '../../../../game-mechanics/models/index';
 
 @Component({
     selector: 'rg-resources',
@@ -14,8 +14,11 @@ export class ResourcesComponent {
     }
 
     @Input() resources: Resource[];
+    @Input() game: Game;
+    @Input() selectedItem: Resource;
     @Input() showEditor;
     @Output() toggleEditor: EventEmitter<boolean> = new EventEmitter();
+    @Output() editResource: EventEmitter<Resource> = new EventEmitter();
     @Output() removeResource: EventEmitter<Resource> = new EventEmitter();
 
     showResourceEditor() {

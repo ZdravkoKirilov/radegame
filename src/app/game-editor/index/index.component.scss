@@ -9,17 +9,19 @@
     }
   }
   .buttons-toolbar {
-    margin: 10px;
+    margin: 30px 0;
     width: 100%;
     text-align: center;
   }
-  /deep/ {
-    .cards-container {
-      display: flex;
-      .mat-card {
-        max-width: 24%;
-        margin-right: .5%;
-      }
+  .cards-container {
+    display: flex;
+    .mat-card {
+      max-width: 24%;
+      margin-right: .5%;
     }
   }
+  .dynamic-form {
+    text-align: center;
+  }
+
 }

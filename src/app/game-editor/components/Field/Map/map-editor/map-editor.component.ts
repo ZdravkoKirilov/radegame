@@ -2,14 +2,14 @@ import {
     Component, ViewChild, ElementRef, ChangeDetectionStrategy,
     OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges
 } from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
+import { Subscription } from 'rxjs/Subscription';
 
-import {BoardField, MapLocation, MapPath} from '../../../../../game-mechanics/models/index';
-import {RenderingService} from '../../../../../game-mechanics/services/rendering.service';
-import {SceneRenderService} from '../../../../../game-mechanics/rendering/scene-render.service';
-import {KEYCODES} from '../../../../utils/config';
-import {composeDefaultLoc} from '../../../../utils/utils';
-import {propHasChanged, propHasNewValue} from '../../../../../shared/utils/propsCheck';
+import { BoardField, MapLocation, MapPath } from '../../../../../game-mechanics/models/index';
+import { RenderingService } from '../../../../../game-mechanics/services/rendering.service';
+import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
+import { KEYCODES } from '../../../../utils/config';
+import { composeDefaultLoc } from '../../../../utils/utils';
+import { propHasChanged, propHasNewValue } from '../../../../../shared/utils/propsCheck';
 
 @Component({
     selector: 'rg-map-editor',
@@ -31,6 +31,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @Output() createPath: EventEmitter<MapPath> = new EventEmitter();
     @Output() deletePath: EventEmitter<MapPath> = new EventEmitter();
     @Output() selectPath: EventEmitter<number> = new EventEmitter();
+    @Output() editField: EventEmitter<any> = new EventEmitter();
 
     @Input() canvasImage: string;
     @Input() fields: BoardField[];
@@ -83,9 +84,9 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
             this.selectPath.emit(data.id);
         });
         const keypress = scr.keypress.subscribe(event => {
+            const field = this.selectedField;
+            const path = this.selectedPath;
             if (event.keyCode === KEYCODES.Delete) {
-                const field = this.selectedField;
-                const path = this.selectedPath;
                 if (field) {
                     const payload = this.fields.find(elem => elem.id === field.id);
                     this.deleteMapField.emit(payload);
@@ -93,6 +94,12 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
                 if (path) {
                     const payload = this.mapPaths.find(elem => elem.id === path.id);
                     this.deletePath.emit(payload);
+                }
+            }
+
+            if (event.keyCode === KEYCODES.Enter) {
+                if (field) {
+                    this.editField.emit();
                 }
             }
         });

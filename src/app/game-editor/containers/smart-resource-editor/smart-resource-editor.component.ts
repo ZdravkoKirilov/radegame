@@ -1,8 +1,8 @@
-import {Component, Input, Output, EventEmitter, ChangeDetectionStrategy} from '@angular/core';
+import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/state/index';
-import { Resource } from '../../../game-mechanics/models/Resource';
+import { Resource, Game } from '../../../game-mechanics/models/index';
 import { SaveResourceAction } from '../../state/actions/byFeature/resourceActions';
 import { BaseControl } from '../../../dynamic-forms/models/Base';
 import { RESOURCE_DEF } from '../../utils/form-definitions';
@@ -19,16 +19,21 @@ export class SmartResourceEditorComponent {
     }
 
     @Input() selectedItem: Resource;
+    @Input() game: Game;
     @Output() save: EventEmitter<any> = new EventEmitter();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
 
     public controls: BaseControl<any>[] = RESOURCE_DEF();
 
     public saveResource(data: Resource) {
-        debugger;
-        this.store.dispatch(new SaveResourceAction(data));
+        const payload = {...data, game: this.game.id};
+        if (this.selectedItem) {
+            payload.id = this.selectedItem.id;
+        }
+        this.store.dispatch(new SaveResourceAction(payload));
         this.save.emit();
     }
+
     public cancelAction() {
         this.cancel.emit();
     }

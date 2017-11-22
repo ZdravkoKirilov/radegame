@@ -70,6 +70,7 @@ export interface Resources {
     lastInsert?: Resource;
     lastDelete?: Resource;
     showEditor?: boolean;
+    selectedItem?: Resource;
 }
 
 export interface Trivias {

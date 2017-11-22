@@ -1,14 +1,15 @@
-import {Actions} from '../../actions/byFeature/resourceActions';
+import { Actions } from '../../actions/byFeature/resourceActions';
 import * as actionTypes from '../../actions/actionTypes';
-import {Resources} from '../../../models/index';
-import {Resource} from '../../../../game-mechanics/models/Resource';
-import {toIndexedList} from '../../../../shared/utils/utils';
+import { Resources } from '../../../models/index';
+import { Resource } from '../../../../game-mechanics/models/Resource';
+import { toIndexedList } from '../../../../shared/utils/utils';
 
 const initialState: Resources = {
     items: {},
     lastInsert: null,
     lastDelete: null,
-    showEditor: false
+    showEditor: false,
+    selectedItem: null
 };
 
 export function resourcesReducer(state: Resources = initialState, action: Actions): Resources {
@@ -33,6 +34,11 @@ export function resourcesReducer(state: Resources = initialState, action: Action
             return {
                 ...state,
                 showEditor: action.payload
+            };
+        case actionTypes.CHANGE_SELECTED_RESOURCE:
+            return {
+                ...state,
+                selectedItem: action.payload
             };
         default:
             return state;

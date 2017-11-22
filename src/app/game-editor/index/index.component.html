@@ -1,17 +1,6 @@
 <mat-vertical-stepper>
 
     <mat-step>
-        <ng-template matStepLabel>Resources</ng-template>
-        <section>
-            <rg-smart-resources></rg-smart-resources>
-        </section>
-        <section>
-            <button mat-raised-button matStepperPrevious>Back</button>
-            <button mat-raised-button matStepperNext>Next</button>
-        </section>
-    </mat-step>
-
-    <mat-step>
         <ng-template matStepLabel>Fields</ng-template>
         <section>
             <rg-smart-fields></rg-smart-fields>
@@ -19,6 +8,18 @@
         <section>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Resources</ng-template>
+        <section>
+            <rg-smart-resources>
+                <section>
+                    <button mat-raised-button matStepperPrevious>Back</button>
+                    <button mat-raised-button matStepperNext>Next</button>
+                </section>
+            </rg-smart-resources>
         </section>
     </mat-step>
 
