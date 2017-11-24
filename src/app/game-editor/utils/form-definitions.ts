@@ -53,10 +53,10 @@ export function FIELD_DEF(resources: Option[]): BaseControl<any>[] {
 export function CHARACTER_DEF(resources: Resource[] = [
     {
         name: 'Gold',
-        id: 1
+        id: 11
     }, {
         name: 'Wood',
-        id: 2
+        id: 22
     }
 ]): BaseControl<any>[] {
     return [
@@ -79,7 +79,7 @@ export function CHARACTER_DEF(resources: Resource[] = [
             required: false
         }, {
             name: 'resources',
-            controlType: controlTypes.QUANTITY_PICKER,
+            controlType: controlTypes.NESTED_FORM,
             label: 'Pick the character`s starting resources',
             required: false,
             childControls: resources.map((elem: Resource) => {

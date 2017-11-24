@@ -1,15 +1,15 @@
-export interface Ability {
+export interface GameAction {
     id?: number|string;
     name?: string;
     mode?: string;
     actions?: string[];
 }
 
-export interface AbilityList {
-    [key: string]: Ability;
+export interface ActionList {
+    [key: string]: GameAction;
 }
 
-export const abilityModes = {
+export const actionModes = {
     TRIGGER: 'TRIGGER',
     PASSIVE: 'PASSIVE'
 };

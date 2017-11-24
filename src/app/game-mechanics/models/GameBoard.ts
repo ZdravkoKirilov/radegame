@@ -1,7 +1,7 @@
 export interface GameBoard {
     displayName: string;
     allowedMovements: string[];
-    supportedAbilities: string[];
+    supportedActions: string[];
     id: string;
 }
 export interface GameBoardTypes {

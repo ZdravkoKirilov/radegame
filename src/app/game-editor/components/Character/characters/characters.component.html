@@ -1,15 +1,15 @@
 <div class="wrapper">
 
-    <rg-characters-list *ngIf="!showEditor" [items]="characters"></rg-characters-list>
+    <rg-characters-list *ngIf="showEditor" [items]="characters"></rg-characters-list>
 
-    <div *ngIf="!showEditor" class="buttons-toolbar">
+    <div *ngIf="showEditor" class="buttons-toolbar">
         <button mat-raised-button color="primary" class="create-new-btn" (click)="showCharacterEditor()">
             <mat-icon>add</mat-icon>
             <span>Create new character</span>
         </button>
     </div>
 
-    <rg-smart-character-editor *ngIf="showEditor" (save)="saveCharacter()"
+    <rg-smart-character-editor *ngIf="!showEditor" (save)="saveCharacter()"
                                (cancel)="hideCharacterEditor()"
     ></rg-smart-character-editor>
 </div>

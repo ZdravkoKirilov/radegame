@@ -4,5 +4,6 @@ export const controlTypes = {
     BUTTON_GROUP: 'BUTTON_GROUP',
     SLIDER: 'SLIDER',
     QUANTITY_PICKER: 'QUANTITY_PICKER',
-    SWITCH: 'SWITCH'
+    SWITCH: 'SWITCH',
+    NESTED_FORM: 'NESTED_FORM'
 };

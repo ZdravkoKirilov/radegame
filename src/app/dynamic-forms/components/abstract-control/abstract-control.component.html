@@ -26,5 +26,9 @@
             <rg-switch [data]="data" (change)="handleFieldChange($event)"></rg-switch>
         </ng-container>
 
+        <ng-container *ngSwitchCase="types.NESTED_FORM">
+            <rg-nested-form [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-nested-form>
+        </ng-container>
+
     </ng-container>
 </div>

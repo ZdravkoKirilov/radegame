@@ -1,7 +1,7 @@
 import {
     GameBoardTypes,
     Game,
-    AbilityList,
+    ActionList,
     MovementsList,
     GameMetadata,
     Resource,
@@ -23,11 +23,9 @@ export interface GamesList {
 
 export interface GameEditorAssets {
     supportedMovements?: string[];
-    supportedAbilities?: string[];
-    gameBoards?: GameBoardTypes;
-    abilities?: AbilityList;
+    supportedActions?: string[];
+    actions?: ActionList;
     movements?: MovementsList;
-    boardType?: boardTypes;
     game?: Game;
 }
 

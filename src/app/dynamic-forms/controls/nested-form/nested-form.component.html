@@ -1,0 +1,9 @@
+<div *ngIf="subForm && data">
+    <label>{{data.label}}</label>
+    <rg-dynamic-form
+            [controls]="data.childControls"
+            [form]="subForm"
+    >
+
+    </rg-dynamic-form>
+</div>

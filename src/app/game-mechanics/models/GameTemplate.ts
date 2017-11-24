@@ -2,7 +2,7 @@ import { Movement } from './Movement';
 import { TriviaList } from './Trivia';
 import { ResourceList } from './Resource';
 import { CharacterList } from './Character';
-import { AbilityList } from './Ability';
+import { ActionList } from './GameAction';
 import { TrapsList } from './Trap';
 import { EffectsList } from './FieldEffect';
 import { EndCondition } from './EndCondition';
@@ -16,7 +16,7 @@ export interface GameTemplate {
     trivia?: TriviaList;
     resources?: ResourceList;
     characters?: CharacterList;
-    abilities?: AbilityList;
+    abilities?: ActionList;
     traps?: TrapsList;
     effects?: EffectsList;
 }

@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
-import {Character, Ability} from '../../../../game-mechanics/models/index';
+import {Character, GameAction} from '../../../../game-mechanics/models/index';
 import {BaseControl} from '../../../../dynamic-forms/models/Base';
 import {ControlsService} from '../../../../dynamic-forms/services/controls.service';
 
@@ -13,7 +13,6 @@ import {ControlsService} from '../../../../dynamic-forms/services/controls.servi
 export class CharacterEditorComponent implements OnInit {
     @Output() save: EventEmitter<Character> = new EventEmitter<Character>();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
-    @Input() abilities: Ability[];
     @Input() formDefinition: BaseControl<any>[];
     public rForm: FormGroup;
 

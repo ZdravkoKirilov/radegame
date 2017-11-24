@@ -1,5 +1,8 @@
-<rg-character-editor (save)="saveCharacter($event)"
-                     (cancel)="cancelAction()"
-                     [abilities]="supportedAbilities | async"
-                     [formDefinition]="controls"
-></rg-character-editor>
+<rg-character-editor
+        *ngIf="controls"
+        (save)="saveCharacter($event)"
+        (cancel)="cancelAction()"
+        [formDefinition]="controls"
+>
+
+</rg-character-editor>

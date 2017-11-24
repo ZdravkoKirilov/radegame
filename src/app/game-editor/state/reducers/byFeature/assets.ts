@@ -4,10 +4,9 @@ import {GameEditorAssets} from '../../../models/index';
 
 const initialState: GameEditorAssets = {
     supportedMovements: [],
-    supportedAbilities: [],
-    abilities: null,
+    supportedActions: [],
+    actions: null,
     movements: null,
-    gameBoards: null,
     game: null,
 };
 

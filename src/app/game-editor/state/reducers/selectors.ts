@@ -22,8 +22,8 @@ export const selectCharacters = createSelector(selectFeature, (state: GameEditor
     return state.form.characters.items ? Object.values(state.form.characters.items) : [];
 });
 
-export const selectAbilities = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.assets.supportedAbilities.map(elem => state.assets.abilities[elem]);
+export const selectSupportedActions = createSelector(selectFeature, (state: GameEditorFeature) => {
+    return state.assets.supportedActions.map(elem => state.assets.actions[elem]);
 });
 
 export const selectMovements = createSelector(selectFeature, (state: GameEditorFeature): Movement[] => {

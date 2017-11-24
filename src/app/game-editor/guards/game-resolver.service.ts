@@ -1,15 +1,18 @@
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/take';
 import 'rxjs/add/observable/forkJoin';
-import {Injectable} from '@angular/core';
-import {Observable} from 'rxjs/Observable';
-import {of} from 'rxjs/observable/of';
-import {Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot} from '@angular/router';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Observable';
+import { of } from 'rxjs/observable/of';
+import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
-import {Game} from '../../game-mechanics/models/index';
-import {GameData} from '../../game-mechanics/models/GameData';
-import {GameEditService} from '../../game-mechanics/services/game-edit.service';
-import {ROUTER_PARAMS} from '../../game-mechanics/configs/config';
+import { Game } from '../../game-mechanics/models/index';
+import { GameData } from '../../game-mechanics/models/GameData';
+import { GameEditService } from '../../game-mechanics/services/game-edit.service';
+import { ROUTER_PARAMS } from '../../game-mechanics/configs/config';
+import { GameBoards } from '../../game-mechanics/configs/game-boards';
+import { Movements } from '../../game-mechanics/configs/movements';
+import { GameActions } from '../../game-mechanics/configs/game-action';
 
 @Injectable()
 export class GameResolverService implements Resolve<Game> {
@@ -34,8 +37,13 @@ export class GameResolverService implements Resolve<Game> {
             const paths = res[3];
             const fields = res[4];
             const resources = res[5];
+
             return {
-                game, map, locations, paths, fields, resources
+                game, map, locations, paths, fields, resources,
+                supportedMovements: GameBoards[game.boardType].allowedMovements,
+                supportedActions: GameBoards[game.boardType].supportedActions,
+                actions: GameActions,
+                movements: Movements
             };
         }).catch(() => {
             this.router.navigate(['/games/editor']);

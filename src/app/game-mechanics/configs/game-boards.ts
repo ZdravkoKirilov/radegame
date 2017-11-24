@@ -1,5 +1,5 @@
 import {moveTypes} from './movements';
-import {types as abilities} from './abilities';
+import {types as actions} from './game-action';
 import {GameBoardTypes} from '../models/index';
 
 export const types = {
@@ -14,19 +14,19 @@ export const GameBoards: GameBoardTypes = {
         displayName: 'Basic Grid',
         id: types.BASIC_GRID,
         allowedMovements: [moveTypes.Basic, moveTypes.Other],
-        supportedAbilities: [
-            abilities.GainResource,
-            abilities.ReduceResource,
-            abilities.StealResource
+        supportedActions: [
+            actions.GainResource,
+            actions.ReduceResource,
+            actions.StealResource
         ]
     },
     [types.MAP]: {
         displayName: 'Territory MapState',
         id: types.MAP,
         allowedMovements: [moveTypes.Other],
-        supportedAbilities: [
-            abilities.GainResource,
-            abilities.ReduceResource,
+        supportedActions: [
+            actions.GainResource,
+            actions.ReduceResource,
         ]
     }
 };
