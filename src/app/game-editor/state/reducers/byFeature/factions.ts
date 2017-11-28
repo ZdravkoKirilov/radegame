@@ -1,15 +1,15 @@
-import {Actions} from '../../actions/byFeature/characterActions';
+import {Actions} from '../../actions/byFeature/factionActions';
 import * as actionTypes from '../../actions/actionTypes';
-import { Characters } from '../../../models/index';
+import { Factions } from '../../../models/index';
 
-const initialState: Characters = {
+const initialState: Factions = {
     items: {},
     lastInsert: null
 };
 
-export function charactersReducer(state: Characters = initialState, action: Actions): Characters {
+export function factionsReducer(state: Factions = initialState, action: Actions): Factions {
     switch (action.type) {
-        case actionTypes.SAVE_CHARACTER_SUCCESS:
+        case actionTypes.SAVE_FACTION_SUCCESS:
             return {
                 ...state,
                 items: {

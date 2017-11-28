@@ -32,7 +32,8 @@ export class FieldEditorComponent implements OnInit {
     ngOnInit() {
         this.form = this.cs.toFormGroup(this.controls);
         if (this.data) {
-            this.form.patchValue(this.data);
+            this.cs.patchFormDeep(this.form, this.data, ['quantity']);
+            //this.form.patchValue(this.data);
         }
     }
 }

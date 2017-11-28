@@ -1,17 +1,17 @@
 import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
-import {Character, GameAction} from '../../../../game-mechanics/models/index';
+import {Faction, GameAction} from '../../../../game-mechanics/models/index';
 import {BaseControl} from '../../../../dynamic-forms/models/Base';
 import {ControlsService} from '../../../../dynamic-forms/services/controls.service';
 
 @Component({
-    selector: 'rg-character-editor',
-    templateUrl: './character-editor.component.html',
-    styleUrls: ['./character-editor.component.scss']
+    selector: 'rg-faction-editor',
+    templateUrl: './faction-editor.component.html',
+    styleUrls: ['./faction-editor.component.scss']
 })
-export class CharacterEditorComponent implements OnInit {
-    @Output() save: EventEmitter<Character> = new EventEmitter<Character>();
+export class FactionEditorComponent implements OnInit {
+    @Output() save: EventEmitter<Faction> = new EventEmitter<Faction>();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
     @Input() formDefinition: BaseControl<any>[];
     public rForm: FormGroup;

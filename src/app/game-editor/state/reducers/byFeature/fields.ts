@@ -1,7 +1,6 @@
 import { Actions } from '../../actions/byFeature/fieldActions';
 import * as actionTypes from '../../actions/actionTypes';
 import { BoardFields } from '../../../models/index';
-import { BoardField, BoardFieldList } from '../../../../game-mechanics/models/index';
 
 const initialState: BoardFields = {
     items: {},
@@ -14,33 +13,30 @@ const initialState: BoardFields = {
 export function fieldsReducer(state: BoardFields = initialState, action: Actions): BoardFields {
     switch (action.type) {
         case actionTypes.SAVE_FIELD_SUCCESS:
-            return {
+            const isInsert = !(action.payload.id in state.items);
+            const newState = {
                 ...state,
                 items: {
                     ...state.items,
                     [action.payload.id]: action.payload
                 },
-                lastInsert: action.payload.id
-
             };
+            if (isInsert) {
+                newState.lastInsert = action.payload.id;
+            }
+            return newState;
         case actionTypes.DELETE_FIELD_SUCCESS:
-            const newItems = { ...state.items };
+            const newItems = {...state.items};
             delete newItems[action.payload.id];
             return {
                 ...state,
                 lastDelete: state.items[action.payload.id],
-                items: {
-                    ...newItems
-                }
+                items: {...newItems}
             };
         case actionTypes.GET_FIELDS_SUCCESS:
-            const fields = action.payload.reduce((acc: BoardFieldList, elem: BoardField) => {
-                acc[elem.id] = elem;
-                return acc;
-            }, {});
             return {
                 ...state,
-                items: fields
+                items: action.payload
             };
         case actionTypes.TOGGLE_FIELD_EDITOR:
             return {

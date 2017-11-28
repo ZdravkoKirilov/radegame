@@ -5,7 +5,6 @@ import {
 import { Subscription } from 'rxjs/Subscription';
 
 import { BoardField, MapLocation, MapPath } from '../../../../../game-mechanics/models/index';
-import { RenderingService } from '../../../../../game-mechanics/services/rendering.service';
 import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
 import { KEYCODES } from '../../../../utils/config';
 import { composeDefaultLoc } from '../../../../utils/utils';
@@ -46,7 +45,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     private subs: Subscription[] = [];
 
 
-    constructor(private rs: RenderingService, private scr: SceneRenderService) {
+    constructor(private scr: SceneRenderService) {
     }
 
     fieldWasSaved(field: BoardField) {
@@ -104,75 +103,16 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
             }
         });
         this.subs = [nodeMoved, nodeSelected, pathSelected, keypress];
-        // const {rs} = this;
-        // const objAdded = rs.objectAdded
-        //     .subscribe((obj: MapLocation) => {
-        //         if (!obj.id) {
-        //
-        //         }
-        //     });
-        // const objModified = rs.objectModified
-        //     .subscribe((obj: MapLocation) => {
-        //         this.saveMapLocation.emit(obj);
-        //     });
-        // const onEnter = rs.onEnterKey
-        //     .subscribe(() => {
-        //         if (!this.pathCreationMode) {
-        //             this.toggleFieldEditor.emit(true);
-        //         }
-        //     });
-        // const onDelete = rs.onDeleteKey
-        //     .subscribe((obj: FabricObject) => {
-        //         if (obj.type === 'line') {
-        //             this.deletePath.emit({...this.selectedPath});
-        //         } else {
-        //             this.deleteMapField.emit({...this.selectedField});
-        //         }
-        //     });
-        // const onFieldSelect = rs.objectSelected
-        //     .subscribe((obj: MapLocation) => {
-        //         const selected = this.selectedField ? this.selectedField.id : null;
-        //         if (this.pathCreationMode && obj && selected) {
-        //             const fromLoc = this.mapLocations[selected].id;
-        //             const toLoc = this.mapLocations[obj.field].id;
-        //             if (fromLoc && toLoc) {
-        //                 const payload: MapPath = {fromLoc, toLoc};
-        //                 this.createPath.emit(payload);
-        //             }
-        //         }
-        //         this.selectField.emit(obj.field);
-        //     });
-        // const onPathSelect = rs.pathSelected
-        //     .subscribe((pathId: number) => {
-        //         this.selectPath.emit(pathId);
-        //     });
-        // const onPathDeselect = rs.objectDeselected
-        //     .subscribe(() => {
-        //         this.selectPath.emit(null);
-        //     });
-        // const onFieldDeselect = rs.objectDeselected
-        //     .subscribe(() => {
-        //         if (this.pathCreationMode) {
-        //             this.selectField.emit(null);
-        //         }
-        //     });
-        //
-        // this.subs = [objAdded, objModified, onEnter,
-        //     onDelete, onFieldSelect, onFieldDeselect, onPathSelect, onPathDeselect];
     }
 
     ngOnInit() {
-        // this.rs.initialize('fCanvas', this.canvasWrapper);
-        // this.rs.attachListeners();
-        // this.rs.updateBackground(this.canvasImage);
-        // this.attachListeners();
         this.scr.initialize(this.canvasWrapper.nativeElement);
         this.scr.updateBackground(this.canvasImage);
         this.attachListeners();
     }
 
     ngOnChanges(c: SimpleChanges) {
-        if (this.rs && propHasChanged(c, 'canvasImage')) {
+        if (propHasChanged(c, 'canvasImage')) {
             this.scr.updateBackground(c.canvasImage.currentValue);
         }
         if (propHasNewValue(c, 'lastInsertedField')) {

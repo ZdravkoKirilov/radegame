@@ -4,11 +4,12 @@ import { FormGroup } from '@angular/forms';
 import { BaseControl } from '../../models/Base';
 
 @Component({
-    selector: 'rg-text-input',
-    templateUrl: './text-input.component.html',
-    styleUrls: ['./text-input.component.scss']
+    selector: 'rg-number-input',
+    templateUrl: './number-input.component.html',
+    styleUrls: ['./number-input.component.scss']
 })
-export class TextInputComponent {
+export class NumberInputComponent {
+
     @Input() form: FormGroup;
     @Input() data: BaseControl<string>;
 
@@ -16,10 +17,13 @@ export class TextInputComponent {
     }
 
     get isValid() {
-        return this.form.controls[this.data.name].valid;
+        if ('controls' in this.form) {
+            return this.form.controls[this.data.name].valid;
+        }
     }
 
     handleChange(event) {
         event.stopPropagation();
     }
+
 }

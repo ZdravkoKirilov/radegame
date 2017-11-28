@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { QuantityPickerComponent } from './quantity-picker.component';
+import { SmartFactionEditorComponent } from './smart-faction-editor.component';
 
-describe('QuantityPickerComponent', () => {
-  let component: QuantityPickerComponent;
-  let fixture: ComponentFixture<QuantityPickerComponent>;
+describe('SmartFactionEditorComponent', () => {
+  let component: SmartFactionEditorComponent;
+  let fixture: ComponentFixture<SmartFactionEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ QuantityPickerComponent ]
+      declarations: [ SmartFactionEditorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(QuantityPickerComponent);
+    fixture = TestBed.createComponent(SmartFactionEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

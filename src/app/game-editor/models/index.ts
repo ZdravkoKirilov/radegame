@@ -1,18 +1,16 @@
 import {
-    GameBoardTypes,
     Game,
     ActionList,
     MovementsList,
     GameMetadata,
     Resource,
-    Character,
+    Faction,
     Trivia,
     BoardField,
     MapLocation,
     MapPath,
     Grid
 } from '../../game-mechanics/models/index';
-import {boardTypes} from '../../game-mechanics/configs/game-boards';
 
 export interface GamesList {
     items: {
@@ -54,11 +52,11 @@ export interface MapState {
     selectedPath?: number;
 }
 
-export interface Characters {
+export interface Factions {
     items?: {
-        [key: string]: Character
+        [key: string]: Faction
     };
-    lastInsert?: Character;
+    lastInsert?: Faction;
 }
 
 export interface Resources {
@@ -81,7 +79,7 @@ export interface Trivias {
 export interface GameEditorForm {
     metadata?: GameMetadata;
     resources?: Resources;
-    characters?: Characters;
+    factions?: Factions;
     trivia?: Trivias;
     fields?: BoardFields;
     map?: MapState;

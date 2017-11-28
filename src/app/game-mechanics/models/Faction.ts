@@ -1,4 +1,4 @@
-export interface Character {
+export interface Faction {
     id?: number|string;
     name?: string;
     image?: string;
@@ -6,7 +6,7 @@ export interface Character {
     description?: string;
 }
 
-export interface CharacterList {
-    [key: string]: Character;
+export interface FactionList {
+    [key: string]: Faction;
 }
 

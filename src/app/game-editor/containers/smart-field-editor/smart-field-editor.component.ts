@@ -1,15 +1,15 @@
-import {Component, OnInit, OnDestroy, Input, Output, EventEmitter} from '@angular/core';
-import {Subscription} from 'rxjs/Subscription';
-import {Observable} from 'rxjs/Observable';
-import {Store} from '@ngrx/store';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter } from '@angular/core';
+import { Subscription } from 'rxjs/Subscription';
+import { Store } from '@ngrx/store';
 
-import {AppState} from '../../../core/state/index';
-import {BaseControl} from '../../../dynamic-forms/models/Base';
-import {BoardField, Game} from '../../../game-mechanics/models/index';
-import {FieldCoord} from '../../models/index';
-import {FIELD_DEF} from '../../utils/form-definitions';
-import {SaveFieldAction} from '../../state/actions/byFeature/fieldActions';
-import {selectGame} from '../../state/reducers/selectors';
+import { AppState } from '../../../core/state/index';
+import { BaseControl } from '../../../dynamic-forms/models/Base';
+import { BoardField, Game } from '../../../game-mechanics/models/index';
+import { FieldCoord } from '../../models/index';
+import { FIELD_DEF } from '../../utils/form-definitions';
+import { SaveFieldAction } from '../../state/actions/byFeature/fieldActions';
+import { selectGame, selectResources } from '../../state/reducers/selectors';
+import { formatBoardField_output } from '../../state/data-format/fields';
 
 @Component({
     selector: 'rg-smart-field-editor',
@@ -24,7 +24,7 @@ export class SmartFieldEditorComponent implements OnInit, OnDestroy {
     @Input() field: BoardField;
     private storeSub: Subscription;
     private game: Game;
-    public controls: Observable<BaseControl<any>[]>;
+    public controls: BaseControl<any>[];
 
     constructor(private store: Store<AppState>) {
     }
@@ -34,7 +34,8 @@ export class SmartFieldEditorComponent implements OnInit, OnDestroy {
             field = {...field, id: this.field.id};
         }
         field.game = this.game.id;
-        this.store.dispatch(new SaveFieldAction(field));
+        const formatted = formatBoardField_output(this.field, field);
+        this.store.dispatch(new SaveFieldAction(formatted));
         this.save.emit(field);
     }
 
@@ -43,8 +44,9 @@ export class SmartFieldEditorComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.controls = this.store.map(state => FIELD_DEF([]));
         this.storeSub = this.store.subscribe(state => {
+            const resources = selectResources(state);
+            this.controls = FIELD_DEF(Object.values(resources));
             this.game = selectGame(state);
         });
     }

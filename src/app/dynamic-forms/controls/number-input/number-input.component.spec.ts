@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SmartCharactersComponent } from './smart-characters.component';
+import { NumberInputComponent } from './number-input.component';
 
-describe('SmartCharactersComponent', () => {
-  let component: SmartCharactersComponent;
-  let fixture: ComponentFixture<SmartCharactersComponent>;
+describe('NumberInputComponent', () => {
+  let component: NumberInputComponent;
+  let fixture: ComponentFixture<NumberInputComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmartCharactersComponent ]
+      declarations: [ NumberInputComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SmartCharactersComponent);
+    fixture = TestBed.createComponent(NumberInputComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

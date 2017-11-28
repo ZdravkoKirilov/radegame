@@ -1,17 +1,6 @@
 <mat-vertical-stepper>
 
     <mat-step>
-        <ng-template matStepLabel>Characters</ng-template>
-        <section>
-            <rg-smart-characters></rg-smart-characters>
-        </section>
-        <section>
-            <button mat-raised-button matStepperPrevious>Back</button>
-            <button mat-raised-button matStepperNext>Next</button>
-        </section>
-    </mat-step>
-
-    <mat-step>
         <ng-template matStepLabel>Fields</ng-template>
         <section>
             <rg-smart-fields></rg-smart-fields>
@@ -19,6 +8,17 @@
         <section>
             <button mat-button matStepperPrevious>Back</button>
             <button mat-button matStepperNext>Next</button>
+        </section>
+    </mat-step>
+
+    <mat-step>
+        <ng-template matStepLabel>Factions</ng-template>
+        <section>
+            <rg-smart-factions></rg-smart-factions>
+        </section>
+        <section>
+            <button mat-raised-button matStepperPrevious>Back</button>
+            <button mat-raised-button matStepperNext>Next</button>
         </section>
     </mat-step>
 

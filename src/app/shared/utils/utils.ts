@@ -6,9 +6,10 @@ interface IndexedList {
     [key: string]: ObjectWithId;
 }
 
-export const toIndexedList = (source: ObjectWithId[]): IndexedList => {
+export const toIndexedList = (source: ObjectWithId[], indexProp?: string): IndexedList => {
     return source.reduce((acc: IndexedList, elem: ObjectWithId) => {
-        acc[elem.id] = elem;
+        const prop = elem[indexProp] || elem.id;
+        acc[prop] = elem;
         return acc;
     }, {});
 };

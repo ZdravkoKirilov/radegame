@@ -1,7 +1,7 @@
-import {BaseControl} from '../../dynamic-forms/models/Base';
-import {controlTypes} from '../../dynamic-forms/config/controlTypes';
-import {Option} from '../../dynamic-forms/models/Base';
-import {Resource} from '../../game-mechanics/models/Resource';
+import { BaseControl } from '../../dynamic-forms/models/Base';
+import { controlTypes } from '../../dynamic-forms/config/controlTypes';
+import { Option } from '../../dynamic-forms/models/Base';
+import { Resource } from '../../game-mechanics/models/Resource';
 
 export function METADATA_DEF(movements: Option[]): BaseControl<any>[] {
     return [{
@@ -27,7 +27,7 @@ export function METADATA_DEF(movements: Option[]): BaseControl<any>[] {
     ];
 }
 
-export function FIELD_DEF(resources: Option[]): BaseControl<any>[] {
+export function FIELD_DEF(resources: Resource[]): BaseControl<any>[] {
     return [
         {
             name: 'name',
@@ -46,41 +46,59 @@ export function FIELD_DEF(resources: Option[]): BaseControl<any>[] {
             controlType: controlTypes.IMAGE_BROWSER,
             label: 'Choose field image',
             required: false,
+        }, {
+            name: 'income',
+            controlType: controlTypes.NESTED_FORM,
+            label: 'Pick field income',
+            required: false,
+            childControls: resources.map((elem: Resource) => {
+                const childControl: BaseControl<any> = {
+                    label: elem.name,
+                    name: elem.id.toString(),
+                    controlType: controlTypes.NUMBER_INPUT,
+                };
+                return childControl;
+            })
+        }, {
+            name: 'cost',
+            controlType: controlTypes.NESTED_FORM,
+            label: 'Pick field cost',
+            required: false,
+            childControls: resources.map((elem: Resource) => {
+                const childControl: BaseControl<any> = {
+                    label: elem.name,
+                    name: elem.id.toString(),
+                    controlType: controlTypes.NUMBER_INPUT,
+                };
+                return childControl;
+            })
         }
     ];
 }
 
-export function CHARACTER_DEF(resources: Resource[] = [
-    {
-        name: 'Gold',
-        id: 11
-    }, {
-        name: 'Wood',
-        id: 22
-    }
-]): BaseControl<any>[] {
+export function FACTION_DEF(resources: Resource[]): BaseControl<any>[] {
     return [
         {
             name: 'name',
             controlType: controlTypes.TEXT_INPUT,
             value: '',
-            label: 'Pick character name',
+            label: 'Pick faction name',
             required: true
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
             value: '',
-            label: 'Character description',
+            label: 'Faction description',
             required: false
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_BROWSER,
-            label: 'Choose character image',
+            label: 'Choose faction image',
             required: false
         }, {
             name: 'resources',
             controlType: controlTypes.NESTED_FORM,
-            label: 'Pick the character`s starting resources',
+            label: 'Pick the faction`s starting resources',
             required: false,
             childControls: resources.map((elem: Resource) => {
                 const option: BaseControl<any> = {

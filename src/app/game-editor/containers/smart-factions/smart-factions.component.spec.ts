@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CharacterEditorComponent } from './character-editor.component';
+import { SmartFactionsComponent } from './smart-factions.component';
 
-describe('CharacterEditorComponent', () => {
-  let component: CharacterEditorComponent;
-  let fixture: ComponentFixture<CharacterEditorComponent>;
+describe('SmartFactionsComponent', () => {
+  let component: SmartFactionsComponent;
+  let fixture: ComponentFixture<SmartFactionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ CharacterEditorComponent ]
+      declarations: [ SmartFactionsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CharacterEditorComponent);
+    fixture = TestBed.createComponent(SmartFactionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

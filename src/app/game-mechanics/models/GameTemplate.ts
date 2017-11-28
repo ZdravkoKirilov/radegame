@@ -1,10 +1,8 @@
 import { Movement } from './Movement';
 import { TriviaList } from './Trivia';
 import { ResourceList } from './Resource';
-import { CharacterList } from './Character';
+import { FactionList } from './Faction';
 import { ActionList } from './GameAction';
-import { TrapsList } from './Trap';
-import { EffectsList } from './FieldEffect';
 import { EndCondition } from './EndCondition';
 import { GameMetadata } from './GameMetadata';
 
@@ -15,8 +13,6 @@ export interface GameTemplate {
     endCondition?: EndCondition;
     trivia?: TriviaList;
     resources?: ResourceList;
-    characters?: CharacterList;
+    factions?: FactionList;
     abilities?: ActionList;
-    traps?: TrapsList;
-    effects?: EffectsList;
 }

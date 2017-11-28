@@ -4,18 +4,18 @@ import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core/state/index';
-import { Character, GameAction } from '../../../game-mechanics/models/index';
-import { SaveCharacterAction } from '../../state/actions/byFeature/characterActions';
+import { Faction, GameAction } from '../../../game-mechanics/models/index';
+import { SaveFactionAction } from '../../state/actions/byFeature/factionActions';
 import { selectResources } from '../../state/reducers/selectors';
 import { BaseControl } from '../../../dynamic-forms/models/Base';
-import { CHARACTER_DEF } from '../../utils/form-definitions';
+import { FACTION_DEF } from '../../utils/form-definitions';
 
 @Component({
-    selector: 'rg-smart-character-editor',
-    templateUrl: './smart-character-editor.component.html',
-    styleUrls: ['./smart-character-editor.component.scss']
+    selector: 'rg-smart-faction-editor',
+    templateUrl: './smart-faction-editor.component.html',
+    styleUrls: ['./smart-faction-editor.component.scss']
 })
-export class SmartCharacterEditorComponent implements OnInit, OnDestroy {
+export class SmartFactionEditorComponent implements OnInit, OnDestroy {
 
     constructor(private store: Store<AppState>) {
     }
@@ -25,8 +25,8 @@ export class SmartCharacterEditorComponent implements OnInit, OnDestroy {
     private storeSub: Subscription;
     public controls: BaseControl<any>[];
 
-    public saveCharacter(data: Character): void {
-        this.store.dispatch(new SaveCharacterAction(data));
+    public saveCharacter(data: Faction): void {
+        this.store.dispatch(new SaveFactionAction(data));
         this.save.emit();
     }
 
@@ -37,7 +37,7 @@ export class SmartCharacterEditorComponent implements OnInit, OnDestroy {
     ngOnInit() {
         this.storeSub = this.store.subscribe(state => {
             const resources = selectResources(state);
-            this.controls = CHARACTER_DEF(Object.values(resources));
+            this.controls = FACTION_DEF(Object.values(resources));
         });
     }
 

@@ -14,10 +14,10 @@ import { TextInputComponent } from './controls/text-input/text-input.component';
 import { ImageBrowserComponent } from './controls/image-browser/image-browser.component';
 import { ButtonGroupComponent } from './controls/button-group/button-group.component';
 import { SliderComponent } from './controls/slider/slider.component';
-import { QuantityPickerComponent } from './controls/quantity-picker/quantity-picker.component';
 import { SwitchComponent } from './controls/switch/switch.component';
 import { ImagePickerComponent } from './controls/image-picker/image-picker.component';
 import { NestedFormComponent } from './controls/nested-form/nested-form.component';
+import { NumberInputComponent } from './controls/number-input/number-input.component';
 
 @NgModule({
     imports: [
@@ -31,8 +31,8 @@ import { NestedFormComponent } from './controls/nested-form/nested-form.componen
         DynamicFormComponent, ImagePickerComponent
     ],
     declarations: [DynamicFormComponent, AbstractControlComponent, TextInputComponent,
-        ImageBrowserComponent, ButtonGroupComponent, SliderComponent, QuantityPickerComponent,
-        SwitchComponent, ImagePickerComponent, NestedFormComponent],
+        ImageBrowserComponent, ButtonGroupComponent, SliderComponent,
+        SwitchComponent, ImagePickerComponent, NestedFormComponent, NumberInputComponent],
     providers: [
         ControlsService
     ]

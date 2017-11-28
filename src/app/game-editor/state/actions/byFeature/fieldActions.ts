@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { Action } from '@ngrx/store';
-import { BoardField, MapLocation } from '../../../../game-mechanics/models/index';
+import { BoardField, BoardFieldList } from '../../../../game-mechanics/models/index';
 
 export class SaveFieldAction implements Action {
     constructor(public payload: BoardField) {
@@ -48,7 +48,7 @@ export class GetFieldsAction implements Action {
 }
 
 export class GetFieldsSuccessAction implements Action {
-    constructor(public payload: BoardField[]) {
+    constructor(public payload: BoardFieldList) {
     }
 
     readonly type = actionTypes.GET_FIELDS_SUCCESS;

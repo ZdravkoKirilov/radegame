@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, AbstractControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../models/Base';
 
@@ -11,13 +11,13 @@ import { BaseControl } from '../../models/Base';
 export class NestedFormComponent implements OnInit {
     @Input() data: BaseControl<any>;
     @Input() form: FormGroup;
-    public subForm: AbstractControl;
+    public subForm: FormGroup;
 
     constructor() {
     }
 
     ngOnInit() {
-        this.subForm = this.form.get(this.data.name);
+        this.subForm = this.form.get(this.data.name) as FormGroup;
     }
 
 }

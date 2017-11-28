@@ -7,12 +7,13 @@ import { of } from 'rxjs/observable/of';
 import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
 import { Game } from '../../game-mechanics/models/index';
-import { GameData } from '../../game-mechanics/models/GameData';
+import { GameData } from '../../game-mechanics/models/index';
 import { GameEditService } from '../../game-mechanics/services/game-edit.service';
 import { ROUTER_PARAMS } from '../../game-mechanics/configs/config';
 import { GameBoards } from '../../game-mechanics/configs/game-boards';
 import { Movements } from '../../game-mechanics/configs/movements';
 import { GameActions } from '../../game-mechanics/configs/game-action';
+import { formatBoardFields_input } from '../state/data-format/fields';
 
 @Injectable()
 export class GameResolverService implements Resolve<Game> {
@@ -35,9 +36,8 @@ export class GameResolverService implements Resolve<Game> {
             const map = res[1][0];
             const locations = res[2];
             const paths = res[3];
-            const fields = res[4];
+            const fields = formatBoardFields_input(res[4]);
             const resources = res[5];
-
             return {
                 game, map, locations, paths, fields, resources,
                 supportedMovements: GameBoards[game.boardType].allowedMovements,

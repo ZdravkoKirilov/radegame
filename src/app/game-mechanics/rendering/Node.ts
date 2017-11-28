@@ -1,11 +1,12 @@
-import {Subject} from 'rxjs/Subject';
-import {loaders, Sprite} from 'pixi.js';
+import { Subject } from 'rxjs/Subject';
+import { loaders, Sprite } from 'pixi.js';
 
-import {MapLocation} from '../models/Map';
-import {ISpriteComponent} from './SpriteComponent';
+import { MapLocation } from '../models/Map';
+import { ISpriteComponent } from './SpriteComponent';
 
 export class MapNode implements ISpriteComponent {
     private dragging = false;
+    private hasMoved = false;
 
     loaded: Subject<Sprite> = new Subject();
     change: Subject<any> = new Subject();
@@ -69,14 +70,18 @@ export class MapNode implements ISpriteComponent {
                 left: newPos.x - this.sprite.width / 2,
                 top: newPos.y - this.sprite.height / 2
             };
+            this.hasMoved = true;
         }
     };
 
     private onDragEnd = (event) => {
         event.stopPropagation();
         this.sprite.alpha = 1;
+        if (this.dragging && this.hasMoved) {
+            this.moved.next(this.data);
+        }
         this.dragging = false;
-        this.moved.next(this.data);
+        this.hasMoved = false;
     };
 
     get data() {

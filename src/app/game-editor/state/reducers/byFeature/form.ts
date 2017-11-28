@@ -1,13 +1,13 @@
 import {ActionReducer, combineReducers} from '@ngrx/store';
 
-import {resourcesReducer, charactersReducer, metadataReducer,
+import {resourcesReducer, factionsReducer, metadataReducer,
     triviaReducer, fieldsReducer, mapReducer, gridReducer} from './exports';
 import {GameEditorForm} from '../../../models/index';
 import * as actionTypes from '../../actions/actionTypes';
 
 const reducers = {
     metadata: metadataReducer,
-    characters: charactersReducer,
+    factions: factionsReducer,
     resources: resourcesReducer,
     trivia: triviaReducer,
     fields: fieldsReducer,

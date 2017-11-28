@@ -1,10 +1,10 @@
-import { MapPath, Map, MapLocation, BoardField, Game, Resource } from './index';
+import { MapPath, Map, MapLocation, BoardFieldList, Game, Resource } from './index';
 import { ActionList } from './GameAction';
 import { MovementsList } from './Movement';
 
 export interface GameData {
     game?: Game;
-    fields?: BoardField[];
+    fields?: BoardFieldList;
     map?: Map;
     locations?: MapLocation[];
     paths?: MapPath[];

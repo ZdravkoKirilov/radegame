@@ -17,14 +17,13 @@ import {metaReducers} from './state/reducers/index';
 import {NgMaterialModule} from '../ng-material/ng-material.module';
 import {GameElementsModule} from '../game-elements/game-elements.module';
 import {DynamicFormsModule} from '../dynamic-forms/dynamic-forms.module';
-import {RenderingService} from '../game-mechanics/services/rendering.service';
 import { SceneRenderService } from '../game-mechanics/rendering/scene-render.service';
 import {GameResolverService} from './guards/game-resolver.service';
 import { GameEditService } from '../game-mechanics/services/game-edit.service';
 
 import {GeneralSettingsComponent} from './components/general-settings/general-settings.component';
 import {ResourcesComponent} from './components/Resource/resources/resources.component';
-import {CharactersComponent} from './components/Character/characters/characters.component';
+import {FactionsComponent} from './components/Faction/factions/factions.component';
 import {FieldsComponent} from './components/Field/fields/fields.component';
 import {TriviaComponent} from './components/Trivia/trivias/trivia.component';
 import {TrapsComponent} from './components/traps/traps.component';
@@ -36,10 +35,10 @@ import {SmartGeneralSettingsComponent} from './containers/smart-general-settings
 import {SmartResourceEditorComponent} from './containers/smart-resource-editor/smart-resource-editor.component';
 import {SmartResourcesComponent} from './containers/smart-resources/smart-resources.component';
 import {ResourcesListComponent} from './components/Resource/resources-list/resources-list.component';
-import {SmartCharactersComponent} from './containers/smart-characters/smart-characters.component';
-import {SmartCharacterEditorComponent} from './containers/smart-character-editor/smart-character-editor.component';
-import {CharactersListComponent} from './components/Character/characters-list/characters-list.component';
-import {CharacterEditorComponent} from './components/Character/character-editor/character-editor.component';
+import {SmartFactionsComponent} from './containers/smart-factions/smart-factions.component';
+import {SmartFactionEditorComponent} from './containers/smart-faction-editor/smart-faction-editor.component';
+import {FactionsListComponent} from './components/Faction/factions-list/factions-list.component';
+import {FactionEditorComponent} from './components/Faction/faction-editor/faction-editor.component';
 import {GameLaunchComponent} from './components/Launch/game-launch/game-launch.component';
 import {SmartTriviaComponent} from './containers/smart-trivia/smart-trivia.component';
 import {SmartTriviaEditorComponent} from './containers/smart-trivia-editor/smart-trivia-editor.component';
@@ -79,16 +78,15 @@ import { MapPathComponent } from './components/Field/Map/map-path/map-path.compo
         RouterModule
     ],
     providers: [
-        RenderingService,
         SceneRenderService,
         GameResolverService,
         GameEditService
     ],
-    declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, CharactersComponent,
+    declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, FactionsComponent,
         FieldsComponent, TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent,
         ResourceEditorComponent, SmartGeneralSettingsComponent, SmartResourceEditorComponent,
-        SmartResourcesComponent, ResourcesListComponent, SmartCharactersComponent,
-        SmartCharacterEditorComponent, CharactersListComponent, CharacterEditorComponent,
+        SmartResourcesComponent, ResourcesListComponent, SmartFactionsComponent,
+        SmartFactionEditorComponent, FactionsListComponent, FactionEditorComponent,
         GameLaunchComponent, SmartTriviaComponent,
         SmartTriviaEditorComponent, TriviaEditorComponent, TriviasListComponent, FieldEditorComponent,
         EmptySlotComponent, GridFieldComponent, GridEditorComponent, SmartGridEditorComponent,

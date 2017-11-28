@@ -1,8 +1,8 @@
-import {FEATURE_NAME} from '../../utils/config';
-import {GameEditorFeature} from '../../models/index';
-import {createSelector, createFeatureSelector} from '@ngrx/store';
-import {Option} from '../../../dynamic-forms/models/Base';
-import {BoardField, BoardFieldList, MapLocation, MapPath, Grid, Movement, Game, Resource} from '../../../game-mechanics/models/index';
+import { FEATURE_NAME } from '../../utils/config';
+import { GameEditorFeature } from '../../models/index';
+import { createSelector, createFeatureSelector } from '@ngrx/store';
+import { Option } from '../../../dynamic-forms/models/Base';
+import { BoardField, BoardFieldList, MapLocation, MapPath, Grid, Movement, Game, Resource } from '../../../game-mechanics/models/index';
 
 export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -19,11 +19,7 @@ export const getSelectedResource = createSelector(selectFeature, (state: GameEdi
 });
 
 export const selectCharacters = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.form.characters.items ? Object.values(state.form.characters.items) : [];
-});
-
-export const selectSupportedActions = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.assets.supportedActions.map(elem => state.assets.actions[elem]);
+    return state.form.factions.items ? Object.values(state.form.factions.items) : [];
 });
 
 export const selectMovements = createSelector(selectFeature, (state: GameEditorFeature): Movement[] => {
@@ -65,12 +61,6 @@ export const selectGames = createSelector(selectFeature, (state: GameEditorFeatu
 export const selectGamesIndexed = createSelector(selectFeature, (state: GameEditorFeature) => {
     return state.games.items;
 });
-
-export const selectGameById = function (gameId: number) {
-    return createSelector(selectGamesIndexed, (games: any): Game => {
-        return games[gameId];
-    });
-};
 
 export const selectGame = createSelector(selectFeature, (state: GameEditorFeature): Game => {
     return state.assets.game;

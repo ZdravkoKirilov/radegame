@@ -3,7 +3,7 @@ import {Observable} from 'rxjs/Observable';
 import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 
-import {Trivia, BoardField, Character, Resource, Game, MapLocation, MapPath, Map} from '../models/index';
+import {Trivia, BoardField, Faction, Resource, Game, MapLocation, MapPath, Map} from '../models/index';
 import {API_URLS} from '../configs/config';
 import {toMultipartFormData} from '../../shared/utils/ToMultipartFormData';
 
@@ -36,7 +36,7 @@ export class GameEditService {
         return this.http.get(API_URLS.PATHS(gameId));
     }
 
-    saveGameCharacter(data: Character): Observable<Character> {
+    saveGameCharacter(data: Faction): Observable<Faction> {
         return of({
             id: new Date().getTime(),
             ...data
@@ -90,7 +90,7 @@ export class GameEditService {
     }
 
     saveBoardField(data: BoardField): Observable<BoardField> {
-        const formData = toMultipartFormData(data);
+        const formData: any = toMultipartFormData(data);
         const options = {headers: new HttpHeaders({})};
         if (data.id) {
             return this.http.patch(API_URLS.FIELDS(data.game, data.id), formData, options);
