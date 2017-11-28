@@ -5,6 +5,4 @@ interface NodeModule {
     id: string;
 }
 
-declare module 'fabric';
-
 

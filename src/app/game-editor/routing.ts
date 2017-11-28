@@ -1,9 +1,10 @@
 import {Routes} from '@angular/router';
 
-import {IndexComponent} from './index/index.component';
+import {IndexComponent} from './containers/index/index.component';
 import {SmartLaunchComponent} from './containers/smart-launch/smart-launch.component';
 import {ROUTER_PARAMS} from '../game-mechanics/configs/config';
-import { GameResolverService } from './guards/game-resolver.service';
+import { GameResolverService } from './resolvers/game-resolver.service';
+import { GamesListResolverService } from './resolvers/games-list-resolver.service';
 
 export const routes: Routes = [
     {
@@ -14,6 +15,9 @@ export const routes: Routes = [
         data: {
             title: 'Radegast: create a new game'
         },
+        resolve: {
+            games: GamesListResolverService
+        }
     },
     {
         path: `games/editor/:${ROUTER_PARAMS.GAME_ID}`,

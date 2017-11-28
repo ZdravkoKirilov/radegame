@@ -20,11 +20,14 @@ export const formatBoardField_output = (field: BoardField, edits: BoardField): B
                 const editsValue: BoardField = edits[key];
                 const results = [];
                 for (const k in editsValue) {
-                    results.push({
-                        ...value[k],
-                        quantity: editsValue[k],
-                        resource: k
-                    });
+                    const quantity = editsValue[k];
+                    if (quantity) {
+                        results.push({
+                            ...value[k],
+                            quantity,
+                            resource: k
+                        });
+                    }
                 }
                 field[key] = results;
             } else {
@@ -38,11 +41,14 @@ export const formatBoardField_output = (field: BoardField, edits: BoardField): B
             if (value instanceof Object && !(value instanceof Blob)) {
                 const results = [];
                 for (const k in value) {
-                    results.push({
-                        ...value[k],
-                        quantity: value[k],
-                        resource: k
-                    });
+                    const quantity = value[k];
+                    if (quantity) {
+                        results.push({
+                            ...value[k],
+                            quantity,
+                            resource: k
+                        });
+                    }
                 }
                 field[key] = results;
             } else {

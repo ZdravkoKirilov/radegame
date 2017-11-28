@@ -18,7 +18,7 @@ export class SmartTriviaComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.trivia = this.store.map(state => selectTrivia(state));
+        //this.trivia = this.store.map(state => selectTrivia(state));
     }
 
 }

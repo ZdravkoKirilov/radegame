@@ -47,6 +47,6 @@ export class SmartGridEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.grid = this.store.map((state: AppState) => selectGridWithInnerItems(state));
+        //this.grid = this.store.map((state: AppState) => selectGridWithInnerItems(state));
     }
 }

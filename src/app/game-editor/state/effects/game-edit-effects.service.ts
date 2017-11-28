@@ -8,7 +8,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../game-mechanics/services/game-edit.service';
+import { GameEditService } from '../../services/game-edit.service';
 import { Faction, BoardField, Resource, Trivia, Game, MapLocation, MapPath, Map } from '../../../game-mechanics/models/index';
 import * as actionTypes from '../actions/actionTypes';
 import {
@@ -62,7 +62,7 @@ import {
 
 import { OperationSuccessAction, OperationFailAction } from '../../../core/state/actions/actions';
 import { systemMessages as sm } from '../../../shared/config/messages';
-import { formatBoardField_input } from '../data-format/fields';
+import { formatBoardField_input } from '../transformations/fields';
 
 @Injectable()
 export class GameEditEffectsService {
@@ -70,7 +70,7 @@ export class GameEditEffectsService {
     constructor(private actions$: Actions, private api: GameEditService, private store: Store<AppState>) {
     }
 
-    @Effect() saveResource: Observable<Resource> = this.actions$
+    @Effect() saveResource: Observable<any> = this.actions$
         .ofType(actionTypes.SAVE_RESOURCE)
         .map((action: SaveResourceAction) => {
             const payload = {...action.payload};
@@ -93,7 +93,7 @@ export class GameEditEffectsService {
             return [new SaveResourceFailAction(), new OperationFailAction(sm.SAVE_RESOURCE_FAIL)];
         });
 
-    @Effect() deleteResource: Observable<Resource> = this.actions$
+    @Effect() deleteResource: Observable<any> = this.actions$
         .ofType(actionTypes.DELETE_RESOURCE)
         .map((action: DeleteResourceAction) => action.payload)
         .mergeMap((payload: Resource) => {
@@ -249,7 +249,7 @@ export class GameEditEffectsService {
     @Effect() saveCharacter: Observable<any> = this.actions$
         .ofType(actionTypes.SAVE_FACTION)
         .mergeMap((action: CharacterAction) => {
-            return this.api.saveGameCharacter(action.payload);
+            return this.api.saveFaction(action.payload);
         })
         .mergeMap((res: Faction) => {
             return [new SaveFactionSuccessAction(res)];

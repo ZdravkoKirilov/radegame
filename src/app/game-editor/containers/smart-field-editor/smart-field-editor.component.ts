@@ -9,7 +9,7 @@ import { FieldCoord } from '../../models/index';
 import { FIELD_DEF } from '../../utils/form-definitions';
 import { SaveFieldAction } from '../../state/actions/byFeature/fieldActions';
 import { selectGame, selectResources } from '../../state/reducers/selectors';
-import { formatBoardField_output } from '../../state/data-format/fields';
+import { formatBoardField_output } from '../../state/transformations/fields';
 
 @Component({
     selector: 'rg-smart-field-editor',
