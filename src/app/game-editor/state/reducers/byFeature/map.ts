@@ -1,7 +1,7 @@
-import {MapState} from '../../../models/index';
-import {MapActions} from '../../actions/byFeature/mapActions';
+import { MapState } from '../../../models/index';
+import { MapActions } from '../../actions/byFeature/mapActions';
 import * as actionTypes from '../../actions/actionTypes';
-import {MapLocation, MapPath, Map} from '../../../../game-mechanics/models/index';
+import { MapLocation, MapPath, Map } from '../../../../game-mechanics/models/index';
 
 const initialState: MapState = {
     canvas: {
@@ -20,11 +20,6 @@ const initialState: MapState = {
 
 export function mapReducer(state: MapState = initialState, action: MapActions): MapState {
     switch (action.type) {
-        case actionTypes.UPDATE_MAP:
-            return {
-                ...state,
-                ...action.payload
-            };
         case actionTypes.SAVE_MAP_LOCATION_SUCCESS:
             return {
                 ...state,
@@ -44,12 +39,11 @@ export function mapReducer(state: MapState = initialState, action: MapActions): 
                     ...newItems
                 }
             };
-        case actionTypes.GET_MAP_LOCATIONS_SUCCESS:
-            const items = action.payload.reduce((acc: any, elem: MapLocation) => {
-                acc[elem.field] = elem;
-                return acc;
-            }, {});
-            return {...state, items: {...items}};
+        case actionTypes.SET_MAP_LOCATIONS:
+            return {
+                ...state,
+                items: action.payload
+            };
         case actionTypes.TOGGLE_PATH_CREATION_MODE:
             return {
                 ...state,
@@ -70,13 +64,10 @@ export function mapReducer(state: MapState = initialState, action: MapActions): 
                 ...state,
                 paths: {...newPaths}
             };
-        case actionTypes.GET_MAP_PATHS_SUCCESS:
+        case actionTypes.SET_MAP_PATHS:
             return {
                 ...state,
-                paths: action.payload.reduce((acc: { [key: string]: MapPath }, elem: MapPath) => {
-                    acc[elem.id] = elem;
-                    return acc;
-                }, {})
+                paths: action.payload
             };
         case actionTypes.CHANGE_SELECTED_PATH:
             return {

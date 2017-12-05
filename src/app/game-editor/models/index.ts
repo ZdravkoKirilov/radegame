@@ -57,6 +57,9 @@ export interface Factions {
         [key: string]: Faction
     };
     lastInsert?: Faction;
+    lastDelete?: Faction;
+    showEditor?: boolean;
+    selectedItem?: Faction;
 }
 
 export interface Resources {

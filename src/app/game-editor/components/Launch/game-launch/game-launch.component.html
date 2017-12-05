@@ -1,5 +1,5 @@
 <div>
-    <rg-games-list [items]="games"></rg-games-list>
+    <rg-games-list *ngIf="games" [items]="games"></rg-games-list>
 
     <rg-dynamic-form *ngIf="form" [controls]="controls" [form]="form">
         <div>

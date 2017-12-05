@@ -1,0 +1,6 @@
+<mat-form-field>
+    <mat-placeholder>{{data.label}}</mat-placeholder>
+    <mat-select (change)="handleChange($event)" [value]="value" [required]="data.required">
+        <mat-option *ngFor="let item of data.options" [value]="item.value">{{item.label}}</mat-option>
+    </mat-select>
+</mat-form-field>

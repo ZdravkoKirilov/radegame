@@ -4,8 +4,8 @@ export interface BoardField {
     description?: string;
     image?: any;
     game?: number;
-    income?: FieldResourceList;
-    cost?: FieldResourceList;
+    income?: FieldResource[];
+    cost?: FieldResource[];
 }
 
 export interface BoardFieldList {
@@ -21,8 +21,4 @@ export interface FieldResource {
     resource?: number;
     field?: number;
     quantity?: number;
-}
-
-export interface FieldResourceList {
-    [key: string]: FieldResource;
 }

@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
-import {Action} from '@ngrx/store';
-import {Game} from '../../../../game-mechanics/models/index';
+import { Action } from '@ngrx/store';
+import { Game, GameList } from '../../../../game-mechanics/models/index';
 
 export class CreateGameAction implements Action {
     constructor(public payload: Game) {
@@ -27,10 +27,18 @@ export class GetGamesAction implements Action {
 }
 
 export class GetGamesSuccessAction implements Action {
-    constructor(public payload: Game[]) {
+    constructor(public payload: GameList) {
     }
 
     readonly type = actionTypes.GET_GAMES_SUCCESS;
+}
+
+export class SetGamesAction implements Action {
+    constructor(public payload: GameList) {
+
+    }
+
+    readonly type = actionTypes.SET_GAMES;
 }
 
 export class GetGamesFailAction implements Action {
@@ -44,4 +52,5 @@ export type Actions =
     | CreateGameFailAction
     | GetGamesAction
     | GetGamesSuccessAction
-    | GetGamesFailAction;
+    | GetGamesFailAction
+    | SetGamesAction;

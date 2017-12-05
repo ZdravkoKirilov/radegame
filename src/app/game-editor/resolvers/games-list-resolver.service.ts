@@ -8,6 +8,7 @@ import { Router, Resolve } from '@angular/router';
 
 import { GameEditService } from '../services/game-edit.service';
 import { Game } from '../../game-mechanics/models/index';
+import { toIndexedList } from '../../shared/utils/utils';
 
 @Injectable()
 export class GamesListResolverService implements Resolve<any> {
@@ -18,7 +19,7 @@ export class GamesListResolverService implements Resolve<any> {
     resolve(): Observable<any> {
         return this.api.getGames()
             .map((games: Game[]) => {
-                return games;
+                return toIndexedList(games);
             })
             .catch(err => {
                 this.router.navigate(['/']);

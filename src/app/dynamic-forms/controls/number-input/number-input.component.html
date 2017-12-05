@@ -1,8 +1,10 @@
-<div *ngIf="form" [formGroup]="form">
+<div *ngIf="form" [formGroup]="form" class="df-number-input">
+
     <mat-form-field>
         <mat-placeholder *ngIf="data.label">{{data.label}}</mat-placeholder>
-        <mat-error *ngIf="!isValid">{{data?.errorMessage}}</mat-error>
-        <input matInput [required]="data?.required" (change)="handleChange($event)" [formControlName]="data.name"
-               type="number"/>
+        <mat-error *ngIf="!isValid">{{data.errorMessage}}</mat-error>
+        <input matInput [required]="data.required" (change)="handleChange($event)"
+               type="number" [value]="value"/>
     </mat-form-field>
+
 </div>

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../models/Base';
@@ -8,22 +8,33 @@ import { BaseControl } from '../../models/Base';
     templateUrl: './number-input.component.html',
     styleUrls: ['./number-input.component.scss']
 })
-export class NumberInputComponent {
+export class NumberInputComponent implements OnInit{
 
     @Input() form: FormGroup;
-    @Input() data: BaseControl<string>;
+    @Input() data: BaseControl;
+    @Output() change: EventEmitter<any> = new EventEmitter();
+    value: number;
 
     constructor() {
     }
 
     get isValid() {
-        if ('controls' in this.form) {
-            return this.form.controls[this.data.name].valid;
+        const name = this.data.name;
+        const controls = this.form.controls;
+        if ('controls' in this.form && name in controls) {
+            return controls[name].valid;
         }
     }
 
     handleChange(event) {
         event.stopPropagation();
+        this.value = event.target.value;
+        this.change.emit({
+            [this.data.name]: event.target.value
+        });
     }
 
+    ngOnInit() {
+        this.value = this.data.value || '';
+    }
 }

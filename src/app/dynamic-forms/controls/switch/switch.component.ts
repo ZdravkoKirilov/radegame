@@ -8,7 +8,7 @@ import {BaseControl} from '../../models/Base';
     styleUrls: ['./switch.component.scss']
 })
 export class SwitchComponent {
-    @Input() data: BaseControl<any>;
+    @Input() data: BaseControl;
     @Output() change: EventEmitter<any> = new EventEmitter();
 
     constructor() {

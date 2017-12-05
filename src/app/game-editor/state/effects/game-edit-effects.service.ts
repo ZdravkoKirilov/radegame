@@ -62,7 +62,6 @@ import {
 
 import { OperationSuccessAction, OperationFailAction } from '../../../core/state/actions/actions';
 import { systemMessages as sm } from '../../../shared/config/messages';
-import { formatBoardField_input } from '../transformations/fields';
 
 @Injectable()
 export class GameEditEffectsService {
@@ -148,7 +147,6 @@ export class GameEditEffectsService {
             return this.api.saveBoardField(payload);
         })
         .mergeMap((res: BoardField) => {
-            res = formatBoardField_input(res);
             return [new SaveFieldSuccessAction(res), new OperationSuccessAction(sm.SAVE_FIELD_SUCCESS)];
         })
         .catch(() => {
@@ -280,16 +278,5 @@ export class GameEditEffectsService {
         })
         .catch(() => {
             return of(new CreateGameFailAction());
-        });
-    @Effect() getGames: Observable<any> = this.actions$
-        .ofType(actionTypes.GET_GAMES)
-        .mergeMap(() => {
-            return this.api.getGames();
-        })
-        .map((res: Game[]) => {
-            return new GetGamesSuccessAction(res);
-        })
-        .catch(() => {
-            return of(new GetGamesFailAction());
         });
 }

@@ -4,7 +4,7 @@ import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import { Trivia, BoardField, Faction, Resource, Game, MapLocation, MapPath, Map } from '../../game-mechanics/models/index';
-import { API_URLS } from '../../game-mechanics/configs/config';
+import { API_URLS } from '../../shared/config/api-urls';
 import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
 
 @Injectable()
@@ -117,5 +117,9 @@ export class GameEditService {
 
     getFields(gameId: number): Observable<any> {
         return this.http.get(API_URLS.FIELDS(gameId));
+    }
+
+    getFactions(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.FACTIONS(gameId));
     }
 }

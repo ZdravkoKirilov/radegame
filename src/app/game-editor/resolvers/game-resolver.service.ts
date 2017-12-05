@@ -6,14 +6,13 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@angular/router';
 
-import { Game } from '../../game-mechanics/models/index';
-import { GameData } from '../../game-mechanics/models/index';
+import { GameData, Game } from '../../game-mechanics/models/index';
 import { GameEditService } from '../services/game-edit.service';
 import { ROUTER_PARAMS } from '../../game-mechanics/configs/config';
 import { GameBoards } from '../../game-mechanics/configs/game-boards';
 import { Movements } from '../../game-mechanics/configs/movements';
 import { GameActions } from '../../game-mechanics/configs/game-action';
-import { formatBoardFields_input } from '../state/transformations/fields';
+import { toIndexedList } from '../../shared/utils/utils';
 
 @Injectable()
 export class GameResolverService implements Resolve<Game> {
@@ -31,15 +30,16 @@ export class GameResolverService implements Resolve<Game> {
             this.api.getPaths(gameId),
             this.api.getFields(gameId),
             this.api.getResources(gameId),
-        ]).map((res: any[]): GameData => {
-            const game = res[0];
-            const map = res[1][0];
-            const locations = res[2];
-            const paths = res[3];
-            const fields = formatBoardFields_input(res[4]);
-            const resources = res[5];
+            this.api.getFactions(gameId)
+        ]).map(([game, maps, locations, paths, fields, resources, factions]: any[]): GameData => {
+            const map = maps[0];
+            locations = toIndexedList(locations, 'field');
+            paths = toIndexedList(paths);
+            fields = toIndexedList(fields);
+            resources = toIndexedList(resources);
+            factions = toIndexedList(factions);
             return {
-                game, map, locations, paths, fields, resources,
+                game, map, locations, paths, fields, resources, factions,
                 supportedMovements: GameBoards[game.boardType].allowedMovements,
                 supportedActions: GameBoards[game.boardType].supportedActions,
                 actions: GameActions,

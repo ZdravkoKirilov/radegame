@@ -20,14 +20,10 @@ export function gamesReducer(state: GamesList = initialState, action: Actions): 
                 lastInsert: action.payload
 
             };
-        case actionTypes.GET_GAMES_SUCCESS:
-            const games = action.payload.reduce((acc: GamesList, elem: Game) => {
-                acc[elem.id] = elem;
-                return acc;
-            }, {});
+        case actionTypes.SET_GAMES:
             return {
                 ...state,
-                items: games
+                items: action.payload
             };
         default:
             return state;

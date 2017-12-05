@@ -5,5 +5,9 @@ export const controlTypes = {
     BUTTON_GROUP: 'BUTTON_GROUP',
     SLIDER: 'SLIDER',
     SWITCH: 'SWITCH',
-    NESTED_FORM: 'NESTED_FORM'
+    DROPDOWN: 'DROPDOWN',
+
+
+    NESTED_FORM: 'NESTED_FORM',
+    FORM_ARRAY: 'FORM_ARRAY'
 };

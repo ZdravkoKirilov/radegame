@@ -3,9 +3,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../core/state/index';
-import { BaseControl } from '../../../dynamic-forms/models/Base';
-import { BoardField, Game } from '../../../game-mechanics/models/index';
-import { FieldCoord } from '../../models/index';
+import { BoardField, Game, Resource } from '../../../game-mechanics/models/index';
 import { FIELD_DEF } from '../../utils/form-definitions';
 import { SaveFieldAction } from '../../state/actions/byFeature/fieldActions';
 import { selectGame, selectResources } from '../../state/reducers/selectors';
@@ -20,11 +18,11 @@ export class SmartFieldEditorComponent implements OnInit, OnDestroy {
 
     @Output() save: EventEmitter<any> = new EventEmitter();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
-    @Input() fieldCoord: FieldCoord;
     @Input() field: BoardField;
     private storeSub: Subscription;
     private game: Game;
-    public controls: BaseControl<any>[];
+    public formDefinition = FIELD_DEF;
+    public resources: Resource[];
 
     constructor(private store: Store<AppState>) {
     }
@@ -45,8 +43,7 @@ export class SmartFieldEditorComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.storeSub = this.store.subscribe(state => {
-            const resources = selectResources(state);
-            this.controls = FIELD_DEF(Object.values(resources));
+            this.resources = selectResources(state);
             this.game = selectGame(state);
         });
     }

@@ -10,7 +10,7 @@ import {BaseControl} from '../../models/Base';
 })
 export class ButtonGroupComponent {
     @Input() form: FormGroup;
-    @Input() data: BaseControl<any>;
+    @Input() data: BaseControl;
     @Output() change: EventEmitter<any> = new EventEmitter();
 
     constructor() {

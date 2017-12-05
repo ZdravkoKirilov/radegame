@@ -12,7 +12,7 @@ export class SliderComponent implements OnInit {
     constructor() {
     }
 
-    @Input() data: BaseControl<any>;
+    @Input() data: BaseControl;
 
     @Output() change: EventEmitter<any> = new EventEmitter<any>();
     public _sliderValue: number;

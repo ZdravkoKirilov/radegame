@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SmartFactionEditorComponent } from './smart-faction-editor.component';
+import { FormArrayComponent } from './form-array.component';
 
-describe('SmartFactionEditorComponent', () => {
-  let component: SmartFactionEditorComponent;
-  let fixture: ComponentFixture<SmartFactionEditorComponent>;
+describe('FormArrayComponent', () => {
+  let component: FormArrayComponent;
+  let fixture: ComponentFixture<FormArrayComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmartFactionEditorComponent ]
+      declarations: [ FormArrayComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SmartFactionEditorComponent);
+    fixture = TestBed.createComponent(FormArrayComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

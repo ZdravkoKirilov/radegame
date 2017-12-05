@@ -1,15 +1,26 @@
 <div class="wrapper">
 
-    <rg-factions-list *ngIf="showEditor" [items]="factions"></rg-factions-list>
+    <rg-factions-list
+            *ngIf="!showEditor"
+            [items]="factions"
+            (removeItem)="removeItem.emit($event)"
+            (editItem)="editItem.emit($event)"
+    >
+    </rg-factions-list>
 
-    <div *ngIf="showEditor" class="buttons-toolbar">
+    <div *ngIf="!showEditor" class="buttons-toolbar">
         <button mat-raised-button color="primary" class="create-new-btn" (click)="showFactionEditor()">
             <mat-icon>add</mat-icon>
             <span>{{copy.CREATE_FACTION_BTN}}</span>
         </button>
     </div>
 
-    <rg-smart-faction-editor *ngIf="!showEditor" (save)="saveFaction()"
-                             (cancel)="hideFactionEditor()"
-    ></rg-smart-faction-editor>
+    <rg-faction-editor
+            *ngIf="showEditor"
+            (cancel)="hideFactionEditor()"
+            (save)="saveItem.emit($event)"
+            [selectedItem]="selectedItem"
+            [resources]="resources"
+            [formDefinition]="formDefinition"
+    ></rg-faction-editor>
 </div>

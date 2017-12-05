@@ -1,1 +1,15 @@
-<rg-factions [factions]="factions | async"></rg-factions>
+<rg-factions
+        [factions]="factions"
+        [showEditor]="showEditor"
+        [selectedItem]="selectedItem"
+        [resources]="resources"
+        [formDefinition]="formDefinition"
+        (toggleEditor)="toggleEditor($event)"
+        (editItem)="editFaction($event)"
+        (saveItem)="saveFaction($event)"
+        (removeItem)="removeFaction($event)"
+>
+
+</rg-factions>
+
+<ng-content *ngIf="!showEditor"></ng-content>

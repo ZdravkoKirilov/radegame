@@ -1,9 +1,10 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-import {Faction, GameAction} from '../../../../game-mechanics/models/index';
-import {BaseControl} from '../../../../dynamic-forms/models/Base';
-import {ControlsService} from '../../../../dynamic-forms/services/controls.service';
+import { Faction, Resource } from '../../../../game-mechanics/models/index';
+import { BaseControl } from '../../../../dynamic-forms/models/Base';
+import { FormDefinition } from '../../../utils/form-definitions';
+import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
 
 @Component({
     selector: 'rg-faction-editor',
@@ -13,14 +14,19 @@ import {ControlsService} from '../../../../dynamic-forms/services/controls.servi
 export class FactionEditorComponent implements OnInit {
     @Output() save: EventEmitter<Faction> = new EventEmitter<Faction>();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
-    @Input() formDefinition: BaseControl<any>[];
-    public rForm: FormGroup;
+
+    @Input() formDefinition: FormDefinition;
+    @Input() resources: Resource[];
+    @Input() selectedItem: Faction;
+
+    public form: FormGroup;
+    public controls: BaseControl[];
 
     constructor(private cs: ControlsService) {
     }
 
-    saveGameCharacter(): void {
-        this.save.emit(this.rForm.value);
+    saveItem(): void {
+        this.save.emit(this.form.value);
     }
 
     cancelAction(): void {
@@ -28,6 +34,7 @@ export class FactionEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.rForm = this.cs.toFormGroup(this.formDefinition);
+        this.controls = this.formDefinition(this.resources, this.selectedItem);
+        this.form = this.cs.toFormGroup(this.controls);
     }
 }

@@ -1,8 +1,8 @@
-import {Subject} from 'rxjs/Subject';
-import {Graphics, Polygon, Point} from 'pixi.js';
+import { Subject } from 'rxjs/Subject';
+import { Graphics, Polygon, Point } from 'pixi.js';
 
-import {MapPath} from '../models/index';
-import {MapNode} from './Node';
+import { MapPath } from '../models/index';
+import { MapNode } from './Node';
 
 export class Path {
     public select: Subject<MapPath> = new Subject();

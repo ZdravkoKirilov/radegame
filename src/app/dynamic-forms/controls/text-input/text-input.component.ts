@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../models/Base';
@@ -8,18 +8,28 @@ import { BaseControl } from '../../models/Base';
     templateUrl: './text-input.component.html',
     styleUrls: ['./text-input.component.scss']
 })
-export class TextInputComponent {
+export class TextInputComponent implements OnInit {
     @Input() form: FormGroup;
-    @Input() data: BaseControl<string>;
+    @Input() data: BaseControl;
+    @Output() change: EventEmitter<any> = new EventEmitter();
+    value: string;
 
     constructor() {
     }
 
     get isValid() {
-        return this.form.controls[this.data.name].valid;
+        return true;
     }
 
     handleChange(event) {
         event.stopPropagation();
+        this.value = event.target.value;
+        this.change.emit({
+            [this.data.name]: event.target.value
+        });
+    }
+
+    ngOnInit() {
+        this.value = this.data.value || '';
     }
 }

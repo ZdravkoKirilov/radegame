@@ -1,6 +1,6 @@
 import * as actionTypes from '../actionTypes';
 import { Action } from '@ngrx/store';
-import { Resource } from '../../../../game-mechanics/models/index';
+import { Resource, ResourceList } from '../../../../game-mechanics/models/index';
 
 export class SaveResourceAction implements Action {
     constructor(public payload: Resource) {
@@ -66,7 +66,7 @@ export class GetResourcesAction implements Action {
 }
 
 export class SetResourcesAction implements Action {
-    constructor(public payload: Resource[]) {
+    constructor(public payload: ResourceList) {
 
     }
 

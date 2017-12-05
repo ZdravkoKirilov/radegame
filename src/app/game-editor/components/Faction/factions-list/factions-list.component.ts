@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Faction } from '../../../../game-mechanics/models/Faction';
 
@@ -9,6 +9,10 @@ import { Faction } from '../../../../game-mechanics/models/Faction';
 })
 export class FactionsListComponent {
     @Input() items: Faction[];
+
+    @Output() editItem: EventEmitter<Faction> = new EventEmitter();
+    @Output() removeItem: EventEmitter<Faction> = new EventEmitter();
+
     constructor() {
     }
 }

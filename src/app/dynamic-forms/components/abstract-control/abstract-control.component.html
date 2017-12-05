@@ -3,7 +3,7 @@
     <ng-container [ngSwitch]="data.controlType">
 
         <ng-container *ngSwitchCase="types.TEXT_INPUT">
-            <rg-text-input [form]="form" [data]="data"></rg-text-input>
+            <rg-text-input [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-text-input>
         </ng-container>
 
         <ng-container *ngSwitchCase="types.IMAGE_BROWSER">
@@ -22,12 +22,16 @@
             <rg-switch [data]="data" (change)="handleFieldChange($event)"></rg-switch>
         </ng-container>
 
-        <ng-container *ngSwitchCase="types.NESTED_FORM">
-            <rg-nested-form [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-nested-form>
+        <ng-container *ngSwitchCase="types.NUMBER_INPUT">
+            <rg-number-input [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-number-input>
         </ng-container>
 
-        <ng-container *ngSwitchCase="types.NUMBER_INPUT">
-            <rg-number-input [form]="form" [data]="data"></rg-number-input>
+        <ng-container *ngSwitchCase="types.DROPDOWN">
+            <rg-dropdown [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-dropdown>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="types.FORM_ARRAY">
+            <rg-form-array [form]="form" [data]="data"></rg-form-array>
         </ng-container>
 
     </ng-container>

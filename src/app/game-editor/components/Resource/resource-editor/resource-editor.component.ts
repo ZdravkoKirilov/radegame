@@ -2,8 +2,9 @@ import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy
 import { FormGroup } from '@angular/forms';
 
 import { Resource } from '../../../../game-mechanics/models/index';
-import { BaseControl } from '../../../../dynamic-forms/models/Base';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
+import { FormDefinition } from '../../../utils/form-definitions';
+import { BaseControl } from '../../../../dynamic-forms/models/Base';
 
 @Component({
     selector: 'rg-resource-editor',
@@ -14,9 +15,12 @@ import { ControlsService } from '../../../../dynamic-forms/services/controls.ser
 export class ResourceEditorComponent implements OnInit {
     @Output() save: EventEmitter<Resource> = new EventEmitter<Resource>();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
-    @Input() formDefinition: BaseControl<any>[];
+
+    @Input() formDefinition: FormDefinition;
     @Input() data: Resource;
+
     public rForm: FormGroup;
+    public controls: BaseControl[];
 
     constructor(private cs: ControlsService) {
     }
@@ -30,9 +34,7 @@ export class ResourceEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.rForm = this.cs.toFormGroup(this.formDefinition);
-        if (this.data) {
-            this.rForm.patchValue(this.data);
-        }
+        this.controls = this.formDefinition(this.data);
+        this.rForm = this.cs.toFormGroup(this.controls);
     }
 }

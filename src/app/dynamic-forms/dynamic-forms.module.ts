@@ -16,8 +16,11 @@ import { ButtonGroupComponent } from './controls/button-group/button-group.compo
 import { SliderComponent } from './controls/slider/slider.component';
 import { SwitchComponent } from './controls/switch/switch.component';
 import { ImagePickerComponent } from './controls/image-picker/image-picker.component';
-import { NestedFormComponent } from './controls/nested-form/nested-form.component';
+import { NestedFormComponent } from './components/nested-form/nested-form.component';
 import { NumberInputComponent } from './controls/number-input/number-input.component';
+import { FormArrayComponent } from './components/form-array/form-array.component';
+import { DropdownComponent } from './controls/dropdown/dropdown.component';
+
 
 @NgModule({
     imports: [
@@ -30,9 +33,18 @@ import { NumberInputComponent } from './controls/number-input/number-input.compo
     exports: [
         DynamicFormComponent, ImagePickerComponent
     ],
-    declarations: [DynamicFormComponent, AbstractControlComponent, TextInputComponent,
-        ImageBrowserComponent, ButtonGroupComponent, SliderComponent,
-        SwitchComponent, ImagePickerComponent, NestedFormComponent, NumberInputComponent],
+    declarations: [DynamicFormComponent,
+        AbstractControlComponent,
+        TextInputComponent,
+        ImageBrowserComponent,
+        ButtonGroupComponent,
+        SliderComponent,
+        SwitchComponent,
+        ImagePickerComponent,
+        NestedFormComponent,
+        NumberInputComponent,
+        FormArrayComponent,
+        DropdownComponent],
     providers: [
         ControlsService
     ]

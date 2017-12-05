@@ -1,7 +1,8 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Faction } from '../../../../game-mechanics/models/Faction';
-import { copyText } from '../../../../shared/config/copyText';
+import { Faction, Resource } from '../../../../game-mechanics/models/index';
+import { FormDefinition } from '../../../utils/form-definitions';
+import { copyText } from '../../../../shared/config/copy-text';
 
 @Component({
     selector: 'rg-factions',
@@ -14,18 +15,23 @@ export class FactionsComponent {
     }
 
     @Input() factions: Faction[];
-    public showEditor = false;
+    @Input() selectedItem: Faction;
+    @Input() showEditor: boolean;
+    @Input() resources: Resource[];
+    @Input() formDefinition: FormDefinition;
+
+    @Output() toggleEditor: EventEmitter<boolean> = new EventEmitter();
+    @Output() editItem: EventEmitter<Faction> = new EventEmitter();
+    @Output() saveItem: EventEmitter<Faction> = new EventEmitter();
+    @Output() removeItem: EventEmitter<Faction> = new EventEmitter();
+
     public copy = copyText;
 
     showFactionEditor() {
-        this.showEditor = true;
-    }
-
-    saveFaction() {
-        this.showEditor = false;
+        this.toggleEditor.emit(true);
     }
 
     hideFactionEditor() {
-        this.showEditor = false;
+        this.toggleEditor.emit(false);
     }
 }

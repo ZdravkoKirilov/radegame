@@ -9,8 +9,8 @@ import {BaseControl} from '../../models/Base';
 })
 export class ImagePickerComponent {
 
-    @Input() data: BaseControl<string>;
-    @Output() change: EventEmitter<BaseControl<any>> = new EventEmitter();
+    @Input() data: BaseControl;
+    @Output() change: EventEmitter<BaseControl> = new EventEmitter();
     @ViewChild('filePicker') filePicker: ElementRef;
     @ViewChild('form') form: ElementRef;
 

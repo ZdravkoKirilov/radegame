@@ -1,15 +1,8 @@
 import * as actionTypes from '../actionTypes';
-import {Action} from '@ngrx/store';
+import { Action } from '@ngrx/store';
 
-import {MapState} from '../../../models/index';
-import {MapLocation, MapPath, Map} from '../../../../game-mechanics/models/index';
-
-export class UpdateMapAction implements Action {
-    constructor(public payload: MapState) {
-    }
-
-    readonly type = actionTypes.UPDATE_MAP;
-}
+import { MapState } from '../../../models/index';
+import { MapLocation, MapLocationList, MapPath, MapPathList, Map } from '../../../../game-mechanics/models/index';
 
 export class SaveMapPathAction implements Action {
     constructor(public payload: MapPath) {
@@ -56,6 +49,13 @@ export class GetMapPathsSuccessAction implements Action {
     }
 
     readonly type = actionTypes.GET_MAP_PATHS_SUCCESS;
+}
+
+export class SetMapPathsAction implements Action {
+    constructor(public payload: MapPathList) {
+    }
+
+    readonly type = actionTypes.SET_MAP_PATHS;
 }
 
 export class GetMapPathsFailAction implements Action {
@@ -127,6 +127,13 @@ export class GetMapLocationsSuccessAction implements Action {
     readonly type = actionTypes.GET_MAP_LOCATIONS_SUCCESS;
 }
 
+export class SetMapLocationsAction implements Action {
+    constructor(public payload: MapLocationList) {
+    }
+
+    readonly type = actionTypes.SET_MAP_LOCATIONS;
+}
+
 export class GetMapLocationsFailAction implements Action {
     readonly payload = null;
     readonly type = actionTypes.GET_MAP_LOCATIONS_FAIL;
@@ -159,7 +166,7 @@ export class SaveMapFailAction implements Action {
 }
 
 export class GetMapAction implements Action {
-    constructor(public payload: {gameId: number}) {
+    constructor(public payload: { gameId: number }) {
     }
 
     readonly type = actionTypes.GET_MAP;
@@ -178,7 +185,6 @@ export class GetMapFailAction implements Action {
 }
 
 export type MapActions =
-    UpdateMapAction |
     SaveMapLocationAction |
     SaveMapLocationSuccessAction |
     SaveMapLocationFailAction |
@@ -193,10 +199,12 @@ export type MapActions =
     DeleteMapPathFailAction |
     GetMapPathsAction |
     GetMapPathsSuccessAction |
+    SetMapPathsAction |
     GetMapPathsFailAction |
     TogglePathCreationModeAction |
     GetMapLocationsAction |
     GetMapLocationsSuccessAction |
+    SetMapLocationsAction |
     GetMapLocationsFailAction |
     ChangeSelectedPathAction |
     GetMapAction |

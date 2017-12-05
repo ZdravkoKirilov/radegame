@@ -8,8 +8,9 @@ import { GameBoard, Game } from '../../../game-mechanics/models/index';
 import { BaseControl } from '../../../dynamic-forms/models/Base';
 import { Option } from '../../../dynamic-forms/models/Base';
 import { GAME_LAUNCH_DEF } from '../../utils/form-definitions';
-import { CreateGameAction } from '../../state/actions/byFeature/launcherActions';
+import { CreateGameAction, SetGamesAction } from '../../state/actions/byFeature/launcherActions';
 import { selectRouterData } from '../../../core/state/reducers/selectors';
+import { selectGames } from '../../state/reducers/selectors';
 
 @Component({
     selector: 'rg-smart-launch',
@@ -19,8 +20,8 @@ import { selectRouterData } from '../../../core/state/reducers/selectors';
 export class SmartLaunchComponent implements OnInit, OnDestroy {
 
     private storeSub: Subscription;
-    controls: BaseControl<any>[] = [];
-    games: Game[] = [];
+    controls: BaseControl[] = [];
+    games: Game[];
 
     constructor(private store: Store<AppState>) {
     }
@@ -36,7 +37,12 @@ export class SmartLaunchComponent implements OnInit, OnDestroy {
                 .values(GameBoards)
                 .map((elem: GameBoard) => ({label: elem.displayName, value: elem.id}));
             this.controls = GAME_LAUNCH_DEF(boardTypes);
-            this.games = selectRouterData('games')(state);
+
+            if (!this.games) {
+                const games = selectRouterData('games')(state);
+                this.store.dispatch(new SetGamesAction(games));
+                this.games = Object.values(games);
+            }
         });
     }
 

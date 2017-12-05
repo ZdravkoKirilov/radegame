@@ -4,3 +4,7 @@ export interface Game {
     boardType?: string;
     published?: boolean;
 }
+
+export interface GameList {
+    [key: string]: Game;
+}

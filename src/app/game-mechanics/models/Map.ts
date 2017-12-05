@@ -20,3 +20,11 @@ export interface MapPath {
     fromLoc?: number;
     toLoc?: number;
 }
+
+export interface MapPathList {
+    [key: string]: MapPath;
+}
+
+export interface MapLocationList {
+    [key: string]: MapLocation;
+}

@@ -2,7 +2,17 @@ import { FEATURE_NAME } from '../../utils/config';
 import { GameEditorFeature } from '../../models/index';
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 import { Option } from '../../../dynamic-forms/models/Base';
-import { BoardField, BoardFieldList, MapLocation, MapPath, Grid, Movement, Game, Resource } from '../../../game-mechanics/models/index';
+import {
+    BoardField,
+    BoardFieldList,
+    MapLocation,
+    MapPath,
+    Grid,
+    Movement,
+    Game,
+    Resource,
+    Faction
+} from '../../../game-mechanics/models/index';
 
 export const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -18,8 +28,16 @@ export const getSelectedResource = createSelector(selectFeature, (state: GameEdi
     return state.form.resources.selectedItem;
 });
 
-export const selectCharacters = createSelector(selectFeature, (state: GameEditorFeature) => {
+export const selectFactions = createSelector(selectFeature, (state: GameEditorFeature) => {
     return state.form.factions.items ? Object.values(state.form.factions.items) : [];
+});
+
+export const getSelectedFaction = createSelector(selectFeature, (state: GameEditorFeature): Faction => {
+    return state.form.factions.selectedItem;
+});
+
+export const selectFactionEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
+    return state.form.factions.showEditor;
 });
 
 export const selectMovements = createSelector(selectFeature, (state: GameEditorFeature): Movement[] => {
@@ -56,10 +74,6 @@ export const selectGridWithInnerItems = createSelector(selectFieldsGrid, selectF
 
 export const selectGames = createSelector(selectFeature, (state: GameEditorFeature): Game[] => {
     return Object.values(state.games.items);
-});
-
-export const selectGamesIndexed = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.games.items;
 });
 
 export const selectGame = createSelector(selectFeature, (state: GameEditorFeature): Game => {

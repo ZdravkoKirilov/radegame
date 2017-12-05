@@ -1,8 +1,6 @@
 import { Actions } from '../../actions/byFeature/resourceActions';
 import * as actionTypes from '../../actions/actionTypes';
 import { Resources } from '../../../models/index';
-import { Resource } from '../../../../game-mechanics/models/Resource';
-import { toIndexedList } from '../../../../shared/utils/utils';
 
 const initialState: Resources = {
     items: {},
@@ -28,8 +26,7 @@ export function resourcesReducer(state: Resources = initialState, action: Action
             delete items[action.payload.id];
             return {...state, items, lastDelete: action.payload};
         case actionTypes.SET_RESOURCES:
-            const resources = toIndexedList(action.payload);
-            return {...state, items: resources};
+            return {...state, items: action.payload};
         case actionTypes.TOGGLE_RESOURCE_EDITOR:
             return {
                 ...state,

@@ -1,12 +1,12 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
 
-import {autoDetectRenderer, Container, Sprite} from 'pixi.js';
-import {WindowRefService} from '../../shared/services/window-ref.service';
-import {SpriteComponent} from './SpriteComponent';
-import {MapNode} from './Node';
-import {MapLocation, MapPath} from '../models/index';
-import {Path} from './Path';
+import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
+import { WindowRefService } from '../../shared/services/window-ref.service';
+import { SpriteComponent } from './SpriteComponent';
+import { MapNode } from './Node';
+import { MapLocation, MapPath } from '../models/index';
+import { Path } from './Path';
 
 @Injectable()
 export class SceneRenderService {

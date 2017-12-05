@@ -10,12 +10,12 @@ export class ControlsService {
     constructor() {
     }
 
-    toFormGroup(controls: BaseControl<any>[]) {
+    toFormGroup(controls: BaseControl[]) {
         const group = {};
-        controls.forEach((elem: BaseControl<any>) => {
+        controls.forEach((elem: BaseControl) => {
             const validators = elem.required ? [vd.required] : [];
-            if (elem.controlType === controlTypes.NESTED_FORM) {
-                group[elem.name] = this.toFormGroup(elem.childControls);
+            if (elem.controlType === controlTypes.FORM_ARRAY) {
+                group[elem.name] = this.toFormArray(elem.childControls);
             } else {
                 group[elem.name] = new FormControl(elem.value, vd.compose(validators));
             }
@@ -23,9 +23,18 @@ export class ControlsService {
         return new FormGroup(group);
     }
 
+    toFormArray(controls: BaseControl[]) {
+        const formArray = new FormArray([]);
+        controls.forEach((elem: BaseControl) => {
+            const control = this.toFormGroup(elem.childControls);
+            formArray.push(control);
+        });
+        return formArray;
+    }
+
     patchFormDeep(form: FormGroup, data: {}, valueProps: string[]) {
         form.patchValue(data);
-        for (let key in data) {
+        for (const key in data) {
             const control = form.get(key);
             if (control instanceof FormGroup) {
                 const valueAt = valueProps.shift();
@@ -36,15 +45,5 @@ export class ControlsService {
                 this.patchFormDeep(control, nestedData, valueProps);
             }
         }
-    }
-
-    toFormArray(controls: BaseControl<any>[]) {
-        const formArray = new FormArray([]);
-        controls.forEach((elem: BaseControl<any>) => {
-            const validators = elem.required ? [vd.required] : [];
-            const control = new FormControl(elem.value, vd.compose(validators));
-            formArray.push(control);
-        });
-        return formArray;
     }
 }

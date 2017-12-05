@@ -37,7 +37,6 @@ import { SmartResourceEditorComponent } from './containers/smart-resource-editor
 import { SmartResourcesComponent } from './containers/smart-resources/smart-resources.component';
 import { ResourcesListComponent } from './components/Resource/resources-list/resources-list.component';
 import { SmartFactionsComponent } from './containers/smart-factions/smart-factions.component';
-import { SmartFactionEditorComponent } from './containers/smart-faction-editor/smart-faction-editor.component';
 import { FactionsListComponent } from './components/Faction/factions-list/factions-list.component';
 import { FactionEditorComponent } from './components/Faction/faction-editor/faction-editor.component';
 import { GameLaunchComponent } from './components/Launch/game-launch/game-launch.component';
@@ -88,7 +87,7 @@ import { MapPathComponent } from './components/Field/Map/map-path/map-path.compo
         FieldsComponent, TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent,
         ResourceEditorComponent, SmartGeneralSettingsComponent, SmartResourceEditorComponent,
         SmartResourcesComponent, ResourcesListComponent, SmartFactionsComponent,
-        SmartFactionEditorComponent, FactionsListComponent, FactionEditorComponent,
+        FactionsListComponent, FactionEditorComponent,
         GameLaunchComponent, SmartTriviaComponent,
         SmartTriviaEditorComponent, TriviaEditorComponent, TriviasListComponent, FieldEditorComponent,
         EmptySlotComponent, GridFieldComponent, GridEditorComponent, SmartGridEditorComponent,

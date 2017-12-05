@@ -2,8 +2,9 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../../../dynamic-forms/models/Base';
-import { BoardField } from '../../../../game-mechanics/models/index';
+import { BoardField, Resource } from '../../../../game-mechanics/models/index';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
+import { FormDefinition } from '../../../utils/form-definitions';
 
 @Component({
     selector: 'rg-field-editor',
@@ -11,12 +12,14 @@ import { ControlsService } from '../../../../dynamic-forms/services/controls.ser
     styleUrls: ['./field-editor.component.scss']
 })
 export class FieldEditorComponent implements OnInit {
-    @Input() controls: BaseControl<any>[] = [];
-    @Input() data: BoardField;
+    @Input() formDefinition: FormDefinition;
+    @Input() resources: Resource[] = [];
+    @Input() data: BoardField = {};
     @Output() save: EventEmitter<BoardField> = new EventEmitter();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
 
     public form: FormGroup;
+    public formControls: BaseControl[];
 
     constructor(private cs: ControlsService) {
     }
@@ -30,10 +33,7 @@ export class FieldEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.form = this.cs.toFormGroup(this.controls);
-        if (this.data) {
-            this.cs.patchFormDeep(this.form, this.data, ['quantity']);
-            //this.form.patchValue(this.data);
-        }
+        this.formControls = this.formDefinition(this.resources, this.data);
+        this.form = this.cs.toFormGroup(this.formControls);
     }
 }

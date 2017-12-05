@@ -1,0 +1,23 @@
+<div class="form-array" [formGroup]="form">
+    <label>{{data.label}}</label>
+
+    <div>
+        <div *ngFor="let control of controls; let i = index" class="item-wrapper">
+            <rg-nested-form
+                    [form]="form"
+                    [data]="control"
+                    [index]="i"
+                    (change)="valueChange($event)"
+            ></rg-nested-form>
+            <button mat-icon-button (click)="removeChild(i)" class="delete-btn" aria-label="Delete row">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </div>
+
+    <div>
+        <div>
+            <button mat-button (click)="addChild()" aria-label="Add row">{{data.addButtonText}}</button>
+        </div>
+    </div>
+</div>

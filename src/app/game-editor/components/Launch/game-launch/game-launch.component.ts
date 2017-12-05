@@ -12,7 +12,7 @@ import { Game } from '../../../../game-mechanics/models/Game';
 })
 export class GameLaunchComponent implements OnChanges {
     @Output() create: EventEmitter<any> = new EventEmitter();
-    @Input() controls: BaseControl<any>[] = [];
+    @Input() controls: BaseControl[] = [];
     @Input() games: Game[];
     public form: FormGroup;
 

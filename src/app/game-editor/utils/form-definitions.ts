@@ -1,9 +1,11 @@
 import { BaseControl } from '../../dynamic-forms/models/Base';
 import { controlTypes } from '../../dynamic-forms/config/controlTypes';
 import { Option } from '../../dynamic-forms/models/Base';
-import { Resource } from '../../game-mechanics/models/Resource';
+import { Faction, Resource, BoardField, FieldResource, FactionResource } from '../../game-mechanics/models/index';
 
-export function METADATA_DEF(movements: Option[]): BaseControl<any>[] {
+export type FormDefinition = (...args) => BaseControl[];
+
+export function METADATA_DEF(movements: Option[]): BaseControl[] {
     return [{
         name: 'description',
         controlType: controlTypes.TEXT_INPUT,
@@ -27,18 +29,67 @@ export function METADATA_DEF(movements: Option[]): BaseControl<any>[] {
     ];
 }
 
-export function FIELD_DEF(resources: Resource[]): BaseControl<any>[] {
+export function FIELD_DEF(resources: Resource[], existingData: BoardField): BaseControl[] {
+    existingData = existingData || {income: [], cost: []};
+    const resOptions = resources.map(elem => {
+        return {
+            label: elem.name,
+            value: elem.id
+        };
+    });
+    const income = existingData.income.map((elem: FieldResource): BaseControl => {
+        return {
+            controlType: controlTypes.NESTED_FORM,
+            childControls: [
+                {
+                    name: 'resource',
+                    controlType: controlTypes.DROPDOWN,
+                    label: 'Resource',
+                    required: true,
+                    options: resOptions,
+                    value: elem.resource
+                }, {
+                    name: 'quantity',
+                    controlType: controlTypes.NUMBER_INPUT,
+                    label: 'Quantity',
+                    required: true,
+                    value: elem.quantity
+                }
+            ]
+        };
+    });
+    const cost = existingData.cost.map((elem: FieldResource): BaseControl => {
+        return {
+            controlType: controlTypes.NESTED_FORM,
+            childControls: [
+                {
+                    name: 'resource',
+                    controlType: controlTypes.DROPDOWN,
+                    label: 'Resource',
+                    required: true,
+                    options: resOptions,
+                    value: elem.resource
+                }, {
+                    name: 'quantity',
+                    controlType: controlTypes.NUMBER_INPUT,
+                    label: 'Quantity',
+                    required: true,
+                    value: elem.quantity
+                }
+            ]
+        };
+    });
     return [
         {
             name: 'name',
             controlType: controlTypes.TEXT_INPUT,
-            value: '',
+            value: existingData.name,
             label: 'Pick field name',
             required: true
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
-            value: '',
+            value: existingData.description,
             label: 'Field description',
             required: false
         }, {
@@ -46,98 +97,159 @@ export function FIELD_DEF(resources: Resource[]): BaseControl<any>[] {
             controlType: controlTypes.IMAGE_BROWSER,
             label: 'Choose field image',
             required: false,
+            value: existingData.image
         }, {
             name: 'income',
-            controlType: controlTypes.NESTED_FORM,
-            label: 'Pick field income',
-            required: false,
-            childControls: resources.map((elem: Resource) => {
-                const childControl: BaseControl<any> = {
-                    label: elem.name,
-                    name: elem.id.toString(),
-                    controlType: controlTypes.NUMBER_INPUT,
-                };
-                return childControl;
-            })
+            controlType: controlTypes.FORM_ARRAY,
+            label: 'Pick income resources: ',
+            addButtonText: 'Add new income resource',
+            childControls: income,
+            childTemplate: {
+                controlType: controlTypes.NESTED_FORM,
+                childControls: [
+                    {
+                        name: 'resource',
+                        controlType: controlTypes.DROPDOWN,
+                        label: 'Resource',
+                        required: true,
+                        options: resOptions
+                    }, {
+                        name: 'quantity',
+                        controlType: controlTypes.NUMBER_INPUT,
+                        label: 'Quantity',
+                        required: true
+                    }
+                ]
+            }
         }, {
             name: 'cost',
-            controlType: controlTypes.NESTED_FORM,
-            label: 'Pick field cost',
-            required: false,
-            childControls: resources.map((elem: Resource) => {
-                const childControl: BaseControl<any> = {
-                    label: elem.name,
-                    name: elem.id.toString(),
-                    controlType: controlTypes.NUMBER_INPUT,
-                };
-                return childControl;
-            })
+            controlType: controlTypes.FORM_ARRAY,
+            label: 'Pick field cost: ',
+            addButtonText: 'Add new cost',
+            childControls: cost,
+            childTemplate: {
+                controlType: controlTypes.NESTED_FORM,
+                childControls: [
+                    {
+                        name: 'resource',
+                        controlType: controlTypes.DROPDOWN,
+                        label: 'Resource',
+                        required: true,
+                        options: resOptions
+                    }, {
+                        name: 'quantity',
+                        controlType: controlTypes.NUMBER_INPUT,
+                        label: 'Quantity',
+                        required: true
+                    }
+                ]
+            }
         }
     ];
 }
 
-export function FACTION_DEF(resources: Resource[]): BaseControl<any>[] {
+export function FACTION_DEF(resources: Resource[], existingData: Faction = {}): BaseControl[] {
+
+    const resOptions = resources.map(elem => {
+        return {
+            label: elem.name,
+            value: elem.id
+        };
+    });
+    const existingResources = existingData.resources.map((elem: FactionResource): BaseControl => {
+        return {
+            controlType: controlTypes.NESTED_FORM,
+            childControls: [
+                {
+                    name: 'resource',
+                    controlType: controlTypes.DROPDOWN,
+                    label: 'Resource',
+                    required: true,
+                    options: resOptions,
+                    value: elem.resource
+                }, {
+                    name: 'quantity',
+                    controlType: controlTypes.NUMBER_INPUT,
+                    label: 'Quantity',
+                    required: true,
+                    value: elem.quantity
+                }
+            ]
+        };
+    });
+
+
     return [
         {
             name: 'name',
             controlType: controlTypes.TEXT_INPUT,
-            value: '',
             label: 'Pick faction name',
-            required: true
+            required: true,
+            value: existingData.name || ''
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
-            value: '',
+            value: existingData.description,
             label: 'Faction description',
             required: false
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_BROWSER,
             label: 'Choose faction image',
-            required: false
+            required: false,
+            value: existingData.image
         }, {
             name: 'resources',
-            controlType: controlTypes.NESTED_FORM,
-            label: 'Pick the faction`s starting resources',
-            required: false,
-            childControls: resources.map((elem: Resource) => {
-                const option: BaseControl<any> = {
-                    label: elem.name,
-                    name: elem.id.toString(),
-                    controlType: controlTypes.SLIDER,
-                    min: 0,
-                    max: 100
-                };
-                return option;
-            })
+            controlType: controlTypes.FORM_ARRAY,
+            label: 'Pick the faction starting resources',
+            addButtonText: 'Add item',
+            childControls: existingResources,
+            childTemplate: {
+                controlType: controlTypes.NESTED_FORM,
+                childControls: [
+                    {
+                        name: 'resource',
+                        controlType: controlTypes.DROPDOWN,
+                        label: 'Resource',
+                        required: true,
+                        options: resOptions
+                    }, {
+                        name: 'quantity',
+                        controlType: controlTypes.NUMBER_INPUT,
+                        label: 'Quantity',
+                        required: true
+                    }
+                ]
+            }
         }
     ];
 }
 
-export function RESOURCE_DEF(): BaseControl<any>[] {
+export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
     return [
         {
             name: 'name',
             controlType: controlTypes.TEXT_INPUT,
-            value: '',
+            value: data.name,
             label: 'Pick resource name',
             required: true
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
-            value: '',
+            value: data.description,
             label: 'Resource description',
             required: false
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_BROWSER,
             label: 'Choose resource image',
-            required: false
+            required: false,
+            value: data.image
         }
     ];
 }
 
-export function GAME_LAUNCH_DEF(boardTypes: Option[]): BaseControl<any>[] {
+export function GAME_LAUNCH_DEF(boardTypes: Option[]): BaseControl[] {
     return [
         {
             name: 'title',

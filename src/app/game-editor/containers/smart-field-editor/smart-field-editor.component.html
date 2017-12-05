@@ -1,5 +1,6 @@
 <rg-field-editor
-        [controls]="controls"
+        [formDefinition]="formDefinition"
+        [resources]="resources"
         [data]="field"
         (save)="handleSave($event)"
         (cancel)="handleCancel()">

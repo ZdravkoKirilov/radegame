@@ -18,7 +18,7 @@ import 'rxjs/add/operator/take';
 })
 export class SmartGeneralSettingsComponent implements OnInit, OnDestroy {
     readonly storeBranch: string = 'metadata';
-    public formDefinition: BaseControl<any>[];
+    public formDefinition: BaseControl[];
     private storeSub: Subscription;
 
     constructor(private store: Store<AppState>) {

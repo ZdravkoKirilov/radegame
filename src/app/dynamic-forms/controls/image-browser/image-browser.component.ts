@@ -11,8 +11,8 @@ import {BaseControl} from '../../models/Base';
 export class ImageBrowserComponent implements OnInit {
 
     @Input() form: FormGroup;
-    @Input() data: BaseControl<string>;
-    @Output() change: EventEmitter<BaseControl<any>> = new EventEmitter();
+    @Input() data: BaseControl;
+    @Output() change: EventEmitter<BaseControl> = new EventEmitter();
 
     config = {clickable: true, addRemoveLinks: true};
     prepopulatedImage?: string;

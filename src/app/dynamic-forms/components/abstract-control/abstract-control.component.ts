@@ -1,7 +1,7 @@
-import {Component, Input} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormArray, FormGroup, FormControl } from '@angular/forms';
 
-import {BaseControl} from '../../models/Base';
+import { BaseControl } from '../../models/Base';
 import { controlTypes } from '../../config/controlTypes';
 
 @Component({
@@ -11,12 +11,14 @@ import { controlTypes } from '../../config/controlTypes';
 })
 export class AbstractControlComponent {
     @Input() form: FormGroup;
-    @Input() data: BaseControl<any>;
+    @Input() data: BaseControl;
+    @Output() fieldChange: EventEmitter<any> = new EventEmitter();
     types = controlTypes;
 
     constructor() {
     }
-    handleFieldChange(data: BaseControl<any>): void {
-        this.form.patchValue(data);
+
+    handleFieldChange(data: any): void {
+        this.fieldChange.emit(data);
     }
 }

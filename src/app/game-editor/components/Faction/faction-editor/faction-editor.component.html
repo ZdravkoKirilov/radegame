@@ -1,8 +1,15 @@
 <div>
-    <rg-dynamic-form [controls]="formDefinition" [form]="rForm">
+    <rg-dynamic-form
+            [controls]="controls"
+            [form]="form">
         <div class="button-toolbar">
-            <button mat-raised-button color="primary" [disabled]="!rForm.valid" (click)="saveGameCharacter()">Save</button>
-            <button mat-raised-button (click)="cancelAction()">Cancel</button>
+            <button mat-raised-button color="primary"
+                    [disabled]="!form.valid && rForm.pristine"
+                    (click)="saveItem()">Save
+            </button>
+            <button mat-raised-button
+                    (click)="cancelAction()">Cancel
+            </button>
         </div>
     </rg-dynamic-form>
 </div>
