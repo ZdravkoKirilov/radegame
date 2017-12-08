@@ -3,8 +3,9 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/state/index';
 import { Resource, Game } from '../../../game-mechanics/models/index';
-import { SaveResourceAction } from '../../state/actions/byFeature/resourceActions';
-import { RESOURCE_DEF, FormDefinition } from '../../utils/form-definitions';
+import { SaveResourceAction } from '../../state/actions/byFeature/resource.action';
+import { FormDefinition } from '../../../shared/models/FormDefinition';
+import { RESOURCE_DEF } from '../../forms/resource';
 
 @Component({
     selector: 'rg-smart-resource-editor',

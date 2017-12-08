@@ -5,13 +5,14 @@ import { Subscription } from 'rxjs/Subscription';
 import { Resource, Game, GameData } from '../../../game-mechanics/models/index';
 import {
     SetResourcesAction,
-    ToggleEditorAction,
+    ToggleResourceEditorAction,
     DeleteResourceAction,
     ChangeSelectedResourceAction
-} from '../../state/actions/byFeature/resourceActions';
-import { selectResources, selectResourceEditorToggleState, getSelectedResource } from '../../state/reducers/selectors';
+} from '../../state/actions/byFeature/resource.action';
+import { getSelectedResource } from '../../state/reducers/byFeature/resources.reducer';
 import { selectRouterData } from '../../../core/state/reducers/selectors';
 import { AppState } from '../../../core/state/index';
+import { selectResourceEditorToggleState, selectResources } from '../../state/reducers/byFeature/resources.reducer';
 
 @Component({
     selector: 'rg-smart-resources',
@@ -46,7 +47,7 @@ export class SmartResourcesComponent implements OnInit, OnDestroy {
         if (!flag) {
             this.changeSelectedItem(null);
         }
-        this.store.dispatch(new ToggleEditorAction(flag));
+        this.store.dispatch(new ToggleResourceEditorAction(flag));
     }
 
     ngOnInit() {

@@ -1,5 +1,5 @@
 import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {FieldCoord} from '../../../../models/index';
+import {FieldCoord} from '../../../../../game-mechanics/models/BoardField';
 
 @Component({
     selector: 'rg-empty-item',

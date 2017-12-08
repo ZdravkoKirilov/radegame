@@ -11,24 +11,22 @@ import {
     ChangeSelectedPathAction,
     DeleteMapPathAction,
     SaveMapAction
-} from '../../state/actions/byFeature/mapActions';
+} from '../../state/actions/byFeature/map.action';
 import {
     DeleteFieldAction,
     ToggleFieldEditorAction, ChangeSelectedFieldAction
-} from '../../state/actions/byFeature/fieldActions';
+} from '../../state/actions/byFeature/field.action';
 import {BoardField, MapLocation, MapPath, Map, Game} from '../../../game-mechanics/models/index';
 import {
-    selectCanvasImage,
-    selectFieldsAsArray,
-    selectMapLocations,
-    selectMapPaths,
-    selectFieldEditorToggleState,
-    getSelectedField,
-    getSelectedPath,
-    selectPathCreationMode,
-    selectGame,
-    selectMap, selectLastInsertedField
-} from '../../state/reducers/selectors';
+    selectGame} from '../../state/reducers/byFeature/assets.reducer';
+import {
+    getSelectedField, selectFieldEditorToggleState, selectFieldsAsArray,
+    selectLastInsertedField
+} from '../../state/reducers/byFeature/fields.reducer';
+import {
+    getSelectedPath, selectCanvasImage, selectMap, selectMapLocations, selectMapPaths,
+    selectPathCreationMode
+} from '../../state/reducers/byFeature/map.reducer';
 
 @Component({
     selector: 'rg-smart-map-editor',

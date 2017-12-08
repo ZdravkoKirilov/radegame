@@ -1,10 +1,4 @@
-import { Movement } from './Movement';
-import { TriviaList } from './Trivia';
-import { ResourceList } from './Resource';
-import { FactionList } from './Faction';
-import { ActionList } from './GameAction';
-import { EndCondition } from './EndCondition';
-import { GameMetadata } from './GameMetadata';
+import { Movement, TriviaList, ResourceList, FactionList, EndCondition, GameMetadata } from './index';
 
 export interface GameTemplate {
     id?: number;
@@ -14,5 +8,4 @@ export interface GameTemplate {
     trivia?: TriviaList;
     resources?: ResourceList;
     factions?: FactionList;
-    abilities?: ActionList;
 }

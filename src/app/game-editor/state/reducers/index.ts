@@ -1,10 +1,14 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
-import { GameEditorFeature } from '../../models/index';
-import { gameEditorFormReducer } from './byFeature/form';
-import { gameEditorAssetsReducer } from './byFeature/assets';
-import { gamesReducer } from './byFeature/games';
-import { gameEditorFormMetareducer } from './byFeature/form';
+import { GameEditorForm, gameEditorFormMetareducer, gameEditorFormReducer } from './byFeature/form.reducer';
+import { GameEditorAssets, gameEditorAssetsReducer } from './byFeature/assets.reducer';
+import { GamesList, gamesReducer } from './byFeature/games.reducer';
+
+export interface GameEditorFeature {
+    form: GameEditorForm;
+    assets: GameEditorAssets;
+    games: GamesList;
+}
 
 export const reducers: ActionReducerMap<GameEditorFeature> = {
     form: gameEditorFormReducer,
@@ -15,3 +19,4 @@ export const reducers: ActionReducerMap<GameEditorFeature> = {
 export const metaReducers: MetaReducer<any>[] = [
     gameEditorFormMetareducer
 ];
+

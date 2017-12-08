@@ -6,20 +6,18 @@ import { Faction, Game, GameData, Resource } from '../../../game-mechanics/model
 import { AppState } from '../../../core/state/index';
 import { selectRouterData } from '../../../core/state/reducers/selectors';
 import {
-    selectFactions,
-    getSelectedFaction,
-    selectFactionEditorToggleState,
-    selectGame,
-    selectResources
-} from '../../state/reducers/selectors';
+    selectGame} from '../../state/reducers/byFeature/assets.reducer';
 import {
     SaveFactionAction,
     SetFactionsAction,
+    DeleteFactionAction,
     ChangeSelectedFactionAction,
     ToggleEditorAction
-} from '../../state/actions/byFeature/factionActions';
-import { FormDefinition, FACTION_DEF } from '../../utils/form-definitions';
-import { copyText } from '../../../shared/config/copy-text';
+} from '../../state/actions/byFeature/faction.action';
+import { FormDefinition} from '../../../shared/models/FormDefinition';
+import { FACTION_DEF } from '../../forms/faction';
+import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
+import { getSelectedFaction, selectFactionEditorToggleState, selectFactions } from '../../state/reducers/byFeature/factions.reducer';
 
 @Component({
     selector: 'rg-smart-factions',
@@ -46,11 +44,11 @@ export class SmartFactionsComponent implements OnInit, OnDestroy {
             payload.id = this.selectedItem.id;
         }
         this.store.dispatch(new SaveFactionAction(payload));
+        this.store.dispatch(new ToggleEditorAction(false));
     }
 
     removeFaction(payload: Faction) {
-        console.log(payload);
-        // TODO: create action
+        this.store.dispatch(new DeleteFactionAction(payload));
     }
 
     editFaction(payload: Faction) {

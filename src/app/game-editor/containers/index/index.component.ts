@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core/state/index';
-import { UpdateEditorAssetsAction } from '../../state/actions/byFeature/assetActions';
-import { ClearFormAction } from '../../state/actions/byFeature/formActions';
+import { UpdateEditorAssetsAction } from '../../state/actions/byFeature/asset.action';
+import { ClearFormAction } from '../../state/actions/byFeature/form.action';
 import { selectRouterData } from '../../../core/state/reducers/selectors';
 import { Game } from '../../../game-mechanics/models/index';
 import { GameData } from '../../../game-mechanics/models/index';

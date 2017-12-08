@@ -1,0 +1,94 @@
+import { FieldAction } from '../../actions/byFeature/field.action';
+import { BoardField, BoardFieldList } from '../../../../game-mechanics/models/index';
+import { createSelector } from '@ngrx/store';
+import { GameEditorFeature } from '../index';
+import { selectFeature } from '../selectors';
+
+export interface BoardFields {
+    items?: {
+        [key: string]: BoardField
+    };
+    lastInsert?: number;
+    lastDelete?: BoardField;
+    showFieldEditor?: boolean;
+    selectedField?: number;
+}
+
+const initialState: BoardFields = {
+    items: {},
+    lastInsert: null,
+    lastDelete: null,
+    selectedField: null,
+    showFieldEditor: false,
+};
+
+export const GET_FIELDS = 'GET_FIELDS';
+export const GET_FIELDS_SUCCESS = 'GET_FIELDS_SUCCESS';
+export const GET_FIELDS_FAIL = 'GET_FIELDS_FAIL';
+export const DELETE_FIELD = 'DELETE_FIELD';
+export const SAVE_FIELD = 'SAVE_FIELD';
+export const SAVE_FIELD_SUCCESS = 'SAVE_FIELD_SUCCESS';
+export const SAVE_FIELD_FAIL = 'SAVE_FIELD_FAIL';
+export const DELETE_FIELD_SUCCESS = 'DELETE_FIELD_SUCCESS';
+export const DELETE_FIELD_FAIL = 'DELETE_FIELD_FAIL';
+export const TOGGLE_FIELD_EDITOR = 'TOGLE_FIELD_EDITOR';
+export const CHANGE_SELECTED_FIELD = 'CHANGE_SELECTED_FIELD';
+
+export function fieldsReducer(state: BoardFields = initialState, action: FieldAction): BoardFields {
+    switch (action.type) {
+        case SAVE_FIELD_SUCCESS:
+            const isInsert = !(action.payload.id in state.items);
+            const newState = {
+                ...state,
+                items: {
+                    ...state.items,
+                    [action.payload.id]: action.payload
+                },
+            };
+            if (isInsert) {
+                newState.lastInsert = action.payload.id;
+            }
+            return newState;
+        case DELETE_FIELD_SUCCESS:
+            const newItems = {...state.items};
+            delete newItems[action.payload.id];
+            return {
+                ...state,
+                lastDelete: state.items[action.payload.id],
+                items: {...newItems}
+            };
+        case GET_FIELDS_SUCCESS:
+            return {
+                ...state,
+                items: action.payload
+            };
+        case TOGGLE_FIELD_EDITOR:
+            return {
+                ...state,
+                showFieldEditor: action.payload
+            };
+        case CHANGE_SELECTED_FIELD:
+            return {
+                ...state,
+                selectedField: action.payload
+            };
+        default:
+            return state;
+    }
+}
+
+export const selectFields = createSelector(selectFeature, (state: GameEditorFeature): BoardFieldList => {
+    return state.form.fields.items;
+});
+export const selectFieldsAsArray = createSelector(selectFeature, (state: GameEditorFeature): BoardField[] => {
+    return Object.values(state.form.fields.items);
+});
+export const selectFieldEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
+    return state.form.fields.showFieldEditor;
+});
+export const getSelectedField = createSelector(selectFeature, (state: GameEditorFeature): BoardField => {
+    return state.form.fields.items[state.form.fields.selectedField];
+});
+export const selectLastInsertedField = createSelector(selectFeature, (state: GameEditorFeature): number => {
+    return state.form.fields.lastInsert;
+});

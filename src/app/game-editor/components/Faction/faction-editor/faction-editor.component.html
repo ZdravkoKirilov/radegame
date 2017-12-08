@@ -4,7 +4,7 @@
             [form]="form">
         <div class="button-toolbar">
             <button mat-raised-button color="primary"
-                    [disabled]="!form.valid && rForm.pristine"
+                    [disabled]="!form.valid && form.pristine"
                     (click)="saveItem()">Save
             </button>
             <button mat-raised-button

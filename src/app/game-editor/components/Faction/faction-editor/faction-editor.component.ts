@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 import { Faction, Resource } from '../../../../game-mechanics/models/index';
 import { BaseControl } from '../../../../dynamic-forms/models/Base';
-import { FormDefinition } from '../../../utils/form-definitions';
+import { FormDefinition } from '../../../../shared/models/FormDefinition';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
 
 @Component({
@@ -25,11 +25,11 @@ export class FactionEditorComponent implements OnInit {
     constructor(private cs: ControlsService) {
     }
 
-    saveItem(): void {
+    saveItem() {
         this.save.emit(this.form.value);
     }
 
-    cancelAction(): void {
+    cancelAction() {
         this.cancel.emit();
     }
 

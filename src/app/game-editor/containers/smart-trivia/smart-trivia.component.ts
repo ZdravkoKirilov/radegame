@@ -4,7 +4,7 @@ import {AppState} from '../../../core/state/index';
 import {Observable} from 'rxjs/Observable';
 
 import {Trivia} from '../../../game-mechanics/models/index';
-import {selectTrivia} from '../../state/reducers/selectors';
+import {selectTrivia} from '../../state/reducers/byFeature/trivia.reducer';
 
 @Component({
     selector: 'rg-smart-trivia',

@@ -1,15 +1,17 @@
+import { ActionConfig } from '../systems/game-actions/statics';
+
 export interface GameAction {
-    id?: number|string;
+    id?: number;
     name?: string;
-    mode?: string;
-    actions?: string[];
+    description?: string;
+    image?: string;
+    card?: boolean;
+    quota?: number;
+    actions?: ActionConfig[]; // filtered by mode/target
 }
+
 
 export interface ActionList {
     [key: string]: GameAction;
 }
 
-export const actionModes = {
-    TRIGGER: 'TRIGGER',
-    PASSIVE: 'PASSIVE'
-};

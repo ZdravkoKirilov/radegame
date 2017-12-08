@@ -27,7 +27,6 @@ import { ResourcesComponent } from './components/Resource/resources/resources.co
 import { FactionsComponent } from './components/Faction/factions/factions.component';
 import { FieldsComponent } from './components/Field/fields/fields.component';
 import { TriviaComponent } from './components/Trivia/trivias/trivia.component';
-import { TrapsComponent } from './components/traps/traps.component';
 import { ResolutionsComponent } from './components/resolutions/resolutions.component';
 import { TurnFlowComponent } from './components/turn-flow/turn-flow.component';
 import { ResourceEditorComponent } from './components/Resource/resource-editor/resource-editor.component';
@@ -58,6 +57,10 @@ import { MapFieldComponent } from './components/Field/Map/map-field/map-field.co
 import { MapToolbarComponent } from './components/Field/Map/map-toolbar/map-toolbar.component';
 import { SmartFieldsComponent } from './containers/smart-fields/smart-fields.component';
 import { MapPathComponent } from './components/Field/Map/map-path/map-path.component';
+import { SmartGameActionsComponent } from './containers/smart-game-actions/smart-game-actions.component';
+import { GameActionsListComponent } from './components/GameAction/game-actions-list/game-actions-list.component';
+import { GameActionsComponent } from './components/GameAction/game-actions/game-actions.component';
+import { GameActionEditorComponent } from './components/GameAction/game-action-editor/game-action-editor.component';
 
 @NgModule({
     imports: [
@@ -83,14 +86,33 @@ import { MapPathComponent } from './components/Field/Map/map-path/map-path.compo
         GamesListResolverService,
         GameEditService
     ],
-    declarations: [IndexComponent, GeneralSettingsComponent, ResourcesComponent, FactionsComponent,
-        FieldsComponent, TriviaComponent, TrapsComponent, ResolutionsComponent, TurnFlowComponent,
-        ResourceEditorComponent, SmartGeneralSettingsComponent, SmartResourceEditorComponent,
-        SmartResourcesComponent, ResourcesListComponent, SmartFactionsComponent,
-        FactionsListComponent, FactionEditorComponent,
-        GameLaunchComponent, SmartTriviaComponent,
-        SmartTriviaEditorComponent, TriviaEditorComponent, TriviasListComponent, FieldEditorComponent,
-        EmptySlotComponent, GridFieldComponent, GridEditorComponent, SmartGridEditorComponent,
+    declarations: [
+        IndexComponent,
+        GeneralSettingsComponent,
+        ResourcesComponent,
+        FactionsComponent,
+        FieldsComponent,
+        TriviaComponent,
+        ResolutionsComponent,
+        TurnFlowComponent,
+        ResourceEditorComponent,
+        SmartGeneralSettingsComponent,
+        SmartResourceEditorComponent,
+        SmartResourcesComponent,
+        ResourcesListComponent,
+        SmartFactionsComponent,
+        FactionsListComponent,
+        FactionEditorComponent,
+        GameLaunchComponent,
+        SmartTriviaComponent,
+        SmartTriviaEditorComponent,
+        TriviaEditorComponent,
+        TriviasListComponent,
+        FieldEditorComponent,
+        EmptySlotComponent,
+        GridFieldComponent,
+        GridEditorComponent,
+        SmartGridEditorComponent,
         SmartFieldEditorComponent,
         SmartLaunchComponent,
         GamesListComponent,
@@ -99,7 +121,11 @@ import { MapPathComponent } from './components/Field/Map/map-path/map-path.compo
         MapFieldComponent,
         MapToolbarComponent,
         SmartFieldsComponent,
-        MapPathComponent
+        MapPathComponent,
+        SmartGameActionsComponent,
+        GameActionsListComponent,
+        GameActionsComponent,
+        GameActionEditorComponent
     ]
 })
 export class GameEditorModule {

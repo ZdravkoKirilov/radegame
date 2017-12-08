@@ -37,10 +37,18 @@ export class GameEditService {
     }
 
     saveFaction(data: Faction): Observable<any> {
-        return of({
-            id: new Date().getTime(),
-            ...data
-        });
+        const formData = toMultipartFormData(data);
+        const options = {headers: new HttpHeaders({})};
+
+        if (data.id) {
+            return this.http.patch(API_URLS.FACTIONS(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.FACTIONS(data.game), formData, options);
+        }
+    }
+
+    deleteFaction(data: Faction): Observable<any> {
+        return this.http.delete(API_URLS.FACTIONS(data.game, data.id));
     }
 
     getResources(gameId: number): Observable<any> {

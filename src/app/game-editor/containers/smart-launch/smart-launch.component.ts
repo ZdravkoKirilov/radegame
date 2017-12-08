@@ -8,9 +8,9 @@ import { GameBoard, Game } from '../../../game-mechanics/models/index';
 import { BaseControl } from '../../../dynamic-forms/models/Base';
 import { Option } from '../../../dynamic-forms/models/Base';
 import { GAME_LAUNCH_DEF } from '../../utils/form-definitions';
-import { CreateGameAction, SetGamesAction } from '../../state/actions/byFeature/launcherActions';
+import { CreateGameAction, SetGamesAction } from '../../state/actions/byFeature/launcher.action';
 import { selectRouterData } from '../../../core/state/reducers/selectors';
-import { selectGames } from '../../state/reducers/selectors';
+import { selectGames } from '../../state/reducers/byFeature/games.reducer';
 
 @Component({
     selector: 'rg-smart-launch',

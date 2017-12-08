@@ -5,15 +5,15 @@ import { Observable } from 'rxjs/Observable';
 
 import { AppState } from '../../../core/state/index';
 import { Grid } from '../../../game-mechanics/models/index';
-import { FieldCoord } from '../../models/index';
-import { selectGridWithInnerItems } from '../../state/reducers/selectors';
+import { FieldCoord } from '../../../game-mechanics/models/BoardField';
+import { selectGridWithInnerItems } from '../../state/reducers/byFeature/grid.reducer';
 import {
     AddGridRowAction,
     AddGridColumnAction,
     RemoveGridRowAction,
     RemoveGridColumnAction,
     RemoveGridFieldAction
-} from '../../state/actions/byFeature/gridActions';
+} from '../../state/actions/byFeature/grid.action';
 
 @Component({
     selector: 'rg-smart-grid-editor',

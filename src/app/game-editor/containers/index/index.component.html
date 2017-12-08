@@ -1,13 +1,24 @@
 <mat-vertical-stepper>
 
     <mat-step>
+        <ng-template matStepLabel>Game actions</ng-template>
+        <section>
+            <rg-smart-game-actions></rg-smart-game-actions>
+        </section>
+        <!--<section>-->
+            <!--<button mat-button matStepperPrevious>Back</button>-->
+            <!--<button mat-button matStepperNext>Next</button>-->
+        <!--</section>-->
+    </mat-step>
+
+    <mat-step>
         <ng-template matStepLabel>Factions</ng-template>
         <section>
             <rg-smart-factions>
-                <section>
-                    <button mat-raised-button matStepperPrevious>Back</button>
-                    <button mat-raised-button matStepperNext>Next</button>
-                </section>
+                <!--<section>-->
+                    <!--<button mat-raised-button matStepperPrevious>Back</button>-->
+                    <!--<button mat-raised-button matStepperNext>Next</button>-->
+                <!--</section>-->
             </rg-smart-factions>
         </section>
     </mat-step>
@@ -17,20 +28,20 @@
         <section>
             <rg-smart-fields></rg-smart-fields>
         </section>
-        <section>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-        </section>
+        <!--<section>-->
+            <!--<button mat-button matStepperPrevious>Back</button>-->
+            <!--<button mat-button matStepperNext>Next</button>-->
+        <!--</section>-->
     </mat-step>
 
     <mat-step>
         <ng-template matStepLabel>Resources</ng-template>
         <section>
             <rg-smart-resources>
-                <section>
-                    <button mat-raised-button matStepperPrevious>Back</button>
-                    <button mat-raised-button matStepperNext>Next</button>
-                </section>
+                <!--<section>-->
+                    <!--<button mat-raised-button matStepperPrevious>Back</button>-->
+                    <!--<button mat-raised-button matStepperNext>Next</button>-->
+                <!--</section>-->
             </rg-smart-resources>
         </section>
     </mat-step>
@@ -40,9 +51,9 @@
         <section>
             <rg-smart-general-settings></rg-smart-general-settings>
         </section>
-        <section>
-            <button mat-raised-button matStepperNext>Next</button>
-        </section>
+        <!--<section>-->
+            <!--<button mat-raised-button matStepperNext>Next</button>-->
+        <!--</section>-->
     </mat-step>
 
     <mat-step>
@@ -50,21 +61,10 @@
         <section>
             <rg-smart-trivia></rg-smart-trivia>
         </section>
-        <section>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-        </section>
-    </mat-step>
-
-    <mat-step>
-        <ng-template matStepLabel>Traps</ng-template>
-        <section>
-            <rg-traps></rg-traps>
-        </section>
-        <section>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-        </section>
+        <!--<section>-->
+            <!--<button mat-button matStepperPrevious>Back</button>-->
+            <!--<button mat-button matStepperNext>Next</button>-->
+        <!--</section>-->
     </mat-step>
 
     <mat-step>
@@ -72,18 +72,18 @@
         <section>
             <rg-turn-flow></rg-turn-flow>
         </section>
-        <section>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button matStepperNext>Next</button>
-        </section>
+        <!--<section>-->
+            <!--<button mat-button matStepperPrevious>Back</button>-->
+            <!--<button mat-button matStepperNext>Next</button>-->
+        <!--</section>-->
     </mat-step>
 
     <mat-step>
         <ng-template matStepLabel>Resolutions</ng-template>
-        <div>
-            <button mat-button matStepperPrevious>Back</button>
-            <button mat-button>Done</button>
-        </div>
+        <!--<div>-->
+            <!--<button mat-button matStepperPrevious>Back</button>-->
+            <!--<button mat-button>Done</button>-->
+        <!--</div>-->
     </mat-step>
 
 </mat-vertical-stepper>

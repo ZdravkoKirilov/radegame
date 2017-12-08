@@ -3,15 +3,15 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core/state/index';
-import { selectBoardType } from '../../state/reducers/selectors';
+import { selectBoardType } from '../../state/reducers/byFeature/assets.reducer';
 import { selectRouterData } from '../../../core/state/reducers/selectors';
 import { Game, GameData } from '../../../game-mechanics/models/index';
-import { GetFieldsSuccessAction } from '../../state/actions/byFeature/fieldActions';
+import { GetFieldsSuccessAction } from '../../state/actions/byFeature/field.action';
 import {
     SetMapLocationsAction,
     GetMapSuccessAction,
     SetMapPathsAction
-} from '../../state/actions/byFeature/mapActions';
+} from '../../state/actions/byFeature/map.action';
 
 @Component({
     selector: 'rg-smart-fields',

@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { BaseControl } from '../../../../dynamic-forms/models/Base';
 import { BoardField, Resource } from '../../../../game-mechanics/models/index';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { FormDefinition } from '../../../utils/form-definitions';
+import { FormDefinition } from '../../../../shared/models/FormDefinition';
 
 @Component({
     selector: 'rg-field-editor',

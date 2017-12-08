@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../core/state/index';
 import { BoardField, Game, Resource } from '../../../game-mechanics/models/index';
-import { FIELD_DEF } from '../../utils/form-definitions';
-import { SaveFieldAction } from '../../state/actions/byFeature/fieldActions';
-import { selectGame, selectResources } from '../../state/reducers/selectors';
-import { formatBoardField_output } from '../../state/transformations/fields';
+import { FIELD_DEF } from '../../forms/field';
+import { SaveFieldAction } from '../../state/actions/byFeature/field.action';
+import { selectGame} from '../../state/reducers/byFeature/assets.reducer';
+import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
 
 @Component({
     selector: 'rg-smart-field-editor',
@@ -32,8 +32,7 @@ export class SmartFieldEditorComponent implements OnInit, OnDestroy {
             field = {...field, id: this.field.id};
         }
         field.game = this.game.id;
-        const formatted = formatBoardField_output(this.field, field);
-        this.store.dispatch(new SaveFieldAction(formatted));
+        this.store.dispatch(new SaveFieldAction(field));
         this.save.emit(field);
     }
 

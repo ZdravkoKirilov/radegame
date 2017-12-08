@@ -3,7 +3,7 @@ import { FormGroup } from '@angular/forms';
 
 import { Resource } from '../../../../game-mechanics/models/index';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { FormDefinition } from '../../../utils/form-definitions';
+import { FormDefinition } from '../../../../shared/models/FormDefinition';
 import { BaseControl } from '../../../../dynamic-forms/models/Base';
 
 @Component({

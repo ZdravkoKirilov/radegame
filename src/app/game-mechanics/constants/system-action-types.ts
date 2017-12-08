@@ -1,5 +1,0 @@
-export const systemActionTypes = {
-    GAIN_RESOURCE: 'GAIN_RESOURCE',
-    REDUCE_RESOURCE: 'REDUCE_RESOURCE',
-    STEAL_RESOURCE: 'STEAL_RESOURCE'
-};

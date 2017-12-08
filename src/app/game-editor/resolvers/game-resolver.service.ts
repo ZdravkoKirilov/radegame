@@ -8,10 +8,10 @@ import { Router, Resolve, RouterStateSnapshot, ActivatedRouteSnapshot } from '@a
 
 import { GameData, Game } from '../../game-mechanics/models/index';
 import { GameEditService } from '../services/game-edit.service';
-import { ROUTER_PARAMS } from '../../game-mechanics/configs/config';
+import { ROUTER_PARAMS } from '../../shared/config/config';
 import { GameBoards } from '../../game-mechanics/configs/game-boards';
 import { Movements } from '../../game-mechanics/configs/movements';
-import { GameActions } from '../../game-mechanics/configs/game-action';
+import { gameActions } from '../../game-mechanics/systems/game-actions/statics';
 import { toIndexedList } from '../../shared/utils/utils';
 
 @Injectable()
@@ -42,7 +42,7 @@ export class GameResolverService implements Resolve<Game> {
                 game, map, locations, paths, fields, resources, factions,
                 supportedMovements: GameBoards[game.boardType].allowedMovements,
                 supportedActions: GameBoards[game.boardType].supportedActions,
-                actions: GameActions,
+                actions: gameActions,
                 movements: Movements
             };
         }).catch(() => {

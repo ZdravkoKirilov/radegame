@@ -22,3 +22,8 @@ export interface FieldResource {
     field?: number;
     quantity?: number;
 }
+
+export interface FieldCoord {
+    x: number;
+    y: number;
+}
