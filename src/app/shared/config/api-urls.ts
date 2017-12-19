@@ -26,4 +26,8 @@ export const API_URLS = {
         const base = `${BASE_URL}/games/${gameId}/factions/`;
         return factionId ? `${base}${factionId}/` : base;
     },
+    ACTIVITIES: (gameId: number, activityId?: number) => {
+        const base = `${BASE_URL}/games/${gameId}/activities/`;
+        return activityId ? `${base}${activityId}/` : base;
+    },
 };

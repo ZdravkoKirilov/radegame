@@ -24,6 +24,11 @@ import {
     SAVE_MAP_PATH_FAIL,
     SAVE_MAP_PATH_SUCCESS
 } from '../../game-editor/state/reducers/byFeature/map.reducer';
+import {
+    DELETE_ACTIVITY_FAIL,
+    DELETE_ACTIVITY_SUCCESS, SAVE_ACTIVITY_FAIL,
+    SAVE_ACTIVITY_SUCCESS
+} from '../../game-editor/state/reducers/byFeature/activity.reducer';
 
 function savedSuccessfully(entity) {
     return `${entity} was saved successfully.`;
@@ -64,5 +69,9 @@ export const systemMessages: SystemMessages = {
     [SAVE_FACTION_SUCCESS]: savedSuccessfully('Faction'),
     [SAVE_FACTION_FAIL]: couldNotBeSaved('Faction'),
     [DELETE_FACTION_SUCCESS]: removedSuccessfully('Faction'),
-    [DELETE_FACTION_FAIL]: couldNotBeRemoved('Faction')
+    [DELETE_FACTION_FAIL]: couldNotBeRemoved('Faction'),
+    [SAVE_ACTIVITY_SUCCESS]: savedSuccessfully('Activity'),
+    [SAVE_ACTIVITY_FAIL]: couldNotBeSaved('Activity'),
+    [DELETE_ACTIVITY_SUCCESS]: removedSuccessfully('Activity'),
+    [DELETE_ACTIVITY_FAIL]: couldNotBeRemoved('Activity')
 };

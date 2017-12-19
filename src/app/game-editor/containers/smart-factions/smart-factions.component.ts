@@ -17,7 +17,7 @@ import {
 import { FormDefinition} from '../../../shared/models/FormDefinition';
 import { FACTION_DEF } from '../../forms/faction';
 import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
-import { getSelectedFaction, selectFactionEditorToggleState, selectFactions } from '../../state/reducers/byFeature/factions.reducer';
+import { getSelectedFaction, selectFactionEditorState, selectFactions } from '../../state/reducers/byFeature/factions.reducer';
 
 @Component({
     selector: 'rg-smart-factions',
@@ -76,7 +76,7 @@ export class SmartFactionsComponent implements OnInit, OnDestroy {
             this.resources = selectResources(state);
             this.factions = selectFactions(state);
             this.selectedItem = getSelectedFaction(state);
-            this.showEditor = selectFactionEditorToggleState(state);
+            this.showEditor = selectFactionEditorState(state);
             this.game = selectGame(state);
         });
     }

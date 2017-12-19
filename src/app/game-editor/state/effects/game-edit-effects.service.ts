@@ -9,7 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
 import { GameEditService } from '../../services/game-edit.service';
-import { BoardField, Faction, Game, Map, MapLocation, MapPath, Resource, Trivia } from '../../../game-mechanics/models/index';
+import { BoardField, Faction, Game, Map, MapLocation, MapPath, Resource, Trivia, Activity } from '../../../game-mechanics/models/index';
 import {
     AddFactionAction,
     DeleteFactionFailAction,
@@ -58,6 +58,17 @@ import {
     SaveMapSuccessAction
 } from '../actions/byFeature/map.action';
 
+import {
+    SaveActivityAction,
+    SaveActivitySuccessAction,
+    SaveActivityFailAction,
+    AddActivityAction,
+    DeleteActivityAction,
+    DeleteActivitySuccessAction,
+    DeleteActivityFailAction,
+    RemoveActivityAction,
+} from '../actions/byFeature/activity.action';
+
 import { OperationFailAction, OperationSuccessAction } from '../../../core/state/actions/actions';
 import { systemMessages as sm } from '../../../shared/config/messages';
 import { DELETE_RESOURCE, SAVE_RESOURCE } from '../reducers/byFeature/resources.reducer';
@@ -66,12 +77,53 @@ import { DELETE_FIELD, SAVE_FIELD } from '../reducers/byFeature/fields.reducer';
 import { SAVE_TRIVIA } from '../reducers/byFeature/trivia.reducer';
 import { DELETE_MAP_PATH, GET_MAP, SAVE_MAP, SAVE_MAP_LOCATION, SAVE_MAP_PATH } from '../reducers/byFeature/map.reducer';
 import { CREATE_GAME } from '../reducers/byFeature/games.reducer';
+import { SAVE_ACTIVITY, DELETE_ACTIVITY } from '../reducers/byFeature/activity.reducer';
 
 @Injectable()
 export class GameEditEffectsService {
 
     constructor(private actions$: Actions, private api: GameEditService, private store: Store<AppState>) {
     }
+
+    @Effect() saveActivity: Observable<any> = this.actions$
+        .ofType(SAVE_ACTIVITY)
+        .map((action: SaveActivityAction) => {
+            const payload = {...action.payload};
+            if (typeof payload.image === 'string') {
+                delete payload.image;
+            }
+            return payload;
+        })
+        .mergeMap((payload: Activity) => {
+            return this.api.saveActivity(payload);
+        })
+        .mergeMap((res: Activity) => {
+            return [
+                new AddActivityAction(res),
+                new SaveActivitySuccessAction(res),
+                new OperationSuccessAction(sm.SAVE_FACTION_SUCCESS)
+            ];
+        })
+        .catch(() => {
+            return [new SaveActivityFailAction(), new OperationFailAction(sm.SAVE_FACTION_FAIL)];
+        });
+
+    @Effect() deleteActivity: Observable<any> = this.actions$
+        .ofType(DELETE_ACTIVITY)
+        .map((action: DeleteActivityAction) => action.payload)
+        .mergeMap((payload: Activity) => {
+            return this.api.deleteActivity(payload)
+                .mergeMap(() => {
+                    return [
+                        new RemoveActivityAction(payload),
+                        new DeleteActivitySuccessAction(payload),
+                        new OperationSuccessAction(sm.DELETE_FACTION_SUCCESS)
+                    ];
+                })
+                .catch(() => {
+                    return [new DeleteActivityFailAction(), new OperationFailAction(sm.DELETE_FACTION_FAIL)];
+                });
+        });
 
     @Effect() saveFaction: Observable<any> = this.actions$
         .ofType(SAVE_FACTION)

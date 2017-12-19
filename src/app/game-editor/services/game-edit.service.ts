@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Trivia, BoardField, Faction, Resource, Game, MapLocation, MapPath, Map } from '../../game-mechanics/models/index';
+import { Trivia, BoardField, Faction, Resource, Game, MapLocation, MapPath, Map, Activity } from '../../game-mechanics/models/index';
 import { API_URLS } from '../../shared/config/api-urls';
 import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
 
@@ -49,6 +49,21 @@ export class GameEditService {
 
     deleteFaction(data: Faction): Observable<any> {
         return this.http.delete(API_URLS.FACTIONS(data.game, data.id));
+    }
+
+    saveActivity(data: Activity): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = {headers: new HttpHeaders({})};
+
+        if (data.id) {
+            return this.http.patch(API_URLS.ACTIVITIES(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.ACTIVITIES(data.game), formData, options);
+        }
+    }
+
+    deleteActivity(data: Activity): Observable<any> {
+        return this.http.delete(API_URLS.ACTIVITIES(data.game, data.id));
     }
 
     getResources(gameId: number): Observable<any> {

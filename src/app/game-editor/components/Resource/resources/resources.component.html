@@ -4,9 +4,7 @@
                        [items]="resources"
                        (removeItem)="removeResource.emit($event)"
                        (editItem)="editResource.emit($event)"
-    >
-
-    </rg-resources-list>
+    ></rg-resources-list>
 
     <div *ngIf="!showEditor" class="buttons-toolbar">
         <button mat-raised-button color="primary" class="create-new-btn" (click)="showResourceEditor()">
@@ -20,5 +18,6 @@
             [game]="game"
             [selectedItem]="selectedItem"
             (save)="saveResource()"
-            (cancel)="hideResourceEditor()"></rg-smart-resource-editor>
+            (cancel)="hideResourceEditor()"
+    ></rg-smart-resource-editor>
 </div>

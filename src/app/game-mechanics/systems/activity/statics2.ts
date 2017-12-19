@@ -11,6 +11,9 @@ quantity:
 
 
 export const types = {
+    ATTACK_FIELD: 'ATTACK_FIELD',
+    DEFEND_FIELD: 'DEFEND_FIELD',
+    MINE_RESOURCES: 'MINE_RESOURCES',
     GAIN_RESOURCE: 'GAIN_RESOURCE',
     REDUCE_RESOURCE: 'REDUCE_RESOURCE',
     REDUCE_COST: 'REDUCE_COST',
@@ -133,7 +136,10 @@ export type ActionType =
     typeof types.REDUCE_RESOURCE |
     typeof types.GAIN_RESOURCE |
     typeof types.INCREASE_COST |
-    typeof types.REDUCE_COST;
+    typeof types.REDUCE_COST |
+    typeof types.ATTACK_FIELD |
+    typeof types.DEFEND_FIELD |
+    typeof types.MINE_RESOURCES;
 
 
 // to my future self: action executables: pure functions that may accept input and output array of Store FactionAction (containing computed parameters from the input)

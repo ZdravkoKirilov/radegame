@@ -1,11 +1,21 @@
 import { ActionReducer, combineReducers } from '@ngrx/store';
 
-import { factionsReducer, fieldsReducer, gridReducer, mapReducer, metadataReducer, resourcesReducer, triviaReducer } from '../exports';
+import {
+    factionsReducer,
+    fieldsReducer,
+    gridReducer,
+    mapReducer,
+    metadataReducer,
+    resourcesReducer,
+    triviaReducer,
+    activityReducer
+} from '../exports';
 import * as actionTypes from '../../actions/actionTypes';
 import { Resources } from './resources.reducer';
 import { Factions } from './factions.reducer';
 import { Trivias } from './trivia.reducer';
 import { BoardFields } from './fields.reducer';
+import { GameActivity } from './activity.reducer';
 import { MapState } from './map.reducer';
 import { Grid, GameMetadata } from '../../../../game-mechanics/models/index';
 
@@ -16,7 +26,8 @@ const reducers = {
     trivia: triviaReducer,
     fields: fieldsReducer,
     map: mapReducer,
-    grid: gridReducer
+    grid: gridReducer,
+    activities: activityReducer,
 };
 
 export interface GameEditorForm {
@@ -27,6 +38,7 @@ export interface GameEditorForm {
     fields?: BoardFields;
     map?: MapState;
     grid?: Grid;
+    activities?: GameActivity;
 }
 
 const reducer: ActionReducer<GameEditorForm> = combineReducers(reducers);

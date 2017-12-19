@@ -1,4 +1,4 @@
-export * from './GameAction';
+export * from './Activity';
 export * from './BoardField';
 export * from './Faction';
 export * from './EndCondition';

@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameActionEditorComponent } from './game-action-editor.component';
+import { GameActionEditorComponent } from './activity-editor.component';
 
 describe('GameActionEditorComponent', () => {
   let component: GameActionEditorComponent;

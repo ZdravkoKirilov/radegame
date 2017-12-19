@@ -1,4 +1,4 @@
-import { Movement, TriviaList, ResourceList, FactionList, EndCondition, GameMetadata } from './index';
+import { Movement, TriviaList, ResourceList, FactionList, EndCondition, GameMetadata, ActivityList } from './index';
 
 export interface GameTemplate {
     id?: number;
@@ -8,4 +8,5 @@ export interface GameTemplate {
     trivia?: TriviaList;
     resources?: ResourceList;
     factions?: FactionList;
+    activities?: ActivityList;
 }

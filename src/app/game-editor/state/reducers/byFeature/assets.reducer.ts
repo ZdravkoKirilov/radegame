@@ -1,5 +1,5 @@
 import { Actions } from '../../actions/byFeature/asset.action';
-import { PrivateActionList } from '../../../../game-mechanics/systems/game-actions/statics';
+import { PrivateActivityList } from '../../../../game-mechanics/systems/activity/statics';
 import { Game, MovementsList } from '../../../../game-mechanics/models/index';
 import { createSelector } from '@ngrx/store';
 import { GameEditorFeature } from '../index';
@@ -10,7 +10,7 @@ import { Option } from '../../../../dynamic-forms/models/Base';
 export interface GameEditorAssets {
     supportedMovements?: string[];
     supportedActions?: string[];
-    actions?: PrivateActionList;
+    activities?: PrivateActivityList;
     movements?: MovementsList;
     game?: Game;
 }
@@ -18,7 +18,7 @@ export interface GameEditorAssets {
 const initialState: GameEditorAssets = {
     supportedMovements: [],
     supportedActions: [],
-    actions: null,
+    activities: null,
     movements: null,
     game: null,
 };

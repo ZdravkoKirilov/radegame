@@ -1,5 +1,5 @@
 import { moveTypes } from './movements';
-import { types as actions } from '../systems/game-actions/statics';
+import { types as actions } from '../systems/activity/statics';
 import { GameBoardTypes } from '../models/index';
 
 export const types = {
@@ -13,8 +13,9 @@ export const GameBoards: GameBoardTypes = {
         id: types.BASIC_GRID,
         allowedMovements: [moveTypes.Basic, moveTypes.Other],
         supportedActions: [
-            actions.GAIN_RESOURCE,
-            actions.REDUCE_RESOURCE,
+            actions.ATTACK_FIELD,
+            actions.DEFEND_FIELD,
+            actions.MINE_RESOURCES
         ]
     },
     [types.MAP]: {
@@ -22,8 +23,9 @@ export const GameBoards: GameBoardTypes = {
         id: types.MAP,
         allowedMovements: [moveTypes.Other],
         supportedActions: [
-            actions.GAIN_RESOURCE,
-            actions.REDUCE_RESOURCE,
+            actions.ATTACK_FIELD,
+            actions.DEFEND_FIELD,
+            actions.MINE_RESOURCES
         ]
     }
 };

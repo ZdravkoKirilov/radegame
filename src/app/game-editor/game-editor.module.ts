@@ -57,10 +57,10 @@ import { MapFieldComponent } from './components/Field/Map/map-field/map-field.co
 import { MapToolbarComponent } from './components/Field/Map/map-toolbar/map-toolbar.component';
 import { SmartFieldsComponent } from './containers/smart-fields/smart-fields.component';
 import { MapPathComponent } from './components/Field/Map/map-path/map-path.component';
-import { SmartGameActionsComponent } from './containers/smart-game-actions/smart-game-actions.component';
-import { GameActionsListComponent } from './components/GameAction/game-actions-list/game-actions-list.component';
-import { GameActionsComponent } from './components/GameAction/game-actions/game-actions.component';
-import { GameActionEditorComponent } from './components/GameAction/game-action-editor/game-action-editor.component';
+import { SmartActivitiesComponent } from './containers/smart-activities/smart-activities.component';
+import { GameActionsListComponent } from './components/Activity/activities-list/activities-list.component';
+import { GameActionsComponent } from './components/Activity/activities/activities.component';
+import { GameActionEditorComponent } from './components/Activity/activity-editor/activity-editor.component';
 
 @NgModule({
     imports: [
@@ -122,7 +122,7 @@ import { GameActionEditorComponent } from './components/GameAction/game-action-e
         MapToolbarComponent,
         SmartFieldsComponent,
         MapPathComponent,
-        SmartGameActionsComponent,
+        SmartActivitiesComponent,
         GameActionsListComponent,
         GameActionsComponent,
         GameActionEditorComponent

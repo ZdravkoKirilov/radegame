@@ -1,6 +1,7 @@
+import { createSelector } from '@ngrx/store';
+
 import { FactionAction } from '../../actions/byFeature/faction.action';
 import { Faction } from '../../../../game-mechanics/models/index';
-import { createSelector } from '@ngrx/store';
 import { GameEditorFeature } from '../index';
 import { selectFeature } from '../selectors';
 
@@ -76,6 +77,6 @@ export const selectFactions = createSelector(selectFeature, (state: GameEditorFe
 export const getSelectedFaction = createSelector(selectFeature, (state: GameEditorFeature): Faction => {
     return state.form.factions.selectedItem;
 });
-export const selectFactionEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
+export const selectFactionEditorState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.factions.showEditor;
 });

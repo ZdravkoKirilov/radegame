@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GameActionsListComponent } from './game-actions-list.component';
+import { GameActionsListComponent } from './activities-list.component';
 
 describe('GameActionsListComponent', () => {
   let component: GameActionsListComponent;

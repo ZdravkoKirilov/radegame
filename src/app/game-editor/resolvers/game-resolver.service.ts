@@ -11,7 +11,7 @@ import { GameEditService } from '../services/game-edit.service';
 import { ROUTER_PARAMS } from '../../shared/config/config';
 import { GameBoards } from '../../game-mechanics/configs/game-boards';
 import { Movements } from '../../game-mechanics/configs/movements';
-import { gameActions } from '../../game-mechanics/systems/game-actions/statics';
+import { gameActions } from '../../game-mechanics/systems/activity/statics';
 import { toIndexedList } from '../../shared/utils/utils';
 
 @Injectable()
@@ -41,8 +41,8 @@ export class GameResolverService implements Resolve<Game> {
             return {
                 game, map, locations, paths, fields, resources, factions,
                 supportedMovements: GameBoards[game.boardType].allowedMovements,
-                supportedActions: GameBoards[game.boardType].supportedActions,
-                actions: gameActions,
+                supportedActivities: GameBoards[game.boardType].supportedActions,
+                activities: gameActions,
                 movements: Movements
             };
         }).catch(() => {

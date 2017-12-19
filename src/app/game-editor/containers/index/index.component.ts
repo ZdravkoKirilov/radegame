@@ -31,8 +31,8 @@ export class IndexComponent implements OnInit, OnDestroy {
                     if (game && game.boardType !== this.boardType) {
                         this.store.dispatch(new UpdateEditorAssetsAction({
                             supportedMovements: gameData.supportedMovements,
-                            supportedActions: gameData.supportedActions,
-                            actions: gameData.actions,
+                            supportedActions: gameData.supportedActivities,
+                            activities: gameData.activities,
                             movements: gameData.movements,
                             game
                         }));

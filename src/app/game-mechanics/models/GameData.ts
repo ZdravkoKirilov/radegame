@@ -9,7 +9,7 @@ import {
     FactionList
 } from './index';
 
-import { PrivateActionList } from '../systems/game-actions/statics';
+import { PrivateActivityList } from '../systems/activity/statics';
 
 export interface GameData {
     game?: Game;
@@ -19,8 +19,11 @@ export interface GameData {
     paths?: MapPathList;
     resources?: ResourceList;
     factions?: FactionList;
-    actions?: PrivateActionList;
+    activities?: PrivateActivityList;
     movements?: MovementsList;
-    supportedActions?: string[];
+    supportedActivities?: string[];
     supportedMovements?: string[];
 }
+
+
+

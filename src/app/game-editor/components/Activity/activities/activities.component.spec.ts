@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SmartGameActionsComponent } from './smart-game-actions.component';
+import { GameActionsComponent } from './activities.component';
 
-describe('SmartGameActionsComponent', () => {
-  let component: SmartGameActionsComponent;
-  let fixture: ComponentFixture<SmartGameActionsComponent>;
+describe('GameActionsComponent', () => {
+  let component: GameActionsComponent;
+  let fixture: ComponentFixture<GameActionsComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmartGameActionsComponent ]
+      declarations: [ GameActionsComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SmartGameActionsComponent);
+    fixture = TestBed.createComponent(GameActionsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

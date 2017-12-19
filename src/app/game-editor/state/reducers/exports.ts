@@ -8,3 +8,4 @@ export * from './byFeature/map.reducer';
 export * from './byFeature/grid.reducer';
 export * from './byFeature/map.reducer';
 export * from './byFeature/games.reducer';
+export * from './byFeature/activity.reducer';
