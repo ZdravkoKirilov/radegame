@@ -5,7 +5,7 @@ import { Observable } from 'rxjs/Observable';
 
 import { AppState } from '../../../core/state/index';
 import { Grid } from '../../../game-mechanics/models/index';
-import { FieldCoord } from '../../../game-mechanics/models/BoardField';
+import { FieldCoord } from '../../../game-mechanics/models/BoardField.model';
 import { selectGridWithInnerItems } from '../../state/reducers/byFeature/grid.reducer';
 import {
     AddGridRowAction,

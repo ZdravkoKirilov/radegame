@@ -9,5 +9,6 @@ export const controlTypes = {
 
 
     NESTED_FORM: 'NESTED_FORM',
+    DYNAMIC_NESTED_FORM: 'DYNAMIC_NESTED_FORM',
     FORM_ARRAY: 'FORM_ARRAY'
 };

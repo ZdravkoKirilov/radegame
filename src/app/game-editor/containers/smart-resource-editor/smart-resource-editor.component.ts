@@ -4,8 +4,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '../../../core/state/index';
 import { Resource, Game } from '../../../game-mechanics/models/index';
 import { SaveResourceAction } from '../../state/actions/byFeature/resource.action';
-import { FormDefinition } from '../../../shared/models/FormDefinition';
-import { RESOURCE_DEF } from '../../forms/resource';
+import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
+import { RESOURCE_DEF } from '../../forms/resource.form';
 
 @Component({
     selector: 'rg-smart-resource-editor',

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Faction } from '../../../../game-mechanics/models/Faction';
+import { Faction } from '../../../../game-mechanics/models/Faction.model';
 
 @Component({
     selector: 'rg-factions-list',

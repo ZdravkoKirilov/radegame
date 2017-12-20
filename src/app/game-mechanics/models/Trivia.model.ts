@@ -1,4 +1,8 @@
-import { TriviaAnswer } from './TriviaAnswer';
+export interface TriviaAnswer {
+    id?: number | string;
+    displayName?: string;
+    content?: string;
+}
 
 export interface Trivia {
     id?: number;

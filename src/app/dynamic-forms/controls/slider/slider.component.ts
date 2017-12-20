@@ -1,6 +1,6 @@
 import {Component, Input, Output, EventEmitter, OnInit} from '@angular/core';
 
-import {BaseControl} from '../../models/Base';
+import {BaseControl} from '../../models/Base.model';
 
 @Component({
     selector: 'rg-slider',

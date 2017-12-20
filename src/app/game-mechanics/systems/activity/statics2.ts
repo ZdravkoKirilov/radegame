@@ -1,4 +1,4 @@
-import { FormDefinition } from '../../../shared/models/FormDefinition';
+import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 
 /*
 action form

@@ -1,8 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
-import { BaseControl } from '../../models/Base';
+import { BaseControl } from '../../models/Base.model';
 import { ControlsService } from '../../services/controls.service';
+import { controlTypes } from '../../config/controlTypes';
+import { FormDefinition } from '../../models/FormDefinition.model';
 
 @Component({
     selector: 'rg-form-array',
@@ -14,6 +16,7 @@ export class FormArrayComponent implements OnInit {
     @Input() data: BaseControl;
     formArray: FormArray;
     controls: BaseControl[];
+    controlTypes = controlTypes;
 
     constructor(private cs: ControlsService) {
     }
@@ -28,8 +31,16 @@ export class FormArrayComponent implements OnInit {
         this.formArray.removeAt(index);
     }
 
-    valueChange(data) {
-        this.formArray.controls[data.index].patchValue(data.data);
+    valueChange({index, data}) {
+        this.formArray.controls[index].patchValue(data);
+    }
+
+    reshapeChild({index, config, data}) {
+        const formDef: FormDefinition = config.subFormMapping[data[config.childTemplate.name]];
+        const controls = [config.childTemplate, ...formDef()];
+        this.formArray.setControl(index, this.cs.toFormGroup(controls));
+        this.controls[index].childControls = controls;
+        this.valueChange({index, data});
     }
 
     ngOnInit() {

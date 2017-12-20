@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { BaseControl } from '../../models/Base';
+import { BaseControl } from '../../models/Base.model';
 
 @Component({
     selector: 'rg-dynamic-form',

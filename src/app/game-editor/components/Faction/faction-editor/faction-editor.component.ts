@@ -2,8 +2,8 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { Faction, Resource } from '../../../../game-mechanics/models/index';
-import { BaseControl } from '../../../../dynamic-forms/models/Base';
-import { FormDefinition } from '../../../../shared/models/FormDefinition';
+import { BaseControl } from '../../../../dynamic-forms/models/Base.model';
+import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
 
 @Component({

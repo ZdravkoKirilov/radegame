@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { Activity } from '../../../../game-mechanics/models/index';
-import { FormDefinition } from '../../../../shared/models/FormDefinition';
+import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
 
 @Component({
     selector: 'rg-activities',

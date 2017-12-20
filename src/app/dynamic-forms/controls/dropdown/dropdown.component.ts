@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { BaseControl } from '../../models/Base';
+import { BaseControl } from '../../models/Base.model';
 import { FormGroup } from '@angular/forms';
 import { MatSelectChange } from '@angular/material';
 

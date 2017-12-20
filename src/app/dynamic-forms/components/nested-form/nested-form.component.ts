@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormArray } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
-import { BaseControl } from '../../models/Base';
+import { BaseControl } from '../../models/Base.model';
 
 @Component({
     selector: 'rg-nested-form',
@@ -21,7 +21,7 @@ export class NestedFormComponent {
     fieldChange(data) {
         this.change.emit({
             index: this.index,
-            data
+            data,
         });
     }
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { FormControl, FormGroup, FormArray, Validators as vd } from '@angular/forms';
 
-import { BaseControl } from '../models/Base';
+import { BaseControl } from '../models/Base.model';
 import { controlTypes } from '../config/controlTypes';
 
 @Injectable()
@@ -30,20 +30,5 @@ export class ControlsService {
             formArray.push(control);
         });
         return formArray;
-    }
-
-    patchFormDeep(form: FormGroup, data: {}, valueProps: string[]) {
-        form.patchValue(data);
-        for (const key in data) {
-            const control = form.get(key);
-            if (control instanceof FormGroup) {
-                const valueAt = valueProps.shift();
-                const nestedData = {...data[key]};
-                for (let k in nestedData) {
-                    nestedData[k] = nestedData[k][valueAt];
-                }
-                this.patchFormDeep(control, nestedData, valueProps);
-            }
-        }
     }
 }

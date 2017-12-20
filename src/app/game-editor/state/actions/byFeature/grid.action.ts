@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { FieldCoord } from '../../../../game-mechanics/models/BoardField';
+import { FieldCoord } from '../../../../game-mechanics/models/BoardField.model';
 import {
     ADD_GRID_COLUMN,
     ADD_GRID_FIELD,

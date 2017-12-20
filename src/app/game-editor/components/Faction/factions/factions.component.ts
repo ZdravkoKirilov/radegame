@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 import { Faction, Resource } from '../../../../game-mechanics/models/index';
-import { FormDefinition } from '../../../../shared/models/FormDefinition';
+import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
 import { copyText } from '../../../../shared/config/copy-text';
 
 @Component({

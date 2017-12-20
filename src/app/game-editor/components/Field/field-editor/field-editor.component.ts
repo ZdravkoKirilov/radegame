@@ -1,10 +1,10 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { BaseControl } from '../../../../dynamic-forms/models/Base';
+import { BaseControl } from '../../../../dynamic-forms/models/Base.model';
 import { BoardField, Resource } from '../../../../game-mechanics/models/index';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { FormDefinition } from '../../../../shared/models/FormDefinition';
+import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
 
 @Component({
     selector: 'rg-field-editor',

@@ -1,4 +1,4 @@
-import { BaseControl, Option } from '../../dynamic-forms/models/Base';
+import { BaseControl, Option } from '../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../dynamic-forms/config/controlTypes';
 
 export function METADATA_DEF(movements: Option[]): BaseControl[] {

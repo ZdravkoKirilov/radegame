@@ -5,10 +5,10 @@ import {Subscription} from 'rxjs/Subscription';
 import {AppState} from '../../../core/state/index';
 import * as actions from '../../state/actions/byFeature/metadata.action';
 import {GameMetadata} from '../../../game-mechanics/models/index';
-import {BaseControl} from '../../../dynamic-forms/models/Base';
+import {BaseControl} from '../../../dynamic-forms/models/Base.model';
 import {METADATA_DEF} from '../../utils/form-definitions';
 import {selectMovementsAsOptionsList} from '../../state/reducers/byFeature/assets.reducer';
-import {Option} from '../../../dynamic-forms/models/Base';
+import {Option} from '../../../dynamic-forms/models/Base.model';
 import 'rxjs/add/operator/take';
 
 @Component({

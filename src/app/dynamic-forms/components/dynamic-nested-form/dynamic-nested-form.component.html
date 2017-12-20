@@ -1,0 +1,12 @@
+<div>
+    <ng-container *ngFor="let item of data.childControls">
+        <div>
+            <rg-abstract-control
+                    [form]="form"
+                    [data]="item"
+                    (fieldChange)="fieldChange($event)">
+            </rg-abstract-control>
+        </div>
+
+    </ng-container>
+</div>

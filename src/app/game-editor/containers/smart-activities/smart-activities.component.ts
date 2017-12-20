@@ -3,9 +3,9 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core/state/index';
-import { FormDefinition } from '../../../shared/models/FormDefinition';
+import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { Activity, Game } from '../../../game-mechanics/models/index';
-import { GAME_ACTION_DEF } from '../../forms/action';
+import { ACTIVITY_DEF } from '../../forms/activity.form';
 import { selectActivities, selectActivityEditorState, getSelectedActivity } from '../../state/reducers/byFeature/activity.reducer';
 import {
     SaveActivityAction,
@@ -25,7 +25,7 @@ export class SmartActivitiesComponent implements OnInit, OnDestroy {
     private storeSub: Subscription;
     private game: Game;
 
-    public formDefinition: FormDefinition = GAME_ACTION_DEF;
+    public formDefinition: FormDefinition = ACTIVITY_DEF;
     public showEditor: boolean;
     public items: Activity[];
     public selectedItem: Activity;

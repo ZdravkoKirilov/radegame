@@ -20,6 +20,7 @@ import { NestedFormComponent } from './components/nested-form/nested-form.compon
 import { NumberInputComponent } from './controls/number-input/number-input.component';
 import { FormArrayComponent } from './components/form-array/form-array.component';
 import { DropdownComponent } from './controls/dropdown/dropdown.component';
+import { DynamicNestedFormComponent } from './components/dynamic-nested-form/dynamic-nested-form.component';
 
 
 @NgModule({
@@ -44,7 +45,8 @@ import { DropdownComponent } from './controls/dropdown/dropdown.component';
         NestedFormComponent,
         NumberInputComponent,
         FormArrayComponent,
-        DropdownComponent],
+        DropdownComponent,
+        DynamicNestedFormComponent],
     providers: [
         ControlsService
     ]

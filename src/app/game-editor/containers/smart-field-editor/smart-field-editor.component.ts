@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../core/state/index';
 import { BoardField, Game, Resource } from '../../../game-mechanics/models/index';
-import { FIELD_DEF } from '../../forms/field';
+import { FIELD_DEF } from '../../forms/field.form';
 import { SaveFieldAction } from '../../state/actions/byFeature/field.action';
 import { selectGame} from '../../state/reducers/byFeature/assets.reducer';
 import { selectResources } from '../../state/reducers/byFeature/resources.reducer';

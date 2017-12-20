@@ -3,8 +3,8 @@ import { FormGroup } from '@angular/forms';
 
 import { Resource } from '../../../../game-mechanics/models/index';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { FormDefinition } from '../../../../shared/models/FormDefinition';
-import { BaseControl } from '../../../../dynamic-forms/models/Base';
+import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
+import { BaseControl } from '../../../../dynamic-forms/models/Base.model';
 
 @Component({
     selector: 'rg-resource-editor',

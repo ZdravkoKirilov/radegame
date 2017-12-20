@@ -6,10 +6,7 @@ export interface Activity {
     name?: string;
     description?: string;
     image?: string;
-    card?: boolean;
-    quota?: number;
     config?: ActivityConfig[];
-
 }
 
 export interface ActivityList {

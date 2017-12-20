@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormArray, FormGroup, FormControl } from '@angular/forms';
 
-import { BaseControl } from '../../models/Base';
+import { BaseControl } from '../../models/Base.model';
 import { controlTypes } from '../../config/controlTypes';
 
 @Component({

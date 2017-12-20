@@ -1,7 +1,7 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, Validators as vd } from '@angular/forms';
 
-import { Trivia } from '../../../../game-mechanics/models/Trivia';
+import { Trivia } from '../../../../game-mechanics/models/Trivia.model';
 
 @Component({
   selector: 'rg-trivia-editor',

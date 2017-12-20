@@ -1,4 +1,4 @@
-import {MovementsList} from '../models/Movement';
+import {MovementsList} from '../models/Movement.model';
 
 export const moveTypes = {
     'Basic': 'BASIC',

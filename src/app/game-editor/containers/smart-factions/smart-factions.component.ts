@@ -14,8 +14,8 @@ import {
     ChangeSelectedFactionAction,
     ToggleEditorAction
 } from '../../state/actions/byFeature/faction.action';
-import { FormDefinition} from '../../../shared/models/FormDefinition';
-import { FACTION_DEF } from '../../forms/faction';
+import { FormDefinition} from '../../../dynamic-forms/models/FormDefinition.model';
+import { FACTION_DEF } from '../../forms/faction.form';
 import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
 import { getSelectedFaction, selectFactionEditorState, selectFactions } from '../../state/reducers/byFeature/factions.reducer';
 

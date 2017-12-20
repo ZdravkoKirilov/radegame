@@ -1,9 +1,9 @@
 import {Component, OnChanges, SimpleChanges, Input, Output, EventEmitter} from '@angular/core';
 import {FormGroup} from '@angular/forms';
 
-import {BaseControl} from '../../../../dynamic-forms/models/Base';
+import {BaseControl} from '../../../../dynamic-forms/models/Base.model';
 import {ControlsService} from '../../../../dynamic-forms/services/controls.service';
-import { Game } from '../../../../game-mechanics/models/Game';
+import { Game } from '../../../../game-mechanics/models/Game.model';
 
 @Component({
     selector: 'rg-game-launch',

@@ -1,6 +1,6 @@
 import {Component, ViewChild, ElementRef, Input, Output, EventEmitter} from '@angular/core';
 
-import {BaseControl} from '../../models/Base';
+import {BaseControl} from '../../models/Base.model';
 
 @Component({
     selector: 'rg-image-picker',

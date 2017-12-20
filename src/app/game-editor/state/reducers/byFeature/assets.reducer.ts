@@ -3,9 +3,9 @@ import { PrivateActivityList } from '../../../../game-mechanics/systems/activity
 import { Game, MovementsList } from '../../../../game-mechanics/models/index';
 import { createSelector } from '@ngrx/store';
 import { GameEditorFeature } from '../index';
-import { Movement } from '../../../../game-mechanics/models/Movement';
+import { Movement } from '../../../../game-mechanics/models/Movement.model';
 import { selectFeature } from '../selectors';
-import { Option } from '../../../../dynamic-forms/models/Base';
+import { Option } from '../../../../dynamic-forms/models/Base.model';
 
 export interface GameEditorAssets {
     supportedMovements?: string[];

@@ -1,5 +1,5 @@
-import { FormDefinition } from '../../../shared/models/FormDefinition';
-import { ACTION_CONFIG_PARAMS_DEF } from './forms';
+import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
+import { BASIC_ACTIVITY_DEF } from './forms';
 /*
 action form
 
@@ -51,18 +51,23 @@ export const gameActions: PrivateActivityList = {
     [types.ATTACK_FIELD]: { // PrivateActivity
         id: types.ATTACK_FIELD,
         name: 'Attack field',
-        form: ACTION_CONFIG_PARAMS_DEF
+        form: BASIC_ACTIVITY_DEF
     },
     [types.DEFEND_FIELD]: {
         id: types.DEFEND_FIELD,
         name: 'Defend field',
-        form: ACTION_CONFIG_PARAMS_DEF
+        form: BASIC_ACTIVITY_DEF
     },
     [types.MINE_RESOURCES]: {
         id: types.MINE_RESOURCES,
         name: 'Mine resources',
-        form: ACTION_CONFIG_PARAMS_DEF
+        form: BASIC_ACTIVITY_DEF
     },
+};
+
+export const SUBFORM_SCHEMA_MAPPING = {
+    [types.ATTACK_FIELD]: BASIC_ACTIVITY_DEF,
+    [types.DEFEND_FIELD]: BASIC_ACTIVITY_DEF
 };
 
 // PRIVATE ACTION LIST END//
