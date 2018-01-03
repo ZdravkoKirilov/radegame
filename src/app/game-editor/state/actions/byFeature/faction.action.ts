@@ -10,6 +10,9 @@ import {
     SAVE_FACTION,
     SAVE_FACTION_FAIL,
     SAVE_FACTION_SUCCESS,
+    GET_FACTIONS,
+    GET_FACTIONS_SUCCESS,
+    GET_FACTIONS_FAIL,
     SET_FACTIONS,
     TOGGLE_FACTION_EDITOR
 } from '../../reducers/byFeature/factions.reducer';
@@ -39,6 +42,23 @@ export class SaveFactionSuccessAction implements Action {
 export class SaveFactionFailAction implements Action {
     readonly payload = null;
     readonly type = SAVE_FACTION_FAIL;
+}
+
+export class GetFactionsAction implements Action {
+    constructor(public payload: number) {
+    }
+
+    readonly type = GET_FACTIONS;
+}
+
+export class GetFactionsSuccessAction implements Action {
+    readonly payload = null;
+    readonly type = GET_FACTIONS;
+}
+
+export class GetFactionsFailAction implements Action {
+    readonly payload = null;
+    readonly type = GET_FACTIONS;
 }
 
 export class SetFactionsAction implements Action {

@@ -25,6 +25,9 @@ const initialState: Factions = {
 
 export const SAVE_FACTION = 'SAVE_FACTION';
 export const DELETE_FACTION = 'DELETE_FACTION';
+export const GET_FACTIONS = 'GET_FACTIONS';
+export const GET_FACTIONS_SUCCESS = 'GET_FACTIONS_SUCCESS';
+export const GET_FACTIONS_FAIL = 'GET_FACTIONS_FAIL';
 export const SET_FACTIONS = 'SET_FACTIONS';
 export const ADD_FACTION = 'ADD_FACTION';
 export const SAVE_FACTION_SUCCESS = 'SAVE_FACTION_SUCCESS';

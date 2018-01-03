@@ -72,9 +72,8 @@ export class DeleteResourceFailAction implements Action {
     readonly type = DELETE_RESOURCE_FAIL;
 }
 
-
 export class GetResourcesAction implements Action {
-    constructor(public payload: { gameId: number }) {
+    constructor(public payload: number) {
     }
 
     readonly type = GET_RESOURCES;
@@ -89,9 +88,7 @@ export class SetResourcesAction implements Action {
 }
 
 export class GetResourcesSuccessAction implements Action {
-    constructor(public payload: Resource[]) {
-    }
-
+    readonly payload = null;
     readonly type = GET_RESOURCES_SUCCESS;
 }
 

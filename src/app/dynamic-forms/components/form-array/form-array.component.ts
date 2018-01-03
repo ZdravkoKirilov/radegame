@@ -23,7 +23,7 @@ export class FormArrayComponent implements OnInit {
 
     addChild() {
         this.formArray.push(this.cs.toFormGroup(this.data.childTemplate.childControls));
-        this.controls.push(this.data.childTemplate);
+        this.controls.push({...this.data.childTemplate});
     }
 
     removeChild(index) {
@@ -36,8 +36,9 @@ export class FormArrayComponent implements OnInit {
     }
 
     reshapeChild({index, config, data}) {
+        const currentValue = this.formArray.at(index).value;
         const formDef: FormDefinition = config.subFormMapping[data[config.childTemplate.name]];
-        const controls = [config.childTemplate, ...formDef()];
+        const controls = [config.childTemplate, ...formDef(currentValue)];
         this.formArray.setControl(index, this.cs.toFormGroup(controls));
         this.controls[index].childControls = controls;
         this.valueChange({index, data});
