@@ -16,7 +16,7 @@ export interface Factions {
 }
 
 const initialState: Factions = {
-    items: {},
+    items: null,
     lastInsert: null,
     lastDelete: null,
     showEditor: false,

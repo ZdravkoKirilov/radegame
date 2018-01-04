@@ -264,8 +264,8 @@ export class GameEditEffectsService {
                     return [
                         new DeleteFieldSuccessAction(payload),
                         new DeleteMapLocationSuccessAction({field: payload.id}),
-                        new GetMapPathsAction({gameId: payload.game}),
-                        new OperationSuccessAction(sm.DELETE_FIELD_SUCCESS)
+                        new GetMapPathsAction(payload.game),
+                        new OperationSuccessAction(sm.DELETE_FIELD_SUCCESS),
                     ];
                 })
                 .catch(() => {

@@ -10,7 +10,7 @@ import {
     GET_FIELDS_SUCCESS,
     SAVE_FIELD,
     SAVE_FIELD_FAIL,
-    SAVE_FIELD_SUCCESS,
+    SAVE_FIELD_SUCCESS, SET_FIELDS,
     TOGGLE_FIELD_EDITOR
 } from '../../reducers/byFeature/fields.reducer';
 
@@ -53,22 +53,27 @@ export class DeleteFieldFailAction implements Action {
 }
 
 export class GetFieldsAction implements Action {
-    constructor(public payload: { gameId: number }) {
+    constructor(public payload: number) {
     }
 
     readonly type = GET_FIELDS;
 }
 
 export class GetFieldsSuccessAction implements Action {
-    constructor(public payload: BoardFieldList) {
-    }
-
+    readonly payload = null;
     readonly type = GET_FIELDS_SUCCESS;
 }
 
 export class GetFieldsFailAction implements Action {
     readonly payload = null;
     readonly type = GET_FIELDS_FAIL;
+}
+
+export class SetFieldsAction implements Action {
+    constructor(public payload: BoardFieldList) {
+    }
+
+    readonly type = SET_FIELDS;
 }
 
 export class ToggleFieldEditorAction implements Action {
@@ -95,5 +100,6 @@ export type FieldAction =
     | GetFieldsAction
     | GetFieldsSuccessAction
     | GetFieldsFailAction
+    | SetFieldsAction
     | ToggleFieldEditorAction
     | ChangeSelectedFieldAction;

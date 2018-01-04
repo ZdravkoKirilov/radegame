@@ -5,6 +5,7 @@ import { SmartLaunchComponent } from './containers/smart-launch/smart-launch.com
 import { ROUTER_PARAMS } from '../shared/config/config';
 import { GameResolverService } from './resolvers/game-resolver.service';
 import { GamesListResolverService } from './resolvers/games-list-resolver.service';
+import * as fromGuards from './guards';
 
 export const routes: Routes = [
     {
@@ -23,7 +24,7 @@ export const routes: Routes = [
         path: `games/editor/:${ROUTER_PARAMS.GAME_ID}`,
         component: IndexComponent,
         pathMatch: 'full',
-        canActivate: [],
+        canActivate: [fromGuards.GameDataGuard],
         data: {
             title: 'Radegast: setup a new game'
         },

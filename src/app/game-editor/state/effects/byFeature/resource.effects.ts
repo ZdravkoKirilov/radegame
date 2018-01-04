@@ -30,7 +30,7 @@ import { DELETE_RESOURCE, GET_RESOURCES, SAVE_RESOURCE } from '../../reducers/by
 import { toIndexedList } from '../../../../shared/utils/utils';
 
 @Injectable()
-export class GameEditEffectsService {
+export class ResourceEffectsService {
 
     constructor(private actions$: Actions, private api: GameEditService) {
     }

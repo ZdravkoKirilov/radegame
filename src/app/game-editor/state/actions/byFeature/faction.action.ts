@@ -53,12 +53,12 @@ export class GetFactionsAction implements Action {
 
 export class GetFactionsSuccessAction implements Action {
     readonly payload = null;
-    readonly type = GET_FACTIONS;
+    readonly type = GET_FACTIONS_SUCCESS;
 }
 
 export class GetFactionsFailAction implements Action {
     readonly payload = null;
-    readonly type = GET_FACTIONS;
+    readonly type = GET_FACTIONS_FAIL;
 }
 
 export class SetFactionsAction implements Action {

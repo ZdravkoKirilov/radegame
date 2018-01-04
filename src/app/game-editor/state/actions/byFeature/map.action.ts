@@ -66,16 +66,14 @@ export class DeleteMapPathSuccessAction implements Action {
 }
 
 export class GetMapPathsAction implements Action {
-    constructor(public payload: { gameId: number }) {
+    constructor(public payload: number) {
     }
 
     readonly type = GET_MAP_PATHS;
 }
 
 export class GetMapPathsSuccessAction implements Action {
-    constructor(public payload: MapPath[]) {
-    }
-
+    readonly payload = null;
     readonly type = GET_MAP_PATHS_SUCCESS;
 }
 
@@ -142,16 +140,14 @@ export class DeleteMapLocationFailAction implements Action {
 }
 
 export class GetMapLocationsAction implements Action {
-    constructor(public payload: { gameId: number }) {
+    constructor(public payload: number) {
     }
 
     readonly type = GET_MAP_LOCATIONS;
 }
 
 export class GetMapLocationsSuccessAction implements Action {
-    constructor(public payload: MapLocation[]) {
-    }
-
+    readonly payload = null;
     readonly type = GET_MAP_LOCATIONS_SUCCESS;
 }
 

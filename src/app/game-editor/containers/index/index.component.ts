@@ -22,7 +22,7 @@ export class IndexComponent implements OnInit, OnDestroy {
     }
 
     ngOnInit() {
-        this.store.dispatch(new ClearFormAction());
+        //this.store.dispatch(new ClearFormAction());
         this.storeSub = this.store
             .subscribe(state => {
                 const gameData: GameData = selectRouterData('game')(state);

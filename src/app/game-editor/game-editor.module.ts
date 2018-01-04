@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { FEATURE_NAME } from './utils/config';
-import { GameEditEffectsService } from './state/effects/game-edit-effects.service';
+import { effects } from './state/effects/index';
 
 import { IndexComponent } from './containers/index/index.component';
 
@@ -21,6 +21,7 @@ import { SceneRenderService } from '../game-mechanics/rendering/scene-render.ser
 import { GameResolverService } from './resolvers/game-resolver.service';
 import { GamesListResolverService } from './resolvers/games-list-resolver.service';
 import { GameEditService } from './services/game-edit.service';
+import * as fromGuards from './guards';
 
 import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResourcesComponent } from './components/Resource/resources/resources.component';
@@ -68,7 +69,7 @@ import { GameActionEditorComponent } from './components/Activity/activity-editor
         SharedModule,
         StoreModule.forFeature(FEATURE_NAME, reducers, {metaReducers}),
         EffectsModule.forFeature([
-            GameEditEffectsService
+            ...effects
         ]),
         FormsModule,
         ReactiveFormsModule,
@@ -84,7 +85,8 @@ import { GameActionEditorComponent } from './components/Activity/activity-editor
         SceneRenderService,
         GameResolverService,
         GamesListResolverService,
-        GameEditService
+        GameEditService,
+        ...fromGuards.guards
     ],
     declarations: [
         IndexComponent,

@@ -35,9 +35,7 @@ export class GetGamesAction implements Action {
 }
 
 export class GetGamesSuccessAction implements Action {
-    constructor(public payload: GameList) {
-    }
-
+    readonly payload = null;
     readonly type = GET_GAMES_SUCCESS;
 }
 

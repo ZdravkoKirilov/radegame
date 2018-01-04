@@ -15,7 +15,7 @@ export interface BoardFields {
 }
 
 const initialState: BoardFields = {
-    items: {},
+    items: null,
     lastInsert: null,
     lastDelete: null,
     selectedField: null,
@@ -25,13 +25,14 @@ const initialState: BoardFields = {
 export const GET_FIELDS = 'GET_FIELDS';
 export const GET_FIELDS_SUCCESS = 'GET_FIELDS_SUCCESS';
 export const GET_FIELDS_FAIL = 'GET_FIELDS_FAIL';
+export const SET_FIELDS = 'SET_FIELDS';
 export const DELETE_FIELD = 'DELETE_FIELD';
 export const SAVE_FIELD = 'SAVE_FIELD';
 export const SAVE_FIELD_SUCCESS = 'SAVE_FIELD_SUCCESS';
 export const SAVE_FIELD_FAIL = 'SAVE_FIELD_FAIL';
 export const DELETE_FIELD_SUCCESS = 'DELETE_FIELD_SUCCESS';
 export const DELETE_FIELD_FAIL = 'DELETE_FIELD_FAIL';
-export const TOGGLE_FIELD_EDITOR = 'TOGLE_FIELD_EDITOR';
+export const TOGGLE_FIELD_EDITOR = 'TOGGLE_FIELD_EDITOR';
 export const CHANGE_SELECTED_FIELD = 'CHANGE_SELECTED_FIELD';
 
 export function fieldsReducer(state: BoardFields = initialState, action: FieldAction): BoardFields {
@@ -57,7 +58,7 @@ export function fieldsReducer(state: BoardFields = initialState, action: FieldAc
                 lastDelete: state.items[action.payload.id],
                 items: {...newItems}
             };
-        case GET_FIELDS_SUCCESS:
+        case SET_FIELDS:
             return {
                 ...state,
                 items: action.payload

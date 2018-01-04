@@ -30,16 +30,17 @@ export class GameResolverService implements Resolve<Game> {
             this.api.getPaths(gameId),
             this.api.getFields(gameId),
             this.api.getResources(gameId),
-            this.api.getFactions(gameId)
+            //this.api.getFactions(gameId)
         ]).map(([game, maps, locations, paths, fields, resources, factions]: any[]): GameData => {
             const map = maps[0];
             locations = toIndexedList(locations, 'field');
             paths = toIndexedList(paths);
             fields = toIndexedList(fields);
             resources = toIndexedList(resources);
-            factions = toIndexedList(factions);
+            //factions = toIndexedList(factions);
             return {
-                game, map, locations, paths, fields, resources, factions,
+                game, map, locations, paths, fields, resources,
+                //factions,
                 supportedMovements: GameBoards[game.boardType].allowedMovements,
                 supportedActivities: GameBoards[game.boardType].supportedActions,
                 activities: gameActions,
