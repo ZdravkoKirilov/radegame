@@ -7,7 +7,7 @@ import {
     GET_GAMES,
     GET_GAMES_FAIL,
     GET_GAMES_SUCCESS,
-    SET_GAMES
+    SET_GAMES,
 } from '../../reducers/byFeature/games.reducer';
 
 export class CreateGameAction implements Action {

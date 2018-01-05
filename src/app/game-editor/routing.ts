@@ -28,8 +28,8 @@ export const routes: Routes = [
         data: {
             title: 'Radegast: setup a new game'
         },
-        resolve: {
-            game: GameResolverService
-        }
+        // resolve: {
+        //     game: GameResolverService
+        // }
     }
 ];

@@ -11,13 +11,15 @@ import {
     AddFactionAction,
     DeleteFactionFailAction,
     DeleteFactionSuccessAction,
-    FactionAction as FactionAction,
     RemoveFactionAction,
     SaveFactionFailAction,
     SaveFactionSuccessAction,
     GetFactionsAction,
     GetFactionsSuccessAction,
-    GetFactionsFailAction, SetFactionsAction
+    GetFactionsFailAction,
+    SetFactionsAction,
+    SaveFactionAction,
+    DeleteFactionAction
 } from '../../actions/byFeature/faction.action';
 
 import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
@@ -52,7 +54,7 @@ export class FactionEffectsService {
 
     @Effect() saveFaction: Observable<any> = this.actions$
         .ofType(SAVE_FACTION)
-        .map((action: FactionAction) => {
+        .map((action: SaveFactionAction) => {
             const payload = {...action.payload};
             if (typeof payload.image === 'string') {
                 delete payload.image;
@@ -75,7 +77,7 @@ export class FactionEffectsService {
 
     @Effect() deleteFaction: Observable<any> = this.actions$
         .ofType(DELETE_FACTION)
-        .map((action: FactionAction) => action.payload)
+        .map((action: DeleteFactionAction) => action.payload)
         .mergeMap((payload: Faction) => {
             return this.api.deleteFaction(payload)
                 .mergeMap(() => {

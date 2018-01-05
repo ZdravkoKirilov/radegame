@@ -190,7 +190,7 @@ export class SaveMapFailAction implements Action {
 }
 
 export class GetMapAction implements Action {
-    constructor(public payload: { gameId: number }) {
+    constructor(public payload: number) {
     }
 
     readonly type = GET_MAP;

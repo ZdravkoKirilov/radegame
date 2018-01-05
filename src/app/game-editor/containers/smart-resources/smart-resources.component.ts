@@ -13,6 +13,7 @@ import { getSelectedResource } from '../../state/reducers/byFeature/resources.re
 import { selectRouterData } from '../../../core/state/reducers/selectors';
 import { AppState } from '../../../core/state/index';
 import { selectResourceEditorToggleState, selectResources } from '../../state/reducers/byFeature/resources.reducer';
+import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
 
 @Component({
     selector: 'rg-smart-resources',
@@ -55,12 +56,7 @@ export class SmartResourcesComponent implements OnInit, OnDestroy {
             this.resources = selectResources(state);
             this.showEditor = selectResourceEditorToggleState(state);
             this.selectedItem = getSelectedResource(state);
-
-            const gameData: GameData = selectRouterData('game')(state);
-            if (!this.game) {
-                this.store.dispatch(new SetResourcesAction(gameData.resources));
-                this.game = gameData.game;
-            }
+            this.game = selectGame(state);
         });
     }
 

@@ -12,7 +12,6 @@ import { ROUTER_PARAMS } from '../../shared/config/config';
 import { GameBoards } from '../../game-mechanics/configs/game-boards';
 import { Movements } from '../../game-mechanics/configs/movements';
 import { gameActions } from '../../game-mechanics/systems/activity/statics';
-import { toIndexedList } from '../../shared/utils/utils';
 
 @Injectable()
 export class GameResolverService implements Resolve<Game> {
@@ -25,21 +24,21 @@ export class GameResolverService implements Resolve<Game> {
 
         return Observable.forkJoin([
             this.api.getGame(gameId),
-            this.api.getMaps(gameId),
-            this.api.getMapLocations(gameId),
-            this.api.getPaths(gameId),
-            this.api.getFields(gameId),
-            this.api.getResources(gameId),
+            // this.api.getMaps(gameId),
+            // this.api.getMapLocations(gameId),
+            // this.api.getPaths(gameId),
+            // this.api.getFields(gameId),
+            // this.api.getResources(gameId),
             //this.api.getFactions(gameId)
-        ]).map(([game, maps, locations, paths, fields, resources, factions]: any[]): GameData => {
-            const map = maps[0];
-            locations = toIndexedList(locations, 'field');
-            paths = toIndexedList(paths);
-            fields = toIndexedList(fields);
-            resources = toIndexedList(resources);
+        ]).map(([game]: any[]): GameData => {
+            //const map = maps[0];
+            // locations = toIndexedList(locations, 'field');
+            // paths = toIndexedList(paths);
+            // fields = toIndexedList(fields);
+            // resources = toIndexedList(resources);
             //factions = toIndexedList(factions);
             return {
-                game, map, locations, paths, fields, resources,
+                game,
                 //factions,
                 supportedMovements: GameBoards[game.boardType].allowedMovements,
                 supportedActivities: GameBoards[game.boardType].supportedActions,

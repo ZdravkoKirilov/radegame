@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -11,12 +11,18 @@ import { selectFeature } from '../state/reducers/selectors';
 import * as actions from '../state/actions';
 import { ROUTER_PARAMS } from '../../shared/config/config';
 
+import 'rxjs/add/operator/take';
+
 @Injectable()
 export class GameDataGuard implements CanActivate {
+
+    private hasFired = false;
+
     constructor(private store: Store<AppState>) {
     }
 
     canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+        this.hasFired = false;
         const gameId = parseInt(route.params[ROUTER_PARAMS.GAME_ID], 10);
         if (gameId) {
             return this.getFromStoreOrAPI(gameId)
@@ -33,15 +39,37 @@ export class GameDataGuard implements CanActivate {
             .select(selectFeature)
             .pipe(
                 tap((data: GameEditorFeature) => {
-                    if (!data.form.factions.items) {
-                        this.store.dispatch(new actions.GetFactionsAction(gameId));
-                    }
-                    if (!data.form.fields.items) {
-
+                    if (!this.hasFired) {
+                        if (!data.form.factions.items) {
+                            this.store.dispatch(new actions.GetFactionsAction(gameId));
+                        }
+                        if (!data.form.fields.items) {
+                            this.store.dispatch(new actions.GetFieldsAction(gameId));
+                        }
+                        if (!data.form.map.items) {
+                            this.store.dispatch(new actions.GetMapLocationsAction(gameId));
+                        }
+                        if (!data.form.map.paths) {
+                            this.store.dispatch(new actions.GetMapPathsAction(gameId));
+                        }
+                        if (!data.form.map.canvas.image) {
+                            this.store.dispatch(new actions.GetMapAction(gameId));
+                        }
+                        if (!data.assets.game) {
+                            this.store.dispatch(new actions.GetGameAction(gameId));
+                        }
+                        this.hasFired = true;
                     }
                 }),
                 filter((data: GameEditorFeature) => {
-                    return !!data;
+                    const hasFactions = !!data.form.factions.items;
+                    const hasFields = !!data.form.fields.items;
+                    const hasLocations = !!data.form.map.items;
+                    const hasPaths = !!data.form.map.paths;
+                    const hasMap = !!data.form.map.canvas.id;
+                    const hasGame = !!data.assets.game;
+
+                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap && hasGame;
                 }),
                 take(1)
             );

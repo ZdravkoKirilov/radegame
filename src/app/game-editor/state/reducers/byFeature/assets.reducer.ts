@@ -9,7 +9,7 @@ import { Option } from '../../../../dynamic-forms/models/Base.model';
 
 export interface GameEditorAssets {
     supportedMovements?: string[];
-    supportedActions?: string[];
+    supportedActivities?: string[];
     activities?: PrivateActivityList;
     movements?: MovementsList;
     game?: Game;
@@ -17,13 +17,16 @@ export interface GameEditorAssets {
 
 const initialState: GameEditorAssets = {
     supportedMovements: [],
-    supportedActions: [],
+    supportedActivities: [],
     activities: null,
     movements: null,
     game: null,
 };
 
 export const UPDATE_EDITOR_ASSET = 'UPDATE_EDITOR_ASSET';
+export const GET_GAME = 'GET_GAME';
+export const GET_GAME_SUCCESS = 'GET_GAME_SUCCESS';
+export const GET_GAME_FAIL = 'GET_GAME_FAIL';
 
 export function gameEditorAssetsReducer(state: GameEditorAssets = initialState, action: Actions): GameEditorAssets {
     switch (action.type) {

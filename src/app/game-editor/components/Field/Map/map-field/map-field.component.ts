@@ -17,7 +17,7 @@ export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
     constructor(private scr: SceneRenderService) {
     }
 
-    async ngOnInit() {
+    ngOnInit() {
         const id = this.mapLocation ? this.mapLocation.id : null;
         if (id) {
             const data = {

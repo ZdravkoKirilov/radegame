@@ -57,7 +57,7 @@ export class MapEffectsService {
     @Effect() getMap: Observable<any> = this.actions$
         .ofType(GET_MAP)
         .mergeMap((action: MapAction) => {
-            return this.api.getMaps(action.payload.gameId);
+            return this.api.getMaps(action.payload);
         })
         .map(([map]: Map[]) => {
             return new GetMapSuccessAction(map);
@@ -154,7 +154,7 @@ export class MapEffectsService {
         .mergeMap((payload: number) => {
             return this.api.getMapLocations(payload)
                 .mergeMap((res: MapLocation[]) => {
-                    const items = toIndexedList(res);
+                    const items = toIndexedList(res, 'field');
                     return [
                         new SetMapLocationsAction(items),
                         new GetMapLocationsSuccessAction(),

@@ -92,16 +92,16 @@ export class SceneRenderService {
 
     savePath(data: MapPath, id: number) {
         if (this.initialized) {
-            if (id in this.nodes) {
-
-            } else {
-                const from: MapNode = this.nodes[data.fromLoc];
-                const to: MapNode = this.nodes[data.toLoc];
+            const from: MapNode = this.nodes[data.fromLoc];
+            const to: MapNode = this.nodes[data.toLoc];
+            if (from && to && !(id in this.paths)) {
                 const path = new Path(data, from, to);
                 this.paths[id] = path;
                 this.pathsStage.addChild(path.elem);
                 this.attachPathEvents(path);
                 this.render();
+            } else {
+                console.error('Possible bug in .savePath');
             }
         }
     }

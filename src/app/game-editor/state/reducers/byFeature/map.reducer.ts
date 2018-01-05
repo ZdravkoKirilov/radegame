@@ -25,8 +25,8 @@ const initialState: MapState = {
         id: null,
         game: null
     },
-    items: {},
-    paths: {},
+    items: null,
+    paths: null,
     siblingsList: {},
     lastInsert: null,
     lastDelete: null,

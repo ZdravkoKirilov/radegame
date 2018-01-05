@@ -69,10 +69,6 @@ export class SmartFactionsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.storeSub = this.store.subscribe(state => {
-            const gameData: GameData = selectRouterData('game')(state);
-            if (!this.factions) {
-                //this.store.dispatch(new SetFactionsAction(gameData.factions));
-            }
             this.resources = selectResources(state);
             this.factions = selectFactions(state);
             this.selectedItem = getSelectedFaction(state);

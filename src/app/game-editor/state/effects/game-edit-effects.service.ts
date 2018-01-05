@@ -221,7 +221,7 @@ export class GameEditEffectsService {
     @Effect() getMap: Observable<any> = this.actions$
         .ofType(GET_MAP)
         .mergeMap((action: MapAction) => {
-            return this.api.getMaps(action.payload.gameId);
+            return this.api.getMaps(action.payload);
         })
         .map((res: Map[]) => {
             return new GetMapSuccessAction(res[0]);
