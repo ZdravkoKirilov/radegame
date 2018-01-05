@@ -15,7 +15,7 @@ export interface Resources {
 }
 
 const initialState: Resources = {
-    items: {},
+    items: null,
     lastInsert: null,
     lastDelete: null,
     showEditor: false,

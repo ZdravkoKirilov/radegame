@@ -43,6 +43,9 @@ export class GameDataGuard implements CanActivate {
                         if (!data.form.factions.items) {
                             this.store.dispatch(new actions.GetFactionsAction(gameId));
                         }
+                        if (!data.form.resources.items) {
+                            this.store.dispatch(new actions.GetResourcesAction(gameId));
+                        }
                         if (!data.form.fields.items) {
                             this.store.dispatch(new actions.GetFieldsAction(gameId));
                         }
@@ -63,13 +66,14 @@ export class GameDataGuard implements CanActivate {
                 }),
                 filter((data: GameEditorFeature) => {
                     const hasFactions = !!data.form.factions.items;
+                    const hasResources = !!data.form.resources.items;
                     const hasFields = !!data.form.fields.items;
                     const hasLocations = !!data.form.map.items;
                     const hasPaths = !!data.form.map.paths;
                     const hasMap = !!data.form.map.canvas.id;
                     const hasGame = !!data.assets.game;
 
-                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap && hasGame;
+                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap && hasGame && hasResources;
                 }),
                 take(1)
             );
