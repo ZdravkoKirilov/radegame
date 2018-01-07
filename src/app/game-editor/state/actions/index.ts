@@ -8,3 +8,4 @@ export * from './byFeature/map.action';
 export * from './byFeature/metadata.action';
 export * from './byFeature/resource.action';
 export * from './byFeature/trivia.action';
+export * from './byFeature/activity.action';

@@ -6,6 +6,10 @@ export const API_URLS = {
         const base = `${BASE_URL}/games/${gameId}/fields/`;
         return fieldId ? `${base}${fieldId}/` : base;
     },
+    ACTIVITIES: (gameId: number, activityId?: number) => {
+        const base = `${BASE_URL}/games/${gameId}/actions/`;
+        return activityId ? `${base}${activityId}/` : base;
+    },
     LOCATIONS: (gameId: number, locId?: number) => {
         const base = `${BASE_URL}/games/${gameId}/locations/`;
         return locId ? `${base}${locId}/` : base;
@@ -25,9 +29,5 @@ export const API_URLS = {
     FACTIONS: (gameId: number, factionId?: number) => {
         const base = `${BASE_URL}/games/${gameId}/factions/`;
         return factionId ? `${base}${factionId}/` : base;
-    },
-    ACTIVITIES: (gameId: number, activityId?: number) => {
-        const base = `${BASE_URL}/games/${gameId}/activities/`;
-        return activityId ? `${base}${activityId}/` : base;
     },
 };

@@ -11,7 +11,10 @@ import {
     SAVE_ACTIVITY_SUCCESS,
     SAVE_ACTIVITY_FAIL,
     SET_ACTIVITIES,
-    TOGGLE_ACTIVITY_EDITOR
+    TOGGLE_ACTIVITY_EDITOR,
+    GET_ACTIVITIES,
+    GET_ACTIVITIES_SUCCESS,
+    GET_ACTIVITIES_FAIL
 } from '../../reducers/byFeature/activity.reducer';
 
 
@@ -41,6 +44,21 @@ export class SaveActivityFailAction implements Action {
     readonly type = SAVE_ACTIVITY_FAIL;
 }
 
+export class GetActivitiesAction implements Action {
+    constructor(public payload: number) { }
+    readonly type = GET_ACTIVITIES;
+}
+
+export class GetActivitiesSuccessAction implements Action {
+    readonly payload = null;
+    readonly type = GET_ACTIVITIES_SUCCESS;
+}
+
+export class GetActivitiesFailAction implements Action {
+    readonly payload = null;
+    readonly type = GET_ACTIVITIES_FAIL;
+}
+
 export class SetActivitiesAction implements Action {
     constructor(public payload: ActivityList) {
     }
@@ -49,7 +67,7 @@ export class SetActivitiesAction implements Action {
 
 }
 
-export class ToggleEditorAction implements Action {
+export class ToggleActivityEditorAction implements Action {
     constructor(public payload: boolean) {
     }
 
@@ -95,7 +113,7 @@ export type ActivityAction =
     | SaveActivitySuccessAction
     | SaveActivityFailAction
     | SetActivitiesAction
-    | ToggleEditorAction
+    | ToggleActivityEditorAction
     | ChangeSelectedActivityAction
     | AddActivityAction
     | DeleteActivityAction

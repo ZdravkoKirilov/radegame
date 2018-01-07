@@ -66,6 +66,10 @@ export class GameEditService {
         return this.http.delete(API_URLS.ACTIVITIES(data.game, data.id));
     }
 
+    getActivities(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.ACTIVITIES(gameId));
+    }
+
     getResources(gameId: number): Observable<any> {
         return this.http.get(API_URLS.RESOURCES(gameId));
     }

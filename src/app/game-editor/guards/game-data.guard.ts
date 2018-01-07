@@ -61,6 +61,9 @@ export class GameDataGuard implements CanActivate {
                         if (!data.assets.game) {
                             this.store.dispatch(new actions.GetGameAction(gameId));
                         }
+                        if (!data.form.activities.items) {
+                            this.store.dispatch(new actions.GetActivitiesAction(gameId));
+                        }
                         this.hasFired = true;
                     }
                 }),
@@ -72,8 +75,9 @@ export class GameDataGuard implements CanActivate {
                     const hasPaths = !!data.form.map.paths;
                     const hasMap = !!data.form.map.canvas.id;
                     const hasGame = !!data.assets.game;
+                    const hasActivities = !!data.form.activities;
 
-                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap && hasGame && hasResources;
+                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap && hasGame && hasResources && hasActivities;
                 }),
                 take(1)
             );

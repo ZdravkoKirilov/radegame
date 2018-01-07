@@ -16,7 +16,7 @@ export interface GameActivity {
 }
 
 const initialState: GameActivity = {
-    items: {},
+    items: null,
     lastInsert: null,
     lastDelete: null,
     showEditor: false,
@@ -75,7 +75,7 @@ export function activityReducer(state: GameActivity = initialState, action: Acti
 }
 
 export const selectActivities = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.form.activities.items ? Object.values(state.form.factions.items) : [];
+    return state.form.activities.items ? Object.values(state.form.activities.items) : [];
 });
 export const getSelectedActivity = createSelector(selectFeature, (state: GameEditorFeature): Activity => {
     return state.form.activities.selectedItem;

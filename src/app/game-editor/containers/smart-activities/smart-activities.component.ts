@@ -10,7 +10,7 @@ import { selectActivities, selectActivityEditorState, getSelectedActivity } from
 import {
     SaveActivityAction,
     DeleteActivityAction,
-    ToggleEditorAction,
+    ToggleActivityEditorAction,
     ChangeSelectedActivityAction,
     SetActivitiesAction
 } from '../../state/actions/byFeature/activity.action';
@@ -41,12 +41,14 @@ export class SmartActivitiesComponent implements OnInit, OnDestroy {
         if (!flag) {
             this.changeSelectedItem(null);
         }
-        this.store.dispatch(new ToggleEditorAction(flag));
+        this.store.dispatch(new ToggleActivityEditorAction(flag));
     }
 
     ngOnInit() {
         this.storeSub = this.store.subscribe(state => {
-
+            this.items = selectActivities(state);
+            this.showEditor = selectActivityEditorState(state);
+            this.selectedItem = getSelectedActivity(state);
         });
     }
 

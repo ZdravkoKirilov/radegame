@@ -12,7 +12,7 @@ import { ControlsService } from '../../../../dynamic-forms/services/controls.ser
     styleUrls: ['./faction-editor.component.scss']
 })
 export class FactionEditorComponent implements OnInit {
-    @Output() save: EventEmitter<Faction> = new EventEmitter<Faction>();
+    @Output() save: EventEmitter<Faction> = new EventEmitter();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
 
     @Input() formDefinition: FormDefinition;

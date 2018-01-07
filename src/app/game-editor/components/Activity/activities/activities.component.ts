@@ -23,5 +23,11 @@ export class GameActionsComponent {
     constructor() {
     }
 
+    showActivityEditor() {
+        this.toggleEditor.emit(true);
+    }
 
+    hideActivityEditor() {
+        this.toggleEditor.emit(false);
+    }
 }
