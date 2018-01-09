@@ -1,3 +1,10 @@
-<rg-activities [formDefinition]="formDefinition" [items]="items" [showEditor]="showEditor" [selectedItem]="selectedItem"
-    (toggleEditor)="toggleEditor($event)">
+<rg-activities [formDefinition]="formDefinition"
+               [items]="items"
+               [showEditor]="showEditor"
+               [selectedItem]="selectedItem"
+               (toggleEditor)="toggleEditor($event)"
+               (saveItem)="saveItem($event)"
+               (editItem)="editItem($event)"
+               (removeItem)="removeItem($event)"
+>
 </rg-activities>

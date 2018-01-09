@@ -1,4 +1,12 @@
-import { ActivityConfig } from '../systems/activity/statics';
+import { ActivityMode, ActivityType, ActivityTarget } from '../systems/activity/statics';
+
+export interface ActivityConfig {
+    id?: number;
+    type?: ActivityType;
+    mode?: ActivityMode;
+    target?: ActivityTarget;
+    bonus?: number;
+}
 
 export interface Activity {
     id?: number;
@@ -6,7 +14,7 @@ export interface Activity {
     name?: string;
     description?: string;
     image?: string;
-    config?: ActivityConfig[];
+    configs?: ActivityConfig[];
 }
 
 export interface ActivityList {

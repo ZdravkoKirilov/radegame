@@ -11,12 +11,18 @@ import {
     GetActivitiesAction,
     SetActivitiesAction,
     GetActivitiesSuccessAction,
-    GetActivitiesFailAction
+    GetActivitiesFailAction,
+    SaveActivityAction,
+    SaveActivitySuccessAction,
+    SaveActivityFailAction,
+    AddActivityAction,
+    DeleteActivityAction,
+    DeleteActivitySuccessAction,
+    DeleteActivityFailAction,
+    RemoveActivityAction
 } from '../../actions/byFeature/activity.action';
 
-import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
-import { systemMessages as sm } from '../../../../shared/config/messages';
-import { GET_ACTIVITIES, GET_ACTIVITIES_SUCCESS, GET_ACTIVITIES_FAIL, SET_ACTIVITIES } from '../../reducers/byFeature/activity.reducer';
+import { GET_ACTIVITIES, SAVE_ACTIVITY, DELETE_ACTIVITY } from '../../reducers/byFeature/activity.reducer';
 import { toIndexedList } from '../../../../shared/utils/utils';
 
 @Injectable()
@@ -44,45 +50,41 @@ export class ActivityEffectsService {
             return [new GetActivitiesFailAction()];
         });
 
-    // @Effect() saveFaction: Observable<any> = this.actions$
-    //     .ofType(SAVE_FACTION)
-    //     .map((action: SaveFactionAction) => {
-    //         const payload = { ...action.payload };
-    //         if (typeof payload.image === 'string') {
-    //             delete payload.image;
-    //         }
-    //         return payload;
-    //     })
-    //     .mergeMap((payload: Faction) => {
-    //         return this.api.saveFaction(payload);
-    //     })
-    //     .mergeMap((res: Faction) => {
-    //         return [
-    //             new AddFactionAction(res),
-    //             new SaveFactionSuccessAction(res),
-    //             new OperationSuccessAction(sm.SAVE_FACTION_SUCCESS)
-    //         ];
-    //     })
-    //     .catch(() => {
-    //         return [new SaveFactionFailAction(), new OperationFailAction(sm.SAVE_FACTION_FAIL)];
-    //     });
+    @Effect() saveActivity: Observable<any> = this.actions$
+        .ofType(SAVE_ACTIVITY)
+        .map((action: SaveActivityAction) => {
+            const payload = {...action.payload};
+            if (typeof payload.image === 'string') {
+                delete payload.image;
+            }
+            return payload;
+        })
+        .mergeMap((payload: Activity) => {
+            return this.api.saveActivity(payload);
+        })
+        .mergeMap((res: Activity) => {
+            return [
+                new AddActivityAction(res),
+                new SaveActivitySuccessAction(res)
+            ];
+        })
+        .catch(() => {
+            return [new SaveActivityFailAction()];
+        });
 
-    // @Effect() deleteFaction: Observable<any> = this.actions$
-    //     .ofType(DELETE_FACTION)
-    //     .map((action: DeleteFactionAction) => action.payload)
-    //     .mergeMap((payload: Faction) => {
-    //         return this.api.deleteFaction(payload)
-    //             .mergeMap(() => {
-    //                 return [
-    //                     new RemoveFactionAction(payload),
-    //                     new DeleteFactionSuccessAction(payload),
-    //                     new OperationSuccessAction(sm.DELETE_FACTION_SUCCESS)
-    //                 ];
-    //             })
-    //             .catch(() => {
-    //                 return [new DeleteFactionFailAction(), new OperationFailAction(sm.DELETE_FACTION_FAIL)];
-    //             });
-    //     });
-
-
+    @Effect() deleteActivity: Observable<any> = this.actions$
+        .ofType(DELETE_ACTIVITY)
+        .map((action: DeleteActivityAction) => action.payload)
+        .mergeMap((payload: Activity) => {
+            return this.api.deleteActivity(payload)
+                .mergeMap(() => {
+                    return [
+                        new RemoveActivityAction(payload),
+                        new DeleteActivitySuccessAction(payload),
+                    ];
+                })
+                .catch(() => {
+                    return [new DeleteActivityFailAction()];
+                });
+        });
 }

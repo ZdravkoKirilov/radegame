@@ -1,8 +1,9 @@
 import { BaseControl, Option } from '../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../dynamic-forms/config/controlTypes';
-import { Activity } from '../../game-mechanics/models/Activity.model';
+import { Activity, ActivityConfig } from '../../game-mechanics/models/Activity.model';
 import { SUBFORM_SCHEMA_MAPPING } from '../../game-mechanics/systems/activity/statics';
 import { types } from '../../game-mechanics/systems/activity/statics';
+import { FormDefinition } from '../../dynamic-forms/models/FormDefinition.model';
 
 export function ACTIVITY_DEF(data: Activity = {}): BaseControl[] {
     const activityTypes: Option[] = [
@@ -21,13 +22,30 @@ export function ACTIVITY_DEF(data: Activity = {}): BaseControl[] {
         options: activityTypes,
         value: ''
     };
-    const childControls: BaseControl[] = [];
+
     const childTemplate: BaseControl = {
         controlType: controlTypes.DYNAMIC_NESTED_FORM,
         childControls: [activityType],
         childTemplate: activityType,
         subFormMapping: SUBFORM_SCHEMA_MAPPING
     };
+    const childControls: BaseControl[] = data.configs.map((elem: ActivityConfig) => {
+        const subformMapping: FormDefinition = SUBFORM_SCHEMA_MAPPING[elem.type];
+        const childInstance: BaseControl = {
+            ...childTemplate, childControls: [
+                {
+                    ...activityType,
+                    value: elem.type
+                },
+
+            ]
+        };
+        if (subformMapping) {
+            const addedControls = subformMapping(elem);
+            childInstance.childControls = childInstance.childControls.concat(addedControls);
+        }
+        return childInstance;
+    });
     return [
         {
             name: 'name',

@@ -26,7 +26,7 @@ export class GameActionEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.controls = this.formDefinition();
+        this.controls = this.formDefinition(this.selectedItem);
         this.form = this.cs.toFormGroup(this.controls);
     }
 

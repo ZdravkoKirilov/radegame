@@ -48,7 +48,6 @@ export function activityReducer(state: GameActivity = initialState, action: Acti
                     [action.payload.id]: action.payload
                 },
                 lastInsert: action.payload
-
             };
         case REMOVE_ACTIVITY:
             const items = {...state.items};

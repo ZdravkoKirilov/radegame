@@ -11,8 +11,7 @@ import {
     SaveActivityAction,
     DeleteActivityAction,
     ToggleActivityEditorAction,
-    ChangeSelectedActivityAction,
-    SetActivitiesAction
+    ChangeSelectedActivityAction
 } from '../../state/actions/byFeature/activity.action';
 
 @Component({
@@ -31,6 +30,24 @@ export class SmartActivitiesComponent implements OnInit, OnDestroy {
     public selectedItem: Activity;
 
     constructor(private store: Store<AppState>) {
+    }
+
+    saveItem(data: Activity) {
+        const payload = {...data, game: this.game.id};
+        if (this.selectedItem) {
+            payload.id = this.selectedItem.id;
+        }
+        this.store.dispatch(new SaveActivityAction(payload));
+        this.store.dispatch(new ToggleActivityEditorAction(false));
+    }
+
+    removeItem(payload: Activity) {
+        this.store.dispatch(new DeleteActivityAction(payload));
+    }
+
+    editItem(payload: Activity) {
+        this.changeSelectedItem(payload);
+        this.toggleEditor(true);
     }
 
     changeSelectedItem(payload: Activity) {

@@ -65,26 +65,11 @@ export const gameActions: PrivateActivityList = {
     },
 };
 
-export const SUBFORM_SCHEMA_MAPPING = {
+export interface SubformSchemaMapping {
+    [key: string]: FormDefinition;
+}
+
+export const SUBFORM_SCHEMA_MAPPING: SubformSchemaMapping = {
     [types.ATTACK_FIELD]: BASIC_ACTIVITY_DEF,
     [types.DEFEND_FIELD]: BASIC_ACTIVITY_DEF
 };
-
-// PRIVATE ACTION LIST END//
-
-
-export interface ActivityConfig {  // WHAT IS ACTUALLY SAVED IN THE DB
-    [key: string]: {
-        type: ActivityType,
-        mode: ActivityMode; // from valid_modes
-        target: ActivityTarget;  // from valid_targets
-        params: ActivityConfigParams
-    };
-}
-
-export interface ActivityConfigParams {
-    bonus?: number;
-}
-
-
-// to my future self: action executables: pure functions that may accept input and output array of Store FactionAction (containing computed parameters from the input)
