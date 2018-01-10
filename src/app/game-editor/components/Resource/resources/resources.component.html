@@ -1,9 +1,9 @@
 <div class="wrapper">
 
     <rg-resources-list *ngIf="!showEditor"
-                       [items]="resources"
-                       (removeItem)="removeResource.emit($event)"
-                       (editItem)="editResource.emit($event)"
+                       [items]="items"
+                       (removeItem)="removeItem.emit($event)"
+                       (editItem)="editItem.emit($event)"
     ></rg-resources-list>
 
     <div *ngIf="!showEditor" class="buttons-toolbar">
@@ -13,11 +13,11 @@
         </button>
     </div>
 
-    <rg-smart-resource-editor
+    <rg-resource-editor
             *ngIf="showEditor"
-            [game]="game"
+            [formDefinition]="formDefinition"
             [selectedItem]="selectedItem"
-            (save)="saveResource()"
+            (save)="saveItem.emit($event)"
             (cancel)="hideResourceEditor()"
-    ></rg-smart-resource-editor>
+    ></rg-resource-editor>
 </div>

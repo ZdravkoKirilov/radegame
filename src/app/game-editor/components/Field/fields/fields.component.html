@@ -1,15 +1,6 @@
 <div>
     <h1>Shape the game board</h1>
 
-    <ng-container [ngSwitch]="boardType">
-
-        <ng-container *ngSwitchCase="types.MAP">
-            <rg-smart-map-editor></rg-smart-map-editor>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="types.BASIC_GRID">
-            <rg-smart-grid-editor></rg-smart-grid-editor>
-        </ng-container>
-    </ng-container>
+    <rg-smart-map-editor></rg-smart-map-editor>
 
 </div>

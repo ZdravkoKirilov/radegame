@@ -1,42 +1,7 @@
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { BASIC_ACTIVITY_DEF } from './forms';
-/*
-action form
+import { types } from './constants';
 
-target:
-mode:
-quantity:
-
-*/
-
-
-export const types = {
-    ATTACK_FIELD: 'ATTACK_FIELD',
-    DEFEND_FIELD: 'DEFEND_FIELD',
-    MINE_RESOURCES: 'MINE_RESOURCES',
-};
-
-export const actionModes = {
-    TRIGGER: 'TRIGGER',
-};
-
-export const targetTypes = {
-    FIELD: 'FIELD',  // asks in UI
-};
-
-export type ActivityTarget =
-    typeof targetTypes.FIELD;
-
-export type ActivityMode =
-    typeof actionModes.TRIGGER;
-
-export type ActivityType =
-    typeof types.ATTACK_FIELD |
-    typeof types.DEFEND_FIELD |
-    typeof types.MINE_RESOURCES;
-
-
-// PRIVATE ACTION LIST START //
 export interface PrivateActivity {
     id: string;
     name: string;

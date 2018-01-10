@@ -1,5 +1,5 @@
 import { moveTypes } from './movements';
-import { types as actions } from '../systems/activity/statics';
+import { types as actions } from '../systems/activity/constants';
 import { GameBoardTypes } from '../models/index';
 
 export const types = {

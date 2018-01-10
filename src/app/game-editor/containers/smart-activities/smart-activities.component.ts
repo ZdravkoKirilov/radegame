@@ -7,6 +7,7 @@ import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.mod
 import { Activity, Game } from '../../../game-mechanics/models/index';
 import { ACTIVITY_DEF } from '../../forms/activity.form';
 import { selectActivities, selectActivityEditorState, getSelectedActivity } from '../../state/reducers/byFeature/activity.reducer';
+import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
 import {
     SaveActivityAction,
     DeleteActivityAction,
@@ -66,6 +67,7 @@ export class SmartActivitiesComponent implements OnInit, OnDestroy {
             this.items = selectActivities(state);
             this.showEditor = selectActivityEditorState(state);
             this.selectedItem = getSelectedActivity(state);
+            this.game = selectGame(state);
         });
     }
 

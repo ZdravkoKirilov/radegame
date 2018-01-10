@@ -2,10 +2,11 @@ import { BaseControl, Option } from '../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../dynamic-forms/config/controlTypes';
 import { Activity, ActivityConfig } from '../../game-mechanics/models/Activity.model';
 import { SUBFORM_SCHEMA_MAPPING } from '../../game-mechanics/systems/activity/statics';
-import { types } from '../../game-mechanics/systems/activity/statics';
+import { types } from '../../game-mechanics/systems/activity/constants';
 import { FormDefinition } from '../../dynamic-forms/models/FormDefinition.model';
 
-export function ACTIVITY_DEF(data: Activity = {}): BaseControl[] {
+export function ACTIVITY_DEF(data: Activity): BaseControl[] {
+    data = data || {configs: []};
     const activityTypes: Option[] = [
         {
             value: types.ATTACK_FIELD,
@@ -66,7 +67,7 @@ export function ACTIVITY_DEF(data: Activity = {}): BaseControl[] {
             required: true,
             value: data.image
         }, {
-            name: 'config',
+            name: 'configs',
             controlType: controlTypes.FORM_ARRAY,
             label: 'Action configuration',
             addButtonText: 'Add action',

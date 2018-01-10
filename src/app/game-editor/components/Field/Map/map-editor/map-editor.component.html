@@ -32,10 +32,10 @@
     </ng-container>
 </div>
 
-<rg-smart-field-editor *ngIf="showFieldEditor"
-                       (save)="fieldWasSaved($event)"
-                       (cancel)="handleFieldEditorToggle(false)"
-                       [field]="selectedField"
+<rg-field-editor *ngIf="showFieldEditor"
+                 (save)="fieldWasSaved($event)"
+                 (cancel)="handleFieldEditorToggle(false)"
+                 [selectedItem]="selectedField"
 >
 
-</rg-smart-field-editor>
+</rg-field-editor>

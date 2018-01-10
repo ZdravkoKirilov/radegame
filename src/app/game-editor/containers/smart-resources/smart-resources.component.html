@@ -1,11 +1,12 @@
 <rg-resources
-        [resources]="resources"
+        [items]="items"
         [showEditor]="showEditor"
-        [game]="game"
         [selectedItem]="selectedItem"
+        [formDefinition]="formDefinition"
         (toggleEditor)="toggleEditor($event)"
-        (removeResource)="removeResource($event)"
-        (editResource)="editResource($event)"
+        (removeItem)="removeItem($event)"
+        (editItem)="editItem($event)"
+        (saveItem)="saveItem($event)"
 ></rg-resources>
 
 <ng-content *ngIf="!showEditor"></ng-content>

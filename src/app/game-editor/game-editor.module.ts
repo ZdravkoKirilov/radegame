@@ -23,17 +23,12 @@ import { GamesListResolverService } from './resolvers/games-list-resolver.servic
 import { GameEditService } from './services/game-edit.service';
 import * as fromGuards from './guards';
 
-import { GeneralSettingsComponent } from './components/general-settings/general-settings.component';
 import { ResourcesComponent } from './components/Resource/resources/resources.component';
 import { FactionsComponent } from './components/Faction/factions/factions.component';
 import { FieldsComponent } from './components/Field/fields/fields.component';
 import { TriviaComponent } from './components/Trivia/trivias/trivia.component';
-import { ResolutionsComponent } from './components/resolutions/resolutions.component';
-import { TurnFlowComponent } from './components/turn-flow/turn-flow.component';
 import { ResourceEditorComponent } from './components/Resource/resource-editor/resource-editor.component';
 import { SharedModule } from '../shared/shared.module';
-import { SmartGeneralSettingsComponent } from './containers/smart-general-settings/smart-general-settings.component';
-import { SmartResourceEditorComponent } from './containers/smart-resource-editor/smart-resource-editor.component';
 import { SmartResourcesComponent } from './containers/smart-resources/smart-resources.component';
 import { ResourcesListComponent } from './components/Resource/resources-list/resources-list.component';
 import { SmartFactionsComponent } from './containers/smart-factions/smart-factions.component';
@@ -41,15 +36,9 @@ import { FactionsListComponent } from './components/Faction/factions-list/factio
 import { FactionEditorComponent } from './components/Faction/faction-editor/faction-editor.component';
 import { GameLaunchComponent } from './components/Launch/game-launch/game-launch.component';
 import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
-import { SmartTriviaEditorComponent } from './containers/smart-trivia-editor/smart-trivia-editor.component';
 import { TriviaEditorComponent } from './components/Trivia/trivia-editor/trivia-editor.component';
 import { TriviasListComponent } from './components/Trivia/trivias-list/trivias-list.component';
 import { FieldEditorComponent } from './components/Field/field-editor/field-editor.component';
-import { EmptySlotComponent } from './components/Field/Grid/empty-slot/empty-slot.component';
-import { GridEditorComponent } from './components/Field/Grid/grid-editor/grid-editor.component';
-import { GridFieldComponent } from './components/Field/Grid/grid-field/grid-field.component';
-import { SmartGridEditorComponent } from './containers/smart-grid-editor/smart-grid-editor.component';
-import { SmartFieldEditorComponent } from './containers/smart-field-editor/smart-field-editor.component';
 import { SmartLaunchComponent } from './containers/smart-launch/smart-launch.component';
 import { GamesListComponent } from './components/Launch/games-list/games-list.component';
 import { MapEditorComponent } from './components/Field/Map/map-editor/map-editor.component';
@@ -90,16 +79,11 @@ import { GameActionEditorComponent } from './components/Activity/activity-editor
     ],
     declarations: [
         IndexComponent,
-        GeneralSettingsComponent,
         ResourcesComponent,
         FactionsComponent,
         FieldsComponent,
         TriviaComponent,
-        ResolutionsComponent,
-        TurnFlowComponent,
         ResourceEditorComponent,
-        SmartGeneralSettingsComponent,
-        SmartResourceEditorComponent,
         SmartResourcesComponent,
         ResourcesListComponent,
         SmartFactionsComponent,
@@ -107,15 +91,9 @@ import { GameActionEditorComponent } from './components/Activity/activity-editor
         FactionEditorComponent,
         GameLaunchComponent,
         SmartTriviaComponent,
-        SmartTriviaEditorComponent,
         TriviaEditorComponent,
         TriviasListComponent,
         FieldEditorComponent,
-        EmptySlotComponent,
-        GridFieldComponent,
-        GridEditorComponent,
-        SmartGridEditorComponent,
-        SmartFieldEditorComponent,
         SmartLaunchComponent,
         GamesListComponent,
         MapEditorComponent,

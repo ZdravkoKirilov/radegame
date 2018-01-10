@@ -13,20 +13,21 @@ import { BaseControl } from '../../../../dynamic-forms/models/Base.model';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResourceEditorComponent implements OnInit {
+
     @Output() save: EventEmitter<Resource> = new EventEmitter<Resource>();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
 
+    @Input() selectedItem: Resource;
     @Input() formDefinition: FormDefinition;
-    @Input() data: Resource;
 
-    public rForm: FormGroup;
+    public form: FormGroup;
     public controls: BaseControl[];
 
     constructor(private cs: ControlsService) {
     }
 
-    saveResource() {
-        this.save.emit(this.rForm.value);
+    saveItem() {
+        this.save.emit(this.form.value);
     }
 
     cancelAction() {
@@ -34,7 +35,7 @@ export class ResourceEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.controls = this.formDefinition(this.data);
-        this.rForm = this.cs.toFormGroup(this.controls);
+        this.controls = this.formDefinition(this.selectedItem);
+        this.form = this.cs.toFormGroup(this.controls);
     }
 }

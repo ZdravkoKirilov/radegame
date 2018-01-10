@@ -1,4 +1,5 @@
-import { ActivityMode, ActivityType, ActivityTarget } from '../systems/activity/statics';
+import { ActivityType} from '../systems/activity/constants';
+import { ActivityMode, ActivityTarget } from '../systems/activity/constants';
 
 export interface ActivityConfig {
     id?: number;

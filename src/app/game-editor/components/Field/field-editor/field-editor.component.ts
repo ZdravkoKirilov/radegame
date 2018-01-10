@@ -12,28 +12,29 @@ import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.
     styleUrls: ['./field-editor.component.scss']
 })
 export class FieldEditorComponent implements OnInit {
-    @Input() formDefinition: FormDefinition;
-    @Input() resources: Resource[] = [];
-    @Input() data: BoardField = {};
     @Output() save: EventEmitter<BoardField> = new EventEmitter();
     @Output() cancel: EventEmitter<any> = new EventEmitter();
 
+    @Input() formDefinition: FormDefinition;
+    @Input() selectedItem: BoardField;
+    @Input() resources: Resource[] = [];
+
     public form: FormGroup;
-    public formControls: BaseControl[];
+    public controls: BaseControl[];
 
     constructor(private cs: ControlsService) {
     }
 
-    handleSave() {
+    saveItem() {
         this.save.emit(this.form.value);
     }
 
-    handleCancel() {
+    cancelAction() {
         this.cancel.emit();
     }
 
     ngOnInit() {
-        this.formControls = this.formDefinition(this.resources, this.data);
-        this.form = this.cs.toFormGroup(this.formControls);
+        this.controls = this.formDefinition(this.resources, this.selectedItem);
+        this.form = this.cs.toFormGroup(this.controls);
     }
 }

@@ -4,7 +4,7 @@
             *ngIf="!showEditor"
             [items]="items"
             (editItem)="editItem.emit($event)"
-            (removeItem)="editItem.emit($event)"
+            (removeItem)="removeItem.emit($event)"
     >
     </rg-activities-list>
 

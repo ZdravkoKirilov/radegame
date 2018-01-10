@@ -1,16 +1,13 @@
 export * from './Activity.model';
 export * from './BoardField.model';
 export * from './Faction.model';
-export * from './EndCondition.model';
+export * from './Termination.model';
 export * from './GameBoard.model';
 export * from './GameMetadata.model';
 export * from './GameTemplate.model';
 export * from './Movement.model';
-export * from './Redirect.model';
 export * from './Resource.model';
-export * from './Trap.model';
 export * from './Trivia.model';
 export * from './Game.model';
 export * from './Map.model';
 export * from './GameData.model';
-export { TriviaAnswer } from './Trivia.model';
