@@ -1,14 +1,15 @@
-<div [ngClass]="{'hidden': showFieldEditor}">
+<div [ngClass]="{'hidden': hidden}">
+
     <rg-map-toolbar
             (addBackground)="addBackground.emit($event)"
             (removeBackground)="removeBackground.emit()"
-            (addField)="handleFieldEditorToggle(true)"
-            (enterPathCreationMode)="togglePathCreation.emit(true)"
-            (exitPathCreationMode)="togglePathCreation.emit(false)"
+            (addField)="handleAddField()"
+            (enterPathCreationMode)="setPathCreation.emit(true)"
+            (exitPathCreationMode)="setPathCreation.emit(false)"
             [pathCreationMode]="pathCreationMode"
     ></rg-map-toolbar>
+
     <div class="canvas-wrapper" #canvasWrapper tabindex="0">
-        <!--<canvas #canvas id="fCanvas"></canvas>-->
     </div>
 
     <ng-container>
@@ -31,11 +32,3 @@
         </rg-map-path>
     </ng-container>
 </div>
-
-<rg-field-editor *ngIf="showFieldEditor"
-                 (save)="fieldWasSaved($event)"
-                 (cancel)="handleFieldEditorToggle(false)"
-                 [selectedItem]="selectedField"
->
-
-</rg-field-editor>

@@ -1,1 +1,22 @@
-<rg-fields [boardType]="boardType"></rg-fields>
+<rg-fields
+        [showFieldEditor]="showFieldEditor"
+        [selectedField]="selectedField"
+        [selectedPath]="selectedPath"
+        [pathCreationMode]="enterPathCreationMode"
+        [formDefinition]="formDefinition"
+        [map]="map"
+        [fields]="fields"
+        [paths]="paths"
+        [locations]="locations"
+        [resources]="resources"
+        (saveField)="saveField($event)"
+        (editField)="editField($event)"
+        (removeField)="removeField($event)"
+        (selectField)="selectField($event)"
+        (closeFieldEditor)="toggleFieldEditor(false)"
+        (savePath)="saveMapPath($event)"
+        (removePath)="removePath($event)"
+        (selectPath)="selectPath($event)"
+        (saveMapLocation)="saveMapLocation($event)"
+        (setPathCreation)="setPathCreation($event)"
+></rg-fields>

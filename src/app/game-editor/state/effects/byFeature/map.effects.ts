@@ -9,7 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
 import { GameEditService } from '../../../services/game-edit.service';
-import { Map, MapLocation, MapPath } from '../../../../game-mechanics/models/index';
+import { GameMap, MapLocation, MapPath } from '../../../../game-mechanics/models/index';
 
 import {
     DeleteMapLocationSuccessAction,
@@ -44,10 +44,10 @@ export class MapEffectsService {
     @Effect() saveMap: Observable<any> = this.actions$
         .ofType(SAVE_MAP)
         .map((action: MapAction) => action.payload)
-        .mergeMap((payload: Map) => {
+        .mergeMap((payload: GameMap) => {
             return this.api.saveMap(payload);
         })
-        .mergeMap((res: Map) => {
+        .mergeMap((res: GameMap) => {
             return [new SaveMapSuccessAction(res)];
         })
         .catch(() => {
@@ -59,7 +59,7 @@ export class MapEffectsService {
         .mergeMap((action: MapAction) => {
             return this.api.getMaps(action.payload);
         })
-        .map(([map]: Map[]) => {
+        .map(([map]: GameMap[]) => {
             return new GetMapSuccessAction(map);
         })
         .catch(() => {

@@ -1,6 +1,28 @@
 <div>
     <h1>Shape the game board</h1>
 
-    <rg-smart-map-editor></rg-smart-map-editor>
+    <rg-field-editor
+            *ngIf="showFieldEditor"
+            [formDefinition]="formDefinition"
+            [selectedItem]="selectedField"
+            [resources]="resources"
+            (save)="saveField.emit($event)"
+            (cancel)="closeFieldEditor.emit()"
+    ></rg-field-editor>
+
+    <rg-map-editor
+            [fields]="fields"
+            [mapPaths]="paths"
+            [mapLocations]="locations"
+            [map]="map"
+            [hidden]="showFieldEditor"
+            [pathCreationMode]="pathCreationMode"
+            [selectedField]="selectedField"
+            (saveMapLocation)="saveMapLocation.emit($event)"
+            (selectField)="selectField.emit($event)"
+            (editField)="editField.emit($event)"
+            (selectPath)="selectPath.emit($event)"
+            (setPathCreation)="setPathCreation.emit($event)"
+    ></rg-map-editor>
 
 </div>

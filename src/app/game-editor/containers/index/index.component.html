@@ -1,6 +1,13 @@
 <mat-vertical-stepper>
 
     <mat-step>
+        <ng-template matStepLabel>Fields</ng-template>
+        <section>
+            <rg-smart-fields></rg-smart-fields>
+        </section>
+    </mat-step>
+
+    <mat-step>
         <ng-template matStepLabel>Resources</ng-template>
         <section>
             <rg-smart-resources></rg-smart-resources>
@@ -18,13 +25,6 @@
         <ng-template matStepLabel>Factions</ng-template>
         <section>
             <rg-smart-factions></rg-smart-factions>
-        </section>
-    </mat-step>
-
-    <mat-step>
-        <ng-template matStepLabel>Fields</ng-template>
-        <section>
-            <rg-smart-fields></rg-smart-fields>
         </section>
     </mat-step>
 

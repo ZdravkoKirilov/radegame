@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BoardField, MapLocation, MapPath } from '../../../../../game-mechanics/models/index';
+import { BoardField, MapLocation, MapPath, GameMap } from '../../../../../game-mechanics/models/index';
 import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
 import { KEYCODES } from '../../../../utils/config';
 import { composeDefaultLoc } from '../../../../utils/utils';
@@ -24,20 +24,18 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @Output() saveMapLocation: EventEmitter<MapLocation> = new EventEmitter();
     @Output() deleteMapField: EventEmitter<any> = new EventEmitter();
     @Output() selectField: EventEmitter<number> = new EventEmitter();
-    @Output() deselectField: EventEmitter<number> = new EventEmitter();
-    @Output() toggleFieldEditor: EventEmitter<boolean> = new EventEmitter();
-    @Output() togglePathCreation: EventEmitter<boolean> = new EventEmitter();
+    @Output() setPathCreation: EventEmitter<boolean> = new EventEmitter();
     @Output() createPath: EventEmitter<MapPath> = new EventEmitter();
     @Output() deletePath: EventEmitter<MapPath> = new EventEmitter();
-    @Output() selectPath: EventEmitter<number> = new EventEmitter();
+    @Output() selectPath: EventEmitter<MapPath> = new EventEmitter();
     @Output() editField: EventEmitter<any> = new EventEmitter();
 
-    @Input() canvasImage: string;
+    @Input() map: GameMap;
     @Input() fields: BoardField[];
     @Input() lastInsertedField: number;
     @Input() mapLocations: { [key: string]: MapLocation } = {};
     @Input() mapPaths: MapPath[];
-    @Input() showFieldEditor: boolean;
+    @Input() hidden: boolean;
     @Input() pathCreationMode: boolean;
     @Input() selectedField: BoardField;
     @Input() selectedPath: MapPath;
@@ -48,13 +46,9 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     constructor(private scr: SceneRenderService) {
     }
 
-    fieldWasSaved(field: BoardField) {
-        this.handleFieldEditorToggle(false);
-    }
-
-    handleFieldEditorToggle(value) {
-        this.deselectField.emit();
-        this.toggleFieldEditor.emit(value);
+    handleAddField() {
+        this.selectField.emit(null);
+        this.editField.emit();
     }
 
     attachListeners() {
@@ -80,7 +74,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
         });
         const pathSelected = scr.pathSelected.subscribe((data: MapPath) => {
-            this.selectPath.emit(data.id);
+            this.selectPath.emit(data);
         });
         const keypress = scr.keypress.subscribe(event => {
             const field = this.selectedField;
@@ -107,7 +101,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnInit() {
         this.scr.initialize(this.canvasWrapper.nativeElement);
-        this.scr.updateBackground(this.canvasImage);
+        this.scr.updateBackground(this.map.image);
         this.attachListeners();
     }
 

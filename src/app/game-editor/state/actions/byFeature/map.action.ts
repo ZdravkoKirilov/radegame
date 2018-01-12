@@ -30,7 +30,7 @@ import {
     SET_MAP_PATHS,
     TOGGLE_PATH_CREATION_MODE
 } from '../../reducers/byFeature/map.reducer';
-import { Map, MapLocation, MapLocationList, MapPath, MapPathList } from '../../../../game-mechanics/models/index';
+import { GameMap, MapLocation, MapLocationList, MapPath, MapPathList } from '../../../../game-mechanics/models/index';
 
 export class SaveMapPathAction implements Action {
     constructor(public payload: MapPath) {
@@ -94,7 +94,7 @@ export class DeleteMapPathFailAction implements Action {
     readonly type = DELETE_MAP_PATH_FAIL;
 }
 
-export class TogglePathCreationModeAction implements Action {
+export class SetPathCreationAction implements Action {
     constructor(public payload: boolean) {
     }
 
@@ -164,21 +164,21 @@ export class GetMapLocationsFailAction implements Action {
 }
 
 export class ChangeSelectedPathAction implements Action {
-    constructor(public payload: number) {
+    constructor(public payload: MapPath) {
     }
 
     readonly type = CHANGE_SELECTED_PATH;
 }
 
 export class SaveMapAction implements Action {
-    constructor(public payload: Map) {
+    constructor(public payload: GameMap) {
     }
 
     readonly type = SAVE_MAP;
 }
 
 export class SaveMapSuccessAction implements Action {
-    constructor(public payload: Map) {
+    constructor(public payload: GameMap) {
     }
 
     readonly type = SAVE_MAP_SUCCESS;
@@ -197,7 +197,7 @@ export class GetMapAction implements Action {
 }
 
 export class GetMapSuccessAction implements Action {
-    constructor(public payload: Map) {
+    constructor(public payload: GameMap) {
     }
 
     readonly type = GET_MAP_SUCCESS;
@@ -225,7 +225,7 @@ export type MapAction =
     GetMapPathsSuccessAction |
     SetMapPathsAction |
     GetMapPathsFailAction |
-    TogglePathCreationModeAction |
+    SetPathCreationAction |
     GetMapLocationsAction |
     GetMapLocationsSuccessAction |
     SetMapLocationsAction |

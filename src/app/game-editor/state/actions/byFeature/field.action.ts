@@ -84,7 +84,7 @@ export class ToggleFieldEditorAction implements Action {
 }
 
 export class ChangeSelectedFieldAction implements Action {
-    constructor(public payload: number) {
+    constructor(public payload: BoardField) {
     }
 
     readonly type = CHANGE_SELECTED_FIELD;

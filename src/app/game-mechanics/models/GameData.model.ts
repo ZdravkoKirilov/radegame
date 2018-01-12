@@ -1,6 +1,6 @@
 import {
     MapPathList,
-    Map,
+    GameMap,
     MapLocationList,
     BoardFieldList,
     Game,
@@ -14,7 +14,7 @@ import { PrivateActivityList } from '../systems/activity/statics';
 export interface GameData {
     game?: Game;
     fields?: BoardFieldList;
-    map?: Map;
+    map?: GameMap;
     locations?: MapLocationList;
     paths?: MapPathList;
     resources?: ResourceList;
@@ -24,6 +24,7 @@ export interface GameData {
     supportedActivities?: string[];
     supportedMovements?: string[];
 }
+
 
 
 

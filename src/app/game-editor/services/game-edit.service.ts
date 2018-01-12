@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Trivia, BoardField, Faction, Resource, Game, MapLocation, MapPath, Map, Activity } from '../../game-mechanics/models/index';
+import { Trivia, BoardField, Faction, Resource, Game, MapLocation, MapPath, GameMap, Activity } from '../../game-mechanics/models/index';
 import { API_URLS } from '../../shared/config/api-urls';
 import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
 
@@ -89,7 +89,7 @@ export class GameEditService {
         return this.http.delete(API_URLS.RESOURCES(data.game, data.id));
     }
 
-    saveMap(data: Map): Observable<any> {
+    saveMap(data: GameMap): Observable<any> {
         const formData = toMultipartFormData(data);
         const options = {headers: new HttpHeaders({})};
 

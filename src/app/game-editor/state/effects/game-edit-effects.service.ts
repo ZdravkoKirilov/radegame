@@ -9,7 +9,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
 import { GameEditService } from '../../services/game-edit.service';
-import { BoardField, Faction, Game, Map, MapLocation, MapPath, Resource, Trivia, Activity } from '../../../game-mechanics/models/index';
+import { BoardField, Faction, Game, GameMap, MapLocation, MapPath, Resource, Trivia, Activity } from '../../../game-mechanics/models/index';
 import {
     AddFactionAction,
     DeleteFactionFailAction,
@@ -208,10 +208,10 @@ export class GameEditEffectsService {
     @Effect() saveMap: Observable<any> = this.actions$
         .ofType(SAVE_MAP)
         .map((action: MapAction) => action.payload)
-        .mergeMap((payload: Map) => {
+        .mergeMap((payload: GameMap) => {
             return this.api.saveMap(payload);
         })
-        .mergeMap((res: Map) => {
+        .mergeMap((res: GameMap) => {
             return [new SaveMapSuccessAction(res)];
         })
         .catch(() => {
@@ -223,7 +223,7 @@ export class GameEditEffectsService {
         .mergeMap((action: MapAction) => {
             return this.api.getMaps(action.payload);
         })
-        .map((res: Map[]) => {
+        .map((res: GameMap[]) => {
             return new GetMapSuccessAction(res[0]);
         })
         .catch(() => {

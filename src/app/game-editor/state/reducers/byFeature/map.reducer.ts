@@ -1,5 +1,5 @@
 import { MapAction } from '../../actions/byFeature/map.action';
-import { MapLocation, MapPath } from '../../../../game-mechanics/models/index';
+import { MapLocation, MapLocationList, MapPath, GameMap } from '../../../../game-mechanics/models/index';
 import { createSelector } from '@ngrx/store';
 import { GameEditorFeature } from '../index';
 import { selectFeature } from '../selectors';
@@ -16,7 +16,7 @@ export interface MapState {
     lastInsert?: number;
     lastDelete?: MapLocation;
     pathCreationMode?: boolean;
-    selectedPath?: number;
+    selectedPath?: MapPath;
 }
 
 const initialState: MapState = {
@@ -143,18 +143,18 @@ export function mapReducer(state: MapState = initialState, action: MapAction): M
 export const selectCanvasImage = createSelector(selectFeature, (state: GameEditorFeature): string => {
     return state.form.map.canvas.image;
 });
-export const selectMapLocations = createSelector(selectFeature, (state: GameEditorFeature): { [key: string]: MapLocation } => {
+export const selectMapLocations = createSelector(selectFeature, (state: GameEditorFeature): MapLocationList => {
     return state.form.map.items;
 });
 export const selectMapPaths = createSelector(selectFeature, (state: GameEditorFeature): MapPath[] => {
     return Object.values(state.form.map.paths);
 });
 export const getSelectedPath = createSelector(selectFeature, (state: GameEditorFeature): MapPath => {
-    return state.form.map.paths[state.form.map.selectedPath];
+    return state.form.map.selectedPath;
 });
 export const selectPathCreationMode = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.map.pathCreationMode;
 });
-export const selectMap = createSelector(selectFeature, (state: GameEditorFeature): any => {
+export const selectMap = createSelector(selectFeature, (state: GameEditorFeature): GameMap => {
     return state.form.map.canvas;
 });

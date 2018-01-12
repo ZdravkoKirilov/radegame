@@ -11,7 +11,7 @@ export interface BoardFields {
     lastInsert?: number;
     lastDelete?: BoardField;
     showFieldEditor?: boolean;
-    selectedField?: number;
+    selectedField?: BoardField;
 }
 
 const initialState: BoardFields = {
@@ -88,7 +88,7 @@ export const selectFieldEditorToggleState = createSelector(selectFeature, (state
     return state.form.fields.showFieldEditor;
 });
 export const getSelectedField = createSelector(selectFeature, (state: GameEditorFeature): BoardField => {
-    return state.form.fields.items[state.form.fields.selectedField];
+    return state.form.fields.selectedField;
 });
 export const selectLastInsertedField = createSelector(selectFeature, (state: GameEditorFeature): number => {
     return state.form.fields.lastInsert;
