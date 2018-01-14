@@ -8,7 +8,7 @@ export interface BoardFields {
     items?: {
         [key: string]: BoardField
     };
-    lastInsert?: number;
+    lastInsert?: BoardField;
     lastDelete?: BoardField;
     showFieldEditor?: boolean;
     selectedField?: BoardField;
@@ -47,7 +47,7 @@ export function fieldsReducer(state: BoardFields = initialState, action: FieldAc
                 },
             };
             if (isInsert) {
-                newState.lastInsert = action.payload.id;
+                newState.lastInsert = action.payload;
             }
             return newState;
         case DELETE_FIELD_SUCCESS:
@@ -90,6 +90,6 @@ export const selectFieldEditorToggleState = createSelector(selectFeature, (state
 export const getSelectedField = createSelector(selectFeature, (state: GameEditorFeature): BoardField => {
     return state.form.fields.selectedField;
 });
-export const selectLastInsertedField = createSelector(selectFeature, (state: GameEditorFeature): number => {
+export const selectLastInsertedField = createSelector(selectFeature, (state: GameEditorFeature): BoardField => {
     return state.form.fields.lastInsert;
 });

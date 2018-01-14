@@ -7,8 +7,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { BoardField, MapLocation, MapPath, GameMap } from '../../../../../game-mechanics/models/index';
 import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
 import { KEYCODES } from '../../../../utils/config';
-import { composeDefaultLoc } from '../../../../utils/utils';
-import { propHasChanged, propHasNewValue } from '../../../../../shared/utils/propsCheck';
+import { propHasChanged } from '../../../../../shared/utils/propsCheck';
 
 @Component({
     selector: 'rg-map-editor',
@@ -22,7 +21,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @Output() addBackground: EventEmitter<any> = new EventEmitter();
     @Output() removeBackground: EventEmitter<any> = new EventEmitter();
     @Output() saveMapLocation: EventEmitter<MapLocation> = new EventEmitter();
-    @Output() deleteMapField: EventEmitter<any> = new EventEmitter();
+    @Output() deleteField: EventEmitter<any> = new EventEmitter();
     @Output() selectField: EventEmitter<number> = new EventEmitter();
     @Output() setPathCreation: EventEmitter<boolean> = new EventEmitter();
     @Output() createPath: EventEmitter<MapPath> = new EventEmitter();
@@ -69,11 +68,13 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
                     this.selectField.emit(null);
                 }
             } else {
+                this.selectPath.emit(null);
                 this.selectField.emit(loc.field);
             }
 
         });
         const pathSelected = scr.pathSelected.subscribe((data: MapPath) => {
+            this.selectField.emit(null);
             this.selectPath.emit(data);
         });
         const keypress = scr.keypress.subscribe(event => {
@@ -82,7 +83,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
             if (event.keyCode === KEYCODES.Delete) {
                 if (field) {
                     const payload = this.fields.find(elem => elem.id === field.id);
-                    this.deleteMapField.emit(payload);
+                    this.deleteField.emit(payload);
                 }
                 if (path) {
                     const payload = this.mapPaths.find(elem => elem.id === path.id);
@@ -106,12 +107,8 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnChanges(c: SimpleChanges) {
-        if (propHasChanged(c, 'canvasImage')) {
-            this.scr.updateBackground(c.canvasImage.currentValue);
-        }
-        if (propHasNewValue(c, 'lastInsertedField')) {
-            const data = composeDefaultLoc(this.fields, this.lastInsertedField);
-            this.saveMapLocation.emit(data);
+        if (propHasChanged(c, 'map')) {
+            this.scr.updateBackground(c.map.currentValue.image);
         }
     }
 

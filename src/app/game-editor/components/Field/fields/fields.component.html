@@ -17,11 +17,15 @@
             [map]="map"
             [hidden]="showFieldEditor"
             [pathCreationMode]="pathCreationMode"
+            [selectedPath]="selectedPath"
             [selectedField]="selectedField"
             (saveMapLocation)="saveMapLocation.emit($event)"
             (selectField)="selectField.emit($event)"
             (editField)="editField.emit($event)"
+            (deleteField)="removeField.emit($event)"
             (selectPath)="selectPath.emit($event)"
+            (createPath)="savePath.emit($event)"
+            (deletePath)="removePath.emit($event)"
             (setPathCreation)="setPathCreation.emit($event)"
     ></rg-map-editor>
 
