@@ -6,7 +6,7 @@ export interface ActivityConfig {
     type?: ActivityType;
     mode?: ActivityMode;
     target?: ActivityTarget;
-    bonus?: number;
+    amount?: number;
 }
 
 export interface Activity {

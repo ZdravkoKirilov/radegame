@@ -1,9 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { IndexComponent } from './containers/index/index.component';
+import { IndexComponent } from './components/index/index.component';
 import { SmartLaunchComponent } from './containers/smart-launch/smart-launch.component';
 import { ROUTER_PARAMS } from '../shared/config/config';
-import { GameResolverService } from './resolvers/game-resolver.service';
 import { GamesListResolverService } from './resolvers/games-list-resolver.service';
 import * as fromGuards from './guards';
 

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { SmartMapEditorComponent } from './smart-map-editor.component';
+import { QuestsListComponent } from './quests-list.component';
 
-describe('SmartMapEditorComponent', () => {
-  let component: SmartMapEditorComponent;
-  let fixture: ComponentFixture<SmartMapEditorComponent>;
+describe('QuestsListComponent', () => {
+  let component: QuestsListComponent;
+  let fixture: ComponentFixture<QuestsListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SmartMapEditorComponent ]
+      declarations: [ QuestsListComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SmartMapEditorComponent);
+    fixture = TestBed.createComponent(QuestsListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

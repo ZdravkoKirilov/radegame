@@ -7,7 +7,10 @@ export interface Option {
 }
 
 export interface SubFormMapping {
-    [key: string]: FormDefinition;
+    [key: string]: {
+        form: FormDefinition,
+        name: string;
+    };
 }
 
 export interface BaseControl {

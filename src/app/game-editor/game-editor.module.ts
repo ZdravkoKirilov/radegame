@@ -8,7 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { FEATURE_NAME } from './utils/config';
 import { effects } from './state/effects/index';
 
-import { IndexComponent } from './containers/index/index.component';
+import { IndexComponent } from './components/index/index.component';
 
 import { routes } from './routing';
 import { reducers } from './state/reducers/index';
@@ -18,7 +18,6 @@ import { NgMaterialModule } from '../ng-material/ng-material.module';
 import { GameElementsModule } from '../game-elements/game-elements.module';
 import { DynamicFormsModule } from '../dynamic-forms/dynamic-forms.module';
 import { SceneRenderService } from '../game-mechanics/rendering/scene-render.service';
-import { GameResolverService } from './resolvers/game-resolver.service';
 import { GamesListResolverService } from './resolvers/games-list-resolver.service';
 import { GameEditService } from './services/game-edit.service';
 import * as fromGuards from './guards';
@@ -42,7 +41,6 @@ import { FieldEditorComponent } from './components/Field/field-editor/field-edit
 import { SmartLaunchComponent } from './containers/smart-launch/smart-launch.component';
 import { GamesListComponent } from './components/Launch/games-list/games-list.component';
 import { MapEditorComponent } from './components/Field/Map/map-editor/map-editor.component';
-import { SmartMapEditorComponent } from './containers/smart-map-editor/smart-map-editor.component';
 import { MapFieldComponent } from './components/Field/Map/map-field/map-field.component';
 import { MapToolbarComponent } from './components/Field/Map/map-toolbar/map-toolbar.component';
 import { SmartFieldsComponent } from './containers/smart-fields/smart-fields.component';
@@ -51,6 +49,10 @@ import { SmartActivitiesComponent } from './containers/smart-activities/smart-ac
 import { GameActionsListComponent } from './components/Activity/activities-list/activities-list.component';
 import { GameActionsComponent } from './components/Activity/activities/activities.component';
 import { GameActionEditorComponent } from './components/Activity/activity-editor/activity-editor.component';
+import { SmartQuestsComponent } from './containers/smart-quests/smart-quests.component';
+import { QuestsComponent } from './components/Quest/quests/quests.component';
+import { QuestEditorComponent } from './components/Quest/quest-editor/quest-editor.component';
+import { QuestsListComponent } from './components/Quest/quests-list/quests-list.component';
 
 @NgModule({
     imports: [
@@ -72,7 +74,6 @@ import { GameActionEditorComponent } from './components/Activity/activity-editor
     ],
     providers: [
         SceneRenderService,
-        GameResolverService,
         GamesListResolverService,
         GameEditService,
         ...fromGuards.guards
@@ -97,7 +98,6 @@ import { GameActionEditorComponent } from './components/Activity/activity-editor
         SmartLaunchComponent,
         GamesListComponent,
         MapEditorComponent,
-        SmartMapEditorComponent,
         MapFieldComponent,
         MapToolbarComponent,
         SmartFieldsComponent,
@@ -105,7 +105,11 @@ import { GameActionEditorComponent } from './components/Activity/activity-editor
         SmartActivitiesComponent,
         GameActionsListComponent,
         GameActionsComponent,
-        GameActionEditorComponent
+        GameActionEditorComponent,
+        SmartQuestsComponent,
+        QuestsComponent,
+        QuestEditorComponent,
+        QuestsListComponent
     ]
 })
 export class GameEditorModule {

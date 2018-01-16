@@ -12,10 +12,6 @@ import { UpdateEditorAssetsAction, GetGameAction, GetGameSuccessAction, GetGameF
 
 import { GET_GAME } from '../../reducers/byFeature/assets.reducer';
 
-import { GameBoards } from '../../../../game-mechanics/configs/game-boards';
-import { Movements } from '../../../../game-mechanics/configs/movements';
-import { gameActions } from '../../../../game-mechanics/systems/activity/statics';
-
 @Injectable()
 export class AssetEffectsService {
 
@@ -35,10 +31,6 @@ export class AssetEffectsService {
                 new GetGameSuccessAction(),
                 new UpdateEditorAssetsAction({
                     game,
-                    supportedMovements: GameBoards[game.boardType].allowedMovements,
-                    supportedActivities: GameBoards[game.boardType].supportedActions,
-                    activities: gameActions,
-                    movements: Movements
                 })
             ];
         })

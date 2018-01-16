@@ -5,11 +5,9 @@ import {
     BoardFieldList,
     Game,
     ResourceList,
-    MovementsList,
-    FactionList
+    FactionList,
+    ActivityList
 } from './index';
-
-import { PrivateActivityList } from '../systems/activity/statics';
 
 export interface GameData {
     game?: Game;
@@ -19,11 +17,9 @@ export interface GameData {
     paths?: MapPathList;
     resources?: ResourceList;
     factions?: FactionList;
-    activities?: PrivateActivityList;
-    movements?: MovementsList;
-    supportedActivities?: string[];
-    supportedMovements?: string[];
+    activities?: ActivityList;
 }
+
 
 
 

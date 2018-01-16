@@ -1,0 +1,1 @@
+var status = false; payload.hits.hits.forEach(function (e) { if (e._source.up == true) { status = true; return status; } }); status;
