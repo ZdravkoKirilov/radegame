@@ -7,7 +7,7 @@ export const types = {
     CANCEL_DEFEND_FIELD: 'CANCEL_DEFEND_FIELD',
     CANCEL_MINE_RESOURCE: 'CANCEL_MINE_RESOURCE',
 
-    ALTER_RESOURCE: 'ALTER_RESOURCE', // increase = bonus + ; decrease = bonus - ; steal = both
+    ALTER_RESOURCE: 'ALTER_RESOURCE',
 
     STEAL_QUEST: 'STEAL_QUEST',
     DISCARD_QUEST: 'DISCARD_QUEST',
@@ -33,16 +33,23 @@ export const targetTypes = {
     OTHER_PLAYER: 'OTHER_PLAYER',
     SELF: 'SELF',
     ACTIVE_FIELD: 'ACTIVE_FIELD',
-    ACTIVE_PLAYER: 'ACTIVE_PLAYER'
+    ACTIVE_PLAYER: 'ACTIVE_PLAYER',
+    OTHER_ACTIVE_PLAYER: 'OTHER_ACTIVE_PLAYER'
 };
 
 export type ActivityTarget =
     typeof targetTypes.FIELD |
-    typeof targetTypes.PLAYER;
+    typeof targetTypes.PLAYER |
+    typeof targetTypes.OTHER_PLAYER |
+    typeof targetTypes.SELF |
+    typeof targetTypes.ACTIVE_PLAYER |
+    typeof targetTypes.OTHER_ACTIVE_PLAYER |
+    typeof targetTypes.ACTIVE_FIELD;
 
 export type ActivityMode =
     typeof actionModes.TRIGGER |
-    typeof actionModes.PASSIVE;
+    typeof actionModes.PASSIVE |
+    typeof actionModes.HIDDEN;
 
 export type ActivityType =
     typeof types.ATTACK_FIELD |

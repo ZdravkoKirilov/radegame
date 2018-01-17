@@ -1,71 +1,72 @@
 import {
-    BASIC_ACTIVITY_DEF,
-    PARAMLESS_ACTIVITY_DEF,
-    AMOUNTABLE_ACTIVITY_DEF,
-    VARIABLE_PEOPLE_ACTIVITY_DEF
+    ActForm_WithBonus,
+    ActForm_Paramless,
+    ActForm_WithAmount,
+    ActForm_VarTargets,
+    ActForm_Amount_Resource
 } from './forms';
 import { types } from './constants';
 import { SubFormMapping } from '../../../dynamic-forms/models/Base.model';
 
 export const ACTIONS_MAPPING: SubFormMapping = {
     [types.ATTACK_FIELD]: {
-        form: BASIC_ACTIVITY_DEF,
+        form: ActForm_WithBonus,
         name: 'Attack field'
     },
     [types.DEFEND_FIELD]: {
-        form: BASIC_ACTIVITY_DEF,
+        form: ActForm_WithBonus,
         name: 'Defend field'
     },
     [types.MINE_RESOURCES]: {
-        form: BASIC_ACTIVITY_DEF,
+        form: ActForm_WithBonus,
         name: 'Mine resources'
     },
     [types.ALTER_RESOURCE]: {
-        form: AMOUNTABLE_ACTIVITY_DEF,
+        form: ActForm_Amount_Resource,
         name: 'Alter resource'
     },
     [types.STEAL_QUEST]: {
-        form: AMOUNTABLE_ACTIVITY_DEF,
+        form: ActForm_WithAmount,
         name: 'Steal quest/s'
     },
     [types.DISCARD_QUEST]: {
-        form: AMOUNTABLE_ACTIVITY_DEF,
+        form: ActForm_WithAmount,
         name: 'Discard quest/s'
     },
     [types.DRAW_QUEST]: {
-        form: AMOUNTABLE_ACTIVITY_DEF,
+        form: ActForm_WithAmount,
         name: 'Draw quest/s'
     },
     [types.STEAL_ACTIVITY]: {
-        form: AMOUNTABLE_ACTIVITY_DEF,
+        form: ActForm_WithAmount,
         name: 'Steal activity/s'
     },
     [types.DISCARD_ACTIVITY]: {
-        form: AMOUNTABLE_ACTIVITY_DEF,
+        form: ActForm_WithAmount,
         name: 'Discard activity/s'
     },
     [types.PEEK_QUESTS]: {
-        form: VARIABLE_PEOPLE_ACTIVITY_DEF,
+        form: ActForm_VarTargets,
         name: 'Peek at quests',
     },
     [types.PEEK_ACTIVITIES]: {
-        form: VARIABLE_PEOPLE_ACTIVITY_DEF,
+        form: ActForm_VarTargets,
         name: 'Peek at actions'
     },
     [types.CANCEL_ATTACK_FIELD]: {
-        form: PARAMLESS_ACTIVITY_DEF,
+        form: ActForm_Paramless,
         name: 'Cancel attack'
     },
     [types.CANCEL_DEFEND_FIELD]: {
-        form: PARAMLESS_ACTIVITY_DEF,
+        form: ActForm_Paramless,
         name: 'Cancel defence'
     },
     [types.CANCEL_MINE_RESOURCE]: {
-        form: PARAMLESS_ACTIVITY_DEF,
+        form: ActForm_Paramless,
         name: 'Cancel mining'
     },
     [types.CANCEL_ACTIVITY]: {
-        form: PARAMLESS_ACTIVITY_DEF,
+        form: ActForm_Paramless,
         name: 'Cancel action'
     }
 };

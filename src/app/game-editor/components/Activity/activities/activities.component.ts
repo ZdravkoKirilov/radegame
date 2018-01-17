@@ -2,6 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 
 import { Activity } from '../../../../game-mechanics/models/index';
 import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
+import { Resource } from '../../../../game-mechanics/models/index';
 
 @Component({
     selector: 'rg-activities',
@@ -14,6 +15,7 @@ export class GameActionsComponent {
     @Input() selectedItem: Activity;
     @Input() items: Activity[];
     @Input() formDefinition: FormDefinition;
+    @Input() resources: Resource[];
 
     @Output() toggleEditor: EventEmitter<boolean> = new EventEmitter();
     @Output() editItem: EventEmitter<Activity> = new EventEmitter();

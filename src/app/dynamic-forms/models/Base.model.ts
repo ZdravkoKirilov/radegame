@@ -1,4 +1,5 @@
 import { FormDefinition } from './FormDefinition.model';
+import { ConnectedEntities } from './ConnectedEntities';
 
 export interface Option {
     label: string;
@@ -24,6 +25,7 @@ export interface BaseControl {
     childControls?: BaseControl[];
     childTemplate?: BaseControl;
     subFormMapping?: SubFormMapping;
+    connectedEntities?: ConnectedEntities;
     addButtonText?: string;
     multiple?: boolean;
     min?: number;

@@ -16,6 +16,7 @@
     </div>
 
     <rg-activity-editor *ngIf="showEditor" [formDefinition]="formDefinition" [selectedItem]="selectedItem"
+                        [resources]="resources"
                         (save)="saveItem.emit($event)"
                         (cancel)="hideActivityEditor()">
     </rg-activity-editor>

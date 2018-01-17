@@ -7,6 +7,7 @@ export interface ActivityConfig {
     mode?: ActivityMode;
     target?: ActivityTarget;
     amount?: number;
+    resource?: number;
 }
 
 export interface Activity {

@@ -38,7 +38,7 @@ export class FormArrayComponent implements OnInit {
     reshapeChild({index, config, data}) {
         const currentValue = this.formArray.at(index).value;
         const formDef: FormDefinition = config.subFormMapping[data[config.childTemplate.name]].form;
-        const controls = [config.childTemplate, ...formDef(currentValue)];
+        const controls = [config.childTemplate, ...formDef(currentValue, this.data.connectedEntities)];
         this.formArray.setControl(index, this.cs.toFormGroup(controls));
         this.controls[index].childControls = controls;
         this.valueChange({index, data});

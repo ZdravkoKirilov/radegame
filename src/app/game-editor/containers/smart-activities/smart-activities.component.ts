@@ -4,10 +4,11 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core/state/index';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { Activity, Game } from '../../../game-mechanics/models/index';
+import { Activity, Game, Resource } from '../../../game-mechanics/models/index';
 import { ACTIVITY_DEF } from '../../forms/activity.form';
 import { selectActivities, selectActivityEditorState, getSelectedActivity } from '../../state/reducers/byFeature/activity.reducer';
 import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
+import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
 import {
     SaveActivityAction,
     DeleteActivityAction,
@@ -29,6 +30,7 @@ export class SmartActivitiesComponent implements OnInit, OnDestroy {
     public showEditor: boolean;
     public items: Activity[];
     public selectedItem: Activity;
+    public resources: Resource[];
 
     constructor(private store: Store<AppState>) {
     }
@@ -68,6 +70,7 @@ export class SmartActivitiesComponent implements OnInit, OnDestroy {
             this.showEditor = selectActivityEditorState(state);
             this.selectedItem = getSelectedActivity(state);
             this.game = selectGame(state);
+            this.resources = selectResources(state);
         });
     }
 

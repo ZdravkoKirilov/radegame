@@ -4,8 +4,9 @@ import { Activity, ActivityConfig } from '../../game-mechanics/models/Activity.m
 import { ACTIONS_MAPPING } from '../../game-mechanics/systems/activity/statics';
 import { types } from '../../game-mechanics/systems/activity/constants';
 import { FormDefinition } from '../../dynamic-forms/models/FormDefinition.model';
+import { ConnectedEntities } from '../../dynamic-forms/models/ConnectedEntities';
 
-export function ACTIVITY_DEF(data: Activity): BaseControl[] {
+export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseControl[] {
     data = data || {configs: []};
     const activityTypes: Option[] = [
         {
@@ -90,7 +91,7 @@ export function ACTIVITY_DEF(data: Activity): BaseControl[] {
             ]
         };
         if (subform) {
-            const addedControls = subform(elem);
+            const addedControls = subform(elem, ent);
             childInstance.childControls = childInstance.childControls.concat(addedControls);
         }
         return childInstance;
@@ -105,7 +106,7 @@ export function ACTIVITY_DEF(data: Activity): BaseControl[] {
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
-            value: data.description,
+            value: data.description || '',
             label: 'Action description',
             required: false
         }, {
@@ -119,6 +120,7 @@ export function ACTIVITY_DEF(data: Activity): BaseControl[] {
             controlType: controlTypes.FORM_ARRAY,
             label: 'Action configuration',
             addButtonText: 'Add action',
+            connectedEntities: ent,
             childControls,
             childTemplate
         }

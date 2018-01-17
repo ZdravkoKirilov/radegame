@@ -4,7 +4,8 @@ import { FormGroup } from '@angular/forms';
 import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
 import { BaseControl } from '../../../../dynamic-forms/models/Base.model';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { Activity } from '../../../../game-mechanics/models/index';
+import { Activity, Resource } from '../../../../game-mechanics/models/index';
+import { ConnectedEntities } from '../../../../dynamic-forms/models/ConnectedEntities';
 
 @Component({
     selector: 'rg-activity-editor',
@@ -18,6 +19,7 @@ export class GameActionEditorComponent implements OnInit {
 
     @Input() formDefinition: FormDefinition;
     @Input() selectedItem: Activity;
+    @Input() resources: Resource[];
 
     public form: FormGroup;
     public controls: BaseControl[];
@@ -26,7 +28,10 @@ export class GameActionEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.controls = this.formDefinition(this.selectedItem);
+        const entities: ConnectedEntities = {
+            resources: this.resources
+        };
+        this.controls = this.formDefinition(this.selectedItem, entities);
         this.form = this.cs.toFormGroup(this.controls);
     }
 
