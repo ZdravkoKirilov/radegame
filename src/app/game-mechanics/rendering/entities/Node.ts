@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs/Subject';
 import { loaders, Sprite } from 'pixi.js';
 
-import { MapLocation } from '../models/Map.model';
+import { MapLocation } from '../../models/Map.model';
 import { ISpriteComponent } from './SpriteComponent';
 
 export class MapNode implements ISpriteComponent {

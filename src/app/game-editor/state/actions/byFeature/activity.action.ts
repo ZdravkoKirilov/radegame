@@ -45,7 +45,9 @@ export class SaveActivityFailAction implements Action {
 }
 
 export class GetActivitiesAction implements Action {
-    constructor(public payload: number) { }
+    constructor(public payload: number) {
+    }
+
     readonly type = GET_ACTIVITIES;
 }
 
@@ -119,4 +121,8 @@ export type ActivityAction =
     | DeleteActivityAction
     | DeleteActivitySuccessAction
     | DeleteActivityFailAction
-    | RemoveActivityAction;
+    | RemoveActivityAction
+    | GetActivitiesAction
+    | GetActivitiesSuccessAction
+    | GetActivitiesFailAction
+    | SetActivitiesAction;

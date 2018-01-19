@@ -1,4 +1,4 @@
-import { ActivityType} from '../systems/activity/constants';
+import { ActivityType } from '../systems/activity/constants';
 import { ActivityMode, ActivityTarget } from '../systems/activity/constants';
 
 export interface ActivityConfig {
@@ -16,7 +16,15 @@ export interface Activity {
     name?: string;
     description?: string;
     image?: string;
+    cost?: ActivityCost[];
     configs?: ActivityConfig[];
+}
+
+export interface ActivityCost {
+    id?: number;
+    resource?: number;
+    activity?: number;
+    amount?: number;
 }
 
 export interface ActivityList {

@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { Trivia, BoardField, Faction, Resource, Game, MapLocation, MapPath, GameMap, Activity } from '../../game-mechanics/models/index';
+import { BoardField, Faction, Resource, Game, MapLocation, MapPath, GameMap, Activity, Quest } from '../../game-mechanics/models/index';
 import { API_URLS } from '../../shared/config/api-urls';
 import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
 
@@ -11,13 +10,6 @@ import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
 export class GameEditService {
 
     constructor(private http: HttpClient) {
-    }
-
-    saveGameTrivia(data: Trivia): Observable<any> {
-        return of({
-            id: new Date().getTime(),
-            ...data
-        });
     }
 
     saveMapPath(data: MapPath): Observable<any> {
@@ -87,6 +79,25 @@ export class GameEditService {
 
     deleteResource(data: Resource): Observable<any> {
         return this.http.delete(API_URLS.RESOURCES(data.game, data.id));
+    }
+
+    getQuests(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.QUESTS(gameId));
+    }
+
+    saveQuest(data: Quest): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = {headers: new HttpHeaders({})};
+
+        if (data.id) {
+            return this.http.patch(API_URLS.QUESTS(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.QUESTS(data.game), formData, options);
+        }
+    }
+
+    deleteQuest(data: Quest): Observable<any> {
+        return this.http.delete(API_URLS.QUESTS(data.game, data.id));
     }
 
     saveMap(data: GameMap): Observable<any> {

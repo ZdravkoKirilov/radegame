@@ -25,7 +25,6 @@ import * as fromGuards from './guards';
 import { ResourcesComponent } from './components/Resource/resources/resources.component';
 import { FactionsComponent } from './components/Faction/factions/factions.component';
 import { FieldsComponent } from './components/Field/fields/fields.component';
-import { TriviaComponent } from './components/Trivia/trivias/trivia.component';
 import { ResourceEditorComponent } from './components/Resource/resource-editor/resource-editor.component';
 import { SharedModule } from '../shared/shared.module';
 import { SmartResourcesComponent } from './containers/smart-resources/smart-resources.component';
@@ -34,9 +33,6 @@ import { SmartFactionsComponent } from './containers/smart-factions/smart-factio
 import { FactionsListComponent } from './components/Faction/factions-list/factions-list.component';
 import { FactionEditorComponent } from './components/Faction/faction-editor/faction-editor.component';
 import { GameLaunchComponent } from './components/Launch/game-launch/game-launch.component';
-import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
-import { TriviaEditorComponent } from './components/Trivia/trivia-editor/trivia-editor.component';
-import { TriviasListComponent } from './components/Trivia/trivias-list/trivias-list.component';
 import { FieldEditorComponent } from './components/Field/field-editor/field-editor.component';
 import { SmartLaunchComponent } from './containers/smart-launch/smart-launch.component';
 import { GamesListComponent } from './components/Launch/games-list/games-list.component';
@@ -83,7 +79,6 @@ import { QuestsListComponent } from './components/Quest/quests-list/quests-list.
         ResourcesComponent,
         FactionsComponent,
         FieldsComponent,
-        TriviaComponent,
         ResourceEditorComponent,
         SmartResourcesComponent,
         ResourcesListComponent,
@@ -91,9 +86,6 @@ import { QuestsListComponent } from './components/Quest/quests-list/quests-list.
         FactionsListComponent,
         FactionEditorComponent,
         GameLaunchComponent,
-        SmartTriviaComponent,
-        TriviaEditorComponent,
-        TriviasListComponent,
         FieldEditorComponent,
         SmartLaunchComponent,
         GamesListComponent,

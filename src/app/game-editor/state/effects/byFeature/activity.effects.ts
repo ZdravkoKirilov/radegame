@@ -31,7 +31,7 @@ export class ActivityEffectsService {
     constructor(private actions$: Actions, private api: GameEditService) {
     }
 
-    @Effect() getFactions: Observable<any> = this.actions$
+    @Effect() getActivities: Observable<any> = this.actions$
         .ofType(GET_ACTIVITIES)
         .map((action: GetActivitiesAction) => {
             return action.payload;
@@ -40,10 +40,10 @@ export class ActivityEffectsService {
             return this.api.getActivities(payload);
         })
         .mergeMap((res: Activity[]) => {
-            const factions = toIndexedList(res);
+            const items = toIndexedList(res);
             return [
                 new GetActivitiesSuccessAction(),
-                new SetActivitiesAction(factions)
+                new SetActivitiesAction(items)
             ];
         })
         .catch(() => {

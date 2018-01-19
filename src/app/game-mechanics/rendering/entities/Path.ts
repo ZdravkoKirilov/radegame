@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs/Subject';
 import { Graphics, Polygon, Point } from 'pixi.js';
 
-import { MapPath } from '../models/index';
+import { MapPath } from '../../models/index';
 import { MapNode } from './Node';
 
 export class Path {

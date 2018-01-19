@@ -2,14 +2,12 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Faction, Game, GameData, Resource } from '../../../game-mechanics/models/index';
+import { Faction, Game, Resource } from '../../../game-mechanics/models/index';
 import { AppState } from '../../../core/state/index';
-import { selectRouterData } from '../../../core/state/reducers/selectors';
 import {
     selectGame} from '../../state/reducers/byFeature/assets.reducer';
 import {
     SaveFactionAction,
-    SetFactionsAction,
     DeleteFactionAction,
     ChangeSelectedFactionAction,
     ToggleEditorAction
