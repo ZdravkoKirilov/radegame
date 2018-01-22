@@ -1,7 +1,7 @@
-import { Resource } from '../../game-mechanics/models/Resource.model';
-import { Faction, FactionResource } from '../../game-mechanics/models/Faction.model';
-import { BaseControl } from '../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../dynamic-forms/config/controlTypes';
+import { Resource } from '../../../game-mechanics/models/Resource.model';
+import { Faction, FactionResource } from '../../../game-mechanics/models/Faction.model';
+import { BaseControl } from '../../../dynamic-forms/models/Base.model';
+import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 
 export function FACTION_DEF(resources: Resource[], data: Faction = {}): BaseControl[] {
     data = data || {resources: [], income: []};

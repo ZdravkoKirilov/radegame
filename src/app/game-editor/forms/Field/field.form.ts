@@ -1,7 +1,7 @@
-import { Resource } from '../../game-mechanics/models/Resource.model';
-import { BoardField, FieldResource } from '../../game-mechanics/models/BoardField.model';
-import { BaseControl } from '../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../dynamic-forms/config/controlTypes';
+import { Resource } from '../../../game-mechanics/models/Resource.model';
+import { BoardField, FieldResource } from '../../../game-mechanics/models/BoardField.model';
+import { BaseControl } from '../../../dynamic-forms/models/Base.model';
+import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 
 export function FIELD_DEF(resources: Resource[], existingData: BoardField): BaseControl[] {
     existingData = existingData || {income: [], cost: []};

@@ -14,7 +14,7 @@ import { AppState } from '../../../core/state/index';
 import { selectResourceEditorToggleState, selectResources } from '../../state/reducers/byFeature/resources.reducer';
 import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { RESOURCE_DEF } from '../../forms/resource.form';
+import { RESOURCE_DEF } from '../../forms/Resource/resource.form';
 
 @Component({
     selector: 'rg-smart-resources',

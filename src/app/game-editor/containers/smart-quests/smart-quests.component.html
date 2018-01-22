@@ -1,1 +1,11 @@
-<rg-quests></rg-quests>
+<rg-quests
+        [formDefinition]="formDefinition"
+        [items]="items"
+        [showEditor]="showEditor"
+        [selectedItem]="selectedItem"
+        [resources]="resources"
+        (toggleEditor)="toggleEditor($event)"
+        (saveItem)="saveItem($event)"
+        (editItem)="editItem($event)"
+        (removeItem)="removeItem($event)"
+></rg-quests>

@@ -73,7 +73,7 @@ export function activityReducer(state: GameActivity = initialState, action: Acti
     }
 }
 
-export const selectActivities = createSelector(selectFeature, (state: GameEditorFeature) => {
+export const selectActivities = createSelector(selectFeature, (state: GameEditorFeature): Activity[] => {
     return state.form.activities.items ? Object.values(state.form.activities.items) : [];
 });
 export const getSelectedActivity = createSelector(selectFeature, (state: GameEditorFeature): Activity => {

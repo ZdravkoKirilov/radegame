@@ -1,15 +1,23 @@
 <div class="wrapper">
 
-    <rg-quests-list>
+    <rg-quests-list
+            *ngIf="!showEditor"
+            [items]="items"
+            (editItem)="editItem.emit($event)"
+            (removeItem)="removeItem.emit($event)"
+    >
     </rg-quests-list>
 
-    <div class="buttons-toolbar">
-        <button mat-raised-button color="primary" class="create-new-btn">
+    <div *ngIf="!showEditor" class="buttons-toolbar">
+        <button mat-raised-button color="primary" class="create-new-btn" (click)="showQuestEditor()">
             <mat-icon>add</mat-icon>
             <span>Create new quest</span>
         </button>
     </div>
 
-    <rg-quest-editor>
+    <rg-quest-editor *ngIf="showEditor" [formDefinition]="formDefinition" [selectedItem]="selectedItem"
+                     [resources]="resources"
+                     (save)="saveItem.emit($event)"
+                     (cancel)="hideQuestEditor()">
     </rg-quest-editor>
 </div>

@@ -1,6 +1,6 @@
-import { Quest } from '../../game-mechanics/models/index';
-import { BaseControl } from '../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../dynamic-forms/config/controlTypes';
+import { Quest } from '../../../game-mechanics/models/index';
+import { BaseControl } from '../../../dynamic-forms/models/Base.model';
+import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 
 export function QUEST_DEF(data: Quest = {}): BaseControl[] {
     data = data || {};

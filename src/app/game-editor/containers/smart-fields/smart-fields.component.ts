@@ -14,7 +14,7 @@ import {
     Resource
 } from '../../../game-mechanics/models/index';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { FIELD_DEF } from '../../forms/field.form';
+import { FIELD_DEF } from '../../forms/Field/field.form';
 
 import {
     selectFieldEditorToggleState, getSelectedField, selectFieldsAsArray,

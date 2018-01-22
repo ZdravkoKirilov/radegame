@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AppState } from '../../../core/state/index';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { Activity, Game, Resource } from '../../../game-mechanics/models/index';
-import { ACTIVITY_DEF } from '../../forms/activity.form';
+import { ACTIVITY_DEF } from '../../forms/Activity/activity.form';
 import { selectActivities, selectActivityEditorState, getSelectedActivity } from '../../state/reducers/byFeature/activity.reducer';
 import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
 import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
