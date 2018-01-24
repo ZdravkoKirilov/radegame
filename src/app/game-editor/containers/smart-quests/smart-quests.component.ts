@@ -4,11 +4,14 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core/state/index';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { Game, Resource, Quest } from '../../../game-mechanics/models/index';
+import { Game, Quest } from '../../../game-mechanics/models/index';
+import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { QUEST_DEF } from '../../forms/Quest/quest.form';
 import { selectQuests, selectQuestEditorState, getSelectedQuest } from '../../state/reducers/byFeature/quest.reducer';
 import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
 import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
+import { selectFieldsAsArray } from '../../state/reducers/byFeature/fields.reducer';
+import { selectActivities } from '../../state/reducers/byFeature/activity.reducer';
 
 import {
     SaveQuestAction,
@@ -31,7 +34,7 @@ export class SmartQuestsComponent implements OnInit, OnDestroy {
     public showEditor: boolean;
     public items: Quest[];
     public selectedItem: Quest;
-    public resources: Resource[];
+    public connectedEntities: ConnectedEntities;
 
     constructor(private store: Store<AppState>) {
     }
@@ -71,7 +74,11 @@ export class SmartQuestsComponent implements OnInit, OnDestroy {
             this.showEditor = selectQuestEditorState(state);
             this.selectedItem = getSelectedQuest(state);
             this.game = selectGame(state);
-            this.resources = selectResources(state);
+            this.connectedEntities = {
+                resources: selectResources(state),
+                fields: selectFieldsAsArray(state),
+                activities: selectActivities(state)
+            };
         });
     }
 

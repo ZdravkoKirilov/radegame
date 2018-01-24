@@ -5,9 +5,9 @@ export interface Quest {
     description?: string;
     image?: string;
     cost?: QuestCost[];
-    awards?: QuestAward[];
-    penalties?: QuestPenalty[];
-    conditions?: QuestCondition[];
+    award?: QuestAward[];
+    penalty?: QuestPenalty[];
+    condition?: QuestCondition[];
 }
 
 export interface QuestList {
@@ -16,20 +16,47 @@ export interface QuestList {
 
 export interface QuestAward {
     id?: number;
-}
-
-export interface QuestCondition {
-    id?: number;
+    owner?: number;
+    quest?: number;
+    type?: string;
+    field?: number;
+    resource?: number;
+    action?: number;
+    maxAmount?: number;
+    minAmount?: number;
 }
 
 export interface QuestPenalty {
     id?: number;
+    owner?: number;
+    quest?: number;
+    type?: string;
+    field?: number;
+    resource?: number;
+    action?: number;
+    maxAmount?: number;
+    minAmount?: number;
+}
+
+export interface QuestCondition {
+    id?: number;
+    owner?: number;
+    quest?: number;
+    type?: string;
+    field?: number;
+    resource?: number;
+    action?: number;
+    amount?: number;
 }
 
 export interface QuestCost {
     id?: number;
-    resource?: number;
+    owner?: number;
     quest?: number;
+    type?: string;
+    field?: number;
+    resource?: number;
+    action?: number;
     amount?: number;
 }
 

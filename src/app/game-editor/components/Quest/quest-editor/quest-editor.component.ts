@@ -4,7 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
 import { BaseControl } from '../../../../dynamic-forms/models/Base.model';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { Quest, Resource } from '../../../../game-mechanics/models/index';
+import { Quest } from '../../../../game-mechanics/models/index';
 import { ConnectedEntities } from '../../../../dynamic-forms/models/ConnectedEntities';
 
 @Component({
@@ -19,7 +19,7 @@ export class QuestEditorComponent implements OnInit {
 
     @Input() formDefinition: FormDefinition;
     @Input() selectedItem: Quest;
-    @Input() resources: Resource[];
+    @Input() connectedEntities: ConnectedEntities;
 
     public form: FormGroup;
     public controls: BaseControl[];
@@ -28,10 +28,7 @@ export class QuestEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        const entities: ConnectedEntities = {
-            resources: this.resources
-        };
-        this.controls = this.formDefinition(this.selectedItem, entities);
+        this.controls = this.formDefinition(this.selectedItem, this.connectedEntities);
         this.form = this.cs.toFormGroup(this.controls);
     }
 

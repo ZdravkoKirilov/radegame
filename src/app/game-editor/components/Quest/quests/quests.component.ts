@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from 
 
 import { Quest } from '../../../../game-mechanics/models/index';
 import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
-import { Resource } from '../../../../game-mechanics/models/index';
+import { ConnectedEntities } from '../../../../dynamic-forms/models/ConnectedEntities';
 
 @Component({
     selector: 'rg-quests',
@@ -16,7 +16,7 @@ export class QuestsComponent {
     @Input() selectedItem: Quest;
     @Input() items: Quest[];
     @Input() formDefinition: FormDefinition;
-    @Input() resources: Resource[];
+    @Input() connectedEntities: ConnectedEntities;
 
     @Output() toggleEditor: EventEmitter<boolean> = new EventEmitter();
     @Output() editItem: EventEmitter<Quest> = new EventEmitter();

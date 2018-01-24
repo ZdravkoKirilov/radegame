@@ -16,7 +16,7 @@
     </div>
 
     <rg-quest-editor *ngIf="showEditor" [formDefinition]="formDefinition" [selectedItem]="selectedItem"
-                     [resources]="resources"
+                     [connectedEntities]="connectedEntities"
                      (save)="saveItem.emit($event)"
                      (cancel)="hideQuestEditor()">
     </rg-quest-editor>
