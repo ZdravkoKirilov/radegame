@@ -55,6 +55,9 @@ export class GameDataGuard implements CanActivate {
                         if (!data.form.map.paths) {
                             this.store.dispatch(new actions.GetMapPathsAction(gameId));
                         }
+                        if (!data.form.quests.items) {
+                            this.store.dispatch(new actions.GetQuestsAction(gameId));
+                        }
                         if (!data.form.map.canvas.image) {
                             this.store.dispatch(new actions.GetMapAction(gameId));
                         }
@@ -76,8 +79,9 @@ export class GameDataGuard implements CanActivate {
                     const hasMap = !!data.form.map.canvas.id;
                     const hasGame = !!data.assets.game;
                     const hasActivities = !!data.form.activities;
+                    const hasQuests = !!data.form.quests;
 
-                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap && hasGame && hasResources && hasActivities;
+                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap && hasGame && hasResources && hasActivities && hasQuests;
                 }),
                 take(1)
             );
