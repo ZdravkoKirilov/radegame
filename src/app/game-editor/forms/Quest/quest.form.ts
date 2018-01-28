@@ -1,8 +1,9 @@
-import { Quest } from '../../../game-mechanics/models/index';
-import { BaseControl, Option } from '../../../dynamic-forms/models/Base.model';
+import { Quest, QuestSubType } from '../../../game-mechanics/models/index';
+import { BaseControl, Option, SubFormMapping } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 import { QUEST_CONDITION_MAPPING, QUEST_COST_MAPPING, QUEST_PENALTY_MAPPING, QUEST_AWARD_MAPPING } from './sub-forms';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 
 export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -27,6 +28,13 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         childTemplate: conditionType,
         subFormMapping: QUEST_CONDITION_MAPPING
     };
+    const cond_childControls: BaseControl[] = createDynamicChildren(
+        data.condition,
+        cond_childTemplate,
+        conditionType,
+        QUEST_CONDITION_MAPPING,
+        ent
+    );
 
 
     const costOptions: Option[] = Object.keys(QUEST_COST_MAPPING).map(key => {
@@ -49,6 +57,13 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         childTemplate: costType,
         subFormMapping: QUEST_COST_MAPPING
     };
+    const cost_childControls = createDynamicChildren(
+        data.cost,
+        cost_childTemplate,
+        costType,
+        QUEST_COST_MAPPING,
+        ent
+    );
 
     const penaltyOptions: Option[] = Object.keys(QUEST_PENALTY_MAPPING).map(key => {
         return {
@@ -70,6 +85,13 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         childTemplate: penaltyType,
         subFormMapping: QUEST_PENALTY_MAPPING
     };
+    const penalty_childControls = createDynamicChildren(
+        data.penalty,
+        penalty_childTemplate,
+        penaltyType,
+        QUEST_PENALTY_MAPPING,
+        ent
+    );
 
     const awardOptions: Option[] = Object.keys(QUEST_AWARD_MAPPING).map(key => {
         return {
@@ -91,6 +113,13 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         childTemplate: awardType,
         subFormMapping: QUEST_AWARD_MAPPING
     };
+    const award_childControls = createDynamicChildren(
+        data.award,
+        award_childTemplate,
+        awardType,
+        QUEST_AWARD_MAPPING,
+        ent,
+    );
 
     return [
         {
@@ -117,7 +146,7 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
             label: 'Quest condition: ',
             addButtonText: 'Add condition',
             connectedEntities: ent,
-            childControls: [],
+            childControls: cond_childControls,
             childTemplate: cond_childTemplate
         }, {
             name: 'cost',
@@ -125,7 +154,7 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
             label: 'Quest cost: ',
             addButtonText: 'Add cost',
             connectedEntities: ent,
-            childControls: [],
+            childControls: cost_childControls,
             childTemplate: cost_childTemplate
         }, {
             name: 'penalty',
@@ -133,7 +162,7 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
             label: 'Quest penalty: ',
             addButtonText: 'Add penalty',
             connectedEntities: ent,
-            childControls: [],
+            childControls: penalty_childControls,
             childTemplate: penalty_childTemplate
         }, {
             name: 'award',
@@ -141,7 +170,7 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
             label: 'Quest award: ',
             addButtonText: 'Add award',
             connectedEntities: ent,
-            childControls: [],
+            childControls: award_childControls,
             childTemplate: award_childTemplate
         }
     ];
@@ -155,4 +184,29 @@ function sortOptions(a: Option, b: Option) {
         return -1;
     }
     return 0;
+}
+
+function createDynamicChildren(
+    data: QuestSubType[],
+    childTemplate: BaseControl,
+    typeSwitcher: BaseControl,
+    formMapping: SubFormMapping,
+    ent: ConnectedEntities,
+): BaseControl[] {
+    return data.map((elem: QuestSubType) => {
+        const subform: FormDefinition = formMapping[elem.type].form;
+        const childInstance: BaseControl = {
+            ...childTemplate, childControls: [
+                {
+                    ...typeSwitcher,
+                    value: elem.type
+                },
+            ]
+        };
+        if (subform) {
+            const addedControls = subform(elem, ent);
+            childInstance.childControls = childInstance.childControls.concat(addedControls);
+        }
+        return childInstance;
+    });
 }

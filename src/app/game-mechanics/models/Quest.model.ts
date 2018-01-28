@@ -60,3 +60,5 @@ export interface QuestCost {
     amount?: number;
 }
 
+export type QuestSubType = QuestCondition | QuestCost | QuestAward | QuestPenalty;
+

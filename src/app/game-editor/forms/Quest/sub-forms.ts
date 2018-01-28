@@ -16,7 +16,8 @@ const questCondition_fields: FormDefinition = (data: QuestCondition, ent: Connec
             controlType: controlTypes.DROPDOWN,
             label: 'Field',
             name: 'field',
-            options: fields
+            options: fields,
+            value: data.field,
         }
     ];
 };
@@ -27,6 +28,7 @@ const questCondition_fields_random: FormDefinition = (data: QuestCondition, ent:
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Amount of fields',
             name: 'amount',
+            value: data.amount,
         }
     ];
 };
@@ -38,11 +40,13 @@ const questCondition_resource: FormDefinition = (data: QuestCondition, ent: Conn
             controlType: controlTypes.DROPDOWN,
             label: 'Resource',
             name: 'resource',
-            options: resources
+            options: resources,
+            value: data.resource
         }, {
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Amount',
-            name: 'amount'
+            name: 'amount',
+            value: data.amount
         }
     ];
 };
@@ -52,7 +56,8 @@ const questCondition_resource_random: FormDefinition = (data: QuestCondition, en
         {
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Amount',
-            name: 'amount'
+            name: 'amount',
+            value: data.amount
         }
     ];
 };
@@ -64,11 +69,13 @@ const questCondition_activity: FormDefinition = (data: QuestCondition, ent: Conn
             controlType: controlTypes.DROPDOWN,
             label: 'Activity',
             name: 'action',
-            options: activities
+            options: activities,
+            value: data.action
         }, {
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Amount',
-            name: 'amount'
+            name: 'amount',
+            value: data.action
         }
     ];
 };
@@ -78,7 +85,8 @@ const questCondition_activity_random: FormDefinition = (data: QuestCondition, en
         {
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Amount',
-            name: 'amount'
+            name: 'amount',
+            value: data.amount
         }
     ];
 };
@@ -141,11 +149,13 @@ const questCost_resource: FormDefinition = (data: QuestCost, ent: ConnectedEntit
         controlType: controlTypes.DROPDOWN,
         label: 'Resource',
         name: 'resource',
-        options: resources
+        options: resources,
+        value: data.resource,
     }, {
         controlType: controlTypes.NUMBER_INPUT,
         label: 'Amount',
         name: 'amount',
+        value: data.amount,
     }];
 };
 
@@ -162,15 +172,18 @@ const questOutcome_resource: FormDefinition = (data: QuestPenalty, ent: Connecte
         controlType: controlTypes.DROPDOWN,
         label: 'Resource',
         name: 'resource',
-        options: resources
+        options: resources,
+        value: data.resource,
     }, {
         controlType: controlTypes.NUMBER_INPUT,
         label: 'Min amount',
         name: 'minAmount',
+        value: data.minAmount
     }, {
         controlType: controlTypes.NUMBER_INPUT,
         label: 'Max amount',
         name: 'maxAmount',
+        value: data.maxAmount,
     }];
 };
 
@@ -179,10 +192,12 @@ const questOutcome_random: FormDefinition = (data: QuestPenalty, ent: ConnectedE
         controlType: controlTypes.NUMBER_INPUT,
         label: 'Min amount',
         name: 'minAmount',
+        value: data.minAmount,
     }, {
         controlType: controlTypes.NUMBER_INPUT,
         label: 'Max amount',
         name: 'maxAmount',
+        value: data.maxAmount,
     }];
 };
 
