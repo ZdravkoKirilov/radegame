@@ -7,4 +7,5 @@ export * from './byFeature/map.action';
 export * from './byFeature/resource.action';
 export * from './byFeature/activity.action';
 export * from './byFeature/quest.action';
+export * from './byFeature/round.action';
 

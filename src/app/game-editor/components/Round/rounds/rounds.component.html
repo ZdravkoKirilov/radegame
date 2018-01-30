@@ -1,0 +1,23 @@
+<div class="wrapper">
+
+    <rg-rounds-list
+            *ngIf="!showEditor"
+            [items]="items"
+            (editItem)="editItem.emit($event)"
+            (removeItem)="removeItem.emit($event)"
+    >
+    </rg-rounds-list>
+
+    <div class="buttons-toolbar" *ngIf="!showEditor">
+        <button mat-raised-button color="primary" class="create-new-btn" (click)="showRoundEditor()">
+            <mat-icon>add</mat-icon>
+            <span>Create new round</span>
+        </button>
+    </div>
+
+    <rg-round-editor *ngIf="showEditor" [formDefinition]="formDefinition" [selectedItem]="selectedItem"
+                     [connectedEntities]="connectedEntities"
+                     (save)="saveItem.emit($event)"
+                     (cancel)="hideRoundEditor()">
+    </rg-round-editor>
+</div>

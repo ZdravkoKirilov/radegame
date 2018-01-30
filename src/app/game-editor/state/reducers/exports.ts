@@ -6,3 +6,4 @@ export * from './byFeature/map.reducer';
 export * from './byFeature/games.reducer';
 export * from './byFeature/activity.reducer';
 export * from './byFeature/quest.reducer';
+export * from './byFeature/round.reducer';

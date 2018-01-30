@@ -1,13 +1,24 @@
 <div>
-    <mat-button-toggle-group *ngIf="data.multiple" multiple>
-        <mat-button-toggle *ngFor="let option of data.options" [value]="option.value" (change)="handleChange($event)">
-            {{option.label}}
-        </mat-button-toggle>
-    </mat-button-toggle-group>
 
-    <mat-button-toggle-group *ngIf="!data.multiple">
-        <mat-button-toggle *ngFor="let option of data.options" [value]="option.value" (change)="handleChange($event)">
-            {{option.label}}
-        </mat-button-toggle>
-    </mat-button-toggle-group>
+    <div *ngIf="data.multiple">
+        <label>{{data.label}}</label>
+        <mat-button-toggle-group multiple>
+            <mat-button-toggle *ngFor="let option of data.options" [value]="option.value"
+                               (change)="handleChange($event)">
+                {{option.label}}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
+    <div *ngIf="!data.multiple">
+        <label>{{data.label}}</label>
+        <mat-button-toggle-group>
+
+            <mat-button-toggle *ngFor="let option of data.options" [value]="option.value"
+                               (change)="handleChange($event)">
+                {{option.label}}
+            </mat-button-toggle>
+        </mat-button-toggle-group>
+    </div>
+
 </div>

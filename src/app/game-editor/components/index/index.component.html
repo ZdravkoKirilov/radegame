@@ -1,12 +1,19 @@
 <mat-vertical-stepper>
 
     <mat-step>
+        <ng-template matStepLabel>Rounds</ng-template>
+        <section>
+            <rg-smart-rounds></rg-smart-rounds>
+        </section>
+    </mat-step>
+
+    <mat-step>
         <ng-template matStepLabel>Quests</ng-template>
         <section>
             <rg-smart-quests></rg-smart-quests>
         </section>
     </mat-step>
-    
+
     <mat-step>
         <ng-template matStepLabel>Game activities</ng-template>
         <section>

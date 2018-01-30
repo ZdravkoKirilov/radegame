@@ -1,4 +1,4 @@
-import { Resource } from '../../../game-mechanics/models/Resource.model';
+import { Resource } from '../../../game-mechanics/models/index';
 import { BaseControl } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 

@@ -2,7 +2,18 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-import { BoardField, Faction, Resource, Game, MapLocation, MapPath, GameMap, Activity, Quest } from '../../game-mechanics/models/index';
+import {
+    BoardField,
+    Faction,
+    Resource,
+    Game,
+    MapLocation,
+    MapPath,
+    GameMap,
+    Activity,
+    Quest,
+    Round
+} from '../../game-mechanics/models/index';
 import { API_URLS } from '../../shared/config/api-urls';
 import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
 
@@ -98,6 +109,25 @@ export class GameEditService {
 
     deleteQuest(data: Quest): Observable<any> {
         return this.http.delete(API_URLS.QUESTS(data.game, data.id));
+    }
+
+    getRounds(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.ROUNDS(gameId));
+    }
+
+    saveRound(data: Round): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = {headers: new HttpHeaders({})};
+
+        if (data.id) {
+            return this.http.patch(API_URLS.ROUNDS(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.ROUNDS(data.game), formData, options);
+        }
+    }
+
+    deleteRound(data: Round): Observable<any> {
+        return this.http.delete(API_URLS.ROUNDS(data.game, data.id));
     }
 
     saveMap(data: GameMap): Observable<any> {

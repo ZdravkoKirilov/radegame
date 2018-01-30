@@ -49,6 +49,10 @@ import { SmartQuestsComponent } from './containers/smart-quests/smart-quests.com
 import { QuestsComponent } from './components/Quest/quests/quests.component';
 import { QuestEditorComponent } from './components/Quest/quest-editor/quest-editor.component';
 import { QuestsListComponent } from './components/Quest/quests-list/quests-list.component';
+import { SmartRoundsComponent } from './containers/smart-rounds/smart-rounds.component';
+import { RoundsComponent } from './components/Round/rounds/rounds.component';
+import { RoundsListComponent } from './components/Round/rounds-list/rounds-list.component';
+import { RoundEditorComponent } from './components/Round/round-editor/round-editor.component';
 
 @NgModule({
     imports: [
@@ -101,7 +105,11 @@ import { QuestsListComponent } from './components/Quest/quests-list/quests-list.
         SmartQuestsComponent,
         QuestsComponent,
         QuestEditorComponent,
-        QuestsListComponent
+        QuestsListComponent,
+        SmartRoundsComponent,
+        RoundsComponent,
+        RoundsListComponent,
+        RoundEditorComponent
     ]
 })
 export class GameEditorModule {

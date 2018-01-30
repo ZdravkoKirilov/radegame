@@ -81,7 +81,8 @@ export class GameDataGuard implements CanActivate {
                     const hasActivities = !!data.form.activities;
                     const hasQuests = !!data.form.quests;
 
-                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap && hasGame && hasResources && hasActivities && hasQuests;
+                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap
+                        && hasGame && hasResources && hasActivities && hasQuests;
                 }),
                 take(1)
             );

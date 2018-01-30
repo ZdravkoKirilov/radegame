@@ -1,13 +1,14 @@
-import { Option, SubFormMapping } from '../../../dynamic-forms/models/Base.model';
+import { SubFormMapping } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 import {
     QUEST_CONDITIONS as conditions,
     QUEST_COSTS as costs,
     QUEST_OUTCOMES as outcomes
 } from '../../../game-mechanics/systems/quest/constants';
-import { QuestCondition, QuestCost, QuestPenalty, Resource, BoardField, Activity } from '../../../game-mechanics/models/index';
+import { QuestCondition, QuestCost, QuestPenalty, Resource, Activity } from '../../../game-mechanics/models/index';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
+import { composeFieldOptions, composeResourceOptions, composeActivityOptions } from '../helpers';
 
 const questCondition_fields: FormDefinition = (data: QuestCondition, ent: ConnectedEntities) => {
     const fields = composeFieldOptions(ent);
@@ -159,10 +160,25 @@ const questCost_resource: FormDefinition = (data: QuestCost, ent: ConnectedEntit
     }];
 };
 
+const questCost_field: FormDefinition = (data: QuestCost, ent: ConnectedEntities) => {
+    const fields = composeFieldOptions(ent);
+    return [{
+        controlType: controlTypes.DROPDOWN,
+        label: 'Field',
+        name: 'field',
+        options: fields,
+        value: data.resource,
+    }];
+};
+
 export const QUEST_COST_MAPPING: SubFormMapping = {
     [costs.RESOURCE]: {
         form: questCost_resource,
         name: 'Resource'
+    },
+    [costs.FIELD]: {
+        form: questCost_field,
+        name: 'Field',
     }
 };
 
@@ -222,24 +238,3 @@ export const QUEST_AWARD_MAPPING: SubFormMapping = {
         name: 'Random resource'
     }
 };
-
-function composeResourceOptions(ent: ConnectedEntities): Option[] {
-    return ent.resources.map((elem: Resource): Option => ({
-        label: elem.name,
-        value: elem.id
-    }));
-}
-
-function composeFieldOptions(ent: ConnectedEntities): Option[] {
-    return ent.fields.map((elem: BoardField): Option => ({
-        label: elem.name,
-        value: elem.id
-    }));
-}
-
-function composeActivityOptions(ent: ConnectedEntities): Option[] {
-    return ent.activities.map((elem: Activity): Option => ({
-        label: elem.name,
-        value: elem.id
-    }));
-}

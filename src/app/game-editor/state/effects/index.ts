@@ -6,6 +6,7 @@ import { LauncherEffectsService } from './byFeature/launcher.effects';
 import { AssetEffectsService } from './byFeature/asset.effects';
 import { ActivityEffectsService } from './byFeature/activity.effects';
 import { QuestEffectsService } from './byFeature/quest.effects';
+import { RoundEffectsService } from './byFeature/round.effects';
 
 export * from './byFeature/faction.effects';
 export * from './byFeature/resource.effects';
@@ -15,6 +16,7 @@ export * from './byFeature/launcher.effects';
 export * from './byFeature/asset.effects';
 export * from './byFeature/activity.effects';
 export * from './byFeature/quest.effects';
+export * from './byFeature/round.effects';
 
 export const effects = [
     FactionEffectsService,
@@ -24,5 +26,6 @@ export const effects = [
     LauncherEffectsService,
     AssetEffectsService,
     ActivityEffectsService,
-    QuestEffectsService
+    QuestEffectsService,
+    RoundEffectsService,
 ];

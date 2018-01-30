@@ -193,7 +193,7 @@ function createDynamicChildren(
     formMapping: SubFormMapping,
     ent: ConnectedEntities,
 ): BaseControl[] {
-    return data.map((elem: QuestSubType) => {
+    return data ? data.map((elem: QuestSubType) => {
         const subform: FormDefinition = formMapping[elem.type].form;
         const childInstance: BaseControl = {
             ...childTemplate, childControls: [
@@ -208,5 +208,5 @@ function createDynamicChildren(
             childInstance.childControls = childInstance.childControls.concat(addedControls);
         }
         return childInstance;
-    });
+    }) : [];
 }

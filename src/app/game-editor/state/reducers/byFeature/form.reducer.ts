@@ -6,7 +6,8 @@ import {
     mapReducer,
     resourcesReducer,
     activityReducer,
-    questsReducer
+    questsReducer,
+    roundsReducer,
 } from '../exports';
 import * as actionTypes from '../../actions/actionTypes';
 import { Resources } from './resources.reducer';
@@ -15,6 +16,7 @@ import { BoardFields } from './fields.reducer';
 import { GameActivity } from './activity.reducer';
 import { GameQuest } from './quest.reducer';
 import { MapState } from './map.reducer';
+import { GameRound } from './round.reducer';
 
 const reducers = {
     factions: factionsReducer,
@@ -23,6 +25,7 @@ const reducers = {
     map: mapReducer,
     activities: activityReducer,
     quests: questsReducer,
+    rounds: roundsReducer,
 };
 
 export interface GameEditorForm {
@@ -32,6 +35,7 @@ export interface GameEditorForm {
     map?: MapState;
     activities?: GameActivity;
     quests?: GameQuest;
+    rounds?: GameRound;
 }
 
 const reducer: ActionReducer<GameEditorForm> = combineReducers(reducers);

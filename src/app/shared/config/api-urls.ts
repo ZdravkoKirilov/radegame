@@ -34,4 +34,8 @@ export const API_URLS = {
         const base = `${BASE_URL}/games/${gameId}/quests/`;
         return questId ? `${base}${questId}/` : base;
     },
+    ROUNDS: (gameId: number, roundId?: number) => {
+        const base = `${BASE_URL}/games/${gameId}/rounds/`;
+        return roundId ? `${base}${roundId}/` : base;
+    },
 };

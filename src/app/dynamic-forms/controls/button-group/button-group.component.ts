@@ -1,7 +1,7 @@
-import {Component, Input, Output, EventEmitter} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-import {BaseControl} from '../../models/Base.model';
+import { BaseControl } from '../../models/Base.model';
 
 @Component({
     selector: 'rg-button-group',
@@ -15,6 +15,7 @@ export class ButtonGroupComponent {
 
     constructor() {
     }
+
     handleChange({value}) {
         const currentValue = this.form.get(this.data.name).value;
         const currentSet = currentValue ? new Set([...currentValue]) : new Set();
