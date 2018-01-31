@@ -6,8 +6,18 @@ export interface BoardField {
     game?: number;
     income?: FieldResource[];
     cost?: FieldResource[];
-    quests?: number[];
-    activities?: number[];
+    quests?: FieldQuest[];
+    activities?: FieldActivity[];
+}
+
+export interface FieldQuest {
+    id?: number;
+    quest?: number;
+}
+
+export interface FieldActivity {
+    id?: number;
+    activity?: number;
 }
 
 export interface BoardFieldList {

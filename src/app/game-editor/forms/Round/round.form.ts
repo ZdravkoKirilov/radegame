@@ -11,18 +11,18 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
             name: 'name',
             controlType: controlTypes.TEXT_INPUT,
             value: data.name,
-            label: 'Pick resource name',
+            label: 'Round name',
             required: true
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
             value: data.description,
-            label: 'Resource description',
+            label: 'Round description',
             required: false
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_BROWSER,
-            label: 'Choose resource image',
+            label: 'Round image',
             required: false,
             value: data.image
         }, {

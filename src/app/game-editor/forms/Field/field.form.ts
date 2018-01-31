@@ -7,7 +7,7 @@ import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntiti
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 
 export const FIELD_DEF: FormDefinition = (data: BoardField, ent: ConnectedEntities) => {
-    data = data || {income: [], cost: []};
+    data = data || {income: [], cost: [], quests: [], activities: []};
 
     const income = data.income.map((elem: FieldResource): BaseControl => {
         return {
@@ -121,14 +121,14 @@ export const FIELD_DEF: FormDefinition = (data: BoardField, ent: ConnectedEntiti
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Quest pool',
-            value: data.quests,
+            value: data.quests.map(elem => elem.quest),
             options: composeQuestOptions(ent),
         }, {
             name: 'activities',
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Activity pool',
-            value: data.activities,
+            value: data.activities.map(elem => elem.activity),
             options: composeActivityOptions(ent),
         },
     ];
