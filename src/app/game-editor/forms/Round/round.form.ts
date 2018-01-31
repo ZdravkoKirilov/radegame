@@ -5,7 +5,7 @@ import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 import { composeQuestOptions, composeActivityOptions } from '../helpers';
 
 export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
-    data = data || {};
+    data = data || {quests: [], activities: [], condition: []};
     return [
         {
             name: 'name',
@@ -42,21 +42,21 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Condition',
-            value: data.condition,
+            value: data.condition.map(elem => elem.quest),
             options: composeQuestOptions(ent),
         }, {
             name: 'quests',
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Quest pool',
-            value: data.quests,
+            value: data.quests.map(elem => elem.quest),
             options: composeQuestOptions(ent),
         }, {
             name: 'activities',
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Activity pool',
-            value: data.activities,
+            value: data.activities.map(elem => elem.action),
             options: composeActivityOptions(ent),
         },
     ];

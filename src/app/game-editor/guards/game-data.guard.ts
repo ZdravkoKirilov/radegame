@@ -67,6 +67,9 @@ export class GameDataGuard implements CanActivate {
                         if (!data.form.activities.items) {
                             this.store.dispatch(new actions.GetActivitiesAction(gameId));
                         }
+                        if (!data.form.rounds.items) {
+                            this.store.dispatch(new actions.GetRoundsAction(gameId));
+                        }
                         this.hasFired = true;
                     }
                 }),
@@ -78,11 +81,12 @@ export class GameDataGuard implements CanActivate {
                     const hasPaths = !!data.form.map.paths;
                     const hasMap = !!data.form.map.canvas.id;
                     const hasGame = !!data.assets.game;
-                    const hasActivities = !!data.form.activities;
-                    const hasQuests = !!data.form.quests;
+                    const hasActivities = !!data.form.activities.items;
+                    const hasQuests = !!data.form.quests.items;
+                    const hasRounds = !!data.form.rounds.items;
 
                     return hasFactions && hasFields && hasLocations && hasPaths && hasMap
-                        && hasGame && hasResources && hasActivities && hasQuests;
+                        && hasGame && hasResources && hasActivities && hasQuests && hasRounds;
                 }),
                 take(1)
             );

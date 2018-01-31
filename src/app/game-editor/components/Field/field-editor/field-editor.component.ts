@@ -2,9 +2,10 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../../../dynamic-forms/models/Base.model';
-import { BoardField, Resource } from '../../../../game-mechanics/models/index';
+import { BoardField } from '../../../../game-mechanics/models/index';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
 import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
+import { ConnectedEntities } from '../../../../dynamic-forms/models/ConnectedEntities';
 
 @Component({
     selector: 'rg-field-editor',
@@ -17,7 +18,7 @@ export class FieldEditorComponent implements OnInit {
 
     @Input() formDefinition: FormDefinition;
     @Input() selectedItem: BoardField;
-    @Input() resources: Resource[] = [];
+    @Input() connectedEntities: ConnectedEntities;
 
     public form: FormGroup;
     public controls: BaseControl[];
@@ -34,7 +35,7 @@ export class FieldEditorComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.controls = this.formDefinition(this.resources, this.selectedItem);
+        this.controls = this.formDefinition(this.selectedItem, this.connectedEntities);
         this.form = this.cs.toFormGroup(this.controls);
     }
 }

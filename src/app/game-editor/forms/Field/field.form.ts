@@ -2,16 +2,14 @@ import { Resource } from '../../../game-mechanics/models/Resource.model';
 import { BoardField, FieldResource } from '../../../game-mechanics/models/BoardField.model';
 import { BaseControl } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
+import { composeQuestOptions, composeActivityOptions, composeResourceOptions } from '../helpers';
+import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 
-export function FIELD_DEF(resources: Resource[], existingData: BoardField): BaseControl[] {
-    existingData = existingData || {income: [], cost: []};
-    const resOptions = resources.map(elem => {
-        return {
-            label: elem.name,
-            value: elem.id
-        };
-    });
-    const income = existingData.income.map((elem: FieldResource): BaseControl => {
+export const FIELD_DEF: FormDefinition = (data: BoardField, ent: ConnectedEntities) => {
+    data = data || {income: [], cost: []};
+
+    const income = data.income.map((elem: FieldResource): BaseControl => {
         return {
             controlType: controlTypes.NESTED_FORM,
             childControls: [
@@ -20,7 +18,7 @@ export function FIELD_DEF(resources: Resource[], existingData: BoardField): Base
                     controlType: controlTypes.DROPDOWN,
                     label: 'Resource',
                     required: true,
-                    options: resOptions,
+                    options: composeResourceOptions(ent),
                     value: elem.resource
                 }, {
                     name: 'quantity',
@@ -32,7 +30,7 @@ export function FIELD_DEF(resources: Resource[], existingData: BoardField): Base
             ]
         };
     });
-    const cost = existingData.cost.map((elem: FieldResource): BaseControl => {
+    const cost = data.cost.map((elem: FieldResource): BaseControl => {
         return {
             controlType: controlTypes.NESTED_FORM,
             childControls: [
@@ -41,7 +39,7 @@ export function FIELD_DEF(resources: Resource[], existingData: BoardField): Base
                     controlType: controlTypes.DROPDOWN,
                     label: 'Resource',
                     required: true,
-                    options: resOptions,
+                    options: composeResourceOptions(ent),
                     value: elem.resource
                 }, {
                     name: 'quantity',
@@ -57,13 +55,13 @@ export function FIELD_DEF(resources: Resource[], existingData: BoardField): Base
         {
             name: 'name',
             controlType: controlTypes.TEXT_INPUT,
-            value: existingData.name,
+            value: data.name,
             label: 'Pick field name',
             required: true
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
-            value: existingData.description,
+            value: data.description,
             label: 'Field description',
             required: false
         }, {
@@ -71,7 +69,7 @@ export function FIELD_DEF(resources: Resource[], existingData: BoardField): Base
             controlType: controlTypes.IMAGE_BROWSER,
             label: 'Choose field image',
             required: false,
-            value: existingData.image
+            value: data.image
         }, {
             name: 'income',
             controlType: controlTypes.FORM_ARRAY,
@@ -86,7 +84,7 @@ export function FIELD_DEF(resources: Resource[], existingData: BoardField): Base
                         controlType: controlTypes.DROPDOWN,
                         label: 'Resource',
                         required: true,
-                        options: resOptions
+                        options: composeResourceOptions(ent)
                     }, {
                         name: 'quantity',
                         controlType: controlTypes.NUMBER_INPUT,
@@ -109,7 +107,7 @@ export function FIELD_DEF(resources: Resource[], existingData: BoardField): Base
                         controlType: controlTypes.DROPDOWN,
                         label: 'Resource',
                         required: true,
-                        options: resOptions
+                        options: composeResourceOptions(ent)
                     }, {
                         name: 'quantity',
                         controlType: controlTypes.NUMBER_INPUT,
@@ -118,6 +116,20 @@ export function FIELD_DEF(resources: Resource[], existingData: BoardField): Base
                     }
                 ]
             }
-        }
+        }, {
+            name: 'quests',
+            controlType: controlTypes.BUTTON_GROUP,
+            multiple: true,
+            label: 'Quest pool',
+            value: data.quests,
+            options: composeQuestOptions(ent),
+        }, {
+            name: 'activities',
+            controlType: controlTypes.BUTTON_GROUP,
+            multiple: true,
+            label: 'Activity pool',
+            value: data.activities,
+            options: composeActivityOptions(ent),
+        },
     ];
-}
+};

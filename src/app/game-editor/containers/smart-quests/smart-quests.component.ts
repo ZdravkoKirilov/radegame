@@ -12,6 +12,7 @@ import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
 import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
 import { selectFieldsAsArray } from '../../state/reducers/byFeature/fields.reducer';
 import { selectActivities } from '../../state/reducers/byFeature/activity.reducer';
+import { selectRounds } from '../../state/reducers/byFeature/round.reducer';
 
 import {
     SaveQuestAction,
@@ -77,7 +78,8 @@ export class SmartQuestsComponent implements OnInit, OnDestroy {
             this.connectedEntities = {
                 resources: selectResources(state),
                 fields: selectFieldsAsArray(state),
-                activities: selectActivities(state)
+                activities: selectActivities(state),
+                rounds: selectRounds(state),
             };
         });
     }

@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { BoardField, MapPath, MapLocationList, GameMap, Resource, MapLocation } from '../../../../game-mechanics/models/index';
+import { BoardField, MapPath, MapLocationList, GameMap, MapLocation } from '../../../../game-mechanics/models/index';
 import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
+import { ConnectedEntities } from '../../../../dynamic-forms/models/ConnectedEntities';
 
 @Component({
     selector: 'rg-fields',
@@ -36,7 +37,7 @@ export class FieldsComponent {
     @Input() locations: MapLocationList;
     @Input() map: GameMap;
 
-    @Input() resources: Resource[];
+    @Input() connectedEntities: ConnectedEntities;
 
     @Input() pathCreationMode: boolean;
 

@@ -5,7 +5,7 @@
             *ngIf="showFieldEditor"
             [formDefinition]="formDefinition"
             [selectedItem]="selectedField"
-            [resources]="resources"
+            [connectedEntities]="connectedEntities"
             (save)="saveField.emit($event)"
             (cancel)="closeFieldEditor.emit()"
     ></rg-field-editor>

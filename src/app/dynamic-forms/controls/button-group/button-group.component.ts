@@ -16,6 +16,13 @@ export class ButtonGroupComponent {
     constructor() {
     }
 
+    isButtonChecked(value) {
+        if (this.data.value) {
+            return new Set(this.data.value).has(value);
+        }
+        return false;
+    }
+
     handleChange({value}) {
         const currentValue = this.form.get(this.data.name).value;
         const currentSet = currentValue ? new Set([...currentValue]) : new Set();

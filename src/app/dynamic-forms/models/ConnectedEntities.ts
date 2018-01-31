@@ -1,4 +1,4 @@
-import { Resource, BoardField, Faction, Quest, Activity } from '../../game-mechanics/models/index';
+import { Resource, BoardField, Faction, Quest, Activity, Round } from '../../game-mechanics/models/index';
 
 export interface ConnectedEntities {
     resources?: Resource[];
@@ -6,4 +6,5 @@ export interface ConnectedEntities {
     factions?: Faction[];
     quests?: Quest[];
     activities?: Activity[];
+    rounds?: Round[];
 }

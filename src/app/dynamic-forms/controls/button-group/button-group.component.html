@@ -3,9 +3,12 @@
     <div *ngIf="data.multiple">
         <label>{{data.label}}</label>
         <mat-button-toggle-group multiple>
-            <mat-button-toggle *ngFor="let option of data.options" [value]="option.value"
-                               (change)="handleChange($event)">
-                {{option.label}}
+            <mat-button-toggle
+                    *ngFor="let option of data.options"
+                    [value]="option.value"
+                    [checked]="isButtonChecked(option.value)"
+                    (change)="handleChange($event)"
+            >{{option.label}}
             </mat-button-toggle>
         </mat-button-toggle-group>
     </div>
@@ -14,9 +17,12 @@
         <label>{{data.label}}</label>
         <mat-button-toggle-group>
 
-            <mat-button-toggle *ngFor="let option of data.options" [value]="option.value"
-                               (change)="handleChange($event)">
-                {{option.label}}
+            <mat-button-toggle
+                    *ngFor="let option of data.options"
+                    [value]="option.value"
+                    [checked]="isButtonChecked(option.value)"
+                    (change)="handleChange($event)"
+            >{{option.label}}
             </mat-button-toggle>
         </mat-button-toggle-group>
     </div>

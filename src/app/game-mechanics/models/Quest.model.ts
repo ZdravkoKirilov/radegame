@@ -47,6 +47,8 @@ export interface QuestCondition {
     resource?: number;
     action?: number;
     amount?: number;
+    byRound?: number;
+    atRound?: number;
 }
 
 export interface QuestCost {

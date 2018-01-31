@@ -8,10 +8,12 @@ import {
 import { QuestCondition, QuestCost, QuestPenalty, Resource, Activity } from '../../../game-mechanics/models/index';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { composeFieldOptions, composeResourceOptions, composeActivityOptions } from '../helpers';
+import { composeFieldOptions, composeResourceOptions, composeActivityOptions, composeRoundOptions } from '../helpers';
 
 const questCondition_fields: FormDefinition = (data: QuestCondition, ent: ConnectedEntities) => {
     const fields = composeFieldOptions(ent);
+    const rounds = composeRoundOptions(ent);
+
     return [
         {
             controlType: controlTypes.DROPDOWN,
@@ -19,23 +21,49 @@ const questCondition_fields: FormDefinition = (data: QuestCondition, ent: Connec
             name: 'field',
             options: fields,
             value: data.field,
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'By round',
+            name: 'byRound',
+            options: rounds,
+            value: data.byRound,
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'At round',
+            name: 'atRound',
+            options: rounds,
+            value: data.atRound,
         }
     ];
 };
 
 const questCondition_fields_random: FormDefinition = (data: QuestCondition, ent: ConnectedEntities) => {
+    const rounds = composeRoundOptions(ent);
     return [
         {
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Amount of fields',
             name: 'amount',
             value: data.amount,
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'By round',
+            name: 'byRound',
+            options: rounds,
+            value: data.byRound,
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'At round',
+            name: 'atRound',
+            options: rounds,
+            value: data.atRound,
         }
     ];
 };
 
 const questCondition_resource: FormDefinition = (data: QuestCondition, ent: ConnectedEntities) => {
     const resources = composeResourceOptions(ent);
+    const rounds = composeRoundOptions(ent);
     return [
         {
             controlType: controlTypes.DROPDOWN,
@@ -48,23 +76,49 @@ const questCondition_resource: FormDefinition = (data: QuestCondition, ent: Conn
             label: 'Amount',
             name: 'amount',
             value: data.amount
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'By round',
+            name: 'byRound',
+            options: rounds,
+            value: data.byRound,
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'At round',
+            name: 'atRound',
+            options: rounds,
+            value: data.atRound,
         }
     ];
 };
 
 const questCondition_resource_random: FormDefinition = (data: QuestCondition, ent: ConnectedEntities) => {
+    const rounds = composeRoundOptions(ent);
     return [
         {
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Amount',
             name: 'amount',
             value: data.amount
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'By round',
+            name: 'byRound',
+            options: rounds,
+            value: data.byRound,
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'At round',
+            name: 'atRound',
+            options: rounds,
+            value: data.atRound,
         }
     ];
 };
 
 const questCondition_activity: FormDefinition = (data: QuestCondition, ent: ConnectedEntities) => {
     const activities = composeActivityOptions(ent);
+    const rounds = composeRoundOptions(ent);
     return [
         {
             controlType: controlTypes.DROPDOWN,
@@ -73,21 +127,41 @@ const questCondition_activity: FormDefinition = (data: QuestCondition, ent: Conn
             options: activities,
             value: data.action
         }, {
-            controlType: controlTypes.NUMBER_INPUT,
-            label: 'Amount',
-            name: 'amount',
-            value: data.action
+            controlType: controlTypes.DROPDOWN,
+            label: 'By round',
+            name: 'byRound',
+            options: rounds,
+            value: data.byRound,
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'At round',
+            name: 'atRound',
+            options: rounds,
+            value: data.atRound,
         }
     ];
 };
 
 const questCondition_activity_random: FormDefinition = (data: QuestCondition, ent: ConnectedEntities) => {
+    const rounds = composeRoundOptions(ent);
     return [
         {
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Amount',
             name: 'amount',
             value: data.amount
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'By round',
+            name: 'byRound',
+            options: rounds,
+            value: data.byRound,
+        }, {
+            controlType: controlTypes.DROPDOWN,
+            label: 'At round',
+            name: 'atRound',
+            options: rounds,
+            value: data.atRound,
         }
     ];
 };

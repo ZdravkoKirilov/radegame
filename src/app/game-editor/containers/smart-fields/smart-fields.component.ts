@@ -15,11 +15,14 @@ import {
 } from '../../../game-mechanics/models/index';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { FIELD_DEF } from '../../forms/Field/field.form';
+import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 
 import {
     selectFieldEditorToggleState, getSelectedField, selectFieldsAsArray,
     selectFields, selectLastInsertedField
 } from '../../state/reducers/byFeature/fields.reducer';
+import { selectQuests } from '../../state/reducers/byFeature/quest.reducer';
+import { selectActivities } from '../../state/reducers/byFeature/activity.reducer';
 import {
     getSelectedPath,
     selectMapLocations,
@@ -70,7 +73,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
 
     game: Game;
 
-    resources: Resource[];
+    connectedEntities: ConnectedEntities;
 
     constructor(private store: Store<AppState>) {
     }
@@ -80,7 +83,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     }
 
     saveField(data: BoardField) {
-        const payload = { ...data, game: this.game.id };
+        const payload = {...data, game: this.game.id};
         if (this.selectedField) {
             payload.id = this.selectedField.id;
         }
@@ -102,7 +105,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     }
 
     savePath(payload: MapPath) {
-        const path = { ...payload, game: this.game.id };
+        const path = {...payload, game: this.game.id};
         this.store.dispatch(new SaveMapPathAction(path));
     }
 
@@ -136,8 +139,12 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
                     this.locations = selectMapLocations(state);
                     this.game = selectGame(state);
                     this.map = selectMap(state);
-                    this.resources = selectResources(state);
                     this.pathCreationMode = selectPathCreationMode(state);
+                    this.connectedEntities = {
+                        resources: selectResources(state),
+                        activities: selectActivities(state),
+                        quests: selectQuests(state),
+                    };
                 }),
 
             this.store.select(selectLastInsertedField)
