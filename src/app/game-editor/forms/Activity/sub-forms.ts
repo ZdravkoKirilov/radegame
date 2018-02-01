@@ -294,7 +294,7 @@ export const ACTIONS_MAPPING: SubFormMapping = {
     },
     [types.CANCEL_ACTIVITY]: {
         form: ActForm_Paramless,
-        name: 'Cancel action'
+        name: 'Cancel activity'
     }
 };
 

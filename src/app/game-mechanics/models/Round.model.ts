@@ -23,7 +23,7 @@ export interface RoundQuest {
 
 export interface RoundActivity {
     id?: number;
-    action?: number;
+    activity?: number;
 }
 
 export interface RoundList {

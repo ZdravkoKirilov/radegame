@@ -56,7 +56,7 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Activity pool',
-            value: data.activities.map(elem => elem.action),
+            value: data.activities.map(elem => elem.activity),
             options: composeActivityOptions(ent),
         },
     ];

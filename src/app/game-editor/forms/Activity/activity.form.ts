@@ -73,7 +73,7 @@ export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseContro
             name: 'configs',
             controlType: controlTypes.FORM_ARRAY,
             label: 'Action configuration',
-            addButtonText: 'Add action',
+            addButtonText: 'Add activity',
             connectedEntities: ent,
             childControls,
             childTemplate

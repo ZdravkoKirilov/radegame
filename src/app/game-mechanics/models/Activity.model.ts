@@ -18,6 +18,9 @@ export interface Activity {
     image?: string;
     cost?: ActivityCost[];
     configs?: ActivityConfig[];
+    atRound?: number;
+    fromRound?: number;
+    byRound?: number;
 }
 
 export interface ActivityCost {

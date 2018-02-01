@@ -1,3 +1,5 @@
+// could award / penalty etc be just Activity with target SELF ?
+
 export interface Quest {
     id?: number;
     game?: number;
@@ -21,7 +23,7 @@ export interface QuestAward {
     type?: string;
     field?: number;
     resource?: number;
-    action?: number;
+    activity?: number;
     maxAmount?: number;
     minAmount?: number;
 }
@@ -33,7 +35,7 @@ export interface QuestPenalty {
     type?: string;
     field?: number;
     resource?: number;
-    action?: number;
+    activity?: number;
     maxAmount?: number;
     minAmount?: number;
 }
@@ -45,7 +47,7 @@ export interface QuestCondition {
     type?: string;
     field?: number;
     resource?: number;
-    action?: number;
+    activity?: number;
     amount?: number;
     byRound?: number;
     atRound?: number;
@@ -58,7 +60,7 @@ export interface QuestCost {
     type?: string;
     field?: number;
     resource?: number;
-    action?: number;
+    activity?: number;
     amount?: number;
 }
 

@@ -123,9 +123,9 @@ const questCondition_activity: FormDefinition = (data: QuestCondition, ent: Conn
         {
             controlType: controlTypes.DROPDOWN,
             label: 'Activity',
-            name: 'action',
+            name: 'activity',
             options: activities,
-            value: data.action
+            value: data.activity
         }, {
             controlType: controlTypes.DROPDOWN,
             label: 'By round',
@@ -258,6 +258,7 @@ export const QUEST_COST_MAPPING: SubFormMapping = {
 
 const questOutcome_resource: FormDefinition = (data: QuestPenalty, ent: ConnectedEntities) => {
     const resources = composeResourceOptions(ent);
+    const rounds = composeRoundOptions(ent);
     return [{
         controlType: controlTypes.DROPDOWN,
         label: 'Resource',
@@ -274,10 +275,23 @@ const questOutcome_resource: FormDefinition = (data: QuestPenalty, ent: Connecte
         label: 'Max amount',
         name: 'maxAmount',
         value: data.maxAmount,
+    }, {
+        controlType: controlTypes.DROPDOWN,
+        label: 'By round',
+        name: 'byRound',
+        options: rounds,
+        value: data.byRound,
+    }, {
+        controlType: controlTypes.DROPDOWN,
+        label: 'At round',
+        name: 'atRound',
+        options: rounds,
+        value: data.atRound,
     }];
 };
 
 const questOutcome_random: FormDefinition = (data: QuestPenalty, ent: ConnectedEntities) => {
+    const rounds = composeRoundOptions(ent);
     return [{
         controlType: controlTypes.NUMBER_INPUT,
         label: 'Min amount',
@@ -288,6 +302,18 @@ const questOutcome_random: FormDefinition = (data: QuestPenalty, ent: ConnectedE
         label: 'Max amount',
         name: 'maxAmount',
         value: data.maxAmount,
+    }, {
+        controlType: controlTypes.DROPDOWN,
+        label: 'By round',
+        name: 'byRound',
+        options: rounds,
+        value: data.byRound,
+    }, {
+        controlType: controlTypes.DROPDOWN,
+        label: 'At round',
+        name: 'atRound',
+        options: rounds,
+        value: data.atRound,
     }];
 };
 

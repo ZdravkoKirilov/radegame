@@ -8,4 +8,5 @@ export * from './Game.model';
 export * from './Map.model';
 export * from './Quest.model';
 export * from './Round.model';
+export * from './Question.model';
 
