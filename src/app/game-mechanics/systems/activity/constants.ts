@@ -24,6 +24,7 @@ export const types = {
 export const actionModes = {
     HIDDEN: 'HIDDEN',
     TRIGGER: 'TRIGGER',
+    EFFECT: 'EFFECT',
     PASSIVE: 'PASSIVE',
 };
 

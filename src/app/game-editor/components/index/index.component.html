@@ -1,52 +1,79 @@
-<mat-vertical-stepper>
+<div>
+    <a [routerLink]="['quests']">Quests</a>
+</div>
 
-    <mat-step>
-        <ng-template matStepLabel>Rounds</ng-template>
-        <section>
-            <rg-smart-rounds></rg-smart-rounds>
-        </section>
-    </mat-step>
+<div>
+    <a [routerLink]="['factions']">Factions</a>
+</div>
 
-    <mat-step>
-        <ng-template matStepLabel>Quests</ng-template>
-        <section>
-            <rg-smart-quests></rg-smart-quests>
-        </section>
-    </mat-step>
+<div>
+    <a [routerLink]="['activities']">Activities</a>
+</div>
 
-    <mat-step>
-        <ng-template matStepLabel>Game activities</ng-template>
-        <section>
-            <rg-smart-activities></rg-smart-activities>
-        </section>
-    </mat-step>
+<div>
+    <a [routerLink]="['rounds']">Rounds</a>
+</div>
 
-    <mat-step>
-        <ng-template matStepLabel>Fields</ng-template>
-        <section>
-            <rg-smart-fields></rg-smart-fields>
-        </section>
-    </mat-step>
+<div>
+    <a [routerLink]="['resources']">Resources</a>
+</div>
 
-    <mat-step>
-        <ng-template matStepLabel>Resources</ng-template>
-        <section>
-            <rg-smart-resources></rg-smart-resources>
-        </section>
-    </mat-step>
+<div>
+    <a [routerLink]="['fields']">Fields</a>
+</div>
 
-    <mat-step>
-        <ng-template matStepLabel>Factions</ng-template>
-        <section>
-            <rg-smart-factions></rg-smart-factions>
-        </section>
-    </mat-step>
+<router-outlet></router-outlet>
 
-    <!--<mat-step>-->
-    <!--<ng-template matStepLabel>Trivia</ng-template>-->
-    <!--<section>-->
-    <!--<rg-smart-trivia></rg-smart-trivia>-->
-    <!--</section>-->
-    <!--</mat-step>-->
 
-</mat-vertical-stepper>
+<!--<mat-vertical-stepper>-->
+
+<!--<mat-step>-->
+<!--<ng-template matStepLabel>Rounds</ng-template>-->
+<!--<section>-->
+<!--<rg-smart-rounds></rg-smart-rounds>-->
+<!--</section>-->
+<!--</mat-step>-->
+
+<!--<mat-step>-->
+<!--<ng-template matStepLabel>Quests</ng-template>-->
+<!--<section>-->
+<!--<rg-smart-quests></rg-smart-quests>-->
+<!--</section>-->
+<!--</mat-step>-->
+
+<!--<mat-step>-->
+<!--<ng-template matStepLabel>Game activities</ng-template>-->
+<!--<section>-->
+<!--<rg-smart-activities></rg-smart-activities>-->
+<!--</section>-->
+<!--</mat-step>-->
+
+<!--<mat-step>-->
+<!--<ng-template matStepLabel>Fields</ng-template>-->
+<!--<section>-->
+<!--<rg-smart-fields></rg-smart-fields>-->
+<!--</section>-->
+<!--</mat-step>-->
+
+<!--<mat-step>-->
+<!--<ng-template matStepLabel>Resources</ng-template>-->
+<!--<section>-->
+<!--<rg-smart-resources></rg-smart-resources>-->
+<!--</section>-->
+<!--</mat-step>-->
+
+<!--<mat-step>-->
+<!--<ng-template matStepLabel>Factions</ng-template>-->
+<!--<section>-->
+<!--<rg-smart-factions></rg-smart-factions>-->
+<!--</section>-->
+<!--</mat-step>-->
+
+<!--&lt;!&ndash;<mat-step>&ndash;&gt;-->
+<!--&lt;!&ndash;<ng-template matStepLabel>Trivia</ng-template>&ndash;&gt;-->
+<!--&lt;!&ndash;<section>&ndash;&gt;-->
+<!--&lt;!&ndash;<rg-smart-trivia></rg-smart-trivia>&ndash;&gt;-->
+<!--&lt;!&ndash;</section>&ndash;&gt;-->
+<!--&lt;!&ndash;</mat-step>&ndash;&gt;-->
+
+<!--</mat-vertical-stepper>-->

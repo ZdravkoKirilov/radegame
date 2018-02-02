@@ -1,4 +1,4 @@
-// could award / penalty etc be just Activity with target SELF ?
+import { Activity } from './Activity.model';
 
 export interface Quest {
     id?: number;
@@ -6,38 +6,14 @@ export interface Quest {
     name?: string;
     description?: string;
     image?: string;
-    cost?: QuestCost[];
-    award?: QuestAward[];
-    penalty?: QuestPenalty[];
+    cost?: QuestEffect[];
+    award?: QuestEffect[];
+    penalty?: QuestEffect[];
     condition?: QuestCondition[];
 }
 
 export interface QuestList {
     [key: string]: Quest;
-}
-
-export interface QuestAward {
-    id?: number;
-    owner?: number;
-    quest?: number;
-    type?: string;
-    field?: number;
-    resource?: number;
-    activity?: number;
-    maxAmount?: number;
-    minAmount?: number;
-}
-
-export interface QuestPenalty {
-    id?: number;
-    owner?: number;
-    quest?: number;
-    type?: string;
-    field?: number;
-    resource?: number;
-    activity?: number;
-    maxAmount?: number;
-    minAmount?: number;
 }
 
 export interface QuestCondition {
@@ -53,16 +29,12 @@ export interface QuestCondition {
     atRound?: number;
 }
 
-export interface QuestCost {
+export interface QuestEffect {
     id?: number;
-    owner?: number;
-    quest?: number;
-    type?: string;
-    field?: number;
-    resource?: number;
-    activity?: number;
-    amount?: number;
+    activity?: Activity;
 }
 
-export type QuestSubType = QuestCondition | QuestCost | QuestAward | QuestPenalty;
+
+
+
 

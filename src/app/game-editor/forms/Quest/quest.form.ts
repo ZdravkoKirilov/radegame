@@ -1,12 +1,14 @@
-import { Quest, QuestSubType } from '../../../game-mechanics/models/index';
+import { Quest, QuestCondition, QuestEffect } from '../../../game-mechanics/models/index';
 import { BaseControl, Option, SubFormMapping } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
-import { QUEST_CONDITION_MAPPING, QUEST_COST_MAPPING, QUEST_PENALTY_MAPPING, QUEST_AWARD_MAPPING } from './sub-forms';
+import { QUEST_CONDITION_MAPPING } from './sub-forms';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
+import { composeActivityOptions } from '../helpers';
 
 export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
+    const activities = composeActivityOptions(ent);
 
     const conditionOptions: Option[] = Object.keys(QUEST_CONDITION_MAPPING).map(key => {
         return {
@@ -36,91 +38,6 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         ent
     );
 
-
-    const costOptions: Option[] = Object.keys(QUEST_COST_MAPPING).map(key => {
-        return {
-            value: key,
-            label: QUEST_COST_MAPPING[key].name
-        };
-    });
-    costOptions.sort(sortOptions);
-    const costType = {
-        name: 'type',
-        controlType: controlTypes.DROPDOWN,
-        label: 'Quest cost',
-        options: costOptions,
-        value: ''
-    };
-    const cost_childTemplate: BaseControl = {
-        controlType: controlTypes.DYNAMIC_NESTED_FORM,
-        childControls: [costType],
-        childTemplate: costType,
-        subFormMapping: QUEST_COST_MAPPING
-    };
-    const cost_childControls = createDynamicChildren(
-        data.cost,
-        cost_childTemplate,
-        costType,
-        QUEST_COST_MAPPING,
-        ent
-    );
-
-    const penaltyOptions: Option[] = Object.keys(QUEST_PENALTY_MAPPING).map(key => {
-        return {
-            value: key,
-            label: QUEST_PENALTY_MAPPING[key].name
-        };
-    });
-    penaltyOptions.sort(sortOptions);
-    const penaltyType = {
-        name: 'type',
-        controlType: controlTypes.DROPDOWN,
-        label: 'Penalty type',
-        options: penaltyOptions,
-        value: ''
-    };
-    const penalty_childTemplate: BaseControl = {
-        controlType: controlTypes.DYNAMIC_NESTED_FORM,
-        childControls: [penaltyType],
-        childTemplate: penaltyType,
-        subFormMapping: QUEST_PENALTY_MAPPING
-    };
-    const penalty_childControls = createDynamicChildren(
-        data.penalty,
-        penalty_childTemplate,
-        penaltyType,
-        QUEST_PENALTY_MAPPING,
-        ent
-    );
-
-    const awardOptions: Option[] = Object.keys(QUEST_AWARD_MAPPING).map(key => {
-        return {
-            value: key,
-            label: QUEST_AWARD_MAPPING[key].name
-        };
-    });
-    awardOptions.sort(sortOptions);
-    const awardType = {
-        name: 'type',
-        controlType: controlTypes.DROPDOWN,
-        label: 'Award type',
-        options: awardOptions,
-        value: ''
-    };
-    const award_childTemplate: BaseControl = {
-        controlType: controlTypes.DYNAMIC_NESTED_FORM,
-        childControls: [awardType],
-        childTemplate: awardType,
-        subFormMapping: QUEST_AWARD_MAPPING
-    };
-    const award_childControls = createDynamicChildren(
-        data.award,
-        award_childTemplate,
-        awardType,
-        QUEST_AWARD_MAPPING,
-        ent,
-    );
-
     return [
         {
             name: 'name',
@@ -148,32 +65,32 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
             connectedEntities: ent,
             childControls: cond_childControls,
             childTemplate: cond_childTemplate
-        }, {
+        },
+        {
             name: 'cost',
-            controlType: controlTypes.FORM_ARRAY,
+            controlType: controlTypes.BUTTON_GROUP,
             label: 'Quest cost: ',
-            addButtonText: 'Add cost',
-            connectedEntities: ent,
-            childControls: cost_childControls,
-            childTemplate: cost_childTemplate
-        }, {
-            name: 'penalty',
-            controlType: controlTypes.FORM_ARRAY,
-            label: 'Quest penalty: ',
-            addButtonText: 'Add penalty',
-            connectedEntities: ent,
-            childControls: penalty_childControls,
-            childTemplate: penalty_childTemplate
+            options: activities,
+            value: composeValue(data.cost),
+
         }, {
             name: 'award',
-            controlType: controlTypes.FORM_ARRAY,
+            controlType: controlTypes.BUTTON_GROUP,
             label: 'Quest award: ',
-            addButtonText: 'Add award',
-            connectedEntities: ent,
-            childControls: award_childControls,
-            childTemplate: award_childTemplate
+            options: activities,
+            value: composeValue(data.award),
+        }, {
+            name: 'penalty',
+            controlType: controlTypes.BUTTON_GROUP,
+            label: 'Quest penalty: ',
+            options: activities,
+            value: composeValue(data.penalty),
         }
     ];
+}
+
+function composeValue(data: QuestEffect[]) {
+    return data.map(elem => elem.activity);
 }
 
 function sortOptions(a: Option, b: Option) {
@@ -186,21 +103,18 @@ function sortOptions(a: Option, b: Option) {
     return 0;
 }
 
-function createDynamicChildren(
-    data: QuestSubType[],
-    childTemplate: BaseControl,
-    typeSwitcher: BaseControl,
-    formMapping: SubFormMapping,
-    ent: ConnectedEntities,
-): BaseControl[] {
-    return data ? data.map((elem: QuestSubType) => {
+function createDynamicChildren(data: QuestCondition[],
+                               childTemplate: BaseControl,
+                               typeSwitcher: BaseControl,
+                               formMapping: SubFormMapping,
+                               ent: ConnectedEntities): BaseControl[] {
+    return data ? data.map((elem: QuestCondition) => {
         const subform: FormDefinition = formMapping[elem.type].form;
         const childInstance: BaseControl = {
-            ...childTemplate, childControls: [
-                {
-                    ...typeSwitcher,
-                    value: elem.type
-                },
+            ...childTemplate, childControls: [{
+                ...typeSwitcher,
+                value: elem.type
+            },
             ]
         };
         if (subform) {

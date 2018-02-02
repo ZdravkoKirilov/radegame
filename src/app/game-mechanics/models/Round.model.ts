@@ -1,3 +1,5 @@
+import { Quest, Activity } from './index';
+
 export interface Round {
     id?: number;
     game?: number;
@@ -13,17 +15,17 @@ export interface Round {
 
 export interface RoundCondition {
     id?: number;
-    quest?: number;
+    quest?: Quest;
 }
 
 export interface RoundQuest {
     id?: number;
-    quest?: number;
+    quest?: Quest;
 }
 
 export interface RoundActivity {
     id?: number;
-    activity?: number;
+    activity?: Activity;
 }
 
 export interface RoundList {
