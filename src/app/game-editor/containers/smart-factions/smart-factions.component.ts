@@ -3,16 +3,18 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 import { Faction, Game, Resource } from '../../../game-mechanics/models/index';
+import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { AppState } from '../../../core/state/index';
 import {
-    selectGame} from '../../state/reducers/byFeature/assets.reducer';
+    selectGame
+} from '../../state/reducers/byFeature/assets.reducer';
 import {
     SaveFactionAction,
     DeleteFactionAction,
     ChangeSelectedFactionAction,
     ToggleEditorAction
 } from '../../state/actions/byFeature/faction.action';
-import { FormDefinition} from '../../../dynamic-forms/models/FormDefinition.model';
+import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { FACTION_DEF } from '../../forms/Faction/faction.form';
 import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
 import { getSelectedFaction, selectFactionEditorState, selectFactions } from '../../state/reducers/byFeature/factions.reducer';
@@ -26,7 +28,7 @@ export class SmartFactionsComponent implements OnInit, OnDestroy {
 
     public factions: Faction[];
     public selectedItem: Faction;
-    public resources: Resource[];
+    public connectedEntities: ConnectedEntities;
     public showEditor: boolean;
     public game: Game;
     public formDefinition: FormDefinition = FACTION_DEF;
@@ -67,11 +69,13 @@ export class SmartFactionsComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.storeSub = this.store.subscribe(state => {
-            this.resources = selectResources(state);
             this.factions = selectFactions(state);
             this.selectedItem = getSelectedFaction(state);
             this.showEditor = selectFactionEditorState(state);
             this.game = selectGame(state);
+            this.connectedEntities = {
+                resources: selectResources(state),
+            };
         });
     }
 

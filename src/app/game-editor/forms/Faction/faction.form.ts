@@ -1,17 +1,13 @@
-import { Resource } from '../../../game-mechanics/models/Resource.model';
-import { Faction, FactionResource } from '../../../game-mechanics/models/Faction.model';
+import { Faction, FactionResource } from '../../../game-mechanics/models/index';
 import { BaseControl } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
+import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { composeResourceOptions } from '../helpers';
 
-export function FACTION_DEF(resources: Resource[], data: Faction = {}): BaseControl[] {
+export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[] {
     data = data || {resources: [], income: []};
 
-    const resOptions = resources.map(elem => {
-        return {
-            label: elem.name,
-            value: elem.id
-        };
-    });
+    const resOptions = composeResourceOptions(ent);
     const toNestedForm = (elem: FactionResource): BaseControl => {
         return {
             controlType: controlTypes.NESTED_FORM,

@@ -8,4 +8,5 @@ export * from './byFeature/resource.action';
 export * from './byFeature/activity.action';
 export * from './byFeature/quest.action';
 export * from './byFeature/round.action';
+export * from './byFeature/trivia.action';
 

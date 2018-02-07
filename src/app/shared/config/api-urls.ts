@@ -38,4 +38,8 @@ export const API_URLS = {
         const base = `${BASE_URL}/games/${gameId}/rounds/`;
         return roundId ? `${base}${roundId}/` : base;
     },
+    TRIVIA: (gameId: number, triviaId?: number) => {
+        const base = `${BASE_URL}/games/${gameId}/trivia/`;
+        return triviaId ? `${base}${triviaId}/` : base;
+    },
 };

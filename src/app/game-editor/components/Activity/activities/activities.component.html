@@ -9,15 +9,15 @@
     </rg-activities-list>
 
     <div *ngIf="!showEditor" class="buttons-toolbar">
-        <button mat-raised-button color="primary" class="create-new-btn" (click)="showActivityEditor()">
+        <button mat-raised-button color="primary" class="create-new-btn" (click)="showItemEditor()">
             <mat-icon>add</mat-icon>
             <span>Create new game activity</span>
         </button>
     </div>
 
     <rg-activity-editor *ngIf="showEditor" [formDefinition]="formDefinition" [selectedItem]="selectedItem"
-                        [resources]="resources"
+                        [connectedEntities]="connectedEntities"
                         (save)="saveItem.emit($event)"
-                        (cancel)="hideActivityEditor()">
+                        (cancel)="hideItemEditor()">
     </rg-activity-editor>
 </div>

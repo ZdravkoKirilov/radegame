@@ -5,6 +5,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AppState } from '../../../core/state/index';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { Activity, Game, Resource } from '../../../game-mechanics/models/index';
+import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { ACTIVITY_DEF } from '../../forms/Activity/activity.form';
 import { selectActivities, selectActivityEditorState, getSelectedActivity } from '../../state/reducers/byFeature/activity.reducer';
 import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
@@ -30,7 +31,7 @@ export class SmartActivitiesComponent implements OnInit, OnDestroy {
     public showEditor: boolean;
     public items: Activity[];
     public selectedItem: Activity;
-    public resources: Resource[];
+    public connectedEntities: ConnectedEntities;
 
     constructor(private store: Store<AppState>) {
     }
@@ -70,7 +71,9 @@ export class SmartActivitiesComponent implements OnInit, OnDestroy {
             this.showEditor = selectActivityEditorState(state);
             this.selectedItem = getSelectedActivity(state);
             this.game = selectGame(state);
-            this.resources = selectResources(state);
+            this.connectedEntities = {
+                resources: selectResources(state),
+            };
         });
     }
 

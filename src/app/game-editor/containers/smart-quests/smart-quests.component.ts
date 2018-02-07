@@ -42,9 +42,6 @@ export class SmartQuestsComponent implements OnInit, OnDestroy {
 
     saveItem(data: Quest) {
         const payload = {...data, game: this.game.id};
-        if (this.selectedItem) {
-            payload.id = this.selectedItem.id;
-        }
         this.store.dispatch(new SaveQuestAction(payload));
         this.store.dispatch(new ToggleQuestEditorAction(false));
     }

@@ -1,4 +1,5 @@
 export const controlTypes = {
+
     TEXT_INPUT: 'TEXT_INPUT',
     NUMBER_INPUT: 'NUMBER_INPUT',
     IMAGE_BROWSER: 'IMAGE_BROWSER',

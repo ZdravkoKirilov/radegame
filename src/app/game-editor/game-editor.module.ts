@@ -53,6 +53,10 @@ import { SmartRoundsComponent } from './containers/smart-rounds/smart-rounds.com
 import { RoundsComponent } from './components/Round/rounds/rounds.component';
 import { RoundsListComponent } from './components/Round/rounds-list/rounds-list.component';
 import { RoundEditorComponent } from './components/Round/round-editor/round-editor.component';
+import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
+import { TriviaComponent } from './components/Trivia/trivia/trivia.component';
+import { TriviaListComponent } from './components/Trivia/trivia-list/trivia-list.component';
+import { TriviaEditorComponent } from './components/Trivia/trivia-editor/trivia-editor.component';
 
 @NgModule({
     imports: [
@@ -109,7 +113,11 @@ import { RoundEditorComponent } from './components/Round/round-editor/round-edit
         SmartRoundsComponent,
         RoundsComponent,
         RoundsListComponent,
-        RoundEditorComponent
+        RoundEditorComponent,
+        SmartTriviaComponent,
+        TriviaComponent,
+        TriviaListComponent,
+        TriviaEditorComponent
     ]
 })
 export class GameEditorModule {

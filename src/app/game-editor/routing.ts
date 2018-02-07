@@ -8,6 +8,7 @@ import { SmartResourcesComponent } from './containers/smart-resources/smart-reso
 import { SmartFieldsComponent } from './containers/smart-fields/smart-fields.component';
 import { SmartRoundsComponent } from './containers/smart-rounds/smart-rounds.component';
 import { SmartActivitiesComponent } from './containers/smart-activities/smart-activities.component';
+import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
 import { ROUTER_PARAMS } from '../shared/config/config';
 import { GamesListResolverService } from './resolvers/games-list-resolver.service';
 import * as fromGuards from './guards';
@@ -32,6 +33,10 @@ export const routes: Routes = [
             title: 'Radegast: setup a new game'
         },
         children: [
+            {
+                path: 'trivia',
+                component: SmartTriviaComponent
+            },
             {
                 path: 'quests',
                 component: SmartQuestsComponent

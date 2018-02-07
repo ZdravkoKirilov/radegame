@@ -2,7 +2,7 @@ import { BaseControl, Option } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 import { Activity, ActivityConfig } from '../../../game-mechanics/models/Activity.model';
 import { ACTIONS_MAPPING } from './sub-forms';
-import { types } from '../../../game-mechanics/systems/activity/constants';
+import { types } from '../../../game-mechanics/models/Activity.model';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 

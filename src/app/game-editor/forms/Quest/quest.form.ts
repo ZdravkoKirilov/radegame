@@ -7,7 +7,12 @@ import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.mod
 import { composeActivityOptions } from '../helpers';
 
 export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl[] {
-    data = data || {};
+    data = data || <Quest>{
+        penalty: [],
+        condition: [],
+        cost: [],
+        award: []
+    };
     const activities = composeActivityOptions(ent);
 
     const conditionOptions: Option[] = Object.keys(QUEST_CONDITION_MAPPING).map(key => {
@@ -38,34 +43,38 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         ent
     );
 
-    return [
-        {
-            name: 'name',
-            controlType: controlTypes.TEXT_INPUT,
-            value: data.name,
-            label: 'Quest name',
-            required: true
-        }, {
-            name: 'description',
-            controlType: controlTypes.TEXT_INPUT,
-            value: data.description,
-            label: 'Quest description',
-            required: false
-        }, {
-            name: 'image',
-            controlType: controlTypes.IMAGE_BROWSER,
-            label: 'Quest image',
-            required: false,
-            value: data.image
-        }, {
-            name: 'condition',
-            controlType: controlTypes.FORM_ARRAY,
-            label: 'Quest condition: ',
-            addButtonText: 'Add condition',
-            connectedEntities: ent,
-            childControls: cond_childControls,
-            childTemplate: cond_childTemplate
-        },
+    return [{
+        controlType: controlTypes.NUMBER_INPUT,
+        hidden: true,
+        name: 'id',
+        value: data.id,
+    }, {
+        name: 'name',
+        controlType: controlTypes.TEXT_INPUT,
+        value: data.name,
+        label: 'Quest name',
+        required: true
+    }, {
+        name: 'description',
+        controlType: controlTypes.TEXT_INPUT,
+        value: data.description,
+        label: 'Quest description',
+        required: false
+    }, {
+        name: 'image',
+        controlType: controlTypes.IMAGE_BROWSER,
+        label: 'Quest image',
+        required: false,
+        value: data.image
+    }, {
+        name: 'condition',
+        controlType: controlTypes.FORM_ARRAY,
+        label: 'Quest condition: ',
+        addButtonText: 'Add condition',
+        connectedEntities: ent,
+        childControls: cond_childControls,
+        childTemplate: cond_childTemplate
+    },
         {
             name: 'cost',
             controlType: controlTypes.BUTTON_GROUP,

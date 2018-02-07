@@ -1,11 +1,6 @@
 import { SubFormMapping } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
-import {
-    QUEST_CONDITIONS as conditions,
-    QUEST_COSTS as costs,
-    QUEST_OUTCOMES as outcomes
-} from '../../../game-mechanics/systems/quest/constants';
-import { QuestCondition, QuestEffect, Resource, Activity } from '../../../game-mechanics/models/index';
+import { QuestCondition, Resource, Activity, QUEST_CONDITIONS as conditions } from '../../../game-mechanics/models/index';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { composeFieldOptions, composeResourceOptions, composeActivityOptions, composeRoundOptions } from '../helpers';

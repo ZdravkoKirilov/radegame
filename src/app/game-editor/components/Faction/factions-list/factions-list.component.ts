@@ -1,6 +1,7 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Faction } from '../../../../game-mechanics/models/Faction.model';
+import { ListBase } from '../../mixins/list.base';
 
 @Component({
     selector: 'rg-factions-list',
@@ -8,12 +9,5 @@ import { Faction } from '../../../../game-mechanics/models/Faction.model';
     styleUrls: ['./factions-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class FactionsListComponent {
-    @Input() items: Faction[];
-
-    @Output() editItem: EventEmitter<Faction> = new EventEmitter();
-    @Output() removeItem: EventEmitter<Faction> = new EventEmitter();
-
-    constructor() {
-    }
+export class FactionsListComponent extends ListBase<Faction> {
 }

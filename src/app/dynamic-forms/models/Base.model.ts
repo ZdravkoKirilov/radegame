@@ -20,6 +20,7 @@ export interface BaseControl {
     label?: string;
     errorMessage?: string;
     required?: boolean;
+    hidden?: boolean;
     controlType?: string;
     options?: Option[];
     childControls?: BaseControl[];

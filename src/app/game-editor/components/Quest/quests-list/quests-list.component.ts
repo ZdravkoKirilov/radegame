@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Quest } from '../../../../game-mechanics/models/index';
+import { ListBase } from '../../mixins/list.base';
 
 @Component({
     selector: 'rg-quests-list',
@@ -7,14 +8,6 @@ import { Quest } from '../../../../game-mechanics/models/index';
     styleUrls: ['./quests-list.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QuestsListComponent {
-
-    @Input() items: Quest[];
-
-    @Output() editItem: EventEmitter<Quest> = new EventEmitter();
-    @Output() removeItem: EventEmitter<Quest> = new EventEmitter();
-
-    constructor() {
-    }
+export class QuestsListComponent extends ListBase<Quest> {
 
 }

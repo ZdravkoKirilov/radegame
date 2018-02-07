@@ -1,19 +1,12 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Round } from '../../../../game-mechanics/models/index';
+import { ListBase } from '../../mixins/list.base';
 
 @Component({
     selector: 'rg-rounds-list',
     templateUrl: './rounds-list.component.html',
-    styleUrls: ['./rounds-list.component.scss']
+    styleUrls: ['./rounds-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class RoundsListComponent {
-
-    @Input() items: Round[];
-
-    @Output() editItem: EventEmitter<Round> = new EventEmitter();
-    @Output() removeItem: EventEmitter<Round> = new EventEmitter();
-
-    constructor() {
-    }
-
+export class RoundsListComponent extends ListBase<Round> {
 }

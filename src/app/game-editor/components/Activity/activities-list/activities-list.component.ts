@@ -1,19 +1,13 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Activity } from '../../../../game-mechanics/models/index';
+import { ListBase } from '../../mixins/list.base';
 
 @Component({
-  selector: 'rg-activities-list',
-  templateUrl: './activities-list.component.html',
-  styleUrls: ['./activities-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'rg-activities-list',
+    templateUrl: './activities-list.component.html',
+    styleUrls: ['./activities-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class GameActionsListComponent {
-
-  @Input() items: Activity[];
-
-  @Output() editItem: EventEmitter<Activity> = new EventEmitter();
-  @Output() removeItem: EventEmitter<Activity> = new EventEmitter();
-
-  constructor() { }
+export class GameActionsListComponent extends ListBase<Activity> {
 
 }

@@ -1,8 +1,9 @@
 import { BaseControl, Option, SubFormMapping } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
-import { actionModes, targetTypes, types } from '../../../game-mechanics/systems/activity/constants';
+import { targetTypes} from '../../../game-mechanics/models/Activity.model';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { Resource, ActivityConfig } from '../../../game-mechanics/models/index';
+import { actionModes, types } from '../../../game-mechanics/models/Activity.model';
 
 export const ActForm_WithBonus = (data: ActivityConfig = {}, ent: ConnectedEntities): BaseControl[] => {
     const resources: Option[] = ent.resources.map((elem: Resource): Option => ({label: elem.name, value: elem.id}));

@@ -1,4 +1,4 @@
-<div *ngIf="form" [formGroup]="form" class="df-number-input">
+<div *ngIf="form" [formGroup]="form" [ngClass]="{'df-number-input': true, 'hidden': data.hidden}">
 
     <mat-form-field>
         <mat-placeholder *ngIf="data.label">{{data.label}}</mat-placeholder>

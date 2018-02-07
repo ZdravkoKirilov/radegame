@@ -12,7 +12,8 @@ import {
     GameMap,
     Activity,
     Quest,
-    Round
+    Round,
+    Trivia
 } from '../../game-mechanics/models/index';
 import { API_URLS } from '../../shared/config/api-urls';
 import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
@@ -128,6 +129,25 @@ export class GameEditService {
 
     deleteRound(data: Round): Observable<any> {
         return this.http.delete(API_URLS.ROUNDS(data.game, data.id));
+    }
+
+    getTrivias(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.TRIVIA(gameId));
+    }
+
+    saveTrivia(data: Trivia): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = {headers: new HttpHeaders({})};
+
+        if (data.id) {
+            return this.http.patch(API_URLS.TRIVIA(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.TRIVIA(data.game), formData, options);
+        }
+    }
+
+    deleteTrivia(data: Trivia): Observable<any> {
+        return this.http.delete(API_URLS.TRIVIA(data.game, data.id));
     }
 
     saveMap(data: GameMap): Observable<any> {
