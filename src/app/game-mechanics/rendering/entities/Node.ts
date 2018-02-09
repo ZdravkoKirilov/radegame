@@ -1,5 +1,5 @@
 import { Subject } from 'rxjs/Subject';
-import { loaders, Sprite } from 'pixi.js';
+import { loaders, Sprite, Graphics, Point, Polygon } from 'pixi.js';
 
 import { MapLocation } from '../../models/Map.model';
 import { ISpriteComponent } from './SpriteComponent';
@@ -7,6 +7,9 @@ import { ISpriteComponent } from './SpriteComponent';
 export class MapNode implements ISpriteComponent {
     private dragging = false;
     private hasMoved = false;
+    private hovered = false;
+    private _selected = false;
+
 
     loaded: Subject<Sprite> = new Subject();
     change: Subject<any> = new Subject();
@@ -15,12 +18,14 @@ export class MapNode implements ISpriteComponent {
 
     loader: loaders.Loader;
     sprite: Sprite;
+    graphics: Graphics;
     image: string;
     _data: MapLocation;
 
     constructor(image: string, data: MapLocation) {
         this.image = image;
         this.loader = new loaders.Loader();
+        this.graphics = new Graphics();
         this.data = data;
         if (this.loader.resources[image]) {
             this.onImageLoaded();
@@ -51,7 +56,15 @@ export class MapNode implements ISpriteComponent {
             })
             .on('pointerup', onDragEnd)
             // .on('pointerupoutside', onDragEnd)
-            .on('pointermove', onDragMove);
+            .on('pointermove', onDragMove)
+            .on('mouseover', () => {
+                this.hovered = true;
+                this.update();
+            })
+            .on('mouseout', () => {
+                this.hovered = false;
+                this.update();
+            });
     }
 
     private onDragStart = (event) => {
@@ -121,12 +134,45 @@ export class MapNode implements ISpriteComponent {
         return 0;
     }
 
+    get selected() {
+        return this._selected;
+    }
+
+    set selected(value: boolean) {
+        this._selected = value;
+        this.update();
+    }
+
     private update = (): void => {
         if (this.sprite) {
             this.sprite.position.set(this.data.left, this.data.top);
             this.sprite.width = this.data.width;
             this.sprite.height = this.data.height;
+            this.togglePolygon();
             this.change.next();
         }
     };
+
+    private togglePolygon() {
+        this.graphics.clear();
+        if (this.hovered || this.selected) {
+            const padding = 15;
+            const x1 = this.left;
+            const y1 = this.top;
+            const x2 = this.left + this.width;
+            const y2 = this.top + this.height;
+            const polygon = [
+                new Point(x1 - padding, y1 - padding),
+                new Point(x2 + padding, y1 - padding),
+                new Point(x2 + padding, y2 + padding),
+                new Point(x1 - padding, y2 + padding),
+                new Point(x1 - padding, y1 - padding),
+            ];
+            this.graphics.lineStyle(1, 0x3333FF, .3);
+            this.graphics.hitArea = new Polygon(polygon);
+            this.graphics.moveTo(0, 0);
+            this.graphics.drawPolygon(polygon);
+            this.change.next();
+        }
+    }
 }

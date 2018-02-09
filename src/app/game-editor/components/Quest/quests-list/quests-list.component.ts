@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Quest } from '../../../../game-mechanics/models/index';
-import { ListBase } from '../../mixins/list.base';
+import { ListBase } from '../../../mixins/list.base';
 
 @Component({
     selector: 'rg-quests-list',

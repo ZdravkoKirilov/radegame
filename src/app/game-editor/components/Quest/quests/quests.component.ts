@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 
 import { Quest } from '../../../../game-mechanics/models/index';
-import { IndexBase } from '../../mixins/index.base';
+import { IndexBase } from '../../../mixins/index.base';
 
 @Component({
     selector: 'rg-quests',

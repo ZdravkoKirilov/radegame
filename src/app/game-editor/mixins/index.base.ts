@@ -1,7 +1,7 @@
 import { Input, Output, EventEmitter } from '@angular/core';
 
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { FormDefinition } from '../../dynamic-forms/models/FormDefinition.model';
+import { ConnectedEntities } from '../../dynamic-forms/models/ConnectedEntities';
 
 export abstract class IndexBase<T> {
 

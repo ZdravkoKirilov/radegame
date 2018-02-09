@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { BoardField, MapLocation, MapPath, GameMap } from '../../../../../game-mechanics/models/index';
+import { BoardField, MapLocation, MapPath, GameMap } from '../../../../../game-mechanics/models';
 import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
 import { KEYCODES } from '../../../../utils/config';
 import { propHasChanged } from '../../../../../shared/utils/propsCheck';

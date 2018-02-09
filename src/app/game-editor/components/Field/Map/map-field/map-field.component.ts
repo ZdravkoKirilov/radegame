@@ -1,8 +1,9 @@
 import { Component, OnInit, OnDestroy, OnChanges, Input, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 
-import { BoardField, MapLocation } from '../../../../../game-mechanics/models/index';
+import { BoardField, MapLocation } from '../../../../../game-mechanics/models';
 import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
 import { DEFAULT_MAP_LOCATION } from '../../../../utils/config';
+import { propHasNewValue } from '../../../../../shared/utils/propsCheck';
 
 @Component({
     selector: 'rg-map-field',
@@ -13,6 +14,7 @@ import { DEFAULT_MAP_LOCATION } from '../../../../utils/config';
 export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
     @Input() data: BoardField;
     @Input() mapLocation: MapLocation;
+    @Input() selected = false;
 
     constructor(private scr: SceneRenderService) {
     }
@@ -36,10 +38,12 @@ export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
     }
 
     ngOnChanges(c: SimpleChanges) {
-        const loc = c.mapLocation;
-        if (loc && loc.currentValue && loc.currentValue !== loc.previousValue) {
-            const locValue: MapLocation = loc.currentValue;
+        if (propHasNewValue(c, 'mapLocation')) {
+            const locValue: MapLocation = c.mapLocation.currentValue;
             this.scr.saveElement(this.data.image, locValue, locValue.id);
+        }
+        if (propHasNewValue(c, 'selected') && c.selected.currentValue === true) {
+            this.scr.changeSelectedNode(this.mapLocation.id, c.selected.currentValue);
         }
     }
 }

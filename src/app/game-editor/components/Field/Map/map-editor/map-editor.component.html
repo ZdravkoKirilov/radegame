@@ -1,26 +1,31 @@
 <div [ngClass]="{'hidden': hidden}">
 
     <rg-map-toolbar
+            [pathCreationMode]="pathCreationMode"
+            [selectedPath]="selectedPath"
+            [selectedField]="selectedField"
+            [hasBackground]="!!map.image"
             (addBackground)="addBackground.emit($event)"
             (removeBackground)="removeBackground.emit()"
             (addField)="handleAddField()"
+            (deleteField)="deleteField.emit($event)"
+            (editField)="editField.emit($event)"
             (enterPathCreationMode)="setPathCreation.emit(true)"
             (exitPathCreationMode)="setPathCreation.emit(false)"
-            [pathCreationMode]="pathCreationMode"
+            (deletePath)="deletePath.emit($event)"
     ></rg-map-toolbar>
 
     <div class="canvas-wrapper" #canvasWrapper tabindex="0">
     </div>
 
     <ng-container>
-
         <rg-map-field
                 *ngFor="let field of fields"
                 [data]="field"
                 [mapLocation]="mapLocations[field.id]"
+                [selected]="selectedField && selectedField.id === field.id"
         >
         </rg-map-field>
-
     </ng-container>
 
     <ng-container>
@@ -28,6 +33,7 @@
                 *ngFor="let path of mapPaths"
                 [data]="path"
                 [mapLocations]="mapLocations"
+                [selected]="selectedPath && selectedPath.id === path.id"
         >
         </rg-map-path>
     </ng-container>

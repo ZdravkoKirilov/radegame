@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
 import { Faction } from '../../../../game-mechanics/models/index';
-import { IndexBase } from '../../mixins/index.base';
+import { IndexBase } from '../../../mixins/index.base';
 
 @Component({
     selector: 'rg-factions',

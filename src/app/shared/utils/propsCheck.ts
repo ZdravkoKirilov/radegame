@@ -1,4 +1,4 @@
-import {SimpleChanges} from '@angular/core';
+import { SimpleChanges } from '@angular/core';
 
 export const propHasChanged = (c: SimpleChanges, prop: string): boolean => {
     return c[prop] && c[prop].currentValue !== c[prop].previousValue;
@@ -9,5 +9,5 @@ export const propHasNewValue = (c: SimpleChanges, prop: string): boolean => {
 };
 
 export const propHasValue = (c: SimpleChanges, prop: string): boolean => {
-    return c[prop] && c[prop].currentValue;
+    return c[prop] && (c[prop].currentValue || c[prop].currentValue === false);
 };

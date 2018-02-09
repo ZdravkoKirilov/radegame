@@ -5,7 +5,7 @@ import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
 import { WindowRefService } from '../../shared/services/window-ref.service';
 import { SpriteComponent } from './entities/SpriteComponent';
 import { MapNode } from './entities/Node';
-import { MapLocation, MapPath } from '../models/index';
+import { BoardField, MapLocation, MapPath } from '../models';
 import { Path } from './entities/Path';
 
 @Injectable()
@@ -20,6 +20,9 @@ export class SceneRenderService {
     private nodes: { [key: string]: MapNode } = {};
     private paths: { [key: string]: Path } = {};
     private initialized = false;
+
+    private selectedNode: number;
+    private selectedPath: number;
 
     public nodeMoved: Subject<MapLocation> = new Subject();
     public nodeSelected: Subject<MapLocation> = new Subject();
@@ -49,23 +52,26 @@ export class SceneRenderService {
         this.initialized = true;
     }
 
-    saveElement(image: string, data: MapLocation, id: number) {
+    saveElement(image: string, data: MapLocation, id: number): MapNode {
         if (this.initialized) {
+            let node;
             if (id in this.nodes) {
-                const node = this.nodes[id];
+                node = this.nodes[id];
                 node.data = data;
                 this.render();
             } else {
-                const node = new MapNode(image, data);
+                node = new MapNode(image, data);
                 this.nodes[id] = node;
-                this.attachElementEvents(node);
+                this.attachNodeEvents(node);
             }
+            return node;
         }
     }
 
-    attachElementEvents(node: MapNode) {
+    attachNodeEvents(node: MapNode) {
         node.loaded.map(sprite => {
             this.nodesStage.addChild(sprite);
+            this.nodesStage.addChild(node.graphics);
             this.render();
         }).subscribe();
         node.change.subscribe(() => {
@@ -85,21 +91,23 @@ export class SceneRenderService {
             if (node) {
                 delete this.nodes[id];
                 this.nodesStage.removeChild(node.sprite);
+                this.nodesStage.removeChild(node.graphics);
                 this.render();
             }
         }
     }
 
-    savePath(data: MapPath, id: number) {
+    savePath(data: MapPath, id: number): Path {
         if (this.initialized) {
             const from: MapNode = this.nodes[data.fromLoc];
             const to: MapNode = this.nodes[data.toLoc];
             if (from && to && !(id in this.paths)) {
                 const path = new Path(data, from, to);
                 this.paths[id] = path;
-                this.pathsStage.addChild(path.elem);
+                this.pathsStage.addChild(path.graphics);
                 this.attachPathEvents(path);
                 this.render();
+                return path;
             } else {
                 console.error('Possible bug in .savePath');
             }
@@ -110,6 +118,9 @@ export class SceneRenderService {
         path.select.subscribe((data: MapPath) => {
             this.pathSelected.next(data);
         });
+        path.change.subscribe(() => {
+            this.render();
+        });
     }
 
     removePath(id) {
@@ -117,7 +128,7 @@ export class SceneRenderService {
             const path: Path = this.paths[id];
             if (path) {
                 delete this.paths[id];
-                this.pathsStage.removeChild(path.elem);
+                this.pathsStage.removeChild(path.graphics);
                 this.render();
             }
         }
@@ -138,6 +149,35 @@ export class SceneRenderService {
                 this.backgroundStage.removeChild(this.backgroundSprite);
                 this.render();
             }
+        }
+    }
+
+    changeSelectedNode(id?: number, selected?: boolean) {
+
+        if (this.selectedNode !== id) {
+            const current = this.nodes[this.selectedNode];
+            if (current) {
+                current.selected = false;
+            }
+            this.selectedNode = id;
+        }
+        if (id && this.nodes[id]) {
+            this.nodes[id].selected = selected;
+            this.changeSelectedPath(null, false);
+        }
+    }
+
+    changeSelectedPath(id?: number, selected?: boolean) {
+        if (this.selectedPath !== id) {
+            const current = this.paths[this.selectedPath];
+            if (current) {
+                current.selected = false;
+            }
+            this.selectedPath = id;
+        }
+        if (id && this.paths[id]) {
+            this.paths[id].selected = selected;
+            this.changeSelectedNode(null, false);
         }
     }
 

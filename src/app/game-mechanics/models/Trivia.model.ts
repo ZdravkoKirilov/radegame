@@ -1,7 +1,8 @@
 import { Activity } from './index';
 
 export const TRIVIA_MODES = {
-    STATIC: 'Static'
+    STATIC: 'Static',
+    OPEN: 'OPEN',
 };
 export type TriviaModes = typeof TRIVIA_MODES.STATIC;
 
