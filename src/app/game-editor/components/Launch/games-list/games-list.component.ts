@@ -15,6 +15,6 @@ export class GamesListComponent {
     }
 
     navigateToGame(gameId: number) {
-        this.router.navigateByUrl(`games/editor/${gameId}`);
+        this.router.navigateByUrl(`games/${gameId}/editor`);
     }
 }

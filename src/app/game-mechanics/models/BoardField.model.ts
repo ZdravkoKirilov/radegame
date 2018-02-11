@@ -1,9 +1,10 @@
-export interface BoardField {
+export interface Field {
     id?: number;
     name?: string;
     description?: string;
     image?: any;
     game?: number;
+    stage?: number;
     income?: FieldResource[];
     cost?: FieldResource[];
     quests?: FieldQuest[];
@@ -20,8 +21,8 @@ export interface FieldActivity {
     activity?: number;
 }
 
-export interface BoardFieldList {
-    [key: string]: BoardField;
+export interface FieldList {
+    [key: string]: Field;
 }
 
 export interface FieldResource {

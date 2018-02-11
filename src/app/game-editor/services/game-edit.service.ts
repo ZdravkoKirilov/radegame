@@ -3,7 +3,7 @@ import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
-    BoardField,
+    Field,
     Faction,
     Resource,
     Game,
@@ -13,7 +13,8 @@ import {
     Activity,
     Quest,
     Round,
-    Trivia
+    Trivia,
+    Stage,
 } from '../../game-mechanics/models/index';
 import { API_URLS } from '../../shared/config/api-urls';
 import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
@@ -72,6 +73,25 @@ export class GameEditService {
 
     getActivities(gameId: number): Observable<any> {
         return this.http.get(API_URLS.ACTIVITIES(gameId));
+    }
+
+    saveStage(data: Stage): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = {headers: new HttpHeaders({})};
+
+        if (data.id) {
+            return this.http.patch(API_URLS.STAGES(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.STAGES(data.game), formData, options);
+        }
+    }
+
+    deleteStage(data: Stage): Observable<any> {
+        return this.http.delete(API_URLS.STAGES(data.game, data.id));
+    }
+
+    getStages(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.STAGES(gameId));
     }
 
     getResources(gameId: number): Observable<any> {
@@ -177,7 +197,7 @@ export class GameEditService {
         return this.http.get(API_URLS.LOCATIONS(gameId));
     }
 
-    saveBoardField(data: BoardField): Observable<any> {
+    saveBoardField(data: Field): Observable<any> {
         const formData: any = toMultipartFormData(data);
         const options = {headers: new HttpHeaders({})};
         if (data.id) {
@@ -187,7 +207,7 @@ export class GameEditService {
         }
     }
 
-    deleteBoardField(data: BoardField): Observable<any> {
+    deleteBoardField(data: Field): Observable<any> {
         return this.http.delete(API_URLS.FIELDS(data.game, data.id));
     }
 

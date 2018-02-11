@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, OnChanges, Input, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 
-import { BoardField, MapLocation } from '../../../../../game-mechanics/models';
+import { Field, MapLocation } from '../../../../../game-mechanics/models';
 import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
 import { DEFAULT_MAP_LOCATION } from '../../../../utils/config';
 import { propHasNewValue } from '../../../../../shared/utils/propsCheck';
@@ -12,7 +12,7 @@ import { propHasNewValue } from '../../../../../shared/utils/propsCheck';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
-    @Input() data: BoardField;
+    @Input() data: Field;
     @Input() mapLocation: MapLocation;
     @Input() selected = false;
 

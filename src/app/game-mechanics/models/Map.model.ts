@@ -12,11 +12,13 @@ export interface MapLocation {
     height?: number;
     field?: number;
     game?: number;
+    stage?: number;
 }
 
 export interface MapPath {
     id?: number;
     game?: number;
+    stage?: number;
     fromLoc?: number;
     toLoc?: number;
 }

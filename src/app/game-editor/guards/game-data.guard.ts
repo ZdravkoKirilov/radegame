@@ -11,8 +11,6 @@ import { selectFeature } from '../state/reducers/selectors';
 import * as actions from '../state/actions';
 import { ROUTER_PARAMS } from '../../shared/config/config';
 
-import 'rxjs/add/operator/take';
-
 @Injectable()
 export class GameDataGuard implements CanActivate {
 
@@ -70,6 +68,9 @@ export class GameDataGuard implements CanActivate {
                         if (!data.form.rounds.items) {
                             this.store.dispatch(new actions.GetRoundsAction(gameId));
                         }
+                        if (!data.form.trivia.items) {
+                            this.store.dispatch(new actions.GetTriviasAction(gameId));
+                        }
                         this.hasFired = true;
                     }
                 }),
@@ -84,9 +85,10 @@ export class GameDataGuard implements CanActivate {
                     const hasActivities = !!data.form.activities.items;
                     const hasQuests = !!data.form.quests.items;
                     const hasRounds = !!data.form.rounds.items;
+                    const hasTrivia = !!data.form.trivia.items;
 
                     return hasFactions && hasFields && hasLocations && hasPaths && hasMap
-                        && hasGame && hasResources && hasActivities && hasQuests && hasRounds;
+                        && hasGame && hasResources && hasActivities && hasQuests && hasRounds && hasTrivia;
                 }),
                 take(1)
             );

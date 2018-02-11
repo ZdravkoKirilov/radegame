@@ -1,11 +1,11 @@
-import { ResourceList, FactionList, BoardFieldList, ActivityList, QuestList } from './index';
+import { ResourceList, FactionList, FieldList, ActivityList, QuestList } from './index';
 
 export interface GameTemplate {
     id?: number;
     resources?: ResourceList;
     factions?: FactionList;
     activities?: ActivityList;
-    fields?: BoardFieldList;
+    fields?: FieldList;
     quests?: QuestList;
 }
 

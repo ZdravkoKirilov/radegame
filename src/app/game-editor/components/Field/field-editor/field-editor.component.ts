@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { BoardField } from '../../../../game-mechanics/models';
+import { Field } from '../../../../game-mechanics/models';
 import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
 import { EditorBase } from '../../../mixins/editor.base';
 
@@ -9,7 +9,7 @@ import { EditorBase } from '../../../mixins/editor.base';
     templateUrl: './field-editor.component.html',
     styleUrls: ['./field-editor.component.scss']
 })
-export class FieldEditorComponent extends EditorBase<BoardField> {
+export class FieldEditorComponent extends EditorBase<Field> {
 
     constructor(public cs: ControlsService) {
         super(cs);

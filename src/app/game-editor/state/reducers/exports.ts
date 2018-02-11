@@ -8,3 +8,4 @@ export * from './byFeature/activity.reducer';
 export * from './byFeature/quest.reducer';
 export * from './byFeature/round.reducer';
 export * from './byFeature/trivia.reducer';
+export * from './byFeature/stage.reducer';

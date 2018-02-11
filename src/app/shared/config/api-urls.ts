@@ -42,4 +42,8 @@ export const API_URLS = {
         const base = `${BASE_URL}/games/${gameId}/trivia/`;
         return triviaId ? `${base}${triviaId}/` : base;
     },
+    STAGES: (gameId: number, stageId?: number) => {
+        const base = `${BASE_URL}/games/${gameId}/stages/`;
+        return stageId ? `${base}${stageId}/` : base;
+    },
 };

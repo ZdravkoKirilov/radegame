@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { BoardField, MapPath } from '../../../../../game-mechanics/models';
+import { Field, MapPath } from '../../../../../game-mechanics/models';
 
 @Component({
     selector: 'rg-map-toolbar',
@@ -10,15 +10,15 @@ export class MapToolbarComponent {
     @Output() addBackground: EventEmitter<any> = new EventEmitter();
     @Output() removeBackground: EventEmitter<any> = new EventEmitter();
     @Output() addField: EventEmitter<any> = new EventEmitter();
-    @Output() editField: EventEmitter<BoardField> = new EventEmitter();
-    @Output() deleteField: EventEmitter<BoardField> = new EventEmitter();
+    @Output() editField: EventEmitter<Field> = new EventEmitter();
+    @Output() deleteField: EventEmitter<Field> = new EventEmitter();
     @Output() enterPathCreationMode: EventEmitter<any> = new EventEmitter();
     @Output() exitPathCreationMode: EventEmitter<any> = new EventEmitter();
     @Output() deletePath: EventEmitter<MapPath> = new EventEmitter();
 
     @Input() pathCreationMode: boolean;
     @Input() selectedPath: MapPath;
-    @Input() selectedField: BoardField;
+    @Input() selectedField: Field;
     @Input() hasBackground: boolean;
 
     imagePickerConfig = {

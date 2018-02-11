@@ -7,7 +7,7 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
 import { GameEditService } from '../../../services/game-edit.service';
-import { BoardField } from '../../../../game-mechanics/models/index';
+import { Field } from '../../../../game-mechanics/models/index';
 import { AppState } from '../../../../core/state/index';
 
 import {
@@ -43,7 +43,7 @@ export class FieldEffectsService {
         .mergeMap((payload: number) => {
             return this.api.getFields(payload);
         })
-        .mergeMap((res: BoardField[]) => {
+        .mergeMap((res: Field[]) => {
             const items = toIndexedList(res);
             return [new SetFieldsAction(items), new GetFieldsSuccessAction()];
         })
@@ -60,10 +60,10 @@ export class FieldEffectsService {
             }
             return payload;
         })
-        .mergeMap((payload: BoardField) => {
+        .mergeMap((payload: Field) => {
             return this.api.saveBoardField(payload);
         })
-        .mergeMap((res: BoardField) => {
+        .mergeMap((res: Field) => {
             return [new SaveFieldSuccessAction(res), new OperationSuccessAction(sm.SAVE_FIELD_SUCCESS)];
         })
         .catch(() => {
@@ -73,13 +73,13 @@ export class FieldEffectsService {
     @Effect() deleteField: Observable<any> = this.actions$
         .ofType(DELETE_FIELD)
         .map((action: FieldAction) => action.payload)
-        .map((payload: BoardField) => {
+        .map((payload: Field) => {
             if (payload.id) {
                 this.store.dispatch(new DeleteFieldSuccessAction(payload));
             }
             return payload;
         })
-        .mergeMap((payload: BoardField) => {
+        .mergeMap((payload: Field) => {
             return this.api.deleteBoardField(payload)
                 .mergeMap(() => {
                     return [

@@ -1,4 +1,4 @@
-import { Quest, Activity, Resource, BoardField, Round } from '../../game-mechanics/models/index';
+import { Quest, Activity, Resource, Field, Round } from '../../game-mechanics/models/index';
 import { Option } from '../../dynamic-forms/models/Base.model';
 import { ConnectedEntities } from '../../dynamic-forms/models/ConnectedEntities';
 
@@ -24,7 +24,7 @@ export function composeResourceOptions(ent: ConnectedEntities): Option[] {
 }
 
 export function composeFieldOptions(ent: ConnectedEntities): Option[] {
-    return ent.fields.map((elem: BoardField): Option => ({
+    return ent.fields.map((elem: Field): Option => ({
         label: elem.name,
         value: elem.id
     }));

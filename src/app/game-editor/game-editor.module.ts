@@ -57,6 +57,10 @@ import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.com
 import { TriviaComponent } from './components/Trivia/trivia/trivia.component';
 import { TriviaListComponent } from './components/Trivia/trivia-list/trivia-list.component';
 import { TriviaEditorComponent } from './components/Trivia/trivia-editor/trivia-editor.component';
+import { StagesComponent } from './components/Stage/stages/stages.component';
+import { StagesListComponent } from './components/Stage/stages-list/stages-list.component';
+import { StageEditorComponent } from './components/Stage/stage-editor/stage-editor.component';
+import { SmartStagesComponent } from './containers/smart-stages/smart-stages.component';
 
 @NgModule({
     imports: [
@@ -117,7 +121,11 @@ import { TriviaEditorComponent } from './components/Trivia/trivia-editor/trivia-
         SmartTriviaComponent,
         TriviaComponent,
         TriviaListComponent,
-        TriviaEditorComponent
+        TriviaEditorComponent,
+        StagesComponent,
+        StagesListComponent,
+        StageEditorComponent,
+        SmartStagesComponent
     ]
 })
 export class GameEditorModule {

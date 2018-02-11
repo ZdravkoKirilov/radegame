@@ -1,17 +1,17 @@
 import { FieldAction } from '../../actions/byFeature/field.action';
-import { BoardField, BoardFieldList } from '../../../../game-mechanics/models/index';
+import { Field, FieldList } from '../../../../game-mechanics/models/index';
 import { createSelector } from '@ngrx/store';
 import { GameEditorFeature } from '../index';
 import { selectFeature } from '../selectors';
 
 export interface BoardFields {
     items?: {
-        [key: string]: BoardField
+        [key: string]: Field
     };
-    lastInsert?: BoardField;
-    lastDelete?: BoardField;
+    lastInsert?: Field;
+    lastDelete?: Field;
     showFieldEditor?: boolean;
-    selectedField?: BoardField;
+    selectedField?: Field;
 }
 
 const initialState: BoardFields = {
@@ -78,18 +78,18 @@ export function fieldsReducer(state: BoardFields = initialState, action: FieldAc
     }
 }
 
-export const selectFields = createSelector(selectFeature, (state: GameEditorFeature): BoardFieldList => {
+export const selectFields = createSelector(selectFeature, (state: GameEditorFeature): FieldList => {
     return state.form.fields.items;
 });
-export const selectFieldsAsArray = createSelector(selectFeature, (state: GameEditorFeature): BoardField[] => {
+export const selectFieldsAsArray = createSelector(selectFeature, (state: GameEditorFeature): Field[] => {
     return Object.values(state.form.fields.items);
 });
 export const selectFieldEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.fields.showFieldEditor;
 });
-export const getSelectedField = createSelector(selectFeature, (state: GameEditorFeature): BoardField => {
+export const getSelectedField = createSelector(selectFeature, (state: GameEditorFeature): Field => {
     return state.form.fields.selectedField;
 });
-export const selectLastInsertedField = createSelector(selectFeature, (state: GameEditorFeature): BoardField => {
+export const selectLastInsertedField = createSelector(selectFeature, (state: GameEditorFeature): Field => {
     return state.form.fields.lastInsert;
 });

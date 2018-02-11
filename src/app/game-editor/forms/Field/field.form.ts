@@ -1,12 +1,12 @@
 import { Resource } from '../../../game-mechanics/models/Resource.model';
-import { BoardField, FieldResource } from '../../../game-mechanics/models/BoardField.model';
+import { Field, FieldResource } from '../../../game-mechanics/models/BoardField.model';
 import { BaseControl } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 import { composeQuestOptions, composeActivityOptions, composeResourceOptions } from '../helpers';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 
-export const FIELD_DEF: FormDefinition = (data: BoardField, ent: ConnectedEntities) => {
+export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) => {
     data = data || {income: [], cost: [], quests: [], activities: []};
 
     const income = data.income.map((elem: FieldResource): BaseControl => {

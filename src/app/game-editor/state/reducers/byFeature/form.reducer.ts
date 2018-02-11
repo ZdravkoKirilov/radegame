@@ -9,6 +9,7 @@ import {
     questsReducer,
     roundsReducer,
     triviaReducer,
+    stageReducer,
 } from '../exports';
 import * as actionTypes from '../../actions/actionTypes';
 import { Resources } from './resources.reducer';
@@ -19,6 +20,7 @@ import { GameQuest } from './quest.reducer';
 import { MapState } from './map.reducer';
 import { GameRound } from './round.reducer';
 import { GameTrivia } from './trivia.reducer';
+import { GameStage } from './stage.reducer';
 
 const reducers = {
     factions: factionsReducer,
@@ -29,6 +31,7 @@ const reducers = {
     quests: questsReducer,
     rounds: roundsReducer,
     trivia: triviaReducer,
+    stages: stageReducer,
 };
 
 export interface GameEditorForm {
@@ -39,6 +42,7 @@ export interface GameEditorForm {
     activities?: GameActivity;
     quests?: GameQuest;
     rounds?: GameRound;
+    stages?: GameStage;
     trivia?: GameTrivia;
 }
 

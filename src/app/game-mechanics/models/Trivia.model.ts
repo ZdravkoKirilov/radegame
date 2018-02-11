@@ -2,7 +2,7 @@ import { Activity } from './index';
 
 export const TRIVIA_MODES = {
     STATIC: 'Static',
-    OPEN: 'OPEN',
+    OPEN: 'Open',
 };
 export type TriviaModes = typeof TRIVIA_MODES.STATIC;
 
@@ -19,9 +19,10 @@ export interface Trivia {
 export interface TriviaAnswer {
     id?: number;
     trivia?: number;
+    name?: string;
     image?: string;
     description?: string;
-    result?: Activity[];
+    effect?: Activity[];
 }
 
 export interface TriviaList {

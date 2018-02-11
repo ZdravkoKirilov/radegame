@@ -9,5 +9,6 @@ export * from './Map.model';
 export * from './Quest.model';
 export * from './Round.model';
 export * from './Trivia.model';
+export * from './Stage.model';
 
 

@@ -8,6 +8,7 @@ import { ActivityEffectsService } from './byFeature/activity.effects';
 import { QuestEffectsService } from './byFeature/quest.effects';
 import { RoundEffectsService } from './byFeature/round.effects';
 import { TriviaEffectsService } from './byFeature/trivia.effects';
+import { StageEffectsService } from './byFeature/stage.effects';
 
 export * from './byFeature/faction.effects';
 export * from './byFeature/resource.effects';
@@ -19,6 +20,7 @@ export * from './byFeature/activity.effects';
 export * from './byFeature/quest.effects';
 export * from './byFeature/round.effects';
 export * from './byFeature/trivia.effects';
+export * from './byFeature/stage.effects';
 
 export const effects = [
     FactionEffectsService,
@@ -31,4 +33,5 @@ export const effects = [
     QuestEffectsService,
     RoundEffectsService,
     TriviaEffectsService,
+    StageEffectsService,
 ];

@@ -1,10 +1,16 @@
 import { DEFAULT_MAP_LOCATION } from './config';
-import { BoardField, MapLocation } from '../../game-mechanics/models/index';
+import { Field, MapLocation } from '../../game-mechanics/models/index';
 
-export const composeDefaultLoc = (field: BoardField): MapLocation => {
+export const composeDefaultLoc = (field: Field): MapLocation => {
     return {
         ...DEFAULT_MAP_LOCATION,
         field: field.id,
         game: field.game
     };
 };
+
+export const prefixActionType = (prefix: string) => {
+    return (actionType: string): string => {
+        return `[${prefix}]_${actionType}`;
+    };
+}

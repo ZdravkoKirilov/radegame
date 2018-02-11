@@ -5,7 +5,7 @@ import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
 import { WindowRefService } from '../../shared/services/window-ref.service';
 import { SpriteComponent } from './entities/SpriteComponent';
 import { MapNode } from './entities/Node';
-import { BoardField, MapLocation, MapPath } from '../models';
+import { Field, MapLocation, MapPath } from '../models';
 import { Path } from './entities/Path';
 
 @Injectable()

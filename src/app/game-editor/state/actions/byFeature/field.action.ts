@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { BoardField, BoardFieldList } from '../../../../game-mechanics/models/index';
+import { Field, FieldList } from '../../../../game-mechanics/models/index';
 import {
     CHANGE_SELECTED_FIELD,
     DELETE_FIELD,
@@ -15,14 +15,14 @@ import {
 } from '../../reducers/byFeature/fields.reducer';
 
 export class SaveFieldAction implements Action {
-    constructor(public payload: BoardField) {
+    constructor(public payload: Field) {
     }
 
     readonly type = SAVE_FIELD;
 }
 
 export class SaveFieldSuccessAction implements Action {
-    constructor(public payload: BoardField) {
+    constructor(public payload: Field) {
     }
 
     readonly type = SAVE_FIELD_SUCCESS;
@@ -34,14 +34,14 @@ export class SaveFieldFailAction implements Action {
 }
 
 export class DeleteFieldAction implements Action {
-    constructor(public payload: BoardField) {
+    constructor(public payload: Field) {
     }
 
     readonly type = DELETE_FIELD;
 }
 
 export class DeleteFieldSuccessAction implements Action {
-    constructor(public payload: BoardField) {
+    constructor(public payload: Field) {
     }
 
     readonly type = DELETE_FIELD_SUCCESS;
@@ -70,7 +70,7 @@ export class GetFieldsFailAction implements Action {
 }
 
 export class SetFieldsAction implements Action {
-    constructor(public payload: BoardFieldList) {
+    constructor(public payload: FieldList) {
     }
 
     readonly type = SET_FIELDS;
@@ -84,7 +84,7 @@ export class ToggleFieldEditorAction implements Action {
 }
 
 export class ChangeSelectedFieldAction implements Action {
-    constructor(public payload: BoardField) {
+    constructor(public payload: Field) {
     }
 
     readonly type = CHANGE_SELECTED_FIELD;

@@ -9,13 +9,14 @@ import { SmartFieldsComponent } from './containers/smart-fields/smart-fields.com
 import { SmartRoundsComponent } from './containers/smart-rounds/smart-rounds.component';
 import { SmartActivitiesComponent } from './containers/smart-activities/smart-activities.component';
 import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
+import { SmartStagesComponent } from './containers/smart-stages/smart-stages.component';
 import { ROUTER_PARAMS } from '../shared/config/config';
 import { GamesListResolverService } from './resolvers/games-list-resolver.service';
 import * as fromGuards from './guards';
 
 export const routes: Routes = [
     {
-        path: 'games/editor',
+        path: 'games/list',
         component: SmartLaunchComponent,
         pathMatch: 'full',
         canActivate: [],
@@ -26,13 +27,22 @@ export const routes: Routes = [
             games: GamesListResolverService
         }
     }, {
-        path: `games/editor/:${ROUTER_PARAMS.GAME_ID}`,
+        path: `games/:${ROUTER_PARAMS.GAME_ID}/editor`,
         component: IndexComponent,
         canActivate: [fromGuards.GameDataGuard],
         data: {
             title: 'Radegast: setup a new game'
         },
         children: [
+            {
+                path: 'stages/:${ROUTER_PARAMS.STAGE_ID}/fields',
+                component: SmartFieldsComponent,
+                pathMatch: 'full'
+            },
+            {
+                path: 'stages',
+                component: SmartStagesComponent,
+            },
             {
                 path: 'trivia',
                 component: SmartTriviaComponent
