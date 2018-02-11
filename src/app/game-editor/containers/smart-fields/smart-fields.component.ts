@@ -5,8 +5,8 @@ import { Subscription } from 'rxjs/Subscription';
 import { AppState } from '../../../core/state/index';
 import {
     GameMap,
-    BoardField,
-    BoardFieldList,
+    Field,
+    FieldList,
     Game,
     MapPath,
     MapLocationList,
@@ -61,12 +61,12 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     showFieldEditor: boolean;
     pathCreationMode: boolean;
 
-    selectedField: BoardField;
-    lastNewField: BoardField;
+    selectedField: Field;
+    lastNewField: Field;
     selectedPath: MapPath;
 
-    fields: BoardField[];
-    fieldsList: BoardFieldList;
+    fields: Field[];
+    fieldsList: FieldList;
     paths: MapPath[];
     locations: MapLocationList;
     map: GameMap;
@@ -82,7 +82,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
         this.toggleFieldEditor(true);
     }
 
-    saveField(data: BoardField) {
+    saveField(data: Field) {
         const payload = {...data, game: this.game.id};
         if (this.selectedField) {
             payload.id = this.selectedField.id;
@@ -91,7 +91,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
         this.toggleFieldEditor(false);
     }
 
-    removeField(payload: BoardField) {
+    removeField(payload: Field) {
         this.store.dispatch(new DeleteFieldAction(payload));
     }
 
@@ -155,6 +155,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
                     }
                 })
         ];
+        this.store.dispatch(new ChangeSelectedFieldAction(null));
     }
 
     ngOnDestroy() {
