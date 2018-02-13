@@ -15,7 +15,6 @@ import { reducers } from './state/reducers/index';
 import { metaReducers } from './state/reducers/index';
 
 import { NgMaterialModule } from '../ng-material/ng-material.module';
-import { GameElementsModule } from '../game-elements/game-elements.module';
 import { DynamicFormsModule } from '../dynamic-forms/dynamic-forms.module';
 import { SceneRenderService } from '../game-mechanics/rendering/scene-render.service';
 import { GamesListResolverService } from './resolvers/games-list-resolver.service';
@@ -74,7 +73,6 @@ import { SmartStagesComponent } from './containers/smart-stages/smart-stages.com
         ReactiveFormsModule,
         DynamicFormsModule,
         RouterModule.forChild(routes),
-        GameElementsModule,
         NgMaterialModule
     ],
     exports: [

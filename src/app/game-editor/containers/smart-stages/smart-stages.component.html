@@ -1,3 +1,11 @@
-<p>
-  smart-stages works!
-</p>
+<rg-stages
+[formDefinition]="formDefinition"
+[items]="items"
+[showEditor]="showEditor"
+[selectedItem]="selectedItem"
+[connectedEntities]="connectedEntities"
+(toggleEditor)="toggleEditor($event)"
+(saveItem)="saveItem($event)"
+(editItem)="editItem($event)"
+(removeItem)="removeItem($event)"
+></rg-stages>
