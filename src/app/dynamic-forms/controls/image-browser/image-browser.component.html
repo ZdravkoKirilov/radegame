@@ -1,3 +1,6 @@
-<img *ngIf="prepopulatedImage" [src]="prepopulatedImage" class="prepopulated-image"/>
-<dropzone (removedfile)="imageRemoved()" (addedfile)="imageAdded($event)" [config]="config" [message]="data.label">
-</dropzone>
+<div tabindex="0" (keyup)="handleKeyPress($event)" class="image-browser" #imagebrowser>
+    <img *ngIf="prepopulatedImage" [src]="prepopulatedImage" class="prepopulated-image"/>
+    <dropzone #dropzone (removedfile)="imageRemoved()" (addedfile)="imageAdded($event)" [config]="config" [message]="data.label">
+    </dropzone>
+</div>
+

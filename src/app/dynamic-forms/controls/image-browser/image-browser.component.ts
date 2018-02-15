@@ -1,7 +1,9 @@
-import {Component, OnInit, Input, Output, EventEmitter} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
-import {BaseControl} from '../../models/Base.model';
+import { BaseControl } from '../../models/Base.model';
+import { KEYCODES } from '../../../shared/config/keyboard';
+import { DropzoneComponent } from 'ngx-dropzone-wrapper';
 
 @Component({
     selector: 'rg-image-browser',
@@ -13,14 +15,16 @@ export class ImageBrowserComponent implements OnInit {
     @Input() form: FormGroup;
     @Input() data: BaseControl;
     @Output() change: EventEmitter<BaseControl> = new EventEmitter();
+    @ViewChild('imagebrowser') elem: ElementRef;
+    @ViewChild('dropzone') dropzone: DropzoneComponent;
 
-    config = {clickable: true, addRemoveLinks: true};
+    config = { clickable: true, addRemoveLinks: true };
     prepopulatedImage?: string;
 
     imageAdded(file) {
         if (file) {
             this.prepopulatedImage = null;
-            const payload = {[this.data.name]: file};
+            const payload = { [this.data.name]: file };
             this.change.emit(payload);
         }
     }
@@ -30,6 +34,17 @@ export class ImageBrowserComponent implements OnInit {
         this.change.emit({
             [this.data.name]: null
         });
+    }
+
+    handleKeyPress(event: KeyboardEvent) {
+        if (event.keyCode === KEYCODES.ENTER) {
+            const dropzone = this.elem.nativeElement.querySelector('.dropzone');
+            dropzone.click();
+        }
+        if (event.keyCode === KEYCODES.DELETE) {
+            this.imageRemoved();
+            this.dropzone.reset();
+        }
     }
 
     ngOnInit() {
