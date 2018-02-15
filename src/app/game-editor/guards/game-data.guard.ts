@@ -71,6 +71,9 @@ export class GameDataGuard implements CanActivate {
                         if (!data.form.trivia.items) {
                             this.store.dispatch(new actions.GetTriviasAction(gameId));
                         }
+                        if (!data.form.stages.items) {
+                            this.store.dispatch(new actions.GetStagesAction(gameId));
+                        }
                         this.hasFired = true;
                     }
                 }),
@@ -86,9 +89,11 @@ export class GameDataGuard implements CanActivate {
                     const hasQuests = !!data.form.quests.items;
                     const hasRounds = !!data.form.rounds.items;
                     const hasTrivia = !!data.form.trivia.items;
+                    const hasStages = !!data.form.stages.items;
 
                     return hasFactions && hasFields && hasLocations && hasPaths && hasMap
-                        && hasGame && hasResources && hasActivities && hasQuests && hasRounds && hasTrivia;
+                        && hasGame && hasResources && hasActivities && hasQuests && hasRounds
+                        && hasTrivia && hasStages;
                 }),
                 take(1)
             );

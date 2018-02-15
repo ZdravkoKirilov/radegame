@@ -2,16 +2,18 @@
   <mat-card *ngFor="let item of items">
     <mat-card-header>
       <mat-card-title>{{item.name}}</mat-card-title>
-      <img mat-card-avatar [src]="item.image"/>
+      <img mat-card-avatar [src]="item.image" />
     </mat-card-header>
     <mat-card-content>
 
       <p>{{item.description}}</p>
+      <a [routerLink]="[item.id, 'fields']">Open map</a>
     </mat-card-content>
 
     <mat-card-actions>
       <button mat-button (click)="removeItem.emit(item)">Remove</button>
       <button mat-button (click)="editItem.emit(item)">Edit</button>
     </mat-card-actions>
+
   </mat-card>
 </div>
