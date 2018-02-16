@@ -22,7 +22,6 @@ import { FormArrayComponent } from './components/form-array/form-array.component
 import { DropdownComponent } from './controls/dropdown/dropdown.component';
 import { DynamicNestedFormComponent } from './components/dynamic-nested-form/dynamic-nested-form.component';
 
-
 @NgModule({
     imports: [
         CommonModule,

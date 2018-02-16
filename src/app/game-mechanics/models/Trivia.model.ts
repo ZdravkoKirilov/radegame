@@ -22,7 +22,12 @@ export interface TriviaAnswer {
     name?: string;
     image?: string;
     description?: string;
-    effect?: Activity[];
+    effect?: TriviaAnswerEffect[];
+}
+
+export interface TriviaAnswerEffect {
+    id?: number;
+    activity?: number;
 }
 
 export interface TriviaList {

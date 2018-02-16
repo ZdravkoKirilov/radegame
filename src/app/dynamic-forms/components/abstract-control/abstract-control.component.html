@@ -34,5 +34,9 @@
             <rg-form-array [form]="form" [data]="data"></rg-form-array>
         </ng-container>
 
+        <ng-container *ngSwitchCase="types.IMAGE_PICKER">
+            <rg-image-picker [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-image-picker>
+        </ng-container>
+
     </ng-container>
 </div>

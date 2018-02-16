@@ -1,4 +1,4 @@
-import { Trivia, TRIVIA_MODES } from '../../../game-mechanics/models/index';
+import { Trivia, TriviaAnswer, TRIVIA_MODES } from '../../../game-mechanics/models';
 import { BaseControl, Option } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
@@ -11,10 +11,11 @@ const triviaModes: Option[] = Object.keys(TRIVIA_MODES).map(key => {
     };
 });
 
-export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] {
-    data = data || {};
-    const activities = composeActivityOptions(ent);
 
+export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] {
+    data = data || { answers: [ ]};
+    
+    const activities = composeActivityOptions(ent);
     const triviaAnswerTemplate = {
         controlType: controlTypes.NESTED_FORM,
         childControls: [
@@ -25,16 +26,18 @@ export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] 
                 required: false
             }, {
                 name: 'image',
-                controlType: controlTypes.IMAGE_BROWSER,
+                controlType: controlTypes.IMAGE_PICKER,
                 label: 'Image',
             }, {
                 controlType: controlTypes.BUTTON_GROUP,
-                name: 'result',
-                label: 'Result',
+                name: 'effect',
+                label: 'Effect',
                 options: activities
             }
         ]
     };
+
+    const answers = data.answers.map(elem => toNestedForm(elem, activities));
 
     return [
         {
@@ -51,7 +54,7 @@ export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] 
             required: false
         }, {
             name: 'image',
-            controlType: controlTypes.IMAGE_BROWSER,
+            controlType: controlTypes.IMAGE_PICKER,
             label: 'Trivia image',
             required: false,
             value: data.image
@@ -66,8 +69,36 @@ export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] 
             controlType: controlTypes.FORM_ARRAY,
             label: 'Trivia answers',
             addButtonText: 'Add answer',
-            childControls: [],
+            childControls: answers,
             childTemplate: triviaAnswerTemplate
         }
     ];
 }
+
+const toNestedForm = (elem: TriviaAnswer, activities: Option[]): BaseControl => {
+
+    return {
+        controlType: controlTypes.NESTED_FORM,
+        childControls: [
+           {
+                name: 'description',
+                controlType: controlTypes.TEXT_INPUT,
+                value: elem.description,
+                label: 'Trivia question',
+                required: false
+            }, {
+                name: 'image',
+                controlType: controlTypes.IMAGE_PICKER,
+                label: 'Trivia image',
+                required: false,
+                value: elem.image
+            }, {
+                controlType: controlTypes.BUTTON_GROUP,
+                name: 'effect',
+                label: 'Effect',
+                options: activities,
+                value: elem.effect.map(elem => elem.activity)
+            }
+        ]
+    };
+};

@@ -1,0 +1,9 @@
+.image-picker {
+    max-width: 200px;
+    .thumbnail {
+        img {
+            cursor: pointer;
+            max-width: 100%;
+        }
+    }
+}

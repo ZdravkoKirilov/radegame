@@ -6,5 +6,5 @@ export const DROPZONE_CONFIG: DropzoneConfigInterface = {
     createImageThumbnails: true,
     autoQueue: false,
     autoProcessQueue: false,
-    maxFiles: 1
+    maxFiles: 1,
 };

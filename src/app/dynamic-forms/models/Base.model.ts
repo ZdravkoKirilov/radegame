@@ -33,4 +33,5 @@ export interface BaseControl {
     max?: number;
     step?: number;
     buttonColor?: string;
+    hideThumbnail?: boolean;
 }

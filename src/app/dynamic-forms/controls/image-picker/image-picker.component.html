@@ -1,9 +1,21 @@
-<div>
+<div tabindex="0" class="image-picker">
+
+    <div *ngIf="existingImage && !data.hideThumbnail" class="thumbnail">
+        <img [src]="existingImage" class="prepopulated-image" title="Click to change" (click)="browseImage()" />
+        <div>
+            <button mat-button color="warn" (click)=removeImage()>Remove</button>
+        </div>
+    </div>
+
+    <div *ngIf="!existingImage && !data.hideThumbnail">
+        <button mat-button color="primary" (click)="browseImage()">Add image</button>
+    </div>
+
     <button mat-button [color]="data?.buttonColor" (click)="browseImage()">
         <ng-content></ng-content>
     </button>
 
-    <form class="hidden" #form>
-        <input type="file" #filePicker (change)="handleImage($event)"/>
+    <form class="hidden" #ownForm>
+        <input type="file" #filePicker (change)="handleImage($event)" />
     </form>
 </div>

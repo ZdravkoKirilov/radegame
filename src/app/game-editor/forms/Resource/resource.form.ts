@@ -19,7 +19,7 @@ export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
             required: false
         }, {
             name: 'image',
-            controlType: controlTypes.IMAGE_BROWSER,
+            controlType: controlTypes.IMAGE_PICKER,
             label: 'Choose resource image',
             required: false,
             value: data.image

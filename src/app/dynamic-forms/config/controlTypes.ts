@@ -8,6 +8,8 @@ export const controlTypes = {
     SWITCH: 'SWITCH',
     DROPDOWN: 'DROPDOWN',
 
+    IMAGE_PICKER: 'IMAGE_PICKER',
+
 
     NESTED_FORM: 'NESTED_FORM',
     DYNAMIC_NESTED_FORM: 'DYNAMIC_NESTED_FORM',

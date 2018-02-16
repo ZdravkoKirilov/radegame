@@ -123,8 +123,7 @@ function createDynamicChildren(data: QuestCondition[],
             ...childTemplate, childControls: [{
                 ...typeSwitcher,
                 value: elem.type
-            },
-            ]
+            },]
         };
         if (subform) {
             const addedControls = subform(elem, ent);
