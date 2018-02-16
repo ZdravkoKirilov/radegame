@@ -16,8 +16,6 @@ import { metaReducers } from './state/reducers/index';
 
 import { NgMaterialModule } from '../ng-material/ng-material.module';
 import { DynamicFormsModule } from '../dynamic-forms/dynamic-forms.module';
-import { SceneRenderService } from '../game-mechanics/rendering/scene-render.service';
-import { GamesListResolverService } from './resolvers/games-list-resolver.service';
 import { GameEditService } from './services/game-edit.service';
 import * as fromGuards from './guards';
 
@@ -79,8 +77,6 @@ import { SmartStagesComponent } from './containers/smart-stages/smart-stages.com
         RouterModule
     ],
     providers: [
-        SceneRenderService,
-        GamesListResolverService,
         GameEditService,
         ...fromGuards.guards
     ],

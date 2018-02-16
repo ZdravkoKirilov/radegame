@@ -2,6 +2,6 @@ export interface GameBoard {
     displayName: string;
     id: string;
 }
-export interface GameBoardTypes {
+export interface GameBoardList {
     [key: string]: GameBoard;
 }

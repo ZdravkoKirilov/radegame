@@ -16,6 +16,7 @@ import {
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { FIELD_DEF } from '../../forms/Field/field.form';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { SceneRenderService } from '../../../game-mechanics/rendering/scene-render.service';
 
 import {
     selectFieldEditorToggleState, getSelectedField, selectFieldsAsArray,
@@ -51,7 +52,8 @@ import { composeDefaultLoc } from '../../utils/utils';
 @Component({
     selector: 'rg-smart-fields',
     templateUrl: './smart-fields.component.html',
-    styleUrls: ['./smart-fields.component.scss']
+    styleUrls: ['./smart-fields.component.scss'],
+    providers: [SceneRenderService]
 })
 export class SmartFieldsComponent implements OnInit, OnDestroy {
 
@@ -83,7 +85,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     }
 
     saveField(data: Field) {
-        const payload = {...data, game: this.game.id};
+        const payload = { ...data, game: this.game.id };
         if (this.selectedField) {
             payload.id = this.selectedField.id;
         }
@@ -105,7 +107,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     }
 
     savePath(payload: MapPath) {
-        const path = {...payload, game: this.game.id};
+        const path = { ...payload, game: this.game.id };
         this.store.dispatch(new SaveMapPathAction(path));
     }
 

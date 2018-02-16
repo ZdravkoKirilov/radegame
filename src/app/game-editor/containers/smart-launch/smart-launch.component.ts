@@ -4,12 +4,11 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../core/state/index';
 import { GameBoards } from '../../../game-mechanics/configs/game-boards';
-import { GameBoard, Game } from '../../../game-mechanics/models/index';
+import { GameBoard, Game } from '../../../game-mechanics/models';
 import { BaseControl } from '../../../dynamic-forms/models/Base.model';
 import { Option } from '../../../dynamic-forms/models/Base.model';
-import { GAME_LAUNCH_DEF } from '../../utils/form-definitions';
-import { CreateGameAction, SetGamesAction } from '../../state/actions/byFeature/launcher.action';
-import { selectRouterData } from '../../../core/state/reducers/selectors';
+import { GAME_LAUNCH_DEF } from '../../forms/Launcher/launcher.form';
+import { CreateGameAction } from '../../state/actions/byFeature/launcher.action';
 import { selectGames } from '../../state/reducers/byFeature/games.reducer';
 
 @Component({
@@ -33,16 +32,8 @@ export class SmartLaunchComponent implements OnInit, OnDestroy {
     ngOnInit() {
 
         this.storeSub = this.store.subscribe((state: AppState) => {
-            const boardTypes: Option[] = Object
-                .values(GameBoards)
-                .map((elem: GameBoard) => ({label: elem.displayName, value: elem.id}));
-            this.controls = GAME_LAUNCH_DEF(boardTypes);
-
-            if (!this.games) {
-                const games = selectRouterData('games')(state);
-                this.store.dispatch(new SetGamesAction(games));
-                this.games = Object.values(games);
-            }
+            this.controls = GAME_LAUNCH_DEF(GameBoards);
+            this.games = selectGames(state);
         });
     }
 

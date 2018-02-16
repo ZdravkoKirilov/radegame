@@ -17,12 +17,6 @@ export function STAGE_DEF(data: Stage = {}): BaseControl[] {
             value: data.description,
             label: 'Stage description',
             required: false
-        }, {
-            name: 'image',
-            controlType: controlTypes.IMAGE_BROWSER,
-            label: 'Stage image',
-            required: false,
-            value: data.image
-        }
+        },
     ];
 }

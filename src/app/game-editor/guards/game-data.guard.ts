@@ -83,7 +83,7 @@ export class GameDataGuard implements CanActivate {
                     const hasFields = !!data.form.fields.items;
                     const hasLocations = !!data.form.map.items;
                     const hasPaths = !!data.form.map.paths;
-                    const hasMap = !!data.form.map.canvas.id;
+                    //const hasMap = !!data.form.map.canvas.id;
                     const hasGame = !!data.assets.game;
                     const hasActivities = !!data.form.activities.items;
                     const hasQuests = !!data.form.quests.items;
@@ -91,7 +91,7 @@ export class GameDataGuard implements CanActivate {
                     const hasTrivia = !!data.form.trivia.items;
                     const hasStages = !!data.form.stages.items;
 
-                    return hasFactions && hasFields && hasLocations && hasPaths && hasMap
+                    return hasFactions && hasFields && hasLocations && hasPaths
                         && hasGame && hasResources && hasActivities && hasQuests && hasRounds
                         && hasTrivia && hasStages;
                 }),

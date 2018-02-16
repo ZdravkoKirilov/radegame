@@ -11,7 +11,6 @@ import { SmartActivitiesComponent } from './containers/smart-activities/smart-ac
 import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
 import { SmartStagesComponent } from './containers/smart-stages/smart-stages.component';
 import { ROUTER_PARAMS } from '../shared/config/config';
-import { GamesListResolverService } from './resolvers/games-list-resolver.service';
 import * as fromGuards from './guards';
 
 export const routes: Routes = [
@@ -19,13 +18,10 @@ export const routes: Routes = [
         path: 'games/list',
         component: SmartLaunchComponent,
         pathMatch: 'full',
-        canActivate: [],
+        canActivate: [fromGuards.GamesListGuard],
         data: {
             title: 'Radegast: create a new game'
         },
-        resolve: {
-            games: GamesListResolverService
-        }
     }, {
         path: `games/:${ROUTER_PARAMS.GAME_ID}/editor`,
         component: IndexComponent,

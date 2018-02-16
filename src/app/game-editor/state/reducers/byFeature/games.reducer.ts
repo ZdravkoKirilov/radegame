@@ -12,7 +12,7 @@ export interface GamesList {
 }
 
 const initialState: GamesList = {
-    items: {},
+    items: null,
     lastInsert: null
 };
 
