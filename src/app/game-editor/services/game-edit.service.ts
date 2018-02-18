@@ -17,7 +17,7 @@ import {
     Stage,
 } from '../../game-mechanics/models/index';
 import { API_URLS } from '../../shared/config/api-urls';
-import { toMultipartFormData } from '../../shared/utils/ToMultipartFormData';
+import { toMultipartFormData, objectToFormData } from '../../shared/utils/ToMultipartFormData';
 
 @Injectable()
 export class GameEditService {
@@ -43,7 +43,7 @@ export class GameEditService {
 
     saveFaction(data: Faction): Observable<any> {
         const formData = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
             return this.http.patch(API_URLS.FACTIONS(data.game, data.id), formData, options);
@@ -58,7 +58,7 @@ export class GameEditService {
 
     saveActivity(data: Activity): Observable<any> {
         const formData = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
             return this.http.patch(API_URLS.ACTIVITIES(data.game, data.id), formData, options);
@@ -77,7 +77,7 @@ export class GameEditService {
 
     saveStage(data: Stage): Observable<any> {
         const formData = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
             return this.http.patch(API_URLS.STAGES(data.game, data.id), formData, options);
@@ -100,7 +100,7 @@ export class GameEditService {
 
     saveResource(data: Resource): Observable<any> {
         const formData = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
             return this.http.patch(API_URLS.RESOURCES(data.game, data.id), formData, options);
@@ -119,7 +119,7 @@ export class GameEditService {
 
     saveQuest(data: Quest): Observable<any> {
         const formData = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
             return this.http.patch(API_URLS.QUESTS(data.game, data.id), formData, options);
@@ -138,7 +138,7 @@ export class GameEditService {
 
     saveRound(data: Round): Observable<any> {
         const formData = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
             return this.http.patch(API_URLS.ROUNDS(data.game, data.id), formData, options);
@@ -156,8 +156,9 @@ export class GameEditService {
     }
 
     saveTrivia(data: Trivia): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        //const formData = toMultipartFormData(data, 1);
+        const formData = objectToFormData(data);
+        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
             return this.http.patch(API_URLS.TRIVIA(data.game, data.id), formData, options);
@@ -172,7 +173,7 @@ export class GameEditService {
 
     saveMap(data: GameMap): Observable<any> {
         const formData = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
             return this.http.patch(API_URLS.MAPS(data.game, data.id), formData, options);
@@ -199,7 +200,7 @@ export class GameEditService {
 
     saveBoardField(data: Field): Observable<any> {
         const formData: any = toMultipartFormData(data);
-        const options = {headers: new HttpHeaders({})};
+        const options = { headers: new HttpHeaders({}) };
         if (data.id) {
             return this.http.patch(API_URLS.FIELDS(data.game, data.id), formData, options);
         } else {
