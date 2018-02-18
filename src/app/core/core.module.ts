@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { environment } from '../../environments/environment';
 import { CoreEffectsService } from './state/effects/core-effects.service';
 
 import { reducers } from './state/reducers/index';
@@ -19,6 +21,10 @@ import { NotFoundComponent } from './components/not-found/not-found.component';
         CommonModule,
         BrowserModule,
         StoreModule.forRoot(reducers),
+        StoreDevtoolsModule.instrument({
+            maxAge: 25, // Retains last 25 states
+            logOnly: environment.production // Restrict extension to log-only mode
+        }),
         EffectsModule.forRoot([
             CoreEffectsService
         ]),
