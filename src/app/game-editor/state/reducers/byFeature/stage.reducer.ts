@@ -77,6 +77,9 @@ export const selectStages = createSelector(selectFeature, (state: GameEditorFeat
 export const getSelectedStage = createSelector(selectFeature, (state: GameEditorFeature): Stage => {
     return state.form.stages.selectedItem;
 });
+export const selectStageById = (stageId: number) => createSelector(selectFeature, (state: GameEditorFeature): Stage => {
+    return state.form.stages.items[stageId];
+})
 export const selectStageEditorState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.stages.showEditor;
 });

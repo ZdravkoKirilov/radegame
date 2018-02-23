@@ -22,7 +22,9 @@ export class MapToolbarComponent {
     @Input() hasBackground: boolean;
 
     imagePickerConfig = {
-        buttonColor: 'primary'
+        buttonColor: 'primary',
+        name: 'image',
+        hideThumbnail: true
     };
 
     constructor() {

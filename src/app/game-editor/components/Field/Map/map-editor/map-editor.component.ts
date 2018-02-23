@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Field, MapLocation, MapPath, GameMap } from '../../../../../game-mechanics/models';
+import { Field, MapLocation, MapPath, Stage } from '../../../../../game-mechanics/models';
 import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
 import { KEYCODES } from '../../../../utils/config';
 import { propHasChanged } from '../../../../../shared/utils/propsCheck';
@@ -18,8 +18,7 @@ import { propHasChanged } from '../../../../../shared/utils/propsCheck';
 export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild('canvasWrapper') canvasWrapper: ElementRef;
 
-    @Output() addBackground: EventEmitter<any> = new EventEmitter();
-    @Output() removeBackground: EventEmitter<any> = new EventEmitter();
+    @Output() changeBackground: EventEmitter<any> = new EventEmitter();
     @Output() saveMapLocation: EventEmitter<MapLocation> = new EventEmitter();
     @Output() deleteField: EventEmitter<any> = new EventEmitter();
     @Output() selectField: EventEmitter<number> = new EventEmitter();
@@ -29,7 +28,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @Output() selectPath: EventEmitter<MapPath> = new EventEmitter();
     @Output() editField: EventEmitter<any> = new EventEmitter();
 
-    @Input() map: GameMap;
+    @Input() stage: Stage;
     @Input() fields: Field[];
     @Input() lastInsertedField: number;
     @Input() mapLocations: { [key: string]: MapLocation } = {};
@@ -102,13 +101,13 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
     ngOnInit() {
         this.scr.initialize(this.canvasWrapper.nativeElement);
-        this.scr.updateBackground(this.map.image);
+        this.scr.updateBackground(this.stage.image);
         this.attachListeners();
     }
 
     ngOnChanges(c: SimpleChanges) {
-        if (propHasChanged(c, 'map')) {
-            this.scr.updateBackground(c.map.currentValue.image);
+        if (propHasChanged(c, 'stage')) {
+            this.scr.updateBackground(c.stage.currentValue.image);
         }
     }
 

@@ -8,24 +8,18 @@ import {
     DELETE_MAP_PATH,
     DELETE_MAP_PATH_FAIL,
     DELETE_MAP_PATH_SUCCESS,
-    GET_MAP,
-    GET_MAP_FAIL,
     GET_MAP_LOCATIONS,
     GET_MAP_LOCATIONS_FAIL,
     GET_MAP_LOCATIONS_SUCCESS,
     GET_MAP_PATHS,
     GET_MAP_PATHS_FAIL,
     GET_MAP_PATHS_SUCCESS,
-    GET_MAP_SUCCESS,
-    SAVE_MAP,
-    SAVE_MAP_FAIL,
     SAVE_MAP_LOCATION,
     SAVE_MAP_LOCATION_FAIL,
     SAVE_MAP_LOCATION_SUCCESS,
     SAVE_MAP_PATH,
     SAVE_MAP_PATH_FAIL,
     SAVE_MAP_PATH_SUCCESS,
-    SAVE_MAP_SUCCESS,
     SET_MAP_LOCATIONS,
     SET_MAP_PATHS,
     TOGGLE_PATH_CREATION_MODE
@@ -170,44 +164,6 @@ export class ChangeSelectedPathAction implements Action {
     readonly type = CHANGE_SELECTED_PATH;
 }
 
-export class SaveMapAction implements Action {
-    constructor(public payload: GameMap) {
-    }
-
-    readonly type = SAVE_MAP;
-}
-
-export class SaveMapSuccessAction implements Action {
-    constructor(public payload: GameMap) {
-    }
-
-    readonly type = SAVE_MAP_SUCCESS;
-}
-
-export class SaveMapFailAction implements Action {
-    readonly payload = null;
-    readonly type = SAVE_MAP_FAIL;
-}
-
-export class GetMapAction implements Action {
-    constructor(public payload: number) {
-    }
-
-    readonly type = GET_MAP;
-}
-
-export class GetMapSuccessAction implements Action {
-    constructor(public payload: GameMap) {
-    }
-
-    readonly type = GET_MAP_SUCCESS;
-}
-
-export class GetMapFailAction implements Action {
-    readonly payload = null;
-    readonly type = GET_MAP_FAIL;
-}
-
 export type MapAction =
     SaveMapLocationAction |
     SaveMapLocationSuccessAction |
@@ -230,10 +186,4 @@ export type MapAction =
     GetMapLocationsSuccessAction |
     SetMapLocationsAction |
     GetMapLocationsFailAction |
-    ChangeSelectedPathAction |
-    GetMapAction |
-    GetMapSuccessAction |
-    GetMapFailAction |
-    SaveMapAction |
-    SaveMapSuccessAction |
-    SaveMapFailAction;
+    ChangeSelectedPathAction;

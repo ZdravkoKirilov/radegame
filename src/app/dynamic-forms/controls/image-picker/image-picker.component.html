@@ -1,4 +1,4 @@
-<div tabindex="0" class="image-picker">
+<div tabindex="0" class="image-picker" (keyup)="handleKeyPress($event)">
 
     <div *ngIf="existingImage && !data.hideThumbnail" class="thumbnail">
         <img [src]="existingImage" class="prepopulated-image" title="Click to change" (click)="browseImage()" />

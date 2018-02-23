@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../models/Base.model';
@@ -8,24 +8,32 @@ import { BaseControl } from '../../models/Base.model';
     templateUrl: './button-group.component.html',
     styleUrls: ['./button-group.component.scss']
 })
-export class ButtonGroupComponent {
+export class ButtonGroupComponent implements OnInit {
     @Input() form: FormGroup;
     @Input() data: BaseControl;
     @Output() change: EventEmitter<any> = new EventEmitter();
 
+    private value;
+
     constructor() {
     }
 
+    ngOnInit() {
+        this.value = this.data.value ? new Set([...this.data.value]) : new Set();
+    }
+
     isButtonChecked(value) {
-        if (this.data.value) {
-            return new Set(this.data.value).has(value);
+        if (this.value) {
+            return new Set(this.value).has(value);
         }
         return false;
     }
 
     handleChange({value}) {
-        const currentValue = this.form.get(this.data.name).value;
-        const currentSet = currentValue ? new Set([...currentValue]) : new Set();
+        //const currentValue = this.form.get(this.data.name).value;
+        //const currentValue = this.data.value || [];
+        //const currentSet = new Set([...currentValue]) : new Set();
+        const currentSet = this.value;
         currentSet.has(value) ? currentSet.delete(value) : currentSet.add(value);
         this.change.emit({
             [this.data.name]: Array.from(currentSet)

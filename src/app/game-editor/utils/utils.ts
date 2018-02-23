@@ -5,7 +5,8 @@ export const composeDefaultLoc = (field: Field): MapLocation => {
     return {
         ...DEFAULT_MAP_LOCATION,
         field: field.id,
-        game: field.game
+        game: field.game,
+        stage: field.stage,
     };
 };
 

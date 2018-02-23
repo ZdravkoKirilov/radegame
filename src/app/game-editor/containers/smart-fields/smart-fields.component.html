@@ -4,7 +4,7 @@
         [selectedPath]="selectedPath"
         [pathCreationMode]="pathCreationMode"
         [formDefinition]="formDefinition"
-        [map]="map"
+        [stage]="stage"
         [fields]="fields"
         [paths]="paths"
         [locations]="locations"
@@ -19,4 +19,5 @@
         (selectPath)="selectPath($event)"
         (saveMapLocation)="saveMapLocation($event)"
         (setPathCreation)="setPathCreation($event)"
+        (saveMap)="updateStage($event)"
 ></rg-fields>

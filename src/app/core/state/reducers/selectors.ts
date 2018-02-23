@@ -1,22 +1,14 @@
-import { RouterState } from '@angular/router';
 import { RouterReducerState } from '@ngrx/router-store';
 
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-export const selectFeature = createFeatureSelector<RouterReducerState<RouterState>>('router');
+import { RouterStateUrl } from '../../router-custom.serializer';
+import { ROUTER_PARAMS } from '../../../shared/config/config';
 
-export const selectRouterParam = function (name): any {
-    return createSelector(selectFeature, (routerState) => {
-        return routerState.state.root.children[0].params[name];
-    });
-};
+export const selectFeature = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
 
-export const selectRouterData = function (name): any {
-    return createSelector(selectFeature, (routerState) => {
-        return routerState.state.root.children[0].data[name];
-    });
-};
+export const selectStageId = createSelector(selectFeature, (routerState): number => {
+    return Number(routerState.state.params[ROUTER_PARAMS.STAGE_ID]);
+});
 
-// export const selectRouterData = function (name, routerState): any {
-//     return routerState.state.root.children[0].data[name];
-// };
+

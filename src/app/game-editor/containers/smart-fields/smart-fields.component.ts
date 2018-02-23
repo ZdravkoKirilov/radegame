@@ -11,16 +11,18 @@ import {
     MapPath,
     MapLocationList,
     MapLocation,
-    Resource
+    Resource,
+    Stage
 } from '../../../game-mechanics/models/index';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { FIELD_DEF } from '../../forms/Field/field.form';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { SceneRenderService } from '../../../game-mechanics/rendering/scene-render.service';
+import { SaveStageAction } from '../../state/actions';
 
 import {
-    selectFieldEditorToggleState, getSelectedField, selectFieldsAsArray,
-    selectFields, selectLastInsertedField
+    selectFieldEditorToggleState, getSelectedField,
+    selectFields, selectFieldsByStageId,
 } from '../../state/reducers/byFeature/fields.reducer';
 import { selectQuests } from '../../state/reducers/byFeature/quest.reducer';
 import { selectActivities } from '../../state/reducers/byFeature/activity.reducer';
@@ -28,11 +30,14 @@ import {
     getSelectedPath,
     selectMapLocations,
     selectMapPaths,
-    selectMap,
-    selectPathCreationMode
+    selectPathCreationMode,
+    selectPathsByStageId,
+    selectLocationsByStageId,
 } from '../../state/reducers/byFeature/map.reducer';
 import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
 import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
+import { selectStageId } from '../../../core/state/reducers/selectors';
+import { selectStageById } from '../../state/reducers/exports';
 
 import {
     SaveMapLocationAction,
@@ -44,10 +49,10 @@ import {
 import {
     ChangeSelectedFieldAction,
     ToggleFieldEditorAction,
+    UpdateFieldAction,
     SaveFieldAction,
     DeleteFieldAction
 } from '../../state/actions/byFeature/field.action';
-import { composeDefaultLoc } from '../../utils/utils';
 
 @Component({
     selector: 'rg-smart-fields',
@@ -64,16 +69,16 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     pathCreationMode: boolean;
 
     selectedField: Field;
-    lastNewField: Field;
     selectedPath: MapPath;
 
     fields: Field[];
     fieldsList: FieldList;
     paths: MapPath[];
     locations: MapLocationList;
-    map: GameMap;
 
     game: Game;
+    stage: Stage;
+    stageId: number;
 
     connectedEntities: ConnectedEntities;
 
@@ -85,11 +90,11 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     }
 
     saveField(data: Field) {
-        const payload = { ...data, game: this.game.id };
+        const payload = { ...data, game: this.game.id, stage: this.stage.id };
         if (this.selectedField) {
             payload.id = this.selectedField.id;
         }
-        this.store.dispatch(new SaveFieldAction(payload));
+        payload.id ? this.store.dispatch(new UpdateFieldAction(payload)) : this.store.dispatch(new SaveFieldAction(payload));
         this.toggleFieldEditor(false);
     }
 
@@ -107,7 +112,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     }
 
     savePath(payload: MapPath) {
-        const path = { ...payload, game: this.game.id };
+        const path = { ...payload, game: this.game.id, stage: this.stage.id };
         this.store.dispatch(new SaveMapPathAction(path));
     }
 
@@ -127,20 +132,25 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
         this.store.dispatch(new SetPathCreationAction(flag));
     }
 
+    updateStage(image: any) {
+        image = image || null;
+        this.store.dispatch(new SaveStageAction({ id: this.stageId, image, game: this.game.id }));
+    }
+
     ngOnInit() {
         this.storeSubs = [
             this.store
                 .subscribe(state => {
                     this.showFieldEditor = selectFieldEditorToggleState(state);
                     this.selectedField = getSelectedField(state);
-                    this.lastNewField = selectLastInsertedField(state);
                     this.selectedPath = getSelectedPath(state);
-                    this.fields = selectFieldsAsArray(state);
                     this.fieldsList = selectFields(state);
-                    this.paths = selectMapPaths(state);
-                    this.locations = selectMapLocations(state);
                     this.game = selectGame(state);
-                    this.map = selectMap(state);
+                    this.stageId = selectStageId(state);
+                    this.fields = selectFieldsByStageId(this.stageId)(state);
+                    this.stage = selectStageById(this.stageId)(state);
+                    this.paths = selectPathsByStageId(this.stageId)(state);
+                    this.locations = selectLocationsByStageId(this.stageId)(state);
                     this.pathCreationMode = selectPathCreationMode(state);
                     this.connectedEntities = {
                         resources: selectResources(state),
@@ -148,14 +158,6 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
                         quests: selectQuests(state),
                     };
                 }),
-
-            this.store.select(selectLastInsertedField)
-                .subscribe(field => {
-                    if (field) {
-                        const location = composeDefaultLoc(field);
-                        this.saveMapLocation(location);
-                    }
-                })
         ];
         this.store.dispatch(new ChangeSelectedFieldAction(null));
     }

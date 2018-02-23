@@ -1,10 +1,10 @@
 export interface Field {
     id?: number;
+    game?: number;
+    stage?: number;
     name?: string;
     description?: string;
     image?: any;
-    game?: number;
-    stage?: number;
     income?: FieldResource[];
     cost?: FieldResource[];
     quests?: FieldQuest[];

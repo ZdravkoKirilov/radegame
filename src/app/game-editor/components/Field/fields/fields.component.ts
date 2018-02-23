@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Field, MapPath, MapLocationList, GameMap, MapLocation } from '../../../../game-mechanics/models/index';
+import { Field, MapPath, MapLocationList, MapLocation, Stage } from '../../../../game-mechanics/models';
 import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
 import { ConnectedEntities } from '../../../../dynamic-forms/models/ConnectedEntities';
 
@@ -25,6 +25,8 @@ export class FieldsComponent {
     @Output() setPathCreation: EventEmitter<boolean> = new EventEmitter();
     @Output() closeFieldEditor: EventEmitter<any> = new EventEmitter();
 
+    @Output() saveMap: EventEmitter<any> = new EventEmitter();
+
     @Input() showFieldEditor: boolean;
 
     @Input() selectedField: Field;
@@ -35,7 +37,7 @@ export class FieldsComponent {
     @Input() fields: Field[];
     @Input() paths: MapPath[];
     @Input() locations: MapLocationList;
-    @Input() map: GameMap;
+    @Input() stage: Stage;
 
     @Input() connectedEntities: ConnectedEntities;
 

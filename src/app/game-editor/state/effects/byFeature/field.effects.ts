@@ -5,6 +5,7 @@ import { Store } from '@ngrx/store';
 import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
+import { of } from 'rxjs/observable/of';
 
 import { GameEditService } from '../../../services/game-edit.service';
 import { Field } from '../../../../game-mechanics/models/index';
@@ -22,12 +23,13 @@ import {
     SetFieldsAction
 } from '../../actions/byFeature/field.action';
 
-import { GetMapPathsAction, DeleteMapLocationSuccessAction } from '../../actions/byFeature/map.action';
+import { GetMapPathsAction, DeleteMapLocationSuccessAction, SaveMapLocationAction } from '../../actions/byFeature/map.action';
 
 import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
 import { systemMessages as sm } from '../../../../shared/config/messages';
-import { DELETE_FIELD, SAVE_FIELD, GET_FIELDS } from '../../reducers/byFeature/fields.reducer';
+import { DELETE_FIELD, SAVE_FIELD, GET_FIELDS, UPDATE_FIELD } from '../../reducers/byFeature/fields.reducer';
 import { toIndexedList } from '../../../../shared/utils/utils';
+import { composeDefaultLoc } from '../../../utils/utils';
 
 @Injectable()
 export class FieldEffectsService {
@@ -48,13 +50,13 @@ export class FieldEffectsService {
             return [new SetFieldsAction(items), new GetFieldsSuccessAction()];
         })
         .catch(() => {
-            return [new GetFieldsFailAction()];
+            return of([new GetFieldsFailAction()]);
         });
 
     @Effect() saveField: Observable<any> = this.actions$
         .ofType(SAVE_FIELD)
         .map((action: FieldAction) => {
-            const payload = {...action.payload};
+            const payload = { ...action.payload };
             if (typeof payload.image === 'string') {
                 delete payload.image;
             }
@@ -64,10 +66,30 @@ export class FieldEffectsService {
             return this.api.saveBoardField(payload);
         })
         .mergeMap((res: Field) => {
-            return [new SaveFieldSuccessAction(res), new OperationSuccessAction(sm.SAVE_FIELD_SUCCESS)];
+            const location = composeDefaultLoc(res);
+            return [new SaveFieldSuccessAction(res), new OperationSuccessAction(sm.SAVE_FIELD_SUCCESS), new SaveMapLocationAction(location)];
         })
         .catch(() => {
-            return [new SaveFieldFailAction(), new OperationFailAction(sm.SAVE_FIELD_FAIL)];
+            return of([new SaveFieldFailAction(), new OperationFailAction(sm.SAVE_FIELD_FAIL)]);
+        });
+
+    @Effect() updateField: Observable<any> = this.actions$
+        .ofType(UPDATE_FIELD)
+        .map((action: FieldAction) => {
+            const payload = { ...action.payload };
+            if (typeof payload.image === 'string') {
+                delete payload.image;
+            }
+            return payload;
+        })
+        .mergeMap((payload: Field) => {
+            return this.api.saveBoardField(payload);
+        })
+        .mergeMap((res: Field) => {
+            return of([new SaveFieldSuccessAction(res), new OperationSuccessAction(sm.SAVE_FIELD_SUCCESS)]);
+        })
+        .catch(() => {
+            return of([new SaveFieldFailAction(), new OperationFailAction(sm.SAVE_FIELD_FAIL)]);
         });
 
     @Effect() deleteField: Observable<any> = this.actions$
@@ -84,7 +106,7 @@ export class FieldEffectsService {
                 .mergeMap(() => {
                     return [
                         new DeleteFieldSuccessAction(payload),
-                        new DeleteMapLocationSuccessAction({field: payload.id}),
+                        new DeleteMapLocationSuccessAction({ field: payload.id }),
                         new GetMapPathsAction(payload.game),
                         new OperationSuccessAction(sm.DELETE_FIELD_SUCCESS)
                     ];
@@ -94,7 +116,7 @@ export class FieldEffectsService {
                     if (payload.id) {
                         actions.push(new SaveFieldSuccessAction(payload));
                     }
-                    return actions;
+                    return of(actions);
                 });
         });
 }

@@ -14,23 +14,19 @@ import { GameMap, MapLocation, MapPath } from '../../../../game-mechanics/models
 import {
     DeleteMapLocationSuccessAction,
     DeleteMapPathFailAction,
-    DeleteMapPathSuccessAction,
-    GetMapFailAction, GetMapLocationsAction, GetMapLocationsSuccessAction,
+    DeleteMapPathSuccessAction, GetMapLocationsAction, GetMapLocationsSuccessAction,
     GetMapPathsAction, GetMapPathsFailAction, GetMapPathsSuccessAction,
-    GetMapSuccessAction,
     MapAction,
-    SaveMapFailAction,
     SaveMapLocationFailAction,
     SaveMapLocationSuccessAction,
     SaveMapPathFailAction,
-    SaveMapPathSuccessAction,
-    SaveMapSuccessAction, SetMapLocationsAction, SetMapPathsAction
+    SaveMapPathSuccessAction, SetMapLocationsAction, SetMapPathsAction
 } from '../../actions/byFeature/map.action';
 
 import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
 import { systemMessages as sm } from '../../../../shared/config/messages';
 import {
-    DELETE_MAP_PATH, GET_MAP, GET_MAP_LOCATIONS, GET_MAP_PATHS, SAVE_MAP, SAVE_MAP_LOCATION,
+    DELETE_MAP_PATH, GET_MAP_LOCATIONS, GET_MAP_PATHS, SAVE_MAP_LOCATION,
     SAVE_MAP_PATH
 } from '../../reducers/byFeature/map.reducer';
 import { toIndexedList } from '../../../../shared/utils/utils';
@@ -40,31 +36,6 @@ export class MapEffectsService {
 
     constructor(private actions$: Actions, private api: GameEditService, private store: Store<AppState>) {
     }
-
-    @Effect() saveMap: Observable<any> = this.actions$
-        .ofType(SAVE_MAP)
-        .map((action: MapAction) => action.payload)
-        .mergeMap((payload: GameMap) => {
-            return this.api.saveMap(payload);
-        })
-        .mergeMap((res: GameMap) => {
-            return [new SaveMapSuccessAction(res)];
-        })
-        .catch(() => {
-            return of(new SaveMapFailAction());
-        });
-
-    @Effect() getMap: Observable<any> = this.actions$
-        .ofType(GET_MAP)
-        .mergeMap((action: MapAction) => {
-            return this.api.getMaps(action.payload);
-        })
-        .map(([map]: GameMap[]) => {
-            return new GetMapSuccessAction(map);
-        })
-        .catch(() => {
-            return of(new GetMapFailAction());
-        });
 
     @Effect() saveMapPath: Observable<any> = this.actions$
         .ofType(SAVE_MAP_PATH)

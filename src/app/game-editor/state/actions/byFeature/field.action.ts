@@ -8,6 +8,7 @@ import {
     GET_FIELDS,
     GET_FIELDS_FAIL,
     GET_FIELDS_SUCCESS,
+    UPDATE_FIELD,
     SAVE_FIELD,
     SAVE_FIELD_FAIL,
     SAVE_FIELD_SUCCESS, SET_FIELDS,
@@ -19,6 +20,13 @@ export class SaveFieldAction implements Action {
     }
 
     readonly type = SAVE_FIELD;
+}
+
+export class UpdateFieldAction implements Action {
+    constructor(public payload: Field) {
+    }
+
+    readonly type = UPDATE_FIELD;
 }
 
 export class SaveFieldSuccessAction implements Action {

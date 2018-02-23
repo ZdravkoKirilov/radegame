@@ -1,4 +1,4 @@
-<rg-image-picker *ngIf="!hasBackground" [data]="imagePickerConfig" (change)="addBackground.emit($event)">
+<rg-image-picker *ngIf="!hasBackground" [data]="imagePickerConfig" (change)="addBackground.emit($event.image)">
     Add background
 </rg-image-picker>
 

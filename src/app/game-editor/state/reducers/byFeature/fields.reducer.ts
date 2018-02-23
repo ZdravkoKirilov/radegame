@@ -27,6 +27,7 @@ export const GET_FIELDS_SUCCESS = 'GET_FIELDS_SUCCESS';
 export const GET_FIELDS_FAIL = 'GET_FIELDS_FAIL';
 export const SET_FIELDS = 'SET_FIELDS';
 export const DELETE_FIELD = 'DELETE_FIELD';
+export const UPDATE_FIELD = 'UPDATE_FIELD';
 export const SAVE_FIELD = 'SAVE_FIELD';
 export const SAVE_FIELD_SUCCESS = 'SAVE_FIELD_SUCCESS';
 export const SAVE_FIELD_FAIL = 'SAVE_FIELD_FAIL';
@@ -83,6 +84,9 @@ export const selectFields = createSelector(selectFeature, (state: GameEditorFeat
 });
 export const selectFieldsAsArray = createSelector(selectFeature, (state: GameEditorFeature): Field[] => {
     return Object.values(state.form.fields.items);
+});
+export const selectFieldsByStageId = (stageId: number) => createSelector(selectFeature, (state: GameEditorFeature): Field[] => {
+    return Object.values(state.form.fields.items).filter(elem => elem.stage === stageId);
 });
 export const selectFieldEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
     return state.form.fields.showFieldEditor;

@@ -31,7 +31,7 @@ export const routes: Routes = [
         },
         children: [
             {
-                path: 'stages/:${ROUTER_PARAMS.STAGE_ID}/fields',
+                path: `stages/:${ROUTER_PARAMS.STAGE_ID}/fields`,
                 component: SmartFieldsComponent,
                 pathMatch: 'full'
             },

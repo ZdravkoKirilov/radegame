@@ -13,10 +13,10 @@ const triviaModes: Option[] = Object.keys(TRIVIA_MODES).map(key => {
 
 
 export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] {
-    data = data || { answers: [ ]};
-    
+    data = data || { answers: [] };
+
     const activities = composeActivityOptions(ent);
-    const triviaAnswerTemplate = {
+    const triviaAnswerTemplate: BaseControl = {
         controlType: controlTypes.NESTED_FORM,
         childControls: [
             {
@@ -32,6 +32,7 @@ export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] 
                 controlType: controlTypes.BUTTON_GROUP,
                 name: 'effect',
                 label: 'Effect',
+                multiple: true,
                 options: activities
             }
         ]
@@ -80,7 +81,12 @@ const toNestedForm = (elem: TriviaAnswer, activities: Option[]): BaseControl => 
     return {
         controlType: controlTypes.NESTED_FORM,
         childControls: [
-           {
+            {
+                name: 'id',
+                controlType: controlTypes.TEXT_INPUT,
+                value: elem.id,
+                hidden: true
+            }, {
                 name: 'description',
                 controlType: controlTypes.TEXT_INPUT,
                 value: elem.description,
@@ -96,6 +102,7 @@ const toNestedForm = (elem: TriviaAnswer, activities: Option[]): BaseControl => 
                 controlType: controlTypes.BUTTON_GROUP,
                 name: 'effect',
                 label: 'Effect',
+                multiple: true,
                 options: activities,
                 value: elem.effect.map(elem => elem.activity)
             }
