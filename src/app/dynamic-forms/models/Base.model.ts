@@ -1,5 +1,6 @@
 import { FormDefinition } from './FormDefinition.model';
 import { ConnectedEntities } from './ConnectedEntities';
+import { ToggleContext } from './ToggleContext.model';
 
 export interface Option {
     label: string;
@@ -34,4 +35,5 @@ export interface BaseControl {
     step?: number;
     buttonColor?: string;
     hideThumbnail?: boolean;
+    toggleContext?: ToggleContext;
 }

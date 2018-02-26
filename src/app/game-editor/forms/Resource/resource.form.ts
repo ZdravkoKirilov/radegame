@@ -9,18 +9,25 @@ export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
             name: 'name',
             controlType: controlTypes.TEXT_INPUT,
             value: data.name,
-            label: 'Pick resource name',
+            label: 'Resource name',
             required: true
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
             value: data.description,
             label: 'Resource description',
-            required: false
+            required: false,
+            toggleContext: {
+                show: {
+                    field: 'name',
+                    value: ['Gosho']
+                },
+                defaultValue: '',
+            }
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_PICKER,
-            label: 'Choose resource image',
+            label: 'Resource image',
             required: false,
             value: data.image
         }

@@ -1,10 +1,19 @@
 :host {
-  .item-wrapper {
-    position: relative;
-  }
-  .delete-btn {
-    position: absolute;
-    right: -60px;
-    top: 30px;
-  }
+    .form-array {
+        border: 1px dashed;
+        padding: 10px;
+        margin-bottom: 10px;
+    }
+    .item-wrapper {
+        position: relative;
+        margin-top: 15px;
+    }
+    .delete-btn {
+        position: absolute;
+        right: -60px;
+        top: 30px;
+    }
+    .add-item-button {
+        margin-top: 10px;
+    }
 }

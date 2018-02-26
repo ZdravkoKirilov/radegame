@@ -15,14 +15,29 @@ export class DynamicFormComponent implements OnInit {
     constructor() {
     }
 
-    handleFieldChange(data: any) {
-        this.form.patchValue(data);
-    }
-
     ngOnInit() {
         this.form.valueChanges.subscribe(formData => {
             console.log(formData);
             console.log(this.form.valid);
         });
+    }
+
+    handleFieldChange(data: any) {
+        this.form.patchValue(data);
+    }
+
+    showControl(data: BaseControl) {
+        if (data.toggleContext && data.toggleContext.show) {
+            const ctx = data.toggleContext.show;
+            const value = this.form.value[ctx.field];
+            const visible = ctx.value.indexOf(value) !== -1;
+            if (!visible) {
+                this.form.patchValue({
+                    [data.name]: data.toggleContext.defaultValue
+                });
+            }
+            return visible;
+        }
+        return true;
     }
 }
