@@ -36,3 +36,10 @@ export function composeRoundOptions(ent: ConnectedEntities): Option[] {
         value: elem.id
     }));
 }
+
+export function composeStageOptions(ent: ConnectedEntities): Option[] {
+    return ent.stages.map((elem: Round): Option => ({
+        label: elem.name,
+        value: elem.id
+    }));
+}

@@ -17,7 +17,7 @@ import {
     Stage,
 } from '../../game-mechanics/models/index';
 import { API_URLS } from '../../shared/config/api-urls';
-import { toMultipartFormData, objectToFormData } from '../../shared/utils/ToMultipartFormData';
+import { toMultipartFormData, objectToFormData } from '../../shared/utils/toMultipartFormData';
 
 @Injectable()
 export class GameEditService {

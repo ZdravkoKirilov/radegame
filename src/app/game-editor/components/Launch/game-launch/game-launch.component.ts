@@ -22,7 +22,6 @@ export class GameLaunchComponent implements OnChanges {
 
     handleGameCreate() {
         const value: Game = this.form.value;
-        value.boardType = value.boardType[0];
         this.create.emit(value);
     }
 

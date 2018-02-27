@@ -1,26 +1,22 @@
-import { Quest, QuestCondition, QuestEffect } from '../../../game-mechanics/models/index';
+import { Quest, QuestCondition, QuestEffect, QUEST_CONDITIONS as cnd } from '../../../game-mechanics/models';
 import { BaseControl, Option, SubFormMapping } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
-import { QUEST_CONDITION_MAPPING } from './sub-forms';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { composeActivityOptions } from '../helpers';
+import { composeActivityOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions } from '../helpers';
 
 export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl[] {
-    data = data || <Quest>{
-        penalty: [],
-        condition: [],
-        cost: [],
-        award: []
-    };
+    data = data || <Quest>{ penalty: [], condition: [], cost: [], award: [] };
     const activities = composeActivityOptions(ent);
+    const fields = composeFieldOptions(ent);
+    const rounds = composeRoundOptions(ent);
+    const resources = composeResourceOptions(ent);
+    const stages = composeStageOptions(ent);
 
-    const conditionOptions: Option[] = Object.keys(QUEST_CONDITION_MAPPING).map(key => {
-        return {
-            value: key,
-            label: QUEST_CONDITION_MAPPING[key].name
-        };
+    const conditionOptions: Option[] = Object.keys(cnd).map(key => {
+        return { value: key, label: cnd[key] };
     });
+
     conditionOptions.sort(sortOptions);
     const conditionType = {
         name: 'type',
@@ -29,19 +25,91 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         options: conditionOptions,
         value: ''
     };
+
     const cond_childTemplate: BaseControl = {
-        controlType: controlTypes.DYNAMIC_NESTED_FORM,
-        childControls: [conditionType],
-        childTemplate: conditionType,
-        subFormMapping: QUEST_CONDITION_MAPPING
+        controlType: controlTypes.NESTED_FORM,
+        childControls: [
+            conditionType,
+            {
+                controlType: controlTypes.DROPDOWN,
+                label: 'Field',
+                name: 'field',
+                options: fields,
+                toggleContext: {
+                    show: {
+                        field: conditionType.name,
+                        value: [cnd.CLAIM_FIELD]
+                    }
+                }
+            }, {
+                controlType: controlTypes.DROPDOWN,
+                label: 'Resource',
+                name: 'resource',
+                options: resources,
+                toggleContext: {
+                    show: {
+                        field: conditionType.name,
+                        value: [cnd.CLAIM_RESOURCE]
+                    }
+                }
+            }, {
+                controlType: controlTypes.DROPDOWN,
+                label: 'Activity',
+                name: 'activity',
+                options: activities,
+                toggleContext: {
+                    show: {
+                        field: conditionType.name,
+                        value: [cnd.PLAY_ACTIVITY]
+                    }
+                }
+            }, {
+                controlType: controlTypes.NUMBER_INPUT,
+                label: 'Amount',
+                name: 'amount',
+                toggleContext: {
+                    show: {
+                        field: conditionType.name,
+                        value: [cnd.CLAIM_RESOURCE]
+                    }
+                }
+            }, {
+                controlType: controlTypes.DROPDOWN,
+                label: 'By round',
+                name: 'byRound',
+                options: rounds,
+                toggleContext: {
+                    show: {
+                        field: conditionType.name,
+                        value: [...Object.values(cnd)]
+                    }
+                }
+            }, {
+                controlType: controlTypes.DROPDOWN,
+                label: 'At round',
+                name: 'atRound',
+                options: rounds,
+                toggleContext: {
+                    show: {
+                        field: conditionType.name,
+                        value: [...Object.values(cnd)]
+                    }
+                }
+            }, {
+                controlType: controlTypes.DROPDOWN,
+                label: 'Stage',
+                name: 'stage',
+                options: stages,
+                toggleContext: {
+                    show: {
+                        field: conditionType.name,
+                        value: [...Object.values(cnd)]
+                    }
+                }
+            }],
     };
-    const cond_childControls: BaseControl[] = createDynamicChildren(
-        data.condition,
-        cond_childTemplate,
-        conditionType,
-        QUEST_CONDITION_MAPPING,
-        ent
-    );
+
+    const cond_childControls: BaseControl[] = composeQuestConditions(data.condition, cond_childTemplate);
 
     return [{
         controlType: controlTypes.NUMBER_INPUT,
@@ -74,28 +142,37 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         connectedEntities: ent,
         childControls: cond_childControls,
         childTemplate: cond_childTemplate
-    },
-        {
-            name: 'cost',
-            controlType: controlTypes.BUTTON_GROUP,
-            label: 'Quest cost: ',
-            options: activities,
-            value: composeValue(data.cost),
+    }, {
+        name: 'cost',
+        controlType: controlTypes.BUTTON_GROUP,
+        label: 'Quest cost: ',
+        options: activities,
+        value: composeValue(data.cost),
 
-        }, {
-            name: 'award',
-            controlType: controlTypes.BUTTON_GROUP,
-            label: 'Quest award: ',
-            options: activities,
-            value: composeValue(data.award),
-        }, {
-            name: 'penalty',
-            controlType: controlTypes.BUTTON_GROUP,
-            label: 'Quest penalty: ',
-            options: activities,
-            value: composeValue(data.penalty),
-        }
+    }, {
+        name: 'award',
+        controlType: controlTypes.BUTTON_GROUP,
+        label: 'Quest award: ',
+        options: activities,
+        value: composeValue(data.award),
+    }, {
+        name: 'penalty',
+        controlType: controlTypes.BUTTON_GROUP,
+        label: 'Quest penalty: ',
+        options: activities,
+        value: composeValue(data.penalty),
+    }
     ];
+}
+
+function composeQuestConditions(conditions: QuestCondition[], template: BaseControl): BaseControl[] {
+    return conditions.map(elem => {
+        const nestedForm = { ...template };
+        nestedForm.childControls = nestedForm.childControls.map(child => {
+            return { ...child, value: elem[child.name] };
+        });
+        return nestedForm;
+    });
 }
 
 function composeValue(data: QuestEffect[]) {
@@ -110,25 +187,4 @@ function sortOptions(a: Option, b: Option) {
         return -1;
     }
     return 0;
-}
-
-function createDynamicChildren(data: QuestCondition[],
-                               childTemplate: BaseControl,
-                               typeSwitcher: BaseControl,
-                               formMapping: SubFormMapping,
-                               ent: ConnectedEntities): BaseControl[] {
-    return data ? data.map((elem: QuestCondition) => {
-        const subform: FormDefinition = formMapping[elem.type].form;
-        const childInstance: BaseControl = {
-            ...childTemplate, childControls: [{
-                ...typeSwitcher,
-                value: elem.type
-            },]
-        };
-        if (subform) {
-            const addedControls = subform(elem, ent);
-            childInstance.childControls = childInstance.childControls.concat(addedControls);
-        }
-        return childInstance;
-    }) : [];
 }
