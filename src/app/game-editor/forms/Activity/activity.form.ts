@@ -1,15 +1,15 @@
 import { BaseControl, Option } from '../../../dynamic-forms/models/Base.model';
 import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
-import { Activity, ActivityConfig } from '../../../game-mechanics/models/Activity.model';
-import { ACTIONS_MAPPING } from './sub-forms';
-import { types } from '../../../game-mechanics/models/Activity.model';
+import { Activity, ActivityConfig, types, targetTypes, actionModes } from '../../../game-mechanics/models';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { composeResourceOptions } from '../helpers';
 
 export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseControl[] {
-    data = data || {configs: []};
-    const activityTypes: Option[] = Object.keys(ACTIONS_MAPPING).map(key => {
-        return {value: key, label: ACTIONS_MAPPING[key].name};
+    data = data || { configs: [] };
+    const resources = composeResourceOptions(ent);
+    const activityTypes: Option[] = Object.keys(types).map(key => {
+        return { value: key, label: types[key] };
     });
     activityTypes.sort((a, b) => {
         if (a.label.charAt(0) > b.label.charAt(0)) {
@@ -20,6 +20,7 @@ export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseContro
         }
         return 0;
     });
+
     const activityType = {
         name: 'type',
         controlType: controlTypes.DROPDOWN,
@@ -27,29 +28,148 @@ export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseContro
         options: activityTypes,
         value: ''
     };
-    const childTemplate: BaseControl = {
-        controlType: controlTypes.DYNAMIC_NESTED_FORM,
-        childControls: [activityType],
-        childTemplate: activityType,
-        subFormMapping: ACTIONS_MAPPING
-    };
-    const childControls: BaseControl[] = data.configs.map((elem: ActivityConfig) => {
-        const subform: FormDefinition = ACTIONS_MAPPING[elem.type].form;
-        const childInstance: BaseControl = {
-            ...childTemplate, childControls: [
-                {
-                    ...activityType,
-                    value: elem.type
-                },
 
-            ]
-        };
-        if (subform) {
-            const addedControls = subform(elem, ent);
-            childInstance.childControls = childInstance.childControls.concat(addedControls);
+    const toggleContext1 = {
+        show: {
+            field: activityType.name,
+            value: [types.ATTACK_FIELD, types.DEFEND_FIELD, types.MINE_RESOURCES]
         }
-        return childInstance;
-    });
+    };
+    const toggleContext2 = {
+        show: {
+            field: activityType.name,
+            value: [types.STEAL_QUEST, types.DISCARD_QUEST, types.DRAW_QUEST, types.STEAL_ACTIVITY, types.DISCARD_ACTIVITY,
+            types.ALTER_RESOURCE]
+        }
+    };
+    const toggleContext3 = {
+        show: {
+            field: activityType.name,
+            value: [types.ALTER_RESOURCE]
+        }
+    };
+    const toggleContext4 = {
+        show: {
+            field: activityType.name,
+            value: [types.CANCEL_ATTACK_FIELD, types.CANCEL_DEFEND_FIELD, types.CANCEL_MINE_RESOURCE]
+        }
+    };
+    const toggleContext5 = {
+        show: {
+            field: activityType.name,
+            value: [types.PEEK_QUESTS, types.PEEK_ACTIVITIES]
+        }
+    }
+
+    const childTemplate: BaseControl = {
+        controlType: controlTypes.NESTED_FORM,
+        childControls: [
+            activityType,
+            // start context 1
+            {
+                name: 'amount',
+                controlType: controlTypes.NUMBER_INPUT,
+                label: 'Bonus amount',
+                toggleContext: toggleContext1,
+            }, {
+                name: 'mode',
+                controlType: controlTypes.DROPDOWN,
+                options: [{ label: 'Trigger', value: actionModes.TRIGGER }],
+                label: 'Action mode',
+                defaultValue: actionModes.TRIGGER,
+                toggleContext: toggleContext1,
+            }, {
+                name: 'target',
+                controlType: controlTypes.DROPDOWN,
+                options: [{ label: 'Field', value: targetTypes.FIELD }],
+                defaultValue: targetTypes.FIELD,
+                label: 'Action target',
+                toggleContext: toggleContext1,
+            },
+            // start context2
+            {
+                name: 'amount',
+                controlType: controlTypes.NUMBER_INPUT,
+                label: 'Amount',
+                toggleContext: toggleContext2,
+            }, {
+                name: 'mode',
+                controlType: controlTypes.DROPDOWN,
+                options: [
+                    { label: 'Trigger', value: actionModes.TRIGGER },
+                    { label: 'Trap', value: actionModes.HIDDEN },
+                    { label: 'Passive', value: actionModes.PASSIVE },
+                ],
+                label: 'Action mode',
+                toggleContext: toggleContext2,
+            }, {
+                name: 'target',
+                controlType: controlTypes.DROPDOWN,
+                options: [
+                    { label: 'Player', value: targetTypes.SELF },
+                    { label: 'Active Player', value: targetTypes.ACTIVE_PLAYER },
+                    { label: 'Self', value: targetTypes.SELF },
+                    { label: 'Other player', value: targetTypes.OTHER_PLAYER },
+                ],
+                label: 'Action target',
+                toggleContext: toggleContext2,
+            },
+            // start context 3
+            {
+                name: 'resource',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Resource',
+                options: resources,
+                toggleContext: toggleContext3
+            },
+            // start context 4
+            {
+                name: 'mode',
+                controlType: controlTypes.DROPDOWN,
+                options: [
+                    { label: 'Trigger', value: actionModes.TRIGGER },
+                    { label: 'Trap', value: actionModes.HIDDEN }
+                ],
+                label: 'Action mode',
+                toggleContext: toggleContext4
+            }, {
+                name: 'target',
+                controlType: controlTypes.DROPDOWN,
+                options: [{ label: 'Field', value: targetTypes.FIELD }],
+                label: 'Action target',
+                toggleContext: toggleContext4,
+                defaultValue: targetTypes.FIELD
+            },
+            // start context 5
+            {
+                name: 'amount',
+                controlType: controlTypes.NUMBER_INPUT,
+                label: 'Number of peeks',
+                toggleContext: toggleContext5,
+            }, {
+                name: 'mode',
+                controlType: controlTypes.DROPDOWN,
+                options: [
+                    { label: 'Trigger', value: actionModes.TRIGGER },
+                    { label: 'Trap', value: actionModes.HIDDEN },
+                    { label: 'Passive', value: actionModes.PASSIVE }
+                ],
+                label: 'Action mode',
+                toggleContext: toggleContext5,
+            }, {
+                name: 'target',
+                controlType: controlTypes.DROPDOWN,
+                options: [
+                    { label: 'Other player', value: targetTypes.OTHER_PLAYER },
+                    { label: 'Active player', value: targetTypes.ACTIVE_PLAYER }
+                ],
+                label: 'Action target',
+                toggleContext: toggleContext5
+            }
+        ],
+    };
+    const childControls: BaseControl[] = composeActivityConfigs(data.configs, childTemplate);
+
     return [
         {
             name: 'name',
@@ -79,5 +199,15 @@ export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseContro
             childTemplate
         }
     ];
+}
+
+function composeActivityConfigs(configs: ActivityConfig[], template: BaseControl): BaseControl[] {
+    return configs.map(elem => {
+        const nestedForm = { ...template };
+        nestedForm.childControls = nestedForm.childControls.map(child => {
+            return { ...child, value: elem[child.name] };
+        });
+        return nestedForm;
+    });
 }
 

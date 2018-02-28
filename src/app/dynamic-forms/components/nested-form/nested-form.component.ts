@@ -39,13 +39,13 @@ export class NestedFormComponent {
             const visible = ctx.value.indexOf(value) !== -1;
             if (!visible) {
                 if (this.ownGroup) {
-                    this.ownGroup.controls[this.index].patchValue({
-                        [data.name]: data.toggleContext.defaultValue
-                    })
+                    // this.ownGroup.controls[this.index].patchValue({
+                    //     [data.name]: data.toggleContext.defaultValue
+                    // })
                 } else {
-                    this.form.patchValue({
-                        [data.name]: data.toggleContext.defaultValue
-                    });
+                    // this.form.patchValue({
+                    //     [data.name]: data.toggleContext.defaultValue
+                    // });
                 }
             }
             return visible;

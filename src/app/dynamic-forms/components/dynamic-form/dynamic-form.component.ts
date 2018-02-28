@@ -32,9 +32,9 @@ export class DynamicFormComponent implements OnInit {
             const value = this.form.value[ctx.field];
             const visible = ctx.value.indexOf(value) !== -1;
             if (!visible) {
-                this.form.patchValue({
-                    [data.name]: data.toggleContext.defaultValue
-                });
+                // this.form.patchValue({
+                //     [data.name]: data.toggleContext.defaultValue
+                // });
             }
             return visible;
         }

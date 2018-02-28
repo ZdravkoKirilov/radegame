@@ -17,11 +17,13 @@ export interface SubFormMapping {
 
 export interface BaseControl {
     value?: any;
+    defaultValue?: any;
     name?: string;
     label?: string;
     errorMessage?: string;
     required?: boolean;
     hidden?: boolean;
+    readonly?: boolean;
     controlType?: string;
     options?: Option[];
     childControls?: BaseControl[];
