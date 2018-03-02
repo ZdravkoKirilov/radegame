@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../models/Base.model';
+import { showControl } from '../../helpers';
 
 @Component({
     selector: 'rg-dynamic-form',
@@ -17,8 +18,7 @@ export class DynamicFormComponent implements OnInit {
 
     ngOnInit() {
         this.form.valueChanges.subscribe(formData => {
-            console.log(formData);
-            console.log(this.form.valid);
+            console.log(formData, this.form.valid);
         });
     }
 
@@ -26,18 +26,7 @@ export class DynamicFormComponent implements OnInit {
         this.form.patchValue(data);
     }
 
-    showControl(data: BaseControl) {
-        if (data.toggleContext && data.toggleContext.show) {
-            const ctx = data.toggleContext.show;
-            const value = this.form.value[ctx.field];
-            const visible = ctx.value.indexOf(value) !== -1;
-            if (!visible) {
-                // this.form.patchValue({
-                //     [data.name]: data.toggleContext.defaultValue
-                // });
-            }
-            return visible;
-        }
-        return true;
+    showControl(data: BaseControl): boolean {
+        return showControl(data, this.form);
     }
 }

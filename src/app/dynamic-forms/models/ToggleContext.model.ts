@@ -9,5 +9,3 @@ export interface ToggleContext {
     };
     defaultValue?: any;
 }
-
-export type ToggleFunction = (ctx: ToggleContext) => boolean;

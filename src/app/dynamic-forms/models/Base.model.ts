@@ -1,6 +1,6 @@
 import { FormDefinition } from './FormDefinition.model';
 import { ConnectedEntities } from './ConnectedEntities';
-import { ToggleContext } from './ToggleContext.model';
+import { ToggleContext, CrossFieldContext } from './';
 
 export interface Option {
     label: string;
@@ -38,4 +38,7 @@ export interface BaseControl {
     buttonColor?: string;
     hideThumbnail?: boolean;
     toggleContext?: ToggleContext;
+    crossFieldContext?: CrossFieldContext;
+    minItems?: number;
+    maxItems?: number;
 }

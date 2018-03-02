@@ -26,7 +26,7 @@ export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseContro
         controlType: controlTypes.DROPDOWN,
         label: 'Action type',
         options: activityTypes,
-        value: ''
+        required: true,
     };
 
     const toggleContext1 = {
@@ -120,7 +120,8 @@ export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseContro
                 controlType: controlTypes.DROPDOWN,
                 label: 'Resource',
                 options: resources,
-                toggleContext: toggleContext3
+                toggleContext: toggleContext3,
+                required: true
             },
             // start context 4
             {
@@ -182,7 +183,6 @@ export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseContro
             controlType: controlTypes.TEXT_INPUT,
             value: data.description || '',
             label: 'Action description',
-            required: false
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_BROWSER,
@@ -195,6 +195,7 @@ export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseContro
             label: 'Action configuration',
             addButtonText: 'Add activity',
             connectedEntities: ent,
+            minItems: 1,
             childControls,
             childTemplate
         }
