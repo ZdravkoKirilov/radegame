@@ -1,18 +1,18 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
+import { NgModule } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 import {
-    MatStepperModule, MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
+    MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
     MatSelectModule, MatCheckboxModule, MatSliderModule, MatCardModule, MatButtonToggleModule,
-    MatMenuModule, MatSlideToggleModule, MatSnackBarModule
+    MatMenuModule, MatSlideToggleModule, MatSnackBarModule, MatTabsModule, MatIconRegistry,
+    MatDividerModule
 } from '@angular/material';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
         CommonModule,
         BrowserAnimationsModule,
-        MatStepperModule,
         MatButtonModule,
         MatIconModule,
         MatInputModule,
@@ -24,10 +24,11 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         MatButtonToggleModule,
         MatMenuModule,
         MatSlideToggleModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatTabsModule,
+        MatDividerModule,
     ],
     exports: [
-        MatStepperModule,
         MatButtonModule,
         MatIconModule,
         MatInputModule,
@@ -39,9 +40,17 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
         MatButtonToggleModule,
         MatMenuModule,
         MatSlideToggleModule,
-        MatSnackBarModule
+        MatSnackBarModule,
+        MatTabsModule,
+        MatDividerModule,
     ],
-    declarations: []
+    declarations: [],
+    providers: [
+
+    ]
 })
 export class NgMaterialModule {
+    constructor(public matIconRegistry: MatIconRegistry) {
+        matIconRegistry.registerFontClassAlias('fontawesome', 'fa');
+    }
 }

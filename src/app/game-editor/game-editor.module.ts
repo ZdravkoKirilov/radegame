@@ -14,7 +14,6 @@ import { routes } from './routing';
 import { reducers } from './state/reducers/index';
 import { metaReducers } from './state/reducers/index';
 
-import { NgMaterialModule } from '../ng-material/ng-material.module';
 import { DynamicFormsModule } from '../dynamic-forms/dynamic-forms.module';
 import { GameEditService } from './services/game-edit.service';
 import * as fromGuards from './guards';
@@ -71,7 +70,6 @@ import { SmartStagesComponent } from './containers/smart-stages/smart-stages.com
         ReactiveFormsModule,
         DynamicFormsModule,
         RouterModule.forChild(routes),
-        NgMaterialModule
     ],
     exports: [
         RouterModule

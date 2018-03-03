@@ -1,0 +1,14 @@
+:host {
+    display: flex;
+    justify-content: center;
+    margin-top: 2em;
+    .divider {
+        text-align: center;
+        .content {
+            display: inline-block;
+            padding: 0 25px;
+            background: white;
+            transform: translateY(-0.7em);
+        }
+    }
+}

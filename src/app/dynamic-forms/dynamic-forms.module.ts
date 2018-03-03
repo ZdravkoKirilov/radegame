@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule } from '@angular/forms';
-import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../shared/shared.module';
 
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { DROPZONE_CONFIG } from './config/dropzone';
@@ -25,8 +24,7 @@ import { DynamicNestedFormComponent } from './components/dynamic-nested-form/dyn
 @NgModule({
     imports: [
         CommonModule,
-        FormsModule,
-        ReactiveFormsModule,
+        SharedModule,
         NgMaterialModule,
         DropzoneModule.forRoot(DROPZONE_CONFIG)
     ],

@@ -9,7 +9,7 @@ import { AppState } from '../../core/state/index';
 import { GameEditorFeature } from '../state/reducers/index';
 import { selectFeature } from '../state/reducers/selectors';
 import * as actions from '../state/actions';
-import { ROUTER_PARAMS } from '../../shared/config/config';
+import { ROUTER_PARAMS } from '../../shared/config/router-params';
 
 @Injectable()
 export class GameDataGuard implements CanActivate {

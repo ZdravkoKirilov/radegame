@@ -1,0 +1,18 @@
+<button [ngClass]="{'btn-facebook facebook-color-bg': type === types.FACEBOOK, 'btn-google google-color-bg': type === types.GOOGLE}"
+  mat-raised-button>
+
+  <ng-container [ngSwitch]="type">
+
+    <ng-container *ngSwitchCase="types.FACEBOOK">
+      <mat-icon fontSet="fa" fontIcon="fa-facebook"></mat-icon>
+      {{label}}
+    </ng-container>
+
+    <ng-container *ngSwitchCase="types.GOOGLE">
+      <mat-icon fontSet="fa" fontIcon="fa-google-plus"></mat-icon>
+      {{label}}
+    </ng-container>
+
+  </ng-container>
+
+</button>
