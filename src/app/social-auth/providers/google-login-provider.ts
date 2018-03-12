@@ -10,7 +10,7 @@ export class GoogleLoginProvider extends BaseLoginProvider {
 
   protected auth2: any;
 
-  constructor(private clientId: string, private opt: LoginOpt = {scope: 'email'}) { super(); }
+  constructor(private clientId: string, private opt: LoginOpt = { scope: 'email' }) { super(); }
 
   initialize(): Promise<SocialUser> {
     return new Promise((resolve, reject) => {

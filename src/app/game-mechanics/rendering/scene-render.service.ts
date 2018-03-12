@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
-import { WindowRefService } from '../../shared/services/window-ref.service';
+import { WindowRefService } from '../../core';
 import { SpriteComponent } from './entities/SpriteComponent';
 import { MapNode } from './entities/Node';
 import { Field, MapLocation, MapPath } from '../models';

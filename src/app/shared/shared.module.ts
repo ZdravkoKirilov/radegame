@@ -7,6 +7,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgMaterialModule } from '../ng-material/ng-material.module';
 import { SocialButtonComponent } from './components/social-button/social-button.component';
 import { DividerComponent } from './components/divider/divider.component';
+import { MainMenuComponent } from './components/main-menu/main-menu.component';
 
 @NgModule({
     imports: [
@@ -17,9 +18,10 @@ import { DividerComponent } from './components/divider/divider.component';
         FormsModule,
         ReactiveFormsModule,
         SocialButtonComponent,
-        DividerComponent
+        DividerComponent,
+        MainMenuComponent,
     ],
-    declarations: [SocialButtonComponent, DividerComponent],
+    declarations: [SocialButtonComponent, DividerComponent, MainMenuComponent],
     providers: []
 })
 export class SharedModule {

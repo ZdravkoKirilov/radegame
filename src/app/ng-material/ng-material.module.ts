@@ -5,7 +5,7 @@ import {
     MatButtonModule, MatIconModule, MatInputModule, MatFormFieldModule,
     MatSelectModule, MatCheckboxModule, MatSliderModule, MatCardModule, MatButtonToggleModule,
     MatMenuModule, MatSlideToggleModule, MatSnackBarModule, MatTabsModule, MatIconRegistry,
-    MatDividerModule
+    MatDividerModule, MatToolbarModule,
 } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -27,6 +27,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         MatSnackBarModule,
         MatTabsModule,
         MatDividerModule,
+        MatToolbarModule,
     ],
     exports: [
         MatButtonModule,
@@ -43,6 +44,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
         MatSnackBarModule,
         MatTabsModule,
         MatDividerModule,
+        MatToolbarModule,
     ],
     declarations: [],
     providers: [

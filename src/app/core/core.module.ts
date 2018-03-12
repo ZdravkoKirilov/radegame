@@ -11,12 +11,11 @@ import { CoreEffectsService } from './state/effects/core-effects.service';
 import { reducers } from './state/reducers/index';
 import { CustomRouterSerializer } from './router-custom.serializer';
 import { AppRoutingModule } from '../app-routing.module';
-import { WindowRefService } from '../shared/services/window-ref.service';
+import { WindowRefService } from './services/';
 import { HomeModule } from '../home/home.module';
 import { GameEditorModule } from '../game-editor/game-editor.module';
 import { ProfileModule } from '../profile/profile.module';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { Profile } from 'selenium-webdriver/firefox';
+import { NotFoundComponent } from './components';
 
 @NgModule({
     imports: [
