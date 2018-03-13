@@ -6,10 +6,6 @@
             <rg-text-input [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-text-input>
         </ng-container>
 
-        <ng-container *ngSwitchCase="types.IMAGE_BROWSER">
-            <rg-image-browser [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-image-browser>
-        </ng-container>
-
         <ng-container *ngSwitchCase="types.BUTTON_GROUP">
             <rg-button-group [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-button-group>
         </ng-container>

@@ -13,6 +13,7 @@ import { DividerComponent } from './components/divider/divider.component';
         CommonModule, NgMaterialModule, FormsModule, ReactiveFormsModule, HttpClientModule
     ],
     exports: [
+        CommonModule,
         NgMaterialModule,
         FormsModule,
         ReactiveFormsModule,

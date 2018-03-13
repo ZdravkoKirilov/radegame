@@ -1,5 +1,5 @@
-import { LoginProvider } from "./login-provider";
-import { SocialUser } from './user';
+import { LoginProvider } from './login-provider';
+import { SocialUser } from '../models';
 
 export abstract class BaseLoginProvider implements LoginProvider {
 
@@ -12,7 +12,7 @@ export abstract class BaseLoginProvider implements LoginProvider {
   loadScript(id: string, src: string, onload: any): void {
       if (document.getElementById(id)) { return; }
 
-      let signInJS = document.createElement("script");
+      const signInJS = document.createElement('script');
       signInJS.async = true;
       signInJS.src = src;
       signInJS.onload = onload;

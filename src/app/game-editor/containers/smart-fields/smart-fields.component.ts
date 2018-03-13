@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AppState } from '../../../core/state/index';
+import { AppState } from '../../../core';
 import {
     GameMap,
     Field,
@@ -13,19 +13,19 @@ import {
     MapLocation,
     Resource,
     Stage
-} from '../../../game-mechanics/models/index';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { FIELD_DEF } from '../../forms/Field/field.form';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
-import { SceneRenderService } from '../../../game-mechanics/rendering/scene-render.service';
-import { SaveStageAction } from '../../state/actions';
+} from '../../../game-mechanics';
+import { FormDefinition } from '../../../dynamic-forms';
+import { FIELD_DEF } from '../../forms';
+import { ConnectedEntities } from '../../../dynamic-forms';
+import { SceneRenderService } from '../../../game-mechanics';
+import { SaveStageAction } from '../../state';
 
 import {
     selectFieldEditorToggleState, getSelectedField,
     selectFields, selectFieldsByStageId,
-} from '../../state/reducers/byFeature/fields.reducer';
-import { selectQuests } from '../../state/reducers/byFeature/quest.reducer';
-import { selectActivities } from '../../state/reducers/byFeature/activity.reducer';
+} from '../../state';
+import { selectQuests } from '../../state';
+import { selectActivities } from '../../state';
 import {
     getSelectedPath,
     selectMapLocations,
@@ -33,11 +33,11 @@ import {
     selectPathCreationMode,
     selectPathsByStageId,
     selectLocationsByStageId,
-} from '../../state/reducers/byFeature/map.reducer';
-import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
-import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
-import { selectStageId } from '../../../core/state/reducers/selectors';
-import { selectStageById } from '../../state/reducers/exports';
+} from '../../state';
+import { selectResources } from '../../state';
+import { selectGame } from '../../state';
+import { selectStageId } from '../../../core/state';
+import { selectStageById } from '../../state';
 
 import {
     SaveMapLocationAction,

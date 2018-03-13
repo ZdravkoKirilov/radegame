@@ -1,2 +1,2 @@
-export { LoginProvider } from './login-provider';
-export { SocialUser } from './user';
+export * from './login-provider';
+export * from './base-login-provider';

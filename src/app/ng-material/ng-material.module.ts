@@ -7,12 +7,10 @@ import {
     MatMenuModule, MatSlideToggleModule, MatSnackBarModule, MatTabsModule, MatIconRegistry,
     MatDividerModule
 } from '@angular/material';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
     imports: [
         CommonModule,
-        BrowserAnimationsModule,
         MatButtonModule,
         MatIconModule,
         MatInputModule,

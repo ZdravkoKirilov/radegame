@@ -10,7 +10,7 @@ import { SmartRoundsComponent } from './containers/smart-rounds/smart-rounds.com
 import { SmartActivitiesComponent } from './containers/smart-activities/smart-activities.component';
 import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
 import { SmartStagesComponent } from './containers/smart-stages/smart-stages.component';
-import { ROUTER_PARAMS } from '../shared/config';
+import { ROUTER_PARAMS } from '../shared';
 import * as fromGuards from './guards';
 
 export const routes: Routes = [

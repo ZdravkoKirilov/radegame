@@ -4,28 +4,29 @@ import {
   AuthService,
   FacebookLoginProvider,
   GoogleLoginProvider,
-  SocialUser
-} from "../../../social-auth/";
+  SocialUser,
+} from '../../../social-auth/';
 
 import { LOGIN_MODES, SignInPayload } from '../../models/';
 
 @Component({
   selector: 'rg-sign-in',
   templateUrl: './sign-in.component.html',
-  styleUrls: ['./sign-in.component.scss']
+  styleUrls: ['./sign-in.component.scss'],
+  providers: [AuthService]
 })
 export class SignInComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(/*private authService: AuthService*/) { }
 
   private user: SocialUser;
   private loggedIn: boolean;
 
   ngOnInit() {
-    this.authService.authState.subscribe((user) => {
-      this.user = user;
-      this.loggedIn = (user != null);
-    });
+    // this.authService.authState.subscribe((user) => {
+    //   this.user = user;
+    //   this.loggedIn = (user != null);
+    // });
   }
 
   signIn(data: SignInPayload) {
@@ -38,14 +39,15 @@ export class SignInComponent implements OnInit {
   }
 
   signInWithGoogle(): void {
-    this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+
+    //this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
   }
 
   signInWithFB(): void {
-    this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    //this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 
   signOut(): void {
-    this.authService.signOut();
+    //this.authService.signOut();
   }
 }

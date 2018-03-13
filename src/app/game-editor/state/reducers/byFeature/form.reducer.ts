@@ -10,7 +10,7 @@ import {
     roundsReducer,
     triviaReducer,
     stageReducer,
-} from '../exports';
+} from '../';
 import * as actionTypes from '../../actions/actionTypes';
 import { Resources } from './resources.reducer';
 import { Factions } from './factions.reducer';

@@ -6,13 +6,12 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { FEATURE_NAME } from './utils/config';
-import { effects } from './state/effects/index';
+import { effects } from './state/effects';
 
 import { IndexComponent } from './components/index/index.component';
 
 import { routes } from './routing';
-import { reducers } from './state/reducers/index';
-import { metaReducers } from './state/reducers/index';
+import { reducers, metaReducers } from './state';
 
 import { DynamicFormsModule } from '../dynamic-forms/dynamic-forms.module';
 import { GameEditService } from './services/game-edit.service';

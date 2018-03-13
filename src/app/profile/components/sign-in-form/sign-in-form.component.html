@@ -2,11 +2,15 @@
 
   <section class="social-buttons-wrapper">
 
-    <rg-social-button [type]="buttons.FACEBOOK" [label]="'Use Facebook'" (click)="onSignIn(buttons.FACEBOOK)">
-    </rg-social-button>
+    <a [routerLink]="['social/facebook']" [queryParams]="{returnTo: '/home'}" class="social-link">
+      <rg-social-button [type]="buttons.FACEBOOK" [label]="'Use Facebook'">
+      </rg-social-button>
+    </a>
 
-    <rg-social-button [type]="buttons.GOOGLE" [label]="'Use Google'" (click)="onSignIn(buttons.GOOGLE)">
-    </rg-social-button>
+    <a [routerLink]="['social/google']" class="social-link">
+      <rg-social-button [type]="buttons.GOOGLE" [label]="'Use Google'">
+      </rg-social-button>
+    </a>
 
   </section>
 
@@ -23,7 +27,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input type="password" matInput placeholder="Password" formControlName="password"/>
+        <input type="password" matInput placeholder="Password" formControlName="password" />
       </mat-form-field>
 
       <button [disabled]="!form.valid" (click)="onSignIn(buttons.EMAIL)" type="button" mat-raised-button color="primary">{{buttonText}}</button>

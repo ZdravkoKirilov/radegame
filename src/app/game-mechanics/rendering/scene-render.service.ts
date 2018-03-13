@@ -2,11 +2,9 @@ import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
 
 import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
-import { WindowRefService } from '../../shared/services/window-ref.service';
-import { SpriteComponent } from './entities/SpriteComponent';
-import { MapNode } from './entities/Node';
+import { WindowRefService } from '../../core';
+import { SpriteComponent, MapNode, Path } from './entities';
 import { Field, MapLocation, MapPath } from '../models';
-import { Path } from './entities/Path';
 
 @Injectable()
 export class SceneRenderService {

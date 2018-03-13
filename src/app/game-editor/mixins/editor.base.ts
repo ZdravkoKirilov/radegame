@@ -1,10 +1,7 @@
 import { OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { FormDefinition } from '../../dynamic-forms/models/FormDefinition.model';
-import { BaseControl } from '../../dynamic-forms/models/Base.model';
-import { ControlsService } from '../../dynamic-forms/services/controls.service';
-import { ConnectedEntities } from '../../dynamic-forms/models/ConnectedEntities';
+import { FormDefinition, BaseControl, ControlsService, ConnectedEntities } from '../../dynamic-forms';
 
 export abstract class EditorBase<T> implements OnInit {
 

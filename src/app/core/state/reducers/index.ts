@@ -1,7 +1,2 @@
-import { routerReducer } from '@ngrx/router-store';
-import { ActionReducerMap } from '@ngrx/store';
-import { AppState } from '../index';
-
-export const reducers: ActionReducerMap<AppState> = {
-    router: routerReducer
-};
+export * from './main';
+export * from './selectors';

@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImageBrowserComponent } from './image-browser.component';
+import { GoogleSignInComponent } from './google-sign-in.component';
 
-describe('ImageBrowserComponent', () => {
-  let component: ImageBrowserComponent;
-  let fixture: ComponentFixture<ImageBrowserComponent>;
+describe('GoogleSignInComponent', () => {
+  let component: GoogleSignInComponent;
+  let fixture: ComponentFixture<GoogleSignInComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ImageBrowserComponent ]
+      declarations: [ GoogleSignInComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImageBrowserComponent);
+    fixture = TestBed.createComponent(GoogleSignInComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

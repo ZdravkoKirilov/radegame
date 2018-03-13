@@ -12,7 +12,7 @@ import 'rxjs/add/operator/map';
 export class AppComponent implements OnInit {
     constructor(private store: Store<AppState>, private titleService: Title) {
         this.store.select('router')
-            .map(data => data ? data.state.data : null)
+            .map(data => data && data.state ? data.state.data : null)
             .subscribe(routeData => {
                 if (routeData) {
                     this.titleService.setTitle((routeData as any).title);
