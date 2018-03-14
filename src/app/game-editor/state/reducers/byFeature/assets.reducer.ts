@@ -6,10 +6,12 @@ import { selectFeature } from '../selectors';
 
 export interface GameEditorAssets {
     game?: Game;
+    preloadedGameIds?: number[];
 }
 
 const initialState: GameEditorAssets = {
     game: null,
+    preloadedGameIds: [],
 };
 
 export const UPDATE_EDITOR_ASSET = 'UPDATE_EDITOR_ASSET';

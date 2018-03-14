@@ -11,9 +11,9 @@
 
         <mat-card-actions>
             <button mat-button (click)="removeItem.emit(item)">Remove</button>
-            <button mat-button>
-                <a [routerLink]="['/games', item.id, 'editor']" class="undecorated">Edit</a>
-            </button>
+
+            <a [routerLink]="['/games', item.id, 'editor']" class="edit">Edit</a>
+
         </mat-card-actions>
     </mat-card>
 </div>

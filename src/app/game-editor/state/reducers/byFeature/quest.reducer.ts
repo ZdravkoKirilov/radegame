@@ -56,7 +56,10 @@ export function questsReducer(state: GameQuest = initialState, action: QuestActi
         case SET_QUESTS:
             return {
                 ...state,
-                items: action.payload
+                items: {
+                    ...state.items,
+                    ...action.payload
+                }
             };
         case TOGGLE_QUEST_EDITOR:
             return {
