@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { Faction } from '../../../../game-mechanics/models/Faction.model';
-import { ListBase } from '../../../mixins/list.base';
+import { Faction } from '../../../../game-mechanics';
+import { ListBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-factions-list',

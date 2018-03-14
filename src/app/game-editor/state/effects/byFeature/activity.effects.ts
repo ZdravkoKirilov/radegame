@@ -5,7 +5,7 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
+import { GameEditService } from '../../../../core';
 import { Activity } from '../../../../game-mechanics/models/index';
 import {
     GetActivitiesAction,

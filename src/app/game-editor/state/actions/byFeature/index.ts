@@ -3,7 +3,7 @@ export * from './asset.action';
 export * from './faction.action';
 export * from './field.action';
 export * from './form.action';
-export * from './launcher.action';
+export * from './game.action';
 export * from './map.action';
 export * from './quest.action';
 export * from './resource.action';

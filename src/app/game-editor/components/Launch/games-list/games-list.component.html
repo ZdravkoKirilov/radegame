@@ -2,14 +2,18 @@
     <mat-card *ngFor="let item of items">
         <mat-card-header>
             <mat-card-title>{{item.title}}</mat-card-title>
+            <img mat-card-avatar [src]="item.image" />
         </mat-card-header>
+
         <mat-card-content>
 
         </mat-card-content>
 
         <mat-card-actions>
-            <button mat-button>View</button>
-            <button mat-button (click)="navigateToGame(item.id)">Edit</button>
+            <button mat-button (click)="removeItem.emit(item)">Remove</button>
+            <button mat-button>
+                <a [routerLink]="['/games', item.id, 'editor']" class="undecorated">Edit</a>
+            </button>
         </mat-card-actions>
     </mat-card>
 </div>

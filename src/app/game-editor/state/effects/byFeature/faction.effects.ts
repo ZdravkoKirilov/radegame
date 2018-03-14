@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { Faction } from '../../../../game-mechanics/models/index';
+import { GameEditService } from '../../../../core';
+import { Faction } from '../../../../game-mechanics';
 import {
     AddFactionAction,
     DeleteFactionFailAction,
@@ -20,12 +20,12 @@ import {
     SetFactionsAction,
     SaveFactionAction,
     DeleteFactionAction
-} from '../../actions/byFeature/faction.action';
+} from '../../actions';
 
-import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
-import { systemMessages as sm } from '../../../../shared/config/messages';
-import { DELETE_FACTION, SAVE_FACTION, GET_FACTIONS } from '../../reducers/byFeature/factions.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { OperationFailAction, OperationSuccessAction } from '../../../../core';
+import { systemMessages as sm } from '../../../../shared';
+import { DELETE_FACTION, SAVE_FACTION, GET_FACTIONS } from '../../reducers';
+import { toIndexedList } from '../../../../shared';
 
 @Injectable()
 export class FactionEffectsService {

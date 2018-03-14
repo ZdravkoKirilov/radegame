@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { Trivia } from '../../../../game-mechanics/models/index';
+import { GameEditService } from '../../../../core';
+import { Trivia } from '../../../../game-mechanics';
 import {
     GetTriviasAction,
     SetTriviasAction,
@@ -20,10 +20,10 @@ import {
     DeleteTriviaSuccessAction,
     DeleteTriviaFailAction,
     RemoveTriviaAction
-} from '../../actions/byFeature/trivia.action';
+} from '../../actions';
 
-import { GET_TRIVIAS, SAVE_TRIVIA, DELETE_TRIVIA } from '../../reducers/byFeature/trivia.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { GET_TRIVIAS, SAVE_TRIVIA, DELETE_TRIVIA } from '../../reducers';
+import { toIndexedList } from '../../../../shared';
 
 @Injectable()
 export class TriviaEffectsService {

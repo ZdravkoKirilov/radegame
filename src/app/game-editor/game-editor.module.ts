@@ -14,7 +14,6 @@ import { routes } from './routing';
 import { reducers, metaReducers } from './state';
 
 import { DynamicFormsModule } from '../dynamic-forms/dynamic-forms.module';
-import { GameEditService } from './services/game-edit.service';
 import * as fromGuards from './guards';
 
 import { ResourcesComponent } from './components/Resource/resources/resources.component';
@@ -56,6 +55,8 @@ import { StagesComponent } from './components/Stage/stages/stages.component';
 import { StagesListComponent } from './components/Stage/stages-list/stages-list.component';
 import { StageEditorComponent } from './components/Stage/stage-editor/stage-editor.component';
 import { SmartStagesComponent } from './containers/smart-stages/smart-stages.component';
+import { EditorWrapperComponent } from './containers/editor-wrapper/editor-wrapper.component';
+import { GameEditorComponent } from './components/Launch/game-editor/game-editor.component';
 
 @NgModule({
     imports: [
@@ -74,7 +75,6 @@ import { SmartStagesComponent } from './containers/smart-stages/smart-stages.com
         RouterModule
     ],
     providers: [
-        GameEditService,
         ...fromGuards.guards
     ],
     declarations: [
@@ -116,7 +116,9 @@ import { SmartStagesComponent } from './containers/smart-stages/smart-stages.com
         StagesComponent,
         StagesListComponent,
         StageEditorComponent,
-        SmartStagesComponent
+        SmartStagesComponent,
+        EditorWrapperComponent,
+        GameEditorComponent
     ]
 })
 export class GameEditorModule {

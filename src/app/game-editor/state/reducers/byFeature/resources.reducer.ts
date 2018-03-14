@@ -1,5 +1,5 @@
-import { ResourceAction } from '../../actions/byFeature/resource.action';
-import { Resource } from '../../../../game-mechanics/models/index';
+import { ResourceAction } from '../../actions';
+import { Resource } from '../../../../game-mechanics';
 import { createSelector } from '@ngrx/store';
 import { GameEditorFeature } from '../index';
 import { selectFeature } from '../selectors';
@@ -19,7 +19,7 @@ const initialState: Resources = {
     lastInsert: null,
     lastDelete: null,
     showEditor: false,
-    selectedItem: null
+    selectedItem: null,
 };
 
 export const SAVE_RESOURCE = 'SAVE_RESOURCE';

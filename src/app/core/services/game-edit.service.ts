@@ -15,9 +15,8 @@ import {
     Round,
     Trivia,
     Stage,
-} from '../../game-mechanics/models/index';
-import { API_URLS } from '../../shared/config/api-urls';
-import { toMultipartFormData, objectToFormData } from '../../shared/utils';
+} from '../../game-mechanics';
+import { API_URLS, toMultipartFormData, objectToFormData } from '../../shared';
 
 @Injectable()
 export class GameEditService {

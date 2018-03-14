@@ -1,7 +1,12 @@
 <rg-game-launch
-        [controls]="controls"
-        [games]="games"
-        (create)="handleGameCreate($event)"
+        [formDefinition]="formDefinition"
+        [items]="items"
+        [showEditor]="showEditor"
+        [selectedItem]="selectedItem"
+        (saveItem)="saveItem($event)"
+        (editItem)="editItem($event)"
+        (removeItem)="removeItem($event)"
+        (toggleEditor)="toggleEditor($event)"
 >
 
 </rg-game-launch>

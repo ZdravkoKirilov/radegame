@@ -1,1 +1,3 @@
-<router-outlet></router-outlet>
+<div class='routes-wrapper' [@fadeAnimation]="getRouterOutletState(o)">
+    <router-outlet #o="outlet"></router-outlet>
+</div>

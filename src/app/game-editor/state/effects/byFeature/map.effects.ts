@@ -8,8 +8,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { GameMap, MapLocation, MapPath } from '../../../../game-mechanics/models/index';
+import { GameEditService } from '../../../../core';
+import { GameMap, MapLocation, MapPath } from '../../../../game-mechanics';
 
 import {
     DeleteMapLocationSuccessAction,
@@ -21,15 +21,15 @@ import {
     SaveMapLocationSuccessAction,
     SaveMapPathFailAction,
     SaveMapPathSuccessAction, SetMapLocationsAction, SetMapPathsAction
-} from '../../actions/byFeature/map.action';
+} from '../../actions';
 
-import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
-import { systemMessages as sm } from '../../../../shared/config/messages';
+import { OperationFailAction, OperationSuccessAction } from '../../../../core';
+import { systemMessages as sm } from '../../../../shared';
 import {
     DELETE_MAP_PATH, GET_MAP_LOCATIONS, GET_MAP_PATHS, SAVE_MAP_LOCATION,
     SAVE_MAP_PATH
-} from '../../reducers/byFeature/map.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+} from '../../reducers';
+import { toIndexedList } from '../../../../shared';
 
 @Injectable()
 export class MapEffectsService {

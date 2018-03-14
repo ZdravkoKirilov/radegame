@@ -6,8 +6,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { Game } from '../../../../game-mechanics/models/index';
+import { GameEditService } from '../../../../core';
+import { Game } from '../../../../game-mechanics';
 
 import {
     SetGamesAction,
@@ -17,15 +17,14 @@ import {
     CreateGameAction,
     CreateGameFailAction,
     CreateGameSuccessAction,
-} from '../../actions/byFeature/launcher.action';
+} from '../../actions';
 
-import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
-import { systemMessages as sm } from '../../../../shared/config/messages';
-import { CREATE_GAME, GET_GAMES } from '../../reducers/byFeature/games.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { OperationFailAction, OperationSuccessAction } from '../../../../core';
+import { systemMessages as sm, toIndexedList } from '../../../../shared';
+import { CREATE_GAME, GET_GAMES } from '../../reducers';
 
 @Injectable()
-export class LauncherEffectsService {
+export class GameEffectsService {
 
     constructor(private actions$: Actions, private api: GameEditService) {
     }

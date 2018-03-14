@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { IndexComponent } from './components/index/index.component';
+import { EditorWrapperComponent } from './containers/editor-wrapper/editor-wrapper.component';
 import { SmartLaunchComponent } from './containers/smart-launch/smart-launch.component';
 import { SmartQuestsComponent } from './containers/smart-quests/smart-quests.component';
 import { SmartFactionsComponent } from './containers/smart-factions/smart-factions.component';
@@ -24,12 +25,17 @@ export const routes: Routes = [
         },
     }, {
         path: `games/:${ROUTER_PARAMS.GAME_ID}/editor`,
-        component: IndexComponent,
         canActivate: [fromGuards.GameDataGuard],
+        component: EditorWrapperComponent,
         data: {
             title: 'Radegast: setup a new game'
         },
         children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                component: IndexComponent
+            },
             {
                 path: `stages/:${ROUTER_PARAMS.STAGE_ID}/fields`,
                 component: SmartFieldsComponent,

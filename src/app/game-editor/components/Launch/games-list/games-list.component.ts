@@ -1,20 +1,13 @@
-import {Component, Input} from '@angular/core';
-import {Router} from '@angular/router';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import {Game} from '../../../../game-mechanics/models/index';
+import { Game } from '../../../../game-mechanics';
+import { ListBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-games-list',
     templateUrl: './games-list.component.html',
-    styleUrls: ['./games-list.component.scss']
+    styleUrls: ['./games-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GamesListComponent {
-    @Input() items: Game[];
-
-    constructor(private router: Router) {
-    }
-
-    navigateToGame(gameId: number) {
-        this.router.navigateByUrl(`games/${gameId}/editor`);
-    }
+export class GamesListComponent extends ListBase<Game> {
 }

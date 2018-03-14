@@ -7,9 +7,9 @@ import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 import { of } from 'rxjs/observable/of';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { Field } from '../../../../game-mechanics/models/index';
-import { AppState } from '../../../../core/state/index';
+import { GameEditService } from '../../../../core';
+import { Field } from '../../../../game-mechanics';
+import { AppState } from '../../../../core';
 
 import {
     DeleteFieldFailAction,
@@ -23,13 +23,13 @@ import {
     SetFieldsAction
 } from '../../actions/byFeature/field.action';
 
-import { GetMapPathsAction, DeleteMapLocationSuccessAction, SaveMapLocationAction } from '../../actions/byFeature/map.action';
+import { GetMapPathsAction, DeleteMapLocationSuccessAction, SaveMapLocationAction } from '../../actions';
 
-import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
-import { systemMessages as sm } from '../../../../shared/config/messages';
-import { DELETE_FIELD, SAVE_FIELD, GET_FIELDS, UPDATE_FIELD } from '../../reducers/byFeature/fields.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
-import { composeDefaultLoc } from '../../../utils/utils';
+import { OperationFailAction, OperationSuccessAction } from '../../../../core';
+import { systemMessages as sm } from '../../../../shared';
+import { DELETE_FIELD, SAVE_FIELD, GET_FIELDS, UPDATE_FIELD } from '../../reducers';
+import { toIndexedList } from '../../../../shared';
+import { composeDefaultLoc } from '../../../utils';
 
 @Injectable()
 export class FieldEffectsService {

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AppState } from '../../../core/state/index';
+import { AppState } from '../../../core';
 import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 import { Activity, Game, Resource } from '../../../game-mechanics/models/index';
 import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';

@@ -7,3 +7,4 @@ export * from './Quest/quest.form';
 export * from './Resource/resource.form';
 export * from './Round/round.form';
 export * from './Trivia/trivia.form';
+export * from './Game/game.form';

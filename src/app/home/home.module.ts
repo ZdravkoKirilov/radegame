@@ -1,13 +1,13 @@
-import {NgModule} from '@angular/core';
-import {CommonModule} from '@angular/common';
-import {RouterModule} from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule } from '@angular/router';
+import { SharedModule } from '../shared';
 
-import {IndexComponent} from './index/index.component';
-import {routes} from './routing';
+import { IndexComponent } from './index/index.component';
+import { routes } from './routing';
 
 @NgModule({
     imports: [
-        CommonModule,
+        SharedModule,
         RouterModule.forChild(routes)
     ],
     declarations: [IndexComponent]

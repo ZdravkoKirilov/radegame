@@ -12,7 +12,7 @@ import { CoreEffectsService } from './state/effects/core-effects.service';
 import { reducers } from './state/reducers/index';
 import { CustomRouterSerializer } from './router-custom.serializer';
 import { AppRoutingModule } from '../app-routing.module';
-import { WindowRefService } from './services';
+import { WindowRefService, GameEditService } from './services';
 import { HomeModule } from '../home';
 import { GameEditorModule } from '../game-editor';
 import { ProfileModule } from '../profile';
@@ -40,6 +40,7 @@ import { NotFoundComponent } from './components';
     providers: [
         Title,
         WindowRefService,
+        GameEditService,
         { provide: RouterStateSerializer, useClass: CustomRouterSerializer }
     ]
 })

@@ -2,19 +2,19 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Resource, Game } from '../../../game-mechanics/models/index';
+import { Resource, Game } from '../../../game-mechanics';
 import {
     ToggleResourceEditorAction,
     DeleteResourceAction,
     ChangeSelectedResourceAction,
     SaveResourceAction
-} from '../../state/actions/byFeature/resource.action';
-import { getSelectedResource } from '../../state/reducers/byFeature/resources.reducer';
-import { AppState } from '../../../core/state/index';
-import { selectResourceEditorToggleState, selectResources } from '../../state/reducers/byFeature/resources.reducer';
-import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { RESOURCE_DEF } from '../../forms/Resource/resource.form';
+} from '../../state';
+import { getSelectedResource } from '../../state';
+import { AppState } from '../../../core/state';
+import { selectResourceEditorToggleState, selectResources } from '../../state';
+import { selectGame } from '../../state';
+import { FormDefinition } from '../../../dynamic-forms';
+import { RESOURCE_DEF } from '../../forms';
 
 @Component({
     selector: 'rg-smart-resources',

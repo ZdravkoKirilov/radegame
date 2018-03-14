@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { Round } from '../../../../game-mechanics/models/index';
+import { GameEditService } from '../../../../core';
+import { Round } from '../../../../game-mechanics';
 import {
     GetRoundsAction,
     SetRoundsAction,
@@ -20,10 +20,10 @@ import {
     DeleteRoundSuccessAction,
     DeleteRoundFailAction,
     RemoveRoundAction
-} from '../../actions/byFeature/round.action';
+} from '../../actions';
 
-import { GET_ROUNDS, SAVE_ROUND, DELETE_ROUND } from '../../reducers/byFeature/round.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { GET_ROUNDS, SAVE_ROUND, DELETE_ROUND } from '../../reducers';
+import { toIndexedList } from '../../../../shared';
 
 @Injectable()
 export class RoundEffectsService {

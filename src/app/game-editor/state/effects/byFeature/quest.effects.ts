@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { Quest } from '../../../../game-mechanics/models/index';
+import { GameEditService } from '../../../../core';
+import { Quest } from '../../../../game-mechanics';
 import {
     GetQuestsAction,
     SetQuestsAction,
@@ -20,10 +20,10 @@ import {
     DeleteQuestSuccessAction,
     DeleteQuestFailAction,
     RemoveQuestAction
-} from '../../actions/byFeature/quest.action';
+} from '../../actions';
 
-import { GET_QUESTS, SAVE_QUEST, DELETE_QUEST } from '../../reducers/byFeature/quest.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { GET_QUESTS, SAVE_QUEST, DELETE_QUEST } from '../../reducers';
+import { toIndexedList } from '../../../../shared';
 
 @Injectable()
 export class QuestEffectsService {

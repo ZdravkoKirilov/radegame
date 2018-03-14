@@ -1,33 +1,14 @@
-import {Component, OnChanges, SimpleChanges, Input, Output, EventEmitter} from '@angular/core';
-import {FormGroup} from '@angular/forms';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import {BaseControl} from '../../../../dynamic-forms/models/Base.model';
-import {ControlsService} from '../../../../dynamic-forms/services/controls.service';
-import { Game } from '../../../../game-mechanics/models/Game.model';
+import { Game } from '../../../../game-mechanics';
+import { IndexBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-game-launch',
     templateUrl: './game-launch.component.html',
-    styleUrls: ['./game-launch.component.scss']
+    styleUrls: ['./game-launch.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GameLaunchComponent implements OnChanges {
-    @Output() create: EventEmitter<any> = new EventEmitter();
-    @Input() controls: BaseControl[] = [];
-    @Input() games: Game[];
-    public form: FormGroup;
+export class GameLaunchComponent extends IndexBase<Game> {
 
-    constructor(private cs: ControlsService) {
-
-    }
-
-    handleGameCreate() {
-        const value: Game = this.form.value;
-        this.create.emit(value);
-    }
-
-    ngOnChanges(c: SimpleChanges) {
-        if (c.controls && c.controls.currentValue && c.controls.currentValue !== c.controls.previousValue) {
-            this.form = this.cs.toFormGroup(this.controls);
-        }
-    }
 }

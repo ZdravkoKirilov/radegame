@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { Stage } from '../../../../game-mechanics/models/index';
+import { GameEditService } from '../../../../core';
+import { Stage } from '../../../../game-mechanics';
 import {
     GetStagesAction,
     SetStagesAction,
@@ -20,10 +20,10 @@ import {
     DeleteStageSuccessAction,
     DeleteStageFailAction,
     RemoveStageAction
-} from '../../actions/byFeature/stage.action';
+} from '../../actions';
 
-import { GET_STAGES, SAVE_STAGE, DELETE_STAGE } from '../../reducers/byFeature/stage.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { GET_STAGES, SAVE_STAGE, DELETE_STAGE } from '../../reducers';
+import { toIndexedList } from '../../../../shared';
 
 @Injectable()
 export class StageEffectsService {

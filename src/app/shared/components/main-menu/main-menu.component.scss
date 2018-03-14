@@ -1,0 +1,12 @@
+:host {
+    color: white;
+     ::ng-deep {
+        a {
+            color: white;
+            text-decoration: none;
+        }
+        mat-toolbar > * {
+            margin-right: 20px;
+        }
+    }
+}

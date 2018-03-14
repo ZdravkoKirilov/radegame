@@ -5,8 +5,8 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/mergeMap';
 import 'rxjs/add/operator/catch';
 
-import { GameEditService } from '../../../services/game-edit.service';
-import { Resource } from '../../../../game-mechanics/models/index';
+import { GameEditService } from '../../../../core';
+import { Resource } from '../../../../game-mechanics';
 
 import {
     GetResourcesAction,
@@ -21,13 +21,13 @@ import {
     SaveResourceAction,
     SaveResourceFailAction,
     SaveResourceSuccessAction
-} from '../../actions/byFeature/resource.action';
+} from '../../actions';
 
 
-import { OperationFailAction, OperationSuccessAction } from '../../../../core/state/actions/actions';
-import { systemMessages as sm } from '../../../../shared/config/messages';
-import { DELETE_RESOURCE, GET_RESOURCES, SAVE_RESOURCE } from '../../reducers/byFeature/resources.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { OperationFailAction, OperationSuccessAction } from '../../../../core';
+import { systemMessages as sm } from '../../../../shared';
+import { DELETE_RESOURCE, GET_RESOURCES, SAVE_RESOURCE } from '../../reducers';
+import { toIndexedList } from '../../../../shared';
 
 @Injectable()
 export class ResourceEffectsService {
