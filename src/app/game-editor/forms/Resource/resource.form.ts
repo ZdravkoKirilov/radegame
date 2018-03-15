@@ -1,6 +1,5 @@
-import { Resource } from '../../../game-mechanics/models/index';
-import { BaseControl } from '../../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
+import { Resource } from '../../../game-mechanics';
+import { BaseControl, controlTypes } from '../../../dynamic-forms';
 
 export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
     data = data || {};
@@ -17,13 +16,6 @@ export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
             value: data.description,
             label: 'Resource description',
             required: false,
-            toggleContext: {
-                show: {
-                    field: 'name',
-                    value: ['Gosho']
-                },
-                defaultValue: '',
-            }
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_PICKER,

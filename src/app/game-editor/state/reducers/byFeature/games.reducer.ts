@@ -2,7 +2,7 @@ import { createSelector } from '@ngrx/store';
 
 import { GameAction } from '../../actions';
 import { Game } from '../../../../game-mechanics';
-import { GameEditorFeature } from '../index';
+import { GameEditorFeature } from '../main.reducer';
 import { selectFeature } from '../selectors';
 
 export interface GamesList {
@@ -52,7 +52,7 @@ export function gamesReducer(state: GamesList = initialState, action: GameAction
         case SET_GAMES:
             return {
                 ...state,
-                items: action.payload
+                items: { ...state.items, ...action.payload }
             };
         case REMOVE_GAME:
             const items = { ...state.items };
@@ -73,12 +73,8 @@ export function gamesReducer(state: GamesList = initialState, action: GameAction
     }
 }
 
-export const selectGames = createSelector(selectFeature, (state: GameEditorFeature): Game[] => {
-    return Object.values(state.games.items);
-});
-export const selectGameEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.games.showEditor;
-});
-export const getSelectedGame = createSelector(selectFeature, (state: GameEditorFeature): Game => {
-    return state.games.selectedItem;
-});
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): GamesList => state.games);
+
+export const selectGames = createSelector(selectCurrentFeature, (state): Game[] => Object.values(state.items));
+export const selectGameEditorToggleState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);
+export const getSelectedGame = createSelector(selectCurrentFeature, (state): Game => state.selectedItem);

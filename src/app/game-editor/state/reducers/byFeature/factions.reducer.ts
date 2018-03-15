@@ -1,8 +1,9 @@
 import { createSelector } from '@ngrx/store';
 
-import { FactionAction } from '../../actions/byFeature/faction.action';
-import { Faction } from '../../../../game-mechanics/models/index';
-import { GameEditorFeature } from '../index';
+import { FactionAction } from '../../actions';
+import { Faction } from '../../../../game-mechanics';
+import { GameEditorFeature } from '../main.reducer';
+import { selectGame } from './assets.reducer';
 import { selectFeature } from '../selectors';
 
 export interface Factions {
@@ -51,13 +52,13 @@ export function factionsReducer(state: Factions = initialState, action: FactionA
 
             };
         case REMOVE_FACTION:
-            const items = {...state.items};
+            const items = { ...state.items };
             delete items[action.payload.id];
-            return {...state, items, lastDelete: action.payload};
+            return { ...state, items, lastDelete: action.payload };
         case SET_FACTIONS:
             return {
                 ...state,
-                items: action.payload
+                items: { ...state.items, ...action.payload }
             };
         case TOGGLE_FACTION_EDITOR:
             return {
@@ -74,12 +75,10 @@ export function factionsReducer(state: Factions = initialState, action: FactionA
     }
 }
 
-export const selectFactions = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.form.factions.items ? Object.values(state.form.factions.items) : [];
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): Factions => state.form.factions);
+
+export const selectFactions = createSelector(selectCurrentFeature, selectGame, (state, game): Faction[] => {
+    return state.items ? Object.values(state.items).filter(elem => elem.game === game.id) : [];
 });
-export const getSelectedFaction = createSelector(selectFeature, (state: GameEditorFeature): Faction => {
-    return state.form.factions.selectedItem;
-});
-export const selectFactionEditorState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.factions.showEditor;
-});
+export const getSelectedFaction = createSelector(selectCurrentFeature, (state): Faction => state.selectedItem);
+export const selectFactionEditorState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);

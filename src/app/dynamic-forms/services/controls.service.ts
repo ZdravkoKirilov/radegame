@@ -11,10 +11,10 @@ export class ControlsService {
     constructor() {
     }
 
-    toFormGroup(controls: BaseControl[], index?: any) {
+    toFormGroup(controls: BaseControl[]) {
         const group = new FormGroup({});
         controls.forEach((elem: BaseControl) => {
-            const validators = this.addValidators(elem, group, index);
+            const validators = this.addValidators(elem, group);
             if (elem.controlType === controlTypes.FORM_ARRAY) {
                 const arr = this.toFormArray(elem);
                 group.addControl(elem.name, arr);
@@ -32,18 +32,18 @@ export class ControlsService {
             minItems(control),
             maxItems(control),
         ]));
-        controls.forEach((elem: BaseControl, index: number) => {
-            const subform = this.toFormGroup(elem.childControls, index);
+        controls.forEach((elem: BaseControl) => {
+            const subform = this.toFormGroup(elem.childControls);
             formArray.push(subform);
         });
         return formArray;
     }
 
-    addValidators(elem: BaseControl, group: FormGroup, index?: any): ValidatorFn[] {
+    addValidators(elem: BaseControl, group: FormGroup): ValidatorFn[] {
         let validators = [];
         if (elem.required) {
             if (elem.toggleContext) {
-                validators.push(requiredIfVisible(elem, group, index));
+                validators.push(requiredIfVisible(elem, group));
             } else {
                 validators.push(vd.required);
             }

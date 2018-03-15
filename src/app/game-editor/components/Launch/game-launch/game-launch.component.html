@@ -1,3 +1,7 @@
+<rg-main-menu>
+    <a routerLink="/">Home</a>
+</rg-main-menu>
+
 <div class="wrapper">
 
     <rg-games-list *ngIf="!showEditor" [items]="items" (removeItem)="removeItem.emit($event)" (editItem)="editItem.emit($event)"></rg-games-list>

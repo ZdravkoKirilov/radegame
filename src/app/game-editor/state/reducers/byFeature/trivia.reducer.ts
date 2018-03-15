@@ -1,9 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
-import { Trivia, TriviaList } from '../../../../game-mechanics/models/index';
+import { Trivia, TriviaList } from '../../../../game-mechanics';
 import { selectFeature } from '../selectors';
-import { GameEditorFeature } from '../index';
-import { TriviaAction } from '../../actions/byFeature/trivia.action';
+import { selectGame } from './assets.reducer';
+import { GameEditorFeature } from '../main.reducer';
+import { TriviaAction } from '../../actions';
 
 export interface GameTrivia {
     items?: TriviaList;
@@ -48,13 +49,13 @@ export function triviaReducer(state: GameTrivia = initialState, action: TriviaAc
                 lastInsert: action.payload
             };
         case REMOVE_TRIVIA:
-            const items = {...state.items};
+            const items = { ...state.items };
             delete items[action.payload.id];
-            return {...state, items, lastDelete: action.payload};
+            return { ...state, items, lastDelete: action.payload };
         case SET_TRIVIAS:
             return {
                 ...state,
-                items: action.payload
+                items: { ...state.items, ...action.payload }
             };
         case TOGGLE_TRIVIA_EDITOR:
             return {
@@ -71,12 +72,10 @@ export function triviaReducer(state: GameTrivia = initialState, action: TriviaAc
     }
 }
 
-export const selectTrivias = createSelector(selectFeature, (state: GameEditorFeature): Trivia[] => {
-    return state.form.trivia.items ? Object.values(state.form.trivia.items) : [];
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): GameTrivia => state.form.trivia);
+
+export const selectTrivias = createSelector(selectCurrentFeature, selectGame, (state, game): Trivia[] => {
+    return state.items ? Object.values(state.items).filter(elem => elem.game === game.id) : [];
 });
-export const getSelectedTrivia = createSelector(selectFeature, (state: GameEditorFeature): Trivia => {
-    return state.form.trivia.selectedItem;
-});
-export const selectTriviaEditorState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.trivia.showEditor;
-});
+export const getSelectedTrivia = createSelector(selectCurrentFeature, (state): Trivia => state.selectedItem);
+export const selectTriviaEditorState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);

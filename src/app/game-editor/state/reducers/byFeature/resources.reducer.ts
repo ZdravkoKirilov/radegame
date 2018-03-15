@@ -1,7 +1,8 @@
 import { ResourceAction } from '../../actions';
 import { Resource } from '../../../../game-mechanics';
 import { createSelector } from '@ngrx/store';
-import { GameEditorFeature } from '../index';
+import { GameEditorFeature } from '../main.reducer';
+import { selectGame } from './assets.reducer';
 import { selectFeature } from '../selectors';
 
 export interface Resources {
@@ -49,11 +50,11 @@ export function resourcesReducer(state: Resources = initialState, action: Resour
                 lastInsert: action.payload
             };
         case REMOVE_RESOURCE:
-            const items = {...state.items};
+            const items = { ...state.items };
             delete items[action.payload.id];
-            return {...state, items, lastDelete: action.payload};
+            return { ...state, items, lastDelete: action.payload };
         case SET_RESOURCES:
-            return {...state, items: action.payload};
+            return { ...state, items: { ...state.items, ...action.payload } };
         case TOGGLE_RESOURCE_EDITOR:
             return {
                 ...state,
@@ -69,12 +70,10 @@ export function resourcesReducer(state: Resources = initialState, action: Resour
     }
 }
 
-export const selectResources = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.form.resources.items ? Object.values(state.form.resources.items) : [];
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): Resources => state.form.resources);
+
+export const selectResources = createSelector(selectCurrentFeature, selectGame, (state, game): Resource[] => {
+    return state.items ? Object.values(state.items).filter(elem => elem.game === game.id) : [];
 });
-export const selectResourceEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.resources.showEditor;
-});
-export const getSelectedResource = createSelector(selectFeature, (state: GameEditorFeature): Resource => {
-    return state.form.resources.selectedItem;
-});
+export const selectResourceEditorToggleState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);
+export const getSelectedResource = createSelector(selectCurrentFeature, (state): Resource => state.selectedItem);

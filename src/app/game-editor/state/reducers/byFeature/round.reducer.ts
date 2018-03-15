@@ -1,9 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
-import { Round } from '../../../../game-mechanics/models/index';
+import { Round } from '../../../../game-mechanics';
 import { selectFeature } from '../selectors';
-import { GameEditorFeature } from '../index';
-import { RoundAction } from '../../actions/byFeature/round.action';
+import { GameEditorFeature } from '../main.reducer';
+import { RoundAction } from '../../actions';
+import { selectGame } from './assets.reducer';
 
 export interface GameRound {
     items?: {
@@ -50,13 +51,13 @@ export function roundsReducer(state: GameRound = initialState, action: RoundActi
                 lastInsert: action.payload
             };
         case REMOVE_ROUND:
-            const items = {...state.items};
+            const items = { ...state.items };
             delete items[action.payload.id];
-            return {...state, items, lastDelete: action.payload};
+            return { ...state, items, lastDelete: action.payload };
         case SET_ROUNDS:
             return {
                 ...state,
-                items: action.payload
+                items: { ...state.items, ...action.payload }
             };
         case TOGGLE_ROUND_EDITOR:
             return {
@@ -73,22 +74,11 @@ export function roundsReducer(state: GameRound = initialState, action: RoundActi
     }
 }
 
-export const selectRounds = createSelector(selectFeature, (state: GameEditorFeature) => {
-    const rounds = state.form.rounds.items ? Object.values(state.form.rounds.items) : [];
-    rounds.sort((a: Round, b: Round) => {
-        if (a.order > b.order) {
-            return 1;
-        }
-        if (a.order < b.order) {
-            return -1;
-        }
-        return 0;
-    });
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): GameRound => state.form.rounds);
+
+export const selectRounds = createSelector(selectCurrentFeature, selectGame, (state, game): Round[] => {
+    const rounds = state.items ? Object.values(state.items).filter(elem => elem.game === game.id) : [];
     return rounds;
 });
-export const getSelectedRound = createSelector(selectFeature, (state: GameEditorFeature): Round => {
-    return state.form.rounds.selectedItem;
-});
-export const selectRoundEditorState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.rounds.showEditor;
-});
+export const getSelectedRound = createSelector(selectCurrentFeature, (state): Round => state.selectedItem);
+export const selectRoundEditorState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);

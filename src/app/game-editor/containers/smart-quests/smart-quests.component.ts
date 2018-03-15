@@ -2,17 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AppState } from '../../../core/state/index';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { Game, Quest } from '../../../game-mechanics/models/index';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
-import { QUEST_DEF } from '../../forms/Quest/quest.form';
-import { selectQuests, selectQuestEditorState, getSelectedQuest } from '../../state/reducers/byFeature/quest.reducer';
-import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
-import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
-import { selectFieldsAsArray } from '../../state/reducers/byFeature/fields.reducer';
-import { selectActivities } from '../../state/reducers/byFeature/activity.reducer';
-import { selectRounds } from '../../state/reducers/byFeature/round.reducer';
+import { AppState } from '../../../core';
+import { Game, Quest } from '../../../game-mechanics';
+import { ConnectedEntities, FormDefinition } from '../../../dynamic-forms';
+import { QUEST_DEF } from '../../forms';
+import { selectGame, selectResources, selectStages, selectFieldsAsArray, selectActivities, selectRounds, selectQuests, selectQuestEditorState, getSelectedQuest } from '../../state';
 
 import {
     SaveQuestAction,
@@ -41,7 +35,7 @@ export class SmartQuestsComponent implements OnInit, OnDestroy {
     }
 
     saveItem(data: Quest) {
-        const payload = {...data, game: this.game.id};
+        const payload = { ...data, game: this.game.id };
         this.store.dispatch(new SaveQuestAction(payload));
         this.store.dispatch(new ToggleQuestEditorAction(false));
     }
@@ -77,6 +71,7 @@ export class SmartQuestsComponent implements OnInit, OnDestroy {
                 fields: selectFieldsAsArray(state),
                 activities: selectActivities(state),
                 rounds: selectRounds(state),
+                stages: selectStages(state),
             };
         });
     }

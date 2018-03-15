@@ -1,9 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
-import { Quest } from '../../../../game-mechanics/models/index';
+import { Quest, Game } from '../../../../game-mechanics';
 import { selectFeature } from '../selectors';
-import { GameEditorFeature } from '../index';
-import { QuestAction } from '../../actions/byFeature/quest.action';
+import { selectGame } from './assets.reducer';
+import { GameEditorFeature } from '../main.reducer';
+import { QuestAction } from '../../actions';
 
 export interface GameQuest {
     items?: {
@@ -50,9 +51,9 @@ export function questsReducer(state: GameQuest = initialState, action: QuestActi
                 lastInsert: action.payload
             };
         case REMOVE_QUEST:
-            const items = {...state.items};
+            const items = { ...state.items };
             delete items[action.payload.id];
-            return {...state, items, lastDelete: action.payload};
+            return { ...state, items, lastDelete: action.payload };
         case SET_QUESTS:
             return {
                 ...state,
@@ -76,12 +77,9 @@ export function questsReducer(state: GameQuest = initialState, action: QuestActi
     }
 }
 
-export const selectQuests = createSelector(selectFeature, (state: GameEditorFeature) => {
-    return state.form.quests.items ? Object.values(state.form.quests.items) : [];
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): GameQuest => state.form.quests);
+export const selectQuests = createSelector(selectCurrentFeature, selectGame, (state, game: Game): Quest[] => {
+    return state.items ? Object.values(state.items).filter(elem => elem.game === game.id) : [];
 });
-export const getSelectedQuest = createSelector(selectFeature, (state: GameEditorFeature): Quest => {
-    return state.form.quests.selectedItem;
-});
-export const selectQuestEditorState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.quests.showEditor;
-});
+export const getSelectedQuest = createSelector(selectCurrentFeature, (state): Quest => state.selectedItem);
+export const selectQuestEditorState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);

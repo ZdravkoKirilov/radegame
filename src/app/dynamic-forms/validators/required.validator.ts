@@ -4,9 +4,8 @@ import { showControl } from '../helpers';
 
 export const requiredIfVisible = (
     data: BaseControl,
-    form: FormGroup,
-    index?: number): ValidatorFn => (control: FormControl): ValidationErrors => {
-        const isVisible = showControl(data, form, index);
+    form: FormGroup): ValidatorFn => (control: FormControl): ValidationErrors => {
+        const isVisible = showControl(data, form.value);
         let result = null;
 
         if (isVisible && valueIsEmpty(control.value)) {

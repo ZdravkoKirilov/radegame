@@ -2,8 +2,9 @@ import { createSelector } from '@ngrx/store';
 
 import { Stage, StageList } from '../../../../game-mechanics/models/index';
 import { selectFeature } from '../selectors';
-import { GameEditorFeature } from '../index';
-import { StageAction } from '../../actions/byFeature/stage.action';
+import { GameEditorFeature } from '../main.reducer';
+import { selectGame } from './assets.reducer';
+import { StageAction } from '../../actions';
 
 export interface GameStage {
     items?: StageList;
@@ -48,13 +49,13 @@ export function stageReducer(state: GameStage = initialState, action: StageActio
                 lastInsert: action.payload
             };
         case REMOVE_STAGE:
-            const items = {...state.items};
+            const items = { ...state.items };
             delete items[action.payload.id];
-            return {...state, items, lastDelete: action.payload};
+            return { ...state, items, lastDelete: action.payload };
         case SET_STAGES:
             return {
                 ...state,
-                items: action.payload
+                items: { ...state.items, ...action.payload }
             };
         case TOGGLE_STAGE_EDITOR:
             return {
@@ -71,15 +72,11 @@ export function stageReducer(state: GameStage = initialState, action: StageActio
     }
 }
 
-export const selectStages = createSelector(selectFeature, (state: GameEditorFeature): Stage[] => {
-    return state.form.stages.items ? Object.values(state.form.stages.items) : [];
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): GameStage => state.form.stages);
+
+export const selectStages = createSelector(selectCurrentFeature, selectGame, (state, game): Stage[] => {
+    return state.items ? Object.values(state.items).filter(elem => elem.game === game.id) : [];
 });
-export const getSelectedStage = createSelector(selectFeature, (state: GameEditorFeature): Stage => {
-    return state.form.stages.selectedItem;
-});
-export const selectStageById = (stageId: number) => createSelector(selectFeature, (state: GameEditorFeature): Stage => {
-    return state.form.stages.items[stageId];
-})
-export const selectStageEditorState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.stages.showEditor;
-});
+export const getSelectedStage = createSelector(selectCurrentFeature, (state): Stage => state.selectedItem);
+export const selectStageById = (stageId: number) => createSelector(selectCurrentFeature, (state): Stage => state.items[stageId]);
+export const selectStageEditorState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);

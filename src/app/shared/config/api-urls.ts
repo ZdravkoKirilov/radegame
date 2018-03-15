@@ -1,7 +1,10 @@
 const BASE_URL = 'http://localhost:8000/api/v1';  // Django REST
 
 export const API_URLS = {
-    GAMES: `${BASE_URL}/games/`,
+    GAMES: (gameId?: number) => {
+        const base = `${BASE_URL}/games/`;
+        return gameId ? `${base}${gameId}/` : base;
+    },
     FIELDS: (gameId: number, fieldId?: number) => {
         const base = `${BASE_URL}/games/${gameId}/fields/`;
         return fieldId ? `${base}${fieldId}/` : base;

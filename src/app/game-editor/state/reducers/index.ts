@@ -1,4 +1,4 @@
 export * from './byFeature';
 export * from './form.reducer';
-export * from './mainReducer';
+export * from './main.reducer';
 export * from './selectors';

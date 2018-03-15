@@ -155,7 +155,6 @@ export class GameEditService {
     }
 
     saveTrivia(data: Trivia): Observable<any> {
-        //const formData = toMultipartFormData(data, 1);
         const formData = objectToFormData(data);
         const options = { headers: new HttpHeaders({}) };
 
@@ -212,15 +211,22 @@ export class GameEditService {
     }
 
     saveGame(data: Game): Observable<any> {
-        return this.http.post(API_URLS.GAMES, data);
+        const formData = toMultipartFormData(data);
+        const options = { headers: new HttpHeaders({}) };
+
+        if (data.id) {
+            return this.http.patch(API_URLS.GAMES(data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.GAMES(data.id), formData, options);
+        }
     }
 
     getGames(): Observable<any> {
-        return this.http.get(API_URLS.GAMES);
+        return this.http.get(API_URLS.GAMES());
     }
 
     getGame(id: number): Observable<any> {
-        return this.http.get(`${API_URLS.GAMES}${id}`);
+        return this.http.get(API_URLS.GAMES(id));
     }
 
     getFields(gameId: number): Observable<any> {

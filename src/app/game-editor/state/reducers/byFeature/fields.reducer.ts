@@ -1,7 +1,8 @@
-import { FieldAction } from '../../actions/byFeature/field.action';
-import { Field, FieldList } from '../../../../game-mechanics/models/index';
 import { createSelector } from '@ngrx/store';
-import { GameEditorFeature } from '../index';
+
+import { FieldAction } from '../../actions';
+import { Field, FieldList } from '../../../../game-mechanics';
+import { GameEditorFeature } from '../main.reducer';
 import { selectFeature } from '../selectors';
 
 export interface BoardFields {
@@ -52,17 +53,17 @@ export function fieldsReducer(state: BoardFields = initialState, action: FieldAc
             }
             return newState;
         case DELETE_FIELD_SUCCESS:
-            const newItems = {...state.items};
+            const newItems = { ...state.items };
             delete newItems[action.payload.id];
             return {
                 ...state,
                 lastDelete: state.items[action.payload.id],
-                items: {...newItems}
+                items: { ...newItems }
             };
         case SET_FIELDS:
             return {
                 ...state,
-                items: action.payload
+                items: { ...state.items, ...action.payload }
             };
         case TOGGLE_FIELD_EDITOR:
             return {
@@ -79,21 +80,15 @@ export function fieldsReducer(state: BoardFields = initialState, action: FieldAc
     }
 }
 
-export const selectFields = createSelector(selectFeature, (state: GameEditorFeature): FieldList => {
-    return state.form.fields.items;
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): BoardFields => state.form.fields);
+
+export const selectFields = createSelector(selectCurrentFeature, (state): FieldList => state.items);
+export const selectFieldsAsArray = createSelector(selectCurrentFeature, (state): Field[] => {
+    return Object.values(state.items);
 });
-export const selectFieldsAsArray = createSelector(selectFeature, (state: GameEditorFeature): Field[] => {
-    return Object.values(state.form.fields.items);
+export const selectFieldsByStageId = (stageId: number) => createSelector(selectCurrentFeature, (state): Field[] => {
+    return Object.values(state.items).filter(elem => elem.stage === stageId);
 });
-export const selectFieldsByStageId = (stageId: number) => createSelector(selectFeature, (state: GameEditorFeature): Field[] => {
-    return Object.values(state.form.fields.items).filter(elem => elem.stage === stageId);
-});
-export const selectFieldEditorToggleState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.fields.showFieldEditor;
-});
-export const getSelectedField = createSelector(selectFeature, (state: GameEditorFeature): Field => {
-    return state.form.fields.selectedField;
-});
-export const selectLastInsertedField = createSelector(selectFeature, (state: GameEditorFeature): Field => {
-    return state.form.fields.lastInsert;
-});
+export const selectFieldEditorToggleState = createSelector(selectCurrentFeature, (state): boolean => state.showFieldEditor);
+export const getSelectedField = createSelector(selectCurrentFeature, (state): Field => state.selectedField);
+export const selectLastInsertedField = createSelector(selectCurrentFeature, (state): Field => state.lastInsert);

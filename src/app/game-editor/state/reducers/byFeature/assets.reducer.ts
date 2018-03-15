@@ -1,7 +1,8 @@
-import { Actions } from '../../actions/byFeature/asset.action';
-import { Game } from '../../../../game-mechanics/models/index';
 import { createSelector } from '@ngrx/store';
-import { GameEditorFeature } from '../index';
+
+import { Actions } from '../../actions';
+import { Game } from '../../../../game-mechanics';
+import { GameEditorFeature } from '../main.reducer';
 import { selectFeature } from '../selectors';
 
 export interface GameEditorAssets {
@@ -31,6 +32,6 @@ export function gameEditorAssetsReducer(state: GameEditorAssets = initialState, 
     }
 }
 
-export const selectGame = createSelector(selectFeature, (state: GameEditorFeature): Game => {
-    return state.assets.game;
-});
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): GameEditorAssets => state.assets);
+
+export const selectGame = createSelector(selectCurrentFeature, (state): Game => state.game);

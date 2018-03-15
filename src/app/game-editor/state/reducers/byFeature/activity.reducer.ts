@@ -1,9 +1,10 @@
 import { createSelector } from '@ngrx/store';
 
-import { Activity } from '../../../../game-mechanics/models/index';
+import { Activity } from '../../../../game-mechanics';
 import { selectFeature } from '../selectors';
-import { GameEditorFeature } from '../index';
-import { ActivityAction } from '../../actions/byFeature/activity.action';
+import { GameEditorFeature } from '../main.reducer';
+import { selectGame } from './assets.reducer';
+import { ActivityAction } from '../../actions';
 
 export interface GameActivity {
     items?: {
@@ -50,13 +51,13 @@ export function activityReducer(state: GameActivity = initialState, action: Acti
                 lastInsert: action.payload
             };
         case REMOVE_ACTIVITY:
-            const items = {...state.items};
+            const items = { ...state.items };
             delete items[action.payload.id];
-            return {...state, items, lastDelete: action.payload};
+            return { ...state, items, lastDelete: action.payload };
         case SET_ACTIVITIES:
             return {
                 ...state,
-                items: action.payload
+                items: { ...state.items, ...action.payload }
             };
         case TOGGLE_ACTIVITY_EDITOR:
             return {
@@ -73,12 +74,10 @@ export function activityReducer(state: GameActivity = initialState, action: Acti
     }
 }
 
-export const selectActivities = createSelector(selectFeature, (state: GameEditorFeature): Activity[] => {
-    return state.form.activities.items ? Object.values(state.form.activities.items) : [];
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): GameActivity => state.form.activities);
+
+export const selectActivities = createSelector(selectCurrentFeature, selectGame, (state, game): Activity[] => {
+    return state.items ? Object.values(state.items).filter(elem => elem.game === game.id) : [];
 });
-export const getSelectedActivity = createSelector(selectFeature, (state: GameEditorFeature): Activity => {
-    return state.form.activities.selectedItem;
-});
-export const selectActivityEditorState = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.activities.showEditor;
-});
+export const getSelectedActivity = createSelector(selectCurrentFeature, (state): Activity => state.selectedItem);
+export const selectActivityEditorState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);

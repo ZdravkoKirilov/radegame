@@ -1,10 +1,10 @@
-import { MapAction } from '../../actions/byFeature/map.action';
-import { MapLocation, MapLocationList, MapPath, GameMap } from '../../../../game-mechanics/models/index';
 import { createSelector } from '@ngrx/store';
-import { GameEditorFeature } from '../index';
-import { selectFeature } from '../selectors';
 
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { MapAction } from '../../actions';
+import { MapLocation, MapLocationList, MapPath, GameMap } from '../../../../game-mechanics';
+import { GameEditorFeature } from '../main.reducer';
+import { selectFeature } from '../selectors';
+import { toIndexedList } from '../../../../shared';
 
 export interface MapState {
     items?: { [key: string]: MapLocation };
@@ -75,7 +75,7 @@ export function mapReducer(state: MapState = initialState, action: MapAction): M
         case SET_MAP_LOCATIONS:
             return {
                 ...state,
-                items: action.payload
+                items: { ...state.items, ...action.payload }
             };
         case TOGGLE_PATH_CREATION_MODE:
             return {
@@ -100,7 +100,7 @@ export function mapReducer(state: MapState = initialState, action: MapAction): M
         case SET_MAP_PATHS:
             return {
                 ...state,
-                paths: action.payload
+                paths: { ...state.paths, ...action.payload }
             };
         case CHANGE_SELECTED_PATH:
             return {
@@ -112,22 +112,18 @@ export function mapReducer(state: MapState = initialState, action: MapAction): M
     }
 }
 
-export const selectMapLocations = createSelector(selectFeature, (state: GameEditorFeature): MapLocationList => {
-    return state.form.map.items;
-});
-export const selectLocationsByStageId = (stageId: number) => createSelector(selectFeature, (state: GameEditorFeature): MapLocationList => {
-    const asArray = Object.values(state.form.map.items).filter(elem => elem.stage === stageId);
+const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): MapState => state.form.map);
+
+export const selectMapLocations = createSelector(selectCurrentFeature, (state): MapLocationList => state.items);
+export const selectLocationsByStageId = (stageId: number) => createSelector(selectCurrentFeature, (state): MapLocationList => {
+    const asArray = Object.values(state.items).filter(elem => elem.stage === stageId);
     return toIndexedList(asArray, 'field');
 });
-export const selectMapPaths = createSelector(selectFeature, (state: GameEditorFeature): MapPath[] => {
-    return Object.values(state.form.map.paths);
+export const selectMapPaths = createSelector(selectCurrentFeature, (state): MapPath[] => {
+    return Object.values(state.paths);
 });
-export const selectPathsByStageId = (stageId: number) => createSelector(selectFeature, (state: GameEditorFeature): MapPath[] => {
-    return Object.values(state.form.map.paths).filter(elem => elem.stage === stageId);
+export const selectPathsByStageId = (stageId: number) => createSelector(selectCurrentFeature, (state): MapPath[] => {
+    return Object.values(state.paths).filter(elem => elem.stage === stageId);
 });
-export const getSelectedPath = createSelector(selectFeature, (state: GameEditorFeature): MapPath => {
-    return state.form.map.selectedPath;
-});
-export const selectPathCreationMode = createSelector(selectFeature, (state: GameEditorFeature): boolean => {
-    return state.form.map.pathCreationMode;
-});
+export const getSelectedPath = createSelector(selectCurrentFeature, (state): MapPath => state.selectedPath);
+export const selectPathCreationMode = createSelector(selectCurrentFeature, (state): boolean => state.pathCreationMode);
