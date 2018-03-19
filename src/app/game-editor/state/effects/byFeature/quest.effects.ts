@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/catch';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '../../../../core';
 import { Quest } from '../../../../game-mechanics';
@@ -31,60 +29,63 @@ export class QuestEffectsService {
     constructor(private actions$: Actions, private api: GameEditService) {
     }
 
-    @Effect() getQuests: Observable<any> = this.actions$
-        .ofType(GET_QUESTS)
-        .map((action: GetQuestsAction) => {
+    @Effect() getQuests: Observable<any> = this.actions$.ofType(GET_QUESTS).pipe(
+        map((action: GetQuestsAction) => {
             return action.payload;
-        })
-        .mergeMap((payload: number) => {
-            return this.api.getQuests(payload);
-        })
-        .mergeMap((res: Quest[]) => {
-            const items = toIndexedList(res);
-            return [
-                new GetQuestsSuccessAction(),
-                new SetQuestsAction(items)
-            ];
-        })
-        .catch(() => {
-            return [new GetQuestsFailAction()];
-        });
+        }),
+        mergeMap((payload: number) => {
+            return this.api.getQuests(payload).pipe(
+                mergeMap((res: Quest[]) => {
+                    const items = toIndexedList(res);
+                    return [
+                        new GetQuestsSuccessAction(),
+                        new SetQuestsAction(items)
+                    ];
+                }),
+                catchError(() => {
+                    return [new GetQuestsFailAction()];
+                })
+            );
+        }),
+    );
 
-    @Effect() saveQuest: Observable<any> = this.actions$
-        .ofType(SAVE_QUEST)
-        .map((action: SaveQuestAction) => {
-            const payload = {...action.payload};
+    @Effect() saveQuest: Observable<any> = this.actions$.ofType(SAVE_QUEST).pipe(
+        map((action: SaveQuestAction) => {
+            const payload = { ...action.payload };
             if (typeof payload.image === 'string') {
                 delete payload.image;
             }
             return payload;
-        })
-        .mergeMap((payload: Quest) => {
-            return this.api.saveQuest(payload);
-        })
-        .mergeMap((res: Quest) => {
-            return [
-                new AddQuestAction(res),
-                new SaveQuestSuccessAction(res)
-            ];
-        })
-        .catch(() => {
-            return [new SaveQuestFailAction()];
-        });
+        }),
+        mergeMap((payload: Quest) => {
+            return this.api.saveQuest(payload).pipe(
+                mergeMap((res: Quest) => {
+                    return [
+                        new AddQuestAction(res),
+                        new SaveQuestSuccessAction(res)
+                    ];
+                }),
+                catchError(() => {
+                    return [new SaveQuestFailAction()];
+                })
+            );
+        }),
+    );
 
-    @Effect() deleteQuest: Observable<any> = this.actions$
-        .ofType(DELETE_QUEST)
-        .map((action: DeleteQuestAction) => action.payload)
-        .mergeMap((payload: Quest) => {
-            return this.api.deleteQuest(payload)
-                .mergeMap(() => {
+    @Effect() deleteQuest: Observable<any> = this.actions$.ofType(DELETE_QUEST).pipe(
+        map((action: DeleteQuestAction) => action.payload),
+        mergeMap((payload: Quest) => {
+            return this.api.deleteQuest(payload).pipe(
+                mergeMap(() => {
                     return [
                         new RemoveQuestAction(payload),
                         new DeleteQuestSuccessAction(payload),
                     ];
-                })
-                .catch(() => {
+                }),
+                catchError(() => {
                     return [new DeleteQuestFailAction()];
-                });
-        });
+                })
+            );
+        })
+    );
 }

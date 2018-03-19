@@ -1,15 +1,15 @@
 import { createSelector } from '@ngrx/store';
 
-import { Activity } from '../../../../game-mechanics';
+import { Activity, ActivityList } from '../../../../game-mechanics';
 import { selectFeature } from '../selectors';
 import { GameEditorFeature } from '../main.reducer';
 import { selectGame } from './assets.reducer';
 import { ActivityAction } from '../../actions';
 
 export interface GameActivity {
-    items?: {
-        [key: string]: Activity
-    };
+    items?: ActivityList;
+    fetchError?: boolean;
+    loading?: boolean;
     lastInsert?: Activity;
     lastDelete?: Activity;
     showEditor?: boolean;

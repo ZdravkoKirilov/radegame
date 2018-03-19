@@ -6,9 +6,9 @@ import { GameEditorFeature } from '../main.reducer';
 import { selectFeature } from '../selectors';
 
 export interface BoardFields {
-    items?: {
-        [key: string]: Field
-    };
+    items?: FieldList;
+    fetchError?: boolean;
+    loading?: boolean;
     lastInsert?: Field;
     lastDelete?: Field;
     showFieldEditor?: boolean;

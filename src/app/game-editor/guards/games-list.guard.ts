@@ -5,9 +5,8 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { switchMap, tap, filter, take, catchError } from 'rxjs/operators';
 
-import { AppState } from '../../core/state/index';
-import { GameEditorFeature } from '../state/reducers/index';
-import { selectFeature } from '../state/reducers/selectors';
+import { AppState } from '../../core';
+import { GamesList, selectGamesFeature, shouldPreloadFeature } from '../state';
 import * as actions from '../state/actions';
 
 @Injectable()
@@ -20,30 +19,26 @@ export class GamesListGuard implements CanActivate {
 
     canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
         this.hasFired = false;
-
-        return this.getFromStoreOrAPI()
-            .pipe(
-                switchMap(() => of(true)),
-                catchError(() => of(false))
-            );
+        return this.getFromStoreOrAPI().pipe(
+            switchMap(() => of(true)),
+            catchError(() => of(false))
+        );
     }
 
     getFromStoreOrAPI(): Observable<any> {
-        return this.store
-            .select(selectFeature)
-            .pipe(
-                tap((data: GameEditorFeature) => {
-                    if (!this.hasFired) {
-                        if (!data.games.items) {
-                            this.store.dispatch(new actions.GetGamesAction());
-                        }
-                        this.hasFired = true;
+        return this.store.select(selectGamesFeature).pipe(
+            tap((data: GamesList) => {
+                if (!this.hasFired) {
+                    this.hasFired = true;
+                    if (shouldPreloadFeature(data)) {
+                        this.store.dispatch(new actions.GetGamesAction());
                     }
-                }),
-                filter((data: GameEditorFeature) => {
-                    return !!data.games.items;
-                }),
-                take(1)
-            );
+                }
+            }),
+            filter((data: GamesList) => {
+                return !!data.items;
+            }),
+            take(1)
+        );
     }
 }

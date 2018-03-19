@@ -1,16 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/catch';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '../../../../core';
-import { Game } from '../../../../game-mechanics/models/index';
+import { Game } from '../../../../game-mechanics';
 
-import { UpdateEditorAssetsAction, GetGameAction, GetGameSuccessAction, GetGameFailAction } from '../../actions/byFeature/asset.action';
+import { UpdateEditorAssetsAction, GetGameAction, GetGameSuccessAction, GetGameFailAction } from '../../actions';
 
-import { GET_GAME } from '../../reducers/byFeature/assets.reducer';
+import { GET_GAME } from '../../reducers';
 
 @Injectable()
 export class AssetEffectsService {
@@ -18,23 +16,24 @@ export class AssetEffectsService {
     constructor(private actions$: Actions, private api: GameEditService) {
     }
 
-    @Effect() getGame: Observable<any> = this.actions$
-        .ofType(GET_GAME)
-        .map((action: GetGameAction) => {
+    @Effect() getGame: Observable<any> = this.actions$.ofType(GET_GAME).pipe(
+        map((action: GetGameAction) => {
             return action.payload;
-        })
-        .mergeMap((gameId: number) => {
-            return this.api.getGame(gameId);
-        })
-        .mergeMap((game: Game) => {
-            return [
-                new GetGameSuccessAction(),
-                new UpdateEditorAssetsAction({
-                    game,
+        }),
+        mergeMap((gameId: number) => {
+            return this.api.getGame(gameId).pipe(
+                mergeMap((game: Game) => {
+                    return [
+                        new GetGameSuccessAction(),
+                        new UpdateEditorAssetsAction({
+                            game,
+                        })
+                    ];
+                }),
+                catchError(() => {
+                    return [new GetGameFailAction()];
                 })
-            ];
+            );
         })
-        .catch(() => {
-            return [new GetGameFailAction()];
-        });
+    );
 }

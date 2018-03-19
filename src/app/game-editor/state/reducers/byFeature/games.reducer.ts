@@ -1,14 +1,14 @@
 import { createSelector } from '@ngrx/store';
 
 import { GameAction } from '../../actions';
-import { Game } from '../../../../game-mechanics';
+import { Game, GameList } from '../../../../game-mechanics';
 import { GameEditorFeature } from '../main.reducer';
 import { selectFeature } from '../selectors';
 
 export interface GamesList {
-    items: {
-        [key: string]: Game
-    };
+    items: GameList;
+    fetchError?: boolean;
+    loading?: boolean;
     lastInsert?: Game;
     lastDelete?: Game;
     showEditor?: boolean;
@@ -17,6 +17,8 @@ export interface GamesList {
 
 const initialState: GamesList = {
     items: null,
+    fetchError: false,
+    loading: false,
     lastInsert: null,
     lastDelete: null,
     showEditor: false,
@@ -54,6 +56,24 @@ export function gamesReducer(state: GamesList = initialState, action: GameAction
                 ...state,
                 items: { ...state.items, ...action.payload }
             };
+        case GET_GAMES: {
+            return {
+                ...state,
+                loading: true
+            };
+        }
+        case GET_GAMES_FAIL:
+            return {
+                ...state,
+                fetchError: true,
+                loading: false
+            };
+        case GET_GAMES_SUCCESS:
+            return {
+                ...state,
+                fetchError: false,
+                loading: false
+            };
         case REMOVE_GAME:
             const items = { ...state.items };
             delete items[action.payload.id];
@@ -73,8 +93,8 @@ export function gamesReducer(state: GamesList = initialState, action: GameAction
     }
 }
 
-const selectCurrentFeature = createSelector(selectFeature, (state: GameEditorFeature): GamesList => state.games);
+export const selectGamesFeature = createSelector(selectFeature, (state: GameEditorFeature): GamesList => state.games);
 
-export const selectGames = createSelector(selectCurrentFeature, (state): Game[] => Object.values(state.items));
-export const selectGameEditorToggleState = createSelector(selectCurrentFeature, (state): boolean => state.showEditor);
-export const getSelectedGame = createSelector(selectCurrentFeature, (state): Game => state.selectedItem);
+export const selectGames = createSelector(selectGamesFeature, (state): Game[] => Object.values(state.items));
+export const selectGameEditorToggleState = createSelector(selectGamesFeature, (state): boolean => state.showEditor);
+export const getSelectedGame = createSelector(selectGamesFeature, (state): Game => state.selectedItem);

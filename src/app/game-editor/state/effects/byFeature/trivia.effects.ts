@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/catch';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '../../../../core';
 import { Trivia } from '../../../../game-mechanics';
@@ -31,60 +29,63 @@ export class TriviaEffectsService {
     constructor(private actions$: Actions, private api: GameEditService) {
     }
 
-    @Effect() getTrivia: Observable<any> = this.actions$
-        .ofType(GET_TRIVIAS)
-        .map((action: GetTriviasAction) => {
+    @Effect() getTrivia: Observable<any> = this.actions$.ofType(GET_TRIVIAS).pipe(
+        map((action: GetTriviasAction) => {
             return action.payload;
-        })
-        .mergeMap((payload: number) => {
-            return this.api.getTrivias(payload);
-        })
-        .mergeMap((res: Trivia[]) => {
-            const items = toIndexedList(res);
-            return [
-                new GetTriviasSuccessAction(),
-                new SetTriviasAction(items),
-            ];
-        })
-        .catch(() => {
-            return [new GetTriviasFailAction()];
-        });
+        }),
+        mergeMap((payload: number) => {
+            return this.api.getTrivias(payload).pipe(
+                mergeMap((res: Trivia[]) => {
+                    const items = toIndexedList(res);
+                    return [
+                        new GetTriviasSuccessAction(),
+                        new SetTriviasAction(items),
+                    ];
+                }),
+                catchError(() => {
+                    return [new GetTriviasFailAction()];
+                })
+            );
+        }),
+    );
 
-    @Effect() saveTrivia: Observable<any> = this.actions$
-        .ofType(SAVE_TRIVIA)
-        .map((action: SaveTriviaAction) => {
-            const payload = {...action.payload};
+    @Effect() saveTrivia: Observable<any> = this.actions$.ofType(SAVE_TRIVIA).pipe(
+        map((action: SaveTriviaAction) => {
+            const payload = { ...action.payload };
             if (typeof payload.image === 'string') {
                 delete payload.image;
             }
             return <Trivia>payload;
-        })
-        .mergeMap((payload: Trivia) => {
-            return this.api.saveTrivia(payload);
-        })
-        .mergeMap((res: Trivia) => {
-            return [
-                new AddTriviaAction(res),
-                new SaveTriviaSuccessAction(res)
-            ];
-        })
-        .catch(() => {
-            return [new SaveTriviaFailAction()];
-        });
+        }),
+        mergeMap((payload: Trivia) => {
+            return this.api.saveTrivia(payload).pipe(
+                mergeMap((res: Trivia) => {
+                    return [
+                        new AddTriviaAction(res),
+                        new SaveTriviaSuccessAction(res)
+                    ];
+                }),
+                catchError(() => {
+                    return [new SaveTriviaFailAction()];
+                })
+            );
+        }),
+    );
 
-    @Effect() deleteTrivia: Observable<any> = this.actions$
-        .ofType(DELETE_TRIVIA)
-        .map((action: DeleteTriviaAction) => action.payload)
-        .mergeMap((payload: Trivia) => {
-            return this.api.deleteTrivia(payload)
-                .mergeMap(() => {
+    @Effect() deleteTrivia: Observable<any> = this.actions$.ofType(DELETE_TRIVIA).pipe(
+        map((action: DeleteTriviaAction) => action.payload),
+        mergeMap((payload: Trivia) => {
+            return this.api.deleteTrivia(payload).pipe(
+                mergeMap(() => {
                     return [
                         new RemoveTriviaAction(payload),
                         new DeleteTriviaSuccessAction(payload),
                     ];
-                })
-                .catch(() => {
+                }),
+                catchError(() => {
                     return [new DeleteTriviaFailAction()];
-                });
-        });
+                })
+            );
+        })
+    );
 }

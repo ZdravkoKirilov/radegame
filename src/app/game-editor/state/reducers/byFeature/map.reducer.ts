@@ -1,25 +1,25 @@
 import { createSelector } from '@ngrx/store';
 
 import { MapAction } from '../../actions';
-import { MapLocation, MapLocationList, MapPath, GameMap } from '../../../../game-mechanics';
+import { MapLocation, MapLocationList, MapPath, MapPathList, GameMap } from '../../../../game-mechanics';
 import { GameEditorFeature } from '../main.reducer';
 import { selectFeature } from '../selectors';
 import { toIndexedList } from '../../../../shared';
 
 export interface MapState {
-    items?: { [key: string]: MapLocation };
-    paths?: { [key: string]: MapPath };
-    siblingsList?: { [key: string]: number[] };
+    items?: MapLocationList;
+    paths?: MapPathList;
     lastInsert?: number;
     lastDelete?: MapLocation;
     pathCreationMode?: boolean;
     selectedPath?: MapPath;
+    fetchError?: boolean;
+    loading?: boolean;
 }
 
 const initialState: MapState = {
     items: null,
     paths: null,
-    siblingsList: {},
     lastInsert: null,
     lastDelete: null,
     pathCreationMode: false,

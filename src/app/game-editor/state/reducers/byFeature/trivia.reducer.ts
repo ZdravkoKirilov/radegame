@@ -12,6 +12,8 @@ export interface GameTrivia {
     lastDelete?: Trivia;
     showEditor?: boolean;
     selectedItem?: Trivia;
+    fetchError?: boolean;
+    loading?: boolean;
 }
 
 const initialState: GameTrivia = {

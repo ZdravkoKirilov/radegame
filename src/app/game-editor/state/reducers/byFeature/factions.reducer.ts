@@ -1,15 +1,15 @@
 import { createSelector } from '@ngrx/store';
 
 import { FactionAction } from '../../actions';
-import { Faction } from '../../../../game-mechanics';
+import { Faction, FactionList } from '../../../../game-mechanics';
 import { GameEditorFeature } from '../main.reducer';
 import { selectGame } from './assets.reducer';
 import { selectFeature } from '../selectors';
 
 export interface Factions {
-    items?: {
-        [key: string]: Faction
-    };
+    items?: FactionList;
+    fetchError?: boolean;
+    loading?: boolean;
     lastInsert?: Faction;
     lastDelete?: Faction;
     showEditor?: boolean;

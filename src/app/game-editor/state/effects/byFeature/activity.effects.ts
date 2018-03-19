@@ -1,12 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/mergeMap';
-import 'rxjs/add/operator/catch';
+import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '../../../../core';
-import { Activity } from '../../../../game-mechanics/models/index';
+import { Activity } from '../../../../game-mechanics';
 import {
     GetActivitiesAction,
     SetActivitiesAction,
@@ -20,10 +18,10 @@ import {
     DeleteActivitySuccessAction,
     DeleteActivityFailAction,
     RemoveActivityAction
-} from '../../actions/byFeature/activity.action';
+} from '../../actions';
 
-import { GET_ACTIVITIES, SAVE_ACTIVITY, DELETE_ACTIVITY } from '../../reducers/byFeature/activity.reducer';
-import { toIndexedList } from '../../../../shared/utils/utils';
+import { GET_ACTIVITIES, SAVE_ACTIVITY, DELETE_ACTIVITY } from '../../reducers';
+import { toIndexedList } from '../../../../shared';
 
 @Injectable()
 export class ActivityEffectsService {
@@ -31,60 +29,63 @@ export class ActivityEffectsService {
     constructor(private actions$: Actions, private api: GameEditService) {
     }
 
-    @Effect() getActivities: Observable<any> = this.actions$
-        .ofType(GET_ACTIVITIES)
-        .map((action: GetActivitiesAction) => {
+    @Effect() getActivities: Observable<any> = this.actions$.ofType(GET_ACTIVITIES).pipe(
+        map((action: GetActivitiesAction) => {
             return action.payload;
-        })
-        .mergeMap((payload: number) => {
-            return this.api.getActivities(payload);
-        })
-        .mergeMap((res: Activity[]) => {
-            const items = toIndexedList(res);
-            return [
-                new GetActivitiesSuccessAction(),
-                new SetActivitiesAction(items)
-            ];
-        })
-        .catch(() => {
-            return [new GetActivitiesFailAction()];
-        });
+        }),
+        mergeMap((payload: number) => {
+            return this.api.getActivities(payload).pipe(
+                mergeMap((res: Activity[]) => {
+                    const items = toIndexedList(res);
+                    return [
+                        new GetActivitiesSuccessAction(),
+                        new SetActivitiesAction(items)
+                    ];
+                }),
+                catchError(() => {
+                    return [new GetActivitiesFailAction()];
+                })
+            );
+        }),
+    );
 
-    @Effect() saveActivity: Observable<any> = this.actions$
-        .ofType(SAVE_ACTIVITY)
-        .map((action: SaveActivityAction) => {
-            const payload = {...action.payload};
+    @Effect() saveActivity: Observable<any> = this.actions$.ofType(SAVE_ACTIVITY).pipe(
+        map((action: SaveActivityAction) => {
+            const payload = { ...action.payload };
             if (typeof payload.image === 'string') {
                 delete payload.image;
             }
             return payload;
-        })
-        .mergeMap((payload: Activity) => {
-            return this.api.saveActivity(payload);
-        })
-        .mergeMap((res: Activity) => {
-            return [
-                new AddActivityAction(res),
-                new SaveActivitySuccessAction(res)
-            ];
-        })
-        .catch(() => {
-            return [new SaveActivityFailAction()];
-        });
+        }),
+        mergeMap((payload: Activity) => {
+            return this.api.saveActivity(payload).pipe(
+                mergeMap((res: Activity) => {
+                    return [
+                        new AddActivityAction(res),
+                        new SaveActivitySuccessAction(res)
+                    ];
+                }),
+                catchError(() => {
+                    return [new SaveActivityFailAction()];
+                })
+            );
+        }),
+    );
 
-    @Effect() deleteActivity: Observable<any> = this.actions$
-        .ofType(DELETE_ACTIVITY)
-        .map((action: DeleteActivityAction) => action.payload)
-        .mergeMap((payload: Activity) => {
-            return this.api.deleteActivity(payload)
-                .mergeMap(() => {
+    @Effect() deleteActivity: Observable<any> = this.actions$.ofType(DELETE_ACTIVITY).pipe(
+        map((action: DeleteActivityAction) => action.payload),
+        mergeMap((payload: Activity) => {
+            return this.api.deleteActivity(payload).pipe(
+                mergeMap(() => {
                     return [
                         new RemoveActivityAction(payload),
                         new DeleteActivitySuccessAction(payload),
                     ];
-                })
-                .catch(() => {
+                }),
+                catchError(() => {
                     return [new DeleteActivityFailAction()];
-                });
-        });
+                })
+            );
+        })
+    );
 }

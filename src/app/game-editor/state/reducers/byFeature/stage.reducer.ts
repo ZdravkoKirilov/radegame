@@ -12,6 +12,8 @@ export interface GameStage {
     lastDelete?: Stage;
     showEditor?: boolean;
     selectedItem?: Stage;
+    fetchError?: boolean;
+    loading?: boolean;
 }
 
 const initialState: GameStage = {

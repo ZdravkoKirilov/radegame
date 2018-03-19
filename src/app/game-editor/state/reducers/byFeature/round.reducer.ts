@@ -1,15 +1,15 @@
 import { createSelector } from '@ngrx/store';
 
-import { Round } from '../../../../game-mechanics';
+import { Round, RoundList } from '../../../../game-mechanics';
 import { selectFeature } from '../selectors';
 import { GameEditorFeature } from '../main.reducer';
 import { RoundAction } from '../../actions';
 import { selectGame } from './assets.reducer';
 
 export interface GameRound {
-    items?: {
-        [key: string]: Round
-    };
+    items?: RoundList;
+    fetchError?: boolean;
+    loading?: boolean;
     lastInsert?: Round;
     lastDelete?: Round;
     showEditor?: boolean;

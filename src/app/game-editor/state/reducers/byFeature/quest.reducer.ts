@@ -1,15 +1,15 @@
 import { createSelector } from '@ngrx/store';
 
-import { Quest, Game } from '../../../../game-mechanics';
+import { Quest, QuestList, Game } from '../../../../game-mechanics';
 import { selectFeature } from '../selectors';
 import { selectGame } from './assets.reducer';
 import { GameEditorFeature } from '../main.reducer';
 import { QuestAction } from '../../actions';
 
 export interface GameQuest {
-    items?: {
-        [key: string]: Quest
-    };
+    items?: QuestList;
+    fetchError?: boolean;
+    loading?: boolean;
     lastInsert?: Quest;
     lastDelete?: Quest;
     showEditor?: boolean;

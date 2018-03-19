@@ -1,14 +1,14 @@
 import { ResourceAction } from '../../actions';
-import { Resource } from '../../../../game-mechanics';
+import { Resource, ResourceList } from '../../../../game-mechanics';
 import { createSelector } from '@ngrx/store';
 import { GameEditorFeature } from '../main.reducer';
 import { selectGame } from './assets.reducer';
 import { selectFeature } from '../selectors';
 
 export interface Resources {
-    items?: {
-        [key: string]: Resource;
-    };
+    items?: ResourceList;
+    fetchError?: boolean;
+    loading?: boolean;
     lastInsert?: Resource;
     lastDelete?: Resource;
     showEditor?: boolean;

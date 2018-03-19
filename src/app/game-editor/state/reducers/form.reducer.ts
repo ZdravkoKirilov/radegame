@@ -12,15 +12,10 @@ import {
     stageReducer,
 } from './byFeature';
 import { CLEAR_FORM } from '../actions';
-import { Resources } from './byFeature/resources.reducer';
-import { Factions } from './byFeature/factions.reducer';
-import { BoardFields } from './byFeature/fields.reducer';
-import { GameActivity } from './byFeature/activity.reducer';
-import { GameQuest } from './byFeature/quest.reducer';
-import { MapState } from './byFeature/map.reducer';
-import { GameRound } from './byFeature/round.reducer';
-import { GameTrivia } from './byFeature/trivia.reducer';
-import { GameStage } from './byFeature/stage.reducer';
+import {
+    GamesList, Resources, Factions, BoardFields, GameActivity,
+    GameQuest, MapState, GameRound, GameTrivia, GameStage
+} from './byFeature';
 
 const reducers = {
     factions: factionsReducer,
@@ -46,6 +41,9 @@ export interface GameEditorForm {
     trivia?: GameTrivia;
 }
 
+export type EditorSubfeature = GamesList | Resources | Factions | BoardFields |
+    GameActivity | GameQuest | MapState | GameRound | GameTrivia | GameStage;
+
 const reducer: ActionReducer<GameEditorForm> = combineReducers(reducers);
 
 function gameEditorFormReducer(state: any, action: any) {
@@ -65,3 +63,5 @@ function gameEditorFormMetareducer(anyReducer: ActionReducer<any>): any {
 }
 
 export { gameEditorFormReducer, gameEditorFormMetareducer };
+
+export const shouldPreloadFeature = (data: EditorSubfeature) => data.fetchError ? true : (!data.items && !data.loading);

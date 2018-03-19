@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
+
 import {
     Field,
     Faction,
@@ -222,7 +223,7 @@ export class GameEditService {
     }
 
     getGames(): Observable<any> {
-        return this.http.get(API_URLS.GAMES());
+        return this.http.get<Game[]>(API_URLS.GAMES());
     }
 
     getGame(id: number): Observable<any> {
