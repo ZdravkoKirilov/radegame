@@ -75,7 +75,7 @@ import { GameEditorComponent } from './components/Launch/game-editor/game-editor
         RouterModule
     ],
     providers: [
-        ...fromGuards.guards
+        ...fromGuards.guards,
     ],
     declarations: [
         IndexComponent,

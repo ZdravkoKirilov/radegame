@@ -2,7 +2,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { routerReducer } from '@ngrx/router-store';
 import { ActionReducerMap } from '@ngrx/store';
 
-import { GameTemplate } from '../../../game-mechanics';
+import { GameEditorFeature } from '../../../game-editor/';
 import { RouterStateUrl } from '../../router-custom.serializer';
 import { SocialAuthState } from '../../../social-auth';
 
@@ -12,6 +12,6 @@ export const reducers: ActionReducerMap<AppState> = {
 
 export interface AppState {
     router?: RouterReducerState<RouterStateUrl>;
-    editor?: GameTemplate;
+    editor?: GameEditorFeature;
     social_auth?: SocialAuthState;
 }

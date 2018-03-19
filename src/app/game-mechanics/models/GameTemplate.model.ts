@@ -1,4 +1,8 @@
-import { ResourceList, FactionList, FieldList, ActivityList, QuestList } from './index';
+import {
+    ResourceList, FactionList, FieldList, ActivityList,
+    QuestList, StageList, RoundList, GameList, MapLocationList,
+    MapPathList
+} from './index';
 
 export interface GameTemplate {
     id?: number;
@@ -7,5 +11,9 @@ export interface GameTemplate {
     activities?: ActivityList;
     fields?: FieldList;
     quests?: QuestList;
+    rounds?: RoundList;
+    stages?: StageList;
+    locations?: MapLocationList;
+    paths?: MapPathList;
 }
 

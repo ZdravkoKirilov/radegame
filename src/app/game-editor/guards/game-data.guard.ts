@@ -5,11 +5,10 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { switchMap, tap, filter, take, catchError } from 'rxjs/operators';
 
-import { AppState } from '../../core/state/index';
-import { GameEditorFeature } from '../state/reducers/index';
-import { selectFeature } from '../state/reducers/selectors';
+import { AppState } from '../../core';
+import { GameEditorFeature, selectFeature } from '../state';
 import * as actions from '../state/actions';
-import { ROUTER_PARAMS } from '../../shared/config/router-params';
+import { ROUTER_PARAMS } from '../../shared';
 
 @Injectable()
 export class GameDataGuard implements CanActivate {

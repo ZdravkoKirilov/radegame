@@ -13,6 +13,7 @@ import { reducers } from './state/reducers/index';
 import { CustomRouterSerializer } from './router-custom.serializer';
 import { AppRoutingModule } from '../app-routing.module';
 import { WindowRefService, GameEditService } from './services';
+import { GameDataResolver } from './resolvers'
 import { HomeModule } from '../home';
 import { GameEditorModule } from '../game-editor';
 import { ProfileModule } from '../profile';
@@ -41,6 +42,7 @@ import { NotFoundComponent } from './components';
         Title,
         WindowRefService,
         GameEditService,
+        GameDataResolver,
         { provide: RouterStateSerializer, useClass: CustomRouterSerializer }
     ]
 })

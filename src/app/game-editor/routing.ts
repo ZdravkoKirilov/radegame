@@ -12,6 +12,7 @@ import { SmartActivitiesComponent } from './containers/smart-activities/smart-ac
 import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
 import { SmartStagesComponent } from './containers/smart-stages/smart-stages.component';
 import { ROUTER_PARAMS } from '../shared';
+import { GameDataResolver } from '../core';
 import * as fromGuards from './guards';
 
 export const routes: Routes = [
@@ -26,10 +27,13 @@ export const routes: Routes = [
     }, {
         path: `games/:${ROUTER_PARAMS.GAME_ID}/editor`,
         canActivate: [fromGuards.GameDataGuard],
-        component: EditorWrapperComponent,
-        data: {
-            title: 'Radegast: setup a new game'
+        resolve: {
+            test: GameDataResolver
         },
+        component: EditorWrapperComponent,
+        // data: {
+        //     title: 'Radegast: setup a new game'
+        // },
         children: [
             {
                 path: '',
