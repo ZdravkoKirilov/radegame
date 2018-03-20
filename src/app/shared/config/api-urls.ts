@@ -50,3 +50,7 @@ export const API_URLS = {
         return stageId ? `${base}${stageId}/` : base;
     },
 };
+
+export const AUTH_URLS = {
+    REGISTER: BASE_URL + '/auth/local/register'
+}

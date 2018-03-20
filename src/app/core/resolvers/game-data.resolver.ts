@@ -16,21 +16,19 @@ export class GameDataResolver implements Resolve<GameTemplate>{
     resolve(
         route: ActivatedRouteSnapshot,
         state: RouterStateSnapshot
-    ): Observable<any> {
+    ): any {
         const gameId = route.params[ROUTER_PARAMS.GAME_ID];
         return forkJoin([
-            this.api.getGames(),
             this.api.getResources(gameId)
         ]).pipe(
-            map(([games, resources]) => {
-                return of(<GameTemplate>{
-                    games: toIndexedList(games),
+            map(([resources]) => {
+                return <GameTemplate>{
                     resources: toIndexedList(resources)
-                });
+                };
             }),
             catchError(error => {
                 return of(null);
             })
-        );
+            );
     }
 }

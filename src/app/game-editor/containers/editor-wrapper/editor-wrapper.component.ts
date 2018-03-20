@@ -2,7 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AppState, selectGameId } from '../../../core';
+import { ActivatedRoute } from '@angular/router';
+
+import { AppState, selectGameId, selectPreloadedData } from '../../../core';
+import { GameTemplate } from '../../../game-mechanics';
+import * as actions from '../../state/actions';
 
 @Component({
   selector: 'rg-editor-wrapper',
@@ -10,18 +14,23 @@ import { AppState, selectGameId } from '../../../core';
   styleUrls: ['./editor-wrapper.component.scss']
 })
 export class EditorWrapperComponent implements OnInit, OnDestroy {
-  private sub: Subscription;
+  private subs: Subscription[];
   public gameId: number;
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.sub = this.store.subscribe(state => {
-      this.gameId = selectGameId(state);
-    });
+    this.subs = [
+      selectPreloadedData(this.route).subscribe((preloaded: GameTemplate) => {
+        //this.store.dispatch(new actions.SetResourcesAction(preloaded.resources));
+      }),
+      this.store.select(selectGameId).subscribe(gameId => {
+        this.gameId = gameId;
+      })
+    ];
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    this.subs.forEach(sub => sub.unsubscribe());
   }
 
   get backURL() {

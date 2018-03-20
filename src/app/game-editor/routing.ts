@@ -28,12 +28,12 @@ export const routes: Routes = [
         path: `games/:${ROUTER_PARAMS.GAME_ID}/editor`,
         canActivate: [fromGuards.GameDataGuard],
         resolve: {
-            test: GameDataResolver
+            preloaded: GameDataResolver
         },
         component: EditorWrapperComponent,
-        // data: {
-        //     title: 'Radegast: setup a new game'
-        // },
+        data: {
+            title: 'Radegast: setup a new game'
+        },
         children: [
             {
                 path: '',

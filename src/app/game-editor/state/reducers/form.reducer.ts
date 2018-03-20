@@ -1,4 +1,4 @@
-import { ActionReducer, combineReducers } from '@ngrx/store';
+import { ActionReducer, combineReducers, createSelector } from '@ngrx/store';
 
 import {
     factionsReducer,
@@ -16,6 +16,8 @@ import {
     GamesList, Resources, Factions, BoardFields, GameActivity,
     GameQuest, MapState, GameRound, GameTrivia, GameStage
 } from './byFeature';
+
+import { selectFeature } from './selectors';
 
 const reducers = {
     factions: factionsReducer,
@@ -63,5 +65,7 @@ function gameEditorFormMetareducer(anyReducer: ActionReducer<any>): any {
 }
 
 export { gameEditorFormReducer, gameEditorFormMetareducer };
+
+export const selectForm = createSelector(selectFeature, state => state.form);
 
 export const shouldPreloadFeature = (data: EditorSubfeature) => data.fetchError ? true : (!data.items && !data.loading);

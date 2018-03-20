@@ -9,10 +9,8 @@ import {
     ChangeSelectedResourceAction,
     SaveResourceAction
 } from '../../state';
-import { getSelectedResource } from '../../state';
-import { AppState } from '../../../core/state';
-import { selectResourceEditorToggleState, selectResources } from '../../state';
-import { selectGame } from '../../state';
+import { AppState } from '../../../core';
+import { selectResourceEditorToggleState, selectResources, getSelectedResource, selectGame } from '../../state';
 import { FormDefinition } from '../../../dynamic-forms';
 import { RESOURCE_DEF } from '../../forms';
 

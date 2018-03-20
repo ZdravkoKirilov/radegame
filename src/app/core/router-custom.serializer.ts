@@ -11,16 +11,17 @@ export interface RouterStateUrl {
 export class CustomRouterSerializer implements RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     let route = routerState.root;
-    let params = {...route.params};
-    let resolvers = { ...routerState.root.data};
+    let params = { ...route.params };
+    let { data } = route;
 
     while (route.firstChild) {
       route = route.firstChild;
-      params = {...params, ...route.params};
+      params = { ...params, ...route.params };
+      data = { ...data, ...route.data };
     }
+    data = { ...data, ...route.data };
 
     const { url, root: { queryParams } } = routerState;
-    const { data } = route;
 
     return { url, params, queryParams, data };
   }
