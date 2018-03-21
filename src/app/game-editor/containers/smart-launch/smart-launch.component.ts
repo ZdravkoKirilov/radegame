@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '../../../core';
 import { Game } from '../../../game-mechanics';
-import { Option, FormDefinition } from '../../../dynamic-forms';
+import { FormDefinition } from '../../../dynamic-forms';
 import { GAME_DEF } from '../../forms';
 import { CreateGameAction, ChangeSelectedGameAction, ToggleGameEditorAction, DeleteGameAction } from '../../state';
 import { selectGames, selectGameEditorToggleState, getSelectedGame } from '../../state';

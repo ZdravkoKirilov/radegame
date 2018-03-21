@@ -1,32 +1,22 @@
 import { Component, OnInit } from '@angular/core';
-
-import {
-  AuthService,
-  FacebookLoginProvider,
-  GoogleLoginProvider,
-  SocialUser,
-} from '../../../social-auth/';
+import { Store } from '@ngrx/store';
+import { AppState } from '../../../core';
 
 import { LOGIN_MODES, SignInPayload } from '../../models/';
+import { EmailLoginAction, EmailRegisterAction } from '../../state';
 
 @Component({
   selector: 'rg-sign-in',
   templateUrl: './sign-in.component.html',
   styleUrls: ['./sign-in.component.scss'],
-  providers: [AuthService]
+  providers: []
 })
 export class SignInComponent implements OnInit {
 
-  constructor(/*private authService: AuthService*/) { }
-
-  private user: SocialUser;
-  private loggedIn: boolean;
+  constructor(private store: Store<AppState>) { }
 
   ngOnInit() {
-    // this.authService.authState.subscribe((user) => {
-    //   this.user = user;
-    //   this.loggedIn = (user != null);
-    // });
+
   }
 
   signIn(data: SignInPayload) {
@@ -36,18 +26,31 @@ export class SignInComponent implements OnInit {
     if (data.type === LOGIN_MODES.FACEBOOK) {
       this.signInWithFB();
     }
+    if (data.type === LOGIN_MODES.EMAIL) {
+      this.signInWithEmail(data);
+    }
+  }
+
+  signInWithEmail(data: SignInPayload) {
+    if (data.isLogin) {
+      const action = new EmailLoginAction(data.payload);
+      this.store.dispatch(action);
+    } else {
+      const action = new EmailRegisterAction(data.payload);
+      this.store.dispatch(action);
+    }
   }
 
   signInWithGoogle(): void {
 
-    //this.authService.signIn(GoogleLoginProvider.PROVIDER_ID);
+
   }
 
   signInWithFB(): void {
-    //this.authService.signIn(FacebookLoginProvider.PROVIDER_ID);
+
   }
 
   signOut(): void {
-    //this.authService.signOut();
+
   }
 }

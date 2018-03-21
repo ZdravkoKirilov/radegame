@@ -3,19 +3,16 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { Activity, Game, Resource } from '../../../game-mechanics/models/index';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
-import { ACTIVITY_DEF } from '../../forms/Activity/activity.form';
-import { selectActivities, selectActivityEditorState, getSelectedActivity } from '../../state/reducers/byFeature/activity.reducer';
-import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
-import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
+import { FormDefinition, ConnectedEntities } from '../../../dynamic-forms';
+import { Activity, Game } from '../../../game-mechanics';
+import { ACTIVITY_DEF } from '../../forms';
+import { selectActivities, selectActivityEditorState, getSelectedActivity, selectGame, selectResources } from '../../state';
 import {
     SaveActivityAction,
     DeleteActivityAction,
     ToggleActivityEditorAction,
     ChangeSelectedActivityAction
-} from '../../state/actions/byFeature/activity.action';
+} from '../../state';
 
 @Component({
     selector: 'rg-smart-activities',

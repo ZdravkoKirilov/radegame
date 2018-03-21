@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
 import { Store } from '@ngrx/store';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService, AppState } from '../../../../core';
-import { GameMap, MapLocation, MapPath } from '../../../../game-mechanics';
+import { MapLocation, MapPath } from '../../../../game-mechanics';
 
 import {
     DeleteMapLocationSuccessAction,

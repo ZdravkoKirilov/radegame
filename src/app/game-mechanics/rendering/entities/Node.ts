@@ -50,8 +50,8 @@ export class MapNode implements ISpriteComponent {
     attachListeners() {
         const {sprite, onDragStart, onDragEnd, onDragMove} = this;
         sprite
-            .on('pointerdown', (event) => {
-                onDragStart(event);
+            .on('pointerdown', () => {
+                onDragStart();
                 this.select.next(this.data);
             })
             .on('pointerup', onDragEnd)
@@ -67,7 +67,7 @@ export class MapNode implements ISpriteComponent {
             });
     }
 
-    private onDragStart = (event) => {
+    private onDragStart = () => {
         if (!this.dragging) {
             this.sprite.alpha = 0.5;
             this.dragging = true;

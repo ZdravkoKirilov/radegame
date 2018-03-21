@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 import { Quest } from '../../../../game-mechanics/models/index';
 import { IndexBase } from '../../../mixins/index.base';

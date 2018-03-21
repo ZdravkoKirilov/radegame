@@ -41,4 +41,5 @@ export interface BaseControl {
     crossFieldContext?: CrossFieldContext;
     minItems?: number;
     maxItems?: number;
+    isEmail?: boolean;
 }

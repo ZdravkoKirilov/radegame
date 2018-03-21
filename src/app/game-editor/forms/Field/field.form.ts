@@ -1,10 +1,6 @@
-import { Resource } from '../../../game-mechanics/models/Resource.model';
-import { Field, FieldResource } from '../../../game-mechanics/models/BoardField.model';
-import { BaseControl } from '../../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
+import { Field, FieldResource } from '../../../game-mechanics';
+import { BaseControl, controlTypes, ConnectedEntities, FormDefinition } from '../../../dynamic-forms';
 import { composeQuestOptions, composeActivityOptions, composeResourceOptions } from '../helpers';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
 
 export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) => {
     data = data || {income: [], cost: [], quests: [], activities: []};

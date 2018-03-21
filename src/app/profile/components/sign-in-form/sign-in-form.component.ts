@@ -1,7 +1,8 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormControl, Validators as vd } from '@angular/forms';
 
-import { LOGIN_MODES, LoginMode, SignInPayload } from '../../models';
+import { LOGIN_MODES, LoginMode, SignInPayload, AuthPayload } from '../../models';
+import { emailValidator } from '../../../dynamic-forms';
 
 @Component({
   selector: 'rg-sign-in-form',
@@ -16,8 +17,8 @@ export class SignInFormComponent {
 
   constructor() {
     this.form = new FormGroup({
-      email: new FormControl('', Validators.required),
-      password: new FormControl('', Validators.required),
+      email: new FormControl('', vd.compose([vd.required, emailValidator])),
+      password: new FormControl('', vd.required),
     });
   }
 
@@ -32,6 +33,10 @@ export class SignInFormComponent {
     this.signIn.emit({
       type: mode,
       isLogin: this.isLogin,
+      payload: <AuthPayload>{
+        email: this.form.value.email,
+        password: this.form.value.password
+      }
     });
   }
 

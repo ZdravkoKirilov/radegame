@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { mergeMap, catchError } from 'rxjs/operators';
 import { Store } from '@ngrx/store';
 
 import { GameEditService, AppState } from '../../../../core';
@@ -18,8 +18,7 @@ import {
     CreateGameSuccessAction,
 } from '../../actions';
 
-import { OperationFailAction, OperationSuccessAction } from '../../../../core';
-import { systemMessages as sm, toIndexedList } from '../../../../shared';
+import { toIndexedList } from '../../../../shared';
 import { CREATE_GAME, GET_GAMES } from '../../reducers';
 
 @Injectable()

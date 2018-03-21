@@ -1,7 +1,7 @@
 import { createSelector } from '@ngrx/store';
 
 import { MapAction } from '../../actions';
-import { MapLocation, MapLocationList, MapPath, MapPathList, GameMap } from '../../../../game-mechanics';
+import { MapLocation, MapLocationList, MapPath, MapPathList } from '../../../../game-mechanics';
 import { GameEditorFeature } from '../main.reducer';
 import { selectFeature } from '../selectors';
 import { toIndexedList } from '../../../../shared';

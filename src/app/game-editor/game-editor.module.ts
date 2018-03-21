@@ -5,7 +5,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
-import { FEATURE_NAME } from './utils/config';
+import { FEATURE_NAME } from './utils';
 
 import { routes } from './routing';
 import { reducers, metaReducers } from './state';

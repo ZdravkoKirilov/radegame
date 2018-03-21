@@ -1,6 +1,6 @@
 import {
     ResourceList, FactionList, FieldList, ActivityList,
-    QuestList, StageList, RoundList, GameList, MapLocationList,
+    QuestList, StageList, RoundList, MapLocationList,
     MapPathList
 } from './index';
 

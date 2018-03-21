@@ -21,7 +21,7 @@ export class EditorWrapperComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.subs = [
       selectPreloadedData(this.route).subscribe((preloaded: GameTemplate) => {
-        //this.store.dispatch(new actions.SetResourcesAction(preloaded.resources));
+        this.store.dispatch(new actions.SetResourcesAction(preloaded.resources));
       }),
       this.store.select(selectGameId).subscribe(gameId => {
         this.gameId = gameId;

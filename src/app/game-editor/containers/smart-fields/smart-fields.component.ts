@@ -4,14 +4,12 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core';
 import {
-    GameMap,
     Field,
     FieldList,
     Game,
     MapPath,
     MapLocationList,
     MapLocation,
-    Resource,
     Stage
 } from '../../../game-mechanics';
 import { FormDefinition } from '../../../dynamic-forms';
@@ -19,25 +17,18 @@ import { FIELD_DEF } from '../../forms';
 import { ConnectedEntities } from '../../../dynamic-forms';
 import { SceneRenderService } from '../../../game-mechanics';
 import { SaveStageAction } from '../../state';
-
 import {
     selectFieldEditorToggleState, getSelectedField,
     selectFields, selectFieldsByStageId,
-} from '../../state';
-import { selectQuests } from '../../state';
-import { selectActivities } from '../../state';
-import {
     getSelectedPath,
-    selectMapLocations,
-    selectMapPaths,
     selectPathCreationMode,
     selectPathsByStageId,
     selectLocationsByStageId,
+    selectQuests,
+    selectActivities,
+    selectResources, selectGame, selectStageById
 } from '../../state';
-import { selectResources } from '../../state';
-import { selectGame } from '../../state';
-import { selectStageId } from '../../../core/state';
-import { selectStageById } from '../../state';
+import { selectStageId } from '../../../core';
 
 import {
     SaveMapLocationAction,
@@ -45,14 +36,14 @@ import {
     ChangeSelectedPathAction,
     SaveMapPathAction,
     DeleteMapPathAction
-} from '../../state/actions/byFeature/map.action';
+} from '../../state';
 import {
     ChangeSelectedFieldAction,
     ToggleFieldEditorAction,
     UpdateFieldAction,
     SaveFieldAction,
     DeleteFieldAction
-} from '../../state/actions/byFeature/field.action';
+} from '../../state';
 
 @Component({
     selector: 'rg-smart-fields',

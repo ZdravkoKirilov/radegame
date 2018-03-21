@@ -1,4 +1,4 @@
-import { BaseControl, Option, controlTypes } from '../../../dynamic-forms';
+import { BaseControl, controlTypes } from '../../../dynamic-forms';
 import { Game } from '../../../game-mechanics';
 
 export function GAME_DEF(data: Game): BaseControl[] {

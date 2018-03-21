@@ -15,7 +15,7 @@ export class GoogleSignInComponent implements OnInit {
 
   ngOnInit() {
     this.authService.signIn('GOOGLE')
-      .then(user => {
+      .then(() => {
         debugger;
       })
       .catch(err => {

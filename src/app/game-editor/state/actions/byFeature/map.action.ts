@@ -23,8 +23,8 @@ import {
     SET_MAP_LOCATIONS,
     SET_MAP_PATHS,
     TOGGLE_PATH_CREATION_MODE
-} from '../../reducers/byFeature/map.reducer';
-import { GameMap, MapLocation, MapLocationList, MapPath, MapPathList } from '../../../../game-mechanics/models/index';
+} from '../../reducers';
+import { MapLocation, MapLocationList, MapPath, MapPathList } from '../../../../game-mechanics';
 
 export class SaveMapPathAction implements Action {
     constructor(public payload: MapPath) {

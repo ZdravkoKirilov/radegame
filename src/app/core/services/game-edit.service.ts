@@ -17,7 +17,8 @@ import {
     Trivia,
     Stage,
 } from '../../game-mechanics';
-import { API_URLS, toMultipartFormData, objectToFormData } from '../../shared';
+import { toMultipartFormData, objectToFormData } from '../../shared';
+import { API_URLS } from '../config';
 
 @Injectable()
 export class GameEditService {

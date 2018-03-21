@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
-import { Observable } from 'rxjs/Observable';
+import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
 import { of } from 'rxjs/observable/of';
 import { forkJoin } from 'rxjs/observable/forkJoin';
-import { switchMap, mergeMap, map, catchError } from 'rxjs/operators';
+import { map, catchError } from 'rxjs/operators';
 
 import { GameTemplate } from '../../game-mechanics';
 import { GameEditService } from '../services';
@@ -14,8 +13,7 @@ export class GameDataResolver implements Resolve<GameTemplate>{
     constructor(private api: GameEditService) { }
 
     resolve(
-        route: ActivatedRouteSnapshot,
-        state: RouterStateSnapshot
+        route: ActivatedRouteSnapshot
     ): any {
         const gameId = route.params[ROUTER_PARAMS.GAME_ID];
         return forkJoin([
@@ -26,7 +24,7 @@ export class GameDataResolver implements Resolve<GameTemplate>{
                     resources: toIndexedList(resources)
                 };
             }),
-            catchError(error => {
+            catchError(() => {
                 return of(null);
             })
             );

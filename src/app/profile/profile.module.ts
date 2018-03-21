@@ -1,22 +1,29 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { EffectsModule } from '@ngrx/effects';
+import { RouterModule } from '@angular/router';
+import { StoreModule } from '@ngrx/store';
 
-import { SharedModule } from '../shared/shared.module';
-import { ProfileRoutingModule } from './profile.routing.module';
+import * as effects from './state/effects';
 
-import { SignInComponent } from './containers/sign-in/sign-in.component';
-import { SignInViewComponent } from './components/sign-in-view/sign-in-view.component';
-import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
+import { SharedModule } from '../shared';
+import { routes } from './routing';
+
+import { FEATURE_NAME } from './config';
+import { profileReducer } from './state';
+
+import * as containers from './containers';
+import * as components from './components';
 
 @NgModule({
   imports: [
-    CommonModule,
-    ProfileRoutingModule,
+    RouterModule.forChild(routes),
     SharedModule,
+    StoreModule.forFeature(FEATURE_NAME, profileReducer),
+    EffectsModule.forFeature([...Object.values(effects)])
   ],
   exports: [
-    ProfileRoutingModule
+    RouterModule
   ],
-  declarations: [SignInComponent, SignInViewComponent, SignInFormComponent]
+  declarations: [...Object.values(containers), ...Object.values(components)]
 })
 export class ProfileModule { }

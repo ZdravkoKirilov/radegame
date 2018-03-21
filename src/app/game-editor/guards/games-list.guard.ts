@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
+import { CanActivate } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
@@ -17,7 +17,7 @@ export class GamesListGuard implements CanActivate {
     constructor(private store: Store<AppState>) {
     }
 
-    canActivate(route: ActivatedRouteSnapshot): Observable<boolean> {
+    canActivate(): Observable<boolean> {
         this.hasFired = false;
         return this.getFromStoreOrAPI().pipe(
             switchMap(() => of(true)),

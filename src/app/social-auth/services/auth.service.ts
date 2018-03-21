@@ -1,8 +1,5 @@
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
-
 import { LoginProvider } from '../entities';
 import { SocialUser } from '../models';
 
@@ -66,7 +63,7 @@ export class AuthServiceConfig {
 export class AuthService {
 
   private static readonly ERR_LOGIN_PROVIDER_NOT_FOUND = 'Login provider not found';
-  private static readonly ERR_NOT_LOGGED_IN = 'Not logged in';
+  //private static readonly ERR_NOT_LOGGED_IN = 'Not logged in';
 
   private providers: Map<string, LoginProvider>;
 

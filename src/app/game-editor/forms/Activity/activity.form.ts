@@ -1,11 +1,8 @@
-import { BaseControl, Option } from '../../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
-import { Activity, ActivityConfig, types, targetTypes, actionModes } from '../../../game-mechanics/models';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { BaseControl, Option, controlTypes, FormDefinition, ConnectedEntities } from '../../../dynamic-forms';
+import { Activity, ActivityConfig, types, targetTypes, actionModes } from '../../../game-mechanics';
 import { composeResourceOptions } from '../helpers';
 
-export function ACTIVITY_DEF(data: Activity, ent: ConnectedEntities): BaseControl[] {
+export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntities): BaseControl[] => {
     data = data || { configs: [] };
     const resources = composeResourceOptions(ent);
     const activityTypes: Option[] = Object.keys(types).map(key => {

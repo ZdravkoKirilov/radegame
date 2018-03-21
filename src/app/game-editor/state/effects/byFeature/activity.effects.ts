@@ -29,7 +29,8 @@ export class ActivityEffectsService {
     constructor(private actions$: Actions, private api: GameEditService) {
     }
 
-    @Effect() getActivities: Observable<any> = this.actions$.ofType(GET_ACTIVITIES).pipe(
+    @Effect()
+    getActivities: Observable<any> = this.actions$.ofType(GET_ACTIVITIES).pipe(
         map((action: GetActivitiesAction) => {
             return action.payload;
         }),

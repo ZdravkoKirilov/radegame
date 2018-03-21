@@ -1,7 +1,7 @@
 import { BaseLoginProvider } from '../entities';
 import { SocialUser } from '../models';
 import { LoginOpt } from '../services';
-import { GOOGLE_SDK_URL, GOOGLE_LOGIN_OPT, GOOGLE_AUTH } from '../utils';
+import { GOOGLE_SDK_URL, GOOGLE_LOGIN_OPT } from '../utils';
 
 declare const gapi: any;
 

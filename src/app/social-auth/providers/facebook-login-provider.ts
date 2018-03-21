@@ -17,7 +17,7 @@ export class FacebookLoginProvider extends BaseLoginProvider {
   ) { super(); }
 
   initialize(): Promise<SocialUser> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.loadScript(FacebookLoginProvider.PROVIDER_ID, FB_SDK_URL, () => {
         FB.init({
           appId: this.clientId,
@@ -53,7 +53,7 @@ export class FacebookLoginProvider extends BaseLoginProvider {
   }
 
   signIn(): Promise<SocialUser> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       FB.login((response: any) => {
         if (response.authResponse) {
           const authResponse = response.authResponse;
@@ -76,8 +76,8 @@ export class FacebookLoginProvider extends BaseLoginProvider {
   }
 
   signOut(): Promise<any> {
-    return new Promise((resolve, reject) => {
-      FB.logout((response: any) => {
+    return new Promise((resolve) => {
+      FB.logout(() => {
         resolve();
       });
     });

@@ -30,7 +30,6 @@ export class NestedFormComponent {
     showControl(data: BaseControl): boolean {
         const index = parseInt(this.index as any, 10);
         const form = this.ownGroup || this.form;
-        const value = index && index >= 0 ? form.value[index] : form.value;
         return showControl(data, form.value[index]);
     }
 }

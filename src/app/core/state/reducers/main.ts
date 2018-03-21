@@ -5,13 +5,15 @@ import { ActionReducerMap } from '@ngrx/store';
 import { GameEditorFeature } from '../../../game-editor/';
 import { RouterStateUrl } from '../../router-custom.serializer';
 import { SocialAuthState } from '../../../social-auth';
+import { ProfileFeature } from '../../../profile';
 
 export const reducers: ActionReducerMap<AppState> = {
-    router: routerReducer
+    router: routerReducer,
 };
 
 export interface AppState {
     router?: RouterReducerState<RouterStateUrl>;
     editor?: GameEditorFeature;
+    profile?: ProfileFeature;
     social_auth?: SocialAuthState;
 }

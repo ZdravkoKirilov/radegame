@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
 import { WindowRefService } from '../../core';
 import { SpriteComponent, MapNode, Path } from './entities';
-import { Field, MapLocation, MapPath } from '../models';
+import { MapLocation, MapPath } from '../models';
 
 @Injectable()
 export class SceneRenderService {

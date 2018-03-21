@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { FormArray, FormGroup, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../models/Base.model';
 import { controlTypes } from '../../config/controlTypes';

@@ -2,22 +2,21 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Faction, Game, Resource } from '../../../game-mechanics/models/index';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
-import { AppState } from '../../../core/state/index';
-import {
-    selectGame
-} from '../../state/reducers/byFeature/assets.reducer';
+import { Faction, Game } from '../../../game-mechanics';
+import { ConnectedEntities } from '../../../dynamic-forms';
+import { AppState } from '../../../core';
+
 import {
     SaveFactionAction,
     DeleteFactionAction,
     ChangeSelectedFactionAction,
-    ToggleEditorAction
-} from '../../state/actions/byFeature/faction.action';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { FACTION_DEF } from '../../forms/Faction/faction.form';
-import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
-import { getSelectedFaction, selectFactionEditorState, selectFactions } from '../../state/reducers/byFeature/factions.reducer';
+    ToggleEditorAction,
+    selectGame,
+    selectResources,
+    getSelectedFaction, selectFactionEditorState, selectFactions
+} from '../../state';
+import { FormDefinition } from '../../../dynamic-forms';
+import { FACTION_DEF } from '../../forms';
 
 @Component({
     selector: 'rg-smart-factions',
@@ -39,7 +38,7 @@ export class SmartFactionsComponent implements OnInit, OnDestroy {
     }
 
     saveFaction(data: Faction) {
-        const payload = {...data, game: this.game.id};
+        const payload = { ...data, game: this.game.id };
         if (this.selectedItem) {
             payload.id = this.selectedItem.id;
         }

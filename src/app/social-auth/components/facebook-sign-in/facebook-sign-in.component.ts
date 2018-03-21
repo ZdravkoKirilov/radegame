@@ -13,10 +13,10 @@ export class FacebookSignInComponent implements OnInit {
 
   ngOnInit() {
     this.authService.signIn('FACEBOOK')
-      .then(user => {
+      .then(() => {
         debugger;
       })
-      .catch(err => {
+      .catch(() => {
         debugger;
       });
   }

@@ -1,5 +1,3 @@
-import { Activity } from './index';
-
 export const TRIVIA_MODES = {
     STATIC: 'Static',
     OPEN: 'Open',

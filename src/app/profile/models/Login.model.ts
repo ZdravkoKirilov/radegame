@@ -8,3 +8,5 @@ export type LoginMode =
     typeof LOGIN_MODES.FACEBOOK |
     typeof LOGIN_MODES.GOOGLE |
     typeof LOGIN_MODES.EMAIL;
+
+export type OAuthProviders = typeof LOGIN_MODES.FACEBOOK | typeof LOGIN_MODES.GOOGLE;

@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createFeatureSelector } from '@ngrx/store';
 import { FEATURE_NAME } from '../../utils/config';
 import { GameEditorFeature } from './index';
 
