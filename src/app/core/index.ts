@@ -4,3 +4,4 @@ export * from './components';
 export * from './services';
 export * from './resolvers';
 export * from './router-custom.serializer';
+export * from './http';

@@ -5,9 +5,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { NgMaterialModule } from '../ng-material/ng-material.module';
-import { SocialButtonComponent } from './components/social-button/social-button.component';
-import { DividerComponent } from './components/divider/divider.component';
-import { MainMenuComponent } from './components/main-menu/main-menu.component';
+import * as components from './components';
+
+import { AuthInterceptor } from '../core';
 
 @NgModule({
     imports: [
@@ -18,11 +18,9 @@ import { MainMenuComponent } from './components/main-menu/main-menu.component';
         NgMaterialModule,
         FormsModule,
         ReactiveFormsModule,
-        SocialButtonComponent,
-        DividerComponent,
-        MainMenuComponent,
+        ...Object.values(components)
     ],
-    declarations: [SocialButtonComponent, DividerComponent, MainMenuComponent],
+    declarations: [...Object.values(components)],
     providers: []
 })
 export class SharedModule {

@@ -7,7 +7,8 @@ export const actionTypes = {
     EMAIL_REGISTER_FAIL: 'EMAIL_REGISTER_FAIL',
     EMAIL_LOGIN: 'EMAIL_LOGIN',
     EMAIL_LOGIN_SUCCESS: 'EMAIL_LOGIN_SUCCESS',
-    EMAIL_LOGIN_FAIL: 'EMAIL_LOGIN_FAIL'
+    EMAIL_LOGIN_FAIL: 'EMAIL_LOGIN_FAIL',
+    SAVE_AUTH_TOKEN: 'SAVE_AUTH_TOKEN'
 };
 
 export class EmailRegisterAction implements Action {
@@ -38,6 +39,11 @@ export class EmailLoginSuccessAction implements Action {
 export class EmailLoginFailAction implements Action {
     readonly type = actionTypes.EMAIL_LOGIN_FAIL;
     constructor(public payload: AuthResponse) { }
+}
+
+export class SaveAuthTokenAction implements Action {
+    readonly type = actionTypes.SAVE_AUTH_TOKEN;
+    constructor(public payload?: string) { };
 }
 
 export type ProfileAction = EmailLoginAction | EmailLoginSuccessAction | EmailLoginFailAction |

@@ -5,13 +5,15 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SharedModule } from '../shared';
 import { CoreEffectsService } from './state';
 import { reducers } from './state';
 import { CustomRouterSerializer } from './router-custom.serializer';
 import { AppRoutingModule } from '../app-routing.module';
-import { WindowRefService, GameEditService, AuthService } from './services';
+import * as services from './services';
+import { AuthInterceptor } from './http';
 import { GameDataResolver } from './resolvers';
 import { HomeModule } from '../home';
 import { GameEditorModule } from '../game-editor';
@@ -39,11 +41,10 @@ import { NotFoundComponent } from './components';
     declarations: [NotFoundComponent],
     providers: [
         Title,
-        WindowRefService,
-        GameEditService,
-        AuthService,
+        ...Object.values(services),
         GameDataResolver,
-        { provide: RouterStateSerializer, useClass: CustomRouterSerializer }
+        { provide: RouterStateSerializer, useClass: CustomRouterSerializer },
+        { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ]
 })
 export class CoreModule {
