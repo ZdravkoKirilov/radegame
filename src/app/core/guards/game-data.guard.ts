@@ -1,28 +1,36 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot } from '@angular/router';
+import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs/observable/of';
 import { Observable } from 'rxjs/Observable';
-import { forkJoin } from 'rxjs/observable/forkJoin';
-import { map, switchMap, mergeMap, catchError, tap, take, filter } from 'rxjs/operators';
+import { of } from 'rxjs/observable/of';
+import { switchMap, catchError, map, take } from 'rxjs/operators';
+
+import * as actions from '../state/actions';
 
 import { selectPreloadedGames, Cache } from '../state';
-import { GameTemplate } from '../../game-mechanics';
+import { forkJoin } from 'rxjs/observable/forkJoin';
+import { toIndexedList, isMapLocation, ROUTER_PARAMS } from '../../shared';
 import { GameEditService } from '../services';
-import { toIndexedList, ROUTER_PARAMS, isMapLocation } from '../../shared';
+import { GameTemplate } from '../../game-mechanics';
 
 @Injectable()
-export class GameDataResolver implements Resolve<GameTemplate>{
-    constructor(private api: GameEditService, private store: Store<Cache>) { }
+export class GameDataGuard implements CanActivate {
 
-    resolve(
+    constructor(private store: Store<Cache>, private api: GameEditService) {
+    }
+
+    canActivate(
         route: ActivatedRouteSnapshot
     ): Observable<any> {
         const gameId = route.params[ROUTER_PARAMS.GAME_ID];
 
         return this.getFromStoreOrAPI(gameId).pipe(
-            switchMap(() => {
-                debugger;
+            switchMap((data: GameTemplate) => {
+                if (data) {
+                    this.store.dispatch(new actions.AddGameAssetsAction({
+                        game: gameId, data
+                    }));
+                }
                 return of(true);
             }),
             catchError(() => {
@@ -33,8 +41,9 @@ export class GameDataResolver implements Resolve<GameTemplate>{
 
     getFromStoreOrAPI(gameId: number) {
         return this.store.select(selectPreloadedGames).pipe(
+            take(1),
             switchMap(preloadedGames => {
-                if (preloadedGames.includes(gameId)) {
+                if (preloadedGames.includes(gameId.toString())) {
                     return of(null);
                 } else {
                     return this.load(gameId)
@@ -63,7 +72,6 @@ export class GameDataResolver implements Resolve<GameTemplate>{
                 return toIndexedList(entity, 'field');
             })),
             map(([resources, factions, activities, rounds, stages, quests, fields, locations, paths, trivia]) => {
-                debugger;
                 return {
                     resources, factions, activities, rounds, stages, quests, fields, locations, paths, trivia
                 };

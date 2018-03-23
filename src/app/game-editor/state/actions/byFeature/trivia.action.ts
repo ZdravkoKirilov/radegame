@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Trivia, TriviaList } from '../../../../game-mechanics/models/index';
+import { Trivia, TriviaList } from '../../../../game-mechanics';
 import {
     ADD_TRIVIA,
     CHANGE_SELECTED_TRIVIA,
@@ -15,7 +15,7 @@ import {
     GET_TRIVIAS,
     GET_TRIVIAS_SUCCESS,
     GET_TRIVIAS_FAIL
-} from '../../reducers/byFeature/trivia.reducer';
+} from '../../reducers';
 
 export class SaveTriviaAction implements Action {
     constructor(public payload: Trivia) {

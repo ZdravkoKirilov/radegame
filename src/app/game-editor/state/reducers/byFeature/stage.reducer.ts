@@ -1,6 +1,6 @@
 import { createSelector } from '@ngrx/store';
 
-import { Stage, StageList } from '../../../../game-mechanics/models/index';
+import { Stage, StageList } from '../../../../game-mechanics';
 import { selectFeature } from '../selectors';
 import { GameEditorFeature } from '../main.reducer';
 import { selectGame } from './assets.reducer';

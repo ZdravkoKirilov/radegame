@@ -1,7 +1,5 @@
-import { Trivia, TriviaAnswer, TRIVIA_MODES } from '../../../game-mechanics/models';
-import { BaseControl, Option } from '../../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { Trivia, TriviaAnswer, TRIVIA_MODES } from '../../../game-mechanics';
+import { BaseControl, Option, controlTypes, ConnectedEntities } from '../../../dynamic-forms';
 import { composeActivityOptions } from '../helpers';
 
 const triviaModes: Option[] = Object.keys(TRIVIA_MODES).map(key => {

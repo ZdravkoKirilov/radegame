@@ -1,8 +1,7 @@
 import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
-import { MapLocation, MapPath } from '../../../../../game-mechanics/models';
-import { propHasNewValue } from '../../../../../shared/utils/propsCheck';
+import { SceneRenderService, MapLocation, MapPath } from '../../../../../game-mechanics';
+import { propHasNewValue } from '../../../../../shared';
 
 @Component({
     selector: 'rg-map-path',

@@ -1,6 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Trivia } from '../../../../game-mechanics/models/index';
-import { ListBase } from '../../../mixins/list.base';
+
+import { Trivia } from '../../../../game-mechanics';
+import { ListBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-trivia-list',

@@ -1,4 +1,4 @@
-import { Resource, Field, Faction, Quest, Activity, Round, Stage } from '../../game-mechanics/models/index';
+import { Resource, Field, Faction, Quest, Activity, Round, Stage } from '../../game-mechanics';
 
 export interface ConnectedEntities {
     resources?: Resource[];

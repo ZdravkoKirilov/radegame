@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Quest, QuestList } from '../../../../game-mechanics/models/index';
+import { Quest, QuestList } from '../../../../game-mechanics';
 import {
     ADD_QUEST,
     CHANGE_SELECTED_QUEST,

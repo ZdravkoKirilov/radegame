@@ -1,7 +1,5 @@
-import { Round } from '../../../game-mechanics/models/index';
-import { BaseControl } from '../../../dynamic-forms/models/Base.model';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
-import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
+import { Round } from '../../../game-mechanics';
+import { BaseControl, ConnectedEntities, controlTypes } from '../../../dynamic-forms';
 import { composeQuestOptions, composeActivityOptions } from '../helpers';
 
 export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {

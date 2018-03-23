@@ -1,7 +1,5 @@
-import { Faction, FactionResource } from '../../../game-mechanics/models/index';
-import { BaseControl } from '../../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
+import { Faction, FactionResource } from '../../../game-mechanics';
+import { BaseControl, controlTypes, ConnectedEntities } from '../../../dynamic-forms';
 import { composeResourceOptions } from '../helpers';
 
 export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[] {

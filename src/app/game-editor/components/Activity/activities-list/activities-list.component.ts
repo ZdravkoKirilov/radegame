@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Activity } from '../../../../game-mechanics/models/index';
-import { ListBase } from '../../../mixins/list.base';
+import { Activity } from '../../../../game-mechanics';
+import { ListBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-activities-list',

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Resource, ResourceList } from '../../../../game-mechanics/models/index';
+import { Resource, ResourceList } from '../../../../game-mechanics';
 import {
     ADD_RESOURCE,
     CHANGE_SELECTED_RESOURCE,
@@ -15,7 +15,7 @@ import {
     SAVE_RESOURCE_SUCCESS,
     SET_RESOURCES,
     TOGGLE_RESOURCE_EDITOR
-} from '../../reducers/byFeature/resources.reducer';
+} from '../../reducers';
 
 export class SaveResourceAction implements Action {
     constructor(public payload: Resource) {

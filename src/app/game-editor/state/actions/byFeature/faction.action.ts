@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Faction, FactionList } from '../../../../game-mechanics/models/index';
+import { Faction, FactionList } from '../../../../game-mechanics';
 import {
     ADD_FACTION,
     CHANGE_SELECTED_FACTION,
@@ -15,7 +15,7 @@ import {
     GET_FACTIONS_FAIL,
     SET_FACTIONS,
     TOGGLE_FACTION_EDITOR
-} from '../../reducers/byFeature/factions.reducer';
+} from '../../reducers';
 
 
 export class SaveFactionAction implements Action {

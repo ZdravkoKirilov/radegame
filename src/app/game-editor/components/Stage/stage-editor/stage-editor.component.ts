@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { Stage } from '../../../../game-mechanics/models/index';
-import { EditorBase } from '../../../mixins/editor.base';
+import { ControlsService } from '../../../../dynamic-forms';
+import { Stage } from '../../../../game-mechanics';
+import { EditorBase } from '../../../mixins';
 
 @Component({
   selector: 'rg-stage-editor',

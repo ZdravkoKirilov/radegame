@@ -3,16 +3,10 @@ import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
 import { AppState } from '../../../core/state/index';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { Game, Round } from '../../../game-mechanics/models/index';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
-import { ROUND_DEF } from '../../forms/Round/round.form';
-import { selectRounds, getSelectedRound, selectRoundEditorState } from '../../state/reducers/byFeature/round.reducer';
-import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
-import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
-import { selectFieldsAsArray } from '../../state/reducers/byFeature/fields.reducer';
-import { selectActivities } from '../../state/reducers/byFeature/activity.reducer';
-import { selectQuests } from '../../state/reducers/byFeature/quest.reducer';
+import { FormDefinition, ConnectedEntities } from '../../../dynamic-forms';
+import { Game, Round } from '../../../game-mechanics';
+import { ROUND_DEF } from '../../forms';
+import { selectRounds, getSelectedRound, selectRoundEditorState, selectGame, selectResources, selectFieldsAsArray, selectActivities, selectQuests } from '../../state';
 
 import {
     SaveRoundAction,

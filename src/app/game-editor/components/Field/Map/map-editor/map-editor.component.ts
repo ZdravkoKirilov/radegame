@@ -4,10 +4,9 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Field, MapLocation, MapPath, Stage } from '../../../../../game-mechanics/models';
-import { SceneRenderService } from '../../../../../game-mechanics/rendering/scene-render.service';
-import { KEYCODES } from '../../../../utils/config';
-import { propHasChanged } from '../../../../../shared/utils/propsCheck';
+import { Field, MapLocation, MapPath, Stage, SceneRenderService } from '../../../../../game-mechanics';
+import { KEYCODES } from '../../../../utils';
+import { propHasChanged } from '../../../../../shared';
 
 @Component({
     selector: 'rg-map-editor',

@@ -12,7 +12,7 @@ import { reducers, metaReducers } from './state';
 
 import { DynamicFormsModule } from '../dynamic-forms/';
 import { SharedModule } from '../shared';
-import * as fromGuards from './guards';
+import { GamesListGuard } from  './guards';
 import * as effects from './state/effects';
 
 import * as components from './components';
@@ -35,7 +35,7 @@ import * as containers from './containers';
         RouterModule
     ],
     providers: [
-        ...Object.values(fromGuards),
+        GamesListGuard
     ],
     declarations: [
         ...Object.values(containers),

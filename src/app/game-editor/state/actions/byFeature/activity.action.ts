@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Activity, ActivityList } from '../../../../game-mechanics/models/index';
+import { Activity, ActivityList } from '../../../../game-mechanics';
 import {
     ADD_ACTIVITY,
     CHANGE_SELECTED_ACTIVITY,
@@ -15,7 +15,7 @@ import {
     GET_ACTIVITIES,
     GET_ACTIVITIES_SUCCESS,
     GET_ACTIVITIES_FAIL
-} from '../../reducers/byFeature/activity.reducer';
+} from '../../reducers';
 
 
 export class SaveActivityAction implements Action {

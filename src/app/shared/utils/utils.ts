@@ -13,3 +13,7 @@ export const toIndexedList = (source: ObjectWithId[], indexProp = 'id'): Indexed
         return acc;
     }, {});
 };
+
+export const isMapLocation = (entity: any) => {
+    return ('left' in entity && 'top' in entity);
+}

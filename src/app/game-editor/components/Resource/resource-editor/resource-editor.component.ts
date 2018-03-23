@@ -1,8 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { Resource } from '../../../../game-mechanics/models/index';
-import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { EditorBase } from '../../../mixins/editor.base';
+import { Resource } from '../../../../game-mechanics';
+import { ControlsService } from '../../../../dynamic-forms';
+import { EditorBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-resource-editor',

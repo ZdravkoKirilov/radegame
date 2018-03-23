@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Stage, StageList } from '../../../../game-mechanics/models/index';
+import { Stage, StageList } from '../../../../game-mechanics';
 import {
     ADD_STAGE,
     CHANGE_SELECTED_STAGE,
@@ -15,7 +15,7 @@ import {
     GET_STAGES,
     GET_STAGES_SUCCESS,
     GET_STAGES_FAIL
-} from '../../reducers/byFeature/stage.reducer';
+} from '../../reducers';
 
 
 export class SaveStageAction implements Action {

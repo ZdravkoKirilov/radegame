@@ -1,6 +1,5 @@
-import { Quest, Activity, Resource, Field, Round } from '../../game-mechanics/models/index';
-import { Option } from '../../dynamic-forms/models/Base.model';
-import { ConnectedEntities } from '../../dynamic-forms/models/ConnectedEntities';
+import { Quest, Activity, Resource, Field, Round } from '../../game-mechanics';
+import { Option, ConnectedEntities } from '../../dynamic-forms';
 
 export function composeQuestOptions(ent: ConnectedEntities): Option[] {
     return ent.quests.map((elem: Quest): Option => ({

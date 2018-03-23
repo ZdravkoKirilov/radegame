@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 
-import { Resource } from '../../../../game-mechanics/models/index';
-import { ListBase } from '../../../mixins/list.base';
+import { Resource } from '../../../../game-mechanics';
+import { ListBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-resources-list',

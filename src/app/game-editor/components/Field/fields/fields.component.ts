@@ -1,7 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
-import { Field, MapPath, MapLocationList, MapLocation, Stage } from '../../../../game-mechanics/models';
-import { FormDefinition } from '../../../../dynamic-forms/models/FormDefinition.model';
-import { ConnectedEntities } from '../../../../dynamic-forms/models/ConnectedEntities';
+import { Field, MapPath, MapLocationList, MapLocation, Stage } from '../../../../game-mechanics';
+import { FormDefinition, ConnectedEntities } from '../../../../dynamic-forms';
 
 @Component({
     selector: 'rg-fields',

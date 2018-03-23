@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Round, RoundList } from '../../../../game-mechanics/models/index';
+import { Round, RoundList } from '../../../../game-mechanics';
 import {
     ADD_ROUND,
     CHANGE_SELECTED_ROUND,
@@ -15,7 +15,7 @@ import {
     GET_ROUNDS,
     GET_ROUNDS_SUCCESS,
     GET_ROUNDS_FAIL
-} from '../../reducers/byFeature/round.reducer';
+} from '../../reducers';
 
 
 export class SaveRoundAction implements Action {

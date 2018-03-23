@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { Activity } from '../../../../game-mechanics/models/index';
-import { IndexBase } from '../../../mixins/index.base';
+import { Activity } from '../../../../game-mechanics';
+import { IndexBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-activities',

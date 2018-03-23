@@ -14,6 +14,7 @@ import { SmartStagesComponent } from './containers/smart-stages/smart-stages.com
 import { ROUTER_PARAMS } from '../shared';
 import { GameDataResolver } from '../core';
 import * as fromGuards from './guards';
+import { GameDataGuard } from '../core';
 
 export const routes: Routes = [
     {
@@ -26,10 +27,10 @@ export const routes: Routes = [
         },
     }, {
         path: `games/:${ROUTER_PARAMS.GAME_ID}/editor`,
-        canActivate: [fromGuards.GameDataGuard],
-        resolve: {
-            preloaded: GameDataResolver
-        },
+        canActivate: [fromGuards.GamesListGuard, GameDataGuard],
+        // resolve: {
+        //     preloaded: GameDataResolver
+        // },
         component: EditorWrapperComponent,
         data: {
             title: 'Radegast: setup a new game'

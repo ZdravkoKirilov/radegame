@@ -96,5 +96,6 @@ export function gamesReducer(state: GamesList = initialState, action: GameAction
 export const selectGamesFeature = createSelector(selectFeature, (state: GameEditorFeature): GamesList => state.games);
 
 export const selectGames = createSelector(selectGamesFeature, (state): Game[] => Object.values(state.items));
+export const selectGamesList = createSelector(selectGamesFeature, (state): GameList => state.items);
 export const selectGameEditorToggleState = createSelector(selectGamesFeature, (state): boolean => state.showEditor);
 export const getSelectedGame = createSelector(selectGamesFeature, (state): Game => state.selectedItem);

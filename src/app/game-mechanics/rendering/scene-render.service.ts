@@ -3,8 +3,8 @@ import { Subject } from 'rxjs/Subject';
 
 import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
 import { WindowRefService } from '../../core';
-import { SpriteComponent, MapNode, Path } from './entities';
-import { MapLocation, MapPath } from '../models';
+import { SpriteComponent, MapNode, Path } from './graphics';
+import { MapLocation, MapPath } from '../entities';
 
 @Injectable()
 export class SceneRenderService {

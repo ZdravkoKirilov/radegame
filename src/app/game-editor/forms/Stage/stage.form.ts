@@ -1,6 +1,5 @@
-import { Stage } from '../../../game-mechanics/models';
-import { BaseControl } from '../../../dynamic-forms/models/Base.model';
-import { controlTypes } from '../../../dynamic-forms/config/controlTypes';
+import { Stage } from '../../../game-mechanics';
+import { BaseControl, controlTypes } from '../../../dynamic-forms';
 
 export function STAGE_DEF(data: Stage = {}): BaseControl[] {
     data = data || {};

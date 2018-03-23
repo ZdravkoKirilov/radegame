@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { IndexBase } from '../../../mixins/index.base';
-import { Stage } from '../../../../game-mechanics/models';
+import { IndexBase } from '../../../mixins';
+import { Stage } from '../../../../game-mechanics';
 
 @Component({
   selector: 'rg-stages',

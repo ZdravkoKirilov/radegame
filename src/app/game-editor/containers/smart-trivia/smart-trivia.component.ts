@@ -2,17 +2,11 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AppState } from '../../../core/state/index';
-import { FormDefinition } from '../../../dynamic-forms/models/FormDefinition.model';
-import { TRIVIA_DEF } from '../../forms/Trivia/trivia.form';
-import { Game, Trivia } from '../../../game-mechanics/models/index';
-import { ConnectedEntities } from '../../../dynamic-forms/models/ConnectedEntities';
-import { selectTrivias, getSelectedTrivia, selectTriviaEditorState } from '../../state/reducers/byFeature/trivia.reducer';
-import { selectGame } from '../../state/reducers/byFeature/assets.reducer';
-import { selectResources } from '../../state/reducers/byFeature/resources.reducer';
-import { selectFieldsAsArray } from '../../state/reducers/byFeature/fields.reducer';
-import { selectActivities } from '../../state/reducers/byFeature/activity.reducer';
-import { selectQuests } from '../../state/reducers/byFeature/quest.reducer';
+import { AppState } from '../../../core';
+import { FormDefinition, ConnectedEntities } from '../../../dynamic-forms';
+import { TRIVIA_DEF } from '../../forms';
+import { Game, Trivia } from '../../../game-mechanics';
+import { selectTrivias, getSelectedTrivia, selectTriviaEditorState, selectGame, selectResources, selectFieldsAsArray, selectActivities, selectQuests } from '../../state';
 
 import {
     SaveTriviaAction,
@@ -41,7 +35,7 @@ export class SmartTriviaComponent implements OnInit, OnDestroy {
     }
 
     saveItem(data: Trivia) {
-        const payload = {...data, game: this.game.id};
+        const payload = { ...data, game: this.game.id };
         if (this.selectedItem) {
             payload.id = this.selectedItem.id;
         }

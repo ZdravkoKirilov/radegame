@@ -1,8 +1,8 @@
 import {
     ResourceList, FactionList, FieldList, ActivityList,
     QuestList, StageList, RoundList, MapLocationList,
-    MapPathList
-} from './index';
+    MapPathList, TriviaList
+} from '../entities';
 
 export interface GameTemplate {
     id?: number;
@@ -15,5 +15,7 @@ export interface GameTemplate {
     stages?: StageList;
     locations?: MapLocationList;
     paths?: MapPathList;
+    trivia?: TriviaList;
 }
+
 

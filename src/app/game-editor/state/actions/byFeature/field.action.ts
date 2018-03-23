@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { Field, FieldList } from '../../../../game-mechanics/models/index';
+import { Field, FieldList } from '../../../../game-mechanics';
 import {
     CHANGE_SELECTED_FIELD,
     DELETE_FIELD,
@@ -13,7 +13,7 @@ import {
     SAVE_FIELD_FAIL,
     SAVE_FIELD_SUCCESS, SET_FIELDS,
     TOGGLE_FIELD_EDITOR
-} from '../../reducers/byFeature/fields.reducer';
+} from '../../reducers';
 
 export class SaveFieldAction implements Action {
     constructor(public payload: Field) {

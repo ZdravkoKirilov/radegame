@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { Round } from '../../../../game-mechanics/models/index';
-import { IndexBase } from '../../../mixins/index.base';
+import { Round } from '../../../../game-mechanics';
+import { IndexBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-rounds',

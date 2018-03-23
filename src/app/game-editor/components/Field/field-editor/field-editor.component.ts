@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 
-import { Field } from '../../../../game-mechanics/models';
-import { ControlsService } from '../../../../dynamic-forms/services/controls.service';
-import { EditorBase } from '../../../mixins/editor.base';
+import { Field } from '../../../../game-mechanics';
+import { ControlsService } from '../../../../dynamic-forms';
+import { EditorBase } from '../../../mixins';
 
 @Component({
     selector: 'rg-field-editor',
