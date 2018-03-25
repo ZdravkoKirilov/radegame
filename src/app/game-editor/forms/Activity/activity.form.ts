@@ -3,7 +3,8 @@ import { Activity, ActivityConfig, types, targetTypes, actionModes } from '../..
 import { composeResourceOptions } from '../helpers';
 
 export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntities): BaseControl[] => {
-    data = data || { configs: [] };
+    data = data || {};
+    data.configs = data.configs || [];
     const resources = composeResourceOptions(ent);
     const activityTypes: Option[] = Object.keys(types).map(key => {
         return { value: key, label: types[key] };

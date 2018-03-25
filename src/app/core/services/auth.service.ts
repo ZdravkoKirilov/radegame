@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { AuthPayload, AuthResponse } from '../../profile';
+import { AuthPayload, AuthResponse, User } from '../../profile';
 import { AUTH_URLS } from '../config';
 
 @Injectable()
@@ -16,6 +16,10 @@ export class AuthService {
 
   loginWithEmail(payload: AuthPayload): Observable<AuthResponse> {
     return this.http.post<AuthResponse>(AUTH_URLS.EMAIL_LOGIN, payload);
+  }
+
+  getCurrentUser(): Observable<User> {
+    return this.http.get<User>(AUTH_URLS.CURRENT_USER);
   }
 
 }

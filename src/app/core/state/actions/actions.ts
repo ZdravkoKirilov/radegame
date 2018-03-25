@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { actionTypes } from './actionTypes';
-import { GameTemplate } from '../../../game-mechanics';
+import { GameTemplate, GameList } from '../../../game-mechanics';
 
 export class OperationSuccessAction implements Action {
     readonly type = actionTypes.OPERATION_SUCCESS;
@@ -21,4 +21,28 @@ export class AddGameAssetsAction implements Action {
     }) { }
 }
 
-export type CoreAction = OperationSuccessAction | OperationFailAction | AddGameAssetsAction;
+export class GetGamesAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.GET_GAMES;
+}
+
+export class GetGamesSuccessAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.GET_GAMES_SUCCESS;
+}
+
+export class SetGamesAction implements Action {
+    constructor(public payload: GameList) {
+
+    }
+
+    readonly type = actionTypes.SET_GAMES;
+}
+
+export class GetGamesFailAction implements Action {
+    readonly payload = null;
+    readonly type = actionTypes.GET_GAMES_FAIL;
+}
+
+export type CoreAction = OperationSuccessAction | OperationFailAction | AddGameAssetsAction |
+    GetGamesAction | SetGamesAction | GetGamesSuccessAction | GetGamesFailAction;

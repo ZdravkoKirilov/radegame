@@ -5,17 +5,19 @@ import {
     CREATE_GAME,
     CREATE_GAME_FAIL,
     CREATE_GAME_SUCCESS,
-    GET_GAMES,
-    GET_GAMES_FAIL,
-    GET_GAMES_SUCCESS,
-    SET_GAMES,
     CHANGE_SELECTED_GAME,
     TOGGLE_GAME_EDITOR,
     DELETE_GAME,
     DELETE_GAME_SUCCESS,
     DELETE_GAME_FAIL,
     REMOVE_GAME,
+    SET_GAMES,
 } from '../../reducers';
+
+export class SetGamesAction implements Action {
+    constructor(public payload: GameList) { }
+    readonly type = SET_GAMES;
+}
 
 export class CreateGameAction implements Action {
     constructor(public payload: Game) {
@@ -34,29 +36,6 @@ export class CreateGameSuccessAction implements Action {
 export class CreateGameFailAction implements Action {
     readonly payload = null;
     readonly type = CREATE_GAME_FAIL;
-}
-
-export class GetGamesAction implements Action {
-    readonly payload = null;
-    readonly type = GET_GAMES;
-}
-
-export class GetGamesSuccessAction implements Action {
-    readonly payload = null;
-    readonly type = GET_GAMES_SUCCESS;
-}
-
-export class SetGamesAction implements Action {
-    constructor(public payload: GameList) {
-
-    }
-
-    readonly type = SET_GAMES;
-}
-
-export class GetGamesFailAction implements Action {
-    readonly payload = null;
-    readonly type = GET_GAMES_FAIL;
 }
 
 export class DeleteGameAction implements Action {
@@ -100,13 +79,10 @@ export class ChangeSelectedGameAction implements Action {
 }
 
 export type GameAction =
+    | SetGamesAction
     | CreateGameAction
     | CreateGameSuccessAction
     | CreateGameFailAction
-    | GetGamesAction
-    | GetGamesSuccessAction
-    | GetGamesFailAction
-    | SetGamesAction
     | DeleteGameAction
     | DeleteGameSuccessAction
     | DeleteGameFailAction

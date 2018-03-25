@@ -2,7 +2,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { routerReducer } from '@ngrx/router-store';
 import { ActionReducerMap } from '@ngrx/store';
 
-import { cacheReducer } from './cache.reducer';
+import { cacheReducer, Cache } from './cache.reducer';
 
 import { GameEditorFeature } from '../../../game-editor/';
 import { RouterStateUrl } from '../../router-custom.serializer';
@@ -15,7 +15,7 @@ export const reducers: ActionReducerMap<AppState> = {
 };
 
 export interface AppState {
-    cache?: any;
+    cache?: Cache;
     router?: RouterReducerState<RouterStateUrl>;
     editor?: GameEditorFeature;
     profile?: ProfileFeature;

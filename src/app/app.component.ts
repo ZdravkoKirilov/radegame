@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
+import { map } from 'rxjs/operators';
 
-import { AppState } from './core/state/index';
+import { AppState } from './core';
 import { fadeAnimation } from './animations';
-import 'rxjs/add/operator/map';
+import { GetCurrentUserAction } from './profile';
+
 
 @Component({
     selector: 'rg-root',
@@ -16,20 +18,17 @@ import 'rxjs/add/operator/map';
 })
 export class AppComponent implements OnInit {
     constructor(private store: Store<AppState>, private titleService: Title) {
-        this.store.select('router')
-            .map(data => data && data.state ? data.state.data : null)
-            .subscribe(routeData => {
-                if (routeData) {
-                    this.titleService.setTitle((routeData as any).title);
-                }
-            });
+        this.store.select('router').pipe(
+            map(data => data && data.state ? data.state.data : null),
+        ).subscribe(routeData => {
+            if (routeData) {
+                this.titleService.setTitle((routeData as any).title);
+            }
+        })
     }
     ngOnInit() {
-        this.store
-            .map(data => {
-                console.log(data);
-            })
-            .subscribe();
+        this.store.subscribe(data => console.log(data));
+        this.store.dispatch(new GetCurrentUserAction());
     }
 
     public getRouterOutletState(outlet: any) {

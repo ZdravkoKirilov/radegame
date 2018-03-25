@@ -2,6 +2,7 @@ import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { CoreAction, actionTypes } from '../actions';
 import { GameTemplate, GameList } from '../../../game-mechanics';
+import { AppState } from './main';
 
 export interface Cache {
     gameAssets: {
@@ -22,8 +23,13 @@ export const cacheReducer = (state: Cache = initialState, action: CoreAction) =>
                 ...state,
                 gameAssets: {
                     ...state.gameAssets,
-                    [(action.payload as any).game]: {...(action.payload as any).data}
+                    [(action.payload as any).game]: { ...(action.payload as any).data }
                 }
+            };
+        case actionTypes.SET_GAMES:
+            return {
+                ...state,
+                games: { ...state.games, ...action.payload }
             };
         default:
             return state;
@@ -32,6 +38,8 @@ export const cacheReducer = (state: Cache = initialState, action: CoreAction) =>
 
 export const selectCacheFeature = createFeatureSelector<Cache>('cache');
 
-export const selectPreloadedGames = createSelector(selectCacheFeature, state => Object.keys(state.gameAssets));
+export const selectPreloadedGameIds = createSelector(selectCacheFeature, state => Object.keys(state.gameAssets));
 
-export const selectGameAssets = (gameId) => createSelector(selectCacheFeature, (state): GameTemplate => state.gameAssets[gameId]);
+export const selectGameAssets = (gameId) => (state: AppState) => state.cache.gameAssets[gameId];
+
+export const selectPreloadedGames = (state: AppState) => state.cache.games;

@@ -1,5 +1,5 @@
 import { Action } from '@ngrx/store';
-import { AuthPayload, AuthResponse } from '../../models';
+import { AuthPayload, AuthResponse, User } from '../../models';
 
 export const actionTypes = {
     EMAIL_REGISTER: 'EMAIL_REGISTER',
@@ -8,8 +8,32 @@ export const actionTypes = {
     EMAIL_LOGIN: 'EMAIL_LOGIN',
     EMAIL_LOGIN_SUCCESS: 'EMAIL_LOGIN_SUCCESS',
     EMAIL_LOGIN_FAIL: 'EMAIL_LOGIN_FAIL',
-    SAVE_AUTH_TOKEN: 'SAVE_AUTH_TOKEN'
+    SAVE_AUTH_TOKEN: 'SAVE_AUTH_TOKEN',
+    GET_CURRENT_USER: 'GET_CURRENT_USER',
+    SET_CURRENT_USER: 'SET_CURRENT_USER',
+    GET_CURRENT_USER_SUCCESS: 'GET_CURRENT_USER_SUCCESS',
+    GET_CURRENT_USER_FAIL: 'GET_CURRENT_USER_FAIL'
 };
+
+export class GetCurrentUserAction implements Action {
+    readonly type = actionTypes.GET_CURRENT_USER;
+    readonly payload = null;
+}
+
+export class SetCurrentUserAction implements Action {
+    readonly type = actionTypes.SET_CURRENT_USER;
+    constructor(public payload: User) { }
+}
+
+export class GetCurrentUserSuccessAction implements Action {
+    readonly type = actionTypes.GET_CURRENT_USER_SUCCESS;
+    constructor(public payload: User) { }
+}
+
+export class GetCurrentUserFailAction implements Action {
+    readonly type = actionTypes.GET_CURRENT_USER_FAIL;
+    readonly payload = null;
+}
 
 export class EmailRegisterAction implements Action {
     constructor(public payload: AuthPayload) { }
@@ -47,5 +71,7 @@ export class SaveAuthTokenAction implements Action {
 }
 
 export type ProfileAction = EmailLoginAction | EmailLoginSuccessAction | EmailLoginFailAction |
-    EmailRegisterAction | EmailRegisterSuccessAction | EmailRegisterFailAction;
+    EmailRegisterAction | EmailRegisterSuccessAction | EmailRegisterFailAction |
+    GetCurrentUserAction | GetCurrentUserSuccessAction | GetCurrentUserFailAction |
+    SetCurrentUserAction;
 

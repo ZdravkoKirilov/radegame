@@ -4,11 +4,10 @@ import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { switchMap, catchError, map, take } from 'rxjs/operators';
+import { forkJoin } from 'rxjs/observable/forkJoin';
 
 import * as actions from '../state/actions';
-
-import { selectPreloadedGames, Cache } from '../state';
-import { forkJoin } from 'rxjs/observable/forkJoin';
+import { selectPreloadedGameIds, Cache } from '../state';
 import { toIndexedList, isMapLocation, ROUTER_PARAMS } from '../../shared';
 import { GameEditService } from '../services';
 import { GameTemplate } from '../../game-mechanics';
@@ -40,7 +39,7 @@ export class GameDataGuard implements CanActivate {
     }
 
     getFromStoreOrAPI(gameId: number) {
-        return this.store.select(selectPreloadedGames).pipe(
+        return this.store.select(selectPreloadedGameIds).pipe(
             take(1),
             switchMap(preloadedGames => {
                 if (preloadedGames.includes(gameId.toString())) {
@@ -66,10 +65,7 @@ export class GameDataGuard implements CanActivate {
             this.api.getTrivias(gameId)
         ]).pipe(
             map(entities => entities.map(entity => {
-                if (!isMapLocation(entity)) {
-                    return toIndexedList(entity);
-                }
-                return toIndexedList(entity, 'field');
+                return toIndexedList(entity);
             })),
             map(([resources, factions, activities, rounds, stages, quests, fields, locations, paths, trivia]) => {
                 return {

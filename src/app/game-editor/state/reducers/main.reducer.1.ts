@@ -1,22 +1,22 @@
 import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 
+import { GameEditorForm, gameEditorFormMetareducer, gameEditorFormReducer } from './form.reducer';
 import { GameEditorAssets, gameEditorAssetsReducer } from './byFeature';
-
-import { EntityForm, formReducer, metadataReducer, editorMetaReducer } from './generics';
+import { GamesList, gamesReducer } from './byFeature';
 
 export interface GameEditorFeature {
-    form: EntityForm;
+    form: GameEditorForm;
     assets: GameEditorAssets;
-    metadata: EntityForm;
+    games: GamesList;
 }
 
 export const reducers: ActionReducerMap<GameEditorFeature> = {
-    form: formReducer,
+    form: gameEditorFormReducer,
     assets: gameEditorAssetsReducer,
-    metadata: metadataReducer
+    games: gamesReducer
 };
 
 export const metaReducers: MetaReducer<any>[] = [
-    editorMetaReducer
+    gameEditorFormMetareducer
 ];
 

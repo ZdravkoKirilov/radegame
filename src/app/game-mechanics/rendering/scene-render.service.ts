@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-
+import { map } from 'rxjs/operators';
 import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
+
 import { WindowRefService } from '../../core';
 import { SpriteComponent, MapNode, Path } from './graphics';
 import { MapLocation, MapPath } from '../entities';
@@ -35,7 +36,7 @@ export class SceneRenderService {
         this.paths = {};
         const width = this.windowRef.nativeWindow.innerWidth;
         const height = this.windowRef.nativeWindow.innerHeight;
-        this.renderer = autoDetectRenderer(width, height, {transparent: true, antialias: true, resolution: 1});
+        this.renderer = autoDetectRenderer(width, height, { transparent: true, antialias: true, resolution: 1 });
         this.renderer.autoResize = true;
         DOMElem.appendChild(this.renderer.view);
 
@@ -67,11 +68,11 @@ export class SceneRenderService {
     }
 
     attachNodeEvents(node: MapNode) {
-        node.loaded.map(sprite => {
+        node.loaded.subscribe(sprite => {
             this.nodesStage.addChild(sprite);
             this.nodesStage.addChild(node.graphics);
             this.render();
-        }).subscribe();
+        });
         node.change.subscribe(() => {
             this.render();
         });
@@ -136,12 +137,12 @@ export class SceneRenderService {
         if (this.initialized) {
             if (image) {
                 const background = new SpriteComponent(image);
-                background.loaded.map((sprite: Sprite) => {
+                background.loaded.subscribe((sprite: Sprite) => {
                     this.backgroundSprite = sprite;
                     this.backgroundStage.addChild(sprite);
                     this.resize(sprite.width, sprite.height);
                     this.render();
-                }).subscribe();
+                });
             } else {
                 this.resize(this.windowRef.nativeWindow.innerWidth, this.windowRef.nativeWindow.innerHeight);
                 this.backgroundStage.removeChild(this.backgroundSprite);

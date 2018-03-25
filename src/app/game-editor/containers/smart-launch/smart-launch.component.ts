@@ -6,48 +6,53 @@ import { AppState } from '../../../core';
 import { Game } from '../../../game-mechanics';
 import { FormDefinition } from '../../../dynamic-forms';
 import { GAME_DEF } from '../../forms';
-import { CreateGameAction, ChangeSelectedGameAction, ToggleGameEditorAction, DeleteGameAction } from '../../state';
-import { selectGames, selectGameEditorToggleState, getSelectedGame } from '../../state';
+import {
+    CreateGameAction, ChangeSelectedGameAction,
+    ToggleGameEditorAction, DeleteGameAction, SetGamesAction
+} from '../../state';
+import { selectGames, selectGameEditorToggleState, getSelectedGame, selectGamesFeature } from '../../state';
+import { selectPreloadedGames } from '../../../core';
+
+import { SetItemsAction, SaveItemAction } from '../../state//actions/generics';
+import { getItems, getSelectedItem, getEditorState } from '../../state/reducers/generics';
+import { SmartBase } from '../../mixins';
 
 @Component({
     selector: 'rg-smart-launch',
     templateUrl: './smart-launch.component.html',
     styleUrls: ['./smart-launch.component.scss']
 })
-export class SmartLaunchComponent implements OnInit, OnDestroy {
+export class SmartLaunchComponent extends SmartBase implements OnInit {
 
-    private storeSub: Subscription;
+    private hasLoaded = false;
+
+    sub: Subscription;
+    readonly key = 'games';
 
     formDefinition: FormDefinition = GAME_DEF;
     items: Game[];
     selectedItem: Game;
     showEditor = false;
 
-    constructor(private store: Store<AppState>) {
+    constructor(public store: Store<AppState>) {
+        super(store);
     }
 
     ngOnInit() {
-
-        this.storeSub = this.store.subscribe((state: AppState) => {
-            this.items = selectGames(state);
-            this.selectedItem = getSelectedGame(state);
-            this.showEditor = selectGameEditorToggleState(state);
+        this.sub = this.store.subscribe(state => {
+            this.items = getItems(this.key)(state.editor.metadata);
+            this.selectedItem = getSelectedItem(this.key)(state.editor.metadata);
+            this.showEditor = getEditorState(this.key)(state.editor.metadata);
+            if (!this.hasLoaded) {
+                this.hasLoaded = true;
+                const games = selectPreloadedGames(state);
+                this.store.dispatch(new SetItemsAction({
+                    key: this.key,
+                    data: games
+                }));
+            }
         });
-    }
 
-    ngOnDestroy() {
-        this.storeSub.unsubscribe();
-    }
-
-    changeSelectedItem(payload: Game) {
-        this.store.dispatch(new ChangeSelectedGameAction(payload));
-    }
-
-    toggleEditor(flag: boolean) {
-        if (!flag) {
-            this.changeSelectedItem(null);
-        }
-        this.store.dispatch(new ToggleGameEditorAction(flag));
     }
 
     saveItem(data: Game) {
@@ -55,17 +60,35 @@ export class SmartLaunchComponent implements OnInit, OnDestroy {
         if (this.selectedItem) {
             payload.id = this.selectedItem.id;
         }
-        this.store.dispatch(new CreateGameAction(payload));
-        this.store.dispatch(new ToggleGameEditorAction(false));
+        this.store.dispatch(new SaveItemAction({
+            key: this.key,
+            data: payload
+        }));
+        this.toggleEditor(false);
     }
 
-    editItem(payload: Game) {
-        this.changeSelectedItem(payload);
-        this.toggleEditor(true);
-    }
+    // ngOnDestroy() {
+    //     this.subs.forEach(elem => elem.unsubscribe());
+    // }
 
-    removeItem(payload: Game) {
-        this.store.dispatch(new DeleteGameAction(payload));
-    }
+    // changeSelectedItem(payload: Game) {
+    //     this.store.dispatch(new ChangeSelectedGameAction(payload));
+    // }
+
+    // toggleEditor(flag: boolean) {
+    //     if (!flag) {
+    //         this.changeSelectedItem(null);
+    //     }
+    //     this.store.dispatch(new ToggleGameEditorAction(flag));
+    // }
+
+    // editItem(payload: Game) {
+    //     this.changeSelectedItem(payload);
+    //     this.toggleEditor(true);
+    // }
+
+    // removeItem(payload: Game) {
+    //     this.store.dispatch(new DeleteGameAction(payload));
+    // }
 
 }

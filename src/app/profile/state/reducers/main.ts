@@ -1,6 +1,10 @@
+import { createFeatureSelector, createSelector } from '@ngrx/store';
+
 import { actionTypes, ProfileAction } from '../actions';
+import { User } from '../../models';
 
 export interface ProfileFeature {
+    user?: User;
     didRegister: boolean;
     didLogin: boolean;
     didLogout: boolean;
@@ -9,6 +13,7 @@ export interface ProfileFeature {
 }
 
 export const initialState: ProfileFeature = {
+    user: null,
     didRegister: false,
     didLogin: false,
     didLogout: false,
@@ -18,6 +23,11 @@ export const initialState: ProfileFeature = {
 
 export const profileReducer = (state: ProfileFeature = initialState, action: ProfileAction): ProfileFeature => {
     switch (action.type) {
+        case actionTypes.SET_CURRENT_USER:
+            return {
+                ...state,
+                user: action.payload
+            };
         case actionTypes.EMAIL_LOGIN_SUCCESS:
             return {
                 ...state,
@@ -45,3 +55,7 @@ export const profileReducer = (state: ProfileFeature = initialState, action: Pro
             return state;
     }
 }
+
+export const selectProfileFeature = createFeatureSelector<ProfileFeature>('profile');
+
+export const selectUser = createSelector(selectProfileFeature, (state): User => state.user);

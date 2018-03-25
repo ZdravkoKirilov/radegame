@@ -14,8 +14,7 @@ import { CustomRouterSerializer } from './router-custom.serializer';
 import { AppRoutingModule } from '../app-routing.module';
 import * as services from './services';
 import { AuthInterceptor } from './http';
-import { GameDataResolver } from './resolvers';
-import { GameDataGuard } from './guards';
+import { GameDataGuard, GameListGuard } from './guards';
 import { HomeModule } from '../home';
 import { GameEditorModule } from '../game-editor';
 import { ProfileModule } from '../profile';
@@ -43,8 +42,7 @@ import { NotFoundComponent } from './components';
     providers: [
         Title,
         ...Object.values(services),
-        GameDataResolver,
-        GameDataGuard,
+        GameDataGuard, GameListGuard,
         { provide: RouterStateSerializer, useClass: CustomRouterSerializer },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ]

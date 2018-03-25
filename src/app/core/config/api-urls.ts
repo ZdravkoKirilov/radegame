@@ -54,5 +54,6 @@ export const API_URLS = {
 
 export const AUTH_URLS = {
     EMAIL_REGISTER: BASE_URL + '/auth/local/register',
-    EMAIL_LOGIN: BASE_URL + '/auth/local/login'
+    EMAIL_LOGIN: BASE_URL + '/auth/local/login',
+    CURRENT_USER: BASE_URL + '/auth/users/current'
 }
