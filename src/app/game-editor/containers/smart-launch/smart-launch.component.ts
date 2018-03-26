@@ -6,11 +6,6 @@ import { AppState } from '../../../core';
 import { Game } from '../../../game-mechanics';
 import { FormDefinition } from '../../../dynamic-forms';
 import { GAME_DEF } from '../../forms';
-import {
-    CreateGameAction, ChangeSelectedGameAction,
-    ToggleGameEditorAction, DeleteGameAction, SetGamesAction
-} from '../../state';
-import { selectGames, selectGameEditorToggleState, getSelectedGame, selectGamesFeature } from '../../state';
 import { selectPreloadedGames } from '../../../core';
 
 import { SetItemsAction, SaveItemAction } from '../../state//actions/generics';

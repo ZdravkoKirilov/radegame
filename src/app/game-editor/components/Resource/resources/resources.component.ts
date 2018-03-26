@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { Component, ChangeDetectionStrategy, TemplateRef, ViewChild } from '@angular/core';
 
 import { Resource } from '../../../../game-mechanics';
 import { IndexBase } from '../../../mixins';
@@ -10,4 +10,5 @@ import { IndexBase } from '../../../mixins';
     changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ResourcesComponent extends IndexBase<Resource> {
+    @ViewChild('template') template: TemplateRef<any>;
 }

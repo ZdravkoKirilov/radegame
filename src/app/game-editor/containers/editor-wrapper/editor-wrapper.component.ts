@@ -7,7 +7,6 @@ import { AppState, selectGameId, selectGameAssets, selectPreloadedGames } from '
 import { GameTemplate } from '../../../game-mechanics';
 import * as actions from '../../state/actions';
 import { SetAllItemsAction, SetItemAction, SetItemsAction } from '../../state/actions/generics';
-import { selectGamesList } from '../../state';
 
 @Component({
   selector: 'rg-editor-wrapper',
@@ -38,16 +37,6 @@ export class EditorWrapperComponent implements OnInit, OnDestroy {
             data: games,
             key: 'games'
           }));
-          // this.store.dispatch(new actions.SetResourcesAction(preloaded.resources));
-          // this.store.dispatch(new actions.SetFactionsAction(preloaded.factions));
-          // this.store.dispatch(new actions.SetActivitiesAction(preloaded.activities));
-          // this.store.dispatch(new actions.SetRoundsAction(preloaded.rounds));
-          // this.store.dispatch(new actions.SetStagesAction(preloaded.rounds));
-          // this.store.dispatch(new actions.SetQuestsAction(preloaded.quests));
-          // this.store.dispatch(new actions.SetFieldsAction(preloaded.fields));
-          // this.store.dispatch(new actions.SetMapLocationsAction(preloaded.locations));
-          // this.store.dispatch(new actions.SetMapPathsAction(preloaded.paths));
-          // this.store.dispatch(new actions.SetTriviasAction(preloaded.trivia));
         }
       })
     ];

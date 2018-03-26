@@ -16,6 +16,9 @@ import * as effects from './state/effects/generics';
 
 import * as components from './components';
 import * as containers from './containers';
+import { EntityListComponent } from './components/entity-list/entity-list.component';
+import { EntityComponent } from './components/entity/entity.component';
+import { EntityEditorComponent } from './components/entity-editor/entity-editor.component';
 
 @NgModule({
     imports: [
@@ -36,7 +39,10 @@ import * as containers from './containers';
     providers: [],
     declarations: [
         ...Object.values(containers),
-        ...Object.values(components)
+        ...Object.values(components),
+        EntityListComponent,
+        EntityComponent,
+        EntityEditorComponent
     ]
 })
 export class GameEditorModule {

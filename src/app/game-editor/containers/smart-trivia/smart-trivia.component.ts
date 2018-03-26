@@ -7,13 +7,6 @@ import { TRIVIA_DEF } from '../../forms';
 import { SmartBase } from '../../mixins';
 import { formKeys, FormKey } from '../../state/actions/generics';
 
-import {
-    SaveTriviaAction,
-    DeleteTriviaAction,
-    ToggleTriviaEditorAction,
-    ChangeSelectedTriviaAction,
-} from '../../state/actions/byFeature/trivia.action';
-
 @Component({
     selector: 'rg-smart-trivia',
     templateUrl: './smart-trivia.component.html',

@@ -1,0 +1,9 @@
+<div>
+  <rg-dynamic-form [form]="form" [controls]="controls">
+    <div class="button-toolbar">
+      <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="saveItem()">Save
+      </button>
+      <button mat-raised-button (click)="cancelAction()">Cancel</button>
+    </div>
+  </rg-dynamic-form>
+</div>

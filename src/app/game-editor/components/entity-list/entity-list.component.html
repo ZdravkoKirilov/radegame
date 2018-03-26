@@ -1,0 +1,5 @@
+<div class="cards-container">
+  <ng-container *ngFor="let item of items">
+    <ng-container *ngTemplateOutlet="template; context: {$implicit: item}"></ng-container>
+  </ng-container>
+</div>

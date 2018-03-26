@@ -7,13 +7,6 @@ import { STAGE_DEF } from '../../forms';
 import { SmartBase } from '../../mixins';
 import { formKeys, FormKey } from '../../state/actions/generics';
 
-import {
-    SaveStageAction,
-    DeleteStageAction,
-    ToggleStageEditorAction,
-    ChangeSelectedStageAction,
-} from '../../state';
-
 @Component({
     selector: 'rg-smart-stages',
     templateUrl: './smart-stages.component.html',

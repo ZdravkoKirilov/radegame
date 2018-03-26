@@ -16,34 +16,7 @@ import { FormDefinition } from '../../../dynamic-forms';
 import { FIELD_DEF } from '../../forms';
 import { ConnectedEntities } from '../../../dynamic-forms';
 import { SceneRenderService } from '../../../game-mechanics';
-import { SaveStageAction } from '../../state';
-import {
-    selectFieldEditorToggleState, getSelectedField,
-    selectFields, selectFieldsByStageId,
-    getSelectedPath,
-    selectPathCreationMode,
-    selectPathsByStageId,
-    selectLocationsByStageId,
-    selectQuests,
-    selectActivities,
-    selectResources, selectGame, selectStageById
-} from '../../state';
 import { selectStageId } from '../../../core';
-
-import {
-    SaveMapLocationAction,
-    SetPathCreationAction,
-    ChangeSelectedPathAction,
-    SaveMapPathAction,
-    DeleteMapPathAction
-} from '../../state';
-import {
-    ChangeSelectedFieldAction,
-    ToggleFieldEditorAction,
-    UpdateFieldAction,
-    SaveFieldAction,
-    DeleteFieldAction
-} from '../../state';
 
 @Component({
     selector: 'rg-smart-fields',
@@ -85,72 +58,72 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
         if (this.selectedField) {
             payload.id = this.selectedField.id;
         }
-        payload.id ? this.store.dispatch(new UpdateFieldAction(payload)) : this.store.dispatch(new SaveFieldAction(payload));
+        //payload.id ? this.store.dispatch(new UpdateFieldAction(payload)) : this.store.dispatch(new SaveFieldAction(payload));
         this.toggleFieldEditor(false);
     }
 
     removeField(payload: Field) {
-        this.store.dispatch(new DeleteFieldAction(payload));
+        //this.store.dispatch(new DeleteFieldAction(payload));
     }
 
     selectField(id: number) {
         const field = this.fieldsList[id] || null;
-        this.store.dispatch(new ChangeSelectedFieldAction(field));
+        //this.store.dispatch(new ChangeSelectedFieldAction(field));
     }
 
     toggleFieldEditor(flag: boolean) {
-        this.store.dispatch(new ToggleFieldEditorAction(flag));
+        //this.store.dispatch(new ToggleFieldEditorAction(flag));
     }
 
     savePath(payload: MapPath) {
         const path = { ...payload, game: this.game.id, stage: this.stage.id };
-        this.store.dispatch(new SaveMapPathAction(path));
+        //this.store.dispatch(new SaveMapPathAction(path));
     }
 
     removePath(payload: MapPath) {
-        this.store.dispatch(new DeleteMapPathAction(payload));
+        //this.store.dispatch(new DeleteMapPathAction(payload));
     }
 
     selectPath(payload: MapPath) {
-        this.store.dispatch(new ChangeSelectedPathAction(payload));
+        //this.store.dispatch(new ChangeSelectedPathAction(payload));
     }
 
     saveMapLocation(payload: MapLocation) {
-        this.store.dispatch(new SaveMapLocationAction(payload));
+        //this.store.dispatch(new SaveMapLocationAction(payload));
     }
 
     setPathCreation(flag: boolean) {
-        this.store.dispatch(new SetPathCreationAction(flag));
+        //this.store.dispatch(new SetPathCreationAction(flag));
     }
 
     updateStage(image: any) {
         image = image || null;
-        this.store.dispatch(new SaveStageAction({ id: this.stageId, image, game: this.game.id }));
+        //this.store.dispatch(new SaveStageAction({ id: this.stageId, image, game: this.game.id }));
     }
 
     ngOnInit() {
         this.storeSubs = [
             this.store
                 .subscribe(state => {
-                    this.showFieldEditor = selectFieldEditorToggleState(state);
-                    this.selectedField = getSelectedField(state);
-                    this.selectedPath = getSelectedPath(state);
-                    this.fieldsList = selectFields(state);
-                    this.game = selectGame(state);
-                    this.stageId = selectStageId(state);
-                    this.fields = selectFieldsByStageId(this.stageId)(state);
-                    this.stage = selectStageById(this.stageId)(state);
-                    this.paths = selectPathsByStageId(this.stageId)(state);
-                    this.locations = selectLocationsByStageId(this.stageId)(state);
-                    this.pathCreationMode = selectPathCreationMode(state);
-                    this.connectedEntities = {
-                        resources: selectResources(state),
-                        activities: selectActivities(state),
-                        quests: selectQuests(state),
-                    };
+                    // this.showFieldEditor = selectFieldEditorToggleState(state);
+                    // this.selectedField = getSelectedField(state);
+                    // this.selectedPath = getSelectedPath(state);
+                    // this.fieldsList = selectFields(state);
+                    // this.game = selectGame(state);
+                    // this.stageId = selectStageId(state);
+                    // this.fields = selectFieldsByStageId(this.stageId)(state);
+                    // this.stage = selectStageById(this.stageId)(state);
+                    // this.paths = selectPathsByStageId(this.stageId)(state);
+                    // this.locations = selectLocationsByStageId(this.stageId)(state);
+                    // this.pathCreationMode = selectPathCreationMode(state);
+                    // this.connectedEntities = {
+                    //     resources: selectResources(state),
+                    //     activities: selectActivities(state),
+                    //     quests: selectQuests(state),
+                    // };
                 }),
         ];
-        this.store.dispatch(new ChangeSelectedFieldAction(null));
+        //this.store.dispatch(new ChangeSelectedFieldAction(null));
     }
 
     ngOnDestroy() {

@@ -1,113 +1,113 @@
-import { Action } from '@ngrx/store';
-import { Field, FieldList } from '../../../../game-mechanics';
-import {
-    CHANGE_SELECTED_FIELD,
-    DELETE_FIELD,
-    DELETE_FIELD_FAIL,
-    DELETE_FIELD_SUCCESS,
-    GET_FIELDS,
-    GET_FIELDS_FAIL,
-    GET_FIELDS_SUCCESS,
-    UPDATE_FIELD,
-    SAVE_FIELD,
-    SAVE_FIELD_FAIL,
-    SAVE_FIELD_SUCCESS, SET_FIELDS,
-    TOGGLE_FIELD_EDITOR
-} from '../../reducers';
+// import { Action } from '@ngrx/store';
+// import { Field, FieldList } from '../../../../game-mechanics';
+// import {
+//     CHANGE_SELECTED_FIELD,
+//     DELETE_FIELD,
+//     DELETE_FIELD_FAIL,
+//     DELETE_FIELD_SUCCESS,
+//     GET_FIELDS,
+//     GET_FIELDS_FAIL,
+//     GET_FIELDS_SUCCESS,
+//     UPDATE_FIELD,
+//     SAVE_FIELD,
+//     SAVE_FIELD_FAIL,
+//     SAVE_FIELD_SUCCESS, SET_FIELDS,
+//     TOGGLE_FIELD_EDITOR
+// } from '../../reducers';
 
-export class SaveFieldAction implements Action {
-    constructor(public payload: Field) {
-    }
+// export class SaveFieldAction implements Action {
+//     constructor(public payload: Field) {
+//     }
 
-    readonly type = SAVE_FIELD;
-}
+//     readonly type = SAVE_FIELD;
+// }
 
-export class UpdateFieldAction implements Action {
-    constructor(public payload: Field) {
-    }
+// export class UpdateFieldAction implements Action {
+//     constructor(public payload: Field) {
+//     }
 
-    readonly type = UPDATE_FIELD;
-}
+//     readonly type = UPDATE_FIELD;
+// }
 
-export class SaveFieldSuccessAction implements Action {
-    constructor(public payload: Field) {
-    }
+// export class SaveFieldSuccessAction implements Action {
+//     constructor(public payload: Field) {
+//     }
 
-    readonly type = SAVE_FIELD_SUCCESS;
-}
+//     readonly type = SAVE_FIELD_SUCCESS;
+// }
 
-export class SaveFieldFailAction implements Action {
-    readonly payload = null;
-    readonly type = SAVE_FIELD_FAIL;
-}
+// export class SaveFieldFailAction implements Action {
+//     readonly payload = null;
+//     readonly type = SAVE_FIELD_FAIL;
+// }
 
-export class DeleteFieldAction implements Action {
-    constructor(public payload: Field) {
-    }
+// export class DeleteFieldAction implements Action {
+//     constructor(public payload: Field) {
+//     }
 
-    readonly type = DELETE_FIELD;
-}
+//     readonly type = DELETE_FIELD;
+// }
 
-export class DeleteFieldSuccessAction implements Action {
-    constructor(public payload: Field) {
-    }
+// export class DeleteFieldSuccessAction implements Action {
+//     constructor(public payload: Field) {
+//     }
 
-    readonly type = DELETE_FIELD_SUCCESS;
-}
+//     readonly type = DELETE_FIELD_SUCCESS;
+// }
 
-export class DeleteFieldFailAction implements Action {
-    readonly payload = null;
-    readonly type = DELETE_FIELD_FAIL;
-}
+// export class DeleteFieldFailAction implements Action {
+//     readonly payload = null;
+//     readonly type = DELETE_FIELD_FAIL;
+// }
 
-export class GetFieldsAction implements Action {
-    constructor(public payload: number) {
-    }
+// export class GetFieldsAction implements Action {
+//     constructor(public payload: number) {
+//     }
 
-    readonly type = GET_FIELDS;
-}
+//     readonly type = GET_FIELDS;
+// }
 
-export class GetFieldsSuccessAction implements Action {
-    readonly payload = null;
-    readonly type = GET_FIELDS_SUCCESS;
-}
+// export class GetFieldsSuccessAction implements Action {
+//     readonly payload = null;
+//     readonly type = GET_FIELDS_SUCCESS;
+// }
 
-export class GetFieldsFailAction implements Action {
-    readonly payload = null;
-    readonly type = GET_FIELDS_FAIL;
-}
+// export class GetFieldsFailAction implements Action {
+//     readonly payload = null;
+//     readonly type = GET_FIELDS_FAIL;
+// }
 
-export class SetFieldsAction implements Action {
-    constructor(public payload: FieldList) {
-    }
+// export class SetFieldsAction implements Action {
+//     constructor(public payload: FieldList) {
+//     }
 
-    readonly type = SET_FIELDS;
-}
+//     readonly type = SET_FIELDS;
+// }
 
-export class ToggleFieldEditorAction implements Action {
-    constructor(public payload: boolean) {
-    }
+// export class ToggleFieldEditorAction implements Action {
+//     constructor(public payload: boolean) {
+//     }
 
-    readonly type = TOGGLE_FIELD_EDITOR;
-}
+//     readonly type = TOGGLE_FIELD_EDITOR;
+// }
 
-export class ChangeSelectedFieldAction implements Action {
-    constructor(public payload: Field) {
-    }
+// export class ChangeSelectedFieldAction implements Action {
+//     constructor(public payload: Field) {
+//     }
 
-    readonly type = CHANGE_SELECTED_FIELD;
-}
+//     readonly type = CHANGE_SELECTED_FIELD;
+// }
 
-export type FieldAction =
-    | SaveFieldAction
-    | SaveFieldSuccessAction
-    | SaveFieldFailAction
-    | DeleteFieldAction
-    | DeleteFieldSuccessAction
-    | DeleteFieldFailAction
-    | GetFieldsAction
-    | GetFieldsSuccessAction
-    | GetFieldsFailAction
-    | SetFieldsAction
-    | ToggleFieldEditorAction
-    | ChangeSelectedFieldAction;
+// export type FieldAction =
+//     | SaveFieldAction
+//     | SaveFieldSuccessAction
+//     | SaveFieldFailAction
+//     | DeleteFieldAction
+//     | DeleteFieldSuccessAction
+//     | DeleteFieldFailAction
+//     | GetFieldsAction
+//     | GetFieldsSuccessAction
+//     | GetFieldsFailAction
+//     | SetFieldsAction
+//     | ToggleFieldEditorAction
+//     | ChangeSelectedFieldAction;
