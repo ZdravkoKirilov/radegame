@@ -8,7 +8,7 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 
 import * as actions from '../state/actions';
 import { selectPreloadedGameIds, Cache } from '../state';
-import { toIndexedList, isMapLocation, ROUTER_PARAMS } from '../../shared';
+import { toIndexedList, ROUTER_PARAMS } from '../../shared';
 import { GameEditService } from '../services';
 import { GameTemplate } from '../../game-mechanics';
 
@@ -64,9 +64,7 @@ export class GameDataGuard implements CanActivate {
             this.api.getPaths(gameId),
             this.api.getTrivias(gameId)
         ]).pipe(
-            map(entities => entities.map(entity => {
-                return toIndexedList(entity);
-            })),
+            map(entities => entities.map(entity => toIndexedList(entity))),
             map(([resources, factions, activities, rounds, stages, quests, fields, locations, paths, trivia]) => {
                 return {
                     resources, factions, activities, rounds, stages, quests, fields, locations, paths, trivia

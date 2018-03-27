@@ -14,6 +14,13 @@ export const toIndexedList = (source: ObjectWithId[], indexProp = 'id'): Indexed
     }, {});
 };
 
+export const rebaseListIndex = (source: ObjectWithId, newIndex: string): IndexedList => {
+    return Object.values(source).reduce((acc, item) => {
+        acc[item[newIndex]] = item;
+        return acc;
+    }, {});
+}
+
 export const isMapLocation = (entity: any) => {
     return ('left' in entity && 'top' in entity);
 }

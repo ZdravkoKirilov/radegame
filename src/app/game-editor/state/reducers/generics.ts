@@ -149,7 +149,11 @@ export const getItems = (key: FormKey, gameId?: number) => (state: EntityForm): 
     }
 }
 
-export const getItemsList = (gameId: number, key: FormKey) => (state: EntityForm): GameEntityList => {
+export const getItemById = <T>(key: FormKey, gameId: number, itemId: number) => (state: EntityForm): T => {
+    return getItemsList(key, gameId)(state)[itemId];
+}
+
+export const getItemsList = (key: FormKey, gameId: number) => (state: EntityForm): GameEntityList => {
     return state[key].items;
 }
 
@@ -161,11 +165,11 @@ export const getEditorState = (key: FormKey) => (state: EntityForm): boolean => 
     return state[key].showEditor;
 }
 
-export const getEntities = (state: AppState): ConnectedEntities => {
+export const getEntities = (state: EntityForm): ConnectedEntities => {
     const result = <ConnectedEntities>{};
 
-    for (let key in state.editor.form) {
-        result[key] = Object.values(state.editor.form[key].items);
+    for (let key in state) {
+        result[key] = Object.values(state[key].items);
     }
 
     return result;

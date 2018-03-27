@@ -10,7 +10,7 @@ import {
     ChangeSelectedItemAction, FormKey, GenericActionPayload
 } from '../state//actions/generics';
 import { selectGame } from '../state';
-import { getSelectedItem, getItems, getEditorState, getEntities } from '../state//reducers//generics';
+import { getSelectedItem, getItems, getEditorState, getEntities } from '../state//reducers/generics';
 
 export abstract class SmartBase implements OnInit, OnDestroy {
 
@@ -69,7 +69,7 @@ export abstract class SmartBase implements OnInit, OnDestroy {
             this.items = getItems(this.key, this.game.id)(state.editor.form);
             this.selectedItem = getSelectedItem(this.key)(state.editor.form);
             this.showEditor = getEditorState(this.key)(state.editor.form);
-            this.connectedEntities = getEntities(state);
+            this.connectedEntities = getEntities(state.editor.form);
         });
     }
 

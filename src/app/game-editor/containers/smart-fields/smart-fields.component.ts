@@ -10,19 +10,22 @@ import {
     MapPath,
     MapLocationList,
     MapLocation,
-    Stage
+    Stage,
 } from '../../../game-mechanics';
-import { FormDefinition } from '../../../dynamic-forms';
+import { getSelectedItem, getItems, getItemById, getItemsList, getEditorState, getEntities } from '../../state/reducers/generics';
+import { formKeys } from '../../state/actions/generics';
+import { selectGame } from '../../state';
+import { FormDefinition, ConnectedEntities } from '../../../dynamic-forms';
 import { FIELD_DEF } from '../../forms';
-import { ConnectedEntities } from '../../../dynamic-forms';
 import { SceneRenderService } from '../../../game-mechanics';
 import { selectStageId } from '../../../core';
+import { toIndexedList } from '../../../shared';
 
 @Component({
     selector: 'rg-smart-fields',
     templateUrl: './smart-fields.component.html',
     styleUrls: ['./smart-fields.component.scss'],
-    providers: [SceneRenderService]
+    viewProviders: [SceneRenderService]
 })
 export class SmartFieldsComponent implements OnInit, OnDestroy {
 
@@ -32,7 +35,7 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
     showFieldEditor: boolean;
     pathCreationMode: boolean;
 
-    selectedField: Field;
+    selectedField?: Field;
     selectedPath: MapPath;
 
     fields: Field[];
@@ -105,6 +108,19 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
         this.storeSubs = [
             this.store
                 .subscribe(state => {
+
+                    this.game = selectGame(state);
+                    this.stageId = selectStageId(state);
+                    this.stage = <Stage>getItemById(formKeys.STAGES, this.game.id, this.stageId)(state.editor.form);
+                    this.selectedField = <Field>getSelectedItem(formKeys.FIELDS)(state.editor.form);
+                    this.showFieldEditor = getEditorState(formKeys.FIELDS)(state.editor.form);
+                    this.connectedEntities = getEntities(state.editor.form);
+                    this.fields = <Field[]>getItems(formKeys.FIELDS, this.game.id)(state.editor.form).filter((elem: Field) => elem.stage === this.stageId);
+                    this.fieldsList = <FieldList>getItemsList(formKeys.FIELDS, this.game.id)(state.editor.form);
+                    this.paths = <MapPath[]>getItems(formKeys.PATHS, this.game.id)(state.editor.form).filter((elem: MapPath) => elem.stage === this.stageId);
+                    this.locations = toIndexedList(getItems(formKeys.LOCATIONS, this.game.id)(state.editor.form).filter((elem: MapLocation) => elem.stage === this.stageId), 'field');
+
+
                     // this.showFieldEditor = selectFieldEditorToggleState(state);
                     // this.selectedField = getSelectedField(state);
                     // this.selectedPath = getSelectedPath(state);
