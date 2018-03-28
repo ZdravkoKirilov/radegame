@@ -127,7 +127,7 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         required: false
     }, {
         name: 'image',
-        controlType: controlTypes.IMAGE_BROWSER,
+        controlType: controlTypes.IMAGE_PICKER,
         label: 'Quest image',
         required: false,
         value: data.image

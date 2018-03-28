@@ -85,7 +85,7 @@ export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFe
                     data = action.payload.data as GameEntity;
                     return {
                         ...state,
-                        selectedItem: { ...data }
+                        selectedItem: data ? { ...data } : null
                     };
                 default:
                     return state;

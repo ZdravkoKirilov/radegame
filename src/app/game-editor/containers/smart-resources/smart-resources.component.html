@@ -1,4 +1,4 @@
-<rg-resources
+<rg-entity-view
         [items]="items"
         [showEditor]="showEditor"
         [selectedItem]="selectedItem"
@@ -7,6 +7,4 @@
         (removeItem)="removeItem($event)"
         (editItem)="editItem($event)"
         (saveItem)="saveItem($event)"
-></rg-resources>
-
-<ng-content *ngIf="!showEditor"></ng-content>
+></rg-entity-view>

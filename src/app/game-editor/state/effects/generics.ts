@@ -6,7 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '../../../core';
 import { toIndexedList } from '../../../shared';
-import { GameEntity } from '../../../game-mechanics/';
+import { GameEntity, Activity, Field, Quest, Round } from '../../../game-mechanics/';
 import { actionTypes } from '../actions/actionTypes';
 import {
     formKeys, FormKey, GenericActionPayload,
@@ -64,26 +64,30 @@ export class GenericEffectsService {
         })
     );
 
-    saveRequest(key: FormKey, entity: any): Observable<GameEntity> {
+    saveRequest(key: FormKey, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
             case formKeys.RESOURCES:
                 return this.api.saveResource(entity);
             case formKeys.ACTIVITIES:
-                return this.api.saveActivity(entity);
+                return this.api.saveActivity(<Activity>entity);
             case formKeys.FACTIONS:
                 return this.api.saveFaction(entity);
             case formKeys.FIELDS:
-                return this.api.saveBoardField(entity);
+                return this.api.saveBoardField(<Field>entity);
             case formKeys.QUESTS:
-                return this.api.saveQuest(entity);
+                return this.api.saveQuest(<Quest>entity);
             case formKeys.ROUNDS:
-                return this.api.saveRound(entity);
+                return this.api.saveRound(<Round>entity);
             case formKeys.STAGES:
                 return this.api.saveStage(entity);
             case formKeys.TRIVIA:
                 return this.api.saveTrivia(entity);
+            case formKeys.LOCATIONS:
+                return this.api.saveMapLocation(entity);
+            case formKeys.PATHS:
+                return this.api.saveMapPath(entity);
             default:
-                return Observable.throw('Save effect: Unknown entity: ' + key);
+                return of(null);
         }
     };
 
@@ -105,8 +109,10 @@ export class GenericEffectsService {
                 return this.api.deleteStage(entity);
             case formKeys.TRIVIA:
                 return this.api.deleteTrivia(entity);
+            case formKeys.PATHS:
+                return this.api.deleteMapPath(entity);
             default:
-                return Observable.throw('Delete effect: Unknown entity: ' + key);
+                return of(null);
         }
     }
 }

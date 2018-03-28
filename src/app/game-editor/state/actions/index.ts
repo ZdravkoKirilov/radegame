@@ -1,3 +1,3 @@
-export * from './byFeature';
 export * from './actionTypes';
+export * from './generics';
 

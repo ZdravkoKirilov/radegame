@@ -6,7 +6,7 @@ import { ActivatedRoute } from '@angular/router';
 import { AppState, selectGameId, selectGameAssets, selectPreloadedGames } from '../../../core';
 import { GameTemplate } from '../../../game-mechanics';
 import * as actions from '../../state/actions';
-import { SetAllItemsAction, SetItemAction, SetItemsAction } from '../../state/actions/generics';
+import { SetAllItemsAction, SetItemAction, SetItemsAction, ChangeSelectedItemAction, formKeys } from '../../state/actions/generics';
 
 @Component({
   selector: 'rg-editor-wrapper',
@@ -32,11 +32,8 @@ export class EditorWrapperComponent implements OnInit, OnDestroy {
             data: preloaded,
             key: ''
           }));
-          this.store.dispatch(new actions.UpdateEditorAssetsAction({ game: games[this.gameId] }));
-          this.store.dispatch(new SetItemsAction({
-            data: games,
-            key: 'games'
-          }));
+          this.store.dispatch(new ChangeSelectedItemAction({ key: formKeys.GAMES, data: games[this.gameId] }));
+          this.store.dispatch(new SetItemsAction({ data: games, key: formKeys.GAMES }));
         }
       })
     ];

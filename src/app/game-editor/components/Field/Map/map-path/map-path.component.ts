@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, SimpleChanges, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
 
 import { SceneRenderService, MapLocation, MapPath } from '../../../../../game-mechanics';
 import { propHasNewValue } from '../../../../../shared';
@@ -9,7 +9,7 @@ import { propHasNewValue } from '../../../../../shared';
     styleUrls: ['./map-path.component.scss'],
     changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class MapPathComponent implements OnInit, OnDestroy, OnChanges {
+export class MapPathComponent implements OnInit, OnDestroy {
     @Input() data: MapPath;
     @Input() mapLocations: { [key: string]: MapLocation };
     @Input() selected = false;
@@ -23,11 +23,5 @@ export class MapPathComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnDestroy() {
         this.scr.removePath(this.data.id);
-    }
-
-    ngOnChanges(c: SimpleChanges) {
-        if (propHasNewValue(c, 'selected')) {
-            this.scr.changeSelectedPath(this.data.id, c.selected.currentValue);
-        }
     }
 }

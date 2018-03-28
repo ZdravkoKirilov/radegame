@@ -3,9 +3,9 @@ import { BaseControl, controlTypes, ConnectedEntities, FormDefinition } from '..
 import { composeQuestOptions, composeActivityOptions, composeResourceOptions } from '../helpers';
 
 export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) => {
-    data = data || {income: [], cost: [], quests: [], activities: []};
+    data = data || {};
 
-    const income = data.income.map((elem: FieldResource): BaseControl => {
+    const income = data && data.income ? data.income.map((elem: FieldResource): BaseControl => {
         return {
             controlType: controlTypes.NESTED_FORM,
             childControls: [
@@ -25,8 +25,8 @@ export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) =
                 }
             ]
         };
-    });
-    const cost = data.cost.map((elem: FieldResource): BaseControl => {
+    }) : [];
+    const cost = data && data.cost ? data.cost.map((elem: FieldResource): BaseControl => {
         return {
             controlType: controlTypes.NESTED_FORM,
             childControls: [
@@ -46,7 +46,7 @@ export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) =
                 }
             ]
         };
-    });
+    }) : [];
     return [
         {
             name: 'name',
@@ -62,7 +62,7 @@ export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) =
             required: false
         }, {
             name: 'image',
-            controlType: controlTypes.IMAGE_BROWSER,
+            controlType: controlTypes.IMAGE_PICKER,
             label: 'Choose field image',
             required: false,
             value: data.image
@@ -117,14 +117,14 @@ export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) =
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Quest pool',
-            value: data.quests.map(elem => elem.quest),
+            value: data && data.quests ? data.quests.map(elem => elem.quest) : [],
             options: composeQuestOptions(ent),
         }, {
             name: 'activities',
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Activity pool',
-            value: data.activities.map(elem => elem.activity),
+            value: data && data.activities ? data.activities.map(elem => elem.activity) : [],
             options: composeActivityOptions(ent),
         },
     ];

@@ -19,7 +19,7 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
             required: false
         }, {
             name: 'image',
-            controlType: controlTypes.IMAGE_BROWSER,
+            controlType: controlTypes.IMAGE_PICKER,
             label: 'Round image',
             required: false,
             value: data.image

@@ -19,6 +19,7 @@ import * as containers from './containers';
 import { EntityListComponent } from './components/entity-list/entity-list.component';
 import { EntityComponent } from './components/entity/entity.component';
 import { EntityEditorComponent } from './components/entity-editor/entity-editor.component';
+import { EntityViewComponent } from './components/entity-view/entity-view.component';
 
 @NgModule({
     imports: [
@@ -42,7 +43,8 @@ import { EntityEditorComponent } from './components/entity-editor/entity-editor.
         ...Object.values(components),
         EntityListComponent,
         EntityComponent,
-        EntityEditorComponent
+        EntityEditorComponent,
+        EntityViewComponent
     ]
 })
 export class GameEditorModule {

@@ -82,7 +82,8 @@ export const formKeys = {
     ACTIVITIES: 'activities',
     FACTIONS: 'factions',
     LOCATIONS: 'locations',
-    PATHS: 'paths'
+    PATHS: 'paths',
+    GAMES: 'games'
 }
 
 export type FormKey = typeof formKeys.RESOURCES | typeof formKeys.TRIVIA | typeof formKeys.ROUNDS |

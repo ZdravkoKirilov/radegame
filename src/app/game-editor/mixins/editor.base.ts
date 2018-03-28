@@ -19,8 +19,10 @@ export abstract class EditorBase<T> implements OnInit {
     }
 
     ngOnInit() {
-        this.controls = this.formDefinition(this.selectedItem, this.connectedEntities);
-        this.form = this.cs.toFormGroup(this.controls);
+        if (this.formDefinition) {
+            this.controls = this.formDefinition(this.selectedItem, this.connectedEntities);
+            this.form = this.cs.toFormGroup(this.controls);
+        }
     }
 
     saveItem() {

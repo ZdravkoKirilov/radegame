@@ -6,7 +6,7 @@ import { Subscription } from 'rxjs/Subscription';
 
 import { Field, MapLocation, MapPath, Stage, SceneRenderService } from '../../../../../game-mechanics';
 import { KEYCODES } from '../../../../utils';
-import { propHasChanged } from '../../../../../shared';
+import { propHasChanged, getPropValue } from '../../../../../shared';
 
 @Component({
     selector: 'rg-map-editor',
@@ -44,12 +44,11 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     handleAddField() {
-        this.selectField.emit(null);
-        this.editField.emit();
+        this.editField.emit(null);
     }
 
     attachListeners() {
-        const {scr} = this;
+        const { scr } = this;
 
         const nodeMoved = scr.nodeMoved
             .subscribe((loc: MapLocation) => {
@@ -61,7 +60,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
                 const fromLoc = this.mapLocations[currentSelect.id].id;
                 const toLoc = this.mapLocations[loc.field].id;
                 if (fromLoc && toLoc) {
-                    const payload: MapPath = {fromLoc, toLoc};
+                    const payload: MapPath = { fromLoc, toLoc };
                     this.createPath.emit(payload);
                     this.selectField.emit(null);
                 }
@@ -91,7 +90,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
 
             if (event.keyCode === KEYCODES.Enter) {
                 if (field) {
-                    this.editField.emit();
+                    this.editField.emit(field);
                 }
             }
         });
@@ -107,6 +106,13 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     ngOnChanges(c: SimpleChanges) {
         if (propHasChanged(c, 'stage')) {
             this.scr.updateBackground(c.stage.currentValue.image);
+        }
+        if (propHasChanged(c, 'selectedPath')) {
+            this.scr.changeSelectedPath(this.selectedPath ? this.selectedPath.id : null, getPropValue(c, 'selectedPath'));
+        }
+        if (propHasChanged(c, 'selectedField')) {
+            const id = this.mapLocations && this.selectedField && this.mapLocations[this.selectedField.id] ? this.mapLocations[this.selectedField.id].id : null;
+            this.scr.changeSelectedNode(id, getPropValue(c, 'selectedField'));
         }
     }
 

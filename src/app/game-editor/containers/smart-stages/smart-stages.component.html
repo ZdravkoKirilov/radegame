@@ -1,11 +1,22 @@
-<rg-stages
-[formDefinition]="formDefinition"
-[items]="items"
-[showEditor]="showEditor"
-[selectedItem]="selectedItem"
-[connectedEntities]="connectedEntities"
-(toggleEditor)="toggleEditor($event)"
-(saveItem)="saveItem($event)"
-(editItem)="editItem($event)"
-(removeItem)="removeItem($event)"
-></rg-stages>
+<rg-entity-view [template]="template" [formDefinition]="formDefinition" [items]="items" [showEditor]="showEditor" [selectedItem]="selectedItem" [connectedEntities]="connectedEntities"
+    (toggleEditor)="toggleEditor($event)" (saveItem)="saveItem($event)"></rg-entity-view>
+
+<ng-template #template let-item>
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>{{item.name}}</mat-card-title>
+            <img mat-card-avatar [src]="item.image" />
+        </mat-card-header>
+        <mat-card-content>
+
+            <p>{{item.description}}</p>
+            <a [routerLink]="[item.id, 'fields']">Open map</a>
+        </mat-card-content>
+
+        <mat-card-actions>
+            <button mat-button (click)="removeItem(item)">Remove</button>
+            <button mat-button (click)="editItem(item)">Edit</button>
+        </mat-card-actions>
+
+    </mat-card>
+</ng-template>

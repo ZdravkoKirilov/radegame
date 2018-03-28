@@ -34,5 +34,9 @@
             <rg-image-picker [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-image-picker>
         </ng-container>
 
+        <ng-container *ngSwitchDefault>
+            Unknown element!
+        </ng-container>
+
     </ng-container>
 </div>

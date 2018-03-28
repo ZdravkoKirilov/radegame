@@ -1,4 +1,4 @@
-import { OnInit, OnDestroy } from '@angular/core';
+import { OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
@@ -7,12 +7,12 @@ import { FormDefinition, ConnectedEntities } from '../../dynamic-forms';
 import { GameEntity, Game } from '../../game-mechanics';
 import {
     SaveItemAction, DeleteItemAction, ToggleEditorAction,
-    ChangeSelectedItemAction, FormKey, GenericActionPayload
+    ChangeSelectedItemAction, formKeys, FormKey, GenericActionPayload
 } from '../state//actions/generics';
-import { selectGame } from '../state';
 import { getSelectedItem, getItems, getEditorState, getEntities } from '../state//reducers/generics';
 
 export abstract class SmartBase implements OnInit, OnDestroy {
+    @ViewChild('template') template: TemplateRef<any>;
 
     public sub: Subscription;
     public formDefinition: FormDefinition;
@@ -65,7 +65,7 @@ export abstract class SmartBase implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.sub = this.store.subscribe(state => {
-            this.game = selectGame(state);
+            this.game = getSelectedItem(formKeys.GAMES)(state.editor.metadata);
             this.items = getItems(this.key, this.game.id)(state.editor.form);
             this.selectedItem = getSelectedItem(this.key)(state.editor.form);
             this.showEditor = getEditorState(this.key)(state.editor.form);

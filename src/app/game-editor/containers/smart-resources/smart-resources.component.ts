@@ -14,7 +14,6 @@ import { formKeys, FormKey } from '../../state/actions/generics';
 })
 export class SmartResourcesComponent extends SmartBase {
 
-
     formDefinition: FormDefinition = RESOURCE_DEF;
     readonly key: FormKey = formKeys.RESOURCES;
 

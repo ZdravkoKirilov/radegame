@@ -183,7 +183,7 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             label: 'Action description',
         }, {
             name: 'image',
-            controlType: controlTypes.IMAGE_BROWSER,
+            controlType: controlTypes.IMAGE_PICKER,
             label: 'Action featured image',
             required: true,
             value: data.image

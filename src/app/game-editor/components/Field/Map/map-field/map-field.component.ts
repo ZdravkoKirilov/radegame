@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, OnChanges, Input, ChangeDetectionStrategy
 
 import { Field, MapLocation, SceneRenderService } from '../../../../../game-mechanics';
 import { DEFAULT_MAP_LOCATION } from '../../../../utils';
-import { propHasNewValue } from '../../../../../shared';
+import { propHasNewValue, propHasChanged, getPropValue } from '../../../../../shared';
 
 @Component({
     selector: 'rg-map-field',
@@ -40,9 +40,6 @@ export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
         if (propHasNewValue(c, 'mapLocation')) {
             const locValue: MapLocation = c.mapLocation.currentValue;
             this.scr.saveElement(this.data.image, locValue, locValue.id);
-        }
-        if (propHasNewValue(c, 'selected') && c.selected.currentValue === true) {
-            this.scr.changeSelectedNode(this.mapLocation.id, c.selected.currentValue);
         }
     }
 }

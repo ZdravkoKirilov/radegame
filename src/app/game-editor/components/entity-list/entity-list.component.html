@@ -1,5 +1,13 @@
 <div class="cards-container">
+
+  <ng-container *ngIf="!template; else customTemplate">
+    <rg-entity *ngFor="let item of items" [data]="item" (editItem)="editItem.emit($event)" (removeItem)="removeItem.emit($event)"></rg-entity>
+  </ng-container>
+
+</div>
+
+<ng-template #customTemplate>
   <ng-container *ngFor="let item of items">
     <ng-container *ngTemplateOutlet="template; context: {$implicit: item}"></ng-container>
   </ng-container>
-</div>
+</ng-template>

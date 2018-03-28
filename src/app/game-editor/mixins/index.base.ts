@@ -1,11 +1,13 @@
-import { Input, Output, EventEmitter } from '@angular/core';
+import { Input, Output, EventEmitter, TemplateRef } from '@angular/core';
 
 import { FormDefinition } from '../../dynamic-forms/models/FormDefinition.model';
 import { ConnectedEntities } from '../../dynamic-forms/models/ConnectedEntities';
 
 export abstract class IndexBase<T> {
 
-    @Input() showEditor: boolean;
+    @Input() template: TemplateRef<any>;
+
+    @Input() showEditor: boolean = false;
     @Input() selectedItem: T;
     @Input() items: T[];
     @Input() formDefinition: FormDefinition;

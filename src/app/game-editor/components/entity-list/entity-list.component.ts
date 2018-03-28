@@ -1,6 +1,6 @@
-import { Component, OnInit, Input, TemplateRef } from '@angular/core';
+import { Component, OnInit, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
 
-import { GameEntity } from '../../../game-mechanics'; 
+import { GameEntity } from '../../../game-mechanics';
 
 @Component({
   selector: 'rg-entity-list',
@@ -11,6 +11,10 @@ export class EntityListComponent implements OnInit {
 
   @Input() template: TemplateRef<any>;
   @Input() items: GameEntity[];
+
+  @Output() editItem: EventEmitter<GameEntity> = new EventEmitter();
+  @Output() removeItem: EventEmitter<GameEntity> = new EventEmitter();
+
   constructor() { }
 
   ngOnInit() {

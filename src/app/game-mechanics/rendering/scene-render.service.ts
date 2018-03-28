@@ -152,31 +152,48 @@ export class SceneRenderService {
     }
 
     changeSelectedNode(id?: number, selected?: boolean) {
-
-        if (this.selectedNode !== id) {
-            const current = this.nodes[this.selectedNode];
-            if (current) {
-                current.selected = false;
+        if (id) {
+            if (this.selectedNode !== id) {
+                this.deselectNode();
+                this.selectedNode = id;
             }
-            this.selectedNode = id;
+            if (id in this.nodes) {
+                this.nodes[id].selected = selected;
+                this.changeSelectedPath(null);
+            }
+        } else {
+            this.deselectNode();
+            this.selectedNode = null;
         }
-        if (id && this.nodes[id]) {
-            this.nodes[id].selected = selected;
-            this.changeSelectedPath(null, false);
+    }
+
+    deselectNode() {
+        const current = this.nodes[this.selectedNode];
+        if (current) {
+            current.selected = false;
         }
     }
 
     changeSelectedPath(id?: number, selected?: boolean) {
-        if (this.selectedPath !== id) {
-            const current = this.paths[this.selectedPath];
-            if (current) {
-                current.selected = false;
+        if (id) {
+            if (this.selectedPath !== id) {
+                this.deselectPath();
+                this.selectedPath = id;
             }
-            this.selectedPath = id;
+            if (id in this.paths) {
+                this.paths[id].selected = selected;
+                this.changeSelectedNode(null);
+            }
+        } else {
+            this.deselectPath();
+            this.selectedPath = null;
         }
-        if (id && this.paths[id]) {
-            this.paths[id].selected = selected;
-            this.changeSelectedNode(null, false);
+    }
+
+    deselectPath() {
+        const current = this.paths[this.selectedPath];
+        if (current) {
+            current.selected = false;
         }
     }
 

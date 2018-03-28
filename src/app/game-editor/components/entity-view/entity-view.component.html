@@ -1,0 +1,15 @@
+<div class="wrapper">
+
+  <rg-entity-list [ngClass]="{'hidden': showEditor}" [template]="template" [items]="items" (editItem)="editItem.emit($event)"
+    (removeItem)="removeItem.emit($event)"></rg-entity-list>
+
+  <div *ngIf="!showEditor" class="fab-create fab-right">
+    <button mat-fab color="primary" class="create-new-btn" (click)="showItemEditor()">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <rg-entity-editor *ngIf="showEditor" [formDefinition]="formDefinition" [connectedEntities]="connectedEntities" [selectedItem]="selectedItem" (save)="saveItem.emit($event)"
+    (cancel)="hideItemEditor()">
+  </rg-entity-editor>
+</div>

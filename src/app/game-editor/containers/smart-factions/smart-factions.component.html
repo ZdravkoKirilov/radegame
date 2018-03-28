@@ -1,4 +1,4 @@
-<rg-factions
+<rg-entity-view
         [items]="items"
         [showEditor]="showEditor"
         [selectedItem]="selectedItem"
@@ -10,6 +10,4 @@
         (removeItem)="removeItem($event)"
 >
 
-</rg-factions>
-
-<ng-content *ngIf="!showEditor"></ng-content>
+</rg-entity-view>

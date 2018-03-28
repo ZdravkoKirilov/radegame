@@ -13,8 +13,7 @@ import {
     Stage,
 } from '../../../game-mechanics';
 import { getSelectedItem, getItems, getItemById, getItemsList, getEditorState, getEntities } from '../../state/reducers/generics';
-import { formKeys } from '../../state/actions/generics';
-import { selectGame } from '../../state';
+import { formKeys, ToggleEditorAction, ChangeSelectedItemAction, SaveItemAction, DeleteItemAction } from '../../state/actions/generics';
 import { FormDefinition, ConnectedEntities } from '../../../dynamic-forms';
 import { FIELD_DEF } from '../../forms';
 import { SceneRenderService } from '../../../game-mechanics';
@@ -30,6 +29,11 @@ import { toIndexedList } from '../../../shared';
 export class SmartFieldsComponent implements OnInit, OnDestroy {
 
     private storeSubs: Subscription[];
+    private fKey = formKeys.FIELDS;
+    private lKey = formKeys.LOCATIONS;
+    private pKey = formKeys.PATHS;
+    private sKey = formKeys.STAGES;
+
     formDefinition: FormDefinition = FIELD_DEF;
 
     showFieldEditor: boolean;
@@ -49,10 +53,13 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
 
     connectedEntities: ConnectedEntities;
 
+    asList: boolean = false;
+
     constructor(private store: Store<AppState>) {
     }
 
-    editField() {
+    editField(data: Field) {
+        this.store.dispatch(new ChangeSelectedItemAction({ key: this.fKey, data }));
         this.toggleFieldEditor(true);
     }
 
@@ -61,85 +68,79 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
         if (this.selectedField) {
             payload.id = this.selectedField.id;
         }
-        //payload.id ? this.store.dispatch(new UpdateFieldAction(payload)) : this.store.dispatch(new SaveFieldAction(payload));
+        this.store.dispatch(new SaveItemAction({ key: this.fKey, data }));
         this.toggleFieldEditor(false);
     }
 
-    removeField(payload: Field) {
-        //this.store.dispatch(new DeleteFieldAction(payload));
+    removeField(data: Field) {
+        this.store.dispatch(new DeleteItemAction({ key: this.fKey, data }));
+        this.store.dispatch(new ChangeSelectedItemAction({ key: this.fKey, data: null }));
     }
 
     selectField(id: number) {
         const field = this.fieldsList[id] || null;
-        //this.store.dispatch(new ChangeSelectedFieldAction(field));
+        this.store.dispatch(new ChangeSelectedItemAction({ key: this.pKey, data: null }));
+        this.store.dispatch(new ChangeSelectedItemAction({ key: this.fKey, data: field }));
     }
 
     toggleFieldEditor(flag: boolean) {
-        //this.store.dispatch(new ToggleFieldEditorAction(flag));
+        if (flag === false) {
+            this.store.dispatch(new ChangeSelectedItemAction({ key: this.fKey, data: null }));
+        }
+        this.store.dispatch(new ToggleEditorAction({ key: this.fKey, data: flag }));
+    }
+
+    toggleListView(value: boolean) {
+        this.store.dispatch(new ChangeSelectedItemAction({ key: this.fKey, data: null }));
+        this.asList = value;
     }
 
     savePath(payload: MapPath) {
         const path = { ...payload, game: this.game.id, stage: this.stage.id };
-        //this.store.dispatch(new SaveMapPathAction(path));
+        this.store.dispatch(new SaveItemAction({ key: this.pKey, data: path }));
     }
 
     removePath(payload: MapPath) {
-        //this.store.dispatch(new DeleteMapPathAction(payload));
+        this.store.dispatch(new DeleteItemAction({ key: this.pKey, data: payload }));
+        this.store.dispatch(new ChangeSelectedItemAction({ key: this.pKey, data: null }));
     }
 
     selectPath(payload: MapPath) {
-        //this.store.dispatch(new ChangeSelectedPathAction(payload));
+        this.store.dispatch(new ChangeSelectedItemAction({ key: this.fKey, data: null }));
+        this.store.dispatch(new ChangeSelectedItemAction({ key: this.pKey, data: payload }));
     }
 
     saveMapLocation(payload: MapLocation) {
-        //this.store.dispatch(new SaveMapLocationAction(payload));
+        this.store.dispatch(new SaveItemAction({ key: this.lKey, data: payload }));
     }
 
     setPathCreation(flag: boolean) {
-        //this.store.dispatch(new SetPathCreationAction(flag));
+        this.pathCreationMode = flag;
     }
 
     updateStage(image: any) {
         image = image || null;
-        //this.store.dispatch(new SaveStageAction({ id: this.stageId, image, game: this.game.id }));
+        const stage = { id: this.stageId, image, game: this.game.id };
+        this.store.dispatch(new SaveItemAction({ key: this.sKey, data: stage }));
     }
 
     ngOnInit() {
         this.storeSubs = [
             this.store
                 .subscribe(state => {
-
-                    this.game = selectGame(state);
+                    this.game = <Game>getSelectedItem(formKeys.GAMES)(state.editor.metadata);
                     this.stageId = selectStageId(state);
-                    this.stage = <Stage>getItemById(formKeys.STAGES, this.game.id, this.stageId)(state.editor.form);
-                    this.selectedField = <Field>getSelectedItem(formKeys.FIELDS)(state.editor.form);
-                    this.showFieldEditor = getEditorState(formKeys.FIELDS)(state.editor.form);
+                    this.stage = <Stage>getItemById(this.sKey, this.game.id, this.stageId)(state.editor.form);
+                    this.selectedField = <Field>getSelectedItem(this.fKey)(state.editor.form);
+                    this.showFieldEditor = getEditorState(this.fKey)(state.editor.form);
                     this.connectedEntities = getEntities(state.editor.form);
-                    this.fields = <Field[]>getItems(formKeys.FIELDS, this.game.id)(state.editor.form).filter((elem: Field) => elem.stage === this.stageId);
-                    this.fieldsList = <FieldList>getItemsList(formKeys.FIELDS, this.game.id)(state.editor.form);
-                    this.paths = <MapPath[]>getItems(formKeys.PATHS, this.game.id)(state.editor.form).filter((elem: MapPath) => elem.stage === this.stageId);
-                    this.locations = toIndexedList(getItems(formKeys.LOCATIONS, this.game.id)(state.editor.form).filter((elem: MapLocation) => elem.stage === this.stageId), 'field');
-
-
-                    // this.showFieldEditor = selectFieldEditorToggleState(state);
-                    // this.selectedField = getSelectedField(state);
-                    // this.selectedPath = getSelectedPath(state);
-                    // this.fieldsList = selectFields(state);
-                    // this.game = selectGame(state);
-                    // this.stageId = selectStageId(state);
-                    // this.fields = selectFieldsByStageId(this.stageId)(state);
-                    // this.stage = selectStageById(this.stageId)(state);
-                    // this.paths = selectPathsByStageId(this.stageId)(state);
-                    // this.locations = selectLocationsByStageId(this.stageId)(state);
-                    // this.pathCreationMode = selectPathCreationMode(state);
-                    // this.connectedEntities = {
-                    //     resources: selectResources(state),
-                    //     activities: selectActivities(state),
-                    //     quests: selectQuests(state),
-                    // };
+                    this.fields = <Field[]>getItems(this.fKey, this.game.id)(state.editor.form).filter((elem: Field) => elem.stage === this.stageId);
+                    this.fieldsList = <FieldList>getItemsList(this.fKey, this.game.id)(state.editor.form);
+                    this.paths = <MapPath[]>getItems(this.pKey, this.game.id)(state.editor.form).filter((elem: MapPath) => elem.stage === this.stageId);
+                    this.selectedPath = <MapPath>getSelectedItem(this.pKey)(state.editor.form);
+                    this.locations = toIndexedList(getItems(this.lKey, this.game.id)(state.editor.form).filter((elem: MapLocation) => elem.stage === this.stageId), 'field');
                 }),
         ];
-        //this.store.dispatch(new ChangeSelectedFieldAction(null));
     }
 
     ngOnDestroy() {

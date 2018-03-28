@@ -1,5 +1,6 @@
 <rg-fields
         [showFieldEditor]="showFieldEditor"
+        [asList]="asList"
         [selectedField]="selectedField"
         [selectedPath]="selectedPath"
         [pathCreationMode]="pathCreationMode"
@@ -13,7 +14,8 @@
         (editField)="editField($event)"
         (removeField)="removeField($event)"
         (selectField)="selectField($event)"
-        (closeFieldEditor)="toggleFieldEditor(false)"
+        (toggleFieldEditor)="toggleFieldEditor($event)"
+        (toggleListView)="toggleListView($event)"
         (savePath)="savePath($event)"
         (removePath)="removePath($event)"
         (selectPath)="selectPath($event)"
