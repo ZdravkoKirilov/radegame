@@ -42,4 +42,5 @@ export interface BaseControl {
     minItems?: number;
     maxItems?: number;
     isEmail?: boolean;
+    showImage?: boolean;
 }

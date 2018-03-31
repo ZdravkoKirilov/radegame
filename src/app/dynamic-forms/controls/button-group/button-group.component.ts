@@ -15,9 +15,6 @@ export class ButtonGroupComponent implements OnInit {
 
     private value;
 
-    constructor() {
-    }
-
     ngOnInit() {
         this.value = this.data.value ? new Set([...this.data.value]) : new Set();
     }
@@ -29,12 +26,18 @@ export class ButtonGroupComponent implements OnInit {
         return false;
     }
 
-    handleChange({value}) {
+    handleChange(value) {
         //const currentValue = this.form.get(this.data.name).value;
         //const currentValue = this.data.value || [];
         //const currentSet = new Set([...currentValue]) : new Set();
-        const currentSet = this.value;
-        currentSet.has(value) ? currentSet.delete(value) : currentSet.add(value);
+        let currentSet = this.value;
+        if (this.data.multiple) {
+            currentSet.has(value) ? currentSet.delete(value) : currentSet.add(value);
+        } else {
+            currentSet = new Set([value]);
+        }
+        this.value = currentSet;
+
         this.change.emit({
             [this.data.name]: Array.from(currentSet)
         });

@@ -1,0 +1,23 @@
+:host {
+    padding: 10px;
+    .buttons-wrapper {
+        display: flex;
+    }
+    .group-label {
+        display: block;
+        margin-bottom: 10px;
+        text-decoration: underline;
+    }
+    .btn-group-item {
+        max-height: 2.5em;
+        margin-right: 10px;
+        padding: 5px;
+        img {
+            max-height: 2.5em;
+            width: auto;
+        }
+        button {
+            padding: 5px;
+        }
+    }
+}

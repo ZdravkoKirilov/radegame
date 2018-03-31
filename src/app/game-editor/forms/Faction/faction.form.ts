@@ -27,7 +27,7 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
             ]
         };
     };
-    const childTemplate = {
+    const childTemplate = <BaseControl>{
         controlType: controlTypes.NESTED_FORM,
         childControls: [
             {
@@ -35,6 +35,7 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
                 controlType: controlTypes.DROPDOWN,
                 label: 'Resource',
                 required: true,
+                showImage: true,
                 options: resOptions
             }, {
                 name: 'quantity',
