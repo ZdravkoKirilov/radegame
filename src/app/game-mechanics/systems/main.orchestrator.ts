@@ -34,12 +34,6 @@ export class MainOrchestrator {
 
     private createNext(action, state) {
 
-        // const result = [
-        //     ...this.roundGen.next(action, state), // one type of resolver
-        //     ...this.playerGen.next(action, state), // one type of resolver
-        //     ...this.turnGen.next(action, state),  // fixed types of resolvers
-        //     ...this.actionGen.next(action, state)  // dynamic types of resolvers, still finite choices
-        // ];
         let result = [];
 
         if (this.actionGen.isFull) {

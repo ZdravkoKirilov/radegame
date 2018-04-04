@@ -1,30 +1,30 @@
 import { Generator, Resolver, ResolverResult, GameAction } from '../../models';
 
-export const createGenerator = (items: Resolver[], operationsWithInput: any[]): Generator => {
+export const createGenerator = (items: Resolver[], delayedResolvers: any[]): Generator => {
 
-    class GenericGenerator extends Generator {
-        operationsWithInput = operationsWithInput;
+    class GenericGenerator implements Generator {
+        delayedResolvers = delayedResolvers;
         lastOperation = null;
         queue = null;
-        items = Object.values(items).reverse();
+        items = [...items].reverse();
         get isFull() {
             return items.length === this.items.length && !this.queue;
         };
         inputIsAllowed(): boolean {
-            return !!this.queue && this.operationsWithInput.findIndex(this.lastOperation) !== -1;
+            return !!this.queue && this.delayedResolvers.findIndex(this.lastOperation) !== -1;
         };
         next(input?: any, state?: any): GameAction[] {
-            let lastOperation;
-            let result;
+            let lastOperation: Resolver;
+            let result: ResolverResult;
             if (input && this.inputIsAllowed()) {
-                result = <ResolverResult>this.queue(input, state);
+                result = this.queue(input, state);
                 lastOperation = this.queue;
             } else {
                 const operation = this.items.pop();
-                result = <ResolverResult>operation(input, state);
+                result = operation(input, state);
                 lastOperation = operation;
             }
-            this.queue = result.callback;
+            this.queue = result.nextResolver;
             this.lastOperation = lastOperation;
             return result.actions;
         };
