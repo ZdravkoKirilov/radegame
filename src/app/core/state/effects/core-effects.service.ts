@@ -7,11 +7,11 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 
 import { GameEditService } from '../../services';
-import { Cache, AppState } from '../reducers';
-import { Game } from '../../../game-mechanics';
-import { toIndexedList } from '../../../shared';
+import { AppState } from '../reducers';
+import { Game } from '@app/game-mechanics';
+import { toIndexedList } from '@app/shared';
 import {
-    actionTypes, CoreAction, GetGamesAction, SetGamesAction,
+    actionTypes, CoreAction, SetGamesAction,
     GetGamesSuccessAction, GetGamesFailAction
 } from '../actions';
 
@@ -34,7 +34,7 @@ export class CoreEffectsService {
         );
 
     @Effect() getGames: Observable<any> = this.actions$.ofType(actionTypes.GET_GAMES).pipe(
-        mergeMap((action: GetGamesAction) => {
+        mergeMap(() => {
             return this.api.getGames().pipe(
                 mergeMap((res: Game[]) => {
                     const items = toIndexedList(res);

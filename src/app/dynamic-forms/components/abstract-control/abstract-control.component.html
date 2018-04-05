@@ -10,14 +10,6 @@
             <rg-button-group [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-button-group>
         </ng-container>
 
-        <ng-container *ngSwitchCase="types.SLIDER">
-            <rg-slider [data]="data" (change)="handleFieldChange($event)"></rg-slider>
-        </ng-container>
-
-        <ng-container *ngSwitchCase="types.SWITCH">
-            <rg-switch [data]="data" (change)="handleFieldChange($event)"></rg-switch>
-        </ng-container>
-
         <ng-container *ngSwitchCase="types.NUMBER_INPUT">
             <rg-number-input [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-number-input>
         </ng-container>

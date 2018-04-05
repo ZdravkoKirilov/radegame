@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { Field, MapPath } from '../../../../../game-mechanics';
+
+import { Field, MapPath } from '@app/game-mechanics';
 
 @Component({
     selector: 'rg-map-toolbar',

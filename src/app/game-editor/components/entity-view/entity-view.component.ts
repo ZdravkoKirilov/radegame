@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 
-import { GameEntity } from '../../../game-mechanics';
+import { GameEntity } from '@app/game-mechanics';
 import { IndexBase } from '../../mixins';
 
 @Component({

@@ -1,5 +1,5 @@
-import { Resource } from '../../../game-mechanics';
-import { BaseControl, controlTypes } from '../../../dynamic-forms';
+import { Resource } from '@app/game-mechanics';
+import { BaseControl, controlTypes } from '@app/dynamic-forms';
 
 export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
     data = data || {};

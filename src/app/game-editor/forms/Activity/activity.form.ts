@@ -1,5 +1,5 @@
-import { BaseControl, Option, controlTypes, FormDefinition, ConnectedEntities } from '../../../dynamic-forms';
-import { Activity, ActivityConfig, types, targetTypes, actionModes } from '../../../game-mechanics';
+import { BaseControl, Option, controlTypes, FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
+import { Activity, ActivityConfig, types, targetTypes, actionModes } from '@app/game-mechanics';
 import { composeResourceOptions } from '../helpers';
 
 export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntities): BaseControl[] => {

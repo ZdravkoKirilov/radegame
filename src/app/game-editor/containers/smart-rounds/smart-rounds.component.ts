@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
-import { AppState } from '../../../core';
-import { FormDefinition } from '../../../dynamic-forms';
+import { AppState } from '@app/core';
+import { FormDefinition } from '@app/dynamic-forms';
 import { ROUND_DEF } from '../../forms';
 import { SmartBase } from '../../mixins';
 import { formKeys, FormKey } from '../../state/actions/generics';

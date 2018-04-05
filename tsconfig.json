@@ -16,6 +16,16 @@
     "lib": [
       "es2017",
       "dom"
-    ]
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@app/core": ["app/core/index"],
+      "@app/shared": ["app/shared/index"],
+      "@app/animations": ["app/animations/index"],
+      "@app/dynamic-forms": ["app/dynamic-forms/index"],
+      "@app/game-editor": ["app/game-editor/index"],
+      "@app/game-mechanics": ["app/game-mechanics/index"],
+      "@app/profile": ["app/profile/index"]
+    }
   }
 }

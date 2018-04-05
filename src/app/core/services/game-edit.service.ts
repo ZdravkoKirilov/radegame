@@ -16,8 +16,8 @@ import {
     Round,
     Trivia,
     Stage,
-} from '../../game-mechanics';
-import { toMultipartFormData, objectToFormData } from '../../shared';
+} from '@app/game-mechanics';
+import { toMultipartFormData, objectToFormData } from '@app/shared';
 import { API_URLS } from '../config';
 
 @Injectable()

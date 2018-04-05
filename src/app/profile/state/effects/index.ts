@@ -4,8 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
-import { AuthService, LocalStorageService } from '../../../core';
-import { AuthPayload, AuthResponse, User } from '../../models';
+import { AuthService, LocalStorageService } from '@app/core';
+import { AuthResponse, User } from '../../models';
 import {
     EmailRegisterAction, EmailRegisterSuccessAction, EmailRegisterFailAction,
     EmailLoginAction, EmailLoginSuccessAction, EmailLoginFailAction, SaveAuthTokenAction,
@@ -55,7 +55,7 @@ export class AuthEffectsService {
 
     @Effect()
     getCurrentUser: Observable<any> = this.actions$.ofType(actionTypes.GET_CURRENT_USER).pipe(
-        mergeMap((action: GetCurrentUserAction) => {
+        mergeMap(() => {
             return this.api.getCurrentUser().pipe(
                 mergeMap((user: User) => {
                     return [

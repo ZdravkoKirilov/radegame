@@ -1,5 +1,5 @@
-import { Quest, QuestCondition, QuestEffect, QUEST_CONDITIONS as cnd } from '../../../game-mechanics';
-import { ConnectedEntities, controlTypes, BaseControl, Option } from '../../../dynamic-forms';
+import { Quest, QuestCondition, QuestEffect, QUEST_CONDITIONS as cnd } from '@app/game-mechanics';
+import { ConnectedEntities, controlTypes, BaseControl, Option } from '@app/dynamic-forms';
 import { composeActivityOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions } from '../helpers';
 
 export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl[] {

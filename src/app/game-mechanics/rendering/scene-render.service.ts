@@ -1,9 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs/Subject';
-import { map } from 'rxjs/operators';
 import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
 
-import { WindowRefService } from '../../core';
+import { WindowRefService } from '@app/core';
 import { SpriteComponent, MapNode, Path } from './graphics';
 import { MapLocation, MapPath } from '../entities';
 

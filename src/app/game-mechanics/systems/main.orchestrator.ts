@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import { Injectable } from '@angular/core';
 
 import * as gens from './generators';

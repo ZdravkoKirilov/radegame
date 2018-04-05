@@ -10,16 +10,19 @@ import { FEATURE_NAME } from './utils';
 import { routes } from './routing';
 import { reducers, metaReducers } from './state';
 
-import { DynamicFormsModule } from '../dynamic-forms/';
-import { SharedModule } from '../shared';
+import { DynamicFormsModule } from '@app/dynamic-forms';
+import { SharedModule } from '@app/shared';
 import * as effects from './state/effects/generics';
 
-import * as components from './components';
-import * as containers from './containers';
-import { EntityListComponent } from './components/entity-list/entity-list.component';
-import { EntityComponent } from './components/entity/entity.component';
-import { EntityEditorComponent } from './components/entity-editor/entity-editor.component';
-import { EntityViewComponent } from './components/entity-view/entity-view.component';
+import {
+    EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent,
+    FieldsComponent, MapEditorComponent, MapFieldComponent, MapPathComponent, MapToolbarComponent, IndexComponent
+} from './components';
+
+import {
+    EditorWrapperComponent, SmartActivitiesComponent, SmartFactionsComponent, SmartFieldsComponent,
+    SmartLaunchComponent, SmartQuestsComponent, SmartResourcesComponent, SmartRoundsComponent, SmartStagesComponent, SmartTriviaComponent
+} from './containers';
 
 @NgModule({
     imports: [
@@ -39,12 +42,26 @@ import { EntityViewComponent } from './components/entity-view/entity-view.compon
     ],
     providers: [],
     declarations: [
-        ...Object.values(containers),
-        ...Object.values(components),
         EntityListComponent,
         EntityComponent,
         EntityEditorComponent,
-        EntityViewComponent
+        EntityViewComponent,
+        MapEditorComponent,
+        MapFieldComponent,
+        MapPathComponent,
+        MapToolbarComponent,
+        FieldsComponent,
+        IndexComponent,
+        SmartActivitiesComponent,
+        SmartFactionsComponent,
+        EditorWrapperComponent,
+        SmartFieldsComponent,
+        SmartLaunchComponent,
+        SmartQuestsComponent,
+        SmartResourcesComponent,
+        SmartRoundsComponent,
+        SmartStagesComponent,
+        SmartTriviaComponent
     ]
 })
 export class GameEditorModule {

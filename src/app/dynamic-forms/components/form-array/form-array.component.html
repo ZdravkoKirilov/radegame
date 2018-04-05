@@ -3,10 +3,8 @@
 
     <div>
         <div *ngFor="let control of controls; let i = index" class="item-wrapper">
-            <rg-nested-form *ngIf="control.controlType === controlTypes.NESTED_FORM" [ownGroup]="form.controls[data.name]" [form]="form" [data]="control" [index]="i" (change)="valueChange($event)"></rg-nested-form>
-
-            <rg-dynamic-nested-form *ngIf="control.controlType === controlTypes.DYNAMIC_NESTED_FORM" [form]="form" [data]="control" [index]="i"
-                (change)="valueChange($event)" (reshape)="reshapeChild($event)"></rg-dynamic-nested-form>
+            <rg-nested-form *ngIf="control.controlType === controlTypes.NESTED_FORM" [ownGroup]="form.controls[data.name]" [form]="form"
+                [data]="control" [index]="i" (change)="valueChange($event)"></rg-nested-form>
 
             <button mat-icon-button (click)="removeChild(i)" class="delete-btn" aria-label="Delete row">
                 <mat-icon>delete</mat-icon>

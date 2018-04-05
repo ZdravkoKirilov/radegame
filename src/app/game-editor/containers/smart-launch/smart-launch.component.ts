@@ -1,12 +1,12 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 
-import { AppState } from '../../../core';
-import { Game } from '../../../game-mechanics';
-import { FormDefinition } from '../../../dynamic-forms';
+import { AppState } from '@app/core';
+import { Game } from '@app/game-mechanics';
+import { FormDefinition } from '@app/dynamic-forms';
 import { GAME_DEF } from '../../forms';
-import { selectPreloadedGames } from '../../../core';
+import { selectPreloadedGames } from '@app/core';
 
 import { SetItemsAction, SaveItemAction, ChangeSelectedItemAction, formKeys } from '../../state//actions/generics';
 import { getItems, getSelectedItem, getEditorState } from '../../state/reducers/generics';

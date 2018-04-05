@@ -1,5 +1,5 @@
-import { Field, FieldResource } from '../../../game-mechanics';
-import { BaseControl, controlTypes, ConnectedEntities, FormDefinition } from '../../../dynamic-forms';
+import { Field, FieldResource } from '@app/game-mechanics';
+import { BaseControl, controlTypes, ConnectedEntities, FormDefinition } from '@app/dynamic-forms';
 import { composeQuestOptions, composeActivityOptions, composeResourceOptions } from '../helpers';
 
 export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) => {

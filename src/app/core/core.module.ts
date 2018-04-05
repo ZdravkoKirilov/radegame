@@ -7,17 +7,17 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../../environments/environment';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
-import { SharedModule } from '../shared';
-import { CoreEffectsService } from './state';
-import { reducers } from './state';
-import { CustomRouterSerializer } from './router-custom.serializer';
+import { SharedModule } from '@app/shared';
+import { GameEditorModule } from '@app/game-editor';
+import { ProfileModule } from '@app/profile';
 import { AppRoutingModule } from '../app-routing.module';
+
+import { CoreEffectsService, reducers } from './state';
+import { CustomRouterSerializer } from './router-custom.serializer';
 import * as services from './services';
 import { AuthInterceptor } from './http';
 import { GameDataGuard, GameListGuard } from './guards';
 import { HomeModule } from '../home';
-import { GameEditorModule } from '../game-editor';
-import { ProfileModule } from '../profile';
 import { NotFoundComponent } from './components';
 
 @NgModule({

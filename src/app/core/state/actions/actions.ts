@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { actionTypes } from './actionTypes';
-import { GameTemplate, GameList } from '../../../game-mechanics';
+import { GameTemplate, GameList } from '@app/game-mechanics';
 
 export class OperationSuccessAction implements Action {
     readonly type = actionTypes.OPERATION_SUCCESS;

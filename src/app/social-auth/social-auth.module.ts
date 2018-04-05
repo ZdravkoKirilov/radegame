@@ -3,14 +3,14 @@ import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 
 import { CommonModule } from '@angular/common';
-import { SharedModule } from '../shared';
+
+import { SharedModule } from '@app/shared';
 
 import { AuthService, AuthServiceConfig } from './services';
 import { socialConfig } from './utils';
 
 import { routes } from './routing';
-import { GoogleSignInComponent } from './components/google-sign-in/google-sign-in.component';
-import { FacebookSignInComponent } from './components/facebook-sign-in/facebook-sign-in.component';
+import { GoogleSignInComponent, FacebookSignInComponent } from './components';
 
 import { socialAuthReducer } from './store';
 

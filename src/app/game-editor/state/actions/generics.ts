@@ -1,7 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { GameEntity, GameEntityList, GameTemplate } from '../../../game-mechanics';
-import { EditorActionType, actionTypes } from './actionTypes';
+import { GameEntity, GameEntityList, GameTemplate } from '@app/game-mechanics';
+import { actionTypes } from './actionTypes';
 
 export interface GenericActionPayload {
     key: FormKey;

@@ -1,8 +1,8 @@
 import { Component, OnInit, OnDestroy, OnChanges, Input, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 
-import { Field, MapLocation, SceneRenderService } from '../../../../../game-mechanics';
+import { Field, MapLocation, SceneRenderService } from '@app/game-mechanics';
 import { DEFAULT_MAP_LOCATION } from '../../../../utils';
-import { propHasNewValue, propHasChanged, getPropValue } from '../../../../../shared';
+import { propHasNewValue } from '@app/shared';
 
 @Component({
     selector: 'rg-map-field',

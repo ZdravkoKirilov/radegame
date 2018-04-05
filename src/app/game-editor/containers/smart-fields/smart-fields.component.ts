@@ -2,23 +2,16 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AppState } from '../../../core';
+import { AppState, selectStageId } from '@app/core';
 import {
-    Field,
-    FieldList,
-    Game,
-    MapPath,
-    MapLocationList,
-    MapLocation,
-    Stage,
-} from '../../../game-mechanics';
+    Field, FieldList, Game, MapPath, MapLocationList, MapLocation,
+    Stage, SceneRenderService
+} from '@app/game-mechanics';
 import { getSelectedItem, getItems, getItemById, getItemsList, getEditorState, getEntities } from '../../state/reducers/generics';
 import { formKeys, ToggleEditorAction, ChangeSelectedItemAction, SaveItemAction, DeleteItemAction } from '../../state/actions/generics';
-import { FormDefinition, ConnectedEntities } from '../../../dynamic-forms';
+import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { FIELD_DEF } from '../../forms';
-import { SceneRenderService } from '../../../game-mechanics';
-import { selectStageId } from '../../../core';
-import { toIndexedList } from '../../../shared';
+import { toIndexedList } from '@app/shared';
 
 @Component({
     selector: 'rg-smart-fields',
@@ -130,12 +123,12 @@ export class SmartFieldsComponent implements OnInit, OnDestroy {
                 .subscribe(state => {
                     this.game = <Game>getSelectedItem(formKeys.GAMES)(state.editor.metadata);
                     this.stageId = selectStageId(state);
-                    this.stage = <Stage>getItemById(this.sKey, this.game.id, this.stageId)(state.editor.form);
+                    this.stage = <Stage>getItemById(this.sKey, this.stageId)(state.editor.form);
                     this.selectedField = <Field>getSelectedItem(this.fKey)(state.editor.form);
                     this.showFieldEditor = getEditorState(this.fKey)(state.editor.form);
                     this.connectedEntities = getEntities(state.editor.form);
                     this.fields = <Field[]>getItems(this.fKey, this.game.id)(state.editor.form).filter((elem: Field) => elem.stage === this.stageId);
-                    this.fieldsList = <FieldList>getItemsList(this.fKey, this.game.id)(state.editor.form);
+                    this.fieldsList = <FieldList>getItemsList(this.fKey)(state.editor.form);
                     this.paths = <MapPath[]>getItems(this.pKey, this.game.id)(state.editor.form).filter((elem: MapPath) => elem.stage === this.stageId);
                     this.selectedPath = <MapPath>getSelectedItem(this.pKey)(state.editor.form);
                     this.locations = toIndexedList(getItems(this.lKey, this.game.id)(state.editor.form).filter((elem: MapLocation) => elem.stage === this.stageId), 'field');

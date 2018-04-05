@@ -5,14 +5,14 @@ import { StoreModule } from '@ngrx/store';
 
 import * as effects from './state/effects';
 
-import { SharedModule } from '../shared';
+import { SharedModule } from '@app/shared';
 import { routes } from './routing';
 
 import { FEATURE_NAME } from './config';
 import { profileReducer } from './state';
 
-import * as containers from './containers';
-import * as components from './components';
+import { SignInComponent } from './containers';
+import { SignInFormComponent, SignInViewComponent } from './components';
 
 @NgModule({
   imports: [
@@ -24,6 +24,6 @@ import * as components from './components';
   exports: [
     RouterModule
   ],
-  declarations: [...Object.values(containers), ...Object.values(components)]
+  declarations: [SignInFormComponent, SignInViewComponent, SignInComponent]
 })
 export class ProfileModule { }

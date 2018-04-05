@@ -2,12 +2,12 @@ import { OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Subscription';
 
-import { AppState } from '../../core';
-import { FormDefinition, ConnectedEntities } from '../../dynamic-forms';
-import { GameEntity, Game } from '../../game-mechanics';
+import { AppState } from '@app/core';
+import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
+import { GameEntity, Game } from '@app/game-mechanics';
 import {
     SaveItemAction, DeleteItemAction, ToggleEditorAction,
-    ChangeSelectedItemAction, formKeys, FormKey, GenericActionPayload
+    ChangeSelectedItemAction, formKeys, FormKey
 } from '../state//actions/generics';
 import { getSelectedItem, getItems, getEditorState, getEntities } from '../state//reducers/generics';
 

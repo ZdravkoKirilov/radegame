@@ -1,5 +1,5 @@
-import { BaseControl, controlTypes } from '../../../dynamic-forms';
-import { Game } from '../../../game-mechanics';
+import { BaseControl, controlTypes } from '@app/dynamic-forms';
+import { Game } from '@app/game-mechanics';
 
 export function GAME_DEF(data: Game): BaseControl[] {
     data = data || {};

@@ -1,11 +1,8 @@
 import { RouterReducerState } from '@ngrx/router-store';
-import { ActivatedRoute } from '@angular/router';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
 
 import { RouterStateUrl } from '../../router-custom.serializer';
 import { ROUTER_PARAMS } from '../../../shared';
-import { GameTemplate } from '../../../game-mechanics';
 import { AppState } from './main';
 
 export const selectFeature = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');

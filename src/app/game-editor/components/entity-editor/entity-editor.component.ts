@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { GameEntity } from '../../../game-mechanics';
-import { ControlsService } from '../../../dynamic-forms';
+import { GameEntity } from '@app/game-mechanics';
+import { ControlsService } from '@app/dynamic-forms';
 import { EditorBase } from '../../mixins';
 
 @Component({

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, TemplateRef, Output, EventEmitter } from '@angular/core';
 
-import { GameEntity } from '../../../game-mechanics';
+import { GameEntity } from '@app/game-mechanics';
 
 @Component({
   selector: 'rg-entity-list',

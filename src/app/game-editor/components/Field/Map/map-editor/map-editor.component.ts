@@ -4,9 +4,9 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 
-import { Field, MapLocation, MapPath, Stage, SceneRenderService } from '../../../../../game-mechanics';
+import { Field, MapLocation, MapPath, Stage, SceneRenderService } from '@app/game-mechanics';
 import { KEYCODES } from '../../../../utils';
-import { propHasChanged, getPropValue } from '../../../../../shared';
+import { propHasChanged, getPropValue } from '@app/shared';
 
 @Component({
     selector: 'rg-map-editor',

@@ -2,9 +2,9 @@ import { ActionReducer, combineReducers } from '@ngrx/store';
 
 import { EditorGenericAction, FormKey, formKeys } from '../actions/generics';
 import { actionTypes } from '../actions/actionTypes';
-import { GameEntity, GameEntityList, GameTemplate } from '../../../game-mechanics';
-import { ConnectedEntities } from '../../../dynamic-forms';
-import { AppState } from '../../../core';
+
+import { GameEntity, GameEntityList, GameTemplate } from '@app/game-mechanics';
+import { ConnectedEntities } from '@app/dynamic-forms';
 
 export interface EntityFeature {
     items?: GameEntityList;
@@ -24,19 +24,6 @@ const entityFeatureState = {
     lastDelete: null,
     showEditor: false,
     selectedItem: null
-}
-
-const initialState: EntityForm = {
-    resources: { ...entityFeatureState },
-    trivia: { ...entityFeatureState },
-    rounds: { ...entityFeatureState },
-    quests: { ...entityFeatureState },
-    stages: { ...entityFeatureState },
-    fields: { ...entityFeatureState },
-    activities: { ...entityFeatureState },
-    factions: { ...entityFeatureState },
-    locations: { ...entityFeatureState },
-    paths: { ...entityFeatureState },
 }
 
 export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFeature> => {
@@ -149,11 +136,11 @@ export const getItems = (key: FormKey, gameId?: number) => (state: EntityForm): 
     }
 }
 
-export const getItemById = <T>(key: FormKey, gameId: number, itemId: number) => (state: EntityForm): T => {
-    return getItemsList(key, gameId)(state)[itemId];
+export const getItemById = <T>(key: FormKey, itemId: number) => (state: EntityForm): T => {
+    return getItemsList(key)(state)[itemId];
 }
 
-export const getItemsList = (key: FormKey, gameId: number) => (state: EntityForm): GameEntityList => {
+export const getItemsList = (key: FormKey) => (state: EntityForm): GameEntityList => {
     return state[key].items;
 }
 

@@ -1,10 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
 
-import { BaseControl } from '../../models/Base.model';
-import { ControlsService } from '../../services/controls.service';
-import { controlTypes } from '../../config/controlTypes';
-import { FormDefinition } from '../../models/FormDefinition.model';
+import { BaseControl, FormDefinition } from '../../models';
+import { ControlsService } from '../../services';
+import { controlTypes } from '../../config';
 
 @Component({
     selector: 'rg-form-array',
@@ -23,7 +22,7 @@ export class FormArrayComponent implements OnInit {
 
     addChild() {
         this.formArray.push(this.cs.toFormGroup(this.data.childTemplate.childControls));
-        this.controls.push({...this.data.childTemplate});
+        this.controls.push({ ...this.data.childTemplate });
     }
 
     removeChild(index) {
@@ -31,17 +30,8 @@ export class FormArrayComponent implements OnInit {
         this.formArray.removeAt(index);
     }
 
-    valueChange({index, data}) {
+    valueChange({ index, data }) {
         this.formArray.controls[index].patchValue(data);
-    }
-
-    reshapeChild({index, config, data}) {
-        const currentValue = this.formArray.at(index).value;
-        const formDef: FormDefinition = config.subFormMapping[data[config.childTemplate.name]].form;
-        const controls = [config.childTemplate, ...formDef(currentValue, this.data.connectedEntities)];
-        this.formArray.setControl(index, this.cs.toFormGroup(controls));
-        this.controls[index].childControls = controls;
-        this.valueChange({index, data});
     }
 
     ngOnInit() {

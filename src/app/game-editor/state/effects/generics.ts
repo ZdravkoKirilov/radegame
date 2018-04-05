@@ -4,9 +4,8 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
-import { GameEditService } from '../../../core';
-import { toIndexedList } from '../../../shared';
-import { GameEntity, Activity, Field, Quest, Round } from '../../../game-mechanics/';
+import { GameEditService } from '@app/core';
+import { GameEntity, Activity, Field, Quest, Round } from '@app/game-mechanics';
 import { actionTypes } from '../actions/actionTypes';
 import {
     formKeys, FormKey, GenericActionPayload,

@@ -1,7 +1,7 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { CoreAction, actionTypes } from '../actions';
-import { GameTemplate, GameList } from '../../../game-mechanics';
+import { GameTemplate, GameList } from '@app/game-mechanics';
 import { AppState } from './main';
 
 export interface Cache {

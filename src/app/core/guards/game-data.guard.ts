@@ -8,9 +8,9 @@ import { forkJoin } from 'rxjs/observable/forkJoin';
 
 import * as actions from '../state/actions';
 import { selectPreloadedGameIds, Cache } from '../state';
-import { toIndexedList, ROUTER_PARAMS } from '../../shared';
+import { toIndexedList, ROUTER_PARAMS } from '@app/shared';
 import { GameEditService } from '../services';
-import { GameTemplate } from '../../game-mechanics';
+import { GameTemplate } from '@app/game-mechanics';
 
 @Injectable()
 export class GameDataGuard implements CanActivate {

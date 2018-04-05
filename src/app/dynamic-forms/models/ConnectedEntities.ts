@@ -1,5 +1,7 @@
-import { Resource, Field, Faction, Quest,
-     Activity, Round, Stage, Trivia, MapLocation, MapPath } from '../../game-mechanics';
+import {
+    Resource, Field, Faction, Quest,
+    Activity, Round, Stage, Trivia, MapLocation, MapPath
+} from '@app/game-mechanics';
 
 export interface ConnectedEntities {
     resources?: Resource[];
