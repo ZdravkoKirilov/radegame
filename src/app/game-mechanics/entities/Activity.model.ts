@@ -31,7 +31,7 @@ export interface ActivityList {
     [key: string]: Activity;
 }
 
-export const types = {
+export const activityTypes = {
     ATTACK_FIELD: 'ATTACK_FIELD',
     DEFEND_FIELD: 'DEFEND_FIELD',
     MINE_RESOURCES: 'MINE_RESOURCES',
@@ -49,11 +49,13 @@ export const types = {
     STEAL_ACTIVITY: 'STEAL_ACTIVITY',
     DISCARD_ACTIVITY: 'DISCARD_ACTIVITY',
     CANCEL_ACTIVITY: 'CANCEL_ACTIVITY',
+    DRAW_ACTIVITY: 'DRAW_ACTIVITY',
 
     PEEK_QUESTS: 'PEEK_QUESTS',
     PEEK_ACTIVITIES: 'PEEK_ACTIVITIES',
 
     REDIRECT: 'REDIRECT',
+    MOVE: 'MOVE'
 };
 export const actionModes = {
     HIDDEN: 'HIDDEN',
@@ -87,20 +89,21 @@ export type ActivityMode =
     typeof actionModes.HIDDEN;
 
 export type ActivityType =
-    typeof types.ATTACK_FIELD |
-    typeof types.DEFEND_FIELD |
-    typeof types.MINE_RESOURCES |
-    typeof types.ALTER_RESOURCE |
-    typeof types.CANCEL_ATTACK_FIELD |
-    typeof types.CANCEL_DEFEND_FIELD |
-    typeof types.CANCEL_MINE_RESOURCE |
-    typeof types.STEAL_QUEST |
-    typeof types.DRAW_QUEST |
-    typeof types.DISCARD_QUEST |
-    typeof types.STEAL_ACTIVITY |
-    typeof types.DISCARD_ACTIVITY |
-    typeof types.PEEK_ACTIVITIES |
-    typeof types.PEEK_QUESTS |
-    typeof types.REDIRECT;
+    typeof activityTypes.ATTACK_FIELD |
+    typeof activityTypes.DEFEND_FIELD |
+    typeof activityTypes.MINE_RESOURCES |
+    typeof activityTypes.ALTER_RESOURCE |
+    typeof activityTypes.CANCEL_ATTACK_FIELD |
+    typeof activityTypes.CANCEL_DEFEND_FIELD |
+    typeof activityTypes.CANCEL_MINE_RESOURCE |
+    typeof activityTypes.STEAL_QUEST |
+    typeof activityTypes.DRAW_QUEST |
+    typeof activityTypes.DISCARD_QUEST |
+    typeof activityTypes.STEAL_ACTIVITY |
+    typeof activityTypes.DISCARD_ACTIVITY |
+    typeof activityTypes.PEEK_ACTIVITIES |
+    typeof activityTypes.DRAW_ACTIVITY |
+    typeof activityTypes.PEEK_QUESTS |
+    typeof activityTypes.REDIRECT;
 
 

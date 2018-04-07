@@ -1,5 +1,5 @@
 import { BaseControl, Option, controlTypes, FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
-import { Activity, ActivityConfig, types, targetTypes, actionModes } from '@app/game-mechanics';
+import { Activity, ActivityConfig, activityTypes as types, targetTypes, actionModes } from '@app/game-mechanics';
 import { composeResourceOptions } from '../helpers';
 
 export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntities): BaseControl[] => {
@@ -7,7 +7,7 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
     data.configs = data.configs || [];
     const resources = composeResourceOptions(ent);
     const activityTypes: Option[] = Object.keys(types).map(key => {
-        return { value: key, label: types[key] };
+        return { value: key, label: activityTypes[key] };
     });
     activityTypes.sort((a, b) => {
         if (a.label.charAt(0) > b.label.charAt(0)) {
@@ -30,32 +30,32 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
     const toggleContext1 = {
         show: {
             field: activityType.name,
-            value: [types.ATTACK_FIELD, types.DEFEND_FIELD, types.MINE_RESOURCES]
+            value: [activityTypes.ATTACK_FIELD, activityTypes.DEFEND_FIELD, activityTypes.MINE_RESOURCES]
         }
     };
     const toggleContext2 = {
         show: {
             field: activityType.name,
-            value: [types.STEAL_QUEST, types.DISCARD_QUEST, types.DRAW_QUEST, types.STEAL_ACTIVITY, types.DISCARD_ACTIVITY,
-            types.ALTER_RESOURCE]
+            value: [activityTypes.STEAL_QUEST, activityTypes.DISCARD_QUEST, activityTypes.DRAW_QUEST, activityTypes.STEAL_ACTIVITY, activityTypes.DISCARD_ACTIVITY,
+            activityTypes.ALTER_RESOURCE]
         }
     };
     const toggleContext3 = {
         show: {
             field: activityType.name,
-            value: [types.ALTER_RESOURCE]
+            value: [activityTypes.ALTER_RESOURCE]
         }
     };
     const toggleContext4 = {
         show: {
             field: activityType.name,
-            value: [types.CANCEL_ATTACK_FIELD, types.CANCEL_DEFEND_FIELD, types.CANCEL_MINE_RESOURCE]
+            value: [activityTypes.CANCEL_ATTACK_FIELD, activityTypes.CANCEL_DEFEND_FIELD, activityTypes.CANCEL_MINE_RESOURCE]
         }
     };
     const toggleContext5 = {
         show: {
             field: activityType.name,
-            value: [types.PEEK_QUESTS, types.PEEK_ACTIVITIES]
+            value: [activityTypes.PEEK_QUESTS, activityTypes.PEEK_ACTIVITIES]
         }
     }
 

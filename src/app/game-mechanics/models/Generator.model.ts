@@ -1,19 +1,24 @@
 import { GameAction } from './GameAction.model';
+import { Resolver } from './Resolver.model';
 
-export abstract class Generator {
-    abstract lastOperation: Resolver;
-    abstract delayedResolvers: any[];
-    abstract queue: Resolver;
-    abstract isFull: boolean;
-    abstract items: Resolver[];
-
-    abstract inputIsAllowed(): boolean;
-    abstract next(input?: any, state?: any): GameAction[];
+export const generators = {
+    ROUND: 'ROUND',
+    PHASE: 'PHASE',
+    TURN: 'TURN',
+    ACTION: 'ACTION'
 }
 
-export type Resolver = <T>(action: GameAction, state: T) => ResolverResult;
+export type GeneratorType = typeof generators.ROUND | typeof generators.PHASE |
+    typeof generators.TURN | typeof generators.ACTION;
 
-export type ResolverResult = {
-    actions: GameAction[];
-    nextResolver?: Resolver;
+export abstract class Generator {
+    abstract name: GeneratorType;
+    abstract lastOperation: Resolver;
+    abstract queue: Resolver[];
+    abstract isFull: boolean;
+    abstract isEmpty: boolean;
+    abstract isActive: boolean;
+    abstract items: Resolver[];
+
+    abstract next(input?: any, state?: any): GameAction[];
 }

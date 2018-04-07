@@ -2,70 +2,77 @@
 
 import { Injectable } from '@angular/core';
 
-import * as gens from './generators';
+import { Generator, GameAction } from '../models';
+import { createGenerator } from './generators';
 
 Injectable()
 export class MainOrchestrator {
 
-    private queue: any; // resolver // acts as a "reservation for the next .next() call"
+    roundGenerator: Generator;
+    phaseGenerator: Generator;
+    turnGenerator: Generator;
+    actionGenerator: Generator;
 
-    private roundGen;
-    private playerGen;
-    private turnGen;
-    private actionGen;
+    next(action: GameAction, state: any): GameAction[] {
+        const { roundGenerator, phaseGenerator, turnGenerator, actionGenerator } = this;
+        let result: GameAction[] = [];
 
-    private turnSeed; // used to restart turnGenerator
-    private playerSeed; // used to restart playerGenerator
-
-    public seed(data) {
-        this.startRoundGenerator(data);
-        this.startPlayerGenerator(data);
-        this.startTurnGenerator(data);
-    }
-
-    // returns actions[]
-    public next(action: any, state: any): any {
-        if (this.queue) {
-            return this.queue(action);
+        if (roundGenerator.isFull) {
+            result = [...roundGenerator.next(action, state)];
+        } else if (phaseGenerator.isFull) {
+            result = [...phaseGenerator.next(action, state)];
+        } else if (turnGenerator.isFull) {
+            result = [...turnGenerator.next(action, state)];
         } else {
-            const result = this.createNext(action, state);
-            this.refreshGenerators(action, state);
-            return result;
-        }
-    }
 
-    private createNext(action, state) {
-
-        let result = [];
-
-        if (this.actionGen.isFull) {
-            if (this.turnGen.isFull && this.playerGen.isFull) {
-                result.push(this.roundGen.next());
+            if (actionGenerator.isEmpty) {
+                if (turnGenerator.isEmpty) {
+                    if (phaseGenerator.isEmpty) {
+                        if (roundGenerator.isEmpty) {
+                            // game has ended
+                        } else {
+                            this.initPhaseGenerator(state);
+                            result = [...roundGenerator.next(action, state)];
+                        }
+                    } else {
+                        this.initTurnGenerator(state);
+                        result = [...phaseGenerator.next(action, state)];
+                    }
+                } else {
+                    this.initActionGenerator(state);
+                    result = [...turnGenerator.next(action, state)];
+                }
+            } else {
+                result = [...actionGenerator.next(action, state)];
             }
-            result = [
-                ...result,
-                ...this.turnGen.next(),
-                ...this.playerGen.next(),
-            ];
         }
-
-        result.push(this.actionGen.next(action, state));
 
         return result;
-        // 1 option: these generators know internally whether to really fire: based on state. Drawback: tight coupling to the shape of state object
-        // 2 option: the orchestrator here checks their statuses and decides instead. This way subgenerators are generic
-
-        // * @ component: .next() is called @ 1. Event Handlers ( will create a queue ) 2. OnChange -> when lowest level actionGen changes -> will trigger a change on smth like 'lastOperation' @ store
     }
 
-    private refreshGenerators(action, state) {
-
+    init(state: any) {
+        this.initRoundGenerator(state);
+        this.initPhaseGenerator(state);
+        this.initTurnGenerator(state);
+        this.initActionGenerator(state);
     }
 
-    private startRoundGenerator(data) { }
-    private startPlayerGenerator(data) { }
-    private startTurnGenerator(data) { }
-    private startActionGenerator(data) { } // this one can read the store and generate the upcoming actions which the player has placed
+    initRoundGenerator(state) {
+        const resolvers = []
+        this.roundGenerator = createGenerator('ROUND', resolvers);
+    }
+    initPhaseGenerator(state) {
+        const resolvers = []
+        this.phaseGenerator = createGenerator('PHASE', resolvers);
+    }
+    initTurnGenerator(state) {
+        const resolvers = []
+        this.turnGenerator = createGenerator('TURN', resolvers);
+    }
+    initActionGenerator(state) {
+        const resolvers = []
+        this.actionGenerator = createGenerator('ACTION', resolvers);
+    }
 }
 
 // generators created at Orchestrator constructor: rounds, players, turn actions
