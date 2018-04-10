@@ -10,6 +10,6 @@ export type Resolver = {
 export type ResolverResult = {
     actions: GameAction[]; // redux actions
     nextResolvers?: Resolver[];
-    suspend?: boolean;
-    suspendQueue?: boolean;
+    clear?: boolean;
+    clearQueue?: boolean;
 }
