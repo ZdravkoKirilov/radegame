@@ -17,7 +17,7 @@ export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
             label: 'Resource description',
         }, {
             name: 'keywords',
-            controlType: controlTypes.TEXT_INPUT,
+            controlType: controlTypes.TAGS_INPUT,
             label: 'Category',
             value: data.keywords
         }, {

@@ -26,6 +26,10 @@
             <rg-image-picker [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-image-picker>
         </ng-container>
 
+        <ng-container *ngSwitchCase="types.TAGS_INPUT">
+            <rg-tags-input [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-tags-input>
+        </ng-container>
+
         <ng-container *ngSwitchDefault>
             Unknown element!
         </ng-container>

@@ -8,5 +8,7 @@ export const controlTypes = {
     IMAGE_PICKER: 'IMAGE_PICKER',
 
     NESTED_FORM: 'NESTED_FORM',
-    FORM_ARRAY: 'FORM_ARRAY'
+    FORM_ARRAY: 'FORM_ARRAY',
+
+    TAGS_INPUT: 'TAGS_INPUT'
 };
