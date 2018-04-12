@@ -19,7 +19,8 @@ export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
             name: 'keywords',
             controlType: controlTypes.TAGS_INPUT,
             label: 'Category',
-            value: data.keywords
+            value: data.keywords,
+            maxItems: 2
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_PICKER,

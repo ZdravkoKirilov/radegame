@@ -1,5 +1,3 @@
-/* tslint:disable */
-
 import { Injectable } from '@angular/core';
 
 import { Generator, GameAction } from '../models';

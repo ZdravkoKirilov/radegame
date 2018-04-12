@@ -1,8 +1,9 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { MatChipInputEvent } from '@angular/material';
+import { ENTER, COMMA } from '@angular/cdk/keycodes';
 
 import { BaseControl } from '../../models';
-import { KEYCODES } from '@app/shared';
 
 @Component({
   selector: 'rg-tags-input',
@@ -11,10 +12,12 @@ import { KEYCODES } from '@app/shared';
 })
 export class TagsInputComponent implements OnInit {
 
-  @ViewChild('someInput') input: ElementRef;
+  @ViewChild('mainInput') input: ElementRef;
   @Input() form: FormGroup;
   @Input() data: BaseControl;
   @Output() change: EventEmitter<any> = new EventEmitter();
+
+  separatorKeysCodes = [ENTER, COMMA];
 
   static readonly delimiter = ';';
   private _value: string = '';
@@ -44,23 +47,35 @@ export class TagsInputComponent implements OnInit {
   }
 
   addTag(tag) {
-    if (!this.tags.findIndex(tag)) {
+    if (this.tags.indexOf(tag) === -1) {
       this.tags.push(tag);
     }
   }
 
-  handleChange(event: KeyboardEvent) {
-    event.stopPropagation();
-    if (event.keyCode === KEYCODES.ENTER) {
-      const value = this.input.nativeElement.value;
-      if (value) {
-        this.addTag(value);
-        this.value = this.tags.join(TagsInputComponent.delimiter);
-        this.change.emit({
-          [this.data.name]: this.value
-        });
-        this.input.nativeElement.value = '';
-      }
+  onAdd(event?: MatChipInputEvent) {
+    const value = event.value;
+    const input = event.input;
+    const { maxItems } = this.data;
+    const belowLimit = maxItems ? maxItems > this.tags.length : true;
+
+    if (value && belowLimit) {
+      this.addTag(value);
+      this.value = this.tags.join(TagsInputComponent.delimiter);
+      this.change.emit({
+        [this.data.name]: this.value
+      });
+      input.value = '';
+    }
+  }
+
+  onRemove(tag?: string) {
+    let index = this.tags.indexOf(tag);
+    if (index >= 0) {
+      this.tags.splice(index, 1);
+      this.value = this.tags.join(TagsInputComponent.delimiter);
+      this.change.emit({
+        [this.data.name]: this.value
+      });
     }
   }
 
