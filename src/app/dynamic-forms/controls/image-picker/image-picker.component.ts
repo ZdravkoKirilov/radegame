@@ -35,7 +35,6 @@ export class ImagePickerComponent implements OnInit {
         const payload = { [this.data.name]: null };
         this.existingImage = null;
         this.change.emit(payload);
-        //this.ownForm.nativeElement.reset();
     }
 
     handleImage(event) {
@@ -45,7 +44,6 @@ export class ImagePickerComponent implements OnInit {
             this.existingImage = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
             const payload = { [this.data.name]: file };
             this.change.emit(payload);
-            //this.ownForm.nativeElement.reset();
         }
     }
 

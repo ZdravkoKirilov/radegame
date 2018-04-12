@@ -1,0 +1,11 @@
+<div [formGroup]="form" [ngClass]="{'hidden': data.hidden}" tabindex="0">
+  <mat-form-field>
+    <mat-placeholder *ngIf="data.label">{{data.label}}</mat-placeholder>
+    <mat-error *ngIf="!isValid">{{data.errorMessage}}</mat-error>
+    <input matInput [required]="data.required" (keyup)="handleChange($event)" #someInput/>
+  </mat-form-field>
+
+  <div *ngIf="tags.length">
+      <span *ngFor="let tag of tags">tag</span>
+  </div>
+</div>

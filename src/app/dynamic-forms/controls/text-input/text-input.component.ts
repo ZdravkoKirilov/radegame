@@ -1,12 +1,13 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { BaseControl } from '../../models/Base.model';
+import { BaseControl } from '../../models';
 
 @Component({
     selector: 'rg-text-input',
     templateUrl: './text-input.component.html',
-    styleUrls: ['./text-input.component.scss']
+    styleUrls: ['./text-input.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TextInputComponent implements OnInit {
     @Input() form: FormGroup;
