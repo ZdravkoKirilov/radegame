@@ -59,6 +59,7 @@ export class TagsInputComponent implements OnInit {
         this.change.emit({
           [this.data.name]: this.value
         });
+        this.input.nativeElement.value = '';
       }
     }
   }
