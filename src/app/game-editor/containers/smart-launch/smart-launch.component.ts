@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs/Subscription';
 import { Store } from '@ngrx/store';
 
-import { AppState } from '@app/core';
+import { AppState, selectPreloadedGames } from '@app/core';
+import { selectUser, User } from '@app/profile';
 import { Game } from '@app/game-mechanics';
 import { FormDefinition } from '@app/dynamic-forms';
 import { GAME_DEF } from '../../forms';
-import { selectPreloadedGames } from '@app/core';
 
 import { SetItemsAction, SaveItemAction, ChangeSelectedItemAction, formKeys } from '../../state//actions/generics';
 import { getItems, getSelectedItem, getEditorState } from '../../state/reducers/generics';
@@ -20,6 +20,7 @@ import { SmartBase } from '../../mixins';
 export class SmartLaunchComponent extends SmartBase implements OnInit {
 
     private hasLoaded = false;
+    private user: User;
 
     sub: Subscription;
     readonly key = formKeys.GAMES;
@@ -38,6 +39,7 @@ export class SmartLaunchComponent extends SmartBase implements OnInit {
             this.items = getItems(this.key)(state.editor.metadata);
             this.selectedItem = getSelectedItem(this.key)(state.editor.metadata);
             this.showEditor = getEditorState(this.key)(state.editor.metadata);
+            this.user = selectUser(state);
             if (!this.hasLoaded) {
                 this.hasLoaded = true;
                 const games = selectPreloadedGames(state);
@@ -49,7 +51,7 @@ export class SmartLaunchComponent extends SmartBase implements OnInit {
     }
 
     saveItem(data: Game) {
-        const payload = { ...data };
+        const payload = { ...data, owner: this.user.id };
         if (this.selectedItem) {
             payload.id = this.selectedItem.id;
         }

@@ -25,13 +25,13 @@ export class GenericEffectsService {
             return payload;
         }),
         mergeMap((payload: GenericActionPayload) => {
-            const data = payload.data as GameEntity;
-            const key = payload.key as FormKey;
+            const data = <GameEntity>payload.data;
+            const key = <FormKey>payload.key;
             return this.saveRequest(key, data).pipe(
                 mergeMap((res: GameEntity) => {
                     const response: GenericActionPayload = {
                         key, data: res
-                    }
+                    };
                     return [
                         new SetItemAction(response),
                         new SaveItemSuccessAction(response),
@@ -47,8 +47,8 @@ export class GenericEffectsService {
     @Effect() deleteItem: Observable<any> = this.actions$.ofType(actionTypes.DELETE_ITEM).pipe(
         map((action: DeleteItemAction) => action.payload),
         mergeMap((payload: GenericActionPayload) => {
-            const data = payload.data as GameEntity;
-            const key = payload.key as FormKey;
+            const data = <GameEntity>payload.data;
+            const key = <FormKey>payload.key;
             return this.deleteRequest(key, data).pipe(
                 mergeMap(() => {
                     return [
@@ -85,6 +85,8 @@ export class GenericEffectsService {
                 return this.api.saveMapLocation(entity);
             case formKeys.PATHS:
                 return this.api.saveMapPath(entity);
+            case formKeys.GAMES:
+                return this.api.saveGame(entity)
             default:
                 return of(null);
         }

@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { actionTypes, ProfileAction } from '../actions';
 import { User } from '../../models';
+import { AppState } from '@app/core';
 
 export interface ProfileFeature {
     user?: User;
@@ -58,4 +59,4 @@ export const profileReducer = (state: ProfileFeature = initialState, action: Pro
 
 export const selectProfileFeature = createFeatureSelector<ProfileFeature>('profile');
 
-export const selectUser = createSelector(selectProfileFeature, (state): User => state.user);
+export const selectUser = (state: AppState): User => state.profile.user;

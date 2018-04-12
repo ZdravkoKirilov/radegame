@@ -15,9 +15,6 @@ export interface Activity {
     image?: string;
     cost?: ActivityCost[];
     configs?: ActivityConfig[];
-    atRound?: number;
-    fromRound?: number;
-    byRound?: number;
 }
 
 export interface ActivityCost {
@@ -32,36 +29,20 @@ export interface ActivityList {
 }
 
 export const activityTypes = {
-    ATTACK_FIELD: 'ATTACK_FIELD',
-    DEFEND_FIELD: 'DEFEND_FIELD',
-    MINE_RESOURCES: 'MINE_RESOURCES',
-
-    CANCEL_ATTACK_FIELD: 'CANCEL_ATTACK_FIELD',
-    CANCEL_DEFEND_FIELD: 'CANCEL_DEFEND_FIELD',
-    CANCEL_MINE_RESOURCE: 'CANCEL_MINE_RESOURCE',
-
+    WIN_GAME: 'WIN_GAME',
+    LOSE_GAME: 'LOSE_GAME',
+    MOVE: 'MOVE',
+    COLLECT_RESOURCES: 'COLLECT_RESOURCES',
     ALTER_RESOURCE: 'ALTER_RESOURCE',
-
-    STEAL_QUEST: 'STEAL_QUEST',
-    DISCARD_QUEST: 'DISCARD_QUEST',
-    DRAW_QUEST: 'DRAW_QUEST',
-
-    STEAL_ACTIVITY: 'STEAL_ACTIVITY',
-    DISCARD_ACTIVITY: 'DISCARD_ACTIVITY',
-    CANCEL_ACTIVITY: 'CANCEL_ACTIVITY',
-    DRAW_ACTIVITY: 'DRAW_ACTIVITY',
-
-    PEEK_QUESTS: 'PEEK_QUESTS',
-    PEEK_ACTIVITIES: 'PEEK_ACTIVITIES',
-
-    REDIRECT: 'REDIRECT',
-    MOVE: 'MOVE'
+    PREPARE_RESOURCE: 'PREPARE_RESOURCE',
+    STORE_RESOURCE: 'STORE_RESOURCE',
+    REQUEST_HINT: 'REQUEST_HINT',
+    GIVE_HINT: 'GIVE_HINT',
+    DRAW: 'DRAW',
 };
 export const actionModes = {
-    HIDDEN: 'HIDDEN',
     TRIGGER: 'TRIGGER',
-    EFFECT: 'EFFECT',
-    PASSIVE: 'PASSIVE',
+    AUTO_TRIGGER: 'AUTO_TRIGGER'
 };
 
 export const targetTypes = {
@@ -69,9 +50,7 @@ export const targetTypes = {
     PLAYER: 'PLAYER',
     OTHER_PLAYER: 'OTHER_PLAYER',
     SELF: 'SELF',
-    ACTIVE_FIELD: 'ACTIVE_FIELD',
     ACTIVE_PLAYER: 'ACTIVE_PLAYER',
-    OTHER_ACTIVE_PLAYER: 'OTHER_ACTIVE_PLAYER'
 };
 
 export type ActivityTarget =
@@ -79,31 +58,22 @@ export type ActivityTarget =
     typeof targetTypes.PLAYER |
     typeof targetTypes.OTHER_PLAYER |
     typeof targetTypes.SELF |
-    typeof targetTypes.ACTIVE_PLAYER |
-    typeof targetTypes.OTHER_ACTIVE_PLAYER |
-    typeof targetTypes.ACTIVE_FIELD;
+    typeof targetTypes.ACTIVE_PLAYER;
 
 export type ActivityMode =
     typeof actionModes.TRIGGER |
-    typeof actionModes.PASSIVE |
-    typeof actionModes.HIDDEN;
+    typeof actionModes.AUTO_TRIGGER;
 
 export type ActivityType =
-    typeof activityTypes.ATTACK_FIELD |
-    typeof activityTypes.DEFEND_FIELD |
-    typeof activityTypes.MINE_RESOURCES |
+    typeof activityTypes.WIN_GAME |
+    typeof activityTypes.LOSE_GAME |
+    typeof activityTypes.MOVE |
     typeof activityTypes.ALTER_RESOURCE |
-    typeof activityTypes.CANCEL_ATTACK_FIELD |
-    typeof activityTypes.CANCEL_DEFEND_FIELD |
-    typeof activityTypes.CANCEL_MINE_RESOURCE |
-    typeof activityTypes.STEAL_QUEST |
-    typeof activityTypes.DRAW_QUEST |
-    typeof activityTypes.DISCARD_QUEST |
-    typeof activityTypes.STEAL_ACTIVITY |
-    typeof activityTypes.DISCARD_ACTIVITY |
-    typeof activityTypes.PEEK_ACTIVITIES |
-    typeof activityTypes.DRAW_ACTIVITY |
-    typeof activityTypes.PEEK_QUESTS |
-    typeof activityTypes.REDIRECT;
+    typeof activityTypes.COLLECT_RESOURCES |
+    typeof activityTypes.PREPARE_RESOURCE |
+    typeof activityTypes.STORE_RESOURCE |
+    typeof activityTypes.GIVE_HINT |
+    typeof activityTypes.REQUEST_HINT |
+    typeof activityTypes.DRAW;
 
 

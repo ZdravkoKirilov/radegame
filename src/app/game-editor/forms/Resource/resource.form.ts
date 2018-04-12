@@ -15,12 +15,16 @@ export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
             controlType: controlTypes.TEXT_INPUT,
             value: data.description,
             label: 'Resource description',
-            required: false,
+        }, {
+            name: 'keywords',
+            controlType: controlTypes.TEXT_INPUT,
+            label: 'Category',
+            value: data.keywords
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_PICKER,
             label: 'Resource image',
-            required: false,
+            required: true,
             value: data.image
         }
     ];

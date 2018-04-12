@@ -4,6 +4,7 @@ export interface Resource {
     image?: string;
     game?: number;
     description?: string;
+    keywords?: string;
 }
 
 export interface ResourceList {
