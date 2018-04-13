@@ -1,7 +1,6 @@
 export interface ActivityConfig {
     id?: number;
     type?: ActivityType;
-    mode?: ActivityMode;
     target?: ActivityTarget;
     amount?: number;
     resource?: number;
@@ -11,6 +10,7 @@ export interface Activity {
     id?: number;
     game?: number;
     name?: string;
+    mode?: ActivityMode;
     description?: string;
     image?: string;
     cost?: ActivityCost[];
@@ -28,7 +28,7 @@ export interface ActivityList {
     [key: string]: Activity;
 }
 
-export const activityTypes = {
+export const ACTIVITY_TYPE = {
     WIN_GAME: 'WIN_GAME',
     LOSE_GAME: 'LOSE_GAME',
     MOVE: 'MOVE',
@@ -40,12 +40,12 @@ export const activityTypes = {
     GIVE_HINT: 'GIVE_HINT',
     DRAW: 'DRAW',
 };
-export const actionModes = {
+export const ACTION_MODE = {
     TRIGGER: 'TRIGGER',
     AUTO_TRIGGER: 'AUTO_TRIGGER'
 };
 
-export const targetTypes = {
+export const TARGET_TYPE = {
     FIELD: 'FIELD',
     PLAYER: 'PLAYER',
     OTHER_PLAYER: 'OTHER_PLAYER',
@@ -54,26 +54,26 @@ export const targetTypes = {
 };
 
 export type ActivityTarget =
-    typeof targetTypes.FIELD |
-    typeof targetTypes.PLAYER |
-    typeof targetTypes.OTHER_PLAYER |
-    typeof targetTypes.SELF |
-    typeof targetTypes.ACTIVE_PLAYER;
+    typeof TARGET_TYPE.FIELD |
+    typeof TARGET_TYPE.PLAYER |
+    typeof TARGET_TYPE.OTHER_PLAYER |
+    typeof TARGET_TYPE.SELF |
+    typeof TARGET_TYPE.ACTIVE_PLAYER;
 
 export type ActivityMode =
-    typeof actionModes.TRIGGER |
-    typeof actionModes.AUTO_TRIGGER;
+    typeof ACTION_MODE.TRIGGER |
+    typeof ACTION_MODE.AUTO_TRIGGER;
 
 export type ActivityType =
-    typeof activityTypes.WIN_GAME |
-    typeof activityTypes.LOSE_GAME |
-    typeof activityTypes.MOVE |
-    typeof activityTypes.ALTER_RESOURCE |
-    typeof activityTypes.COLLECT_RESOURCES |
-    typeof activityTypes.PREPARE_RESOURCE |
-    typeof activityTypes.STORE_RESOURCE |
-    typeof activityTypes.GIVE_HINT |
-    typeof activityTypes.REQUEST_HINT |
-    typeof activityTypes.DRAW;
+    typeof ACTIVITY_TYPE.WIN_GAME |
+    typeof ACTIVITY_TYPE.LOSE_GAME |
+    typeof ACTIVITY_TYPE.MOVE |
+    typeof ACTIVITY_TYPE.ALTER_RESOURCE |
+    typeof ACTIVITY_TYPE.COLLECT_RESOURCES |
+    typeof ACTIVITY_TYPE.PREPARE_RESOURCE |
+    typeof ACTIVITY_TYPE.STORE_RESOURCE |
+    typeof ACTIVITY_TYPE.GIVE_HINT |
+    typeof ACTIVITY_TYPE.REQUEST_HINT |
+    typeof ACTIVITY_TYPE.DRAW;
 
 

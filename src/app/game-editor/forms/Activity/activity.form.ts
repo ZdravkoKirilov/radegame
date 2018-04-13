@@ -1,5 +1,5 @@
 import { BaseControl, Option, controlTypes, FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
-import { Activity, ActivityConfig, activityTypes as types, targetTypes, actionModes, ActivityCost } from '@app/game-mechanics';
+import { Activity, ActivityConfig, ACTIVITY_TYPE as types, TARGET_TYPE, ACTION_MODE, ActivityCost } from '@app/game-mechanics';
 import { composeResourceOptions } from '../helpers';
 
 export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntities): BaseControl[] => {
@@ -8,6 +8,7 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
     data.cost = data.cost || [];
     const resources = composeResourceOptions(ent);
     const activityTypes: Option[] = Object.keys(types).map(key => ({ value: key, label: types[key] }));
+    const modeTypes: Option[] = Object.keys(ACTION_MODE).map(key => ({ value: key, label: ACTION_MODE[key] }));
 
     const activityType = {
         name: 'type',
@@ -60,17 +61,10 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
                 label: 'Bonus amount',
                 toggleContext: null //toggleContext1,
             }, {
-                name: 'mode',
-                controlType: controlTypes.DROPDOWN,
-                options: [{ label: 'Trigger', value: actionModes.TRIGGER }],
-                label: 'Action mode',
-                defaultValue: actionModes.TRIGGER,
-                toggleContext: null //toggleContext1,
-            }, {
                 name: 'target',
                 controlType: controlTypes.DROPDOWN,
-                options: [{ label: 'Field', value: targetTypes.FIELD }],
-                defaultValue: targetTypes.FIELD,
+                options: [{ label: 'Field', value: TARGET_TYPE.FIELD }],
+                defaultValue: TARGET_TYPE.FIELD,
                 label: 'Action target',
                 toggleContext: null //toggleContext1,
             },
@@ -81,21 +75,13 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
                 label: 'Amount',
                 toggleContext: null //toggleContext2,
             }, {
-                name: 'mode',
-                controlType: controlTypes.DROPDOWN,
-                options: [
-                    { label: 'Trigger', value: actionModes.TRIGGER },
-                ],
-                label: 'Action mode',
-                toggleContext: null //toggleContext2,
-            }, {
                 name: 'target',
                 controlType: controlTypes.DROPDOWN,
                 options: [
-                    { label: 'Player', value: targetTypes.SELF },
-                    { label: 'Active Player', value: targetTypes.ACTIVE_PLAYER },
-                    { label: 'Self', value: targetTypes.SELF },
-                    { label: 'Other player', value: targetTypes.OTHER_PLAYER },
+                    { label: 'Player', value: TARGET_TYPE.SELF },
+                    { label: 'Active Player', value: TARGET_TYPE.ACTIVE_PLAYER },
+                    { label: 'Self', value: TARGET_TYPE.SELF },
+                    { label: 'Other player', value: TARGET_TYPE.OTHER_PLAYER },
                 ],
                 label: 'Action target',
                 toggleContext: null //toggleContext2,
@@ -111,20 +97,12 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             },
             // start context 4
             {
-                name: 'mode',
-                controlType: controlTypes.DROPDOWN,
-                options: [
-                    { label: 'Trigger', value: actionModes.TRIGGER },
-                ],
-                label: 'Action mode',
-                toggleContext: null //toggleContext4
-            }, {
                 name: 'target',
                 controlType: controlTypes.DROPDOWN,
-                options: [{ label: 'Field', value: targetTypes.FIELD }],
+                options: [{ label: 'Field', value: TARGET_TYPE.FIELD }],
                 label: 'Action target',
                 toggleContext: null, //toggleContext4,
-                defaultValue: targetTypes.FIELD
+                defaultValue: TARGET_TYPE.FIELD
             },
             // start context 5
             {
@@ -133,19 +111,11 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
                 label: 'Number of peeks',
                 toggleContext: null //toggleContext5,
             }, {
-                name: 'mode',
-                controlType: controlTypes.DROPDOWN,
-                options: [
-                    { label: 'Trigger', value: actionModes.TRIGGER },
-                ],
-                label: 'Action mode',
-                toggleContext: null //toggleContext5,
-            }, {
                 name: 'target',
                 controlType: controlTypes.DROPDOWN,
                 options: [
-                    { label: 'Other player', value: targetTypes.OTHER_PLAYER },
-                    { label: 'Active player', value: targetTypes.ACTIVE_PLAYER }
+                    { label: 'Other player', value: TARGET_TYPE.OTHER_PLAYER },
+                    { label: 'Active player', value: TARGET_TYPE.ACTIVE_PLAYER }
                 ],
                 label: 'Action target',
                 toggleContext: null //toggleContext5
@@ -181,6 +151,12 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             value: data.name,
             label: 'Action name',
             required: true
+        }, {
+            name: 'mode',
+            controlType: controlTypes.DROPDOWN,
+            options: modeTypes,
+            label: 'Action mode',
+            toggleContext: null //toggleContext5,
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,

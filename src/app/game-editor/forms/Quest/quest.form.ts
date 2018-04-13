@@ -1,4 +1,4 @@
-import { Quest, QuestCondition, QuestEffect, QUEST_CONDITIONS as cnd } from '@app/game-mechanics';
+import { Quest, QuestCondition, QuestEffect, QUEST_CONDITION as cnd } from '@app/game-mechanics';
 import { ConnectedEntities, controlTypes, BaseControl, Option } from '@app/dynamic-forms';
 import { composeActivityOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions } from '../helpers';
 
