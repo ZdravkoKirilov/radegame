@@ -59,7 +59,11 @@ export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) =
             controlType: controlTypes.TEXT_INPUT,
             value: data.description,
             label: 'Field description',
-            required: false
+        }, {
+            name: 'keywords',
+            controlType: controlTypes.TAGS_INPUT,
+            value: data.keywords,
+            label: 'Keywords',
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_PICKER,

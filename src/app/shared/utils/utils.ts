@@ -1,5 +1,6 @@
 interface ObjectWithId {
     id?: number;
+    [key: string]: any;
 }
 
 interface IndexedList {

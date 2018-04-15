@@ -5,7 +5,7 @@ import { of } from 'rxjs/observable/of';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '@app/core';
-import { GameEntity, Activity, Field, Quest, Round } from '@app/game-mechanics';
+import { GameEntity, Activity, Field, Quest, Round, Faction } from '@app/game-mechanics';
 import { actionTypes } from '../actions/actionTypes';
 import {
     formKeys, FormKey, GenericActionPayload,
@@ -70,7 +70,7 @@ export class GenericEffectsService {
             case formKeys.ACTIVITIES:
                 return this.api.saveActivity(<Activity>entity);
             case formKeys.FACTIONS:
-                return this.api.saveFaction(entity);
+                return this.api.saveFaction(<Faction>entity);
             case formKeys.FIELDS:
                 return this.api.saveBoardField(<Field>entity);
             case formKeys.QUESTS:

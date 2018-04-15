@@ -3,7 +3,7 @@ import { BaseControl, controlTypes, ConnectedEntities } from '@app/dynamic-forms
 import { composeResourceOptions } from '../helpers';
 
 export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[] {
-    data = data || {resources: [], income: []};
+    data = data || { resources: [], income: [] };
 
     const resOptions = composeResourceOptions(ent);
     const toNestedForm = (elem: FactionResource): BaseControl => {
@@ -61,13 +61,16 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
             controlType: controlTypes.TEXT_INPUT,
             value: data.description,
             label: 'Faction description',
-            required: false
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_PICKER,
             label: 'Choose faction image',
-            required: false,
             value: data.image
+        }, {
+            name: 'keywords',
+            controlType: controlTypes.TAGS_INPUT,
+            label: 'Keywords',
+            value: data.keywords
         }, {
             name: 'resources',
             controlType: controlTypes.FORM_ARRAY,

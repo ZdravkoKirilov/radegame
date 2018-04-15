@@ -1,5 +1,5 @@
-import { Quest, Activity, Resource, Field, Round } from '@app/game-mechanics';
-import { Option, ConnectedEntities } from '@app/dynamic-forms';
+import { Quest, Activity, Resource, Field, Round, EntityWithKeywords } from '@app/game-mechanics';
+import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 
 export function composeQuestOptions(ent: ConnectedEntities): Option[] {
     return ent.quests.map((elem: Quest): Option => ({
@@ -47,4 +47,36 @@ export function composeStageOptions(ent: ConnectedEntities): Option[] {
         value: elem.id,
         image: elem.image
     }));
+}
+
+export function composeKeywordOptions(ent: ConnectedEntities, entities: string[] = []): Option[] {
+    const result = new Set();
+
+    entities.forEach((key: string) => {
+        if (key in ent) {
+            ent[key].forEach((elem: EntityWithKeywords) => {
+                if (elem.keywords) {
+                    const keywords = elem.keywords.split(';');
+                    keywords.forEach((keyword: string) => {
+                        result.add({
+                            label: keyword,
+                            value: keyword
+                        });
+                    });
+                }
+            });
+        }
+    });
+
+    return Array.from(result);
+}
+
+export function combineContexts(base: ToggleContext, contexts: ToggleContext[] = []): ToggleContext {
+    const newContext = { ...base, show: { ...base.show } };
+
+    contexts.forEach(ctx => {
+        newContext.show.value = [...newContext.show.value, ...ctx.show.value];
+    });
+
+    return newContext;
 }

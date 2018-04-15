@@ -27,83 +27,7 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         controlType: controlTypes.NESTED_FORM,
         childControls: [
             conditionType,
-            {
-                controlType: controlTypes.DROPDOWN,
-                label: 'Field',
-                name: 'field',
-                options: fields,
-                toggleContext: {
-                    show: {
-                        field: conditionType.name,
-                        value: [cnd.CLAIM_FIELD]
-                    }
-                }
-            }, {
-                controlType: controlTypes.DROPDOWN,
-                label: 'Resource',
-                name: 'resource',
-                options: resources,
-                toggleContext: {
-                    show: {
-                        field: conditionType.name,
-                        value: [cnd.CLAIM_RESOURCE]
-                    }
-                }
-            }, {
-                controlType: controlTypes.DROPDOWN,
-                label: 'Activity',
-                name: 'activity',
-                options: activities,
-                toggleContext: {
-                    show: {
-                        field: conditionType.name,
-                        value: [cnd.PLAY_ACTIVITY]
-                    }
-                }
-            }, {
-                controlType: controlTypes.NUMBER_INPUT,
-                label: 'Amount',
-                name: 'amount',
-                toggleContext: {
-                    show: {
-                        field: conditionType.name,
-                        value: [cnd.CLAIM_RESOURCE]
-                    }
-                }
-            }, {
-                controlType: controlTypes.DROPDOWN,
-                label: 'By round',
-                name: 'byRound',
-                options: rounds,
-                toggleContext: {
-                    show: {
-                        field: conditionType.name,
-                        value: [...Object.values(cnd)]
-                    }
-                }
-            }, {
-                controlType: controlTypes.DROPDOWN,
-                label: 'At round',
-                name: 'atRound',
-                options: rounds,
-                toggleContext: {
-                    show: {
-                        field: conditionType.name,
-                        value: [...Object.values(cnd)]
-                    }
-                }
-            }, {
-                controlType: controlTypes.DROPDOWN,
-                label: 'Stage',
-                name: 'stage',
-                options: stages,
-                toggleContext: {
-                    show: {
-                        field: conditionType.name,
-                        value: [...Object.values(cnd)]
-                    }
-                }
-            }],
+        ],
     };
 
     const cond_childControls: BaseControl[] = composeQuestConditions(data.condition, cond_childTemplate);
@@ -124,7 +48,11 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         controlType: controlTypes.TEXT_INPUT,
         value: data.description,
         label: 'Quest description',
-        required: false
+    }, {
+        name: 'keywords',
+        controlType: controlTypes.TAGS_INPUT,
+        value: data.keywords,
+        label: 'Keywords',
     }, {
         name: 'image',
         controlType: controlTypes.IMAGE_PICKER,
