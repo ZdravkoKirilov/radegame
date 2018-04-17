@@ -8,14 +8,17 @@ import {
 } from '@app/game-mechanics';
 import { composeResourceOptions, composeKeywordOptions, combineContexts } from '../helpers';
 
-const toggleContexts = {
-    [types.ALTER]: { show: { field: 'type', value: [types.ALTER] } },
-    [types.WIN_GAME]: { show: { field: 'type', value: [types.WIN_GAME] } },
-    [types.LOSE_GAME]: { show: { field: 'type', value: [types.LOSE_GAME] } }
+const toggleContexts: { [key: string]: ToggleContext } = {
+    [types.ALTER]: { show: { field: 'type', equals: [types.ALTER] } },
+    [types.WIN_GAME]: { show: { field: 'type', equals: [types.WIN_GAME] } },
+    [types.LOSE_GAME]: { show: { field: 'type', equals: [types.LOSE_GAME] } }
 }
 
-const targets = {
-    [TARGET_TYPE.SELF]: { value: TARGET_TYPE.SELF },
+const targets: { [key: string]: Option } = {
+    [TARGET_TYPE.SELF]: {
+        value: TARGET_TYPE.SELF,
+        context: { disable: { field: 'type', equals: [types.ALTER] }, defaultValue: '' }
+    },
     [TARGET_TYPE.ACTIVE_PLAYER]: { value: TARGET_TYPE.ACTIVE_PLAYER },
     [TARGET_TYPE.FIELD]: { value: TARGET_TYPE.FIELD },
     [TARGET_TYPE.OTHER_PLAYER]: { value: TARGET_TYPE.OTHER_PLAYER },

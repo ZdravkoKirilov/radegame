@@ -11,6 +11,7 @@ import { controlTypes } from '../../config/controlTypes';
 })
 export class AbstractControlComponent {
     @Input() form: FormGroup;
+    @Input() group: FormGroup;
     @Input() data: BaseControl;
     @Output() fieldChange: EventEmitter<any> = new EventEmitter();
     types = controlTypes;

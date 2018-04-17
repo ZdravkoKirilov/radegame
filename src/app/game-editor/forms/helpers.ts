@@ -75,8 +75,7 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
     const newContext = { ...base, show: { ...base.show } };
 
     contexts.forEach(ctx => {
-        newContext.show.value = [...newContext.show.value, ...ctx.show.value];
+        newContext.show.equals = [...newContext.show.equals, ...ctx.show.equals];
     });
-
     return newContext;
 }

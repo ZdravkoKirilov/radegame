@@ -7,6 +7,7 @@ export interface Option {
     value: string | number;
     label?: string;
     image?: string;
+    context?: ToggleContext;
 }
 
 export interface SubFormMapping {
