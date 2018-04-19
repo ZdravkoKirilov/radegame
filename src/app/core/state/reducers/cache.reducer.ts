@@ -16,7 +16,7 @@ const initialState: Cache = {
     games: {}
 }
 
-export const cacheReducer = (state: Cache = initialState, action: CoreAction) => {
+export function cacheReducer(state: Cache = initialState, action: CoreAction) {
     switch (action.type) {
         case actionTypes.ADD_GAME_ASSETS:
             return {
