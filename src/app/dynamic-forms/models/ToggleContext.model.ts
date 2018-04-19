@@ -1,11 +1,15 @@
-export interface ToggleContext {
+export type ToggleContext = {
     show?: {
         field: string;
-        value: any[];
+        equals: any[];
     };
     hide?: {
         field: string;
-        value: any[];
+        equals: any[];
+    };
+    disable?: {
+        field: string;
+        equals: any[];
     };
     defaultValue?: any;
-}
+};

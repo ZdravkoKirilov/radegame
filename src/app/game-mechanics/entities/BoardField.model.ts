@@ -4,6 +4,7 @@ export interface Field {
     stage?: number;
     name?: string;
     description?: string;
+    keywords?: string;
     image?: any;
     income?: FieldResource[];
     cost?: FieldResource[];

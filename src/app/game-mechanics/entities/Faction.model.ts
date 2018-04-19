@@ -1,10 +1,12 @@
 export interface Faction {
     id?: number;
+    game?: number;
     name?: string;
     type?: FactionType;
     image?: string;
     description?: string;
-    game?: number;
+    start?: number; // field
+    keywords?: string;
     resources?: FactionResource[];
     income?: FactionResource[];
 }
@@ -16,15 +18,15 @@ export interface FactionList {
 export interface FactionResource {
     id?: number;
     resource?: number;
-    field?: number;
     quantity?: number;
 }
 
-export const FACTION_TYPES = {
+export const FACTION_TYPE = {
     PLAYER: 'PLAYER',
     MASTER: 'MASTER',
     BOT: 'BOT'
 }
 
-export type FactionType = typeof FACTION_TYPES.PLAYER | typeof FACTION_TYPES.MASTER | typeof FACTION_TYPES.BOT;
+export type FactionType = typeof FACTION_TYPE.PLAYER |
+    typeof FACTION_TYPE.MASTER | typeof FACTION_TYPE.BOT;
 

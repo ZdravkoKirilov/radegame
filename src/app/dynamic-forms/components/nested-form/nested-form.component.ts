@@ -12,7 +12,7 @@ import { showControl } from '../../helpers';
 export class NestedFormComponent {
 
     @Input() form: FormGroup;
-    @Input() ownGroup: FormGroup;
+    @Input() group: FormGroup;
     @Input() data: BaseControl;
     @Input() index: number;
     @Output() change: EventEmitter<any> = new EventEmitter();
@@ -29,7 +29,7 @@ export class NestedFormComponent {
 
     showControl(data: BaseControl): boolean {
         const index = parseInt(this.index as any, 10);
-        const form = this.ownGroup || this.form;
+        const form = this.group || this.form;
         return showControl(data, form.value[index]);
     }
 }

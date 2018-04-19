@@ -1,6 +1,29 @@
-import { BaseControl, Option, controlTypes, FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
-import { Activity, ActivityConfig, ACTIVITY_TYPE as types, TARGET_TYPE, ACTION_MODE, ActivityCost } from '@app/game-mechanics';
-import { composeResourceOptions } from '../helpers';
+import {
+    BaseControl, Option, controlTypes,
+    FormDefinition, ConnectedEntities, ToggleContext
+} from '@app/dynamic-forms';
+import {
+    Activity, ActivityConfig, ACTIVITY_TYPE as types,
+    TARGET_TYPE, ACTION_MODE, ActivityCost
+} from '@app/game-mechanics';
+import { composeResourceOptions, composeKeywordOptions, combineContexts } from '../helpers';
+
+const toggleContexts: { [key: string]: ToggleContext } = {
+    [types.ALTER]: { show: { field: 'type', equals: [types.ALTER] } },
+    [types.WIN_GAME]: { show: { field: 'type', equals: [types.WIN_GAME] } },
+    [types.LOSE_GAME]: { show: { field: 'type', equals: [types.LOSE_GAME] } }
+}
+
+const targets: { [key: string]: Option } = {
+    [TARGET_TYPE.SELF]: {
+        value: TARGET_TYPE.SELF,
+        context: { disable: { field: 'type', equals: [types.ALTER] }, defaultValue: '' }
+    },
+    [TARGET_TYPE.ACTIVE_PLAYER]: { value: TARGET_TYPE.ACTIVE_PLAYER },
+    [TARGET_TYPE.FIELD]: { value: TARGET_TYPE.FIELD },
+    [TARGET_TYPE.OTHER_PLAYER]: { value: TARGET_TYPE.OTHER_PLAYER },
+    [TARGET_TYPE.PLAYER]: { value: TARGET_TYPE.PLAYER }
+}
 
 export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
@@ -18,107 +41,36 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
         required: true,
     };
 
-    // const toggleContext1 = {
-    //     show: {
-    //         field: activityType.name,
-    //         value: [activityTypes.ATTACK_FIELD, activityTypes.DEFEND_FIELD, activityTypes.MINE_RESOURCES]
-    //     }
-    // };
-    // const toggleContext2 = {
-    //     show: {
-    //         field: activityType.name,
-    //         value: [activityTypes.STEAL_QUEST, activityTypes.DISCARD_QUEST, activityTypes.DRAW_QUEST, activityTypes.STEAL_ACTIVITY, activityTypes.DISCARD_ACTIVITY,
-    //         activityTypes.ALTER_RESOURCE]
-    //     }
-    // };
-    // const toggleContext3 = {
-    //     show: {
-    //         field: activityType.name,
-    //         value: [activityTypes.ALTER_RESOURCE]
-    //     }
-    // };
-    // const toggleContext4 = {
-    //     show: {
-    //         field: activityType.name,
-    //         value: [activityTypes.CANCEL_ATTACK_FIELD, activityTypes.CANCEL_DEFEND_FIELD, activityTypes.CANCEL_MINE_RESOURCE]
-    //     }
-    // };
-    // const toggleContext5 = {
-    //     show: {
-    //         field: activityType.name,
-    //         value: [activityTypes.PEEK_QUESTS, activityTypes.PEEK_ACTIVITIES]
-    //     }
-    // }
-
     const childTemplate: BaseControl = {
         controlType: controlTypes.NESTED_FORM,
         childControls: [
-            activityType,
-            // start context 1
-            {
-                name: 'amount',
-                controlType: controlTypes.NUMBER_INPUT,
-                label: 'Bonus amount',
-                toggleContext: null //toggleContext1,
-            }, {
-                name: 'target',
+            activityType, {
+                name: 'resource',
                 controlType: controlTypes.DROPDOWN,
-                options: [{ label: 'Field', value: TARGET_TYPE.FIELD }],
-                defaultValue: TARGET_TYPE.FIELD,
-                label: 'Action target',
-                toggleContext: null //toggleContext1,
-            },
-            // start context2
-            {
+                label: 'Specific resource',
+                options: resources,
+                showImage: true,
+                toggleContext: toggleContexts[types.ALTER]
+            }, {
+                name: 'keyword',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Or a resource type',
+                options: composeKeywordOptions(ent, ['resources']),
+                toggleContext: toggleContexts[types.ALTER],
+            }, {
                 name: 'amount',
                 controlType: controlTypes.NUMBER_INPUT,
                 label: 'Amount',
-                toggleContext: null //toggleContext2,
+                toggleContext: toggleContexts[types.ALTER]
             }, {
                 name: 'target',
                 controlType: controlTypes.DROPDOWN,
+                label: 'Target',
                 options: [
-                    { label: 'Player', value: TARGET_TYPE.SELF },
-                    { label: 'Active Player', value: TARGET_TYPE.ACTIVE_PLAYER },
-                    { label: 'Self', value: TARGET_TYPE.SELF },
-                    { label: 'Other player', value: TARGET_TYPE.OTHER_PLAYER },
+                    targets.SELF, targets.OTHER_PLAYER, targets.PLAYER, targets.ACTIVE_PLAYER
                 ],
-                label: 'Action target',
-                toggleContext: null //toggleContext2,
-            },
-            // start context 3
-            {
-                name: 'resource',
-                controlType: controlTypes.DROPDOWN,
-                label: 'Resource',
-                options: resources,
-                toggleContext: null, //toggleContext3,
-                required: true
-            },
-            // start context 4
-            {
-                name: 'target',
-                controlType: controlTypes.DROPDOWN,
-                options: [{ label: 'Field', value: TARGET_TYPE.FIELD }],
-                label: 'Action target',
-                toggleContext: null, //toggleContext4,
-                defaultValue: TARGET_TYPE.FIELD
-            },
-            // start context 5
-            {
-                name: 'amount',
-                controlType: controlTypes.NUMBER_INPUT,
-                label: 'Number of peeks',
-                toggleContext: null //toggleContext5,
-            }, {
-                name: 'target',
-                controlType: controlTypes.DROPDOWN,
-                options: [
-                    { label: 'Other player', value: TARGET_TYPE.OTHER_PLAYER },
-                    { label: 'Active player', value: TARGET_TYPE.ACTIVE_PLAYER }
-                ],
-                label: 'Action target',
-                toggleContext: null //toggleContext5
+                toggleContext: combineContexts(toggleContexts[types.ALTER],
+                    [toggleContexts[types.WIN_GAME], toggleContexts[types.LOSE_GAME]])
             }
         ],
     };
@@ -130,10 +82,14 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             {
                 name: 'resource',
                 controlType: controlTypes.DROPDOWN,
-                label: 'Resource',
+                label: 'Specific resource',
                 showImage: true,
                 options: resources,
-                required: true
+            }, {
+                name: 'keyword',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Or a resource type',
+                options: composeKeywordOptions(ent, ['resources']),
             }, {
                 name: 'amount',
                 controlType: controlTypes.NUMBER_INPUT,
@@ -156,12 +112,18 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             controlType: controlTypes.DROPDOWN,
             options: modeTypes,
             label: 'Action mode',
+            value: data.mode,
             toggleContext: null //toggleContext5,
         }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
             value: data.description || '',
             label: 'Action description',
+        }, {
+            name: 'keywords',
+            controlType: controlTypes.TAGS_INPUT,
+            value: data.keywords,
+            label: 'Keywords'
         }, {
             name: 'image',
             controlType: controlTypes.IMAGE_PICKER,
@@ -199,7 +161,8 @@ function composeActivityConfigs(configs: ActivityConfig[], template: BaseControl
 function composeCost(cost: ActivityCost[], template: BaseControl): BaseControl[] {
     return cost.map(elem => {
         const nestedForm = { ...template };
-        nestedForm.childControls = nestedForm.childControls.map(child => ({ ...child, value: elem[child.name] }));
+        nestedForm.childControls = nestedForm.childControls
+            .map(child => ({ ...child, value: elem[child.name] }));
         return nestedForm;
     });
 }

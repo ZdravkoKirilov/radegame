@@ -15,7 +15,7 @@
         </ng-container>
 
         <ng-container *ngSwitchCase="types.DROPDOWN">
-            <rg-dropdown [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-dropdown>
+            <rg-dropdown [group]="group" [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-dropdown>
         </ng-container>
 
         <ng-container *ngSwitchCase="types.FORM_ARRAY">

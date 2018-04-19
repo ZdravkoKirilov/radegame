@@ -1,11 +1,13 @@
 import { FormDefinition } from './FormDefinition.model';
 import { ConnectedEntities } from './ConnectedEntities';
-import { ToggleContext, CrossFieldContext } from './';
+import { ToggleContext } from './ToggleContext.model';
+import { CrossFieldContext } from './CrossFieldContext.model';
 
 export interface Option {
-    label: string;
     value: string | number;
+    label?: string;
     image?: string;
+    context?: ToggleContext;
 }
 
 export interface SubFormMapping {
