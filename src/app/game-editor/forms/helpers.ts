@@ -1,4 +1,4 @@
-import { Quest, Activity, Resource, Field, Round, EntityWithKeywords } from '@app/game-mechanics';
+import { Quest, Activity, Resource, Field, Round, Stage, EntityWithKeywords, Trivia } from '@app/game-mechanics';
 import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 
 export function composeQuestOptions(ent: ConnectedEntities): Option[] {
@@ -42,7 +42,15 @@ export function composeRoundOptions(ent: ConnectedEntities): Option[] {
 }
 
 export function composeStageOptions(ent: ConnectedEntities): Option[] {
-    return ent.stages.map((elem: Round): Option => ({
+    return ent.stages.map((elem: Stage): Option => ({
+        label: elem.name,
+        value: elem.id,
+        image: elem.image
+    }));
+}
+
+export function composeTriviaOptions(ent: ConnectedEntities): Option[] {
+    return ent.trivia.map((elem: Trivia): Option => ({
         label: elem.name,
         value: elem.id,
         image: elem.image

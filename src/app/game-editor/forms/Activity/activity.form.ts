@@ -6,12 +6,17 @@ import {
     Activity, ActivityConfig, ACTIVITY_TYPE as types,
     TARGET_TYPE, ACTION_MODE, ActivityCost
 } from '@app/game-mechanics';
-import { composeResourceOptions, composeKeywordOptions, combineContexts } from '../helpers';
+import {
+    composeResourceOptions, composeKeywordOptions, combineContexts,
+    composeQuestOptions, composeTriviaOptions
+} from '../helpers';
 
 const toggleContexts: { [key: string]: ToggleContext } = {
     [types.ALTER]: { show: { field: 'type', equals: [types.ALTER] } },
     [types.WIN_GAME]: { show: { field: 'type', equals: [types.WIN_GAME] } },
-    [types.LOSE_GAME]: { show: { field: 'type', equals: [types.LOSE_GAME] } }
+    [types.LOSE_GAME]: { show: { field: 'type', equals: [types.LOSE_GAME] } },
+    [types.TRIGGER_QUEST]: { show: { field: 'type', equals: [types.TRIGGER_QUEST] } },
+    [types.TRIGGER_TRIVIA]: { show: { field: 'type', equals: [types.TRIGGER_TRIVIA] } }
 }
 
 const targets: { [key: string]: Option } = {
@@ -30,6 +35,8 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
     data.configs = data.configs || [];
     data.cost = data.cost || [];
     const resources = composeResourceOptions(ent);
+    const quests = composeQuestOptions(ent);
+    const trivia = composeTriviaOptions(ent);
     const activityTypes: Option[] = Object.keys(types).map(key => ({ value: key, label: types[key] }));
     const modeTypes: Option[] = Object.keys(ACTION_MODE).map(key => ({ value: key, label: ACTION_MODE[key] }));
 
@@ -45,6 +52,20 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
         controlType: controlTypes.NESTED_FORM,
         childControls: [
             activityType, {
+                name: 'quest',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Quest',
+                options: quests,
+                showImage: true,
+                toggleContext: toggleContexts[types.TRIGGER_QUEST]
+            }, {
+                name: 'trivia',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Trivia',
+                options: trivia,
+                showImage: true,
+                toggleContext: toggleContexts[types.TRIGGER_TRIVIA]
+            }, {
                 name: 'resource',
                 controlType: controlTypes.DROPDOWN,
                 label: 'Specific resource',

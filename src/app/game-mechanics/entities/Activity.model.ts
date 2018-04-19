@@ -4,6 +4,8 @@ export interface ActivityConfig {
     target?: ActivityTarget;
     amount?: number;
     resource?: number;
+    quest?: number;
+    trivia?: number;
     keyword?: string;
 }
 
@@ -35,6 +37,8 @@ export const ACTIVITY_TYPE = {
     WIN_GAME: 'WIN_GAME',
     LOSE_GAME: 'LOSE_GAME',
     MOVE: 'MOVE',
+    TRIGGER_QUEST: 'TRIGGER_QUEST',
+    TRIGGER_TRIVIA: 'TRIGGER_TRIVIA',
     ALTER: 'ALTER',
     PREPARE: 'PREPARE',
     STORE: 'STORE', // both for field or player
@@ -75,6 +79,8 @@ export type ActivityType =
     typeof ACTIVITY_TYPE.STORE |
     typeof ACTIVITY_TYPE.GIVE_HINT |
     typeof ACTIVITY_TYPE.REQUEST_HINT |
-    typeof ACTIVITY_TYPE.DRAW;
+    typeof ACTIVITY_TYPE.DRAW |
+    typeof ACTIVITY_TYPE.TRIGGER_QUEST |
+    typeof ACTIVITY_TYPE.TRIGGER_TRIVIA;
 
 

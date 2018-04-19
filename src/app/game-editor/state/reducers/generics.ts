@@ -57,7 +57,6 @@ export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFe
                     return {
                         ...state,
                         items: {
-                            ...state.items,
                             ...data
                         }
 

@@ -4,7 +4,6 @@ export interface Quest {
     id?: number;
     game?: number;
     name?: string;
-    mode?: QuestMode;
     description?: string;
     keywords?: string;
     image?: string;
@@ -45,13 +44,6 @@ export const QUEST_CONDITION = {
     COMPLETE: 'COMPLETE', // quest, keyword
     TRIGGER: 'TRIGGER' // quest, activity, keyword
 };
-
-export const QUEST_MODE = {
-    TRIGGER: 'TRIGGER',
-    PASSIVE: 'PASSIVE'
-};
-
-export type QuestMode = typeof QUEST_MODE.TRIGGER | typeof QUEST_MODE.PASSIVE;
 
 export type QuestConditionType =
     typeof QUEST_CONDITION.CLAIM |

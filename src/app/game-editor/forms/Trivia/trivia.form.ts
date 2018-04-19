@@ -1,14 +1,6 @@
-import { Trivia, TriviaAnswer, TRIVIA_MODES } from '@app/game-mechanics';
+import { Trivia, TriviaAnswer } from '@app/game-mechanics';
 import { BaseControl, Option, controlTypes, ConnectedEntities } from '@app/dynamic-forms';
 import { composeActivityOptions } from '../helpers';
-
-const triviaModes: Option[] = Object.keys(TRIVIA_MODES).map(key => {
-    return {
-        value: key,
-        label: TRIVIA_MODES[key]
-    };
-});
-
 
 export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] {
     data = data || { answers: [] };
@@ -57,12 +49,6 @@ export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] 
             label: 'Trivia image',
             required: false,
             value: data.image
-        }, {
-            controlType: controlTypes.DROPDOWN,
-            name: 'mode',
-            label: 'Trivia mode',
-            value: data.mode,
-            options: triviaModes,
         }, {
             name: 'answers',
             controlType: controlTypes.FORM_ARRAY,
