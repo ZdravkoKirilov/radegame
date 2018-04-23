@@ -23,7 +23,7 @@ export class GameListGuard implements CanActivate {
                 this.store.dispatch(new actions.SetGamesAction(games));
                 return of(true);
             }),
-            catchError(() => {
+            catchError((err) => {
                 return of(false);
             })
         )

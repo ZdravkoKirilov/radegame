@@ -3,12 +3,12 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs/Observable';
 
-import { LocalStorageService } from '../services';
+import { AppLocalStorageService } from '../services';
 import { AUTH_URLS } from '../config';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
-    constructor(private storage: LocalStorageService) { }
+    constructor(private storage: AppLocalStorageService) { }
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         if (this.requiresToken(req)) {
@@ -18,8 +18,6 @@ export class AuthInterceptor implements HttpInterceptor {
         } else {
             return next.handle(req);
         }
-
-
     }
 
     requiresToken(req: HttpRequest<any>) {

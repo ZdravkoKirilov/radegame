@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 @Injectable()
-export class LocalStorageService {
+export class AppLocalStorageService {
 
   save(key: string, data: any, stringify = false): void {
     if (stringify) {

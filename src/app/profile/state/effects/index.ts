@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { of } from 'rxjs/observable/of';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
-import { AuthService, LocalStorageService } from '@app/core';
+import { AuthService, AppLocalStorageService } from '@app/core';
 import { AuthResponse, User } from '../../models';
 import {
     EmailRegisterAction, EmailRegisterSuccessAction, EmailRegisterFailAction,
@@ -15,7 +15,7 @@ import {
 
 @Injectable()
 export class AuthEffectsService {
-    constructor(private actions$: Actions, private api: AuthService, private storage: LocalStorageService) { }
+    constructor(private actions$: Actions, private api: AuthService, private storage: AppLocalStorageService) { }
 
     @Effect()
     emailRegister: Observable<any> = this.actions$.ofType(actionTypes.EMAIL_REGISTER).pipe(

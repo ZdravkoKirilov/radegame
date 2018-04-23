@@ -14,7 +14,10 @@ import { AppRoutingModule } from '../app-routing.module';
 
 import { CoreEffectsService, reducers } from './state';
 import { CustomRouterSerializer } from './router-custom.serializer';
-import * as services from './services';
+import {
+    AppLocalStorageService, AuthService, GameEditService,
+    WindowRefService
+} from './services';
 import { AuthInterceptor } from './http';
 import { GameDataGuard, GameListGuard } from './guards';
 import { HomeModule } from '../home';
@@ -41,7 +44,8 @@ import { NotFoundComponent } from './components';
     declarations: [NotFoundComponent],
     providers: [
         Title,
-        ...Object.values(services),
+        AppLocalStorageService, WindowRefService,
+        GameEditService, AuthService,
         GameDataGuard, GameListGuard,
         { provide: RouterStateSerializer, useClass: CustomRouterSerializer },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }

@@ -1,15 +1,15 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { LocalStorageService } from './local-storage.service';
+import { AppLocalStorageService } from './local-storage.service';
 
 describe('LocalStorageService', () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [LocalStorageService]
+      providers: [AppLocalStorageService]
     });
   });
 
-  it('should be created', inject([LocalStorageService], (service: LocalStorageService) => {
+  it('should be created', inject([AppLocalStorageService], (service: AppLocalStorageService) => {
     expect(service).toBeTruthy();
   }));
 });

@@ -1,15 +1,3 @@
-export interface ActivityConfig {
-    id?: number;
-    type?: ActivityType;
-    target?: ActivityTarget;
-    amount?: number;
-    resource?: number;
-    quest?: number;
-    trivia?: number;
-    keyword?: string;
-    faction?: number;
-}
-
 export interface Activity {
     id?: number;
     game?: number;
@@ -22,11 +10,22 @@ export interface Activity {
     configs?: ActivityConfig[];
 }
 
+export interface ActivityConfig {
+    id?: number;
+    type?: ActivityType;
+    target?: ActivityTarget;
+    amount?: number;
+    resource?: number;
+    quest?: number;
+    trivia?: number;
+    keyword?: string;
+    faction?: number;
+}
+
 export interface ActivityCost {
     id?: number;
     resource?: number;
     keyword?: string;
-    activity?: number;
     amount?: number;
 }
 
