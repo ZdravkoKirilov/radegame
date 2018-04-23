@@ -7,6 +7,7 @@ export interface ActivityConfig {
     quest?: number;
     trivia?: number;
     keyword?: string;
+    faction?: number;
 }
 
 export interface Activity {
@@ -45,6 +46,7 @@ export const ACTIVITY_TYPE = {
     REQUEST_HINT: 'REQUEST_HINT',
     GIVE_HINT: 'GIVE_HINT',
     DRAW: 'DRAW',
+    PLACE_ACTIVITIES: 'PLACE_ACTIVITIES'
 };
 export const ACTION_MODE = {
     TRIGGER: 'TRIGGER',
@@ -57,6 +59,8 @@ export const TARGET_TYPE = {
     OTHER_PLAYER: 'OTHER_PLAYER',
     SELF: 'SELF',
     ACTIVE_PLAYER: 'ACTIVE_PLAYER',
+    FACTION: 'FACTION',
+    KEYWORD: 'KEYWORD'
 };
 
 export type ActivityTarget =
@@ -64,7 +68,9 @@ export type ActivityTarget =
     typeof TARGET_TYPE.PLAYER |
     typeof TARGET_TYPE.OTHER_PLAYER |
     typeof TARGET_TYPE.SELF |
-    typeof TARGET_TYPE.ACTIVE_PLAYER;
+    typeof TARGET_TYPE.ACTIVE_PLAYER |
+    typeof TARGET_TYPE.FACTION |
+    typeof TARGET_TYPE.KEYWORD;
 
 export type ActivityMode =
     typeof ACTION_MODE.TRIGGER |
@@ -81,6 +87,7 @@ export type ActivityType =
     typeof ACTIVITY_TYPE.REQUEST_HINT |
     typeof ACTIVITY_TYPE.DRAW |
     typeof ACTIVITY_TYPE.TRIGGER_QUEST |
-    typeof ACTIVITY_TYPE.TRIGGER_TRIVIA;
+    typeof ACTIVITY_TYPE.TRIGGER_TRIVIA |
+    typeof ACTIVITY_TYPE.PLACE_ACTIVITIES;
 
 

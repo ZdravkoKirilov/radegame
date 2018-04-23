@@ -3,7 +3,7 @@ import { ConnectedEntities, controlTypes, BaseControl, Option } from '@app/dynam
 import { composeActivityOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions } from '../helpers';
 
 export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl[] {
-    data = data || <Quest>{ penalty: [], condition: [], cost: [], award: [] };
+    data = data || <Quest>{ penalty: [], condition: [], award: [] };
     const activities = composeActivityOptions(ent);
     const fields = composeFieldOptions(ent);
     const rounds = composeRoundOptions(ent);
@@ -67,13 +67,6 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         connectedEntities: ent,
         childControls: cond_childControls,
         childTemplate: cond_childTemplate
-    }, {
-        name: 'cost',
-        controlType: controlTypes.BUTTON_GROUP,
-        label: 'Quest cost: ',
-        options: activities,
-        value: composeValue(data.cost),
-
     }, {
         name: 'award',
         controlType: controlTypes.BUTTON_GROUP,

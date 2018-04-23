@@ -7,7 +7,6 @@ export interface Quest {
     description?: string;
     keywords?: string;
     image?: string;
-    cost?: QuestEffect[];
     award?: QuestEffect[];
     penalty?: QuestEffect[];
     condition?: QuestCondition[];
