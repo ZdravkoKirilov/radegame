@@ -41,9 +41,19 @@ export class ImagePickerComponent implements OnInit {
         event.stopPropagation();
         const file = event.currentTarget.files[0];
         if (file) {
-            this.existingImage = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
-            const payload = { [this.data.name]: file };
-            this.change.emit(payload);
+            if (this.data.asBase64) {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onloadend = (event: any) => {
+                    this.existingImage = event.target.result;
+                    const payload = { [this.data.name]: event.currentTarget.result };
+                    this.change.emit(payload);
+                }
+            } else {
+                this.existingImage = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
+                const payload = { [this.data.name]: file };
+                this.change.emit(payload);
+            }
         }
     }
 

@@ -12,7 +12,7 @@ import { reducers, metaReducers } from './state';
 
 import { DynamicFormsModule } from '@app/dynamic-forms';
 import { SharedModule } from '@app/shared';
-import * as effects from './state/effects/generics';
+import { GenericEffectsService } from './state';
 
 import {
     EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent,
@@ -30,7 +30,7 @@ import {
         SharedModule,
         StoreModule.forFeature(FEATURE_NAME, reducers, { metaReducers }),
         EffectsModule.forFeature([
-            ...Object.values(effects)
+            GenericEffectsService
         ]),
         FormsModule,
         ReactiveFormsModule,

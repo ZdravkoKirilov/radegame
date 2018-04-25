@@ -57,23 +57,23 @@ export function composeTriviaOptions(ent: ConnectedEntities): Option[] {
     }));
 }
 
-export function composeKeywordOptions(ent: ConnectedEntities, entities: string[] = []): Option[] {
+export function composeKeywordOptions(entities: Array<EntityWithKeywords>[] = []): Option[] {
     const result = new Set();
 
-    entities.forEach((key: string) => {
-        if (key in ent) {
-            ent[key].forEach((elem: EntityWithKeywords) => {
-                if (elem.keywords) {
-                    const keywords = elem.keywords.split(';');
-                    keywords.forEach((keyword: string) => {
-                        result.add({
-                            label: keyword,
-                            value: keyword
-                        });
+    entities.forEach((group: EntityWithKeywords[]) => {
+
+        group.forEach(elem => {
+            if (elem.keywords) {
+                const keywords = elem.keywords.split(';');
+                keywords.forEach((keyword: string) => {
+                    result.add({
+                        label: keyword,
+                        value: keyword
                     });
-                }
-            });
-        }
+                });
+            }
+        });
+
     });
 
     return Array.from(result);

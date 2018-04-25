@@ -30,7 +30,6 @@ export interface BaseControl {
     options?: Option[];
     childControls?: BaseControl[];
     childTemplate?: BaseControl;
-    subFormMapping?: SubFormMapping;
     connectedEntities?: ConnectedEntities;
     addButtonText?: string;
     multiple?: boolean;
@@ -45,4 +44,5 @@ export interface BaseControl {
     maxItems?: number;
     isEmail?: boolean;
     showImage?: boolean;
+    asBase64?: boolean;
 }

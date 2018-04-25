@@ -76,7 +76,7 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
                 name: 'keyword',
                 controlType: controlTypes.DROPDOWN,
                 label: 'Or a resource type',
-                options: composeKeywordOptions(ent, ['resources']),
+                options: composeKeywordOptions([ent.resources]),
                 toggleContext: toggleContexts[types.ALTER],
             }, {
                 name: 'amount',
@@ -110,7 +110,7 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
                 name: 'keyword',
                 controlType: controlTypes.DROPDOWN,
                 label: 'Or a resource type',
-                options: composeKeywordOptions(ent, ['resources']),
+                options: composeKeywordOptions([ent.resources]),
             }, {
                 name: 'amount',
                 controlType: controlTypes.NUMBER_INPUT,
@@ -150,7 +150,8 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             controlType: controlTypes.IMAGE_PICKER,
             label: 'Action featured image',
             required: true,
-            value: data.image
+            value: data.image,
+            asBase64: true
         }, {
             name: 'cost',
             controlType: controlTypes.FORM_ARRAY,
@@ -164,7 +165,7 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             label: 'Action configuration',
             addButtonText: 'Add activity',
             connectedEntities: ent,
-            minItems: 1,
+            minItems: 0,
             childControls,
             childTemplate
         }
