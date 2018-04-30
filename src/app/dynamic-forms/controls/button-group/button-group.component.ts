@@ -16,7 +16,8 @@ export class ButtonGroupComponent implements OnInit {
     private value;
 
     ngOnInit() {
-        this.value = this.data.value ? new Set([...this.data.value]) : new Set();
+        this.value = this.data.value ? new Set([...this.data.value]) :
+            this.data.defaultValue !== undefined ? new Set([this.data.defaultValue]) : new Set();
     }
 
     isButtonChecked(value) {

@@ -1,4 +1,5 @@
-import { Quest, Activity } from './index';
+import { Quest } from './Quest.model';
+import { Activity } from './Activity.model';
 
 export interface Round {
     id?: number;
@@ -9,16 +10,10 @@ export interface Round {
     order?: number;
     replay?: number;
     condition?: RoundCondition[];
-    quests?: RoundQuest[];
     activities?: RoundActivity[];
 }
 
 export interface RoundCondition {
-    id?: number;
-    quest?: Quest;
-}
-
-export interface RoundQuest {
     id?: number;
     quest?: Quest;
 }

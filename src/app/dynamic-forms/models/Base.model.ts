@@ -4,7 +4,7 @@ import { ToggleContext } from './ToggleContext.model';
 import { CrossFieldContext } from './CrossFieldContext.model';
 
 export interface Option {
-    value: string | number;
+    value: any;
     label?: string;
     image?: string;
     context?: ToggleContext;

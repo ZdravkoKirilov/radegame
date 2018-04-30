@@ -1,5 +1,5 @@
-import { Quest, Activity, Resource, Field, Round, Stage, EntityWithKeywords, Trivia } from '@app/game-mechanics';
-import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
+import { Quest, Activity, Resource, Field, Round, Stage, EntityWithKeywords, Trivia, Faction, GameEntity } from '@app/game-mechanics';
+import { Option, ConnectedEntities, ToggleContext, BaseControl, controlTypes } from '@app/dynamic-forms';
 
 export function composeQuestOptions(ent: ConnectedEntities): Option[] {
     return ent.quests.map((elem: Quest): Option => ({
@@ -57,6 +57,26 @@ export function composeTriviaOptions(ent: ConnectedEntities): Option[] {
     }));
 }
 
+export function composeFactionOptions(ent: ConnectedEntities): Option[] {
+    return ent.factions.map((elem: Faction): Option => ({
+        label: elem.name,
+        value: elem.id,
+        image: elem.image
+    }));
+}
+
+export function composeBooleanOptions(positive = 'Yes', negative = 'No'): Option[] {
+    return [
+        {
+            label: positive,
+            value: true
+        }, {
+            label: negative,
+            value: false
+        }
+    ]
+}
+
 export function composeKeywordOptions(entities: Array<EntityWithKeywords>[] = []): Option[] {
     const result = new Set();
 
@@ -87,3 +107,10 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
     });
     return newContext;
 }
+
+export const composeEntityItem = (item: GameEntity, template: BaseControl): BaseControl => {
+    return {
+        controlType: controlTypes.NESTED_FORM,
+        childControls: template.childControls.map(elem => ({ ...elem, value: item[elem.name] }))
+    };
+};

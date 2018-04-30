@@ -1,36 +1,20 @@
 import { Faction, FactionResource } from '@app/game-mechanics';
 import { BaseControl, controlTypes, ConnectedEntities } from '@app/dynamic-forms';
-import { composeResourceOptions } from '../helpers';
+import { composeResourceOptions, composeEntityItem } from '../helpers';
+import { composeQuotaTemplate } from '../shared';
 
 export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[] {
-    data = data || { resources: [], income: [] };
+    data = data || { resources: [], income: [], activities: [] };
 
     const resOptions = composeResourceOptions(ent);
-    const toNestedForm = (elem: FactionResource): BaseControl => {
-        return {
-            controlType: controlTypes.NESTED_FORM,
-            childControls: [
-                {
-                    name: 'resource',
-                    controlType: controlTypes.DROPDOWN,
-                    label: 'Resource',
-                    required: true,
-                    options: resOptions,
-                    value: elem.resource
-                }, {
-                    name: 'quantity',
-                    controlType: controlTypes.NUMBER_INPUT,
-                    label: 'Quantity',
-                    required: true,
-                    value: elem.quantity
-                }
-            ]
-        };
-    };
-    const childTemplate = <BaseControl>{
+    const factionResource = <BaseControl>{
         controlType: controlTypes.NESTED_FORM,
         childControls: [
             {
+                name: 'id',
+                controlType: controlTypes.TEXT_INPUT,
+                hidden: true
+            }, {
                 name: 'resource',
                 controlType: controlTypes.DROPDOWN,
                 label: 'Resource',
@@ -46,8 +30,9 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
         ]
     };
 
-    const existingResources = data.resources ? data.resources.map(toNestedForm) : [];
-    const existingIncome = data.income ? data.income.map(toNestedForm) : [];
+
+    const existingResources = data.resources ? data.resources.map(elem => composeEntityItem(elem, factionResource)) : [];
+    const existingIncome = data.income ? data.income.map(elem => composeEntityItem(elem, factionResource)) : [];
 
     return [
         {
@@ -72,19 +57,26 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
             label: 'Keywords',
             value: data.keywords
         }, {
+            name: 'activities',
+            controlType: controlTypes.FORM_ARRAY,
+            label: 'Faction activities',
+            addButtonText: 'Add action quota',
+            childControls: data.activities.map(elem => composeEntityItem(elem, composeQuotaTemplate(ent, [ent.factions]))),
+            childTemplate: composeQuotaTemplate(ent, [ent.factions])
+        }, {
             name: 'resources',
             controlType: controlTypes.FORM_ARRAY,
-            label: 'Pick the faction starting resources',
+            label: 'Faction starting resources',
             addButtonText: 'Add resource',
             childControls: existingResources,
-            childTemplate
+            childTemplate: factionResource
         }, {
             name: 'income',
             controlType: controlTypes.FORM_ARRAY,
-            label: 'Pick the faction income resources',
+            label: 'Faction income resources',
             addButtonText: 'Add income',
             childControls: existingIncome,
-            childTemplate
+            childTemplate: factionResource
         }
     ];
 }

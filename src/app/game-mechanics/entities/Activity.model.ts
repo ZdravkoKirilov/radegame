@@ -29,23 +29,36 @@ export interface ActivityCost {
     amount?: number;
 }
 
+export type ActivityQuota = {
+    id?: number;
+    activity?: number; // mandatory FK
+    faction?: number;  // optional FK
+    round?: number; // optional FK
+    field?: number; // optinal FK
+    type?: QuotaType;
+    filter?: string; // keyword
+    renewable?: boolean;
+    quota?: number;
+}
+
 export interface ActivityList {
     [key: string]: Activity;
+}
+
+export const QUOTA_TYPE = {
+    DISTRIBUTED: 'DISTRIBUTED', // each players gets a share by default
+    LIMITED: 'LIMITED'  // each player may draw if available
 }
 
 export const ACTIVITY_TYPE = {
     WIN_GAME: 'WIN_GAME',
     LOSE_GAME: 'LOSE_GAME',
-    MOVE: 'MOVE',
+    MOVE: 'MOVE', // works as claim also: if field has price
     TRIGGER_QUEST: 'TRIGGER_QUEST',
     TRIGGER_TRIVIA: 'TRIGGER_TRIVIA',
-    ALTER: 'ALTER',
-    PREPARE: 'PREPARE',
-    STORE: 'STORE', // both for field or player
-    REQUEST_HINT: 'REQUEST_HINT',
-    GIVE_HINT: 'GIVE_HINT',
+    ALTER: 'ALTER', // resource
+    COLLECT: 'COLLECT', // mine resource from field
     DRAW: 'DRAW',
-    PLACE_ACTIVITIES: 'PLACE_ACTIVITIES'
 };
 export const ACTION_MODE = {
     TRIGGER: 'TRIGGER',
@@ -53,7 +66,6 @@ export const ACTION_MODE = {
 };
 
 export const TARGET_TYPE = {
-    FIELD: 'FIELD',
     PLAYER: 'PLAYER',
     OTHER_PLAYER: 'OTHER_PLAYER',
     SELF: 'SELF',
@@ -63,7 +75,6 @@ export const TARGET_TYPE = {
 };
 
 export type ActivityTarget =
-    typeof TARGET_TYPE.FIELD |
     typeof TARGET_TYPE.PLAYER |
     typeof TARGET_TYPE.OTHER_PLAYER |
     typeof TARGET_TYPE.SELF |
@@ -80,13 +91,11 @@ export type ActivityType =
     typeof ACTIVITY_TYPE.LOSE_GAME |
     typeof ACTIVITY_TYPE.MOVE |
     typeof ACTIVITY_TYPE.ALTER |
-    typeof ACTIVITY_TYPE.PREPARE |
-    typeof ACTIVITY_TYPE.STORE |
-    typeof ACTIVITY_TYPE.GIVE_HINT |
-    typeof ACTIVITY_TYPE.REQUEST_HINT |
+    typeof ACTIVITY_TYPE.COLLECT |
     typeof ACTIVITY_TYPE.DRAW |
     typeof ACTIVITY_TYPE.TRIGGER_QUEST |
-    typeof ACTIVITY_TYPE.TRIGGER_TRIVIA |
-    typeof ACTIVITY_TYPE.PLACE_ACTIVITIES;
+    typeof ACTIVITY_TYPE.TRIGGER_TRIVIA;
+
+export type QuotaType = typeof QUOTA_TYPE.DISTRIBUTED | typeof QUOTA_TYPE.LIMITED;
 
 

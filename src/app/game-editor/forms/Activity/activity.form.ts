@@ -8,15 +8,18 @@ import {
 } from '@app/game-mechanics';
 import {
     composeResourceOptions, composeKeywordOptions, combineContexts,
-    composeQuestOptions, composeTriviaOptions
+    composeQuestOptions, composeTriviaOptions, composeEntityItem
 } from '../helpers';
 
 const toggleContexts: { [key: string]: ToggleContext } = {
-    [types.ALTER]: { show: { field: 'type', equals: [types.ALTER] } },
     [types.WIN_GAME]: { show: { field: 'type', equals: [types.WIN_GAME] } },
     [types.LOSE_GAME]: { show: { field: 'type', equals: [types.LOSE_GAME] } },
     [types.TRIGGER_QUEST]: { show: { field: 'type', equals: [types.TRIGGER_QUEST] } },
-    [types.TRIGGER_TRIVIA]: { show: { field: 'type', equals: [types.TRIGGER_TRIVIA] } }
+    [types.TRIGGER_TRIVIA]: { show: { field: 'type', equals: [types.TRIGGER_TRIVIA] } },
+    [types.MOVE]: { show: { field: 'type', equals: [types.MOVE] } },
+    [types.ALTER]: { show: { field: 'type', equals: [types.ALTER] } },
+    [types.COLLECT]: { show: { field: 'type', equals: [types.COLLECT] } },
+    [types.DRAW]: { show: { field: 'type', equals: [types.DRAW] } }
 }
 
 const targets: { [key: string]: Option } = {
@@ -24,10 +27,18 @@ const targets: { [key: string]: Option } = {
         value: TARGET_TYPE.SELF,
         context: { disable: { field: 'type', equals: [types.ALTER] }, defaultValue: '' }
     },
-    [TARGET_TYPE.ACTIVE_PLAYER]: { value: TARGET_TYPE.ACTIVE_PLAYER },
-    [TARGET_TYPE.FIELD]: { value: TARGET_TYPE.FIELD },
-    [TARGET_TYPE.OTHER_PLAYER]: { value: TARGET_TYPE.OTHER_PLAYER },
-    [TARGET_TYPE.PLAYER]: { value: TARGET_TYPE.PLAYER }
+    [TARGET_TYPE.ACTIVE_PLAYER]: {
+        value: TARGET_TYPE.ACTIVE_PLAYER,
+        context: { disable: { field: 'type', equals: [] }, defaultValue: '' }
+    },
+    [TARGET_TYPE.OTHER_PLAYER]: {
+        value: TARGET_TYPE.OTHER_PLAYER,
+        context: { disable: { field: 'type', equals: [] }, defaultValue: '' }
+    },
+    [TARGET_TYPE.PLAYER]: {
+        value: TARGET_TYPE.PLAYER,
+        context: { disable: { field: 'type', equals: [] }, defaultValue: '' }
+    }
 }
 
 export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntities): BaseControl[] => {
@@ -52,6 +63,12 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
         controlType: controlTypes.NESTED_FORM,
         childControls: [
             activityType, {
+                name: 'target',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Target',
+                options: Object.values(targets),
+                required: true
+            }, {
                 name: 'quest',
                 controlType: controlTypes.DROPDOWN,
                 label: 'Quest',
@@ -83,15 +100,6 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
                 controlType: controlTypes.NUMBER_INPUT,
                 label: 'Amount',
                 toggleContext: toggleContexts[types.ALTER]
-            }, {
-                name: 'target',
-                controlType: controlTypes.DROPDOWN,
-                label: 'Target',
-                options: [
-                    targets.SELF, targets.OTHER_PLAYER, targets.PLAYER, targets.ACTIVE_PLAYER
-                ],
-                toggleContext: combineContexts(toggleContexts[types.ALTER],
-                    [toggleContexts[types.WIN_GAME], toggleContexts[types.LOSE_GAME]])
             }
         ],
     };
@@ -119,7 +127,8 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             }
         ]
     };
-    const costChildControls = composeCost(data.cost, costTemplate);
+    // const costChildControls = composeCost(data.cost, costTemplate);
+    const costChildControls = data.cost.map(elem => composeEntityItem(elem, costTemplate));
 
     return [
         {
@@ -180,12 +189,12 @@ function composeActivityConfigs(configs: ActivityConfig[], template: BaseControl
     });
 }
 
-function composeCost(cost: ActivityCost[], template: BaseControl): BaseControl[] {
-    return cost.map(elem => {
-        const nestedForm = { ...template };
-        nestedForm.childControls = nestedForm.childControls
-            .map(child => ({ ...child, value: elem[child.name] }));
-        return nestedForm;
-    });
-}
+// function composeCost(cost: ActivityCost[], template: BaseControl): BaseControl[] {
+//     return cost.map(elem => {
+//         const nestedForm = { ...template };
+//         nestedForm.childControls = nestedForm.childControls
+//             .map(child => ({ ...child, value: elem[child.name] }));
+//         return nestedForm;
+//     });
+// }
 

@@ -1,3 +1,5 @@
+import { ActivityQuota } from './Activity.model';
+
 export interface Faction {
     id?: number;
     game?: number;
@@ -7,6 +9,7 @@ export interface Faction {
     description?: string;
     start?: number; // field
     keywords?: string;
+    activities?: ActivityQuota[];
     resources?: FactionResource[];
     income?: FactionResource[];
 }

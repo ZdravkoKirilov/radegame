@@ -3,7 +3,7 @@ import { BaseControl, ConnectedEntities, controlTypes } from '@app/dynamic-forms
 import { composeQuestOptions, composeActivityOptions } from '../helpers';
 
 export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
-    data = data || {quests: [], activities: [], condition: []};
+    data = data || { activities: [], condition: [] };
     return [
         {
             name: 'name',
@@ -42,14 +42,6 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
             showImage: true,
             label: 'Condition',
             value: data.condition.map(elem => elem.quest),
-            options: composeQuestOptions(ent),
-        }, {
-            name: 'quests',
-            controlType: controlTypes.BUTTON_GROUP,
-            multiple: true,
-            label: 'Quest pool',
-            showImage: true,
-            value: data.quests.map(elem => elem.quest),
             options: composeQuestOptions(ent),
         }, {
             name: 'activities',
