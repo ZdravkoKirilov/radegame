@@ -9,6 +9,8 @@ export interface Faction {
     description?: string;
     start?: number; // field
     keywords?: string;
+    activity_limit?: number;
+    resource_limit?: number;
     activities?: ActivityQuota[];
     resources?: FactionResource[];
     income?: FactionResource[];

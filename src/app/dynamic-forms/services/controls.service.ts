@@ -19,7 +19,8 @@ export class ControlsService {
                 const arr = this.toFormArray(elem);
                 group.addControl(elem.name, arr);
             } else {
-                const ctrl = new FormControl(elem.value, vd.compose(validators));
+                const value = elem.value !== undefined ? elem.value : elem.defaultValue;
+                const ctrl = new FormControl(value, vd.compose(validators));
                 group.addControl(elem.name, ctrl);
             }
         });

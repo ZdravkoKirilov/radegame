@@ -24,10 +24,10 @@ export interface QuestCondition {
     resource?: number;
     activity?: number;
     quest?: number;
-    keywords?: string;
+    keyword?: string;
     amount?: number;
-    byRound?: number;
-    atRound?: number;
+    by_round?: number;
+    at_round?: number;
 }
 
 export interface QuestEffect {
@@ -36,8 +36,9 @@ export interface QuestEffect {
 }
 
 export const QUEST_CONDITION = {
+    GATHER: 'GATHER',
     CLAIM: 'CLAIM', // field, keyword
-    REACH: 'REACH', // field, ketword
+    REACH: 'REACH', // field, keyword
     MEET: 'MEET', // faction, keyword
     AVOID: 'AVOID', // faction, activity, keyword
     COMPLETE: 'COMPLETE', // quest, keyword
@@ -50,7 +51,8 @@ export type QuestConditionType =
     typeof QUEST_CONDITION.MEET |
     typeof QUEST_CONDITION.AVOID |
     typeof QUEST_CONDITION.COMPLETE |
-    typeof QUEST_CONDITION.TRIGGER;
+    typeof QUEST_CONDITION.TRIGGER |
+    typeof QUEST_CONDITION.GATHER;
 
 
 

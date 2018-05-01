@@ -1,6 +1,9 @@
-import { Quest, QuestCondition, QuestEffect, QUEST_CONDITION as cnd } from '@app/game-mechanics';
+import { Quest, QuestCondition, QuestEffect, QUEST_CONDITION as cnd, QUEST_CONDITION } from '@app/game-mechanics';
 import { ConnectedEntities, controlTypes, BaseControl, Option } from '@app/dynamic-forms';
-import { composeActivityOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions } from '../helpers';
+import {
+    composeActivityOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions,
+    composeFromObject, composeKeywordOptions, composeEntityItem, composeQuestOptions
+} from '../helpers';
 
 export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl[] {
     data = data || <Quest>{ penalty: [], condition: [], award: [] };
@@ -9,28 +12,62 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
     const rounds = composeRoundOptions(ent);
     const resources = composeResourceOptions(ent);
     const stages = composeStageOptions(ent);
+    const quests = composeQuestOptions(ent);
+    const keywords = composeKeywordOptions([ent.resources, ent.factions, ent.activities, ent.fields, ent.quests]);
 
-    const conditionOptions: Option[] = Object.keys(cnd).map(key => {
-        return { value: key, label: cnd[key] };
-    });
-
-    conditionOptions.sort(sortOptions);
     const conditionType = {
         name: 'type',
         controlType: controlTypes.DROPDOWN,
         label: 'Condition type',
-        options: conditionOptions,
-        value: ''
+        options: composeFromObject(QUEST_CONDITION),
     };
 
     const cond_childTemplate: BaseControl = {
         controlType: controlTypes.NESTED_FORM,
         childControls: [
             conditionType,
+            {
+                name: 'at_round',
+                controlType: controlTypes.DROPDOWN,
+                label: 'At round',
+                options: rounds
+            }, {
+                name: 'by_round',
+                controlType: controlTypes.DROPDOWN,
+                label: 'By round',
+                options: rounds
+            }, {
+                name: 'field',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Field',
+                options: fields
+            }, {
+                name: 'resource',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Resource',
+                options: resources
+            }, {
+                name: 'activity',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Action',
+                options: activities
+            }, {
+                name: 'quest',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Quest',
+                options: quests
+            }, {
+                name: 'keyword',
+                controlType: controlTypes.DROPDOWN,
+                label: 'Keyword',
+                options: keywords
+            }, {
+                name: 'amount',
+                controlType: controlTypes.NUMBER_INPUT,
+                label: 'Amount',
+            }
         ],
     };
-
-    const cond_childControls: BaseControl[] = composeQuestConditions(data.condition, cond_childTemplate);
 
     return [{
         controlType: controlTypes.NUMBER_INPUT,
@@ -65,44 +102,20 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         label: 'Quest condition: ',
         addButtonText: 'Add condition',
         connectedEntities: ent,
-        childControls: cond_childControls,
+        childControls: data.condition.map(elem => composeEntityItem(elem, cond_childTemplate)),
         childTemplate: cond_childTemplate
     }, {
         name: 'award',
         controlType: controlTypes.BUTTON_GROUP,
         label: 'Quest award: ',
         options: activities,
-        value: composeValue(data.award),
+        value: data.award.map(elem => elem.activity),
     }, {
         name: 'penalty',
         controlType: controlTypes.BUTTON_GROUP,
         label: 'Quest penalty: ',
         options: activities,
-        value: composeValue(data.penalty),
+        value: data.penalty.map(elem => elem.activity),
     }
     ];
-}
-
-function composeQuestConditions(conditions: QuestCondition[], template: BaseControl): BaseControl[] {
-    return conditions.map(elem => {
-        const nestedForm = { ...template };
-        nestedForm.childControls = nestedForm.childControls.map(child => {
-            return { ...child, value: elem[child.name] };
-        });
-        return nestedForm;
-    });
-}
-
-function composeValue(data: QuestEffect[]) {
-    return data.map(elem => elem.activity);
-}
-
-function sortOptions(a: Option, b: Option) {
-    if (a.label.charAt(0) > b.label.charAt(0)) {
-        return 1;
-    }
-    if (a.label.charAt(0) < b.label.charAt(0)) {
-        return -1;
-    }
-    return 0;
 }

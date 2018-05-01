@@ -38,7 +38,8 @@ export type ActivityQuota = {
     type?: QuotaType;
     filter?: string; // keyword
     renewable?: boolean;
-    quota?: number;
+    auto_trigger: boolean;
+    amount?: number;
 }
 
 export interface ActivityList {
@@ -59,6 +60,7 @@ export const ACTIVITY_TYPE = {
     ALTER: 'ALTER', // resource
     COLLECT: 'COLLECT', // mine resource from field
     DRAW: 'DRAW',
+    CANCEL: 'CANCEL'
 };
 export const ACTION_MODE = {
     TRIGGER: 'TRIGGER',
@@ -94,7 +96,8 @@ export type ActivityType =
     typeof ACTIVITY_TYPE.COLLECT |
     typeof ACTIVITY_TYPE.DRAW |
     typeof ACTIVITY_TYPE.TRIGGER_QUEST |
-    typeof ACTIVITY_TYPE.TRIGGER_TRIVIA;
+    typeof ACTIVITY_TYPE.TRIGGER_TRIVIA |
+    typeof ACTIVITY_TYPE.CANCEL;
 
 export type QuotaType = typeof QUOTA_TYPE.DISTRIBUTED | typeof QUOTA_TYPE.LIMITED;
 

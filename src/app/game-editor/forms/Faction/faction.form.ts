@@ -1,6 +1,6 @@
-import { Faction, FactionResource } from '@app/game-mechanics';
+import { Faction, FactionResource, FACTION_TYPE } from '@app/game-mechanics';
 import { BaseControl, controlTypes, ConnectedEntities } from '@app/dynamic-forms';
-import { composeResourceOptions, composeEntityItem } from '../helpers';
+import { composeResourceOptions, composeEntityItem, composeFieldOptions, composeFromObject } from '../helpers';
 import { composeQuotaTemplate } from '../shared';
 
 export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[] {
@@ -22,9 +22,9 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
                 showImage: true,
                 options: resOptions
             }, {
-                name: 'quantity',
+                name: 'amount',
                 controlType: controlTypes.NUMBER_INPUT,
-                label: 'Quantity',
+                label: 'Amount',
                 required: true
             }
         ]
@@ -42,6 +42,12 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
             required: true,
             value: data.name || ''
         }, {
+            name: 'type',
+            controlType: controlTypes.DROPDOWN,
+            value: data.type,
+            label: 'Faction type',
+            options: composeFromObject(FACTION_TYPE)
+        }, {
             name: 'description',
             controlType: controlTypes.TEXT_INPUT,
             value: data.description,
@@ -50,16 +56,34 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
             name: 'image',
             controlType: controlTypes.IMAGE_PICKER,
             label: 'Choose faction image',
-            value: data.image
+            value: data.image,
+            asBase64: true
         }, {
             name: 'keywords',
             controlType: controlTypes.TAGS_INPUT,
             label: 'Keywords',
             value: data.keywords
         }, {
+            name: 'start',
+            controlType: controlTypes.DROPDOWN,
+            label: 'Starting position',
+            value: data.start,
+            options: composeFieldOptions(ent),
+            showImage: true
+        }, {
+            name: 'resource_limit',
+            controlType: controlTypes.NUMBER_INPUT,
+            label: 'Resource limit',
+            value: data.resource_limit
+        }, {
+            name: 'activity_limit',
+            controlType: controlTypes.NUMBER_INPUT,
+            label: 'Action limit',
+            value: data.activity_limit
+        }, {
             name: 'activities',
             controlType: controlTypes.FORM_ARRAY,
-            label: 'Faction activities',
+            label: 'Faction actions',
             addButtonText: 'Add action quota',
             childControls: data.activities.map(elem => composeEntityItem(elem, composeQuotaTemplate(ent, [ent.factions]))),
             childTemplate: composeQuotaTemplate(ent, [ent.factions])

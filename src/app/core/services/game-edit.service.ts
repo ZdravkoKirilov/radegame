@@ -43,13 +43,18 @@ export class GameEditService {
     }
 
     saveFaction(data: Faction): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
+        // const formData = toMultipartFormData(data);
+        // const options = { headers: new HttpHeaders({}) };
 
+        // if (data.id) {
+        //     return this.http.patch(API_URLS.FACTIONS(data.game, data.id), formData, options);
+        // } else {
+        //     return this.http.post(API_URLS.FACTIONS(data.game), formData, options);
+        // }
         if (data.id) {
-            return this.http.patch(API_URLS.FACTIONS(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.FACTIONS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.FACTIONS(data.game), formData, options);
+            return this.http.post(API_URLS.FACTIONS(data.game), data);
         }
     }
 

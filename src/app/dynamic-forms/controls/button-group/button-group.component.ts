@@ -16,13 +16,17 @@ export class ButtonGroupComponent implements OnInit {
     private value;
 
     ngOnInit() {
-        this.value = this.data.value ? new Set([...this.data.value]) :
-            this.data.defaultValue !== undefined ? new Set([this.data.defaultValue]) : new Set();
+        if (this.data.multiple) {
+            this.value = this.data.value ? new Set([...this.data.value]) :
+                this.data.defaultValue !== undefined ? new Set([this.data.defaultValue]) : new Set();
+        } else {
+            this.value = this.data.value !== undefined ? this.data.value : this.data.defaultValue;
+        }
     }
 
     isButtonChecked(value) {
-        if (this.value) {
-            return new Set(this.value).has(value);
+        if (this.value !== undefined) {
+            return this.data.multiple ? new Set(this.value).has(value) : this.value === value;
         }
         return false;
     }
@@ -31,16 +35,16 @@ export class ButtonGroupComponent implements OnInit {
         //const currentValue = this.form.get(this.data.name).value;
         //const currentValue = this.data.value || [];
         //const currentSet = new Set([...currentValue]) : new Set();
-        let currentSet = this.value;
+        let currentValue = this.value;
         if (this.data.multiple) {
-            currentSet.has(value) ? currentSet.delete(value) : currentSet.add(value);
+            currentValue.has(value) ? currentValue.delete(value) : currentValue.add(value);
         } else {
-            currentSet = new Set([value]);
+            currentValue = value;
         }
-        this.value = currentSet;
+        this.value = currentValue;
 
         this.change.emit({
-            [this.data.name]: Array.from(currentSet)
+            [this.data.name]: this.data.multiple ? Array.from(currentValue) : currentValue
         });
     }
 }

@@ -18,7 +18,7 @@ import { Resource, ResourceList } from './Resource.model';
 import { Field, FieldList } from './BoardField.model';
 import { Faction, FactionList } from './Faction.model';
 
-export type EntityWithKeywords = Activity & Faction & Field & Quest & Resource;
+export type EntityWithKeywords = Activity | Faction | Field | Quest | Resource;
 
 export type GameEntity = Activity | MapLocation | MapPath | Quest |
     Round | Trivia | Stage | Resource | Field | Faction;

@@ -23,9 +23,13 @@ export const composeQuotaTemplate = (ent: ConnectedEntities, keywordSource: Enti
                 name: 'filter',
                 controlType: controlTypes.DROPDOWN,
                 label: 'Available for',
-                required: true,
                 showImage: true,
                 options: composeKeywordOptions(keywordSource)
+            }, {
+                name: 'amount',
+                controlType: controlTypes.NUMBER_INPUT,
+                label: 'Quantity',
+                required: true
             }, {
                 name: 'renewable',
                 controlType: controlTypes.BUTTON_GROUP,
@@ -33,10 +37,11 @@ export const composeQuotaTemplate = (ent: ConnectedEntities, keywordSource: Enti
                 options: composeBooleanOptions(),
                 defaultValue: true
             }, {
-                name: 'quota',
-                controlType: controlTypes.NUMBER_INPUT,
-                label: 'Quantity',
-                required: true
+                name: 'auto_trigger',
+                controlType: controlTypes.BUTTON_GROUP,
+                label: 'Auto trigger',
+                options: composeBooleanOptions(),
+                defaultValue: false
             }
         ]
     };
