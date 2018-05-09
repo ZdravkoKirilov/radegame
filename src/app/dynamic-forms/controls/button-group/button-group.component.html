@@ -1,4 +1,4 @@
-<div>
+<div class="button-group">
     <label class="group-label">{{data.label}}</label>
     <div class="buttons-wrapper">
         <div *ngFor="let option of data.options" class="btn-group-item">
@@ -8,20 +8,3 @@
         </div>
     </div>
 </div>
-
-<!-- <div *ngIf="data.multiple && !data.showImage">
-    <label>{{data.label}}</label>
-    <mat-button-toggle-group multiple>
-        <mat-button-toggle *ngFor="let option of data.options" [value]="option.value" [checked]="isButtonChecked(option.value)" (change)="handleChange($event)">{{option.label}}
-        </mat-button-toggle>
-    </mat-button-toggle-group>
-</div>
-
-<div *ngIf="!data.multiple && !data.showImage">
-    <label>{{data.label}}</label>
-    <mat-button-toggle-group>
-
-        <mat-button-toggle *ngFor="let option of data.options" [value]="option.value" [checked]="isButtonChecked(option.value)" (change)="handleChange($event)">{{option.label}}
-        </mat-button-toggle>
-    </mat-button-toggle-group>
-</div> -->

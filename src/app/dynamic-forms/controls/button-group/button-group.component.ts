@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { BaseControl } from '../../models/Base.model';
+import { BaseControl } from '../../models';
 
 @Component({
     selector: 'rg-button-group',
@@ -13,12 +13,21 @@ export class ButtonGroupComponent implements OnInit {
     @Input() data: BaseControl;
     @Output() change: EventEmitter<any> = new EventEmitter();
 
-    private value;
+    private value: any;
+
+    // ngOnInit() {
+    //     if (this.data.multiple) {
+    //         this.value = this.data.value ? new Set([...this.data.value]) :
+    //             this.data.defaultValue !== undefined ? new Set([this.data.defaultValue]) : new Set();
+    //     } else {
+    //         this.value = this.data.value !== undefined ? this.data.value : this.data.defaultValue;
+    //     }
+    // }
 
     ngOnInit() {
         if (this.data.multiple) {
-            this.value = this.data.value ? new Set([...this.data.value]) :
-                this.data.defaultValue !== undefined ? new Set([this.data.defaultValue]) : new Set();
+            this.value = this.data.value ? [...this.data.value] :
+                this.data.defaultValue !== undefined ? [this.data.defaultValue] : [];
         } else {
             this.value = this.data.value !== undefined ? this.data.value : this.data.defaultValue;
         }
@@ -26,25 +35,36 @@ export class ButtonGroupComponent implements OnInit {
 
     isButtonChecked(value) {
         if (this.value !== undefined) {
-            return this.data.multiple ? new Set(this.value).has(value) : this.value === value;
+            const field = this.data.valueField;
+            if (this.data.multiple) {
+                const index = this.value.map(elem => elem[field]).indexOf(value);
+                return index !== -1;
+            } else {
+                return this.value[field] === value
+            }
         }
         return false;
     }
 
     handleChange(value) {
-        //const currentValue = this.form.get(this.data.name).value;
-        //const currentValue = this.data.value || [];
-        //const currentSet = new Set([...currentValue]) : new Set();
+        const field = this.data.valueField;
         let currentValue = this.value;
         if (this.data.multiple) {
-            currentValue.has(value) ? currentValue.delete(value) : currentValue.add(value);
+            const asIntArr = currentValue.map(elem => elem[field]);
+            const index = asIntArr.indexOf(value);
+            currentValue = [...currentValue];
+            if (index !== -1) {
+                currentValue.splice(index, 1);
+            } else {
+                currentValue.push({ [field]: value });
+            }
         } else {
-            currentValue = value;
+            currentValue = { [field]: value };
         }
         this.value = currentValue;
 
         this.change.emit({
-            [this.data.name]: this.data.multiple ? Array.from(currentValue) : currentValue
+            [this.data.name]: currentValue
         });
     }
 }

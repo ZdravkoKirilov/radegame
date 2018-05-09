@@ -21,11 +21,19 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         label: 'Condition type',
         options: composeFromObject(QUEST_CONDITION),
     };
+    `
+    <collection items=[]>
+        <sprite>
+            <img />
+        </sprite>
+    <collection />
+    `
 
     const cond_childTemplate: BaseControl = {
         controlType: controlTypes.NESTED_FORM,
         childControls: [
             conditionType,
+            { name: 'id', hidden: true, controlType: controlTypes.TEXT_INPUT },
             {
                 name: 'at_round',
                 controlType: controlTypes.DROPDOWN,
@@ -95,7 +103,15 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         controlType: controlTypes.IMAGE_PICKER,
         label: 'Quest image',
         required: false,
-        value: data.image
+        value: data.image,
+        asBase64: true
+    }, {
+        name: 'stage',
+        controlType: controlTypes.DROPDOWN,
+        label: 'Stage',
+        value: data.stage,
+        options: stages,
+        showImage: true
     }, {
         name: 'condition',
         controlType: controlTypes.FORM_ARRAY,
@@ -109,13 +125,17 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         controlType: controlTypes.BUTTON_GROUP,
         label: 'Quest award: ',
         options: activities,
-        value: data.award.map(elem => elem.activity),
+        value: data.award,
+        valueField: 'activity',
+        multiple: true
     }, {
         name: 'penalty',
         controlType: controlTypes.BUTTON_GROUP,
         label: 'Quest penalty: ',
         options: activities,
-        value: data.penalty.map(elem => elem.activity),
+        value: data.penalty,
+        valueField: 'activity',
+        multiple: true
     }
     ];
 }

@@ -26,7 +26,8 @@
       "@app/game-editor": ["app/game-editor/index"],
       "@app/game-mechanics": ["app/game-mechanics/index"],
       "@app/game-arena": ["app/game-arena/index"],
-      "@app/profile": ["app/profile/index"]
+      "@app/profile": ["app/profile/index"],
+      "@app/rendering": ["app/rendering/index"]
     }
   }
 }

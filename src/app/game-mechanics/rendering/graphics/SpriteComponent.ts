@@ -1,5 +1,5 @@
-import {Subject} from 'rxjs/Subject';
-import {loaders, Sprite} from 'pixi.js';
+import { Subject } from 'rxjs/Subject';
+import { loaders, Sprite } from 'pixi.js';
 
 export class SpriteComponent implements ISpriteComponent {
     loaded: Subject<Sprite> = new Subject();

@@ -45,4 +45,5 @@ export interface BaseControl {
     isEmail?: boolean;
     showImage?: boolean;
     asBase64?: boolean;
+    valueField?: string;
 }

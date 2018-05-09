@@ -10,7 +10,6 @@ export class MapNode implements ISpriteComponent {
     private hovered = false;
     private _selected = false;
 
-
     loaded: Subject<Sprite> = new Subject();
     change: Subject<any> = new Subject();
     moved: Subject<MapLocation> = new Subject();
