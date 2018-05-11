@@ -1,8 +1,10 @@
-import { DisplayObject } from 'pixi.js';
+import { DisplayObject, Container, Graphics } from 'pixi.js';
 
 import { BaseProps } from '../models';
 
-export interface Base {
-    graphic: DisplayObject;
-    props: BaseProps;
+export abstract class BaseObject {
+    abstract display: DisplayObject | Container | Graphics;
+    abstract props: BaseProps;
+    abstract parent: BaseObject;
+    abstract container: Container;
 }
