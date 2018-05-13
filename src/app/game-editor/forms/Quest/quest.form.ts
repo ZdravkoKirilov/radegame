@@ -21,13 +21,6 @@ export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl
         label: 'Condition type',
         options: composeFromObject(QUEST_CONDITION),
     };
-    `
-    <collection items=[]>
-        <sprite>
-            <img />
-        </sprite>
-    <collection />
-    `
 
     const cond_childTemplate: BaseControl = {
         controlType: controlTypes.NESTED_FORM,

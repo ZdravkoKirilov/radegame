@@ -173,13 +173,19 @@ export class GameEditService {
     }
 
     saveTrivia(data: Trivia): Observable<any> {
-        const formData = objectToFormData(data);
-        const options = { headers: new HttpHeaders({}) };
+        // const formData = objectToFormData(data);
+        // const options = { headers: new HttpHeaders({}) };
+
+        // if (data.id) {
+        //     return this.http.patch(API_URLS.TRIVIA(data.game, data.id), formData, options);
+        // } else {
+        //     return this.http.post(API_URLS.TRIVIA(data.game), formData, options);
+        // }
 
         if (data.id) {
-            return this.http.patch(API_URLS.TRIVIA(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.TRIVIA(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.TRIVIA(data.game), formData, options);
+            return this.http.post(API_URLS.TRIVIA(data.game), data);
         }
     }
 

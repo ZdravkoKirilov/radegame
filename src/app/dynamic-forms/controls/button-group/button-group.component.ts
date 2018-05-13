@@ -40,7 +40,7 @@ export class ButtonGroupComponent implements OnInit {
                 const index = this.value.map(elem => elem[field]).indexOf(value);
                 return index !== -1;
             } else {
-                return this.value[field] === value
+                return this.value === value
             }
         }
         return false;
@@ -59,7 +59,8 @@ export class ButtonGroupComponent implements OnInit {
                 currentValue.push({ [field]: value });
             }
         } else {
-            currentValue = { [field]: value };
+            // currentValue = { [field]: value };
+            currentValue = value;
         }
         this.value = currentValue;
 

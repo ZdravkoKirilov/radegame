@@ -60,7 +60,8 @@ export const ACTIVITY_TYPE = {
     ALTER: 'ALTER', // resource
     COLLECT: 'COLLECT', // mine resource from field
     DRAW: 'DRAW',
-    CANCEL: 'CANCEL'
+    CANCEL: 'CANCEL',
+    REDIRECT: 'REDIRECT'
 };
 export const ACTION_MODE = {
     TRIGGER: 'TRIGGER',

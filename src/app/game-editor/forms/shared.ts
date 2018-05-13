@@ -35,13 +35,15 @@ export const composeQuotaTemplate = (ent: ConnectedEntities, keywordSource: Enti
                 controlType: controlTypes.BUTTON_GROUP,
                 label: 'Renewable',
                 options: composeBooleanOptions(),
-                defaultValue: true
+                defaultValue: true,
+                valueField: 'renewable'
             }, {
                 name: 'auto_trigger',
                 controlType: controlTypes.BUTTON_GROUP,
                 label: 'Auto trigger',
                 options: composeBooleanOptions(),
-                defaultValue: false
+                defaultValue: false,
+                valueField: 'auto_trigger'
             }
         ]
     };

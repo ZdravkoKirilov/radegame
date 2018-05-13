@@ -6,6 +6,7 @@ import { map } from 'rxjs/operators';
 import { AppState } from './core';
 import { fadeAnimation } from './animations';
 import { GetCurrentUserAction } from './profile';
+import { PixiSprite } from '@app/rendering';
 
 
 @Component({
@@ -29,6 +30,9 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.store.subscribe(data => console.log(data));
         this.store.dispatch(new GetCurrentUserAction());
+
+        const sprite = new PixiSprite(null, null);
+        sprite.change.subscribe(res => console.log('res'));
     }
 
     public getRouterOutletState(outlet: any) {
