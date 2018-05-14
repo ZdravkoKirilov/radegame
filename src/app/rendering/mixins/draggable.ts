@@ -1,3 +1,4 @@
+import { interaction } from 'pixi.js';
 import { BaseObject } from "../interfaces";
 import { EVENT_TYPES } from '../models';
 
@@ -6,7 +7,7 @@ export type Draggable = BaseObject & {
     hasMoved?: boolean;
 }
 
-const onDragStart = (obj: Draggable) => (event) => {
+const onDragStart = (obj: Draggable) => (event: interaction.InteractionEvent) => {
     event.stopPropagation();
     if (!obj.dragging) {
         obj.face.alpha = 0.5;
@@ -14,7 +15,7 @@ const onDragStart = (obj: Draggable) => (event) => {
     }
 };
 
-const onDragMove = (obj: Draggable) => (event) => {
+const onDragMove = (obj: Draggable) => (event: interaction.InteractionEvent) => {
     event.stopPropagation();
     if (obj.dragging) {
         obj.face.alpha = 0.5;
@@ -31,7 +32,7 @@ const onDragMove = (obj: Draggable) => (event) => {
     }
 };
 
-const onDragEnd = (obj: Draggable) => (event) => {
+const onDragEnd = (obj: Draggable) => (event: interaction.InteractionEvent) => {
     event.stopPropagation();
     obj.face.alpha = 1;
     if (obj.dragging && obj.hasMoved) {
@@ -65,7 +66,7 @@ export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T)
         //     instance.change.next('test');
         // }, 2000);
 
-        (instance.face as any)
+        instance.face 
             .on('pointerdown', onDragStart(instance))
             .on('pointerup', onDragEnd(instance))
             .on('pointermove', onDragMove(instance))

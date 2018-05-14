@@ -1,5 +1,6 @@
 export type BaseProps = {
     type: string;
+    name: string;
     mapped: {
         x?: number;
         y?: number;
@@ -8,5 +9,9 @@ export type BaseProps = {
         visible?: boolean;
         rotation?: number;
     },
-    children: BaseProps[]
+    image?: string;
+    temporary?: {
+
+    },
+    children?: BaseProps[]
 };
