@@ -4,7 +4,7 @@ import { Subject } from 'rxjs/Subject';
 import { BaseProps, BaseObjectChangeEvent } from '../models';
 
 export abstract class BaseObject<T> {
-    abstract change: Subject<BaseObjectChangeEvent>;
+    abstract change?: Subject<BaseObjectChangeEvent>;
 
     abstract face: DisplayObject & T;
     abstract props: BaseProps;

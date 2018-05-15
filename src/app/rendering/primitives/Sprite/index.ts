@@ -1,15 +1,13 @@
-import { Sprite, Texture, DisplayObject, Container } from 'pixi.js';
+import { Sprite, DisplayObject, Container } from 'pixi.js';
 import { Subject } from 'rxjs/Subject';
 
-import { BaseProps, BaseObjectChangeEvent } from '../../models';
+import { BaseProps } from '../../models';
 import { BaseObject } from '../../interfaces';
 import { draggable, interactive } from '../../mixins';
 
 @draggable
 @interactive({ hoverElem: 'hover' })
 export class PixiSprite implements BaseObject<Sprite> {
-
-    public change: Subject<BaseObjectChangeEvent> = new Subject();
 
     public face: Sprite;
     public container: Container;
@@ -25,11 +23,9 @@ export class PixiSprite implements BaseObject<Sprite> {
         return this._props;
     }
 
-    constructor(public readonly parent: BaseObject<DisplayObject>, props: BaseProps, ) {
-        // this.display = new Sprite(props.image);
-        // this.props = props;
-        this.face = null;
-        this.props = null;
+    constructor(public readonly parent: BaseObject<DisplayObject>, props: BaseProps) {
+        this.face = new Sprite(props.image);
+        this.props = props;
     }
 
     render(container: Container): void {
