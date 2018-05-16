@@ -5,8 +5,8 @@ import { BaseProps } from '../../models';
 import { BaseObject } from '../../interfaces';
 import { draggable, interactive } from '../../mixins';
 
-@draggable
-@interactive({ hoverElem: 'hover' })
+// @draggable
+// @interactive({ hoverElem: 'hover' })
 export class PixiSprite implements BaseObject<Sprite> {
 
     public face: Sprite;
@@ -42,7 +42,7 @@ export class PixiSprite implements BaseObject<Sprite> {
     }
 
     remove() {
-        this.container.removeChild(this.face);
+        this.face.destroy();
     }
 }
 

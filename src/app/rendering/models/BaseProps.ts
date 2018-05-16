@@ -1,9 +1,10 @@
 import { TextStyleOptions , Texture} from "pixi.js";
 
 export type BaseProps = {
-    type: string;
+    type?: string;
     name: string;
     children?: BaseProps[];
+    template?: BaseProps;
     mapped: {
         x?: number;
         y?: number;

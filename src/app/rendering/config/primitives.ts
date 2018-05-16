@@ -1,10 +1,11 @@
 export const PRIMITIVE_TYPES = {
-    SPRITE: 'SPRITE',
+    SPRITE: 'Sprite',
+    TEXT: 'Text',
     CIRCLE: 'CIRCLE',
     LINE: 'LINE',
     RECTANGLE: 'RECTANGLE',
     IMAGE: 'IMAGE',
     SOUND: 'SOUND',
-    COLLECTION: 'COLLECTION',
-    CONTAINER: 'CONTAINER'
+    COLLECTION: 'Collection',
+    CONTAINER: 'Container'
 };

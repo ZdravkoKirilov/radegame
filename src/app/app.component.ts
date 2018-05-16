@@ -6,8 +6,7 @@ import { map } from 'rxjs/operators';
 import { AppState } from './core';
 import { fadeAnimation } from './animations';
 import { GetCurrentUserAction } from './profile';
-import { PixiSprite } from '@app/rendering';
-
+import { PixiSprite, parse, BaseProps } from '@app/rendering';
 
 @Component({
     selector: 'rg-root',
@@ -31,8 +30,67 @@ export class AppComponent implements OnInit {
         this.store.subscribe(data => console.log(data));
         this.store.dispatch(new GetCurrentUserAction());
 
-        const sprite = new PixiSprite(null, null);
-        sprite.change.subscribe(res => console.log('res'));
+        const markup = `
+        <Container name='root' mapped='{{"x": 88, "y": 99}}'>
+            <Sprite name='sprite' mapped='{mapped}'/>
+            <Text name='text' mapped='{mapped}'/>
+            <Collection name='orders' mapped='{mapped}' children='{children}'>
+                <Sprite name='sprite' mapped='{mapped}'/>
+            </Collection>
+        </Container>`;
+
+        const context = {
+            name: 'root',
+            mapped: {
+                x: 0,
+                y: 0,
+            },
+            children: [
+                {
+                    name: 'sprite',
+                    mapped: {
+                        x: 20,
+                        y: 40
+                    }
+                },
+                {
+                    name: 'text',
+                    mapped: {
+                        x: 50,
+                        y: 50
+                    }
+                },
+                {
+                    name: 'orders',
+                    mapped: {
+                        x: 7,
+                        y: 77
+                    },
+                    children: [
+                        {
+                            type: 'Text',
+                            name: '11',
+                            mapped: {
+                                x: 500,
+                                y: 150
+                            }
+                        },
+                        {
+                            type: 'Text',
+                            name: '3',
+                            mapped: {
+                                x: 50,
+                                y: 15
+                            }
+                        },
+                    ]
+                }
+            ]
+
+        };
+
+        const result = parse(markup, context as BaseProps);
+        console.dir(result);
     }
 
     public getRouterOutletState(outlet: any) {

@@ -48,6 +48,6 @@ export class PixiText implements BaseObject<Text> {
     }
 
     remove() {
-        this.container.removeChild(this.face);
+        this.face.destroy();
     }
 }
