@@ -2,21 +2,15 @@ import { DisplayObject, Container, Application } from "pixi.js";
 
 import { BaseObject } from "../interfaces";
 
-export const render = (root: BaseObject<DisplayObject>, container: Container | Application): void => {
+export const render = (items: BaseObject<DisplayObject>[], container: Container | Application): void => {
+    validate(container);
 
-    validate(root, container);
-
-    if (container instanceof Application) {
-        root.render(container.stage);
-    } else {
-        root.render(container);
-    }
+    const target = container instanceof Application ? container.stage : container;
+    items.forEach(item => item.render(target));
 };
 
-function validate(root, container) {
-    if (!(root instanceof BaseObject)) {
-        throw new Error('Invalid BaseObject: ' + root);
-    }
+function validate(container) {
+
     if (!(container instanceof Container || container instanceof Application)) {
         throw new Error('Invalid container: ' + container);
     }

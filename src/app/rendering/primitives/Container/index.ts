@@ -3,28 +3,16 @@ import { Container, DisplayObject, Application } from "pixi.js";
 import { BaseObject } from "../../interfaces";
 import { BaseProps } from "../../models";
 import { factory } from "../../helpers";
+import { DisplayComponent } from "../DisplayComponent";
 
-export class PixiContainer implements BaseObject<Container> {
+export class PixiContainer extends DisplayComponent {
 
     public face: Container;
-    public container: Container | Application;
+    public _props: BaseProps;
 
-    private _props: BaseProps;
-
-    set props(data: BaseProps) {
-        const current = this.props || {} as BaseProps;
-
-        this._props = { ...current, ...data };
-        this.update(data, current);
-    }
-
-    get props(): BaseProps {
-        return this._props;
-    }
-
-    constructor(public readonly parent: BaseObject<DisplayObject>, props: BaseProps) {
+    constructor(parent: BaseObject<DisplayObject>, props: BaseProps) {
+        super(parent, props);
         this.face = new Container();
-        this.props = props;
     }
 
     render(container: Container): void {
@@ -57,9 +45,5 @@ export class PixiContainer implements BaseObject<Container> {
             this.render_children();
             // will distort children state // need reconciliation algorithm
         }
-    }
-
-    remove() {
-        this.face.destroy();
     }
 }

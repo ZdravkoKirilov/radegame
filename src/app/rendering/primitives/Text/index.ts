@@ -2,18 +2,17 @@ import { Text, Container, DisplayObject, TextStyle, TextStyleOptions } from "pix
 
 import { BaseObject } from "../../interfaces";
 import { BaseProps } from "../../models";
+import { DisplayComponent } from "../DisplayComponent";
 
-export class PixiText implements BaseObject<Text> {
+export class PixiText extends DisplayComponent {
 
     static defaultTextStyle = {
         fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center'
     };
 
     public face: Text;
-    public container: Container;
     public textStyle: TextStyle;
-
-    private _props: BaseProps;
+    public _props: BaseProps;
 
     set props(data: BaseProps) {
         const current = this.props || {};
@@ -24,30 +23,9 @@ export class PixiText implements BaseObject<Text> {
         this.update(data);
     }
 
-    get props(): BaseProps {
-        return this._props;
-    }
-
-    constructor(public readonly parent: BaseObject<DisplayObject>, props: BaseProps) {
+    constructor(parent: BaseObject<DisplayObject>, props: BaseProps) {
+        super(parent, props);
         this.textStyle = new TextStyle(props.textStyle || PixiText.defaultTextStyle);
         this.face = new Text(props.text, this.textStyle);
-        this.props = props;
-    }
-
-    render(container: Container): void {
-        this.container = container;
-        container.addChild(this.face);
-    }
-
-    update(props: BaseProps): void {
-        if (props) {
-            Object.keys(props.mapped).forEach(key => {
-                this.face[key] = props[key];
-            });
-        }
-    }
-
-    remove() {
-        this.face.destroy();
     }
 }

@@ -31,65 +31,56 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new GetCurrentUserAction());
 
         const markup = `
-        <Container name='root' mapped='{{"x": 88, "y": 99}}'>
-            <Sprite name='sprite' mapped='{mapped}'/>
-            <Text name='text' mapped='{mapped}'/>
-            <Collection name='orders' mapped='{mapped}' children='{children}'>
-                <Sprite name='sprite' mapped='{mapped}'/>
+        <Container name='root' mapped='{mapped}'>
+            <Sprite name='sprite' mapped='{sprite.mapped}'/>
+            <Text name='text' mapped='{text.mapped}' text='just a test'/>
+            <Collection name='orders' mapped='{orders.mapped}' children='{orders.children}'>
+                <Sprite name='{id}' mapped='{meta}'/>
             </Collection>
         </Container>`;
 
         const context = {
-            name: 'root',
             mapped: {
                 x: 0,
                 y: 0,
             },
-            children: [
-                {
-                    name: 'sprite',
-                    mapped: {
-                        x: 20,
-                        y: 40
-                    }
-                },
-                {
-                    name: 'text',
-                    mapped: {
-                        x: 50,
-                        y: 50
-                    }
-                },
-                {
-                    name: 'orders',
-                    mapped: {
-                        x: 7,
-                        y: 77
-                    },
-                    children: [
-                        {
-                            type: 'Text',
-                            name: '11',
-                            mapped: {
-                                x: 500,
-                                y: 150
-                            }
-                        },
-                        {
-                            type: 'Text',
-                            name: '3',
-                            mapped: {
-                                x: 50,
-                                y: 15
-                            }
-                        },
-                    ]
+            sprite: {
+                mapped: {
+                    x: 20,
+                    y: 40
                 }
-            ]
-
+            },
+            text: {
+                mapped: {
+                    x: 50,
+                    y: 50
+                }
+            },
+            orders: {
+                mapped: {
+                    x: 7,
+                    y: 77
+                },
+                children: [
+                    {
+                        id: '11',
+                        meta: {
+                            x: 500,
+                            y: 150
+                        }
+                    },
+                    {
+                        id: '3',
+                        meta: {
+                            x: 50,
+                            y: 15
+                        }
+                    },
+                ]
+            },
         };
 
-        const result = parse(markup, context as BaseProps);
+        const result = parse(markup, context);
         console.dir(result);
     }
 

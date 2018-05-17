@@ -4,7 +4,8 @@ export type BaseProps = {
     type?: string;
     name: string;
     children?: BaseProps[];
-    template?: BaseProps;
+    template?: string;
+    body?: string;
     mapped: {
         x?: number;
         y?: number;
