@@ -31,13 +31,13 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new GetCurrentUserAction());
 
         const markup = `
-        <Container name='root' mapped='{mapped}'>
-            <Sprite name='sprite' mapped='{sprite.mapped}'/>
-            <Text name='text' mapped='{text.mapped}' text='just a test'/>
-            <Collection name='orders' mapped='{orders.mapped}' children='{orders.children}'>
-                <Sprite name='{id}' mapped='{meta}'/>
-            </Collection>
-        </Container>`;
+        <container name='root' mapped='{mapped}'>
+            <sprite name='sprite' mapped='{sprite.mapped}'/>
+            <text name='text' mapped='{text.mapped}' text='just a test'/>
+            <collection name='orders' mapped='{orders.mapped}' children='{orders.children}'>
+                <sprite name='{id}' mapped='{meta}'/>
+            </collection>
+        </container>`;
 
         const context = {
             mapped: {
