@@ -1,4 +1,4 @@
-import { Text, Container, DisplayObject, TextStyle, TextStyleOptions } from "pixi.js";
+import { Text, Container, TextStyle, TextStyleOptions } from "pixi.js";
 
 import { BaseObject } from "../../interfaces";
 import { BaseProps } from "../../models";
@@ -23,8 +23,8 @@ export class PixiText extends DisplayComponent {
         this.update(data);
     }
 
-    constructor(parent: BaseObject<DisplayObject>, props: BaseProps) {
-        super(parent, props);
+    constructor(props: BaseProps, parent?: BaseObject) {
+        super(props, parent);
         this.textStyle = new TextStyle(props.textStyle || PixiText.defaultTextStyle);
         this.face = new Text(props.text, this.textStyle);
     }

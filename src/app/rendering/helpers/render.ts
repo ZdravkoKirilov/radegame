@@ -1,17 +1,59 @@
-import { DisplayObject, Container, Application } from "pixi.js";
+import { DisplayObject, Container } from "pixi.js";
 
 import { BaseObject } from "../interfaces";
+import { BaseProps } from "../models";
+import { factory } from "./factory";
 
-export const render = (items: BaseObject<DisplayObject>[], container: Container | Application): void => {
-    validate(container);
-
-    const target = container instanceof Application ? container.stage : container;
-    items.forEach(item => item.render(target));
+export const mount = (props: BaseProps, container: Container, parent: BaseObject = null): void => {
+    if (isPrimitive('pesho')) {
+        mountPrimitive(props, container, parent);
+    }
+    if (isComposite) {
+        mountComposite();
+    }
+    if (isStateless) {
+        mountStateless();
+    }
 };
 
-function validate(container) {
+export const update = () => {
 
-    if (!(container instanceof Container || container instanceof Application)) {
-        throw new Error('Invalid container: ' + container);
-    }
-}
+};
+
+const updatePrimitive = () => {
+
+};
+
+const updateComposite = () => {
+
+};
+
+const updateStateless = () => {
+
+};
+
+const mountPrimitive = (props: BaseProps, container: Container, parent: BaseObject = null) => {
+    const element = factory(props, parent);
+    container.addChild(element.face);
+    element.props.children.forEach(child => mount(child, element.face, element));
+};
+
+const mountComposite = () => {
+
+};
+
+const mountStateless = () => {
+
+};
+
+const isPrimitive = (type: string) => {
+
+};
+
+const isComposite = () => {
+
+};
+
+const isStateless = () => {
+
+};

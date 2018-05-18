@@ -10,8 +10,8 @@ export class PixiCollection extends DisplayComponent {
     public face: Container;
     public _props: BaseProps;
 
-    constructor(parent: BaseObject<DisplayObject>, props: BaseProps) {
-        super(parent, props);
+    constructor(props: BaseProps, parent?: BaseObject) {
+        super(props, parent);
         this.face = new Container();
     }
 

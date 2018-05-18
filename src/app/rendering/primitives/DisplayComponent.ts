@@ -1,13 +1,20 @@
-import { DisplayObject, Container } from "pixi.js";
+import { Container } from "pixi.js";
 
 import { BaseObject } from "../interfaces";
 import { BaseProps } from "../models";
 
-export class DisplayComponent implements BaseObject<DisplayObject> {
-    face: DisplayObject = null;
+export class DisplayComponent implements BaseObject {
+    face: any = null;
     container: Container = null;
-    readonly parent: BaseObject<DisplayObject>;
+    readonly parent: BaseObject;
     public _props: BaseProps;
+    public children: {
+        [key: string]: BaseObject;
+    }
+
+    setProps(newProps: BaseProps) {
+        this.props = newProps;
+    }
 
     set props(data: BaseProps) {
         const current = this.props || {} as BaseProps;
@@ -19,7 +26,7 @@ export class DisplayComponent implements BaseObject<DisplayObject> {
         return this._props;
     }
 
-    constructor(parent: BaseObject<DisplayObject>, props: BaseProps) {
+    constructor(props: BaseProps, parent?: BaseObject) {
         this.parent = parent;
         this.props = props;
     }

@@ -10,8 +10,8 @@ export class PixiSprite extends DisplayComponent {
     public face: Sprite;
     public _props: BaseProps;
 
-    constructor(parent: BaseObject<DisplayObject>, props: BaseProps) {
-        super(parent, props);
+    constructor(props: BaseProps, parent?: BaseObject) {
+        super(props, parent);
         this.face = new Sprite(props.image);
     }
 }

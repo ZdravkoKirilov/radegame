@@ -3,12 +3,14 @@ import { Subject } from 'rxjs/Subject';
 
 import { BaseProps, BaseObjectChangeEvent } from '../models';
 
-export abstract class BaseObject<T> {
-    abstract change?: Subject<BaseObjectChangeEvent>;
+export abstract class BaseObject {
 
-    abstract face: DisplayObject | T;
+    abstract face: any;
+    abstract children: {
+        [key: string]: BaseObject;
+    }
     abstract props: BaseProps;
-    abstract parent?: BaseObject<DisplayObject>;
+    abstract parent?: BaseObject;
     abstract container: Container | Application;
     abstract template?: string;
 

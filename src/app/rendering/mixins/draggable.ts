@@ -1,9 +1,8 @@
-import { interaction, DisplayObject } from 'pixi.js';
+import { interaction } from 'pixi.js';
 import { BaseObject } from "../interfaces";
 import { EVENT_TYPES, BaseObjectChangeEvent } from '../models';
-import { Subject } from 'rxjs/Subject';
 
-export type Draggable = BaseObject<DisplayObject> & {
+export type Draggable = BaseObject & {
     dragging?: boolean;
     hasMoved?: boolean;
 }
@@ -37,10 +36,7 @@ const onDragEnd = (obj: Draggable) => (event: interaction.InteractionEvent) => {
     event.stopPropagation();
     obj.face.alpha = 1;
     if (obj.dragging && obj.hasMoved) {
-        obj.change.next({
-            type: EVENT_TYPES.MOVED,
-            payload: { ...obj.props }
-        });
+       
     }
     obj.dragging = false;
     obj.hasMoved = false;
@@ -61,7 +57,7 @@ export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T)
         const instance: Draggable = construct(original, args);
         instance.face.interactive = true;
         instance.face.buttonMode = true;
-        instance.change = instance.change || new Subject<BaseObjectChangeEvent>();
+       
         instance.dragging = false;
         instance.hasMoved = false;
         // setTimeout(() => {

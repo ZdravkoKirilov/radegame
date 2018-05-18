@@ -2,8 +2,8 @@ import { interaction, DisplayObject } from "pixi.js";
 import { BaseObject } from "../interfaces";
 import { factory, getChildProps } from "../helpers";
 
-export type Interactive = BaseObject<DisplayObject> & {
-    hoverElem: BaseObject<DisplayObject>;
+export type Interactive = BaseObject & {
+    hoverElem: BaseObject;
 };
 
 export type InteractiveSettings = {

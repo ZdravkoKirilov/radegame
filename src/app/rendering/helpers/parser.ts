@@ -58,7 +58,7 @@ const parseAttribute = (node: Element, name: string, context?: any): any => {
     const attr = node.getAttribute(name) || '';
     if (isComputed(attr)) {
         const prop = removeComputedSigns(attr);
-        return isComputed(prop) ? JSON.parse(prop) : deepProp.get(context, prop, '')
+        return isComputed(prop) ? JSON.parse(prop) : deepProp.get(context, prop, '');
     }
     return attr;
 };
