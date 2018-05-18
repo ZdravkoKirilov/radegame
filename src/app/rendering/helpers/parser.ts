@@ -1,10 +1,10 @@
-import { BaseProps } from "../models";
+import { BaseElement } from "../models";
 import { PRIMITIVE_TYPES } from '../config';
 import { deepProp } from './dot-prop';
 
-export const parse = (source: string, context: any): BaseProps[] => {
+export const parse = (source: string, context: any): BaseElement => {
     const asDoc = parseFromXML(source);
-    let result = [];
+    let result = null;
     if (asDoc) {
         result = parseFromDocumentTree(asDoc, context);
     }
@@ -21,40 +21,40 @@ const parseFromXML = (source: string): Document | null => {
     }
 };
 
-const parseFromDocumentTree = (source: Document, context?: any): BaseProps[] => {
+const parseFromDocumentTree = (source: Document, context?: any): BaseElement => {
     const elements = Array.from(source.children);
-    return elements.map(elem => parseElement(elem, context));
+    return elements.map(elem => parseElement(elem, context))[0];
 };
 
-const parseChildren = (node: Element, elem: BaseProps, context?: any): BaseProps[] => {
+const parseChildren = (node: Element, elem: BaseElement, context?: any): BaseElement[] => {
     let children = [];
     if (isCollection(elem.type)) {
         const items = elem.children || [];
-        children = items.reduce((total: BaseProps[], item: any) => {
-            total = [...total, ...parse(elem.template, item)];
+        children = items.reduce((total: BaseElement[], item: any) => {
+            total = [...total, parse(elem.template, item)];
             return total;
         }, []);
     } else {
-        children = Array.from(node.children).reduce((total: BaseProps[], child: Element) => {
-            total = [...total, ...parse(child.outerHTML, context)];
+        children = Array.from(node.children).reduce((total: BaseElement[], child: Element) => {
+            total = [...total, parse(child.outerHTML, context)];
             return total;
         }, []);
     }
     return children;
 };
 
-const parseElement = (elem: Element, context?: any, index?: number): BaseProps => {
+const parseElement = (elem: Element, context?: any, index?: number): BaseElement => {
     const ownAttributes = parseAllAttributes(elem, context);
     const children = parseChildren(elem, ownAttributes, context);
 
     return {
         ...ownAttributes,
         children
-    } as BaseProps;
+    } as BaseElement;
 };
 
 const parseAttribute = (node: Element, name: string, context?: any): any => {
-    context = context || {} as BaseProps;
+    context = context || {} as BaseElement;
     const attr = node.getAttribute(name) || '';
     if (isComputed(attr)) {
         const prop = removeComputedSigns(attr);
@@ -63,13 +63,13 @@ const parseAttribute = (node: Element, name: string, context?: any): any => {
     return attr;
 };
 
-const parseAllAttributes = (node: Element, context?: any): BaseProps => {
-    context = context || {} as BaseProps;
+const parseAllAttributes = (node: Element, context?: any): BaseElement => {
+    context = context || {} as BaseElement;
     let result = {
         type: node.nodeName,
         name: parseAttribute(node, 'name', context),
         template: node.innerHTML.trim(),
-    } as BaseProps;
+    } as BaseElement;
 
     Array.from(node.attributes).forEach((attr: Attr) => {
         result[attr.nodeName] = parseAttribute(node, attr.nodeName, context);
@@ -91,6 +91,6 @@ const isCollection = (type: string): boolean => {
     return type === PRIMITIVE_TYPES.COLLECTION;
 };
 
-const validateProps = (props: BaseProps): void => {
+const validateProps = (props: BaseElement): void => {
 
 };

@@ -1,20 +1,24 @@
 import { DisplayObject, Container, Graphics, Sprite, Application } from 'pixi.js';
 import { Subject } from 'rxjs/Subject';
 
-import { BaseProps, BaseObjectChangeEvent } from '../models';
+import { BaseElement, BaseObjectChangeEvent } from '../models';
 
 export abstract class BaseObject {
 
-    abstract face: any;
-    abstract children: {
+    abstract __face__: any;
+    abstract __children__: {
         [key: string]: BaseObject;
     }
-    abstract props: BaseProps;
+    abstract props: BaseElement;
     abstract parent?: BaseObject;
-    abstract container: Container | Application;
     abstract template?: string;
 
-    abstract render(container: Container | Application): void;
+    abstract render(): string;
+    abstract getContext(): any;
     abstract remove(): void;
-    abstract update(props: BaseProps, prevProps?: BaseProps): void;
+    abstract update(props: BaseElement, prevProps?: BaseElement): void;
 }
+
+export type StatelessObject = (props: BaseElement) => StatelessElement;
+
+export type StatelessElement = { template: string, context: any };

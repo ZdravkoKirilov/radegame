@@ -1,50 +1,53 @@
 import { Container } from "pixi.js";
 
 import { BaseObject } from "../interfaces";
-import { BaseProps } from "../models";
+import { BaseElement } from "../models";
 
 export class DisplayComponent implements BaseObject {
-    face: any = null;
-    container: Container = null;
+    __face__: any = null;
     readonly parent: BaseObject;
-    public _props: BaseProps;
-    public children: {
+    public __props__: BaseElement;
+    public __children__: {
         [key: string]: BaseObject;
     }
 
-    setProps(newProps: BaseProps) {
+    setProps(newProps: BaseElement) {
         this.props = newProps;
     }
 
-    set props(data: BaseProps) {
-        const current = this.props || {} as BaseProps;
-        this._props = { ...current, ...data };
+    set props(data: BaseElement) {
+        const current = this.props || {} as BaseElement;
+        this.__props__ = { ...current, ...data };
         this.update(data, current);
     }
 
-    get props(): BaseProps {
-        return this._props;
+    get props(): BaseElement {
+        return this.__props__;
     }
 
-    constructor(props: BaseProps, parent?: BaseObject) {
+    constructor(props: BaseElement, face?: any, parent?: BaseObject) {
         this.parent = parent;
         this.props = props;
+        this.__face__ = face;
     }
 
-    render(container: Container) {
-        this.container = container;
-        container.addChild(this.face);
+    render() {
+        return '';
     }
 
-    update(props: BaseProps, prevProps?: BaseProps) {
+    getContext(): any {
+        return {};
+    }
+
+    update(props: BaseElement, prevProps?: BaseElement) {
         if (props) {
             Object.keys(props.mapped).forEach(key => {
-                this.face[key] = props[key];
+                this.__face__[key] = props[key];
             });
         }
     }
 
     remove() {
-        this.face.destroy();
+        this.__face__.destroy();
     }
 };

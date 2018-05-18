@@ -1,7 +1,7 @@
-import { Text, Container, TextStyle, TextStyleOptions } from "pixi.js";
+import { Text, TextStyle } from "pixi.js";
 
 import { BaseObject } from "../../interfaces";
-import { BaseProps } from "../../models";
+import { BaseElement } from "../../models";
 import { DisplayComponent } from "../DisplayComponent";
 
 export class PixiText extends DisplayComponent {
@@ -10,22 +10,25 @@ export class PixiText extends DisplayComponent {
         fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center'
     };
 
-    public face: Text;
+    public __face__: Text;
+    public __props__: BaseElement;
     public textStyle: TextStyle;
-    public _props: BaseProps;
 
-    set props(data: BaseProps) {
+    set props(data: BaseElement) {
         const current = this.props || {};
         if (data.textStyle !== this.props.textStyle) {
             this.textStyle = new TextStyle(data.textStyle || PixiText.defaultTextStyle);
         }
-        this._props = { ...current, ...data };
+        this.__props__ = { ...current, ...data };
         this.update(data);
     }
 
-    constructor(props: BaseProps, parent?: BaseObject) {
-        super(props, parent);
-        this.textStyle = new TextStyle(props.textStyle || PixiText.defaultTextStyle);
-        this.face = new Text(props.text, this.textStyle);
+    constructor(props: BaseElement, face: Text, textStyle: TextStyle, parent?: BaseObject) {
+        super(props, face, parent);
+        this.textStyle = textStyle;
+    }
+
+    render() {
+        return '';
     }
 }

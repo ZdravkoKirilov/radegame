@@ -23,10 +23,10 @@ export const interactive = (data: InteractiveSettings) => <T extends { new(...ar
 
     const newConstructor: any = function (...args) {
         const instance: Interactive = construct(original, args);
-        instance.face.interactive = true;
-        instance.face.buttonMode = true;
+        instance.__face__.interactive = true;
+        instance.__face__.buttonMode = true;
 
-        instance.face
+        instance.__face__
             .on('mouseover', onHover(instance, data))
             .on('mouseout', onHoverOut(instance));
 
@@ -41,8 +41,8 @@ export const interactive = (data: InteractiveSettings) => <T extends { new(...ar
 const onHover = (obj: Interactive, data: InteractiveSettings) => (event: interaction.InteractionEvent) => {
     const childProps = getChildProps(data.hoverElem, obj);
     if (childProps) {
-        obj.hoverElem = factory(childProps, obj);
-        obj.hoverElem.render(obj.container);
+        
+        
     }
 };
 

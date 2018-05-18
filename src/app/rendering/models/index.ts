@@ -1,2 +1,2 @@
-export * from './BaseProps';
+export * from './BaseElement';
 export * from './Events';

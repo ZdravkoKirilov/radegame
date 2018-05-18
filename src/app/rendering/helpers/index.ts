@@ -3,3 +3,4 @@ export * from './query';
 export * from './parser';
 export * from './render';
 export * from './dot-prop';
+export * from './events';

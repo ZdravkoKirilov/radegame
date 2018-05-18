@@ -1,52 +1,54 @@
 import { Text, Sprite, TextStyle, Container } from 'pixi.js';
 
-import { BaseObject } from '../interfaces';
-import { BaseProps } from '../models';
+import { BaseObject, StatelessObject, StatelessElement } from '../interfaces';
+import { BaseElement } from '../models';
 import { PRIMITIVE_TYPES } from '../config';
 import { PixiText, PixiSprite, PixiCollection, PixiContainer } from '../primitives';
+import { assignEvents } from './events';
 
-export const factory = (props: BaseProps, parent: BaseObject = null): BaseObject => {
-    switch (props.type) {
+export type Factory = (data: BaseElement, parent?: BaseObject) => BaseObject | StatelessElement;
+
+export const factory: Factory = (data: BaseElement, parent: BaseObject = null): BaseObject | StatelessElement => {
+    switch (data.type) {
         case PRIMITIVE_TYPES.SPRITE:
-            const sprite = new PixiSprite(props, parent);
-            sprite.face = new Sprite(props.image);
-            assignEvents(props, sprite.face);
+            const sprite = new PixiSprite(data, new Sprite(data.image), parent);
+            assignEvents(data, sprite.__face__);
             return sprite;
         case PRIMITIVE_TYPES.TEXT:
-            const text = new PixiText(props, parent);
-            const textStyle = new TextStyle(props.textStyle || PixiText.defaultTextStyle);
-            text.face = new Text(props.text, textStyle);
-            assignEvents(props, text.face);
+            const textStyle = new TextStyle(data.textStyle || PixiText.defaultTextStyle);
+            const text = new PixiText(data, new Text(data.text, textStyle), textStyle, parent);
+            assignEvents(data, text.__face__);
             return text;
         case PRIMITIVE_TYPES.CONTAINER:
-            const container = new PixiContainer(props, parent);
-            container.face = new Container();
-            assignEvents(props, container.face);
+            const container = new PixiContainer(data, new Container(), parent);
+            assignEvents(data, container.__face__);
+            return container;
         case PRIMITIVE_TYPES.COLLECTION:
-            const collection = new PixiContainer(props, parent);
-            collection.face = new Container();
-            assignEvents(props, collection.face);
+            const collection = new PixiContainer(data, new Container(), parent);
+            assignEvents(data, collection.__face__);
+            return collection;
         default:
-            throw new Error('Unrecognized element: ' + props.type);
+            throw new Error('Unrecognized primitive element: ' + data.type);
     }
 };
 
-const assignEvents = (props: BaseProps, graphic: any) => {
-    const events = Object.keys(props).reduce((total: any, key: string) => {
-        if (key.startsWith('on') && typeof props[key] === 'function') {
-            const handler = props[key];
-            const eventName = key.slice(2).toLowerCase();
-            graphic.on(eventName, event => {
-                handler(event, props);
-            });
-        }
+export const createFactory = (components: { [key: string]: any }): Factory => {
+    const mapping = Object.values(components).reduce((total, elem) => {
+        total[elem.type] = elem;
         return total;
     }, {});
-};
 
-const createChildren = (children: BaseProps[], elem: BaseObject) => {
-    return children.reduce((total, child) => {
-        total[child.name] = factory(child, elem);
-        return total;
-    }, {});
+    const factory: Factory = (data?: BaseElement, parent: BaseObject = null): BaseObject | StatelessElement => {
+        if (data.type in mapping) {
+            const blueprint = mapping[data.type];
+            if (typeof blueprint === 'function') {
+                return blueprint(data) as StatelessElement;
+            }
+            return new blueprint(data, null, parent) as BaseObject;
+        } else {
+            throw new Error('Unrecognized composite element: ' + data.type);
+        }
+    };
+
+    return factory;
 };
