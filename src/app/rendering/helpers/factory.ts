@@ -1,14 +1,16 @@
 import { Text, Sprite, TextStyle, Container } from 'pixi.js';
 
 import { BaseObject, StatelessObject, StatelessElement } from '../interfaces';
-import { BaseElement } from '../models';
+import { BaseProps } from '../models';
 import { PRIMITIVE_TYPES } from '../config';
 import { PixiText, PixiSprite, PixiCollection, PixiContainer } from '../primitives';
 import { assignEvents } from './events';
+import { parse } from './parser';
+import { StatelessComponent } from '../primitives/StatelessComponent';
 
-export type Factory = (data: BaseElement, parent?: BaseObject) => BaseObject | StatelessElement;
+export type Factory = (data: BaseProps, parent?: BaseObject) => BaseObject;
 
-export const factory: Factory = (data: BaseElement, parent: BaseObject = null): BaseObject | StatelessElement => {
+export const factory: Factory = (data: BaseProps, parent: BaseObject = null): BaseObject => {
     switch (data.type) {
         case PRIMITIVE_TYPES.SPRITE:
             const sprite = new PixiSprite(data, new Sprite(data.image), parent);
@@ -24,7 +26,7 @@ export const factory: Factory = (data: BaseElement, parent: BaseObject = null): 
             assignEvents(data, container.__face__);
             return container;
         case PRIMITIVE_TYPES.COLLECTION:
-            const collection = new PixiContainer(data, new Container(), parent);
+            const collection = new PixiContainer(data, new Container(), parent) as BaseObject;
             assignEvents(data, collection.__face__);
             return collection;
         default:
@@ -38,11 +40,13 @@ export const createFactory = (components: { [key: string]: any }): Factory => {
         return total;
     }, {});
 
-    const factory: Factory = (data?: BaseElement, parent: BaseObject = null): BaseObject | StatelessElement => {
+    const factory: Factory = (data?: BaseProps, parent: BaseObject = null): BaseObject => {
         if (data.type in mapping) {
             const blueprint = mapping[data.type];
             if (typeof blueprint === 'function') {
-                return blueprint(data) as StatelessElement;
+                const result = blueprint(data);
+                const props = parse(result.template, result.context || data);
+                return new StatelessComponent(props, result.template, null, parent);
             }
             return new blueprint(data, null, parent) as BaseObject;
         } else {

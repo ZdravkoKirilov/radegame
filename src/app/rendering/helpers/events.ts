@@ -1,6 +1,6 @@
-import { BaseElement } from "../models";
+import { BaseProps } from "../models";
 
-export const assignEvents = (data: BaseElement, graphic: any) => {
+export const assignEvents = (data: BaseProps, graphic: any) => {
     const events = Object.keys(data).reduce((total: any, key: string) => {
         if (key.startsWith('on') && typeof data[key] === 'function') {
             const handler = data[key];

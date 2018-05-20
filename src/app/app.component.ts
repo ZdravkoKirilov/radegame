@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators';
 import { AppState } from './core';
 import { fadeAnimation } from './animations';
 import { GetCurrentUserAction } from './profile';
-import { PixiSprite, parse, BaseElement } from '@app/rendering';
+import { PixiSprite, parse, BaseProps } from '@app/rendering';
 
 @Component({
     selector: 'rg-root',
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new GetCurrentUserAction());
 
         const markup = `
-        <container name='root' mapped='{mapped}' onClick='{onClick}'>
+        <container name='root' dynamic='(logInput({param}, gosho))' mapped='{mapped}' onClick='{onClick}'>
             <sprite name='sprite' mapped='{sprite.mapped}'/>
             <text name='text' mapped='{text.mapped}' text='just a test'/>
             <collection name='orders' mapped='{orders.mapped}' children='{orders.children}'>
@@ -40,6 +40,10 @@ export class AppComponent implements OnInit {
         </container>`;
 
         const context = {
+            param: 'Pesho',
+            logInput(first, second) {
+                return `${first}_${second}`;
+            },
             onClick() {
 
             },

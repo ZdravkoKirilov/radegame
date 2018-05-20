@@ -1,14 +1,19 @@
-import { DisplayObject, Container } from "pixi.js";
+import { Container } from "pixi.js";
 
 import { BaseObject, StatelessObject, StatelessElement } from "../interfaces";
-import { BaseElement } from "../models";
+import { BaseProps } from "../models";
 import { factory, Factory } from "./factory";
 import { PRIMITIVE_TYPES } from "../config";
 import { parse } from "./parser";
+import { StatelessComponent } from '../primitives';
 
-export const createRenderer = (factory: Factory) => (props: BaseElement, container: Container, parent: BaseObject = null) => mount(props, container, parent, factory);
+export const createRenderer = (compositeFactory: Factory) => (props: BaseProps, container: Container, parent: BaseObject = null) => mount(props, container, parent, compositeFactory);
 
-const mount = (props: BaseElement, container: Container, parent: BaseObject = null, compositeFactory: Factory = null): BaseObject => {
+const mount = (
+    props: BaseProps,
+    container: Container,
+    parent: BaseObject = null,
+    compositeFactory: Factory = null): BaseObject => {
     if (isPrimitive(props.type)) {
         return mountPrimitive(props, container, parent);
     }
@@ -18,29 +23,38 @@ const mount = (props: BaseElement, container: Container, parent: BaseObject = nu
     return null;
 };
 
-const mountPrimitive = (props: BaseElement, container: Container, parent: BaseObject = null): BaseObject => {
-    const element = factory(props, parent) as BaseObject;
+const mountPrimitive = (props: BaseProps, container: Container, parent: BaseObject = null): BaseObject => {
+    const element = factory(props, parent);
     element.__children__ = mountChildren(element);
     container.addChild(element.__face__);
     return element;
 };
 
-const mountComposite = (props: BaseElement, container: Container, parent: BaseObject = null, compositeFactory: Factory): BaseObject => {
+const mountComposite = (
+    props: BaseProps,
+    container: Container,
+    parent: BaseObject = null,
+    compositeFactory: Factory): BaseObject => {
     if (isStateless(props, compositeFactory)) {
-        return mountStateless(props, container, parent, compositeFactory);
+        const stateless = mountStateless(props, container, parent, compositeFactory);
+        return stateless;
     } else {
-        const element = compositeFactory(props, parent) as BaseObject;
+        const element = compositeFactory(props, parent);
         const template = element.render();
-        const context = { ...props, ...element.getContext() };
-        const parsed = parse(template, context);
-        return mount(parsed, container, parent);
+        const parsed = parse(template, element);
+        element.willMount();
+        mount(parsed, container, parent);
+        element.__children__ = mountChildren(element);
+        element.didMount();
+        return element;
     }
 };
 
-const mountStateless = (props: BaseElement, container: Container, parent: BaseObject = null, compositeFactory: Factory): BaseObject => {
-    const result = compositeFactory(props) as StatelessElement;
-    const parsed = parse(result.template, result.context || props);
-    return mount(parsed, container, parent);
+const mountStateless = (props: BaseProps, container: Container, parent: BaseObject = null, compositeFactory: Factory): BaseObject => {
+    const element = compositeFactory(props) as StatelessComponent;
+    mount(element.props, container, parent);
+    element.__children__ = mountChildren(element);
+    return element;
 };
 
 const mountChildren = (element: BaseObject): { [key: string]: BaseObject } => {
@@ -50,7 +64,7 @@ const mountChildren = (element: BaseObject): { [key: string]: BaseObject } => {
     }, {});
 };
 
-export const update = () => {
+export const update = (elem: BaseObject) => {
 
 };
 
@@ -70,11 +84,11 @@ const isPrimitive = (type: string) => {
     return type in PRIMITIVE_TYPES;
 };
 
-const isComposite = (props: BaseElement): boolean => {
+const isComposite = (props: BaseProps): boolean => {
     return !isPrimitive(props.type);
 };
 
-const isStateless = (props: BaseElement, compositeFactory: Factory): boolean => {
+const isStateless = (props: BaseProps, compositeFactory: Factory): boolean => {
     const elem = compositeFactory(props);
-    return 'template' in elem && 'context' in elem;
+    return elem.stateless;
 };

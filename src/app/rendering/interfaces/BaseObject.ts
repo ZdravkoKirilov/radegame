@@ -1,7 +1,4 @@
-import { DisplayObject, Container, Graphics, Sprite, Application } from 'pixi.js';
-import { Subject } from 'rxjs/Subject';
-
-import { BaseElement, BaseObjectChangeEvent } from '../models';
+import { BaseProps } from '../models';
 
 export abstract class BaseObject {
 
@@ -9,16 +6,23 @@ export abstract class BaseObject {
     abstract __children__: {
         [key: string]: BaseObject;
     }
-    abstract props: BaseElement;
-    abstract parent?: BaseObject;
+    abstract props: any;
+    abstract state: any;
+    abstract __parent__?: BaseObject;
     abstract template?: string;
+    abstract stateless: boolean;
 
     abstract render(): string;
-    abstract getContext(): any;
     abstract remove(): void;
-    abstract update(props: BaseElement, prevProps?: BaseElement): void;
+    abstract shouldUpdate(): boolean;
+    abstract willReceiveProps(props: any): BaseProps;
+    abstract willMount(): void;
+    abstract didMount(): void;
+    abstract willUnmount(): void;
+    abstract willUpdate(props: any, state: any): any;
+    abstract didUpdate(): void;
 }
 
-export type StatelessObject = (props: BaseElement) => StatelessElement;
+export type StatelessObject = (props: BaseProps) => StatelessElement;
 
-export type StatelessElement = { template: string, context: any };
+export type StatelessElement = { template?: string, context?: any };
