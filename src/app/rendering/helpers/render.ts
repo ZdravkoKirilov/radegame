@@ -1,13 +1,16 @@
-import { Container } from "pixi.js";
+import { Container, DisplayObject } from "pixi.js";
 
-import { BaseObject, StatelessObject, StatelessElement } from "../interfaces";
+import { BaseObject } from "../interfaces";
 import { BaseProps } from "../models";
 import { factory, Factory } from "./factory";
 import { PRIMITIVE_TYPES } from "../config";
 import { parse } from "./parser";
 import { StatelessComponent } from '../primitives';
 
-export const createRenderer = (compositeFactory: Factory) => (props: BaseProps, container: Container, parent: BaseObject = null) => mount(props, container, parent, compositeFactory);
+export const createRenderer =
+    (compositeFactory: Factory) =>
+        (props: BaseProps, container: Container, parent: BaseObject = null) =>
+            mount(props, container, parent, compositeFactory);
 
 const mount = (
     props: BaseProps,
@@ -26,6 +29,7 @@ const mount = (
 const mountPrimitive = (props: BaseProps, container: Container, parent: BaseObject = null): BaseObject => {
     const element = factory(props, parent);
     element.__children__ = mountChildren(element);
+    element.__container = container;
     container.addChild(element.__face__);
     return element;
 };
@@ -41,10 +45,11 @@ const mountComposite = (
     } else {
         const element = compositeFactory(props, parent);
         const template = element.render();
-        const parsed = parse(template, element);
+        const parsed = parse({ source: template, context: element });
         element.willMount();
         mount(parsed, container, parent);
         element.__children__ = mountChildren(element);
+        element.__container = container;
         element.didMount();
         return element;
     }
@@ -53,6 +58,7 @@ const mountComposite = (
 const mountStateless = (props: BaseProps, container: Container, parent: BaseObject = null, compositeFactory: Factory): BaseObject => {
     const element = compositeFactory(props) as StatelessComponent;
     mount(element.props, container, parent);
+    element.__container__ = container;
     element.__children__ = mountChildren(element);
     return element;
 };
@@ -64,20 +70,39 @@ const mountChildren = (element: BaseObject): { [key: string]: BaseObject } => {
     }, {});
 };
 
-export const update = (elem: BaseObject) => {
-
+export const update = (elem: BaseObject, newData: BaseProps) => {
+    if (isPrimitive(elem.props.type)) {
+        const graphic = elem.__face__ as DisplayObject;
+        Object.keys(newData.mapped).forEach(key => {
+            graphic[key] = newData[key];
+        });
+    }
+    updateChildren(elem, newData);
 };
 
-const updatePrimitive = () => {
+const updateChildren = (elem: BaseObject, newData: BaseProps) => {
+    const currentChildren = new Set(Object.values(elem.children));
+    const currentChildrenNames = new Set(Object.keys(elem.children));
 
-};
+    const newChildren = new Set(newData.children);
+    const newChildrenNames = new Set(newData.children.map(child => child.name));
 
-const updateComposite = () => {
-
-};
-
-const updateStateless = () => {
-
+    currentChildren.forEach(child => {
+        if (!newChildrenNames.has(child.props.name)) {
+            child.remove();
+        }
+    });
+    newChildren.forEach((child: BaseProps) => {
+        if (currentChildrenNames.has(child.name)) {
+            currentChildren.forEach(elem => {
+                if (elem.props.name === child.name) {
+                    elem.setProps(child);
+                }
+            });
+        } else {
+            mount(child, elem.__face__, elem, null);
+        }
+    });
 };
 
 const isPrimitive = (type: string) => {

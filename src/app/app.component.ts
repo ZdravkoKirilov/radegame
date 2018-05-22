@@ -31,11 +31,19 @@ export class AppComponent implements OnInit {
         this.store.dispatch(new GetCurrentUserAction());
 
         const markup = `
-        <container name='root' dynamic='(logInput({param}, gosho))' mapped='{mapped}' onClick='{onClick}'>
+        <container name='root' dynamic='(logInput({param}, gosho))' mapped='{mapped}' logInput='{logInput}'>
             <sprite name='sprite' mapped='{sprite.mapped}'/>
-            <text name='text' mapped='{text.mapped}' text='just a test'/>
-            <collection name='orders' mapped='{orders.mapped}' children='{orders.children}'>
-                <sprite name='{id}' mapped='{meta}'/>
+            <text name='text' mapped='{text.mapped}'>{param}</text>
+        </container>`;
+
+        const markup2 = `
+        <container name='root' dynamic='(logInput({param}, gosho))' mapped='{mapped}' logInput='{logInput}'>
+            <sprite name='sprite' mapped='{sprite.mapped}'/>
+            <text name='text' mapped='{text.mapped}' value='just a test'/>
+            <collection name='orders' mapped='{orders.mapped}' children='{orders.children}' item='@order'>
+                <collection name='nested' children='{@order.children}' item='@nestedItem'>
+                    <sprite name='{@nestedItem.id}' fromGrandParent='(logInput({param}, {@order.id}))' fromParent='{@order.id}'/>
+                </collection>
             </collection>
         </container>`;
 
@@ -74,20 +82,33 @@ export class AppComponent implements OnInit {
                         meta: {
                             x: 500,
                             y: 150
-                        }
+                        },
+                        children: [
+                            {
+                                id: '15'
+                            }
+                        ]
                     },
                     {
                         id: '3',
                         meta: {
                             x: 50,
                             y: 15
-                        }
+                        },
+                        children: [
+                            {
+                                id: '16'
+                            }
+                        ]
                     },
                 ]
             },
         };
 
-        const result = parse(markup, context);
+        const result = parse({
+            source: markup,
+            context
+        });
         console.dir(result);
     }
 

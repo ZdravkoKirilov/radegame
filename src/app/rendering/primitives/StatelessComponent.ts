@@ -2,7 +2,7 @@ import { Container } from "pixi.js";
 
 import { BaseObject } from "../interfaces";
 import { BaseProps } from "../models";
-import { update } from "../helpers";
+import { update, EventEmitter } from "../helpers";
 
 export class StatelessComponent implements Partial<BaseObject> {
     state = null;
@@ -13,14 +13,25 @@ export class StatelessComponent implements Partial<BaseObject> {
     willUnmount = null;
     willUpdate = null;
     didUpdate = null;
+    setState = null;
 
+    readonly change: EventEmitter<BaseProps> = new EventEmitter();
     readonly __face__: any = null;
     readonly __parent__: BaseObject;
     protected __props__: BaseProps;
+    public __container__: any;
     public template: string;
     public stateless = true;
     public __children__: {
         [key: string]: BaseObject;
+    }
+
+    get container() {
+        return this.__container__;
+    }
+
+    get children() {
+        return this.__children__;
     }
 
     get props() {
@@ -47,7 +58,7 @@ export class StatelessComponent implements Partial<BaseObject> {
 
     static update(target: BaseObject, props?: any, prevProps?: any) {
         props = props || {};
-        update(target);
+        update(target, props);
     }
 
     remove() {

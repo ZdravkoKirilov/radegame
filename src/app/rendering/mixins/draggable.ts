@@ -1,6 +1,7 @@
 import { interaction } from 'pixi.js';
 import { BaseObject } from "../interfaces";
 import { EVENT_TYPES, BaseObjectChangeEvent } from '../models';
+import { makeDraggable, getFirstGraphic } from '../helpers';
 
 export type Draggable = BaseObject & {
     dragging?: boolean;
@@ -10,7 +11,10 @@ export type Draggable = BaseObject & {
 const onDragStart = (obj: Draggable) => (event: interaction.InteractionEvent) => {
     event.stopPropagation();
     if (!obj.dragging) {
-        obj.__face__.alpha = 0.5;
+        obj.setState({
+            ...obj.state,
+            alpha: 0.5
+        });
         obj.dragging = true;
     }
 };
@@ -36,7 +40,7 @@ const onDragEnd = (obj: Draggable) => (event: interaction.InteractionEvent) => {
     event.stopPropagation();
     obj.__face__.alpha = 1;
     if (obj.dragging && obj.hasMoved) {
-       
+
     }
     obj.dragging = false;
     obj.hasMoved = false;
@@ -55,19 +59,12 @@ export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T)
 
     const newConstructor: any = function (...args) {
         const instance: Draggable = construct(original, args);
-        instance.__face__.interactive = true;
-        instance.__face__.buttonMode = true;
-       
+        const graphic = getFirstGraphic<any>(instance);
+
         instance.dragging = false;
         instance.hasMoved = false;
-        // setTimeout(() => {
-        //     instance.change.next('test');
-        // }, 2000);
 
-        instance.__face__
-            .on('pointerdown', onDragStart(instance))
-            .on('pointerup', onDragEnd(instance))
-            .on('pointermove', onDragMove(instance))
+        makeDraggable(graphic, instance, { onDragStart, onDragEnd, onDragMove });
 
         return instance;
     }

@@ -2,16 +2,26 @@ import { Container } from "pixi.js";
 
 import { BaseObject } from "../interfaces";
 import { BaseProps } from "../models";
-import { update } from "../helpers";
+import { update, EventEmitter } from "../helpers";
 
 export class DisplayComponent<P extends BaseProps, S> implements Partial<BaseObject> {
+    readonly change: EventEmitter<P & S> = new EventEmitter();
     readonly __face__: any = null;
     readonly __parent__: BaseObject;
+    public __container__: any;
     protected __props__: P;
     protected __state__: S;
     public stateless = false;
     public __children__: {
         [key: string]: BaseObject;
+    }
+
+    get container() {
+        return this.__container__;
+    }
+
+    get children() {
+        return this.__children__;
     }
 
     get props() {
@@ -69,11 +79,12 @@ export class DisplayComponent<P extends BaseProps, S> implements Partial<BaseObj
         props = props || {};
         state = state || {};
         const merged = target.willUpdate(props, state);
-        update(target);
+        update(target, merged);
         target.didUpdate();
     }
 
     remove() {
+        this.willUnmount();
         this.__face__.destroy();
     }
 };

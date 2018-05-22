@@ -1,4 +1,5 @@
 import { BaseProps } from '../models';
+import { EventEmitter } from '../helpers';
 
 export abstract class BaseObject {
 
@@ -9,8 +10,18 @@ export abstract class BaseObject {
     abstract props: any;
     abstract state: any;
     abstract __parent__?: BaseObject;
+    abstract __container?: any;
     abstract template?: string;
     abstract stateless: boolean;
+
+    get children() {
+        return this.__children__;
+    }
+
+    abstract setProps(newProps: any): void;
+    abstract setState(newState: any): void;
+
+    abstract change: EventEmitter<BaseProps>;
 
     abstract render(): string;
     abstract remove(): void;

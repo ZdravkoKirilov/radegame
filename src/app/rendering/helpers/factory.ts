@@ -1,6 +1,6 @@
 import { Text, Sprite, TextStyle, Container } from 'pixi.js';
 
-import { BaseObject, StatelessObject, StatelessElement } from '../interfaces';
+import { BaseObject, StatelessElement } from '../interfaces';
 import { BaseProps } from '../models';
 import { PRIMITIVE_TYPES } from '../config';
 import { PixiText, PixiSprite, PixiCollection, PixiContainer } from '../primitives';
@@ -44,8 +44,8 @@ export const createFactory = (components: { [key: string]: any }): Factory => {
         if (data.type in mapping) {
             const blueprint = mapping[data.type];
             if (typeof blueprint === 'function') {
-                const result = blueprint(data);
-                const props = parse(result.template, result.context || data);
+                const result = blueprint(data) as StatelessElement;
+                const props = parse({ source: result.template, context: result.context || data, removePrefix: true });
                 return new StatelessComponent(props, result.template, null, parent);
             }
             return new blueprint(data, null, parent) as BaseObject;
