@@ -1,19 +1,15 @@
-import { Sprite, DisplayObject, Container } from 'pixi.js';
-import { Subject } from 'rxjs/Subject';
+import { Sprite } from 'pixi.js';
 
 import { BaseProps } from '../../models';
-import { BaseObject } from '../../interfaces';
-import { DisplayComponent } from '../DisplayComponent';
+import { BasicComponent } from '../../mixins';
+import { Component } from '../../interfaces';
 
-export class PixiSprite extends DisplayComponent<BaseProps, any> {
+export class PixiSprite extends BasicComponent {
 
-    public __face__: Sprite;
+    graphic: Sprite;
 
-    constructor(props: BaseProps, face?: Sprite, parent?: BaseObject) {
-        super(props, face, parent, );
+    constructor(props: BaseProps, parent: Component) {
+        super(props, new Sprite(props.image), parent);
     }
-    render() { 
-        return '';
-    };
 }
 

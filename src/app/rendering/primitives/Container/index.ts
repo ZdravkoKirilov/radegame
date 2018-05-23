@@ -1,18 +1,15 @@
 import { Container } from "pixi.js";
 
-import { BaseObject } from "../../interfaces";
 import { BaseProps } from "../../models";
-import { DisplayComponent } from "../DisplayComponent";
+import { BasicComponent } from "../../mixins";
+import { Component } from "../../interfaces";
 
-export class PixiContainer extends DisplayComponent<BaseProps, any> {
+export class PixiContainer extends BasicComponent {
 
-    __face__: Container;
+    graphic: Container;
 
-    constructor(props: BaseProps, face: Container, parent?: BaseObject) {
-        super(props, face, parent);
+    constructor(props: BaseProps, parent?: Component) {
+        super(props, new Container(), parent);
     }
 
-    render() {
-        return null;
-    }
 }

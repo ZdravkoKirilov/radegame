@@ -1,4 +1,5 @@
 import { TextStyleOptions , Texture} from "pixi.js";
+import { Styles } from "./Styles";
 
 export type BaseProps = {
     type?: string;
@@ -6,17 +7,9 @@ export type BaseProps = {
     children?: BaseProps[];
     template?: string;
     body?: string;
-    mapped?: {
-        x?: number;
-        y?: number;
-        width?: number;
-        height?: number;
-        visible?: boolean;
-        rotation?: number;
-    },
-    hovered?: {},
+    mapped?: Styles,
     image?: Texture;
-    text?: string;
+    value?: string;
     textStyle?: TextStyleOptions;
     [key: string]: any;
 };

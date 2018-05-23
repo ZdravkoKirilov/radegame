@@ -1,6 +1,7 @@
 import { DisplayObject } from "pixi.js";
+
 import { BaseProps } from "../models";
-import { BaseObject } from "../interfaces";
+import { Component } from "../interfaces";
 
 export const assignEvents = (data: BaseProps, graphic: any) => {
     const events = Object.keys(data).reduce((total: any, key: string) => {
@@ -17,7 +18,7 @@ export const assignEvents = (data: BaseProps, graphic: any) => {
     }, {});
 };
 
-export const makeDraggable = (elem: DisplayObject, obj: BaseObject, handlers: { onDragStart: Function, onDragMove: Function, onDragEnd: Function }) => {
+export const makeDraggable = (elem: DisplayObject, obj: Component, handlers: { onDragStart: Function, onDragMove: Function, onDragEnd: Function }) => {
     elem.interactive = true;
     elem.buttonMode = true;
 

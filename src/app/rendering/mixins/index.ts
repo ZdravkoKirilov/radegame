@@ -1,2 +1,3 @@
-export * from './draggable';
-export * from './interactive';
+export * from './BasicComponent';
+export * from './StatelessComponent';
+export * from './CompositeComponent';

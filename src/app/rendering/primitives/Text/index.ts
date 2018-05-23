@@ -1,24 +1,20 @@
 import { Text, TextStyle } from "pixi.js";
 
-import { BaseObject } from "../../interfaces";
+import { Component } from "../../interfaces";
 import { BaseProps } from "../../models";
-import { DisplayComponent } from "../DisplayComponent";
+import { BasicComponent } from "../../mixins";
 
-export class PixiText extends DisplayComponent<BaseProps, any> {
+export class PixiText extends BasicComponent {
 
     static defaultTextStyle = {
         fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center'
     };
 
-    public __face__: Text;
-    public textStyle: TextStyle;
+    graphic: Text;
+    style: TextStyle;
 
-    constructor(props: BaseProps, face: Text, textStyle: TextStyle, parent?: BaseObject) {
-        super(props, face, parent);
-        this.textStyle = textStyle;
-    }
-
-    render() {
-        return '';
+    constructor(props: BaseProps, parent?: Component) {
+        const style = new TextStyle(props.textStyle || PixiText.defaultTextStyle);
+        super(props, new Text(props.value, style), parent);
     }
 }
