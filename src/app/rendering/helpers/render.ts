@@ -38,10 +38,10 @@ const mountComposite = (props: BaseProps, container: Container, parent: Componen
     } else {
         const element = compositeFactory(props, parent) as CompositeComponent<typeof props, any>;
         const template = element.render();
-        // here can replace <children> reserver node with props.children?
+        // here in template: can replace <children> reserved node with props.children?
         const parsed = parse({ source: template, context: element });
         element.willMount();
-        mount(parsed, container, parent);
+        mount(parsed, container, element, compositeFactory);
         element.didMount();
         return element;
     }
@@ -49,7 +49,7 @@ const mountComposite = (props: BaseProps, container: Container, parent: Componen
 
 const mountStateless = (props: BaseProps, container: Container, parent: Component = null, compositeFactory: Factory): Component => {
     const element = compositeFactory(props) as StatelessComponent<typeof props>;
-    mount(element.props, container, parent);
+    mount(element.props, container, element, compositeFactory);
     return element;
 };
 
