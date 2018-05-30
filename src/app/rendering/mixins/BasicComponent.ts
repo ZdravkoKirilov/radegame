@@ -5,12 +5,22 @@ import { BaseProps } from "../models";
 import { Component } from "../interfaces";
 
 export class BasicComponent {
+    basic = true;
     change: EventEmitter<BaseProps> = new EventEmitter();
     props: BaseProps;
     graphic: DisplayObject;
     container: Container;
     parent: Component;
     children: Array<Component>;
+    firstChild: Component;
+
+    get firstBasicChild(): Component {
+        let current = this.firstChild;
+        while (!current.basic && current.firstChild) {
+            current = current.firstChild;
+        }
+        return current;
+    }
 
     constructor(props: BaseProps, graphic: DisplayObject, parent: Component) {
         this.parent = parent;
