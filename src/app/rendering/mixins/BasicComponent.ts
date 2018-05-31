@@ -1,12 +1,12 @@
 import { DisplayObject, Container } from "pixi.js";
 
-import { EventEmitter, assignEvents } from "../helpers";
+import { EventEmitter, assignEvents, EventPayload } from "../helpers";
 import { BaseProps } from "../models";
 import { Component } from "../interfaces";
 
 export class BasicComponent {
     basic = true;
-    change: EventEmitter<BaseProps> = new EventEmitter();
+    change: EventEmitter<EventPayload> = new EventEmitter();
     props: BaseProps;
     graphic: DisplayObject;
     container: Container;
@@ -14,7 +14,7 @@ export class BasicComponent {
     children: Array<Component>;
     firstChild: Component;
 
-    get firstBasicChild(): Component {
+    get firstBasicChild(): BasicComponent {
         let current = this.firstChild;
         while (!current.basic && current.firstChild) {
             current = current.firstChild;
@@ -22,33 +22,46 @@ export class BasicComponent {
         return current;
     }
 
+    get width() {
+        return (this.graphic as any).width;
+    }
+
+    get height() {
+        return (this.graphic as any).height;
+    }
+
     constructor(props: BaseProps, graphic: DisplayObject, parent: Component) {
         this.parent = parent;
         this.graphic = graphic;
-        assignEvents(props, graphic);
         this.setProps(props);
+        assignEvents(this, graphic);
     }
 
     render(container: Container): void {
         this.container = container;
         this.container.addChild(this.graphic);
+        this.update(this.props);
     }
 
-    setProps(props: BaseProps) {
+    setProps(props: Partial<BaseProps>) {
         const current = this.props || {};
         this.props = { ...current, ...props };
         if (this.shouldUpdate(props)) {
             this.update(this.props);
         }
     }
-
+ 
     shouldUpdate(nextProps: BaseProps, nextState = null): boolean {
         return true;
     }
 
     update(nextProps: BaseProps, nextState = null) {
-        Object.keys(nextProps).forEach(key => {
-            this.graphic[key] = nextProps[key];
+        Object.keys(nextProps.styles || {}).forEach(key => {
+            this.graphic[key] = nextProps.styles[key];
+        });
+
+        Object.keys(nextProps.mapped || {}).forEach(key => {
+            this.graphic[key] = nextProps.mapped[key];
         });
     }
 

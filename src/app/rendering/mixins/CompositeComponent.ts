@@ -32,9 +32,7 @@ export class CompositeComponent<P extends BaseProps, S> extends BasicComponent {
     }
 
     update(nextProps: P, nextState: S) {
-        Object.keys(nextProps).forEach(key => {
-            this.graphic[key] = nextProps[key];
-        });
+
     }
 
     render(): string {

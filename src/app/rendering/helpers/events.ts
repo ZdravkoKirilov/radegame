@@ -1,30 +1,21 @@
-import { DisplayObject } from "pixi.js";
+import { DisplayObject, interaction } from "pixi.js";
 
 import { BaseProps } from "../models";
 import { Component } from "../interfaces";
 
-export const assignEvents = (data: BaseProps, graphic: any) => {
-    const events = Object.keys(data).reduce((total: any, key: string) => {
-        if (key.startsWith('on') && typeof data[key] === 'function') {
-            const handler = data[key];
+export const assignEvents = (comp: Component, graphic: DisplayObject) => {
+    const events = Object.keys(comp.props).reduce((total: any, key: string) => {
+        if (key.startsWith('on') && typeof comp.props[key] === 'function') {
+            const handler = comp.props[key];
             const eventName = key.slice(2).toLowerCase();
             if (supported.has(eventName)) {
-                graphic.on(eventName, event => {
-                    handler(event, data);
+                graphic.on(eventName as interaction.InteractionEventTypes, event => {
+                    handler(event, comp);
                 });
             }
         }
         return total;
     }, {});
-};
-
-export const makeDraggable = (elem: DisplayObject, obj: Component, handlers: { onDragStart: Function, onDragMove: Function, onDragEnd: Function }) => {
-    elem.interactive = true;
-    elem.buttonMode = true;
-
-    elem.on('pointerdown', handlers.onDragStart(obj))
-        .on('pointerup', handlers.onDragEnd(obj))
-        .on('pointermove', handlers.onDragMove(obj));
 };
 
 const supported = new Set([
@@ -52,3 +43,14 @@ const supported = new Set([
     'touchendoutside',
     'touchstart',
 ]);
+
+export enum EVENTS {
+    DRAG_END = 'DRAG_END'
+};
+
+export type EventType = typeof EVENTS.DRAG_END;
+
+export type EventPayload = {
+    type: EventType;
+    payload?: any;
+};

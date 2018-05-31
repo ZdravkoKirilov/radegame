@@ -8,6 +8,7 @@ export type BaseProps = {
     template?: string;
     body?: string;
     mapped?: Styles,
+    styles?: Set<Styles>;
     image?: Texture;
     value?: string;
     textStyle?: TextStyleOptions;

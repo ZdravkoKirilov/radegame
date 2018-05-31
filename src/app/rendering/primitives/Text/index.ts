@@ -7,14 +7,14 @@ import { BasicComponent } from "../../mixins";
 export class PixiText extends BasicComponent {
 
     static defaultTextStyle = {
-        fontFamily: 'Arial', fontSize: 24, fill: 0xff1010, align: 'center'
+        fontFamily: 'Arial', fontSize: 24, stroke: '#ffffff', fill: ['#ffffff'], align: 'center', strokeThickness: 1,
     };
 
     graphic: Text;
     style: TextStyle;
 
     constructor(props: BaseProps, parent?: Component) {
-        const style = new TextStyle(props.textStyle || PixiText.defaultTextStyle);
+        const style = new TextStyle({ ...PixiText.defaultTextStyle, ...(props.textStyle || {}), });
         super(props, new Text(props.value, style), parent);
     }
 }

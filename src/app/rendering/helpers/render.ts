@@ -31,7 +31,6 @@ const mountPrimitive = (props: BaseProps, container: Container, parent: Componen
 };
 
 const mountComposite = (props: BaseProps, container: Container, parent: Component = null, factory: Factory): Component => {
-
     const element = factory(props, parent) as StatelessComponent<typeof props> & CompositeComponent<typeof props, any>;
     const template = element.render();
     // here detect <children> notation?
@@ -56,5 +55,5 @@ const mountChildren = (props: BaseProps, container: Container, parent: Component
 };
 
 const isPrimitive = (type: string) => {
-    return type in PRIMITIVE_TYPES;
+    return new Set(Object.values(PRIMITIVE_TYPES)).has(type);
 };

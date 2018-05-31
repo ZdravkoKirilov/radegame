@@ -18,4 +18,8 @@ export class StatelessComponent<P extends BaseProps> extends BasicComponent {
         }
         return this.template;
     }
+
+    update() {
+        
+    }
 }
