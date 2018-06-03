@@ -14,7 +14,7 @@ export class PixiText extends BasicComponent {
     style: TextStyle;
 
     constructor(props: BaseProps, parent?: Component) {
-        const style = new TextStyle({ ...PixiText.defaultTextStyle, ...(props.textStyle || {}), });
+        const style = new TextStyle({ ...PixiText.defaultTextStyle, ...(props.textStyle || {}) });
         super(props, new Text(props.value, style), parent);
     }
 }

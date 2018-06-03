@@ -56,12 +56,10 @@ export class AppComponent implements OnInit {
                 mapped: {
                     x: 50,
                     y: 50,
-                    width: 300,
-                    height: 100,
                 },
                 value: 'This is a test',
-                textStye: {
-                    fontSize: 16
+                textStyle: {
+                    fontSize: 18
                 }
             },
             orders: {
@@ -98,13 +96,9 @@ export class AppComponent implements OnInit {
             },
         };
 
-        const result = parse({
-            source: markup,
-            context
-        });
 
         const mount = createRenderer(factory);
-        const elem = mount(result, stage);
+        const elem = mount(markup, stage, context);
         console.dir(elem);
 
         // const markup2 = `

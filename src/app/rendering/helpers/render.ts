@@ -7,10 +7,11 @@ import { parse } from "./parser";
 import { StatelessComponent, BasicComponent, CompositeComponent } from '../mixins';
 import { Component } from "../interfaces";
 
-export const createRenderer =
-    (factory: Factory) =>
-        (props: BaseProps, container: Container, parent: Component = null) =>
-            mount(props, container, parent, factory);
+export const createRenderer = (factory: Factory) => (markup: string, container: Container, context?: any) => {
+    const props = parse({ source: markup, context });
+    return mount(props, container, null, factory);
+};
+
 
 const mount = (props: BaseProps, container: Container, parent: Component = null, factory: Factory = null): Component => {
 
