@@ -8,6 +8,7 @@ import { AppState } from './core';
 import { fadeAnimation } from './animations';
 import { GetCurrentUserAction } from './profile';
 import { PixiSprite, parse, BaseProps, createRenderer, factory } from '@app/rendering';
+import { preloadAssets } from './rendering/helpers/loader';
 
 @Component({
     selector: 'rg-root',
@@ -62,6 +63,13 @@ export class AppComponent implements OnInit {
                     fontSize: 18
                 }
             },
+            sprite: {
+                mapped: {
+                    x: 10,
+                    y: 10
+                },
+                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
+            },
             orders: {
                 mapped: {
                     x: 7,
@@ -99,7 +107,10 @@ export class AppComponent implements OnInit {
 
         const mount = createRenderer(factory);
         const elem = mount(markup, stage, context);
-        console.dir(elem);
+        // preloadAssets(new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'])).subscribe((assets) => {
+        //     debugger;
+        //     const elem = mount(markup, stage, context);
+        // });
 
         // const markup2 = `
         // <container name='root' dynamic='(logInput({param}, gosho))' mapped='{mapped}' logInput='{logInput}'>
