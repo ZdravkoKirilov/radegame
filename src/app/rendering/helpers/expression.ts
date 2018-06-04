@@ -52,6 +52,11 @@ export const attrIsReserved = (value: string): boolean => {
     return typeof value === 'string' && value.startsWith('@');
 };
 
+export const evaluate = (scr: string, context: any): any =>
+{
+    return (new Function( "with(this) { return " + scr + "}")).call(context);
+}
+
 const removePrefix = (str: string): string => {
     str = trim(str);
     return str.slice(str.indexOf('.') + 1);
