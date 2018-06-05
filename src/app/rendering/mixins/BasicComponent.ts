@@ -16,7 +16,7 @@ export class BasicComponent {
 
     get firstBasicChild(): BasicComponent {
         let current = this.firstChild;
-        while (!current.basic && current.firstChild) {
+        while (current && !current.basic && current.firstChild) {
             current = current.firstChild;
         }
         return current;

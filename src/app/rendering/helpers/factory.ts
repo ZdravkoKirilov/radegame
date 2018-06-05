@@ -1,22 +1,22 @@
 import { Text, Sprite, TextStyle, Container } from 'pixi.js';
 
 import { StatelessElement, Component } from '../interfaces';
-import { BaseProps } from '../models';
+import { BaseProps, MetaProps } from '../models';
 import { PRIMITIVE_TYPES } from '../config';
 import { PixiText, PixiSprite, PixiCollection, PixiContainer } from '../primitives';
 import { parse } from './parser';
 import { StatelessComponent, CompositeComponent } from '../mixins';
 
-export type Factory = (data: BaseProps, parent?: Component) => Component;
+export type Factory = (data: BaseProps, parent?: Component, meta?: MetaProps) => Component;
 
 export const createFactory = (factories: Factory[]): Factory => {
-    const createComponent: Factory = (data: BaseProps, parent: Component): Component => {
+    const createComponent: Factory = (data: BaseProps, parent: Component, meta?: MetaProps): Component => {
         let component: Component = null;
         let index = 0;
 
         while (!component && index < factories.length) {
             let factory = factories[index++];
-            component = factory(data, parent);
+            component = factory(data, parent, meta);
         }
 
         return component;
@@ -25,9 +25,10 @@ export const createFactory = (factories: Factory[]): Factory => {
     return createComponent;
 };
 
-export const factory: Factory = (data: BaseProps, parent: Component = null): Component => {
+export const factory: Factory = (data: BaseProps, parent: Component = null, meta?: MetaProps): Component => {
     switch (data.type) {
         case PRIMITIVE_TYPES.SPRITE:
+            data.image = meta.textures[data.imageSrc].texture;
             const sprite = new PixiSprite(data, parent);
             return sprite;
         case PRIMITIVE_TYPES.TEXT:

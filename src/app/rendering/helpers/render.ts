@@ -1,37 +1,37 @@
 import { Container, DisplayObject } from "pixi.js";
 
-import { BaseProps } from "../models";
+import { BaseProps, MetaProps } from "../models";
 import { Factory } from "./factory";
 import { PRIMITIVE_TYPES } from "../config";
 import { parse } from "./parser";
 import { StatelessComponent, BasicComponent, CompositeComponent } from '../mixins';
 import { Component } from "../interfaces";
 
-export const createRenderer = (factory: Factory) => (markup: string, container: Container, context?: any) => {
+export const createRenderer = (factory: Factory) => (markup: string, container: Container, context?: any, meta?: MetaProps) => {
     const props = parse({ source: markup, context });
-    return mount(props, container, null, factory);
+    return mount(props, container, null, factory, meta);
 };
 
 
-const mount = (props: BaseProps, container: Container, parent: Component = null, factory: Factory = null): Component => {
+const mount = (props: BaseProps, container: Container, parent: Component = null, factory: Factory = null, meta?: MetaProps): Component => {
 
     if (isPrimitive(props.type)) {
-        return mountPrimitive(props, container, parent, factory);
+        return mountPrimitive(props, container, parent, factory, meta);
     } else {
-        return mountComposite(props, container, parent, factory);
+        return mountComposite(props, container, parent, factory, meta);
     }
 };
 
-const mountPrimitive = (props: BaseProps, container: Container, parent: Component = null, factory: Factory): Component => {
-    const element: BasicComponent = factory(props, parent) as BasicComponent;
+const mountPrimitive = (props: BaseProps, container: Container, parent: Component = null, factory: Factory, meta?: MetaProps ): Component => {
+    const element: BasicComponent = factory(props, parent, meta) as BasicComponent;
     if (container instanceof Container) {
         element.render(container);
     }
-    element.children = mountChildren(props, element.graphic as Container, element, factory);
+    element.children = mountChildren(props, element.graphic as Container, element, factory, meta);
     return element;
 };
 
-const mountComposite = (props: BaseProps, container: Container, parent: Component = null, factory: Factory): Component => {
+const mountComposite = (props: BaseProps, container: Container, parent: Component = null, factory: Factory, meta?: MetaProps): Component => {
     const element = factory(props, parent) as StatelessComponent<typeof props> & CompositeComponent<typeof props, any>;
     const template = element.render();
     // here detect <children> notation?
@@ -42,7 +42,7 @@ const mountComposite = (props: BaseProps, container: Container, parent: Componen
         element.willMount();
     }
 
-    element.firstChild = mount(parsed, container, element, factory);
+    element.firstChild = mount(parsed, container, element, factory, meta);
 
     if (!stateless) {
         element.didMount();
@@ -51,8 +51,8 @@ const mountComposite = (props: BaseProps, container: Container, parent: Componen
     return element;
 };
 
-const mountChildren = (props: BaseProps, container: Container, parent: Component = null, factory: Factory): Component[] => {
-    return props.children.map(childProps => mount(childProps, container, parent, factory));
+const mountChildren = (props: BaseProps, container: Container, parent: Component = null, factory: Factory, meta?: MetaProps): Component[] => {
+    return props.children.map(childProps => mount(childProps, container, parent, factory, meta));
 };
 
 const isPrimitive = (type: string) => {

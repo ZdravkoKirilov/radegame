@@ -28,7 +28,8 @@ export const compute = (asString: string, params: ParseParams): any => {
         const closureName = getClosureName(noWrappers);
         const source = closureName ? params.closure[closureName] : params.context;
         const prop = params.removePrefix || closureName ? removePrefix(noWrappers) : noWrappers;
-        return isComputed(prop) ? JSON.parse(prop) : deepProp.get(source, prop, '');
+        //return isComputed(prop) ? JSON.parse(prop) : deepProp.get(source, prop, '');
+        return isComputed(prop) ? JSON.parse(prop) : evaluate(prop, source);
     }
     return asString;
 };
@@ -52,9 +53,8 @@ export const attrIsReserved = (value: string): boolean => {
     return typeof value === 'string' && value.startsWith('@');
 };
 
-export const evaluate = (scr: string, context: any): any =>
-{
-    return (new Function( "with(this) { return " + scr + "}")).call(context);
+export const evaluate = (scr: string, context: any): any => {
+    return (new Function("with(this) { return " + scr + "}")).call(context);
 }
 
 const removePrefix = (str: string): string => {

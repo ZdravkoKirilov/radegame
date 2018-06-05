@@ -36,12 +36,16 @@ export class AppComponent implements OnInit {
         renderer.autoResize = true;
         this.DOMElem.nativeElement.appendChild(renderer.view);
 
-        requestAnimationFrame(() => {
-            renderer.render(stage);
-        });
+        setInterval(() => {
+            requestAnimationFrame(() => {
+                renderer.render(stage);
+            });
+        }, 1);
+
 
         const markup = `
         <container name='root' mapped='{mapped}' >
+            <sprite name="kartinka" mapped='{sprite.mapped}' imageSrc='{sprite.src}'></sprite>
             <text name='text' mapped='{text.mapped}' textStyle='{text.textStyle}'>{text.value}</text>
         </container>`;
 
@@ -66,9 +70,11 @@ export class AppComponent implements OnInit {
             sprite: {
                 mapped: {
                     x: 10,
-                    y: 10
+                    y: 0,
+                    width: 50,
+                    height: 50
                 },
-                image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
+                src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
             },
             orders: {
                 mapped: {
@@ -106,11 +112,12 @@ export class AppComponent implements OnInit {
 
 
         const mount = createRenderer(factory);
-        const elem = mount(markup, stage, context);
-        // preloadAssets(new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'])).subscribe((assets) => {
-        //     debugger;
-        //     const elem = mount(markup, stage, context);
-        // });
+        //const elem = mount(markup, stage, context);
+        preloadAssets(new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'])).subscribe((assets) => {
+            const elem = mount(markup, stage, context, {
+                textures: assets
+            });
+        });
 
         // const markup2 = `
         // <container name='root' dynamic='(logInput({param}, gosho))' mapped='{mapped}' logInput='{logInput}'>
