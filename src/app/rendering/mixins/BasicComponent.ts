@@ -56,9 +56,6 @@ export class BasicComponent {
     }
 
     update(nextProps: BaseProps, nextState = null) {
-        Object.keys(nextProps.styles || {}).forEach(key => {
-            this.graphic[key] = nextProps.styles[key];
-        });
 
         Object.keys(nextProps.mapped || {}).forEach(key => {
             this.graphic[key] = nextProps.mapped[key];

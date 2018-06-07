@@ -6,6 +6,7 @@ import { Component } from "../interfaces";
 
 export class StatelessComponent<P extends BaseProps> extends BasicComponent {
     stateless = true;
+    basic = false;
     template: string;
 
     constructor(props: P, parent: Component, template: string) {

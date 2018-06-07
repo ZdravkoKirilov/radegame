@@ -18,10 +18,8 @@ export const createFactory = (factories: Factory[]): Factory => {
             let factory = factories[index++];
             component = factory(data, parent, meta);
         }
-
         return component;
     };
-
     return createComponent;
 };
 
@@ -45,16 +43,12 @@ export const factory: Factory = (data: BaseProps, parent: Component = null, meta
     }
 };
 
-export const createCustomFactory = (components: { [key: string]: any }): Factory => {
-    const mapping = Object.values(components).reduce((total, elem) => {
-        total[elem.name] = elem;
-        return total;
-    }, {});
+export const createCustomFactory = (mapping: { [name: string]: any }): Factory => {
 
-    const factory: Factory = (data?: BaseProps, parent: Component = null): Component => {
+    const factory: Factory = (data?: BaseProps, parent: Component = null, meta?: MetaProps): Component => {
         if (data.type in mapping) {
             const blueprint = mapping[data.type];
-            if (typeof blueprint === 'function') {
+            if (!blueprint.composite) {
                 const result = blueprint(data) as StatelessElement;
                 return new StatelessComponent(data, parent, result.template);
             }

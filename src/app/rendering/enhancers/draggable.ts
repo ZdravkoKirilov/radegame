@@ -14,9 +14,7 @@ export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T)
     const onDragStart = (obj: Draggable) => (event: interaction.InteractionEvent) => {
         event.stopPropagation();
         const target = obj.firstBasicChild;
-        if (!obj.dragging) {
-            obj.dragging = true;
-        }
+        obj.dragging = true;
     };
 
     const onDragMove = (obj: Draggable) => (event: interaction.InteractionEvent) => {
@@ -25,13 +23,13 @@ export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T)
         if (obj.dragging) {
             const newPos = event.data.getLocalPosition(target.graphic.parent);
             const props = {
-                ...obj.props, mapped: {
-                    ...obj.props.mapped,
+                ...target.props, mapped: {
+                    ...target.props.mapped,
                     x: newPos.x - target.width / 2,
                     y: newPos.y - target.height / 2
                 }
             };
-            obj.setProps(props);
+            target.setProps(props);
             obj.hasMoved = true;
         }
     };
@@ -60,17 +58,22 @@ export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T)
 
     const newConstructor: any = function (...args) {
         const instance: Draggable = construct(original, args);
-        const graphic = instance.firstBasicChild.graphic;
 
         instance.dragging = false;
         instance.hasMoved = false;
 
-        makeDraggable(graphic, instance, { onDragStart, onDragEnd, onDragMove });
+        const oldDidMount = instance.didMount.bind(instance);
+        instance.didMount = () => {
+            const graphic = instance.firstBasicChild.graphic;
+            makeDraggable(graphic, instance, { onDragStart, onDragEnd, onDragMove });
+            oldDidMount();
+        };
 
         return instance;
     }
 
     newConstructor.prototype = original.prototype;
+    newConstructor.composite = true;
 
     return newConstructor;
 };

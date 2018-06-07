@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
 import { AppState } from './core';
 import { fadeAnimation } from './animations';
 import { GetCurrentUserAction } from './profile';
-import { PixiSprite, parse, BaseProps, createRenderer, factory } from '@app/rendering';
-import { preloadAssets } from './rendering/helpers/loader';
+import { PixiSprite, parse, BaseProps, createRenderer, factory, preloadAssets, createCustomFactory, createFactory } from '@app/rendering';
+import { Root } from '@app/game-arena';
 
 @Component({
     selector: 'rg-root',
@@ -30,19 +30,7 @@ export class AppComponent implements OnInit {
         })
     }
 
-    createTestCanvas() {
-        const renderer = autoDetectRenderer(1000, 500, { transparent: false, antialias: true, resolution: 1 });
-        const stage = new Container();
-        renderer.autoResize = true;
-        this.DOMElem.nativeElement.appendChild(renderer.view);
-
-        setInterval(() => {
-            requestAnimationFrame(() => {
-                renderer.render(stage);
-            });
-        }, 1);
-
-
+    render(stage: any) {
         const markup = `
         <container name='root' mapped='{mapped}' >
             <sprite name="kartinka" mapped='{sprite.mapped}' imageSrc='{sprite.src}'></sprite>
@@ -54,25 +42,25 @@ export class AppComponent implements OnInit {
             mapped: {
                 x: 100,
                 y: 200,
-                width: 800,
-                height: 500
+                width: 200,
+                height: 200
             },
             text: {
                 mapped: {
-                    x: 50,
-                    y: 50,
+                    x: 45,
+                    y: 10,
                 },
-                value: 'This is a test',
+                value: 'Winnie',
                 textStyle: {
                     fontSize: 18
                 }
             },
             sprite: {
                 mapped: {
-                    x: 10,
-                    y: 0,
-                    width: 50,
-                    height: 50
+                    x: 25,
+                    y: 30,
+                    width: 150,
+                    height: 150
                 },
                 src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
             },
@@ -129,6 +117,33 @@ export class AppComponent implements OnInit {
         //         </collection>
         //     </collection>
         // </container>`;
+    }
+
+    render2(stage) {
+        const customFactory = createCustomFactory({ Root });
+        const mount = createRenderer(createFactory([factory, customFactory]));
+
+        preloadAssets(new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'])).subscribe((assets) => {
+            const elem = mount('<Root />', stage, null, {
+                textures: assets
+            });
+            console.dir(elem);
+        });
+    }
+
+    createTestCanvas() {
+        const renderer = autoDetectRenderer(1000, 500, { transparent: false, antialias: true, resolution: 1 });
+        const stage = new Container();
+        renderer.autoResize = true;
+        this.DOMElem.nativeElement.appendChild(renderer.view);
+
+        setInterval(() => {
+            requestAnimationFrame(() => {
+                renderer.render(stage);
+            });
+        }, 1);
+
+        this.render2(stage);
     }
     ngOnInit() {
         this.store.subscribe(data => console.log(data));

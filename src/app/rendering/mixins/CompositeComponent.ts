@@ -5,6 +5,9 @@ import { BaseProps } from "../models";
 import { Component } from "../interfaces";
 
 export class CompositeComponent<P extends BaseProps, S> extends BasicComponent {
+    static composite = true;
+    basic = false;
+    
     state: S;
     props: P;
 
@@ -35,7 +38,7 @@ export class CompositeComponent<P extends BaseProps, S> extends BasicComponent {
 
     }
 
-    render(): string {
+    render(): any {
         throw new Error('Render not implemented!');
     }
 

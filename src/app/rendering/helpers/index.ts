@@ -4,3 +4,4 @@ export * from './render';
 export * from './dot-prop';
 export * from './events';
 export * from './event-emitter';
+export * from './loader';
