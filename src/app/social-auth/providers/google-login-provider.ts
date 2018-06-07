@@ -41,7 +41,7 @@ export class GoogleLoginProvider extends BaseLoginProvider {
               user.idToken = backendToken;
               resolve(user);
             } else {
-              resolve(null);
+              //resolve(null);
             }
           }).catch((err: any) => {
             reject(err);

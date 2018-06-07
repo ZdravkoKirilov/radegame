@@ -127,7 +127,6 @@ export class AppComponent implements OnInit {
             const elem = mount('<Root />', stage, null, {
                 textures: assets
             });
-            console.dir(elem);
         });
     }
 

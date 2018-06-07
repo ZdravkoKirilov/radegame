@@ -84,7 +84,7 @@ export class AuthService {
 
   initializeProvider(providerId: string): Promise<SocialUser> {
     return new Promise((resolve, reject) => {
-      const provider = this.providers.get(providerId);
+      const provider = this.providers.get(providerId)!;
       provider.initialize()
         .then((user: SocialUser) => {
           if (user) {
@@ -113,7 +113,7 @@ export class AuthService {
             user.provider = providerId;
             resolve(user);
           })
-          .catch((err) => reject(err));
+          .catch((err: any) => reject(err));
       } else {
         reject(AuthService.ERR_LOGIN_PROVIDER_NOT_FOUND);
       }

@@ -39,12 +39,15 @@ export class Root extends CompositeComponent<Props, State> {
 
     };
 
-
     render() {
         return `
         <container name='root' mapped='{state.mapped}' >
             <sprite name="kartinka" mapped='{state.sprite.mapped}' imageSrc='{state.sprite.src}'></sprite>
             <text name='text' mapped='{state.text.mapped}' textStyle='{state.text.textStyle}'>{state.text.value}</text>
         </container>`;
+    }
+
+    didMount() {
+        console.log('mount');
     }
 };

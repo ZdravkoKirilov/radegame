@@ -1,4 +1,4 @@
-export const toMultipartFormData = (data, nesting = 0) => {
+export const toMultipartFormData = (data: any, nesting = 0) => {
     const formData = new FormData();
     for (let key in data) {
         const value = data[key];
@@ -16,13 +16,13 @@ export const toMultipartFormData = (data, nesting = 0) => {
     return formData;
 };
 
-export function objectToFormData(obj, fd?, pre?) {
+export function objectToFormData(obj: any, fd?: any, pre?: any) {
     fd = fd || new FormData()
 
     if (isUndefined(obj)) {
         return fd
     } else if (isArray(obj)) {
-        obj.forEach(function (value, index) {
+        obj.forEach(function (value: any, index: any) {
             const key = pre + `[${index}]`;
             objectToFormData(value, fd, key)
         })
@@ -46,23 +46,23 @@ export function objectToFormData(obj, fd?, pre?) {
 
     return fd
 
-    function isUndefined(value) {
+    function isUndefined(value: any) {
         return value === undefined
     }
 
-    function isObject(value) {
+    function isObject(value: any) {
         return value === Object(value)
     }
 
-    function isArray(value) {
+    function isArray(value: any) {
         return Array.isArray(value)
     }
 
-    function isFile(value) {
+    function isFile(value: any) {
         return value instanceof File
     }
 
-    function isDate(value) {
+    function isDate(value: any) {
         return value instanceof Date
     }
 }

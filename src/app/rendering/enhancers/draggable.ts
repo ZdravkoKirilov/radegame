@@ -8,12 +8,16 @@ import { EVENTS } from '../helpers';
 export type Draggable = CompositeComponent<any, any> & {
     dragging?: boolean;
     hasMoved?: boolean;
+    dragPoint?: any;
 }
 
 export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T) => {
     const onDragStart = (obj: Draggable) => (event: interaction.InteractionEvent) => {
         event.stopPropagation();
         const target = obj.firstBasicChild;
+        this.dragPoint = event.data.getLocalPosition(target.graphic.parent);
+        this.dragPoint.x -= target.graphic.x;
+        this.dragPoint.y -= target.graphic.y;
         obj.dragging = true;
     };
 
@@ -23,10 +27,9 @@ export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T)
         if (obj.dragging) {
             const newPos = event.data.getLocalPosition(target.graphic.parent);
             const props = {
-                ...target.props, mapped: {
-                    ...target.props.mapped,
-                    x: newPos.x - target.width / 2,
-                    y: newPos.y - target.height / 2
+                mapped: {
+                    x: newPos.x - this.dragPoint.x,
+                    y: newPos.y - this.dragPoint.y
                 }
             };
             target.setProps(props);
@@ -41,6 +44,7 @@ export const draggable = <T extends { new(...args: any[]): {} }>(constructor: T)
         });
         obj.dragging = false;
         obj.hasMoved = false;
+        obj.dragPoint = null;
         obj.change.emit({
             type: EVENTS.DRAG_END
         });

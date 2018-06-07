@@ -7,8 +7,7 @@ export type BaseProps = {
     children?: BaseProps[];
     template?: string;
     body?: string;
-    mapped?: Styles,
-    styles?: Set<Styles>;
+    mapped?: Partial<Styles>,
     imageSrc?: string;
     image?: Texture;
     value?: string;

@@ -22,6 +22,10 @@ export class BasicComponent {
         return current;
     }
 
+    get parentGraphic() {
+        return this.graphic.parent;
+    }
+
     get width() {
         return (this.graphic as any).width;
     }
@@ -50,7 +54,7 @@ export class BasicComponent {
             this.update(this.props);
         }
     }
- 
+
     shouldUpdate(nextProps: BaseProps, nextState = null): boolean {
         return true;
     }

@@ -45,7 +45,7 @@ export class FacebookLoginProvider extends BaseLoginProvider {
               resolve(user);
             });
           } else {
-            resolve(null);
+            //resolve(null);
           }
         });
       });
