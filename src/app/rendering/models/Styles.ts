@@ -7,4 +7,6 @@ export type Styles = {
     alpha: number;
     fill: number;
     stroke: number;
+    strokeWidth: number;
+    padding: number;
 };

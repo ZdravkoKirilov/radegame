@@ -1,4 +1,4 @@
-import { TextStyleOptions , Texture, loaders} from "pixi.js";
+import { TextStyleOptions, Texture, loaders } from "pixi.js";
 import { Styles } from "./Styles";
 
 export type BaseProps = {
@@ -12,9 +12,12 @@ export type BaseProps = {
     image?: Texture;
     value?: string;
     textStyle?: TextStyleOptions;
+    points?: Points;
     [key: string]: any;
 };
 
 export type MetaProps = {
     textures: any;
 };
+
+export type Points = Array<Array<number>>;
