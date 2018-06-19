@@ -4,7 +4,7 @@ import { BaseProps } from "../models";
 import { Component } from "../interfaces";
 
 export const assignEvents = (comp: Component, graphic: DisplayObject) => {
-    const events = Object.keys(comp.props).reduce((total: any, key: string) => {
+    Object.keys(comp.props).forEach((key: string) => {
         if (key.startsWith('on') && typeof comp.props[key] === 'function') {
             const handler = comp.props[key];
             const eventName = key.slice(2).toLowerCase();
@@ -14,8 +14,7 @@ export const assignEvents = (comp: Component, graphic: DisplayObject) => {
                 });
             }
         }
-        return total;
-    }, {});
+    });
 };
 
 const supported = new Set([
@@ -45,10 +44,11 @@ const supported = new Set([
 ]);
 
 export enum EVENTS {
-    DRAG_END = 'DRAG_END'
+    DRAG_END = 'DRAG_END',
+    DRAG_MOVE = 'DRAG_MOVE'
 };
 
-export type EventType = typeof EVENTS.DRAG_END;
+export type EventType = typeof EVENTS.DRAG_END | typeof EVENTS.DRAG_MOVE;
 
 export type EventPayload = {
     type: EventType;

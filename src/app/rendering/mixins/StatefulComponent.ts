@@ -4,10 +4,10 @@ import { BasicComponent } from "./BasicComponent";
 import { BaseProps } from "../models";
 import { Component } from "../interfaces";
 
-export class CompositeComponent<P extends BaseProps, S> extends BasicComponent {
+export class StatefulComponent<P extends BaseProps, S> extends BasicComponent {
     static composite = true;
     basic = false;
-    
+
     state: S;
     props: P;
 

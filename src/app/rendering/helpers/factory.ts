@@ -5,7 +5,7 @@ import { BaseProps, MetaProps } from '../models';
 import { PRIMITIVE_TYPES } from '../config';
 import { PixiText, PixiSprite, PixiCollection, PixiContainer } from '../primitives';
 import { parse } from './parser';
-import { StatelessComponent, CompositeComponent } from '../mixins';
+import { StatelessComponent, StatefulComponent } from '../mixins';
 
 export type Factory = (data: BaseProps, parent?: Component, meta?: MetaProps) => Component;
 
@@ -28,15 +28,21 @@ export const factory: Factory = (data: BaseProps, parent: Component = null, meta
         case PRIMITIVE_TYPES.SPRITE:
             data.image = meta.textures[data.imageSrc].texture;
             const sprite = new PixiSprite(data, parent);
+            sprite.meta = meta;
             return sprite;
         case PRIMITIVE_TYPES.TEXT:
             const text = new PixiText(data, parent);
+            text.meta = meta;
             return text;
         case PRIMITIVE_TYPES.CONTAINER:
             const container = new PixiContainer(data, parent);
+            meta.containers[data.name] = container;
+            container.meta = meta;
             return container;
         case PRIMITIVE_TYPES.COLLECTION:
             const collection = new PixiContainer(data, parent);
+            meta.containers[data.name] = collection;
+            collection.meta = meta;
             return collection;
         default:
             return null;
@@ -50,9 +56,13 @@ export const createCustomFactory = (mapping: { [name: string]: any }): Factory =
             const blueprint = mapping[data.type];
             if (!blueprint.composite) {
                 const result = blueprint(data) as StatelessElement;
-                return new StatelessComponent(data, parent, result.template);
+                const stateless = new StatelessComponent(data, parent, result.template);
+                stateless.meta = meta;
+                return stateless;
             }
-            return new blueprint(data, parent) as CompositeComponent<typeof data, any>;
+            const stateful = new blueprint(data, parent) as StatefulComponent<typeof data, any>;
+            stateful.meta = meta;
+            return stateful;
         } else {
             return null;
         }

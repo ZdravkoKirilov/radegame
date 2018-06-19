@@ -30,103 +30,13 @@ export class AppComponent implements OnInit {
         })
     }
 
-    render(stage: any) {
-        const markup = `
-        <container name='root' mapped='{mapped}' >
-            <sprite name="kartinka" mapped='{sprite.mapped}' imageSrc='{sprite.src}'></sprite>
-            <text name='text' mapped='{text.mapped}' textStyle='{text.textStyle}'>{text.value}</text>
-        </container>`;
-
-        const context = {
-
-            mapped: {
-                x: 100,
-                y: 200,
-                width: 200,
-                height: 200
-            },
-            text: {
-                mapped: {
-                    x: 45,
-                    y: 10,
-                },
-                value: 'Winnie',
-                textStyle: {
-                    fontSize: 18
-                }
-            },
-            sprite: {
-                mapped: {
-                    x: 25,
-                    y: 30,
-                    width: 150,
-                    height: 150
-                },
-                src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
-            },
-            orders: {
-                mapped: {
-                    x: 7,
-                    y: 77
-                },
-                children: [
-                    {
-                        id: '11',
-                        meta: {
-                            x: 500,
-                            y: 150
-                        },
-                        children: [
-                            {
-                                id: '15'
-                            }
-                        ]
-                    },
-                    {
-                        id: '3',
-                        meta: {
-                            x: 50,
-                            y: 15
-                        },
-                        children: [
-                            {
-                                id: '16'
-                            }
-                        ]
-                    },
-                ]
-            },
-        };
-
-
-        const mount = createRenderer(factory);
-        //const elem = mount(markup, stage, context);
-        preloadAssets(new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'])).subscribe((assets) => {
-            const elem = mount(markup, stage, context, {
-                textures: assets
-            });
-        });
-
-        // const markup2 = `
-        // <container name='root' dynamic='(logInput({param}, gosho))' mapped='{mapped}' logInput='{logInput}'>
-        //     <sprite name='sprite' mapped='{sprite.mapped}'/>
-        //     <text name='text' mapped='{text.mapped}' value='just a test'/>
-        //     <collection name='orders' mapped='{orders.mapped}' children='{orders.children}' item='@order'>
-        //         <collection name='nested' children='{@order.children}' item='@nestedItem'>
-        //             <sprite name='{@nestedItem.id}' fromGrandParent='(logInput({param}, {@order.id}))' fromParent='{@order.id}'/>
-        //         </collection>
-        //     </collection>
-        // </container>`;
-    }
-
-    render2(stage) {
+    render(stage) {
         const customFactory = createCustomFactory({ Root });
         const mount = createRenderer(createFactory([factory, customFactory]));
 
         preloadAssets(new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'])).subscribe((assets) => {
-            const elem = mount('<Root />', stage, null, {
-                textures: assets
-            });
+            const meta = { textures: assets, containers: {} };
+            const elem = mount('<Root />', stage, null, meta);
         });
     }
 
@@ -142,7 +52,7 @@ export class AppComponent implements OnInit {
             });
         }, 1);
 
-        this.render2(stage);
+        this.render(stage);
     }
     ngOnInit() {
         this.store.subscribe(data => console.log(data));

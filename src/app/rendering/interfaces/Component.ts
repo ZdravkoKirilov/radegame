@@ -1,7 +1,8 @@
-import { BasicComponent, StatelessComponent, CompositeComponent } from "../mixins";
+import { BasicComponent, StatelessComponent, StatefulComponent } from "../mixins";
 import { BaseProps } from "../models";
 
-export type Component = BasicComponent | StatelessComponent<BaseProps> | CompositeComponent<BaseProps, any>;
+export type CompositeComponent = StatelessComponent<BaseProps> | StatefulComponent<BaseProps, any>;
+export type Component = BasicComponent | CompositeComponent;
 
 export type StatelessElement = {
     template: string;

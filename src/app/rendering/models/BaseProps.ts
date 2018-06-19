@@ -1,5 +1,6 @@
 import { TextStyleOptions , Texture, loaders} from "pixi.js";
 import { Styles } from "./Styles";
+import { Component } from "../interfaces";
 
 export type BaseProps = {
     type?: string;
@@ -17,4 +18,7 @@ export type BaseProps = {
 
 export type MetaProps = {
     textures: any;
+    containers: {
+        [key: string]: Component
+    };
 };

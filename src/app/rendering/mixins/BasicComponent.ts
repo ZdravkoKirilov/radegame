@@ -1,26 +1,20 @@
 import { DisplayObject, Container } from "pixi.js";
 
 import { EventEmitter, assignEvents, EventPayload } from "../helpers";
-import { BaseProps } from "../models";
+import { BaseProps, MetaProps } from "../models";
 import { Component } from "../interfaces";
+import { assignEnhancers } from "../enhancers";
 
 export class BasicComponent {
     basic = true;
     change: EventEmitter<EventPayload> = new EventEmitter();
+    meta: MetaProps;
     props: BaseProps;
     graphic: DisplayObject;
     container: Container;
     parent: Component;
     children: Array<Component>;
     firstChild: Component;
-
-    get firstBasicChild(): BasicComponent {
-        let current = this.firstChild;
-        while (current && !current.basic && current.firstChild) {
-            current = current.firstChild;
-        }
-        return current;
-    }
 
     get parentGraphic() {
         return this.graphic.parent;
@@ -39,6 +33,7 @@ export class BasicComponent {
         this.graphic = graphic;
         this.setProps(props);
         assignEvents(this, graphic);
+        assignEnhancers(this, graphic);
     }
 
     render(container: Container): void {
@@ -47,7 +42,7 @@ export class BasicComponent {
         this.update(this.props);
     }
 
-    setProps(props: Partial<BaseProps>) {
+    setProps(props: Partial<BaseProps> | any) {
         const current = this.props || {};
         this.props = { ...current, ...props };
         if (this.shouldUpdate(props)) {

@@ -4,16 +4,15 @@ import { BaseProps, MetaProps } from "../models";
 import { Factory } from "./factory";
 import { PRIMITIVE_TYPES } from "../config";
 import { parse } from "./parser";
-import { StatelessComponent, BasicComponent, CompositeComponent } from '../mixins';
-import { Component } from "../interfaces";
+import { StatelessComponent, BasicComponent, StatefulComponent } from '../mixins';
+import { Component, Mounter } from "../interfaces";
 
 export const createRenderer = (factory: Factory) => (markup: string, container: Container, context?: any, meta?: MetaProps) => {
     const props = parse({ source: markup, context });
     return mount(props, container, null, factory, meta);
 };
 
-
-const mount = (props: BaseProps, container: Container, parent: Component = null, factory: Factory = null, meta?: MetaProps): Component => {
+const mount: Mounter = (props: BaseProps, container: Container, parent: Component = null, factory: Factory = null, meta?: MetaProps): Component => {
 
     if (isPrimitive(props.type)) {
         return mountPrimitive(props, container, parent, factory, meta);
@@ -32,7 +31,7 @@ const mountPrimitive = (props: BaseProps, container: Container, parent: Componen
 };
 
 const mountComposite = (props: BaseProps, container: Container, parent: Component = null, factory: Factory, meta?: MetaProps): Component => {
-    const element = factory(props, parent) as StatelessComponent<typeof props> & CompositeComponent<typeof props, any>;
+    const element = factory(props, parent) as StatelessComponent<typeof props> & StatefulComponent<typeof props, any>;
     const template = element.render();
     // here detect <children> notation?
     const parsed = parse({ source: template, context: element });

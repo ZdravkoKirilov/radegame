@@ -1,4 +1,4 @@
-import { CompositeComponent, draggable } from "@app/rendering";
+import { StatefulComponent } from "@app/rendering";
 
 type Props = {
 
@@ -8,8 +8,7 @@ type State = {
 
 };
 
-@draggable
-export class Root extends CompositeComponent<Props, State> {
+export class Root extends StatefulComponent<Props, State> {
     state = {
         mapped: {
             x: 100,
@@ -41,7 +40,7 @@ export class Root extends CompositeComponent<Props, State> {
 
     render() {
         return `
-        <container name='root' mapped='{state.mapped}' >
+        <container name='root' mapped='{state.mapped}' draggable='{true}' >
             <sprite name="kartinka" mapped='{state.sprite.mapped}' imageSrc='{state.sprite.src}'></sprite>
             <text name='text' mapped='{state.text.mapped}' textStyle='{state.text.textStyle}'>{state.text.value}</text>
         </container>`;

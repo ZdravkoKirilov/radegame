@@ -1,3 +1,3 @@
 export * from './BasicComponent';
 export * from './StatelessComponent';
-export * from './CompositeComponent';
+export * from './StatefulComponent';
