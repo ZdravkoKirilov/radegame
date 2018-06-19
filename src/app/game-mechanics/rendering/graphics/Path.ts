@@ -53,7 +53,7 @@ export class Path {
     }
 
     private update = (alpha = 1) => {
-        const {from, to} = this;
+        const { from, to } = this;
         const x1 = from.left + from.width / 2;
         const y1 = from.top + from.height / 2;
         const x2 = to.left + to.width / 2;
