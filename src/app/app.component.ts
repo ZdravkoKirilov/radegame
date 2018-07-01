@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { AppState } from './core';
 import { fadeAnimation } from './animations';
 import { GetCurrentUserAction } from './profile';
-import { PixiSprite, parse, BaseProps, createRenderer, factory, preloadAssets, createCustomFactory, createFactory } from '@app/rendering';
+import { createRenderer, factory, preloadAssets, createCustomFactory, createFactory, createPatcher, mount, MetaProps } from '@app/rendering';
 import { Root } from '@app/game-arena';
 
 @Component({
@@ -32,12 +32,20 @@ export class AppComponent implements OnInit {
 
     render(stage) {
         const customFactory = createCustomFactory({ Root });
-        const mount = createRenderer(createFactory([factory, customFactory]));
+        const mainFactory = createFactory([factory, customFactory]);
+        const render = createRenderer(mainFactory);
 
         preloadAssets(new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'])).subscribe((assets) => {
-            const meta = { textures: assets, containers: {} };
-            const elem = mount('<Root />', stage, null, meta);
+            const meta: MetaProps = { textures: assets, containers: {} };
+            const patcher = createPatcher(mount, mainFactory, meta);
+            meta.patcher = patcher;
+            const elem = render('<Root didDrag="{didDrag}"/>', stage, { didDrag }, meta);
+            console.log(elem);
         });
+
+        function didDrag(obj) {
+            console.log('higher order  ', obj);
+        }
     }
 
     createTestCanvas() {

@@ -1,4 +1,3 @@
-import { deepProp } from './dot-prop';
 import { ParseParams } from '../models';
 
 export const execute = (asString: string, params: ParseParams): any => {

@@ -1,24 +1,21 @@
-import { DisplayObject } from "pixi.js";
-
 import { BasicComponent } from "./BasicComponent";
 import { BaseProps } from "../models";
-import { Component } from "../interfaces";
 
-export class StatefulComponent<P extends BaseProps, S> extends BasicComponent {
+export class StatefulComponent<P extends BaseProps, S> extends BasicComponent{
     static composite = true;
     basic = false;
 
     state: S;
     props: P;
 
-    constructor(props: P, parent: Component) {
-        super(props, null, parent);
+    constructor(props: P, graphic: any) {
+        super(props, graphic);
     }
 
     setState(state: S) {
         this.state = { ...this.state || {}, ...state || {} } as S;
         if (this.shouldUpdate(this.props, state)) {
-            this.update(this.props, this.state);
+            this.update();
         }
     }
 
@@ -26,7 +23,7 @@ export class StatefulComponent<P extends BaseProps, S> extends BasicComponent {
         const current = this.props || {};
         this.props = { ...current, ...props };
         if (this.shouldUpdate(props, this.state)) {
-            this.update(this.props, this.state);
+            this.update();
         }
     }
 
@@ -34,20 +31,7 @@ export class StatefulComponent<P extends BaseProps, S> extends BasicComponent {
         return true;
     }
 
-    update(nextProps: P, nextState: S) {
-
-    }
-
     render(): any {
         throw new Error('Render not implemented!');
     }
-
-    willReceiveProps(props: P) {
-        return props;
-    }
-
-    willMount() { }
-    didMount() { }
-    willUnmount() { }
-    didUpdate() { }
 }

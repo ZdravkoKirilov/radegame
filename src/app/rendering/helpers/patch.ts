@@ -1,32 +1,48 @@
-import { CompositeComponent, Component, Mounter } from "../interfaces";
+import { Component, CurriedMounter, Mounter, Patcher, isComposite } from "../interfaces";
 import { parse } from "./parser";
-import { BaseProps } from "../models";
-import { toIndexedList } from "@app/shared";
+import { BaseProps, MetaProps } from "../models";
+import { toIndexedList, asArray } from "@app/shared";
+import { Factory } from "./factory";
+import { DisplayObject } from "pixi.js";
 
-export const patch = (elem: CompositeComponent) => {
-
-    const newProps = parse({
-        source: elem.render(),
-        context: elem,
-    });
-
-    elem.children = patchChildren(elem, newProps);
-    elem.setProps(newProps);
+export const createPatcher = (mount: Mounter, factory: Factory, meta: MetaProps): Patcher => {
+    return (elem: Component) => patch(elem, meta, mount, factory);
 };
 
-const patchChildren = (elem: Component, newProps: BaseProps): Array<Component> => {
-    const result = [];
-    const oldChildren = elem.props.children.map(props => props.name);
-    const newChildren = newProps.children.map(props => props.name);
-    const childProps = toIndexedList(newProps.children, 'name');
-    const childrenList = toIndexedList(elem.children, 'props.name');
+export const patch = (elem: Component, meta: MetaProps, mount: Mounter, factory) => {
+    let newProps = elem.props;
+    const createMounter = (container: any, parent: Component) => (props: BaseProps) => mount(props, container, parent, factory, meta);
+    if (isComposite(elem)) {
+        newProps = parse({
+            source: elem.render(),
+            context: elem,
+            meta
+        });
+    } else {
+        Object.keys(newProps.mapped || {}).forEach(key => {
+            elem.graphic[key] = newProps.mapped[key];
+            if (key === 'width') {
+                setWidth(elem.graphic, newProps.mapped[key]);
+            }
+        });
+    }
 
-    return result;
+    
+    elem.children = patchChildren(elem, newProps, createMounter(elem.container, elem));
 };
 
-const removeChildren = (children: Component[], newChildren: Array<string>): Array<Component> => {
+const patchChildren = (elem: Component, newProps: BaseProps, mounter: CurriedMounter): Array<Component> => {
+    const newChildrenNames = new Set(newProps.children.map(props => props.name));
+    const without_redundant = removeChildren(elem.children, newChildrenNames);
+    const childrenList = toIndexedList(without_redundant, 'props.name');
+    const with_additional = upsertChildren(childrenList as any, asArray(newProps.children), mounter);
+
+    return with_additional;
+};
+
+const removeChildren = (children: Component[], newChildren: Set<string>): Array<Component> => {
     return children.filter(child => {
-        if (newChildren.indexOf(child.props.name) !== -1) {
+        if (newChildren.has(child.props.name)) {
             return true;
         }
         child.remove();
@@ -34,16 +50,40 @@ const removeChildren = (children: Component[], newChildren: Array<string>): Arra
     });
 };
 
-const upsertChildren = (children: { [key: string]: Component }, newProps: BaseProps[], mount: Mounter): Array<Component> => {
-    const result = [];
-
-    newProps.forEach(props => {
+const upsertChildren = (children: { [key: string]: Component }, newChildrenProps: BaseProps[], mount: CurriedMounter): Array<Component> => {
+    const result = newChildrenProps.map(props => {
         if (props.name in children) {
-            children[props.name].setProps(props);
+            const childComponent = children[props.name];
+            childComponent.setProps(props);
+            return childComponent;
         } else {
-
+            const newChildComponent = mount(props);
+            return newChildComponent;
         }
     });
 
     return result;
 };
+
+const getComputedProp = (elem: DisplayObject, prop: string, value: string): number => {
+    let result;
+    const isPercentage = value.endsWith('%');
+    const number = Number(value.slice(0, -1));
+    result = elem.parent ? elem.parent[prop] * (number / 100) : null;
+    return result;
+};
+const setWidth = (elem: any, value: string | number) => {
+    let result;
+    if (!value) {
+        result = elem.parent.width;
+    }
+    if (typeof value === 'number') {
+        result = value;
+    }
+    if (typeof value === 'string') {
+        result = getComputedProp(elem, 'width', value);
+    }
+    elem.width = result;
+    return result;
+};
+

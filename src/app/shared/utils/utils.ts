@@ -1,3 +1,5 @@
+import { deepProp } from './dot-prop';
+
 interface ObjectWithId {
     id?: number;
     [key: string]: any;
@@ -9,7 +11,7 @@ interface IndexedList {
 
 export const toIndexedList = (source: ObjectWithId[], indexProp = 'id'): IndexedList => {
     return source.reduce((acc: IndexedList, elem: ObjectWithId) => {
-        const prop = elem[indexProp];
+        const prop = deepProp.get(elem, indexProp, 'id');
         acc[prop] = elem;
         return acc;
     }, {});
@@ -17,11 +19,10 @@ export const toIndexedList = (source: ObjectWithId[], indexProp = 'id'): Indexed
 
 export const rebaseListIndex = (source: ObjectWithId, newIndex: string): IndexedList => {
     return Object.values(source).reduce((acc, item) => {
-        acc[item[newIndex]] = item;
+        const prop = deepProp.get(item, newIndex, 'id');
+        acc[prop] = item;
         return acc;
     }, {});
 }
 
-export const isMapLocation = (entity: any) => {
-    return ('left' in entity && 'top' in entity);
-}
+export const asArray = <T>(obj: object): T[] => Object.values(obj);

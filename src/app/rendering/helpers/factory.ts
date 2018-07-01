@@ -1,10 +1,8 @@
-import { Text, Sprite, TextStyle, Container } from 'pixi.js';
-
+import { TextStyle, Text, Sprite, Container } from 'pixi.js';
 import { StatelessElement, Component } from '../interfaces';
 import { BaseProps, MetaProps } from '../models';
 import { PRIMITIVE_TYPES } from '../config';
-import { PixiText, PixiSprite, PixiCollection, PixiContainer } from '../primitives';
-import { parse } from './parser';
+import { PrimitiveText, PrimitiveSprite, PixiCollection, PrimitiveContainer } from '../primitives';
 import { StatelessComponent, StatefulComponent } from '../mixins';
 
 export type Factory = (data: BaseProps, parent?: Component, meta?: MetaProps) => Component;
@@ -27,22 +25,32 @@ export const factory: Factory = (data: BaseProps, parent: Component = null, meta
     switch (data.type) {
         case PRIMITIVE_TYPES.SPRITE:
             data.image = meta.textures[data.imageSrc].texture;
-            const sprite = new PixiSprite(data, parent);
+            const pixiSprite = new Sprite(data.image);
+            const sprite = new PrimitiveSprite(data, pixiSprite);
             sprite.meta = meta;
+            sprite.parent = parent;
             return sprite;
         case PRIMITIVE_TYPES.TEXT:
-            const text = new PixiText(data, parent);
+            const style = new TextStyle({ ...PrimitiveText.defaultTextStyle, ...(data.textStyle || {}) });
+            const pixiText = new Text(data.value, style);
+            const text = new PrimitiveText(data, pixiText);
             text.meta = meta;
+            text.parent = parent;
+            text.style = style;
             return text;
         case PRIMITIVE_TYPES.CONTAINER:
-            const container = new PixiContainer(data, parent);
+            const pixiContainer = new Container();
+            const container = new PrimitiveContainer(data, pixiContainer);
             meta.containers[data.name] = container;
             container.meta = meta;
+            container.parent = parent;
             return container;
         case PRIMITIVE_TYPES.COLLECTION:
-            const collection = new PixiContainer(data, parent);
+            const pixiCollection = new Container();
+            const collection = new PixiCollection(data, pixiCollection);
             meta.containers[data.name] = collection;
             collection.meta = meta;
+            collection.parent = parent;
             return collection;
         default:
             return null;

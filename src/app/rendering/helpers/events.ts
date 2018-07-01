@@ -1,6 +1,5 @@
 import { DisplayObject, interaction } from "pixi.js";
 
-import { BaseProps } from "../models";
 import { Component } from "../interfaces";
 
 export const assignEvents = (comp: Component, graphic: DisplayObject) => {

@@ -1,15 +1,10 @@
-import { Sprite } from 'pixi.js';
-
 import { BaseProps } from '../../models';
 import { BasicComponent } from '../../mixins';
-import { Component } from '../../interfaces';
 
-export class PixiSprite extends BasicComponent {
+export class PrimitiveSprite extends BasicComponent {
 
-    graphic: Sprite;
-
-    constructor(props: BaseProps, parent: Component) {
-        super(props, new Sprite(props.image), parent);
+    constructor(props: BaseProps, graphic: any) {
+        super(props, graphic);
     }
 }
 

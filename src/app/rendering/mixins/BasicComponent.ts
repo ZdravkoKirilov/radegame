@@ -1,6 +1,7 @@
-import { DisplayObject, Container } from "pixi.js";
+import { Container } from "pixi.js";
 
-import { EventEmitter, assignEvents, EventPayload } from "../helpers";
+import { assignEvents, EventPayload } from "../helpers";
+import { EventEmitter } from '@app/shared';
 import { BaseProps, MetaProps } from "../models";
 import { Component } from "../interfaces";
 import { assignEnhancers } from "../enhancers";
@@ -10,14 +11,14 @@ export class BasicComponent {
     change: EventEmitter<EventPayload> = new EventEmitter();
     meta: MetaProps;
     props: BaseProps;
-    graphic: DisplayObject;
-    container: Container;
+    graphic: any;
+    container: any;
     parent: Component;
-    children: Array<Component>;
+    children: Array<Component> = [];
     firstChild: Component;
 
-    get parentGraphic() {
-        return this.graphic.parent;
+    update() {
+        this.meta.patcher(this);
     }
 
     get width() {
@@ -28,10 +29,17 @@ export class BasicComponent {
         return (this.graphic as any).height;
     }
 
-    constructor(props: BaseProps, graphic: DisplayObject, parent: Component) {
-        this.parent = parent;
+    get x() {
+        return (this.graphic as any).x;
+    }
+
+    get y() {
+        return (this.graphic as any).y;
+    }
+
+    constructor(props: BaseProps, graphic: any) {
         this.graphic = graphic;
-        this.setProps(props);
+        this.props = props;
         assignEvents(this, graphic);
         assignEnhancers(this, graphic);
     }
@@ -39,26 +47,18 @@ export class BasicComponent {
     render(container: Container): void {
         this.container = container;
         this.container.addChild(this.graphic);
-        this.update(this.props);
     }
 
     setProps(props: Partial<BaseProps> | any) {
         const current = this.props || {};
         this.props = { ...current, ...props };
         if (this.shouldUpdate(props)) {
-            this.update(this.props);
+            this.update();
         }
     }
 
     shouldUpdate(nextProps: BaseProps, nextState = null): boolean {
         return true;
-    }
-
-    update(nextProps: BaseProps, nextState = null) {
-
-        Object.keys(nextProps.mapped || {}).forEach(key => {
-            this.graphic[key] = nextProps.mapped[key];
-        });
     }
 
     remove() {

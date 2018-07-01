@@ -121,6 +121,7 @@ const onDragMove = (obj: Draggable) => (event: interaction.InteractionEvent) => 
         obj.setProps(props);
         obj.hasMoved = true;
         obj.change.emit({ type: EVENTS.DRAG_MOVE });
+        obj.props.onDragMove && obj.props.onDragMove(obj);
     }
 };
 
@@ -135,4 +136,5 @@ const onDragEnd = (obj: Draggable) => (event: interaction.InteractionEvent) => {
     obj.change.emit({
         type: EVENTS.DRAG_END
     });
+    obj.props.onDragEnd && obj.props.onDragEnd(obj);
 };

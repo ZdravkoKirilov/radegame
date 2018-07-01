@@ -1,4 +1,4 @@
-import { StatefulComponent } from "@app/rendering";
+import { StatefulComponent, Component } from "@app/rendering";
 
 type Props = {
 
@@ -30,8 +30,10 @@ export class Root extends StatefulComponent<Props, State> {
             mapped: {
                 x: 25,
                 y: 30,
-                width: 150,
-                height: 150
+                width: '50%',
+                height: '50%'
+                // width: 150,
+                // height: 150
             },
             src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
         },
@@ -40,7 +42,7 @@ export class Root extends StatefulComponent<Props, State> {
 
     render() {
         return `
-        <container name='root' mapped='{state.mapped}' draggable='{true}' >
+        <container name='root' mapped='{state.mapped}' draggable='{true}' onDragEnd='{props.didDrag}' >
             <sprite name="kartinka" mapped='{state.sprite.mapped}' imageSrc='{state.sprite.src}'></sprite>
             <text name='text' mapped='{state.text.mapped}' textStyle='{state.text.textStyle}'>{state.text.value}</text>
         </container>`;
@@ -48,5 +50,9 @@ export class Root extends StatefulComponent<Props, State> {
 
     didMount() {
         console.log('mount');
+    }
+
+    didDrag = (obj: Component) => {
+        console.log('Dragged', obj);
     }
 };

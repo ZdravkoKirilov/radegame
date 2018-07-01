@@ -1,6 +1,6 @@
 import { loaders } from "pixi.js";
 
-import { EventEmitter } from "./event-emitter";
+import { EventEmitter } from "@app/shared";
 
 export type LoaderResources = {
     [key: string]: {

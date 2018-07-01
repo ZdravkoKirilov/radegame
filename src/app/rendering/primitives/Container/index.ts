@@ -1,15 +1,11 @@
-import { Container } from "pixi.js";
-
 import { BaseProps } from "../../models";
 import { BasicComponent } from "../../mixins";
-import { Component } from "../../interfaces";
 
-export class PixiContainer extends BasicComponent {
 
-    graphic: Container;
+export class PrimitiveContainer extends BasicComponent {
 
-    constructor(props: BaseProps, parent?: Component) {
-        super(props, new Container(), parent);
+    constructor(props: BaseProps, graphic: any) {
+        super(props, graphic);
     }
 
 }
