@@ -13,8 +13,8 @@ export class Root extends StatefulComponent<Props, State> {
         mapped: {
             x: 100,
             y: 200,
-            width: 200,
-            height: 200
+            // width: 200,
+            // height: 200
         },
         text: {
             mapped: {
@@ -30,8 +30,8 @@ export class Root extends StatefulComponent<Props, State> {
             mapped: {
                 x: 25,
                 y: 30,
-                width: '50%',
-                height: '50%'
+                width: '20%',
+                height: '20%'
                 // width: 150,
                 // height: 150
             },
@@ -43,7 +43,7 @@ export class Root extends StatefulComponent<Props, State> {
     render() {
         return `
         <container name='root' mapped='{state.mapped}' draggable='{true}' onDragEnd='{props.didDrag}' >
-            <sprite name="kartinka" mapped='{state.sprite.mapped}' imageSrc='{state.sprite.src}'></sprite>
+            <sprite name="kartinka" mapped='{state.sprite.mapped}' imageSrc='{state.sprite.src}' relativeWidth='{400}'></sprite>
             <text name='text' mapped='{state.text.mapped}' textStyle='{state.text.textStyle}'>{state.text.value}</text>
         </container>`;
     }

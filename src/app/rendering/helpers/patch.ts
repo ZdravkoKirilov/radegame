@@ -21,13 +21,12 @@ export const patch = (elem: Component, meta: MetaProps, mount: Mounter, factory)
     } else {
         Object.keys(newProps.mapped || {}).forEach(key => {
             elem.graphic[key] = newProps.mapped[key];
-            if (key === 'width') {
-                setWidth(elem.graphic, newProps.mapped[key]);
-            }
+            setProp(elem, key, newProps.mapped[key]);
+
         });
     }
 
-    
+
     elem.children = patchChildren(elem, newProps, createMounter(elem.container, elem));
 };
 
@@ -65,14 +64,16 @@ const upsertChildren = (children: { [key: string]: Component }, newChildrenProps
     return result;
 };
 
-const getComputedProp = (elem: DisplayObject, prop: string, value: string): number => {
+const getComputedProp = (elem: Component, prop: string, value: string): number => {
     let result;
+    const relativeTo = Number(elem.props.relativeWidth);
     const isPercentage = value.endsWith('%');
     const number = Number(value.slice(0, -1));
-    result = elem.parent ? elem.parent[prop] * (number / 100) : null;
+    result = relativeTo && isPercentage ? relativeTo * (number / 100) : value;
+
     return result;
 };
-const setWidth = (elem: any, value: string | number) => {
+const setProp = (elem: Component, prop: string, value: string | number) => {
     let result;
     if (!value) {
         result = elem.parent.width;
@@ -81,9 +82,9 @@ const setWidth = (elem: any, value: string | number) => {
         result = value;
     }
     if (typeof value === 'string') {
-        result = getComputedProp(elem, 'width', value);
+        result = getComputedProp(elem, prop, value);
     }
-    elem.width = result;
+    elem.graphic[prop] = result;
     return result;
 };
 
