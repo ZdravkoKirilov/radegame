@@ -12,7 +12,7 @@ export class NodesContainer extends StatefulComponent<Props, State> {
 
     render() {
         return `
-            <collection children='{props.nodes}' item='@node'>
+            <collection mapped='{{"left": 0, "top": 0}}' children='{props.nodes}' item='@node'>
                 <Node mapped='{@node.mapped}' sprite='{@node.sprite}' text='{@node.text}' didMount='{didMount}'/>
             </collection>
         `;

@@ -49,7 +49,7 @@ export class AppComponent implements OnInit {
     }
 
     createTestCanvas() {
-        const renderer = autoDetectRenderer(1000, 500, { transparent: false, antialias: true, resolution: 1 });
+        const renderer = autoDetectRenderer(1500, 1000, { transparent: false, antialias: true, resolution: 1 });
         const stage = new Container();
         renderer.autoResize = true;
         this.DOMElem.nativeElement.appendChild(renderer.view);

@@ -15,8 +15,6 @@ export class Root extends StatefulComponent<Props, State> {
                 mapped: {
                     x: 100,
                     y: 200,
-                    width: 200,
-                    height: 200
                 },
                 text: {
                     mapped: {
@@ -34,8 +32,8 @@ export class Root extends StatefulComponent<Props, State> {
                         y: 30,
                         // width: '20%',
                         // height: '20%'
-                        // width: 150,
-                        // height: 150
+                        width: 150,
+                        height: 150
                     },
                     src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
                 },
@@ -43,8 +41,6 @@ export class Root extends StatefulComponent<Props, State> {
                 mapped: {
                     x: 200,
                     y: 300,
-                    width: 200,
-                    height: 200
                 },
                 text: {
                     mapped: {
@@ -62,8 +58,8 @@ export class Root extends StatefulComponent<Props, State> {
                         y: 30,
                         // width: '30%',
                         // height: '30%'
-                        // width: 150,
-                        // height: 150
+                        width: 150,
+                        height: 150
                     },
                     src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
                 },
@@ -71,8 +67,6 @@ export class Root extends StatefulComponent<Props, State> {
                 mapped: {
                     x: 400,
                     y: 350,
-                    width: 200,
-                    height: 200
                 },
                 text: {
                     mapped: {
@@ -90,8 +84,8 @@ export class Root extends StatefulComponent<Props, State> {
                         y: 30,
                         // width: '20%',
                         // height: '20%'
-                        // width: 150,
-                        // height: 150
+                        width: 250,
+                        height: 250
                     },
                     src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
                 },
@@ -105,7 +99,7 @@ export class Root extends StatefulComponent<Props, State> {
     }
 
     didMount() {
-        console.log('mount');
+        console.log('mount', this);
     }
 
     didDrag = (obj: Component) => {

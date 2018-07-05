@@ -86,7 +86,7 @@ export type Draggable = StatefulComponent<any, any> & {
 
 let counter = 1;
 
-export const makeDraggable = (obj: any, elem: any) => {
+export const makeDraggable = (obj: any, elem: DisplayObject) => {
     if (obj.props.draggable) {
 
         elem.interactive = true;
@@ -104,7 +104,7 @@ export const makeDraggable = (obj: any, elem: any) => {
             obj.dragPoint.x -= obj.graphic.x;
             obj.dragPoint.y -= obj.graphic.y;
             obj.dragging = true;
-            console.log(obj);
+            obj.bringToFront();
         });
 
         elem.on('pointerup', (event: interaction.InteractionEvent) => {
@@ -119,15 +119,11 @@ export const makeDraggable = (obj: any, elem: any) => {
                 type: EVENTS.DRAG_END
             });
             obj.props.onDragEnd && obj.props.onDragEnd(obj);
-
-            console.log('up', obj);
         });
 
         elem.on('pointermove', (event: interaction.InteractionEvent) => {
             event.stopPropagation();
-            console.log(obj.id);
             if (obj.dragging) {
-                console.log('enters');
                 const newPos = event.data.getLocalPosition(obj.graphic.parent);
                 const props = {
                     mapped: {

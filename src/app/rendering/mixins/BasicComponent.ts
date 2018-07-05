@@ -15,7 +15,6 @@ export class BasicComponent {
     container: any;
     parent: Component;
     children: Array<Component> = [];
-    firstChild: Component;
 
     update() {
         this.meta.patcher(this);
@@ -40,8 +39,10 @@ export class BasicComponent {
     constructor(props: BaseProps, graphic: any) {
         this.graphic = graphic;
         this.props = props;
-        assignEvents(this, graphic);
-        assignEnhancers(this, graphic);
+        setTimeout(() => {
+            assignEvents(this, graphic);
+            assignEnhancers(this, graphic);
+        });
     }
 
     setProps(props: Partial<BaseProps> | any) {
@@ -57,6 +58,17 @@ export class BasicComponent {
     }
 
     remove() {
-        this.graphic.destroy();
+        if (this.graphic.parent) {
+            // this.graphic.parent.removeChild(this.graphic);
+        }
+
+    }
+
+    bringToFront() {
+        if (this.graphic.parent) {
+            const children = this.graphic.parent.children.filter(elem => elem !== this.graphic);
+            children.push(this.graphic);
+            this.graphic.parent.children = children;
+        }
     }
 }

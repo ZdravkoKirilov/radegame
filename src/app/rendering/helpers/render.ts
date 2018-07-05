@@ -60,8 +60,8 @@ const mountComposite = (
         (element as any).willMount();
     }
 
-    element.firstChild = mount(parsed, container, element, factory, meta);
-
+    element.children = [mount(parsed, container, element, factory, meta)];
+    
     if (isStateful(element) && 'didMount' in element) {
         (element as any).didMount();
     }

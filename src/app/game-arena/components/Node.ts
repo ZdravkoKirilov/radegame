@@ -13,7 +13,6 @@ type State = {
 
 export class Node extends StatefulComponent<Props, State> {
 
-
     render() {
         return `
         <container name='{props.text.value}' mapped='{props.mapped}' draggable='{true}' onDragEnd='{props.didDrag}' >

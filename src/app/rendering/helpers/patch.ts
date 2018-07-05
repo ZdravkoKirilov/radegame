@@ -25,9 +25,8 @@ export const patch = (elem: Component, meta: MetaProps, mount: Mounter, factory)
 
         });
     }
-
-
-    // elem.children = patchChildren(elem, newProps, createMounter(elem.container, elem));
+    
+    elem.children = patchChildren(elem, newProps, createMounter(elem.container, elem));
 };
 
 const patchChildren = (elem: Component, newProps: BaseProps, mounter: CurriedMounter): Array<Component> => {
@@ -75,9 +74,9 @@ const getComputedProp = (elem: Component, prop: string, value: string): number =
 };
 const setProp = (elem: Component, prop: string, value: string | number) => {
     let result;
-    if (!value) {
-        result = elem.parent.width;
-    }
+    // if (!value) {
+    //     result = elem.parent.width;
+    // }
     if (typeof value === 'number') {
         result = value;
     }
