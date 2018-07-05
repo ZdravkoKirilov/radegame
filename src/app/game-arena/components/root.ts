@@ -10,42 +10,98 @@ type State = {
 
 export class Root extends StatefulComponent<Props, State> {
     state = {
-        mapped: {
-            x: 100,
-            y: 200,
-            // width: 200,
-            // height: 200
-        },
-        text: {
-            mapped: {
-                x: 45,
-                y: 10,
-            },
-            value: 'Winnie',
-            textStyle: {
-                fontSize: 18
+        nodes: [
+            {
+                mapped: {
+                    x: 100,
+                    y: 200,
+                    width: 200,
+                    height: 200
+                },
+                text: {
+                    mapped: {
+                        x: 45,
+                        y: 10,
+                    },
+                    value: 'Winnie',
+                    textStyle: {
+                        fontSize: 18
+                    }
+                },
+                sprite: {
+                    mapped: {
+                        x: 25,
+                        y: 30,
+                        // width: '20%',
+                        // height: '20%'
+                        // width: 150,
+                        // height: 150
+                    },
+                    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
+                },
+            }, {
+                mapped: {
+                    x: 200,
+                    y: 300,
+                    width: 200,
+                    height: 200
+                },
+                text: {
+                    mapped: {
+                        x: 45,
+                        y: 10,
+                    },
+                    value: 'The Pooh',
+                    textStyle: {
+                        fontSize: 18
+                    }
+                },
+                sprite: {
+                    mapped: {
+                        x: 25,
+                        y: 30,
+                        // width: '30%',
+                        // height: '30%'
+                        // width: 150,
+                        // height: 150
+                    },
+                    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
+                },
+            }, {
+                mapped: {
+                    x: 400,
+                    y: 350,
+                    width: 200,
+                    height: 200
+                },
+                text: {
+                    mapped: {
+                        x: 45,
+                        y: 10,
+                    },
+                    value: 'Baloo',
+                    textStyle: {
+                        fontSize: 18
+                    }
+                },
+                sprite: {
+                    mapped: {
+                        x: 25,
+                        y: 30,
+                        // width: '20%',
+                        // height: '20%'
+                        // width: 150,
+                        // height: 150
+                    },
+                    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
+                },
             }
-        },
-        sprite: {
-            mapped: {
-                x: 25,
-                y: 30,
-                width: '20%',
-                height: '20%'
-                // width: 150,
-                // height: 150
-            },
-            src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
-        },
+        ]
 
     };
 
     render() {
-        return `
-        <container name='root' mapped='{state.mapped}' draggable='{true}' onDragEnd='{props.didDrag}' >
-            <sprite name="kartinka" mapped='{state.sprite.mapped}' imageSrc='{state.sprite.src}' relativeWidth='{400}'></sprite>
-            <text name='text' mapped='{state.text.mapped}' textStyle='{state.text.textStyle}'>{state.text.value}</text>
-        </container>`;
+        return `<NodesContainer nodes='{state.nodes}'/>`;
     }
 
     didMount() {

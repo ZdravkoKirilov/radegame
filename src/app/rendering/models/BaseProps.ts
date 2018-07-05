@@ -14,7 +14,6 @@ export type BaseProps = {
     value?: string;
     textStyle?: TextStyleOptions;
     points?: Points;
-    relativeWidth: number;
     [key: string]: any;
 };
 

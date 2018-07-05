@@ -27,7 +27,7 @@ export const patch = (elem: Component, meta: MetaProps, mount: Mounter, factory)
     }
 
 
-    elem.children = patchChildren(elem, newProps, createMounter(elem.container, elem));
+    // elem.children = patchChildren(elem, newProps, createMounter(elem.container, elem));
 };
 
 const patchChildren = (elem: Component, newProps: BaseProps, mounter: CurriedMounter): Array<Component> => {

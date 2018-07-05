@@ -1,8 +1,6 @@
 import { interaction, DisplayObject } from 'pixi.js';
 
-import { BaseProps } from '../models';
 import { StatefulComponent } from '../mixins';
-import { Component } from '../interfaces';
 import { EVENTS } from '../helpers';
 
 export type Draggable = StatefulComponent<any, any> & {
@@ -86,26 +84,74 @@ export type Draggable = StatefulComponent<any, any> & {
 //     onDragStart: Function, onDragMove: Function, onDragEnd: Function
 // };
 
-export const makeDraggable = (obj: Draggable, elem: DisplayObject) => {
+let counter = 1;
+
+export const makeDraggable = (obj: any, elem: any) => {
     if (obj.props.draggable) {
-        elem.interactive = true
+
+        elem.interactive = true;
         elem.buttonMode = true;
 
-        elem.on('pointerdown', onDragStart(obj))
-            .on('pointerup', onDragEnd(obj))
-            .on('pointermove', onDragMove(obj));
-    } else {
-        elem.interactive = false;
-        elem.buttonMode = false;
+        obj.id = obj.id || counter++;
+
+        // elem.on('pointerdown', onDragStart(obj))
+        //     .on('pointerup', onDragEnd(obj))
+        //     .on('pointermove', onDragMove(obj));
+
+        elem.on('pointerdown', (event: interaction.InteractionEvent) => {
+            event.stopPropagation();
+            obj.dragPoint = event.data.getLocalPosition(obj.graphic.parent);
+            obj.dragPoint.x -= obj.graphic.x;
+            obj.dragPoint.y -= obj.graphic.y;
+            obj.dragging = true;
+            console.log(obj);
+        });
+
+        elem.on('pointerup', (event: interaction.InteractionEvent) => {
+            event.stopPropagation();
+            obj.setProps({
+                alpha: 1
+            });
+            obj.dragging = false;
+            obj.hasMoved = false;
+            obj.dragPoint = null;
+            obj.change.emit({
+                type: EVENTS.DRAG_END
+            });
+            obj.props.onDragEnd && obj.props.onDragEnd(obj);
+
+            console.log('up', obj);
+        });
+
+        elem.on('pointermove', (event: interaction.InteractionEvent) => {
+            event.stopPropagation();
+            console.log(obj.id);
+            if (obj.dragging) {
+                console.log('enters');
+                const newPos = event.data.getLocalPosition(obj.graphic.parent);
+                const props = {
+                    mapped: {
+                        x: newPos.x - obj.dragPoint.x,
+                        y: newPos.y - obj.dragPoint.y
+                    }
+                };
+                obj.setProps(props);
+                obj.hasMoved = true;
+                obj.change.emit({ type: EVENTS.DRAG_MOVE });
+                obj.props.onDragMove && obj.props.onDragMove(obj);
+            }
+        });
+
     }
 };
 
 const onDragStart = (obj: Draggable) => (event: interaction.InteractionEvent) => {
     event.stopPropagation();
-    this.dragPoint = event.data.getLocalPosition(obj.graphic.parent);
-    this.dragPoint.x -= obj.graphic.x;
-    this.dragPoint.y -= obj.graphic.y;
+    obj.dragPoint = event.data.getLocalPosition(obj.graphic.parent);
+    obj.dragPoint.x -= obj.graphic.x;
+    obj.dragPoint.y -= obj.graphic.y;
     obj.dragging = true;
+    console.log(obj);
 };
 
 const onDragMove = (obj: Draggable) => (event: interaction.InteractionEvent) => {
@@ -114,8 +160,8 @@ const onDragMove = (obj: Draggable) => (event: interaction.InteractionEvent) => 
         const newPos = event.data.getLocalPosition(obj.graphic.parent);
         const props = {
             mapped: {
-                x: newPos.x - this.dragPoint.x,
-                y: newPos.y - this.dragPoint.y
+                x: newPos.x - obj.dragPoint.x,
+                y: newPos.y - obj.dragPoint.y
             }
         };
         obj.setProps(props);

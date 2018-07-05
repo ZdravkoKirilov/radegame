@@ -44,11 +44,6 @@ export class BasicComponent {
         assignEnhancers(this, graphic);
     }
 
-    render(container: Container): void {
-        this.container = container;
-        this.container.addChild(this.graphic);
-    }
-
     setProps(props: Partial<BaseProps> | any) {
         const current = this.props || {};
         this.props = { ...current, ...props };

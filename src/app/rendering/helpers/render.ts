@@ -38,7 +38,7 @@ const mountPrimitive = (
     meta?: MetaProps): Component => {
     const element: BasicComponent = factory(props, parent, meta) as BasicComponent;
     if (container instanceof Container) {
-        element.render(container);
+        container.addChild(element.graphic);
     }
     element.children = mountChildren(props, element.graphic as Container, element, factory, meta);
     element.update();

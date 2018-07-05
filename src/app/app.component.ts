@@ -8,7 +8,7 @@ import { AppState } from './core';
 import { fadeAnimation } from './animations';
 import { GetCurrentUserAction } from './profile';
 import { createRenderer, factory, preloadAssets, createCustomFactory, createFactory, createPatcher, mount, MetaProps } from '@app/rendering';
-import { Root } from '@app/game-arena';
+import { Root, Node, NodesContainer } from '@app/game-arena';
 
 @Component({
     selector: 'rg-root',
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     }
 
     render(stage) {
-        const customFactory = createCustomFactory({ Root });
+        const customFactory = createCustomFactory({ Root, Node, NodesContainer });
         const mainFactory = createFactory([factory, customFactory]);
         const render = createRenderer(mainFactory);
 
