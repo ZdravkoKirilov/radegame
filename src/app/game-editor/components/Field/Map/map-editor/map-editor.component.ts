@@ -2,7 +2,7 @@ import {
     Component, ViewChild, ElementRef, ChangeDetectionStrategy,
     OnInit, OnDestroy, Input, Output, EventEmitter, OnChanges, SimpleChanges
 } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { Field, MapLocation, MapPath, Stage, SceneRenderService } from '@app/game-mechanics';
 import { KEYCODES } from '../../../../utils';

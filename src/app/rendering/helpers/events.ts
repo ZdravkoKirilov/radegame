@@ -1,4 +1,4 @@
-import { DisplayObject, interaction } from "pixi.js";
+import { DisplayObject, interaction } from "pixi.js-legacy";
 
 import { Component } from "../interfaces";
 

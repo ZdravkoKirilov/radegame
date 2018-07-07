@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs/Subject';
-import { autoDetectRenderer, Container, Sprite } from 'pixi.js';
+import { Subject } from 'rxjs';
+import { autoDetectRenderer, Container, Sprite } from 'pixi.js-legacy';
 
 import { WindowRefService } from '@app/core';
 import { SpriteComponent, MapNode, Path } from './graphics';

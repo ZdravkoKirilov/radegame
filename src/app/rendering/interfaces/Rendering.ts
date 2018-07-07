@@ -1,4 +1,4 @@
-import { Container } from "pixi.js";
+import { Container } from "pixi.js-legacy";
 
 import { Component } from "./Component";
 import { BaseProps, MetaProps } from "../models";

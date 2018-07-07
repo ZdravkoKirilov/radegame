@@ -1,4 +1,4 @@
-import { TextStyle, Text, Sprite, Container } from 'pixi.js';
+import { TextStyle, Text, Sprite, Container } from 'pixi.js-legacy';
 import { StatelessElement, Component } from '../interfaces';
 import { BaseProps, MetaProps } from '../models';
 import { PRIMITIVE_TYPES } from '../config';

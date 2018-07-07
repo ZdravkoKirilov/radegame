@@ -1,5 +1,5 @@
-import { Subject } from 'rxjs/Subject';
-import { Graphics, Polygon, Point } from 'pixi.js';
+import { Subject } from 'rxjs';
+import { Graphics, Polygon, Point } from 'pixi.js-legacy';
 
 import { MapPath } from '../../entities';
 import { MapNode } from './Node';

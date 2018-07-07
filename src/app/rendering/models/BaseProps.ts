@@ -1,4 +1,4 @@
-import { TextStyleOptions, Texture, loaders } from "pixi.js";
+import { TextStyleOptions, Texture, loaders } from "pixi.js-legacy";
 import { Styles } from "./Styles";
 import { Component, Patcher } from "../interfaces";
 

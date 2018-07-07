@@ -1,14 +1,14 @@
-import { Subject } from 'rxjs/Subject';
-import { loaders, Sprite } from 'pixi.js';
+import { Subject } from 'rxjs';
+import * as PIXI from 'pixi.js-legacy';
 
 export class SpriteComponent implements ISpriteComponent {
-    loaded: Subject<Sprite> = new Subject();
-    loader: loaders.Loader;
+    loaded: Subject<PIXI.Sprite> = new Subject();
+    loader: PIXI.Loader;
     image: string;
 
     constructor(image: string) {
         this.image = image;
-        this.loader = new loaders.Loader();
+        this.loader = new PIXI.Loader();
         if (this.loader.resources[image]) {
             this.onImageLoaded();
         } else {
@@ -17,7 +17,7 @@ export class SpriteComponent implements ISpriteComponent {
     }
 
     onImageLoaded = (): void => {
-        const sprite = new Sprite(
+        const sprite = new PIXI.Sprite(
             this.loader.resources[this.image].texture
         );
         this.loaded.next(sprite);
@@ -25,7 +25,7 @@ export class SpriteComponent implements ISpriteComponent {
 }
 
 export interface ISpriteComponent {
-    loaded: Subject<Sprite>;
+    loaded: Subject<PIXI.Sprite>;
     image: string;
     onImageLoaded: () => void;
 }

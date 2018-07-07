@@ -1,4 +1,4 @@
-import { autoDetectRenderer, Container } from 'pixi.js';
+import { autoDetectRenderer, Container } from 'pixi.js-legacy';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.store.subscribe(data => console.log(data));
         this.store.dispatch(new GetCurrentUserAction());
-        this.createTestCanvas();
+        // this.createTestCanvas();
     }
 
     public getRouterOutletState(outlet: any) {

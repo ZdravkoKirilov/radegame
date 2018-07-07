@@ -1,6 +1,6 @@
 import { OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { AppState } from '@app/core';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';

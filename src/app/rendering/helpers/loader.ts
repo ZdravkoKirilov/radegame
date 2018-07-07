@@ -1,4 +1,4 @@
-import { loaders } from "pixi.js";
+import * as PIXI from "pixi.js-legacy";
 
 import { EventEmitter } from "@app/shared";
 
@@ -9,7 +9,7 @@ export type LoaderResources = {
 };
 
 export const preloadAssets = (assets: Set<string>): EventEmitter<LoaderResources> => {
-    const loader = new loaders.Loader();
+    const loader = new PIXI.Loader();
     const emitter = new EventEmitter();
 
     assets.forEach(elem => loader.add(elem));

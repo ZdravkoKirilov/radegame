@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 
 import { AppState, selectGameId, selectGameAssets, selectPreloadedGames } from '@app/core';
 import { SetAllItemsAction, SetItemsAction, ChangeSelectedItemAction, formKeys } from '../../state/actions/generics';

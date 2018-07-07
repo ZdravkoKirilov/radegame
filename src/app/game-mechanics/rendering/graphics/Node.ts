@@ -1,5 +1,5 @@
-import { Subject } from 'rxjs/Subject';
-import { loaders, Sprite, Graphics, Point, Polygon } from 'pixi.js';
+import { Subject } from 'rxjs';
+import * as PIXI from 'pixi.js-legacy';
 
 import { MapLocation } from '../../entities';
 import { ISpriteComponent } from './SpriteComponent';
@@ -10,21 +10,21 @@ export class MapNode implements ISpriteComponent {
     private hovered = false;
     private _selected = false;
 
-    loaded: Subject<Sprite> = new Subject();
+    loaded: Subject<PIXI.Sprite> = new Subject();
     change: Subject<any> = new Subject();
     moved: Subject<MapLocation> = new Subject();
     select: Subject<MapLocation> = new Subject();
 
-    loader: loaders.Loader;
-    sprite: Sprite;
-    graphics: Graphics;
+    loader: PIXI.Loader;
+    sprite: PIXI.Sprite;
+    graphics: PIXI.Graphics;
     image: string;
     _data: MapLocation;
 
     constructor(image: string, data: MapLocation) {
         this.image = image;
-        this.loader = new loaders.Loader();
-        this.graphics = new Graphics();
+        this.loader = new PIXI.Loader();
+        this.graphics = new PIXI.Graphics();
         this.data = data;
         if (this.loader.resources[image]) {
             this.onImageLoaded();
@@ -34,7 +34,7 @@ export class MapNode implements ISpriteComponent {
     }
 
     onImageLoaded = (): void => {
-        const sprite = new Sprite(
+        const sprite = new PIXI.Sprite(
             this.loader.resources[this.image].texture
         );
         this.sprite = sprite;
@@ -161,14 +161,14 @@ export class MapNode implements ISpriteComponent {
             const x2 = this.left + this.width;
             const y2 = this.top + this.height;
             const polygon = [
-                new Point(x1 - padding, y1 - padding),
-                new Point(x2 + padding, y1 - padding),
-                new Point(x2 + padding, y2 + padding),
-                new Point(x1 - padding, y2 + padding),
-                new Point(x1 - padding, y1 - padding),
+                new PIXI.Point(x1 - padding, y1 - padding),
+                new PIXI.Point(x2 + padding, y1 - padding),
+                new PIXI.Point(x2 + padding, y2 + padding),
+                new PIXI.Point(x1 - padding, y2 + padding),
+                new PIXI.Point(x1 - padding, y1 - padding),
             ];
             this.graphics.lineStyle(1, 0x3333FF, .3);
-            this.graphics.hitArea = new Polygon(polygon);
+            this.graphics.hitArea = new PIXI.Polygon(polygon);
             this.graphics.moveTo(0, 0);
             this.graphics.drawPolygon(polygon);
             this.change.next();

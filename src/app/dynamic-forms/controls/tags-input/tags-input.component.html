@@ -3,7 +3,7 @@
   <label class="main-label">{{data.label}}</label>
   <mat-form-field class="demo-chip-list">
     <mat-chip-list #chipList>
-      <mat-chip *ngFor="let tag of tags" selectable="true" removable="true" (remove)="onRemove(tag)">
+      <mat-chip *ngFor="let tag of tags" selectable="true" removable="true" (removed)="onRemove(tag)">
         {{tag}}
         <mat-icon matChipRemove>cancel</mat-icon>
       </mat-chip>

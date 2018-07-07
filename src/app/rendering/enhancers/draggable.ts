@@ -1,4 +1,4 @@
-import { interaction, DisplayObject } from 'pixi.js';
+import { interaction, DisplayObject } from 'pixi.js-legacy';
 
 import { StatefulComponent } from '../mixins';
 import { EVENTS } from '../helpers';

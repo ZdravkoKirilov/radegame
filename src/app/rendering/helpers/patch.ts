@@ -3,7 +3,7 @@ import { parse } from "./parser";
 import { BaseProps, MetaProps } from "../models";
 import { toIndexedList, asArray } from "@app/shared";
 import { Factory } from "./factory";
-import { DisplayObject } from "pixi.js";
+import { DisplayObject } from "pixi.js-legacy";
 
 export const createPatcher = (mount: Mounter, factory: Factory, meta: MetaProps): Patcher => {
     return (elem: Component) => patch(elem, meta, mount, factory);

@@ -1,10 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, ActivatedRouteSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs/Observable';
-import { of } from 'rxjs/observable/of';
+import { Observable ,  of ,  forkJoin } from 'rxjs';
 import { switchMap, catchError, map, take } from 'rxjs/operators';
-import { forkJoin } from 'rxjs/observable/forkJoin';
 
 import * as actions from '../state/actions';
 import { selectPreloadedGameIds, Cache } from '../state';
