@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { AuthPayload, AuthResponse, User } from '../../profile';
+import { AuthPayload, AuthResponse, User } from '@app/profile';
 import { AUTH_URLS } from '../config';
 
 @Injectable()

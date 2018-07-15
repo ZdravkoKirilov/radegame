@@ -1,13 +1,13 @@
 import { BasicComponent } from '../../mixins';
-import { BaseProps } from './../../models';
+import { RzElementProps } from '../../models';
 
 export class PrimitiveLine extends BasicComponent {
 
-    constructor(props: BaseProps, graphic: any) {
+    constructor(props: RzElementProps, graphic: any) {
         super(props, graphic);
     }
 
-    // update(nextProps: BaseProps) {
+    // update(nextProps: RzElementProps) {
     //     const points = [...nextProps.points];
     //     const { alpha, stroke, strokeWidth } = this.props.mapped;
     //     const start = points.shift();

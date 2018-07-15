@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup, FormControl, Validators as vd } from '@angular/forms';
 
 import { LOGIN_MODES, LoginMode, SignInPayload, AuthPayload } from '../../models';
-import { emailValidator } from '../../../dynamic-forms';
+import { emailValidator } from '@app/dynamic-forms';
 
 @Component({
   selector: 'rg-sign-in-form',

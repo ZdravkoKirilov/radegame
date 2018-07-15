@@ -1,6 +1,6 @@
 import { BaseProps, ParseParams } from "../models";
 import { PRIMITIVE_TYPES } from '../config';
-import { execute, isComputed, removeCustomWrappers, isExpression, compute, attrIsReserved } from "./expression";
+import { execute, isComputed, isExpression, compute, attrIsReserved } from "./expression";
 
 export const parse = (params: ParseParams): BaseProps => {
 

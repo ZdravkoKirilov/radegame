@@ -4,11 +4,11 @@ import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
-import { AppState } from './core';
-import { fadeAnimation } from './animations';
-import { GetCurrentUserAction } from './profile';
+import { AppState } from '@app/core';
+import { fadeAnimation } from '@app/animations';
+import { GetCurrentUserAction } from '@app/profile';
 import { createRenderer, factory, preloadAssets, createCustomFactory, createFactory, createPatcher, mount, MetaProps } from '@app/rendering';
-import { Root, Node, NodesContainer } from '@app/game-arena';
+import { Root, Node, NodesContainer, Path } from '@app/game-arena';
 
 @Component({
     selector: 'rg-root',
@@ -31,7 +31,7 @@ export class AppComponent implements OnInit {
     }
 
     render(stage) {
-        const customFactory = createCustomFactory({ Root, Node, NodesContainer });
+        const customFactory = createCustomFactory({ Root, Node, NodesContainer, Path });
         const mainFactory = createFactory([factory, customFactory]);
         const render = createRenderer(mainFactory);
 
@@ -65,7 +65,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.store.subscribe(data => console.log(data));
         this.store.dispatch(new GetCurrentUserAction());
-        // this.createTestCanvas();
+        this.createTestCanvas();
     }
 
     public getRouterOutletState(outlet: any) {

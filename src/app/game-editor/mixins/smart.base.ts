@@ -8,8 +8,8 @@ import { GameEntity, Game } from '@app/game-mechanics';
 import {
     SaveItemAction, DeleteItemAction, ToggleEditorAction,
     ChangeSelectedItemAction, formKeys, FormKey
-} from '../state//actions/generics';
-import { getSelectedItem, getItems, getEditorState, getEntities } from '../state//reducers/generics';
+} from '../state/actions/generics';
+import { getSelectedItem, getItems, getEditorState, getEntities } from '../state/reducers/generics';
 
 export abstract class SmartBase implements OnInit, OnDestroy {
     @ViewChild('template') template: TemplateRef<any>;

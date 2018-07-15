@@ -1,6 +1,6 @@
 import { Component, Output, EventEmitter } from '@angular/core';
 
-import { SignInPayload } from '../../models/';
+import { SignInPayload } from '../../models';
 
 @Component({
   selector: 'rg-sign-in-view',

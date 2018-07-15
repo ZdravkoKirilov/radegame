@@ -8,7 +8,7 @@ import { Game } from '@app/game-mechanics';
 import { FormDefinition } from '@app/dynamic-forms';
 import { GAME_DEF } from '../../forms';
 
-import { SetItemsAction, SaveItemAction, ChangeSelectedItemAction, formKeys } from '../../state//actions/generics';
+import { SetItemsAction, SaveItemAction, ChangeSelectedItemAction, formKeys } from '../../state/actions/generics';
 import { getItems, getSelectedItem, getEditorState } from '../../state/reducers/generics';
 import { SmartBase } from '../../mixins';
 

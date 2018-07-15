@@ -4,10 +4,10 @@ import { ActionReducerMap } from '@ngrx/store';
 
 import { cacheReducer, Cache } from './cache.reducer';
 
-import { GameEditorFeature } from '../../../game-editor/';
+import { GameEditorFeature } from '@app/game-editor';
 import { RouterStateUrl } from '../../router-custom.serializer';
 import { SocialAuthState } from '../../../social-auth';
-import { ProfileFeature } from '../../../profile';
+import { ProfileFeature } from '@app/profile';
 
 export const reducers: ActionReducerMap<AppState> = {
     router: routerReducer,

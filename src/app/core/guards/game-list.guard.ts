@@ -7,7 +7,7 @@ import { switchMap, catchError } from 'rxjs/operators';
 import * as actions from '../state/actions';
 
 import { AppState } from '../state';
-import { toIndexedList } from '../../shared';
+import { toIndexedList } from '@app/shared';
 import { GameEditService } from '../services';
 
 @Injectable()

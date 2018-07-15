@@ -13,8 +13,8 @@ export class Root extends StatefulComponent<Props, State> {
         nodes: [
             {
                 mapped: {
-                    x: 100,
-                    y: 200,
+                    x: 50,
+                    y: 50,
                 },
                 text: {
                     mapped: {
@@ -39,8 +39,8 @@ export class Root extends StatefulComponent<Props, State> {
                 },
             }, {
                 mapped: {
-                    x: 200,
-                    y: 300,
+                    x: 50,
+                    y: 200,
                 },
                 text: {
                     mapped: {
@@ -65,7 +65,7 @@ export class Root extends StatefulComponent<Props, State> {
                 },
             }, {
                 mapped: {
-                    x: 400,
+                    x: 50,
                     y: 350,
                 },
                 text: {
@@ -90,12 +90,37 @@ export class Root extends StatefulComponent<Props, State> {
                     src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
                 },
             }
-        ]
-
+        ],
+        line: {
+            mapped: {
+                strokeThickness: 1,
+                strokeColor: 0xFF0000,
+                alpha: 1,
+            },
+            points: [
+                [130, 130],
+                [400, 130],
+                [500, 150],
+                [400, 170],
+                [130, 170],
+                [130, 130]
+            ]
+        }
     };
 
+    render2() {
+        return `
+        <container>
+            <NodesContainer nodes='{state.nodes}'/>
+            <line mapped='{state.line.mapped}' points='{state.line.points}'/>
+        </container>`;
+    }
+
     render() {
-        return `<NodesContainer nodes='{state.nodes}'/>`;
+        return `
+        <container>
+            <Path mapped='{state.line.mapped}' points='{state.line.points}'/>
+        </container>`;
     }
 
     didMount() {

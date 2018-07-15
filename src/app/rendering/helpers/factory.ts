@@ -1,9 +1,9 @@
-import { TextStyle, Text, Sprite, Container } from 'pixi.js-legacy';
-import { StatelessElement, Component } from '../interfaces';
-import { BaseProps, MetaProps } from '../models';
+import { TextStyle, Text, Sprite, Container, Graphics } from 'pixi.js-legacy';
+import { Component } from '../interfaces';
+import { BaseProps, MetaProps, RzElementType, RzElementProps, RzElement } from '../models';
 import { PRIMITIVE_TYPES } from '../config';
-import { PrimitiveText, PrimitiveSprite, PixiCollection, PrimitiveContainer } from '../primitives';
-import { StatelessComponent, StatefulComponent } from '../mixins';
+import { PrimitiveText, PrimitiveSprite, PrimitiveCollection, PrimitiveContainer, PrimitiveLine } from '../primitives';
+import { FunctionalComponent, StatefulComponent } from '../mixins';
 
 export type Factory = (data: BaseProps, parent?: Component, meta?: MetaProps) => Component;
 
@@ -47,11 +47,17 @@ export const factory: Factory = (data: BaseProps, parent: Component = null, meta
             return container;
         case PRIMITIVE_TYPES.COLLECTION:
             const pixiCollection = new Container();
-            const collection = new PixiCollection(data, pixiCollection);
+            const collection = new PrimitiveCollection(data, pixiCollection);
             meta.containers[data.name] = collection;
             collection.meta = meta;
             collection.parent = parent;
             return collection;
+        case PRIMITIVE_TYPES.LINE:
+            const pixiLine = new Graphics();
+            const line = new PrimitiveLine(data, pixiLine);
+            line.meta = meta;
+            line.parent = parent;
+            return line;
         default:
             return null;
     }
@@ -63,10 +69,9 @@ export const createCustomFactory = (mapping: { [name: string]: any }): Factory =
         if (data.type in mapping) {
             const blueprint = mapping[data.type];
             if (!blueprint.composite) {
-                const result = blueprint(data) as StatelessElement;
-                const stateless = new StatelessComponent(data, parent, result.template);
-                stateless.meta = meta;
-                return stateless;
+                const functionalComponent = new FunctionalComponent(data, blueprint);
+                functionalComponent.meta = meta;
+                return functionalComponent;
             }
             const stateful = new blueprint(data, parent) as StatefulComponent<typeof data, any>;
             stateful.meta = meta;

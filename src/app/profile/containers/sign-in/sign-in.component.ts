@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { AppState } from '../../../core';
+import { AppState } from '@app/core';
 
-import { LOGIN_MODES, SignInPayload } from '../../models/';
+import { LOGIN_MODES, SignInPayload } from '../../models';
 import { EmailLoginAction, EmailRegisterAction } from '../../state';
 
 @Component({

@@ -1,4 +1,4 @@
-import { Activity } from './index';
+import { Activity } from '.';
 
 export interface Quest {
     id?: number;

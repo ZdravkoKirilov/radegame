@@ -1,29 +1,36 @@
 import { BasicComponent } from "./BasicComponent";
-import { BaseProps } from "../models";
+import { RzElementProps, RzElement } from "../models";
+import { Lifecycles } from "../interfaces";
 
-export class StatefulComponent<P extends BaseProps, S> extends BasicComponent{
-    static composite = true;
-    basic = false;
+export class StatefulComponent<P extends RzElementProps, S> extends BasicComponent {
 
     state: S;
     props: P;
 
-    constructor(props: P, graphic: any) {
-        super(props, graphic);
+    constructor(props: P) {
+        super(props, null);
     }
 
     setState(state: S) {
-        this.state = { ...this.state || {}, ...state || {} } as S;
+        const current = this.state || {};
+        const next = { ...current, ...state || {} };
         if (this.shouldUpdate(this.props, state)) {
+            this.state = next as S;
             this.update();
+        } else {
+            this.state = next as S;
         }
     }
 
     setProps(props: P | any) {
         const current = this.props || {};
-        this.props = { ...current, ...props };
-        if (this.shouldUpdate(props, this.state)) {
+        const next = { ...current, ...props };
+
+        if (this.shouldUpdate(next, this.state)) {
+            this.props = next as P;
             this.update();
+        } else {
+            this.props = next as P;
         }
     }
 
@@ -31,7 +38,7 @@ export class StatefulComponent<P extends BaseProps, S> extends BasicComponent{
         return true;
     }
 
-    render(): any {
+    render(): RzElement {
         throw new Error('Render not implemented!');
     }
 }

@@ -2,7 +2,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 import { RouterStateUrl } from '../../router-custom.serializer';
-import { ROUTER_PARAMS } from '../../../shared';
+import { ROUTER_PARAMS } from '@app/shared';
 import { AppState } from './main';
 
 export const selectFeature = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
