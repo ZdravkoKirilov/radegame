@@ -9,4 +9,5 @@ export type Styles = {
     padding: number;
     strokeThickness?: number;
     strokeColor?: number;
+    zIndex?: number;
 };

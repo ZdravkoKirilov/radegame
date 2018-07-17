@@ -26,7 +26,7 @@ export const createComponent = (
     factory: AbstractFactory,
     meta?: MetaProps): Component | null => {
     let component = null;
-    element.props.children = element.children;
+    element.props.children = element.children.filter(element => !!element);
     if (typeof element.type === 'string') {
         element.props.type = element.type;
         component = createPrimitiveComponent(element, factory, meta) as BasicComponent;
