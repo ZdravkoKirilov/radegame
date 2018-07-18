@@ -26,7 +26,12 @@ export const createComponent = (
     factory: AbstractFactory,
     meta?: MetaProps): Component | null => {
     let component = null;
-    element.props.children = element.children.filter(element => !!element);
+    element.props.children = element.children;
+
+    if (!element) {
+        return null;
+    }
+
     if (typeof element.type === 'string') {
         element.props.type = element.type;
         component = createPrimitiveComponent(element, factory, meta) as BasicComponent;
@@ -77,6 +82,9 @@ const createFunctionalComponent = (element: RzElement, meta: MetaProps): Functio
 };
 
 const mountComponent = (component: Component, container: AbstractContainer) => {
+    if (!component) {
+        return;
+    }
 
     if (component instanceof StatefulComponent) {
         mountStatefulComponent(component, container);

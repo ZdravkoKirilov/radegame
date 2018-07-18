@@ -1,4 +1,4 @@
-import { StatefulComponent, Component } from "@app/rendering";
+import { StatefulComponent, Component, createElement } from "@app/rendering";
 
 type Props = {
     mapped: any;
@@ -12,8 +12,15 @@ type State = {
 };
 
 export class Node extends StatefulComponent<Props, State> {
-
     render() {
+        return (
+            createElement('container', {},
+                createElement('sprite', {}),
+                createElement('text', {})
+            )
+        );
+    }
+    render2() {
         return `
         <container name='{props.text.value}' mapped='{props.mapped}' draggable='{true}' onDragEnd='{didDrag}' >
             <sprite name="kartinka" mapped='{props.sprite.mapped}' imageSrc='{props.sprite.src}' relativeWidth='{400}'></sprite>
