@@ -11,7 +11,7 @@ export interface RzElement {
 type StrictRzElementProps = {
     [key: string]: any;
     type: PrimitiveType;
-    styles: Styles;
+    styles: Partial<Styles>;
     key: number | string;
     children: RzElement[];
 };

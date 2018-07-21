@@ -1,6 +1,6 @@
 import { TextStyleOptions, Texture } from "pixi.js-legacy";
 import { Styles } from "./Styles";
-import { Component, Patcher } from "../interfaces";
+import { Component, Patcher, AbstractRenderEngine } from "../interfaces";
 
 export type BaseProps = {
     type?: string;
@@ -18,11 +18,9 @@ export type BaseProps = {
 };
 
 export type MetaProps = {
-    textures: any;
-    containers: {
-        [key: string]: Component
-    };
+    textures?: any;
     patcher?: Patcher;
+    engine?: AbstractRenderEngine;
 };
 
 export type Points = Array<Array<number>>;

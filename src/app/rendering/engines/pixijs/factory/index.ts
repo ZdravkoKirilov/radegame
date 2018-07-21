@@ -1,11 +1,10 @@
 import { Graphics, Container, TextStyle, Text, Sprite } from "pixi.js";
 
-import { AbstractFactory } from "../../../interfaces";
-import { RzElement, MetaProps } from "../../../models";
 import {
+    AbstractFactory, RzElement, MetaProps,
     PrimitiveContainer, PrimitiveCollection,
     PrimitiveText, PrimitiveSprite, PrimitiveLine, PrimitiveFragment
-} from "../../../primitives";
+} from "@app/rendering";
 
 export class PixiFactory implements AbstractFactory {
     createContainer(elem: RzElement, meta: MetaProps): PrimitiveContainer {

@@ -1,16 +1,32 @@
-import { AbstractFactory, AbstractContainer, Component } from "../interfaces";
+import { AbstractFactory, AbstractContainer, Component, AbstractRenderEngine } from "../interfaces";
 import { RzElement, MetaProps, RzElementType, RzElementProps, RenderFunction } from "../models";
 import { BasicComponent, StatefulComponent, FunctionalComponent } from "../mixins";
 import { PRIMITIVE_TYPES } from "../config";
 
-export const createRenderer = (abstractFactory: AbstractFactory) => {
+export const createRenderer2 = (abstractFactory: AbstractFactory) => {
     const renderer = (element: RzElement, meta: MetaProps, container: AbstractContainer): Component => {
         const component = createComponent(element, abstractFactory, meta);
         mountComponent(component, container);
         return component;
     };
     return renderer;
-}
+};
+
+export const createRenderer = (engine: AbstractRenderEngine, resources: Array<string>) => {
+    const renderFunc = (elem: RzElement, meta: MetaProps, container: AbstractContainer): Promise<Component> => {
+        return new Promise((resolve) => {
+            engine.loader.loadAll(resources).then(resources => {
+                meta = meta || {} as MetaProps;
+                meta.textures = resources;
+                meta.engine = engine;
+                const component = createComponent(elem, engine.factory, meta);
+                mountComponent(component, container);
+                resolve(component);
+            });
+        });
+    }
+    return renderFunc;
+};
 
 export const createElement = (
     type: RzElementType,
@@ -81,7 +97,7 @@ const createFunctionalComponent = (element: RzElement, meta: MetaProps): Functio
     return component;
 };
 
-const mountComponent = (component: Component, container: AbstractContainer) => {
+export const mountComponent = (component: Component, container: AbstractContainer) => {
     if (!component) {
         return;
     }

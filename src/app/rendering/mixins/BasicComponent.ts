@@ -36,18 +36,8 @@ export class BasicComponent {
     }
 
     remove() {
-        if (this.graphic.parent) {
-            // this.graphic.parent.removeChild(this.graphic);
-        }
+       // patcher.remove
 
-    }
-
-    bringToFront() {
-        if (this.graphic.parent) {
-            const children = this.graphic.parent.children.filter(elem => elem !== this.graphic);
-            children.push(this.graphic);
-            this.graphic.parent.children = children;
-        }
     }
 
     shouldUpdate(nextProps: RzElementProps, nextState?: any): boolean;
