@@ -1,8 +1,8 @@
-import { Points } from '@app/rendering';
+import { Points, createElement } from '@app/rendering';
 
 type Props = {
-    mapped: any;
+    styles: any;
     points: Points;
 };
 
-export const Path = (props: Props) => `<line mapped='{props.mapped}' points='{props.points}'/>`;
+export const Path = (props: Props) => createElement('line', { styles: props.styles, points: props.points });

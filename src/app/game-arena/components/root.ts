@@ -1,4 +1,5 @@
-import { StatefulComponent, Component } from "@app/rendering";
+import { StatefulComponent, Component, createElement } from "@app/rendering";
+import { Path } from "./Path";
 
 type Props = {
 
@@ -108,19 +109,13 @@ export class Root extends StatefulComponent<Props, State> {
         }
     };
 
-    render2() {
-        return `
-        <container>
-            <NodesContainer nodes='{state.nodes}'/>
-            <line mapped='{state.line.mapped}' points='{state.line.points}'/>
-        </container>`;
-    }
-
     render() {
-        return `
-        <container>
-            <Path mapped='{state.line.mapped}' points='{state.line.points}'/>
-        </container>`;
+        return createElement('container', {},
+            createElement(Path, {
+                styles: this.state.line.mapped,
+                points: this.state.line.points
+            }),
+        );
     }
 
     didMount() {

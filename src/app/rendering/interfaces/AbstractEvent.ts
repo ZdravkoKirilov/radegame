@@ -1,4 +1,4 @@
-import { Component } from "./Component";
+import { Component } from "../models/Component";
 
 export abstract class AbstractEvent {
     abstract supported: Set<string>;

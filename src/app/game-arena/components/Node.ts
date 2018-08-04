@@ -1,4 +1,4 @@
-import { StatefulComponent, Component, createElement } from "@app/rendering";
+import { StatefulComponent, Component, createElement as create } from "@app/rendering";
 
 type Props = {
     mapped: any;
@@ -14,9 +14,9 @@ type State = {
 export class Node extends StatefulComponent<Props, State> {
     render() {
         return (
-            createElement('container', {},
-                createElement('sprite', {}),
-                createElement('text', {})
+            create('container', {},
+                create('sprite', {}),
+                create('text', {})
             )
         );
     }

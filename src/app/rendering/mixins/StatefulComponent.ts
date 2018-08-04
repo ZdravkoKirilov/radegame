@@ -1,14 +1,14 @@
 import { BasicComponent } from "./BasicComponent";
-import { RzElementProps, RzElement } from "../models";
-import { Lifecycles } from "../interfaces";
+import { RzElementProps, RzElement, MetaProps } from "../models";
 
 export class StatefulComponent<P extends RzElementProps, S> extends BasicComponent {
-
+    static stateful = true;
+    static defaultProps: any;
     state: S;
     props: P;
 
-    constructor(props: P) {
-        super(props, null);
+    constructor(props: P, meta: MetaProps) {
+        super(props, null, meta);
     }
 
     setState(state: S) {

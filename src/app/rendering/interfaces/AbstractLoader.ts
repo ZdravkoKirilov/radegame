@@ -1,5 +1,5 @@
 export interface AbstractLoader {
-    loadAll(resources: Array<string>): Promise<LoaderResources>;
+    loadAll(resources: Set<string>): Promise<LoaderResources>;
 }
 
 export type LoaderResources = {

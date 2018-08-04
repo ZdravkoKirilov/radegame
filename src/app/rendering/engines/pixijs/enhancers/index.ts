@@ -9,6 +9,9 @@ type Draggable = {
 }
 
 export class PixiEnhancer implements AbstractEnhancer {
+    assignEnhancers(comp: Component) {
+        this.makeDraggable(comp);
+    }
     makeDraggable(comp: Component) {
         if (comp.props.draggable) {
             var closure: Draggable = {};

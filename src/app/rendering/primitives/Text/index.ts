@@ -1,4 +1,4 @@
-import { RzElementProps } from "../../models";
+import { RzElementProps, MetaProps } from "../../models";
 import { BasicComponent } from "../../mixins";
 
 export class PrimitiveText extends BasicComponent {
@@ -9,8 +9,7 @@ export class PrimitiveText extends BasicComponent {
 
     style: any;
 
-    constructor(props: RzElementProps, graphic: any) {
-        
-        super(props, graphic);
+    constructor(props: RzElementProps, graphic: any, meta: MetaProps) {
+        super(props, graphic, meta);
     }
 }

@@ -7,8 +7,8 @@ import { map } from 'rxjs/operators';
 import { AppState } from '@app/core';
 import { fadeAnimation } from '@app/animations';
 import { GetCurrentUserAction } from '@app/profile';
-import { createRenderer, factory, preloadAssets, createCustomFactory, createFactory, createPatcher, mount, MetaProps } from '@app/rendering';
-import { Root, Node, NodesContainer, Path } from '@app/game-arena';
+import { PixiEngine, MetaProps, createRenderer, createElement } from '@app/rendering';
+import { Root } from '@app/game-arena';
 
 @Component({
     selector: 'rg-root',
@@ -31,21 +31,12 @@ export class AppComponent implements OnInit {
     }
 
     render(stage) {
-        const customFactory = createCustomFactory({ Root, Node, NodesContainer, Path });
-        const mainFactory = createFactory([factory, customFactory]);
-        const render = createRenderer(mainFactory);
+        const assets = new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg']);
 
-        preloadAssets(new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'])).subscribe((assets) => {
-            const meta: MetaProps = { textures: assets, containers: {} };
-            const patcher = createPatcher(mount, mainFactory, meta);
-            meta.patcher = patcher;
-            const elem = render('<Root didDrag="{didDrag}"/>', stage, { didDrag }, meta);
-            console.log(elem);
+        const render = createRenderer(PixiEngine, assets);
+        render(createElement(Root, {}), stage).then(component => {
+            console.log('Mounted main component: ', component);
         });
-
-        function didDrag(obj) {
-            console.log('higher order  ', obj);
-        }
     }
 
     createTestCanvas() {

@@ -1,25 +1,27 @@
-import { assignEvents } from "../helpers";
-import { RzElementProps, MetaProps } from "../models";
-import { Component } from "../interfaces";
-import { assignEnhancers } from "../enhancers";
+import { RzElementProps, MetaProps, Component } from "../models";
+import { AbstractContainer } from "../interfaces";
 
 export class BasicComponent {
     meta: MetaProps;
     props: RzElementProps;
     graphic: any;
-    children: Array<Component> = [];
+    container: AbstractContainer;
+    children: Array<Component | null>;
 
-    constructor(props: RzElementProps, graphic: any) {
+    constructor(props: RzElementProps, graphic: any, meta: MetaProps) {
         this.graphic = graphic;
         this.props = props;
-        setTimeout(() => {
-            assignEvents(this, graphic);
-            assignEnhancers(this, graphic);
-        });
+        this.meta = meta;
+        this.meta.engine.enhancer.assignEnhancers(this);
+        this.meta.engine.event.assignEvents(this);
+    }
+
+    render() {
+        return this as any;
     }
 
     update() {
-        this.meta.patcher(this);
+        this.meta.engine.mutator.updateComponent(this);
     }
 
     setProps(props: RzElementProps | any) {
@@ -32,12 +34,10 @@ export class BasicComponent {
         } else {
             this.props = next;
         }
-
     }
 
     remove() {
-       // patcher.remove
-
+        this.meta.engine.mutator.removeComponent(this);
     }
 
     shouldUpdate(nextProps: RzElementProps, nextState?: any): boolean;
