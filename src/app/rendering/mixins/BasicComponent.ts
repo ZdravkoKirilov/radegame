@@ -2,6 +2,7 @@ import { RzElementProps, MetaProps, Component } from "../models";
 import { AbstractContainer } from "../interfaces";
 
 export class BasicComponent {
+    static defaultProps?: any;
     meta: MetaProps;
     props: RzElementProps;
     graphic: any;

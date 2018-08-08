@@ -111,10 +111,11 @@ export class Root extends StatefulComponent<Props, State> {
 
     render() {
         return createElement('container', {},
-            createElement(Path, {
+            createElement('fragment', {}, createElement(Path, {
                 styles: this.state.line.mapped,
                 points: this.state.line.points
-            }),
+            }), ),
+
         );
     }
 

@@ -93,13 +93,16 @@ const createPrimitiveComponent = (element: RzElement, factory: AbstractFactory, 
 
 const createStatefulComponent = (element: RzElement, meta: MetaProps): StatefulComponent<typeof element.props, any> => {
     const constructor = element.type as typeof StatefulComponent;
-    const component = new constructor(element.props, meta);
+    const props = constructor.defaultProps ? {...constructor.defaultProps, ...element.props} : element.props;
+    const component = new constructor(props, meta);
     component.meta = meta;
     return component;
 };
 
 const createFunctionalComponent = (element: RzElement, meta: MetaProps): FunctionalComponent<typeof element.props> => {
-    const component = new FunctionalComponent(element.props, element.type as RenderFunction<typeof element.props>, meta);
+    const renderFunc = element.type as any;
+    const props = renderFunc.defaultProps ? {...renderFunc.defaultProps, ...element.props} : element.props;
+    const component = new FunctionalComponent(props, renderFunc as RenderFunction<any>, meta);
     component.meta = meta;
     return component;
 };
