@@ -1,38 +1,46 @@
-import { StatefulComponent, Component, createElement as create } from "@app/rendering";
+import { StatefulComponent, createElement, PrimitiveContainer, Points, RenderFunction } from "@app/rendering";
 
 type Props = {
     mapped: any;
     text: any;
     sprite: any;
-    didDrag: any;
+    styles: any;
+    id: any;
+    onDragMove: (comp: PrimitiveContainer) => void;
 };
 
-type State = {
+export const Node: RenderFunction<Props> = (props) => {
+
+    const { sprite, text, styles, id, onDragMove } = props;
+    return (
+        createElement('container', { styles, draggable: true, id, onDragMove },
+            createElement('sprite', { ...sprite, onPointerDown: () => console.log('click!') }),
+            createElement('text', { ...text }),
+            createElement('polygon', {
+                points: computePolygon(sprite, text),
+                styles: {
+                    strokeThickness: 5,
+                    strokeColor: 0x00ff00,
+                }
+            })
+        )
+    );
 
 };
 
-export class Node extends StatefulComponent<Props, State> {
-    render() {
-        return (
-            create('container', {},
-                create('sprite', {}),
-                create('text', {})
-            )
-        );
-    }
-    render2() {
-        return `
-        <container name='{props.text.value}' mapped='{props.mapped}' draggable='{true}' onDragEnd='{didDrag}' >
-            <sprite name="kartinka" mapped='{props.sprite.mapped}' imageSrc='{props.sprite.src}' relativeWidth='{400}'></sprite>
-            <text name='text' mapped='{props.text.mapped}' textStyle='{props.text.textStyle}'>{props.text.value}</text>
-        </container>`;
-    }
+const computePolygon = (sprite, text): Points => {
+    const padding = 0;
+    const x1 = sprite.styles.x;
+    const y1 = sprite.styles.y - text.textStyle.fontSize;
+    const x2 = sprite.styles.x + sprite.styles.width;
+    const y2 = sprite.styles.y + sprite.styles.height;
+    const polygon = [
+        [x1 - padding, y1 - padding],
+        [x2 + padding, y1 - padding],
+        [x2 + padding, y2 + padding],
+        [x1 - padding, y2 + padding],
+        [x1 - padding, y1 - padding],
+    ];
 
-    didMount() {
-        console.log('mount');
-    }
-
-    didDrag = (obj: Component) => {
-        console.log('Dragged', obj);
-    }
+    return polygon;
 };

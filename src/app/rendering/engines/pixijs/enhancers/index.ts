@@ -31,12 +31,6 @@ export class PixiEnhancer implements AbstractEnhancer {
 
             elem.on('pointerup', (event: interaction.InteractionEvent) => {
                 event.stopPropagation();
-                const props: RzElementProps = {
-                    styles: {
-                        alpha: 1
-                    }
-                };
-                comp.setProps(props);
                 closure.dragging = false;
                 closure.hasMoved = false;
                 closure.dragPoint = null;

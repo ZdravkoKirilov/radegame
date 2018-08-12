@@ -1,24 +1,13 @@
-// import { BasicComponent } from '../../mixins';
-// import { BaseProps } from '../../models';
+import { BasicComponent } from '../../mixins';
+import { RzElementProps, MetaProps } from '../../models';
 
-// export class PrimitivePolygon extends BasicComponent {
+export class PrimitivePolygon extends BasicComponent {
 
-//     constructor(props: BaseProps, graphic: any) {
-//         super(props, graphic);
-//     }
+    constructor(props: RzElementProps, graphic: any, meta: MetaProps) {
+        super(props, graphic, meta);
+    }
 
-//     // update(nextProps: BaseProps) {
-//     //     // const { stroke, strokeWidth, alpha } = this.props.mapped;
-//     //     // const { points } = this.props;
-//     //     // const polygon = [];
-
-//     //     // points.forEach(elem => {
-//     //     //     polygon.push(new Point(elem[0], elem[1]));
-//     //     // });
-
-//     //     // this.graphic.clear();
-
-//     //     // this.graphic.lineStyle(strokeWidth, stroke, alpha);
-//     //     // this.graphic.drawPolygon(polygon);
-//     // }
-// }
+    shouldUpdate(nextProps: RzElementProps) {
+        return nextProps.styles !== this.props.styles || nextProps.points !== this.props.points;
+    }
+}

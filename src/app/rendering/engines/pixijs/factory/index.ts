@@ -3,7 +3,7 @@ import { Graphics, Container, TextStyle, Text, Sprite } from "pixi.js";
 import {
     AbstractFactory, RzElement, MetaProps,
     PrimitiveContainer, PrimitiveCollection,
-    PrimitiveText, PrimitiveSprite, PrimitiveLine, PrimitiveFragment
+    PrimitiveText, PrimitiveSprite, PrimitiveLine, PrimitiveFragment, PrimitivePolygon
 } from "@app/rendering";
 
 export class PixiFactory implements AbstractFactory {
@@ -16,7 +16,7 @@ export class PixiFactory implements AbstractFactory {
         return collection;
     }
     createText(elem: RzElement, meta: MetaProps): PrimitiveText {
-        const textStyle = new TextStyle(elem.props.textStyle || PrimitiveText.defaultTextStyle);
+        const textStyle = new TextStyle({ ...PrimitiveText.defaultTextStyle, ...(elem.props.textStyle || {}) });
         const text = new PrimitiveText(elem.props, new Text(elem.props.value, textStyle), meta);
         text.style = textStyle;
         return text;
@@ -32,5 +32,9 @@ export class PixiFactory implements AbstractFactory {
     createFragment(elem: RzElement, meta: MetaProps): PrimitiveFragment {
         const fragment = new PrimitiveFragment(elem.props, null, meta);
         return fragment;
+    }
+    createPolygon(elem: RzElement, meta: MetaProps): PrimitivePolygon {
+        const polygon = new PrimitivePolygon(elem.props, new Graphics(), meta);
+        return polygon;
     }
 }

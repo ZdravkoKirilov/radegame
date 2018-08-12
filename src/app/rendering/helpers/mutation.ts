@@ -1,17 +1,19 @@
 import { RzElement, RzElementKey, RzElementProps } from "../models";
 import { CompositeComponent, ComponentList, Component } from "../models";
-import { createComponent, mountComponent } from "./rendering";
+import { createComponent } from "./creation";
 import { toIndexedList } from "@app/shared";
 import { FunctionalComponent, StatefulComponent } from "../mixins";
 import { PrimitiveContainer, PrimitiveCollection } from "../primitives";
+import { mountComponent } from "./mounting";
 
 export const updateComposite = (element: RzElement, component: CompositeComponent) => {
     const current = component.children[0];
     const incoming = element;
-
+    
     if (current && incoming) {
-        const sameType = current.props.type === incoming.type;
+        const sameType = current.type === incoming.type;
         if (sameType) {
+            element.props.children = element.children;
             current.setProps(element.props);
         } else {
             component.children = [createComponent(element, component.meta.engine.factory, component.meta)];
@@ -32,18 +34,21 @@ export const updateComposite = (element: RzElement, component: CompositeComponen
 
 export const updateContainer = (newProps: RzElementProps, component: PrimitiveContainer) => {
     const current = component.children;
+    const newPropsChildren = newProps.children as RzElement[];
     const newChildren = [];
-    newProps.children.forEach((child, index) => {
+
+    newPropsChildren.forEach((child, index) => {
         const existing = current[index];
 
         if (existing !== null) {
-            const sameType = existing.props.type === child.type;
+            const sameType = existing.type === child.type;
             if (sameType) {
+                child.props.children = child.children;
                 existing.setProps(child.props);
                 newChildren[index] = existing;
             } else {
                 newChildren[index] = createComponent(child, component.meta.engine.factory, component.meta);
-                mountComponent(newChildren[index], component.graphic);
+                mountComponent(newChildren[index], component.graphic || component.container);
                 existing.remove();
             }
 
@@ -57,16 +62,24 @@ export const updateContainer = (newProps: RzElementProps, component: PrimitiveCo
 };
 
 export const updateCollection = (newProps: RzElementProps, component: PrimitiveCollection) => {
-    const current = toIndexedList(component.children) as ComponentList;
-    const currentKeys: Set<RzElementKey> = new Set(Object.keys(current));
-    const newChildren: ComponentList = newProps.children.reduce((acc, child) => {
+
+    const current = toIndexedList(component.children, 'props.key') as ComponentList;
+    const currentKeys: Set<RzElementKey> = new Set(component.children.map(elem => elem.props.key));
+    const newPropsChildren = newProps.children as RzElement[];
+
+    const newChildren: ComponentList = newPropsChildren.reduce((acc, child) => {
+        if (child === null) {
+            return acc;
+        }
         const key = child.props.key;
-        if (!key) {
+        if (key === undefined) {
             throw new Error('Each element in a collection must have a "key" prop. Shame.');
         }
         const existing = current[key];
 
         if (existing) {
+            acc[key] = existing;
+            child.props.children = child.children;
             acc[key].setProps(child.props);
         } else {
             acc[key] = createComponent(child, component.meta.engine.factory, component.meta);
@@ -78,11 +91,20 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
     }, {} as ComponentList);
 
     currentKeys.forEach(key => {
-        current[key].remove();
+        debugger;
+        const toBeRemoved = current[key];
+        toBeRemoved.remove();
     });
 
     component.children = Object.values(newChildren);//sort here if needed
 };
+
+export const unmountComposite = (component: CompositeComponent): void => {
+    console.warn('unmount composite: ');
+    console.dir(component);
+    component.children.forEach(child => child.remove());
+};
+
 
 export const isStateful = (component: Component): boolean => {
     return 'composite' in component;

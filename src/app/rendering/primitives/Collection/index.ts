@@ -8,6 +8,6 @@ export class PrimitiveCollection extends BasicComponent {
     }
 
     shouldUpdate(nextProps: RzElementProps) {
-        return nextProps.styles !== this.props.styles && nextProps.children !== this.props.children;
+        return nextProps.styles !== this.props.styles || nextProps.children !== this.props.children;
     }
 }

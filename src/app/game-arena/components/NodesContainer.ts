@@ -1,20 +1,19 @@
-import { StatefulComponent, Component, createElement } from "@app/rendering";
+import { StatefulComponent, createElement, RzElementChild, RenderFunction, PrimitiveContainer } from "@app/rendering";
+import { Node } from "./Node";
 
 type Props = {
     nodes: Array<any>;
+    children?: RzElementChild;
+    render: (lineWidth: number) => RzElementChild;
+    onDragMove: (comp: PrimitiveContainer) => void;
 };
 
-type State = {
+export const NodesContainer: RenderFunction<Props> = (props) => {
 
-};
+    const items = props.nodes.map((elem) => {
+        return createElement(Node, { ...elem, key: elem.id, onDragMove: props.onDragMove });
+    });
 
-export class NodesContainer extends StatefulComponent<Props, State> {
+    return createElement('collection', null, items);
 
-    render() {
-        return createElement(null, null);
-    }
-
-    didMount = () => {
-        console.log('Did mount from container');
-    }
 };

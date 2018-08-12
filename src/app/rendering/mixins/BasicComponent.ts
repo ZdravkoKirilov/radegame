@@ -1,8 +1,9 @@
-import { RzElementProps, MetaProps, Component } from "../models";
+import { RzElementProps, MetaProps, Component, RzElementType } from "../models";
 import { AbstractContainer } from "../interfaces";
 
 export class BasicComponent {
     static defaultProps?: any;
+    type: RzElementType;
     meta: MetaProps;
     props: RzElementProps;
     graphic: any;
@@ -38,6 +39,8 @@ export class BasicComponent {
     }
 
     remove() {
+        console.warn('remove was called: ');
+        console.dir(this);
         this.meta.engine.mutator.removeComponent(this);
     }
 

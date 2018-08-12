@@ -1,23 +1,24 @@
 import { AbstractRenderEngine } from "../interfaces";
 import { ComponentConstructor } from "./Component";
 
-export interface RzElement {
+export type RzElement = {
     type: RzElementType;
     props: RzElementProps,
     children: RzElement[];
 };
 
+export type RzElementChild = RzElement | Function | RzElement[];
+
 export type RzElementKey = number | string;
 
 export type RzElementProps = Partial<{
     [key: string]: any;
-    type: RzElementType;
     styles: Partial<Styles>;
     key: RzElementKey;
-    children: RzElement[];
+    children: RzElementChild;
 }>;
 
-export type RenderFunction<T> = (props: T) => RzElement;
+export type RenderFunction<T> = (props?: T) => RzElement;
 
 export type RzElementType = PrimitiveType | ComponentConstructor | RenderFunction<any>;
 
@@ -42,7 +43,7 @@ export type MetaProps = {
     engine?: AbstractRenderEngine;
 };
 
-export const PRIMITIVE_TYPES = {
+export const PRIMS = {
     SPRITE: 'sprite',
     TEXT: 'text',
     CIRCLE: 'circle',
@@ -52,7 +53,12 @@ export const PRIMITIVE_TYPES = {
     SOUND: 'sound',
     COLLECTION: 'collection',
     CONTAINER: 'container',
-    FRAGMENT: 'fragment'
+    FRAGMENT: 'fragment',
+    POLYGON: 'polygon',
 };
 
 export type PrimitiveType = string;
+
+export const isValidRzElement = (elem: any): elem is RzElement => {
+    return 'type' in elem && 'props' in elem && 'children' in elem;
+}

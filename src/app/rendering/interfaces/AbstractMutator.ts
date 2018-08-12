@@ -1,7 +1,6 @@
-import { RzElement } from "../models";
 import {
     PrimitiveContainer, PrimitiveCollection, PrimitiveSprite,
-    PrimitiveText, PrimitiveLine, PrimitiveFragment
+    PrimitiveText, PrimitiveLine, PrimitiveFragment, PrimitivePolygon,
 } from "../primitives";
 import { Component } from "../models";
 
@@ -14,6 +13,7 @@ export abstract class AbstractMutator {
     abstract updateText?(component: PrimitiveText): void;
     abstract updateLine?(component: PrimitiveLine): void;
     abstract updateFragment?(component: PrimitiveFragment): void;
+    abstract updatePolygon?(component: PrimitivePolygon): void;
 
     abstract removeComponent(component: Component): void;
 };

@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { AppState } from '@app/core';
 import { fadeAnimation } from '@app/animations';
 import { GetCurrentUserAction } from '@app/profile';
-import { PixiEngine, MetaProps, createRenderer, createElement } from '@app/rendering';
+import { PixiEngine, MetaProps, createRenderer, createElement, StatefulComponent } from '@app/rendering';
 import { Root } from '@app/game-arena';
 
 @Component({
@@ -34,8 +34,8 @@ export class AppComponent implements OnInit {
         const assets = new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg']);
 
         const render = createRenderer(PixiEngine, assets);
-        render(createElement(Root, {}), stage).then(component => {
-            console.log('Mounted main component: ', component);
+        render(createElement(Root, {}), stage).then((component: StatefulComponent<any, any>) => {
+            console.log(component);
         });
     }
 

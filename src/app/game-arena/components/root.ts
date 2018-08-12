@@ -1,5 +1,6 @@
-import { StatefulComponent, Component, createElement } from "@app/rendering";
-import { Path } from "./Path";
+import { StatefulComponent, createElement, PrimitiveContainer } from "@app/rendering";
+import { NodesContainer } from "./NodesContainer";
+import { LinesContainer } from "./LinesContainer";
 
 type Props = {
 
@@ -13,12 +14,13 @@ export class Root extends StatefulComponent<Props, State> {
     state = {
         nodes: [
             {
-                mapped: {
-                    x: 50,
+                id: 1,
+                styles: {
+                    x: 350,
                     y: 50,
                 },
                 text: {
-                    mapped: {
+                    styles: {
                         x: 45,
                         y: 10,
                     },
@@ -28,7 +30,7 @@ export class Root extends StatefulComponent<Props, State> {
                     }
                 },
                 sprite: {
-                    mapped: {
+                    styles: {
                         x: 25,
                         y: 30,
                         // width: '20%',
@@ -36,15 +38,16 @@ export class Root extends StatefulComponent<Props, State> {
                         width: 150,
                         height: 150
                     },
-                    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
+                    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
                 },
             }, {
-                mapped: {
+                id: 2,
+                styles: {
                     x: 50,
-                    y: 200,
+                    y: 250,
                 },
                 text: {
-                    mapped: {
+                    styles: {
                         x: 45,
                         y: 10,
                     },
@@ -54,23 +57,24 @@ export class Root extends StatefulComponent<Props, State> {
                     }
                 },
                 sprite: {
-                    mapped: {
+                    styles: {
                         x: 25,
                         y: 30,
                         // width: '30%',
                         // height: '30%'
-                        width: 150,
-                        height: 150
+                        width: 75,
+                        height: 75
                     },
-                    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
+                    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
                 },
             }, {
-                mapped: {
+                id: 3,
+                styles: {
                     x: 50,
-                    y: 350,
+                    y: 450,
                 },
                 text: {
-                    mapped: {
+                    styles: {
                         x: 45,
                         y: 10,
                     },
@@ -80,7 +84,7 @@ export class Root extends StatefulComponent<Props, State> {
                     }
                 },
                 sprite: {
-                    mapped: {
+                    styles: {
                         x: 25,
                         y: 30,
                         // width: '20%',
@@ -88,13 +92,13 @@ export class Root extends StatefulComponent<Props, State> {
                         width: 250,
                         height: 250
                     },
-                    src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
+                    image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
                 },
             }
         ],
         line: {
-            mapped: {
-                strokeThickness: 1,
+            styles: {
+                strokeThickness: 2,
                 strokeColor: 0xFF0000,
                 alpha: 1,
             },
@@ -104,26 +108,57 @@ export class Root extends StatefulComponent<Props, State> {
                 [500, 150],
                 [400, 170],
                 [130, 170],
-                [130, 130]
+                [130, 130],
             ]
-        }
+        },
+        lines: [
+            {
+                id: 1,
+                styles: {
+                    strokeThickness: 5,
+                    strokeColor: 0xFF0000,
+                },
+                from: 1,
+                to: 3,
+            },
+            {
+                id: 2,
+                styles: {
+                    strokeThickness: 2,
+                    strokeColor: 0xFF0000,
+                },
+                from: 2,
+                to: 3,
+            }
+        ]
     };
 
     render() {
-        return createElement('container', {},
-            createElement('fragment', {}, createElement(Path, {
-                styles: this.state.line.mapped,
-                points: this.state.line.points
-            }), ),
-
+    
+        return createElement('fragment', {},
+            createElement(LinesContainer, { lines: this.state.lines, nodes: this.state.nodes }),
+            createElement(NodesContainer, {
+                nodes: this.state.nodes,
+                // render: (strokeThickness) => createElement(Path, {
+                //     styles: { ...this.state.line.styles, strokeThickness },
+                //     points: this.state.line.points
+                // }),
+                styles: {
+                    x: 0,
+                    y: 0
+                },
+                onDragMove: this.handleDragMove,
+            }),
         );
-    }
+    };
 
-    didMount() {
-        console.log('mount', this);
-    }
-
-    didDrag = (obj: Component) => {
-        console.log('Dragged', obj);
+    handleDragMove = (comp: PrimitiveContainer) => {
+        const { x, y } = comp.props.styles;
+        const { id } = comp.props;
+        const index = this.state.nodes.findIndex(elem => elem.id === id);
+        const node = this.state.nodes[index];
+        const newNodes = [...this.state.nodes];
+        newNodes[index] = { ...node, styles: { ...node.styles, x, y } };
+        this.setState({ nodes: newNodes });
     }
 };

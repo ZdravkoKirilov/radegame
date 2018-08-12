@@ -2,7 +2,7 @@ import { AbstractContainer } from './AbstractContainer';
 import { RzElement, MetaProps } from "../models";
 import {
     PrimitiveContainer, PrimitiveCollection, PrimitiveSprite,
-    PrimitiveText, PrimitiveLine, PrimitiveFragment
+    PrimitiveText, PrimitiveLine, PrimitiveFragment, PrimitivePolygon,
 } from "../primitives";
 
 export abstract class AbstractFactory {
@@ -13,6 +13,7 @@ export abstract class AbstractFactory {
     abstract createText(element: RzElement, meta: MetaProps): PrimitiveText;
     abstract createLine(element: RzElement, meta: MetaProps): PrimitiveLine;
     abstract createFragment(element: RzElement, meta: MetaProps): PrimitiveFragment;
+    abstract createPolygon(element: RzElement, meta: MetaProps): PrimitivePolygon;
 };
 
 export type Renderer = (element: RzElement, meta: MetaProps, container: AbstractContainer) => void;

@@ -10,16 +10,16 @@ interface IndexedList {
 }
 
 export const toIndexedList = (source: ObjectWithId[], indexProp = 'id'): IndexedList => {
-    return source.reduce((acc: IndexedList, elem: ObjectWithId) => {
-        const prop = deepProp.get(elem, indexProp, 'id');
+    return source.reduce((acc: IndexedList, elem: ObjectWithId, index) => {
+        const prop = deepProp.get(elem, indexProp, index);
         acc[prop] = elem;
         return acc;
     }, {});
 };
 
 export const rebaseListIndex = (source: ObjectWithId, newIndex: string): IndexedList => {
-    return Object.values(source).reduce((acc, item) => {
-        const prop = deepProp.get(item, newIndex, 'id');
+    return Object.values(source).reduce((acc, item, index) => {
+        const prop = deepProp.get(item, newIndex, index);
         acc[prop] = item;
         return acc;
     }, {});
