@@ -10,7 +10,7 @@ type Props = {
 };
 
 export const Path = (props: Props) => {
-    const markup = createElement('fragment', { name: 'gosho' },
+    const markup = createElement('fragment', null,
         createElement('line', {
             points: props.points,
             styles: props.styles,

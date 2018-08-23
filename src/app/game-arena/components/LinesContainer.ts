@@ -45,7 +45,7 @@ export class LinesContainer extends StatefulComponent<Props, State> {
             );
         });
 
-        return createElement('collection', { name: 'colo' }, lines);
+        return createElement('collection', null, lines);
     }
 
     handleLineSelection = (lineId: number) => {

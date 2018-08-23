@@ -1,4 +1,4 @@
-import { StatefulComponent, createElement, RzElementChild, RenderFunction, PrimitiveContainer } from "@app/rendering";
+import { StatefulComponent, createElement, RzElementChild, RenderFunction, PrimitiveContainer, ContextConsumer } from "@app/rendering";
 import { Node } from "./Node";
 
 type Props = {
@@ -14,6 +14,9 @@ export const NodesContainer: RenderFunction<Props> = (props) => {
         return createElement(Node, { ...elem, key: elem.id, onDragMove: props.onDragMove });
     });
 
-    return createElement('collection', null, items);
+    return createElement('fragment', null,
+        createElement('collection', null, items),
+        createElement(ContextConsumer, { key: 'callbacks', render: value => createElement('fragment', { fromContext: value }) })
+    );
 
 };

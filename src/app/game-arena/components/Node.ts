@@ -1,4 +1,4 @@
-import { StatefulComponent, createElement, PrimitiveContainer, Points, RenderFunction } from "@app/rendering";
+import { createElement, PrimitiveContainer, Points, RenderFunction } from "@app/rendering";
 
 type Props = {
     mapped: any;

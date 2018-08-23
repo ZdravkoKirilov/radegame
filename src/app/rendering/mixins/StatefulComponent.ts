@@ -1,11 +1,11 @@
 import { BasicComponent } from "./BasicComponent";
-import { RzElementProps, RzElement, MetaProps } from "../models";
+import { RzElementProps, RzElement, MetaProps, Lifecycles } from "../models";
 
-export class StatefulComponent<P extends RzElementProps, S> extends BasicComponent {
+export class StatefulComponent<P, S> extends BasicComponent {
     static stateful = true;
     static defaultProps: any;
     state: S;
-    props: P;
+    props: P & RzElementProps;
 
     constructor(props: P, meta: MetaProps) {
         super(props, null, meta);
@@ -27,6 +27,9 @@ export class StatefulComponent<P extends RzElementProps, S> extends BasicCompone
         const next = { ...current, ...props };
 
         if (this.shouldUpdate(next, this.state)) {
+            if ('willReceiveProps' in this) {
+                (this as Lifecycles).willReceiveProps(next);
+            }
             this.props = next as P;
             this.update();
         } else {
@@ -34,7 +37,7 @@ export class StatefulComponent<P extends RzElementProps, S> extends BasicCompone
         }
     }
 
-    shouldUpdate(nextProps: P, nextState: S) {
+    shouldUpdate(nextProps: P & RzElementProps, nextState: S) {
         return true;
     }
 

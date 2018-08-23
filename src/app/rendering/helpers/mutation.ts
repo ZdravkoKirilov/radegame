@@ -6,17 +6,18 @@ import { FunctionalComponent, StatefulComponent } from "../mixins";
 import { PrimitiveContainer, PrimitiveCollection } from "../primitives";
 import { mountComponent } from "./mounting";
 
-export const updateComposite = (element: RzElement, component: CompositeComponent) => {
+export const updateComposite = (element: RzElement | RzElement[], component: CompositeComponent) => {
     const current = component.children[0];
-    const incoming = element;
-    
+    const incoming = Array.isArray(element) ? element[0] : element;
+
     if (current && incoming) {
+
         const sameType = current.type === incoming.type;
         if (sameType) {
-            element.props.children = element.children;
-            current.setProps(element.props);
+            incoming.props.children = incoming.children;
+            current.setProps(incoming.props);
         } else {
-            component.children = [createComponent(element, component.meta.engine.factory, component.meta)];
+            component.children = [createComponent(incoming, component.meta.engine.factory, component.meta)];
             mountComponent(component.children[0], component.container);
             current.remove();
         }
@@ -44,6 +45,7 @@ export const updateContainer = (newProps: RzElementProps, component: PrimitiveCo
             const sameType = existing.type === child.type;
             if (sameType) {
                 child.props.children = child.children;
+
                 existing.setProps(child.props);
                 newChildren[index] = existing;
             } else {
@@ -91,7 +93,6 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
     }, {} as ComponentList);
 
     currentKeys.forEach(key => {
-        debugger;
         const toBeRemoved = current[key];
         toBeRemoved.remove();
     });

@@ -2,11 +2,19 @@ import { RzElement, MetaProps, Component, PRIMS, RenderFunction } from "../model
 import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent, FunctionalComponent } from "../mixins";
 
-export const createComponent = (element: RzElement, factory: AbstractFactory, meta?: MetaProps): Component | null => {
+export const createComponent = (element: RzElement | RzElement[], factory: AbstractFactory, meta?: MetaProps): Component | null => {
     let component = null;
+
+    if (Array.isArray(element)) {
+        element = element[0];
+    }
 
     if (!element) {
         return null;
+    }
+
+    if (!element.props) {
+        debugger;
     }
 
     element.props.children = element.children; // ?

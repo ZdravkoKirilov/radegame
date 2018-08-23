@@ -1,4 +1,4 @@
-import { StatefulComponent, createElement, PrimitiveContainer } from "@app/rendering";
+import { StatefulComponent, createElement, PrimitiveContainer, ContextProvider } from "@app/rendering";
 import { NodesContainer } from "./NodesContainer";
 import { LinesContainer } from "./LinesContainer";
 
@@ -134,22 +134,42 @@ export class Root extends StatefulComponent<Props, State> {
     };
 
     render() {
-    
-        return createElement('fragment', {},
-            createElement(LinesContainer, { lines: this.state.lines, nodes: this.state.nodes }),
-            createElement(NodesContainer, {
-                nodes: this.state.nodes,
-                // render: (strokeThickness) => createElement(Path, {
-                //     styles: { ...this.state.line.styles, strokeThickness },
-                //     points: this.state.line.points
-                // }),
-                styles: {
-                    x: 0,
-                    y: 0
-                },
-                onDragMove: this.handleDragMove,
-            }),
+        const { viaContext } = this;
+        const ctxProps = { value: { viaContext }, key: 'callbacks' };
+
+        return createElement(ContextProvider, ctxProps,
+            createElement('fragment', {},
+                createElement(LinesContainer, { lines: this.state.lines, nodes: this.state.nodes }),
+                createElement(NodesContainer, {
+                    nodes: this.state.nodes,
+                    // render: (strokeThickness) => createElement(Path, {
+                    //     styles: { ...this.state.line.styles, strokeThickness },
+                    //     points: this.state.line.points
+                    // }),
+                    styles: {
+                        x: 0,
+                        y: 0
+                    },
+                    onDragMove: this.handleDragMove,
+                }),
+            ),
         );
+
+        // return createElement('fragment', {},
+        //     createElement(LinesContainer, { lines: this.state.lines, nodes: this.state.nodes }),
+        //     createElement(NodesContainer, {
+        //         nodes: this.state.nodes,
+        //         // render: (strokeThickness) => createElement(Path, {
+        //         //     styles: { ...this.state.line.styles, strokeThickness },
+        //         //     points: this.state.line.points
+        //         // }),
+        //         styles: {
+        //             x: 0,
+        //             y: 0
+        //         },
+        //         onDragMove: this.handleDragMove,
+        //     }),
+        // );
     };
 
     handleDragMove = (comp: PrimitiveContainer) => {
@@ -160,5 +180,9 @@ export class Root extends StatefulComponent<Props, State> {
         const newNodes = [...this.state.nodes];
         newNodes[index] = { ...node, styles: { ...node.styles, x, y } };
         this.setState({ nodes: newNodes });
+    }
+
+    viaContext() {
+
     }
 };

@@ -1,5 +1,6 @@
 import { AbstractRenderEngine } from "../interfaces";
 import { ComponentConstructor } from "./Component";
+import { ContextManager } from "../services";
 
 export type RzElement = {
     type: RzElementType;
@@ -41,6 +42,7 @@ export type Points = Array<Array<number>>;
 export type MetaProps = {
     textures?: any;
     engine?: AbstractRenderEngine;
+    context?: ContextManager;
 };
 
 export const PRIMS = {

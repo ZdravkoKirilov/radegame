@@ -2,6 +2,7 @@ import { AbstractContainer, AbstractFactory, AbstractRenderEngine } from "../int
 import { Component, MetaProps, RzElement } from "../models";
 import { mountComponent } from "./mounting";
 import { createComponent } from "./creation";
+import { ContextManager } from "../services";
 
 export const createRenderer2 = (abstractFactory: AbstractFactory) => {
     const renderer = (element: RzElement, meta: MetaProps, container: AbstractContainer): Component => {
@@ -19,6 +20,7 @@ export const createRenderer = (engine: AbstractRenderEngine, resources: Set<stri
                 const meta = {} as MetaProps;
                 meta.textures = resources;
                 meta.engine = engine;
+                meta.context = new ContextManager();
                 const component = createComponent(elem, engine.factory, meta);
                 mountComponent(component, container);
                 resolve(component);
