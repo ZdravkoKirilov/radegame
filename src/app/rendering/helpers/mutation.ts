@@ -5,6 +5,7 @@ import { toIndexedList } from "@app/shared";
 import { FunctionalComponent, StatefulComponent } from "../mixins";
 import { PrimitiveContainer, PrimitiveCollection } from "../primitives";
 import { mountComponent } from "./mounting";
+import { AbstractContainer } from "../interfaces";
 
 export const updateComposite = (element: RzElement | RzElement[], component: CompositeComponent) => {
     const current = component.children[0];
@@ -17,7 +18,7 @@ export const updateComposite = (element: RzElement | RzElement[], component: Com
             incoming.props.children = incoming.children;
             current.setProps(incoming.props);
         } else {
-            component.children = [createComponent(incoming, component.meta.engine.factory, component.meta)];
+            component.children = [createComponent(incoming, component.meta.engine.factory, component.meta, component)];
             mountComponent(component.children[0], component.container);
             current.remove();
         }
@@ -28,12 +29,12 @@ export const updateComposite = (element: RzElement | RzElement[], component: Com
     }
 
     if (!current && incoming) {
-        component.children = [createComponent(element, component.meta.engine.factory, component.meta)];
+        component.children = [createComponent(element, component.meta.engine.factory, component.meta, component)];
         mountComponent(component.children[0], component.container);
     }
 };
 
-export const updateContainer = (newProps: RzElementProps, component: PrimitiveContainer) => {
+export const updateContainer = (newProps: RzElementProps, component: PrimitiveContainer, container: AbstractContainer) => {
     const current = component.children;
     const newPropsChildren = newProps.children as RzElement[];
     const newChildren = [];
@@ -49,14 +50,14 @@ export const updateContainer = (newProps: RzElementProps, component: PrimitiveCo
                 existing.setProps(child.props);
                 newChildren[index] = existing;
             } else {
-                newChildren[index] = createComponent(child, component.meta.engine.factory, component.meta);
-                mountComponent(newChildren[index], component.graphic || component.container);
+                newChildren[index] = createComponent(child, component.meta.engine.factory, component.meta, component);
+                mountComponent(newChildren[index], container);
                 existing.remove();
             }
 
         } else {
-            newChildren[index] = createComponent(child, component.meta.engine.factory, component.meta);
-            mountComponent(newChildren[index], component.graphic);
+            newChildren[index] = createComponent(child, component.meta.engine.factory, component.meta, component);
+            mountComponent(newChildren[index], container);
         }
     });
 
@@ -84,7 +85,7 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
             child.props.children = child.children;
             acc[key].setProps(child.props);
         } else {
-            acc[key] = createComponent(child, component.meta.engine.factory, component.meta);
+            acc[key] = createComponent(child, component.meta.engine.factory, component.meta, component);
             mountComponent(acc[key], component.graphic);
         }
 
@@ -106,6 +107,17 @@ export const unmountComposite = (component: CompositeComponent): void => {
     component.children.forEach(child => child.remove());
 };
 
+export const isRelative = (value: any): boolean => {
+    return typeof value === 'string' && value.endsWith('%');
+}
+
+export const isCalculable = (value: any): boolean => {
+    return typeof value === 'string' && (value.includes('+') || value.includes('-'));
+}
+
+export const isComputed = (value: any) => {
+    return isRelative(value) || isCalculable(value);
+}
 
 export const isStateful = (component: Component): boolean => {
     return 'composite' in component;

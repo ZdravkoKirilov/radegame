@@ -51,8 +51,6 @@ export const PRIMS = {
     CIRCLE: 'circle',
     LINE: 'line',
     RECTANGLE: 'rectangle',
-    IMAGE: 'image',
-    SOUND: 'sound',
     COLLECTION: 'collection',
     CONTAINER: 'container',
     FRAGMENT: 'fragment',

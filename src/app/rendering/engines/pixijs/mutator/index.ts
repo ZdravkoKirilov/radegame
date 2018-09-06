@@ -1,10 +1,11 @@
 import {
     AbstractMutator, Component, isComposite,
     RzElementProps, PRIMS, Points, updateComposite,
-    updateCollection, updateContainer, unmountComposite, BasicComponent
+    updateCollection, updateContainer, unmountComposite, BasicComponent,
+    PrimitiveText
 } from "@app/rendering";
-import { DisplayObject, Graphics, Container, Point, Polygon } from "pixi.js";
-
+import { DisplayObject, Graphics, Point, Polygon, Rectangle } from "pixi.js";
+import { setProp, getValue } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
     updateComponent(component: Component) {
@@ -36,37 +37,60 @@ const updatePrimitive = (component: BasicComponent) => {
             updatePolygon(props, graphic as Graphics);
             break;
         case PRIMS.FRAGMENT:
-            updateGeneric(props, graphic as Container);
-            updateContainer(props, component);
+            updateGeneric(component);
+            updateContainer(props, component, component.container);
             break;
         case PRIMS.CONTAINER:
-            updateGeneric(props, graphic as Container);
-            updateContainer(props, component);
+            updateGeneric(component);
+            updateContainer(props, component, component.graphic);
             break;
         case PRIMS.COLLECTION:
-            updateGeneric(props, graphic as Container);
+            updateGeneric(component);
             updateCollection(props, component);
             break;
-        case PRIMS.FRAGMENT:
-            updateContainer(props, component);
-            break;
+        case PRIMS.RECTANGLE:
+            updateRectangle(props, component.graphic);
+            updateContainer(props, component, component.container);
+        case PRIMS.TEXT:
+            updateGeneric(component);
+            updateText(component as PrimitiveText);
         default:
-            updateGeneric(props, graphic);
+            updateGeneric(component);
             break;
 
     }
 }
 
-const updateGeneric = (props: RzElementProps, graphic: DisplayObject) => {
+const updateGeneric = (comp: Component) => {
+    const { props } = comp;
     Object.keys(props.styles || {}).forEach(key => {
-        setProp(graphic, key, props.styles[key]);
+        setProp(comp, key, props.styles[key]);
     });
 };
 
-const setProp = (graphic: DisplayObject, prop: string, value: string | number) => {
-    const result = value;
-    graphic[prop] = result;
-    return result;
+const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
+    const { styles } = props;
+
+    graphic.clear();
+
+    if (props.interactive) {
+        graphic.interactive = true;
+        graphic.buttonMode = true;
+        graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
+    }
+
+    graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
+    graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
+};
+
+const updateText = (comp: PrimitiveText) => {
+    const { props } = comp;
+    const textStyle = props.textStyle || {};
+    Object.keys(textStyle || {}).forEach(key => {
+        const value = textStyle[key];
+        const result = getValue(value as string, key, comp);
+        comp.style[key] = result;
+    });
 };
 
 const updateLine = (props: RzElementProps, line: Graphics) => {
@@ -109,3 +133,5 @@ const updatePolygon = (props: RzElementProps, graphic: Graphics) => {
     graphic.moveTo(0, 0);
     graphic.drawPolygon(polygon);
 };
+
+

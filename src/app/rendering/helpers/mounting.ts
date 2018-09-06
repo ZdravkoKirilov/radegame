@@ -47,6 +47,11 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
             container.addChild(component.graphic);
             component.children.forEach(child => mountComponent(child, component.graphic));
             break;
+        case PRIMS.RECTANGLE:
+            component.container = container;
+            container.addChild(component.graphic);
+            component.children.forEach(child => mountComponent(child, container));
+            break;
         case PRIMS.SPRITE:
         case PRIMS.TEXT:
         case PRIMS.LINE:

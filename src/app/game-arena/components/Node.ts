@@ -14,17 +14,37 @@ export const Node: RenderFunction<Props> = (props) => {
     const { sprite, text, styles, id, onDragMove } = props;
     return (
         createElement('container', { styles, draggable: true, id, onDragMove },
-            createElement('sprite', { ...sprite, onPointerDown: () => console.log('click!') }),
-            createElement('text', { ...text }),
-            createElement('polygon', {
-                points: computePolygon(sprite, text),
+            createElement('rectangle', {
+                interactive: true,
+                container: true,
                 styles: {
-                    strokeThickness: 5,
+                    strokeThickness: 1,
                     strokeColor: 0x00ff00,
+                    x: 0,
+                    y: 0,
+                    width: 200,
+                    height: 200,
                 }
-            })
+            },
+                createElement('sprite', { ...sprite, onPointerDown: () => console.log('click!') }),
+                createElement('text', { ...text })
+            ),
+
         )
     );
+    // return (
+    //     createElement('container', { styles, draggable: true, id, onDragMove },
+    //         createElement('polygon', {
+    //             points: computePolygon(sprite, text),
+    //             styles: {
+    //                 strokeThickness: 5,
+    //                 strokeColor: 0x00ff00,
+    //             }
+    //         }),
+    //         createElement('sprite', { ...sprite, onPointerDown: () => console.log('click!') }),
+    //         createElement('text', { ...text }),
+    //     )
+    // );
 
 };
 

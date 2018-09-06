@@ -8,7 +8,11 @@ export class BasicComponent {
     props: RzElementProps;
     graphic: any;
     container: AbstractContainer;
+    parent: Component;
     children: Array<Component | null>;
+    cachedSelectors: {
+        [key: string]: Component;
+    }
 
     constructor(props: RzElementProps, graphic: any, meta: MetaProps) {
         this.graphic = graphic;

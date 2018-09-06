@@ -5,3 +5,4 @@ export * from './Collection';
 export * from './Line';
 export * from './Fragment';
 export * from './Polygon';
+export * from './Rectangle';

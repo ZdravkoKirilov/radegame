@@ -17,22 +17,22 @@ export class Root extends StatefulComponent<Props, State> {
                 id: 1,
                 styles: {
                     x: 350,
-                    y: 50,
+                    y: 80,
                 },
                 text: {
                     styles: {
-                        x: 45,
-                        y: 10,
+                        x: '30%',
+                        y: 0,
                     },
                     value: 'Winnie',
                     textStyle: {
-                        fontSize: 18
+                        fontSize: 18,
                     }
                 },
                 sprite: {
                     styles: {
-                        x: 25,
-                        y: 30,
+                        x: 0,
+                        y: 20,
                         // width: '20%',
                         // height: '20%'
                         width: 150,
@@ -48,22 +48,26 @@ export class Root extends StatefulComponent<Props, State> {
                 },
                 text: {
                     styles: {
-                        x: 45,
-                        y: 10,
+                        x: '10%',
+                        y: 0,
                     },
                     value: 'The Pooh',
                     textStyle: {
-                        fontSize: 18
+                        fontSize: 18,
+                        wordWrap: true,
+                        align: 'center',
+                        wordWrapWidth: '100%',
+                        breakWords: true,
                     }
                 },
                 sprite: {
                     styles: {
-                        x: 25,
-                        y: 30,
+                        x: '10%',
+                        y: '10%',
                         // width: '30%',
                         // height: '30%'
-                        width: 75,
-                        height: 75
+                        width: '80%',
+                        height: '80%'
                     },
                     image: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg'
                 },

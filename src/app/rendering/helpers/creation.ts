@@ -2,7 +2,7 @@ import { RzElement, MetaProps, Component, PRIMS, RenderFunction } from "../model
 import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent, FunctionalComponent } from "../mixins";
 
-export const createComponent = (element: RzElement | RzElement[], factory: AbstractFactory, meta?: MetaProps): Component | null => {
+export const createComponent = (element: RzElement | RzElement[], factory: AbstractFactory, meta?: MetaProps, parent?: Component): Component | null => {
     let component = null;
 
     if (Array.isArray(element)) {
@@ -22,20 +22,23 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
     if (typeof element.type === 'string') {
         component = createPrimitiveComponent(element, factory, meta) as BasicComponent;
         component.type = element.type;
-        component.children = element.children.map(child => createComponent(child, factory, meta));
+        component.parent = parent;
+        component.children = element.children.map(child => createComponent(child, factory, meta, component));
         return component;
     }
 
     if ((element.type as any).stateful) {
         component = createStatefulComponent(element, meta) as StatefulComponent<typeof element.props, any>;
         component.type = element.type;
-        component.children = [createComponent(component.render(), factory, meta)];
+        component.parent = parent;
+        component.children = [createComponent(component.render(), factory, meta, component)];
         return component;
     }
     if (typeof element.type === typeof Function) {
         component = createFunctionalComponent(element, meta) as FunctionalComponent<typeof element.props>;
         component.type = element.type;
-        component.children = [createComponent(component.render(), factory, meta)];
+        component.parent = parent;
+        component.children = [createComponent(component.render(), factory, meta, component)];
         return component;
     }
 
@@ -58,6 +61,8 @@ const createPrimitiveComponent = (element: RzElement, factory: AbstractFactory, 
             return factory.createFragment(element, meta);
         case PRIMS.POLYGON:
             return factory.createPolygon(element, meta);
+        case PRIMS.RECTANGLE:
+            return factory.createRectangle(element, meta);
         default:
             return null;
     }
