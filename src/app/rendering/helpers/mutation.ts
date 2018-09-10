@@ -126,3 +126,5 @@ export const isStateful = (component: Component): boolean => {
 export const isComposite = (component: Component): component is CompositeComponent => {
     return component instanceof StatefulComponent || component instanceof FunctionalComponent;
 };
+
+export type PropGetter = (comp: Component, prop: string) => any;

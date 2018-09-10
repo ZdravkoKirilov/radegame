@@ -32,8 +32,8 @@ export const calcValue = (comp: Component, prop: string, value: string): number 
     return eval(asString);
 };
 
-export const computeValueWithSelectos = () => {
-
+export const computeValueWithSelectos = (comp: Component, prop: string, value: string): number => {
+    
 };
 
 export const getValue = (value: any, prop: string, comp: Component): any => {
