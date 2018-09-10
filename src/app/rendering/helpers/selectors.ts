@@ -56,7 +56,7 @@ const getParent = (start: Component, name: string): Component | null => {
     return null;
 };
 
-export const getTargetElement = (start: Component, name: string, selector: string): Component | null => {
+const getTargetElement = (start: Component, name: string, selector: string): Component | null => {
     if (selector.includes(SelectorPrefixes.child)) {
         return getChild(start, name);
     }
