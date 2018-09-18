@@ -127,4 +127,3 @@ export const isComposite = (component: Component): component is CompositeCompone
     return component instanceof StatefulComponent || component instanceof FunctionalComponent;
 };
 
-export type PropGetter = (comp: Component, prop: string) => any;

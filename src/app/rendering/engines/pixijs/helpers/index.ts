@@ -1,5 +1,5 @@
 import { DisplayObject } from "pixi.js";
-import { isRelative, isCalculable, isSelector, getClosestContainer, Component } from "@app/rendering";
+import { isRelative, isCalculable, isSelector, getClosestContainer, Component, resolveSelectors } from "@app/rendering";
 
 export const bringToFront = (obj: DisplayObject) => {
     if (obj.parent) {
@@ -33,7 +33,8 @@ export const calcValue = (comp: Component, prop: string, value: string): number 
 };
 
 export const computeValueWithSelectos = (comp: Component, prop: string, value: string): number => {
-    
+    const withResolvedSelectors = resolveSelectors(comp, value, comp.meta.engine.mutator.getProp);
+    return getValue(withResolvedSelectors, prop, comp);
 };
 
 export const getValue = (value: any, prop: string, comp: Component): any => {
@@ -42,7 +43,7 @@ export const getValue = (value: any, prop: string, comp: Component): any => {
         return computeRelativeValue(comp, prop, value);
     }
     if (isSelector(value)) {
-
+        return computeValueWithSelectos(comp, prop, value);
     }
     if (isCalculable(value)) {
         return calcValue(comp, prop, value);

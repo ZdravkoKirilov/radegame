@@ -25,6 +25,11 @@ export class PixiMutator implements AbstractMutator {
             graphic.parent.removeChild(graphic);
         }
     }
+
+    getProp(component: Component, prop: string) {
+        const { graphic } = component;
+        return graphic[prop];
+    }
 }
 
 const updatePrimitive = (component: BasicComponent) => {

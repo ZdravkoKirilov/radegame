@@ -1,5 +1,5 @@
 import { Component } from "../models";
-import { PropGetter } from "./mutation";
+import { PropGetter } from "../interfaces";
 
 export const getClosestContainer = (start: Component): Component | null => {
     if (start.parent) {
@@ -56,7 +56,7 @@ const getParent = (start: Component, name: string): Component | null => {
     return null;
 };
 
-const getTargetElement = (start: Component, name: string, selector: string): Component | null => {
+const getTargetElement = (start: Component, name: string, selector: string): Component | Array<Component> | null => {
     if (selector.includes(SelectorPrefixes.child)) {
         return getChild(start, name);
     }
@@ -66,24 +66,27 @@ const getTargetElement = (start: Component, name: string, selector: string): Com
     if (selector.includes(SelectorPrefixes.sibling)) {
         return getSibling(start, name);
     }
+    if (selector.includes(SelectorPrefixes.children)) {
+        return [...start.children];
+    }
     return null;
 };
 
 export const isSelector = (value: any): boolean => {
     return typeof value === 'string' && value.includes(SelectorPrefixes.child) || value.includes(SelectorPrefixes.sibling) ||
-        value.includes(SelectorPrefixes.parent);
+        value.includes(SelectorPrefixes.parent) || value.includes(SelectorPrefixes.children);
 };
 
-export const resolveSelectors = (value: string, propGetter: PropGetter, comp: Component): string => {
+export const resolveSelectors = (comp: Component, value: string, propGetter: PropGetter): string => {
 
     while (isSelector(value)) {
-        value = resolveSelector(value, propGetter, comp);
+        value = resolveSelector(comp, value, propGetter,);
     }
 
     return value;
 };
 
-const resolveSelector = (value: string, propGetter: PropGetter, comp: Component): any => {
+const resolveSelector = (comp: Component, value: string, propGetter: PropGetter, ): any => {
     const selectorStart = value.indexOf('@');
     const selectorEnd = value.indexOf(' ') || value.indexOf('+') || value.indexOf('-') ||
         value.indexOf('*') || value.indexOf('/') || value.indexOf(')') || value.length;
@@ -95,15 +98,26 @@ const resolveSelector = (value: string, propGetter: PropGetter, comp: Component)
     }
 
     const targetElementName = segments[1];
-    const targetElementProp = segments[2];
-
     const targetElement = getTargetElement(comp, targetElementName, selector);
 
-    return value.replace(new RegExp(selector, 'g'), propGetter(targetElement, targetElementProp));
+    if (targetElement) {
+        if (Array.isArray(targetElement)) { // '@children' selector has different segments
+            const prop = segments[1];
+            return targetElement.reduce((acc, elem) => {
+                acc += propGetter(elem, prop);
+                return acc;
+            }, 0);
+        } else {
+            const targetElementProp = segments[2];
+            return value.replace(new RegExp(selector, 'g'), propGetter(targetElement, targetElementProp));
+        }
+
+    }
 };
 
 enum SelectorPrefixes {
     'child' = '@child',
+    'children' = '@children',
     'sibling' = '@sibling',
     'parent' = '@parent'
 }

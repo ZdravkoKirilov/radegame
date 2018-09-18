@@ -17,4 +17,8 @@ export abstract class AbstractMutator {
     abstract updateRectangle?(component: PrimitiveRectangle): void;
 
     abstract removeComponent(component: Component): void;
+
+    abstract getProp: PropGetter;
 };
+
+export type PropGetter = (comp: Component, prop: string) => any;
