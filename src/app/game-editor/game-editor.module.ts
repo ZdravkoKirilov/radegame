@@ -23,6 +23,7 @@ import {
     EditorWrapperComponent, SmartActivitiesComponent, SmartFactionsComponent, SmartFieldsComponent,
     SmartLaunchComponent, SmartQuestsComponent, SmartResourcesComponent, SmartRoundsComponent, SmartStagesComponent, SmartTriviaComponent
 } from './containers';
+import { MapRenderService } from './services';
 
 @NgModule({
     imports: [
@@ -40,7 +41,7 @@ import {
     exports: [
         RouterModule
     ],
-    providers: [],
+    providers: [MapRenderService],
     declarations: [
         EntityListComponent,
         EntityComponent,

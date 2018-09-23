@@ -1,6 +1,5 @@
 import * as PIXI from "pixi.js-legacy";
-import { AbstractLoader } from "@app/rendering";
-import { LoaderResources } from "../../../interfaces";
+import { AbstractLoader, LoaderResources, LoaderResource } from "@app/rendering";
 
 export class PixiLoader implements AbstractLoader {
     loader: PIXI.Loader;
@@ -11,9 +10,18 @@ export class PixiLoader implements AbstractLoader {
         return new Promise((resolve, reject) => {
             assets.forEach(elem => this.loader.add(elem));
 
-            this.loader.load((self, resources) => {
+            this.loader.load((loader, resources) => {
                 resolve(resources);
             });
+            //this.loader.onLoad.add
+        });
+    }
+    loadOne(asset: string): Promise<LoaderResource> {
+        return new Promise(resolve => {
+            this.loader.add(asset);
+            this.loader.load((loader, resources) => {
+                resolve(resources[asset]);
+            })
         });
     }
 };

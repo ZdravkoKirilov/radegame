@@ -73,14 +73,20 @@ const getTargetElement = (start: Component, name: string, selector: string): Com
 };
 
 export const isSelector = (value: any): boolean => {
-    return typeof value === 'string' && value.includes(SelectorPrefixes.child) || value.includes(SelectorPrefixes.sibling) ||
-        value.includes(SelectorPrefixes.parent) || value.includes(SelectorPrefixes.children);
+    const isString = typeof value === 'string';
+    const conditions = new Set([
+        isString && value.includes(SelectorPrefixes.child),
+        isString && value.includes(SelectorPrefixes.sibling),
+        isString && value.includes(SelectorPrefixes.parent),
+        isString && value.includes(SelectorPrefixes.children),
+    ]);
+    return conditions.has(true);
 };
 
 export const resolveSelectors = (comp: Component, value: string, propGetter: PropGetter): string => {
 
     while (isSelector(value)) {
-        value = resolveSelector(comp, value, propGetter,);
+        value = resolveSelector(comp, value, propGetter);
     }
 
     return value;

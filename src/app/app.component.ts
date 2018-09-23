@@ -7,7 +7,7 @@ import { map } from 'rxjs/operators';
 import { AppState } from '@app/core';
 import { fadeAnimation } from '@app/animations';
 import { GetCurrentUserAction } from '@app/profile';
-import { PixiEngine, MetaProps, createRenderer, createElement, StatefulComponent } from '@app/rendering';
+import { PixiEngine, createRenderer, createElement, StatefulComponent } from '@app/rendering';
 import { Root } from '@app/game-arena';
 
 @Component({
@@ -56,7 +56,7 @@ export class AppComponent implements OnInit {
     ngOnInit() {
         this.store.subscribe(data => console.log(data));
         this.store.dispatch(new GetCurrentUserAction());
-        this.createTestCanvas();
+        //this.createTestCanvas();
     }
 
     public getRouterOutletState(outlet: any) {

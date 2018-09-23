@@ -1,6 +1,6 @@
 import { AbstractRenderEngine } from "../interfaces";
 import { ComponentConstructor } from "./Component";
-import { ContextManager } from "../services";
+import { ContextManager, AssetManager } from "../services";
 
 export type RzElement = {
     type: RzElementType;
@@ -43,6 +43,7 @@ export type MetaProps = {
     textures?: any;
     engine?: AbstractRenderEngine;
     context?: ContextManager;
+    assets?: AssetManager;
 };
 
 export const PRIMS = {
