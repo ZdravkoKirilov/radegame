@@ -1,5 +1,6 @@
-import { BaseProps, ParseParams, PRIMITIVE_TYPES } from "./models";
-import { execute, isComputed, removeCustomWrappers, isExpression, compute, attrIsReserved } from "./expression";
+import { BaseProps, ParseParams } from "./models";
+import { execute, isComputed, isExpression, compute, attrIsReserved } from "./expression";
+import { controlTypes } from "../config";
 
 export const parse = (params: ParseParams): BaseProps => {
 
@@ -40,10 +41,13 @@ const parseAllAttributes = (node: Element, params: ParseParams): BaseProps => {
 
     let result = {
         type: parseAttribute(node, 'type', params) || node.nodeName,
-        name: parseAttribute(node, 'name', params),
-        template: node.innerHTML.trim(),
         value: compute(node.textContent, params),
     } as BaseProps;
+    const innerHTML = node.innerHTML.trim();
+    if (innerHTML) {
+        result.template = innerHTML;
+    }
+
 
     Array.from(node.attributes).forEach((attr: Attr) => {
         const attrValue = parseAttribute(node, attr.nodeName, params);
@@ -56,12 +60,15 @@ const parseAllAttributes = (node: Element, params: ParseParams): BaseProps => {
 
 const parseAttribute = (node: Element, name: string, params: ParseParams): any => {
     const attr = node.getAttribute(name) || '';
+
     if (isComputed(attr)) {
         return compute(attr, params);
     }
+
     if (isExpression(attr)) {
-        return execute(attr, params);
+        return execute(attr, params, parse);
     }
+
     return attr;
 };
 
@@ -99,5 +106,5 @@ const rebaseParams = (newTemplate: string, params: ParseParams, alias?: string, 
 };
 
 const isCollection = (type: string): boolean => {
-    return type === PRIMITIVE_TYPES.COLLECTION;
+    return type === controlTypes.FORM_ARRAY;
 };

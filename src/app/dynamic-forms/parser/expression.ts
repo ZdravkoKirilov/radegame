@@ -1,13 +1,13 @@
 import { ParseParams } from './models';
 
-export const execute = (asString: string, params: ParseParams): any => {
+export const execute = (asString: string, params: ParseParams, reservedFunc?: any): any => {
     asString = trim(asString);
     const noWrappers = removeCustomWrappers(asString);
     const closureName = getClosureName(noWrappers);
     const source = closureName ? params.closure[closureName] : params.context;
     const funcName = noWrappers.slice(0, noWrappers.indexOf('('));
     const rawFuncName = closureName || params.removePrefix ? removePrefix(funcName) : funcName;
-    const func = source[rawFuncName];
+    const func = source[rawFuncName] || reservedFunc;
     if (!func || typeof func !== 'function') {
         throw new Error('Invalid function: ' + funcName);
     }
@@ -42,6 +42,11 @@ export const isExpression = (str: string): boolean => {
     str = trim(str);
     return str.startsWith('(') && str.endsWith(')');
 };
+
+export const isReservedExpression = (str: string): boolean => {
+    str = trim(str);
+    return str === 'parse';
+}
 
 export const removeCustomWrappers = (str: string): string => {
     str = trim(str);

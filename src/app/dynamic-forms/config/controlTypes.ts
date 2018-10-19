@@ -1,6 +1,6 @@
 export const controlTypes = {
 
-    TEXT_INPUT: 'TEXT_INPUT',
+    TEXT_INPUT: 'TextInput',
     NUMBER_INPUT: 'NUMBER_INPUT',
     BUTTON_GROUP: 'BUTTON_GROUP',
     DROPDOWN: 'DROPDOWN',
@@ -10,5 +10,5 @@ export const controlTypes = {
     NESTED_FORM: 'NESTED_FORM',
     FORM_ARRAY: 'FORM_ARRAY',
 
-    TAGS_INPUT: 'TAGS_INPUT'
+    TAGS_INPUT: 'TagsInput'
 };

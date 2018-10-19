@@ -9,6 +9,7 @@ import { fadeAnimation } from '@app/animations';
 import { GetCurrentUserAction } from '@app/profile';
 import { PixiEngine, createRenderer, createElement, StatefulComponent } from '@app/rendering';
 import { Root } from '@app/game-arena';
+import { parse, controlTypes } from '@app/dynamic-forms';
 
 @Component({
     selector: 'rg-root',
@@ -57,6 +58,59 @@ export class AppComponent implements OnInit {
         this.store.subscribe(data => console.log(data));
         this.store.dispatch(new GetCurrentUserAction());
         //this.createTestCanvas();
+
+        const data = {
+            name: {
+                name: 'name',
+                controlType: controlTypes.TEXT_INPUT,
+                value: 'name value',
+                label: 'Resource name',
+                required: true
+            },
+            desc: {
+                name: 'description',
+                controlType: controlTypes.TEXT_INPUT,
+                value: 'desc value',
+                label: 'Resource description',
+            },
+            keywords: {
+                name: 'keywords',
+                controlType: controlTypes.TAGS_INPUT,
+                label: 'Category',
+                value: 'keywords value',
+                maxItems: 2
+            },
+            image: {
+                name: 'image',
+                controlType: controlTypes.IMAGE_PICKER,
+                label: 'Resource image',
+                required: true,
+                value: ''
+            },
+            parseContext: {
+                source: '<testElem required="{true}"></testElem>',
+            }
+        }
+
+        const template = `
+            <form>
+                <TextInput name='{name.name}' label='{name.label}' required='{true}'>{name.value}</TextInput>
+                <TagsInput 
+                    childTemplate='(parse({parseContext}))' 
+                    name='{keywords.name}' 
+                    label='{keywords.label}' 
+                    maxItems='{1 + 2}'>
+                    {keywords.value}
+                </TagsInput>
+            </form>
+        `;
+
+        const parsed = parse({
+            source: template,
+            context: data,
+        });
+
+        console.log(parsed);
     }
 
     public getRouterOutletState(outlet: any) {
