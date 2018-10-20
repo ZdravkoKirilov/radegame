@@ -14,11 +14,6 @@ export const selectForm = createSelector<AppState, GameEditorFeature, EntityForm
     feature => feature.form
 );
 
-export const getSelectedItem = (key: FormKey) => createSelector(
-    selectForm,
-    form => form[key].selectedItem,
-);
-
 export const getItemById = (key: FormKey, id: number) => createSelector(
     selectForm,
     form => form[key].items[id],

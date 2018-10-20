@@ -90,7 +90,7 @@ export class GenericEffectsService {
         })
     );
 
-    fetchRequest(key: FormKey, data: number): Observable<GameEntity> {
+    fetchRequest(key: FormKey, data: number): Observable<GameEntity[]> {
         switch (key) {
             case formKeys.RESOURCES:
                 return this.api.getResources(data);

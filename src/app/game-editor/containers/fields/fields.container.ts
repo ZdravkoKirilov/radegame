@@ -1,9 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable ,  combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
-import { combineLatest } from 'rxjs';
 
 import { AppState, selectGameId, selectStageId } from '@app/core';
 import {

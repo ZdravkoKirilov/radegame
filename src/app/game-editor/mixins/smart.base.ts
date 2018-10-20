@@ -1,7 +1,6 @@
 import { OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs/Subscription';
-import { Observable } from 'rxjs/Observable';
+import { Subscription ,  Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AppState, selectGameId } from '@app/core';
