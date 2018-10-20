@@ -53,14 +53,14 @@ export class GameDataGuard implements CanActivate {
         return forkJoin([
             this.api.getResources(gameId),
             this.api.getFactions(gameId),
-            this.api.getActivities(gameId),
+            this.api.getActions(gameId),
             this.api.getRounds(gameId),
             this.api.getStages(gameId),
-            this.api.getQuests(gameId),
+            this.api.getConditions(gameId),
             this.api.getFields(gameId),
             this.api.getMapLocations(gameId),
             this.api.getPaths(gameId),
-            this.api.getTrivias(gameId)
+            this.api.getChoices(gameId)
         ]).pipe(
             map(entities => entities.map(entity => toIndexedList(entity))),
             map(([resources, factions, activities, rounds, stages, quests, fields, locations, paths, trivia]) => {

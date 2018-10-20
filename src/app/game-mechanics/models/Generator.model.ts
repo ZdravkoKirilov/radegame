@@ -1,4 +1,4 @@
-import { GameAction } from './GameAction.model';
+import { PlayerAction } from './GameAction.model';
 import { Resolver } from './Resolver.model';
 
 export const generators = {
@@ -20,5 +20,5 @@ export abstract class Generator {
     abstract isActive: boolean;
     abstract items: Resolver[];
 
-    abstract next(input?: any, state?: any): GameAction[];
+    abstract next(input?: any, state?: any): PlayerAction[];
 }

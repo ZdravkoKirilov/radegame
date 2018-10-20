@@ -1,6 +1,6 @@
 import {
-    Generator, GeneratorType, generators,
-    Resolver, ResolverResult, GameAction
+    Generator, GeneratorType,
+    Resolver, PlayerAction
 } from '../../models';
 
 class GenericGenerator implements Generator {
@@ -19,7 +19,7 @@ class GenericGenerator implements Generator {
     get isActive() {
         return !this.isFull && !this.isEmpty;
     }
-    next(action?: GameAction, state?: any): GameAction[] {
+    next(action?: PlayerAction, state?: any): PlayerAction[] {
         let operation: Resolver;
         if (this.queue.length > 0) {
             operation = this.queue.pop();

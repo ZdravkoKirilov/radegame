@@ -1,5 +1,3 @@
-import { ActivityQuota } from './Activity.model';
-
 export interface Faction {
     id?: number;
     game?: number;
@@ -11,7 +9,6 @@ export interface Faction {
     keywords?: string;
     activity_limit?: number;
     resource_limit?: number;
-    activities?: ActivityQuota[];
     resources?: FactionResource[];
     income?: FactionResource[];
 }

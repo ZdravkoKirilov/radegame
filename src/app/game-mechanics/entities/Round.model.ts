@@ -1,5 +1,5 @@
-import { Quest } from './Quest.model';
-import { Activity } from './Activity.model';
+import { Condition } from './Condition.model';
+import { GameAction } from './Action.model';
 
 export interface Round {
     id?: number;
@@ -15,12 +15,12 @@ export interface Round {
 
 export interface RoundCondition {
     id?: number;
-    quest?: Quest;
+    quest?: Condition;
 }
 
 export interface RoundActivity {
     id?: number;
-    activity?: Activity;
+    activity?: GameAction;
 }
 
 export interface RoundList {

@@ -11,13 +11,13 @@ import {
     MapLocation,
     MapPath,
     GameMap,
-    Activity,
-    Quest,
+    GameAction,
+    Condition,
     Round,
-    Trivia,
+    Choice,
     Stage,
 } from '@app/game-mechanics';
-import { toMultipartFormData, objectToFormData } from '@app/shared';
+import { toMultipartFormData } from '@app/shared';
 import { API_URLS } from '../config';
 
 @Injectable()
@@ -62,7 +62,7 @@ export class GameEditService {
         return this.http.delete(API_URLS.FACTIONS(data.game, data.id));
     }
 
-    saveActivity(data: Activity): Observable<any> {
+    saveAction(data: GameAction): Observable<any> {
         //const formData = toMultipartFormData(data);
         //const options = { headers: new HttpHeaders({}) };
 
@@ -72,18 +72,18 @@ export class GameEditService {
         //     return this.http.post(API_URLS.ACTIVITIES(data.game), formData, options);
         // }
         if (data.id) {
-            return this.http.patch(API_URLS.ACTIVITIES(data.game, data.id), data);
+            return this.http.patch(API_URLS.ACTIONS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.ACTIVITIES(data.game), data);
+            return this.http.post(API_URLS.ACTIONS(data.game), data);
         }
     }
 
-    deleteActivity(data: Activity): Observable<any> {
-        return this.http.delete(API_URLS.ACTIVITIES(data.game, data.id));
+    deleteAction(data: GameAction): Observable<any> {
+        return this.http.delete(API_URLS.ACTIONS(data.game, data.id));
     }
 
-    getActivities(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.ACTIVITIES(gameId));
+    getActions(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.ACTIONS(gameId));
     }
 
     saveStage(data: Stage): Observable<any> {
@@ -124,11 +124,11 @@ export class GameEditService {
         return this.http.delete(API_URLS.RESOURCES(data.game, data.id));
     }
 
-    getQuests(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.QUESTS(gameId));
+    getConditions(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.CONDITIONS(gameId));
     }
 
-    saveQuest(data: Quest): Observable<any> {
+    saveCondition(data: Condition): Observable<any> {
         // const formData = toMultipartFormData(data);
         // const options = { headers: new HttpHeaders({}) };
 
@@ -139,14 +139,14 @@ export class GameEditService {
         // }
 
         if (data.id) {
-            return this.http.patch(API_URLS.QUESTS(data.game, data.id), data);
+            return this.http.patch(API_URLS.CONDITIONS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.QUESTS(data.game), data);
+            return this.http.post(API_URLS.CONDITIONS(data.game), data);
         }
     }
 
-    deleteQuest(data: Quest): Observable<any> {
-        return this.http.delete(API_URLS.QUESTS(data.game, data.id));
+    deleteCondition(data: Condition): Observable<any> {
+        return this.http.delete(API_URLS.CONDITIONS(data.game, data.id));
     }
 
     getRounds(gameId: number): Observable<any> {
@@ -168,11 +168,11 @@ export class GameEditService {
         return this.http.delete(API_URLS.ROUNDS(data.game, data.id));
     }
 
-    getTrivias(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.TRIVIA(gameId));
+    getChoices(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.CHOICES(gameId));
     }
 
-    saveTrivia(data: Trivia): Observable<any> {
+    saveChoice(data: Choice): Observable<any> {
         // const formData = objectToFormData(data);
         // const options = { headers: new HttpHeaders({}) };
 
@@ -183,14 +183,14 @@ export class GameEditService {
         // }
 
         if (data.id) {
-            return this.http.patch(API_URLS.TRIVIA(data.game, data.id), data);
+            return this.http.patch(API_URLS.CHOICES(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.TRIVIA(data.game), data);
+            return this.http.post(API_URLS.CHOICES(data.game), data);
         }
     }
 
-    deleteTrivia(data: Trivia): Observable<any> {
-        return this.http.delete(API_URLS.TRIVIA(data.game, data.id));
+    deleteChoice(data: Choice): Observable<any> {
+        return this.http.delete(API_URLS.CHOICES(data.game, data.id));
     }
 
     saveMap(data: GameMap): Observable<any> {

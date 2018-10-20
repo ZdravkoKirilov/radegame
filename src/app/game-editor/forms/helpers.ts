@@ -1,16 +1,16 @@
-import { Quest, Activity, Resource, Field, Round, Stage, EntityWithKeywords, Trivia, Faction, GameEntity } from '@app/game-mechanics';
+import { Condition, GameAction, Resource, Field, Round, Stage, EntityWithKeywords, Choice, Faction, GameEntity } from '@app/game-mechanics';
 import { Option, ConnectedEntities, ToggleContext, BaseControl, controlTypes } from '@app/dynamic-forms';
 
-export function composeQuestOptions(ent: ConnectedEntities): Option[] {
-    return ent.quests.map((elem: Quest): Option => ({
+export function composeConditionOptions(ent: ConnectedEntities): Option[] {
+    return ent.conditions.map((elem: Condition): Option => ({
         label: elem.name,
         value: elem.id,
         image: elem.image
     }));
 }
 
-export function composeActivityOptions(ent: ConnectedEntities): Option[] {
-    return ent.activities.map((elem: Activity): Option => ({
+export function composeActionOptions(ent: ConnectedEntities): Option[] {
+    return ent.actions.map((elem: GameAction): Option => ({
         label: elem.name,
         value: elem.id,
         image: elem.image
@@ -49,8 +49,8 @@ export function composeStageOptions(ent: ConnectedEntities): Option[] {
     }));
 }
 
-export function composeTriviaOptions(ent: ConnectedEntities): Option[] {
-    return ent.trivia.map((elem: Trivia): Option => ({
+export function composeChoiceOptions(ent: ConnectedEntities): Option[] {
+    return ent.choices.map((elem: Choice): Option => ({
         label: elem.name,
         value: elem.id,
         image: elem.image

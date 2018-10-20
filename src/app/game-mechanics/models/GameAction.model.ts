@@ -1,10 +1,10 @@
 import { Player } from './Player.model';
-import { Activity } from '../entities';
+import { GameAction } from '../entities';
 
-export type GameAction = {
+export type PlayerAction = {
     type: string;
     payload: {
         player: Player;
-        data: Activity;
+        data: GameAction;
     };
 }

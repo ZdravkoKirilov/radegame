@@ -1,5 +1,5 @@
 import { BaseControl, Option, ConnectedEntities, controlTypes } from '@app/dynamic-forms';
-import { composeKeywordOptions, composeBooleanOptions, composeActivityOptions } from './helpers';
+import { composeKeywordOptions, composeBooleanOptions, composeActionOptions } from './helpers';
 import { QUOTA_TYPE, EntityWithKeywords } from '@app/game-mechanics';
 
 export const composeQuotaTemplate = (ent: ConnectedEntities, keywordSource: EntityWithKeywords[][]): BaseControl => {
@@ -12,7 +12,7 @@ export const composeQuotaTemplate = (ent: ConnectedEntities, keywordSource: Enti
                 name: 'activity',
                 controlType: controlTypes.DROPDOWN,
                 label: 'Action',
-                required: true, options: composeActivityOptions(ent)
+                required: true, options: composeActionOptions(ent)
             }, {
                 name: 'type',
                 controlType: controlTypes.DROPDOWN,

@@ -1,17 +1,17 @@
 import {
-    Resource, Field, Faction, Quest,
-    Activity, Round, Stage, Trivia, MapLocation, MapPath
+    Resource, Field, Faction, Condition,
+    GameAction, Round, Stage, Choice, MapLocation, MapPath
 } from '@app/game-mechanics';
 
 export interface ConnectedEntities {
     resources?: Resource[];
     fields?: Field[];
     factions?: Faction[];
-    quests?: Quest[];
-    activities?: Activity[];
+    conditions?: Condition[];
+    actions?: GameAction[];
     rounds?: Round[];
     stages?: Stage[];
-    trivia?: Trivia[];
+    choices?: Choice[];
     locations?: MapLocation[];
     paths?: MapPath[];
 }

@@ -10,9 +10,9 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/fields/`;
         return fieldId ? `${base}${fieldId}/` : base;
     },
-    ACTIVITIES: (gameId: number, activityId?: number) => {
+    ACTIONS: (gameId: number, actionId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/actions/`;
-        return activityId ? `${base}${activityId}/` : base;
+        return actionId ? `${base}${actionId}/` : base;
     },
     LOCATIONS: (gameId: number, locId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/locations/`;
@@ -34,17 +34,17 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/factions/`;
         return factionId ? `${base}${factionId}/` : base;
     },
-    QUESTS: (gameId: number, questId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/quests/`;
-        return questId ? `${base}${questId}/` : base;
+    CONDITIONS: (gameId: number, conditionId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/conditions/`;
+        return conditionId ? `${base}${conditionId}/` : base;
     },
     ROUNDS: (gameId: number, roundId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/rounds/`;
         return roundId ? `${base}${roundId}/` : base;
     },
-    TRIVIA: (gameId: number, triviaId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/trivia/`;
-        return triviaId ? `${base}${triviaId}/` : base;
+    CHOICES: (gameId: number, choiceId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/choices/`;
+        return choiceId ? `${base}${choiceId}/` : base;
     },
     STAGES: (gameId: number, stageId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/stages/`;

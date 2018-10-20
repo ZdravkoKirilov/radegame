@@ -56,7 +56,3 @@ export const profileReducer = (state: ProfileFeature = initialState, action: Pro
             return state;
     }
 }
-
-export const selectProfileFeature = createFeatureSelector<ProfileFeature>('profile');
-
-export const selectUser = (state: AppState): User => state.profile.user;

@@ -3,12 +3,12 @@ import {
     FormDefinition, ConnectedEntities, ToggleContext
 } from '@app/dynamic-forms';
 import {
-    Activity, ActivityConfig, ACTIVITY_TYPE as types,
-    TARGET_TYPE, ACTION_MODE, ActivityCost
+    GameAction, ActionConfig, ACTION_TYPE as types,
+    TARGET_TYPE, ACTION_MODE
 } from '@app/game-mechanics';
 import {
     composeResourceOptions, composeKeywordOptions, combineContexts,
-    composeQuestOptions, composeTriviaOptions, composeEntityItem
+    composeConditionOptions, composeChoiceOptions, composeEntityItem
 } from '../helpers';
 
 const toggleContexts: { [key: string]: ToggleContext } = {
@@ -41,13 +41,13 @@ const targets: { [key: string]: Option } = {
     }
 }
 
-export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntities): BaseControl[] => {
+export const ACTIVITY_DEF: FormDefinition = (data: GameAction, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
     data.configs = data.configs || [];
     data.cost = data.cost || [];
     const resources = composeResourceOptions(ent);
-    const quests = composeQuestOptions(ent);
-    const trivia = composeTriviaOptions(ent);
+    const quests = composeConditionOptions(ent);
+    const trivia = composeChoiceOptions(ent);
     const activityTypes: Option[] = Object.keys(types).map(key => ({ value: key, label: types[key] }));
     const modeTypes: Option[] = Object.keys(ACTION_MODE).map(key => ({ value: key, label: ACTION_MODE[key] }));
 
@@ -127,8 +127,6 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             }
         ]
     };
-    // const costChildControls = composeCost(data.cost, costTemplate);
-    const costChildControls = data.cost.map(elem => composeEntityItem(elem, costTemplate));
 
     return [
         {
@@ -162,13 +160,6 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
             value: data.image,
             asBase64: true
         }, {
-            name: 'cost',
-            controlType: controlTypes.FORM_ARRAY,
-            label: 'Action cost',
-            addButtonText: 'Add cost',
-            childTemplate: costTemplate,
-            childControls: costChildControls
-        }, {
             name: 'configs',
             controlType: controlTypes.FORM_ARRAY,
             label: 'Action configuration',
@@ -181,7 +172,7 @@ export const ACTIVITY_DEF: FormDefinition = (data: Activity, ent: ConnectedEntit
     ];
 }
 
-function composeActivityConfigs(configs: ActivityConfig[], template: BaseControl): BaseControl[] {
+function composeActivityConfigs(configs: ActionConfig[], template: BaseControl): BaseControl[] {
     return configs.map(elem => {
         const nestedForm = { ...template };
         nestedForm.childControls = nestedForm.childControls.map(child => ({ ...child, value: elem[child.name] }));

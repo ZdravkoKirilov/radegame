@@ -20,8 +20,8 @@ import {
 } from './components';
 
 import {
-    EditorWrapperComponent, SmartActivitiesComponent, SmartFactionsComponent, SmartFieldsComponent,
-    SmartLaunchComponent, SmartQuestsComponent, SmartResourcesComponent, SmartRoundsComponent, SmartStagesComponent, SmartTriviaComponent
+    EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
+    GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent, RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent
 } from './containers';
 import { MapRenderService } from './services';
 
@@ -53,16 +53,16 @@ import { MapRenderService } from './services';
         MapToolbarComponent,
         FieldsComponent,
         IndexComponent,
-        SmartActivitiesComponent,
-        SmartFactionsComponent,
-        EditorWrapperComponent,
-        SmartFieldsComponent,
-        SmartLaunchComponent,
-        SmartQuestsComponent,
-        SmartResourcesComponent,
-        SmartRoundsComponent,
-        SmartStagesComponent,
-        SmartTriviaComponent
+        ActionsContainerComponent,
+        FactionsContainerComponent,
+        EditorContainerComponent,
+        FieldsContainerComponent,
+        GamesContainerComponent,
+        ConditionsContainerComponent,
+        ResourcesContainerComponent,
+        RoundsContainerComponent,
+        StagesContainerComponent,
+        ChoicesContainerComponent
     ]
 })
 export class GameEditorModule {

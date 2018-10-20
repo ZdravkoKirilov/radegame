@@ -1,6 +1,6 @@
 import { Round } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, controlTypes } from '@app/dynamic-forms';
-import { composeQuestOptions, composeActivityOptions } from '../helpers';
+import { composeConditionOptions, composeActionOptions } from '../helpers';
 
 export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
     data = data || { activities: [], condition: [] };
@@ -42,7 +42,7 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
             showImage: true,
             label: 'Condition',
             value: data.condition.map(elem => elem.quest),
-            options: composeQuestOptions(ent),
+            options: composeConditionOptions(ent),
         }, {
             name: 'activities',
             controlType: controlTypes.BUTTON_GROUP,
@@ -50,7 +50,7 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
             showImage: true,
             label: 'Activity pool',
             value: data.activities.map(elem => elem.activity),
-            options: composeActivityOptions(ent),
+            options: composeActionOptions(ent),
         },
     ];
 }

@@ -2,10 +2,11 @@ import { Action } from '@ngrx/store';
 
 import { GameEntity, GameEntityList, GameTemplate } from '@app/game-mechanics';
 import { actionTypes } from './actionTypes';
+import { FormKey } from '../form-keys';
 
 export interface GenericActionPayload {
     key: FormKey;
-    data?: GameEntity | GameEntityList | GameTemplate | boolean;
+    data?: GameEntity | GameEntityList | GameTemplate | boolean | number;
 }
 
 export class SaveItemAction implements Action {
@@ -68,25 +69,22 @@ export class SetAllItemsAction implements Action {
     constructor(public payload: GenericActionPayload) { }
 }
 
-export type EditorGenericAction = SaveItemAction | SaveItemSuccessAction |
-    SaveItemFailAction | SetItemAction | DeleteItemAction | DeleteItemSuccessAction |
-    DeleteItemFailAction | RemoveItemAction | SetItemAction | ToggleEditorAction | ChangeSelectedItemAction | SetAllItemsAction;
-
-export const formKeys = {
-    RESOURCES: 'resources',
-    TRIVIA: 'trivia',
-    ROUNDS: 'rounds',
-    QUESTS: 'quests',
-    STAGES: 'stages',
-    FIELDS: 'fields',
-    ACTIVITIES: 'activities',
-    FACTIONS: 'factions',
-    LOCATIONS: 'locations',
-    PATHS: 'paths',
-    GAMES: 'games'
+export class FetchItemsAction implements Action {
+    readonly type = actionTypes.FETCH_ITEMS;
+    constructor(public payload: GenericActionPayload) { }
 }
 
-export type FormKey = typeof formKeys.RESOURCES | typeof formKeys.TRIVIA | typeof formKeys.ROUNDS |
-    typeof formKeys.QUESTS | typeof formKeys.STAGES | typeof formKeys.FIELDS |
-    typeof formKeys.ACTIVITIES | typeof formKeys.FACTIONS | typeof formKeys.LOCATIONS |
-    typeof formKeys.PATHS;
+export class FetchItemsSuccessAction implements Action {
+    readonly type = actionTypes.FETCH_ITEMS_SUCCESS;
+    constructor(public payload: GenericActionPayload) { }
+}
+
+export class FetchItemsFailAction implements Action {
+    readonly type = actionTypes.FETCH_ITEMS_FAIL;
+    constructor(public payload: GenericActionPayload) { }
+}
+
+export type EditorGenericAction = SaveItemAction | SaveItemSuccessAction |
+    SaveItemFailAction | SetItemAction | DeleteItemAction | DeleteItemSuccessAction |
+    DeleteItemFailAction | RemoveItemAction | SetItemAction | ToggleEditorAction | ChangeSelectedItemAction | SetAllItemsAction |
+    FetchItemsAction | FetchItemsSuccessAction | FetchItemsFailAction;

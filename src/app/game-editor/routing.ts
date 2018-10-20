@@ -1,35 +1,24 @@
 import { Routes } from '@angular/router';
 
-import { IndexComponent } from './components/index/index.component';
-import { EditorWrapperComponent } from './containers/editor-wrapper/editor-wrapper.component';
-import { SmartLaunchComponent } from './containers/smart-launch/smart-launch.component';
-import { SmartQuestsComponent } from './containers/smart-quests/smart-quests.component';
-import { SmartFactionsComponent } from './containers/smart-factions/smart-factions.component';
-import { SmartResourcesComponent } from './containers/smart-resources/smart-resources.component';
-import { SmartFieldsComponent } from './containers/smart-fields/smart-fields.component';
-import { SmartRoundsComponent } from './containers/smart-rounds/smart-rounds.component';
-import { SmartActivitiesComponent } from './containers/smart-activities/smart-activities.component';
-import { SmartTriviaComponent } from './containers/smart-trivia/smart-trivia.component';
-import { SmartStagesComponent } from './containers/smart-stages/smart-stages.component';
 import { ROUTER_PARAMS } from '@app/shared';
-import { GameDataGuard, GameListGuard } from '@app/core';
+
+import {
+    EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
+    GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent, RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent
+} from './containers';
+import { IndexComponent } from './components';
 
 export const routes: Routes = [
     {
         path: 'games/list',
-        component: SmartLaunchComponent,
+        component: GamesContainerComponent,
         pathMatch: 'full',
-        canActivate: [GameListGuard],
         data: {
             title: 'Radegast: create a new game'
         },
     }, {
         path: `games/:${ROUTER_PARAMS.GAME_ID}/editor`,
-        canActivate: [GameDataGuard, GameListGuard],
-        // resolve: {
-        //     preloaded: GameDataResolver
-        // },
-        component: EditorWrapperComponent,
+        component: EditorContainerComponent,
         data: {
             title: 'Radegast: setup a new game'
         },
@@ -41,40 +30,40 @@ export const routes: Routes = [
             },
             {
                 path: `stages/:${ROUTER_PARAMS.STAGE_ID}/fields`,
-                component: SmartFieldsComponent,
+                component: FieldsContainerComponent,
                 pathMatch: 'full'
             },
             {
                 path: 'stages',
-                component: SmartStagesComponent,
+                component: StagesContainerComponent,
             },
             {
                 path: 'trivia',
-                component: SmartTriviaComponent
+                component: ChoicesContainerComponent
             },
             {
                 path: 'quests',
-                component: SmartQuestsComponent
+                component: ConditionsContainerComponent
             },
             {
                 path: 'rounds',
-                component: SmartRoundsComponent
+                component: RoundsContainerComponent
             },
             {
                 path: 'activities',
-                component: SmartActivitiesComponent
+                component: ActionsContainerComponent
             },
             {
                 path: 'resources',
-                component: SmartResourcesComponent
+                component: ResourcesContainerComponent
             },
             {
                 path: 'fields',
-                component: SmartFieldsComponent
+                component: FieldsContainerComponent
             },
             {
                 path: 'factions',
-                component: SmartFactionsComponent
+                component: FactionsContainerComponent
             }
         ]
     }

@@ -1,11 +1,11 @@
-import { Trivia, TriviaAnswer } from '@app/game-mechanics';
+import { Choice, ChoiceOption } from '@app/game-mechanics';
 import { BaseControl, Option, controlTypes, ConnectedEntities } from '@app/dynamic-forms';
-import { composeActivityOptions, composeEntityItem } from '../helpers';
+import { composeActionOptions, composeEntityItem } from '../helpers';
 
-export function TRIVIA_DEF(data: Trivia, ent: ConnectedEntities): BaseControl[] {
+export function TRIVIA_DEF(data: Choice, ent: ConnectedEntities): BaseControl[] {
     data = data || { answers: [] };
 
-    const activities = composeActivityOptions(ent);
+    const activities = composeActionOptions(ent);
     const triviaAnswerTemplate: BaseControl = {
         controlType: controlTypes.NESTED_FORM,
         childControls: [

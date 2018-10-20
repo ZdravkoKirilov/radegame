@@ -1,29 +1,26 @@
 import { ActionReducer, combineReducers } from '@ngrx/store';
+import produce from 'immer';
 
-import { EditorGenericAction, FormKey, formKeys } from '../actions/generics';
+import { FormKey, formKeys } from '../form-keys';
 import { actionTypes } from '../actions/actionTypes';
 
 import { GameEntity, GameEntityList, GameTemplate } from '@app/game-mechanics';
-import { ConnectedEntities } from '@app/dynamic-forms';
+import { EditorGenericAction } from '../actions';
 
 export interface EntityFeature {
     items?: GameEntityList;
     lastChange?: GameEntity;
     lastDelete?: GameEntity;
-    showEditor?: boolean;
-    selectedItem?: GameEntity;
 }
 
 export interface EntityForm {
     [key: string]: EntityFeature;
 }
 
-const entityFeatureState = {
+const entityFeatureState: EntityFeature = {
     items: null,
     lastChange: null,
     lastDelete: null,
-    showEditor: false,
-    selectedItem: null
 }
 
 export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFeature> => {
@@ -36,43 +33,21 @@ export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFe
             switch (action.type) {
                 case actionTypes.SET_ITEM:
                     data = action.payload.data as GameEntity;
-                    return {
-                        ...state,
-                        items: {
-                            ...state.items,
-                            [data.id]: { ...data }
-                        },
-                        lastChange: { ...data }
-                    };
+                    return produce(state, draft => {
+                        draft.items[data.id] = data;
+                        draft.lastChange = data
+                    });
                 case actionTypes.REMOVE_ITEM:
                     data = action.payload.data as GameEntity;
-                    const items = { ...state.items };
-                    delete items[data.id];
-                    return {
-                        ...state,
-                        items, lastDelete: { ...data }
-                    };
+                    return produce(state, draft => {
+                        delete draft.items[data.id];
+                        draft.lastDelete = data;
+                    });
                 case actionTypes.SET_ITEMS:
                     data = action.payload.data as GameEntityList;
-                    return {
-                        ...state,
-                        items: {
-                            ...data
-                        }
-
-                    };
-                case actionTypes.TOGGLE_EDITOR:
-                    data = action.payload.data as boolean;
-                    return {
-                        ...state,
-                        showEditor: data
-                    };
-                case actionTypes.CHANGE_SELECTED_ITEM:
-                    data = action.payload.data as GameEntity;
-                    return {
-                        ...state,
-                        selectedItem: data ? { ...data } : null
-                    };
+                    return produce(state, draft => {
+                        draft.items = data;
+                    });
                 default:
                     return state;
             }
@@ -89,15 +64,12 @@ export const formReducer: ActionReducer<any> = combineReducers({
     fields: createEntityReducer(formKeys.FIELDS),
     locations: createEntityReducer(formKeys.LOCATIONS),
     paths: createEntityReducer(formKeys.PATHS),
-    activities: createEntityReducer(formKeys.ACTIVITIES),
-    quests: createEntityReducer(formKeys.QUESTS),
+    actions: createEntityReducer(formKeys.ACTIONS),
+    conditions: createEntityReducer(formKeys.CONDITIONS),
     rounds: createEntityReducer(formKeys.ROUNDS),
-    trivia: createEntityReducer(formKeys.TRIVIA),
+    choices: createEntityReducer(formKeys.CHOICES),
     stages: createEntityReducer(formKeys.STAGES),
-});
-
-export const metadataReducer: ActionReducer<any> = combineReducers({
-    games: createEntityReducer('games')
+    games: createEntityReducer(formKeys.GAMES)
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>): any {
@@ -125,38 +97,3 @@ export function editorMetaReducer(anyReducer: ActionReducer<any>): any {
         return anyReducer(state, action);
     };
 }
-
-export const getItems = (key: FormKey, gameId?: number) => (state: EntityForm): GameEntity[] => {
-    const items = state[key].items || {};
-    if (gameId) {
-        return Object.values(items).filter((elem: GameEntity) => elem.game === gameId);
-    } else {
-        return Object.values(items);
-    }
-}
-
-export const getItemById = <T>(key: FormKey, itemId: number) => (state: EntityForm): T => {
-    return getItemsList(key)(state)[itemId];
-}
-
-export const getItemsList = (key: FormKey) => (state: EntityForm): GameEntityList => {
-    return state[key].items;
-}
-
-export const getSelectedItem = (key: FormKey) => (state: EntityForm): GameEntity => {
-    return state[key].selectedItem;
-}
-
-export const getEditorState = (key: FormKey) => (state: EntityForm): boolean => {
-    return state[key].showEditor;
-}
-
-export const getEntities = (state: EntityForm): ConnectedEntities => {
-    const result = <ConnectedEntities>{};
-
-    for (let key in state) {
-        result[key] = Object.values(state[key].items);
-    }
-
-    return result;
-};

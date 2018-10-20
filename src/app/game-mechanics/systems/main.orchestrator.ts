@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { Generator, GameAction } from '../models';
+import { Generator, PlayerAction } from '../models';
 import { createGenerator } from './generators';
 
 Injectable()
@@ -11,9 +11,9 @@ export class MainOrchestrator {
     turnGenerator: Generator;
     actionGenerator: Generator;
 
-    next(action: GameAction, state: any): GameAction[] {
+    next(action: PlayerAction, state: any): PlayerAction[] {
         const { roundGenerator, phaseGenerator, turnGenerator, actionGenerator } = this;
-        let result: GameAction[] = [];
+        let result: PlayerAction[] = [];
 
         if (roundGenerator.isFull) {
             result = [...roundGenerator.next(action, state)];

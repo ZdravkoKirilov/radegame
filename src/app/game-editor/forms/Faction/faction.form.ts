@@ -4,7 +4,7 @@ import { composeResourceOptions, composeEntityItem, composeFieldOptions, compose
 import { composeQuotaTemplate } from '../shared';
 
 export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[] {
-    data = data || { resources: [], income: [], activities: [] };
+    data = data || { resources: [], income: [] };
 
     const resOptions = composeResourceOptions(ent);
     const factionResource = <BaseControl>{
@@ -80,13 +80,6 @@ export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[
             controlType: controlTypes.NUMBER_INPUT,
             label: 'Action limit',
             value: data.activity_limit
-        }, {
-            name: 'activities',
-            controlType: controlTypes.FORM_ARRAY,
-            label: 'Faction actions',
-            addButtonText: 'Add action quota',
-            childControls: data.activities.map(elem => composeEntityItem(elem, composeQuotaTemplate(ent, [ent.factions]))),
-            childTemplate: composeQuotaTemplate(ent, [ent.factions])
         }, {
             name: 'resources',
             controlType: controlTypes.FORM_ARRAY,

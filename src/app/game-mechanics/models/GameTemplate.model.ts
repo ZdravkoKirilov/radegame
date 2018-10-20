@@ -1,21 +1,22 @@
 import {
-    ResourceList, FactionList, FieldList, ActivityList,
-    QuestList, StageList, RoundList, MapLocationList,
-    MapPathList, TriviaList
+    ResourceList, FactionList, FieldList, ActionList,
+    ConditionList, StageList, RoundList, MapLocationList,
+    MapPathList, ChoiceList
 } from '../entities';
+import { formKeys } from '@app/game-editor';
 
-export interface GameTemplate {
+export type GameTemplate = {
     id?: number;
     resources?: ResourceList;
     factions?: FactionList;
-    activities?: ActivityList;
+    actions?: ActionList;
     fields?: FieldList;
-    quests?: QuestList;
+    conditions?: ConditionList;
     rounds?: RoundList;
     stages?: StageList;
     locations?: MapLocationList;
     paths?: MapPathList;
-    trivia?: TriviaList;
+    choices?: ChoiceList;
 }
 
 

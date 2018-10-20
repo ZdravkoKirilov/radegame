@@ -1,6 +1,6 @@
 import { Field, FieldResource } from '@app/game-mechanics';
 import { BaseControl, controlTypes, ConnectedEntities, FormDefinition } from '@app/dynamic-forms';
-import { composeQuestOptions, composeActivityOptions, composeResourceOptions } from '../helpers';
+import { composeConditionOptions, composeActionOptions, composeResourceOptions } from '../helpers';
 
 export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) => {
     data = data || {};
@@ -122,14 +122,14 @@ export const FIELD_DEF: FormDefinition = (data: Field, ent: ConnectedEntities) =
             multiple: true,
             label: 'Quest pool',
             value: data && data.quests ? data.quests.map(elem => elem.quest) : [],
-            options: composeQuestOptions(ent),
+            options: composeConditionOptions(ent),
         }, {
             name: 'activities',
             controlType: controlTypes.BUTTON_GROUP,
             multiple: true,
             label: 'Activity pool',
             value: data && data.activities ? data.activities.map(elem => elem.activity) : [],
-            options: composeActivityOptions(ent),
+            options: composeActionOptions(ent),
         },
     ];
 };

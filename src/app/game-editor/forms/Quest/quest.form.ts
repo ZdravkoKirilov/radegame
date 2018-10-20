@@ -1,19 +1,19 @@
-import { Quest, QuestCondition, QuestEffect, QUEST_CONDITION as cnd, QUEST_CONDITION } from '@app/game-mechanics';
+import { Condition, QuestCondition, QuestEffect, QUEST_CONDITION as cnd, QUEST_CONDITION } from '@app/game-mechanics';
 import { ConnectedEntities, controlTypes, BaseControl, Option } from '@app/dynamic-forms';
 import {
-    composeActivityOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions,
-    composeFromObject, composeKeywordOptions, composeEntityItem, composeQuestOptions
+    composeActionOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions,
+    composeFromObject, composeKeywordOptions, composeEntityItem, composeConditionOptions
 } from '../helpers';
 
-export function QUEST_DEF(data: Quest = {}, ent: ConnectedEntities): BaseControl[] {
-    data = data || <Quest>{ penalty: [], condition: [], award: [] };
-    const activities = composeActivityOptions(ent);
+export function QUEST_DEF(data: Condition = {}, ent: ConnectedEntities): BaseControl[] {
+    data = data || <Condition>{ penalty: [], condition: [], award: [] };
+    const activities = composeActionOptions(ent);
     const fields = composeFieldOptions(ent);
     const rounds = composeRoundOptions(ent);
     const resources = composeResourceOptions(ent);
     const stages = composeStageOptions(ent);
-    const quests = composeQuestOptions(ent);
-    const keywords = composeKeywordOptions([ent.resources, ent.factions, ent.activities, ent.fields, ent.quests]);
+    const quests = composeConditionOptions(ent);
+    const keywords = composeKeywordOptions([ent.resources, ent.factions, ent.actions, ent.fields, ent.conditions]);
 
     const conditionType = {
         name: 'type',

@@ -1,22 +1,50 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '@app/core';
-import { GameEntity, Activity, Field, Quest, Round, Faction } from '@app/game-mechanics';
-import { actionTypes } from '../actions/actionTypes';
+import { GameEntity, GameAction, Field, Condition, Round, Faction } from '@app/game-mechanics';
+import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
 import {
-    formKeys, FormKey, GenericActionPayload,
+    GenericActionPayload,
     SaveItemAction, SaveItemSuccessAction, SaveItemFailAction, SetItemAction, DeleteItemAction,
-    DeleteItemSuccessAction, DeleteItemFailAction, RemoveItemAction
-} from '../actions/generics';
+    DeleteItemSuccessAction, DeleteItemFailAction, RemoveItemAction, FetchItemsAction
+} from '../actions';
+import { FormKey, formKeys } from '../form-keys';
+import { toIndexedList } from '@app/shared';
 
 @Injectable()
 export class GenericEffectsService {
 
     constructor(private actions$: Actions, private api: GameEditService) {
     }
+
+    @Effect() fetchItems: Observable<any> = this.actions$.ofType(actionTypes.FETCH_ITEMS).pipe(
+        map((action: FetchItemsAction) => {
+            const payload = <GenericActionPayload>{ ...action.payload };
+            return payload;
+        }),
+        mergeMap(payload => {
+            const { data, key } = payload;
+
+            return this.fetchRequest(key, data as any).pipe(
+                mergeMap((res: GameEntity[]) => {
+                    const response: GenericActionPayload = {
+                        key, data: toIndexedList(res, 'id'),
+                    };
+                    return [
+                        new SetItemsAction(response),
+                        new FetchItemsSuccessAction(response),
+                    ];
+                }),
+                catchError(() => {
+                    return [new SaveItemFailAction()];
+                })
+            );
+
+        })
+    )
 
     @Effect() saveItem: Observable<any> = this.actions$.ofType(actionTypes.SAVE_ITEM).pipe(
         map((action: SaveItemAction) => {
@@ -62,24 +90,53 @@ export class GenericEffectsService {
         })
     );
 
+    fetchRequest(key: FormKey, data: number): Observable<GameEntity> {
+        switch (key) {
+            case formKeys.RESOURCES:
+                return this.api.getResources(data);
+            case formKeys.ACTIONS:
+                return this.api.getActions(data);
+            case formKeys.FACTIONS:
+                return this.api.getFactions(data);
+            case formKeys.FIELDS:
+                return this.api.getFields(data);
+            case formKeys.CONDITIONS:
+                return this.api.getConditions(data);
+            case formKeys.ROUNDS:
+                return this.api.getRounds(data);
+            case formKeys.STAGES:
+                return this.api.getStages(data);
+            case formKeys.CHOICES:
+                return this.api.getChoices(data);
+            case formKeys.LOCATIONS:
+                return this.api.getMapLocations(data);
+            case formKeys.PATHS:
+                return this.api.getPaths(data);
+            case formKeys.GAMES:
+                return this.api.getGames()
+            default:
+                return of(null);
+        }
+    };
+
     saveRequest(key: FormKey, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
             case formKeys.RESOURCES:
                 return this.api.saveResource(entity);
-            case formKeys.ACTIVITIES:
-                return this.api.saveActivity(<Activity>entity);
+            case formKeys.ACTIONS:
+                return this.api.saveAction(<GameAction>entity);
             case formKeys.FACTIONS:
                 return this.api.saveFaction(<Faction>entity);
             case formKeys.FIELDS:
                 return this.api.saveBoardField(<Field>entity);
-            case formKeys.QUESTS:
-                return this.api.saveQuest(<Quest>entity);
+            case formKeys.CONDITIONS:
+                return this.api.saveCondition(<Condition>entity);
             case formKeys.ROUNDS:
                 return this.api.saveRound(<Round>entity);
             case formKeys.STAGES:
                 return this.api.saveStage(entity);
-            case formKeys.TRIVIA:
-                return this.api.saveTrivia(entity);
+            case formKeys.CHOICES:
+                return this.api.saveChoice(entity);
             case formKeys.LOCATIONS:
                 return this.api.saveMapLocation(entity);
             case formKeys.PATHS:
@@ -95,20 +152,20 @@ export class GenericEffectsService {
         switch (key) {
             case formKeys.RESOURCES:
                 return this.api.deleteResource(entity);
-            case formKeys.ACTIVITIES:
-                return this.api.deleteActivity(entity);
+            case formKeys.ACTIONS:
+                return this.api.deleteAction(entity);
             case formKeys.FACTIONS:
                 return this.api.deleteFaction(entity);
             case formKeys.FIELDS:
                 return this.api.deleteBoardField(entity);
-            case formKeys.QUESTS:
-                return this.api.deleteQuest(entity);
+            case formKeys.CONDITIONS:
+                return this.api.deleteCondition(entity);
             case formKeys.ROUNDS:
                 return this.api.deleteRound(entity);
             case formKeys.STAGES:
                 return this.api.deleteStage(entity);
-            case formKeys.TRIVIA:
-                return this.api.deleteTrivia(entity);
+            case formKeys.CHOICES:
+                return this.api.deleteChoice(entity);
             case formKeys.PATHS:
                 return this.api.deleteMapPath(entity);
             default:
