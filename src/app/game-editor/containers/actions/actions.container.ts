@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
-import { ACTIVITY_DEF } from '../../forms';
+import { composeActivityForm } from '../../forms';
 import { SmartBase } from '../../mixins';
 import { formKeys, FormKey } from '../../state';
 
@@ -15,7 +15,7 @@ import { formKeys, FormKey } from '../../state';
 export class ActionsContainerComponent extends SmartBase {
 
 
-    formDefinition: FormDefinition = ACTIVITY_DEF;
+    formDefinition: FormDefinition = composeActivityForm;
     key: FormKey = formKeys.ACTIONS;
 
     constructor(public store: Store<AppState>) {

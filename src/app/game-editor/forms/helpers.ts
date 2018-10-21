@@ -1,4 +1,9 @@
-import { Condition, GameAction, Resource, Field, Round, Stage, EntityWithKeywords, Choice, Faction, GameEntity } from '@app/game-mechanics';
+import keys from 'lodash/keys';
+
+import {
+    Condition, GameAction, Resource, Field, Round,
+    Stage, EntityWithKeywords, Choice, Faction, GameEntity
+} from '@app/game-mechanics';
 import { Option, ConnectedEntities, ToggleContext, BaseControl, controlTypes } from '@app/dynamic-forms';
 
 export function composeConditionOptions(ent: ConnectedEntities): Option[] {
@@ -114,7 +119,21 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
 
 export const composeEntityItem = (item: GameEntity, template: BaseControl): BaseControl => {
     return {
-        controlType: controlTypes.NESTED_FORM,
-        childControls: template.childControls.map(elem => ({ ...elem, value: item[elem.name] }))
+        type: controlTypes.FORM,
+        children: template.children.map(elem => ({ ...elem, value: item[elem.name] }))
     };
+};
+
+export const getKeys = <T>(entity: GameEntity): WithKeys<T> => {
+    return keys(entity).reduce(
+        (acc, key) => {
+            acc[key] = key;
+            return acc;
+        },
+        {}
+    );
+};
+
+type WithKeys<T> = {
+    readonly [P in keyof T]: P;
 };

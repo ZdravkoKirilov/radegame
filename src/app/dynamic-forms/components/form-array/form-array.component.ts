@@ -21,7 +21,7 @@ export class FormArrayComponent implements OnInit {
     }
 
     addChild() {
-        this.formArray.push(this.cs.toFormGroup(this.data.childTemplate.childControls));
+        this.formArray.push(this.cs.toFormGroup(this.data.childTemplate.children));
         this.controls.push({ ...this.data.childTemplate });
     }
 
@@ -35,7 +35,7 @@ export class FormArrayComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.controls = [...this.data.childControls];
+        this.controls = [...this.data.children];
         this.formArray = <FormArray>this.form.controls[this.data.name];
     }
 }

@@ -4,7 +4,9 @@ import { ROUTER_PARAMS } from '@app/shared';
 
 import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
-    GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent, RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent
+    GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent,
+    RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent, EffectGroupsComponent,
+    EffectStacksComponent,
 } from './containers';
 import { IndexComponent } from './components';
 
@@ -38,11 +40,11 @@ export const routes: Routes = [
                 component: StagesContainerComponent,
             },
             {
-                path: 'trivia',
+                path: 'choices',
                 component: ChoicesContainerComponent
             },
             {
-                path: 'quests',
+                path: 'conditions',
                 component: ConditionsContainerComponent
             },
             {
@@ -50,7 +52,7 @@ export const routes: Routes = [
                 component: RoundsContainerComponent
             },
             {
-                path: 'activities',
+                path: 'actions',
                 component: ActionsContainerComponent
             },
             {
@@ -64,6 +66,14 @@ export const routes: Routes = [
             {
                 path: 'factions',
                 component: FactionsContainerComponent
+            },
+            {
+                path: 'effect-stacks',
+                component: EffectStacksComponent
+            },
+            {
+                path: 'effect-groups',
+                component: EffectGroupsComponent
             }
         ]
     }

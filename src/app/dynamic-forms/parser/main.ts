@@ -2,12 +2,13 @@ import { BaseProps, ParseParams } from "./models";
 import { execute, isComputed, isExpression, compute, attrIsReserved } from "./expression";
 import { controlTypes } from "../config";
 
-export const parse = (params: ParseParams): BaseProps => {
+export const parse = (params: ParseParams, unpack = false): BaseProps | BaseProps[] => {
 
     const asDoc = parseFromXML(params.source);
     let result = null;
     if (asDoc) {
         result = parseFromDocumentTree(asDoc, params);
+        result = unpack ? result.children : result;
     }
     return result;
 };
@@ -41,13 +42,22 @@ const parseAllAttributes = (node: Element, params: ParseParams): BaseProps => {
 
     let result = {
         type: parseAttribute(node, 'type', params) || node.nodeName,
-        value: compute(node.textContent, params),
     } as BaseProps;
+
     const innerHTML = node.innerHTML.trim();
     if (innerHTML) {
         result.template = innerHTML;
     }
 
+    if (!isCollection(result.type) && !isForm(result.type)) {
+        result.value = compute(node.textContent, params);
+    }
+    if (isCollection(result.type)) {
+        result.childTemplate = parse({
+            source: result.template,
+            context: params.context
+        });
+    }
 
     Array.from(node.attributes).forEach((attr: Attr) => {
         const attrValue = parseAttribute(node, attr.nodeName, params);
@@ -106,5 +116,9 @@ const rebaseParams = (newTemplate: string, params: ParseParams, alias?: string, 
 };
 
 const isCollection = (type: string): boolean => {
-    return type === controlTypes.FORM_ARRAY;
+    return type === controlTypes.GROUP;
+};
+
+const isForm = (type: string): boolean => {
+    return type === controlTypes.FORM;
 };

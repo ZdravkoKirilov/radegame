@@ -4,7 +4,8 @@ export const execute = (asString: string, params: ParseParams, reservedFunc?: an
     asString = trim(asString);
     const noWrappers = removeCustomWrappers(asString);
     const closureName = getClosureName(noWrappers);
-    const source = closureName ? params.closure[closureName] : params.context;
+    const closure = closureName && params.closure[closureName] ? params.closure[closureName] : {};
+    const source = closureName ? closure : params.context;
     const funcName = noWrappers.slice(0, noWrappers.indexOf('('));
     const rawFuncName = closureName || params.removePrefix ? removePrefix(funcName) : funcName;
     const func = source[rawFuncName] || reservedFunc;
@@ -23,12 +24,17 @@ export const execute = (asString: string, params: ParseParams, reservedFunc?: an
 export const compute = (asString: string, params: ParseParams): any => {
     asString = trim(asString);
     if (isComputed(asString)) {
-        const noWrappers = removeCustomWrappers(asString);
-        const closureName = getClosureName(noWrappers);
-        const source = closureName ? params.closure[closureName] : params.context;
-        const prop = params.removePrefix || closureName ? removePrefix(noWrappers) : noWrappers;
-        //return isComputed(prop) ? JSON.parse(prop) : deepProp.get(source, prop, '');
-        return isComputed(prop) ? JSON.parse(prop) : evaluate(prop, source);
+        try {
+            const noWrappers = removeCustomWrappers(asString);
+            const closureName = getClosureName(noWrappers);
+            const closure = closureName && params.closure[closureName] ? params.closure[closureName] : {};
+            const source = closureName ? closure : params.context;
+            const prop = params.removePrefix || closureName ? removePrefix(noWrappers) : noWrappers;
+            const result = isComputed(prop) ? JSON.parse(prop) : evaluate(prop, source);
+            return result;
+        } catch (err) {
+            debugger;
+        }
     }
     return asString;
 };
@@ -43,11 +49,6 @@ export const isExpression = (str: string): boolean => {
     return str.startsWith('(') && str.endsWith(')');
 };
 
-export const isReservedExpression = (str: string): boolean => {
-    str = trim(str);
-    return str === 'parse';
-}
-
 export const removeCustomWrappers = (str: string): string => {
     str = trim(str);
     return str.slice(1, -1);
@@ -57,8 +58,16 @@ export const attrIsReserved = (value: string): boolean => {
     return typeof value === 'string' && value.startsWith('@');
 };
 
-export const evaluate = (scr: string, context: any): any => {
-    return (new Function("with(this) { return " + scr + "}")).call(context);
+export const evaluate = (src: string, context: any): any => {
+    try {
+        return (new Function("with(this) { return " + src + "}")).call(context) || '';
+    } catch (err) {
+        // console.group('Problem occured with expression evaluation');
+        // console.log('Src: ', src);
+        // console.log('Context: ', context)
+        // console.groupEnd();
+        return '';
+    }
 }
 
 const removePrefix = (str: string): string => {

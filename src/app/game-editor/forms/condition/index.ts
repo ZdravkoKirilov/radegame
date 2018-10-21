@@ -23,99 +23,99 @@ export function QUEST_DEF(data: Condition = {}, ent: ConnectedEntities): BaseCon
     };
 
     const cond_childTemplate: BaseControl = {
-        controlType: controlTypes.NESTED_FORM,
-        childControls: [
+        type: controlTypes.FORM,
+        children: [
             conditionType,
-            { name: 'id', hidden: true, controlType: controlTypes.TEXT_INPUT },
+            { name: 'id', hidden: true, type: controlTypes.TEXT_INPUT },
             {
                 name: 'at_round',
-                controlType: controlTypes.DROPDOWN,
+                type: controlTypes.DROPDOWN,
                 label: 'At round',
                 options: rounds
             }, {
                 name: 'by_round',
-                controlType: controlTypes.DROPDOWN,
+                type: controlTypes.DROPDOWN,
                 label: 'By round',
                 options: rounds
             }, {
                 name: 'field',
-                controlType: controlTypes.DROPDOWN,
+                type: controlTypes.DROPDOWN,
                 label: 'Field',
                 options: fields
             }, {
                 name: 'resource',
-                controlType: controlTypes.DROPDOWN,
+                type: controlTypes.DROPDOWN,
                 label: 'Resource',
                 options: resources
             }, {
                 name: 'activity',
-                controlType: controlTypes.DROPDOWN,
+                type: controlTypes.DROPDOWN,
                 label: 'Action',
                 options: activities
             }, {
                 name: 'quest',
-                controlType: controlTypes.DROPDOWN,
+                type: controlTypes.DROPDOWN,
                 label: 'Quest',
                 options: quests
             }, {
                 name: 'keyword',
-                controlType: controlTypes.DROPDOWN,
+                type: controlTypes.DROPDOWN,
                 label: 'Keyword',
                 options: keywords
             }, {
                 name: 'amount',
-                controlType: controlTypes.NUMBER_INPUT,
+                type: controlTypes.NUMBER_INPUT,
                 label: 'Amount',
             }
         ],
     };
 
     return [{
-        controlType: controlTypes.NUMBER_INPUT,
+        type: controlTypes.NUMBER_INPUT,
         hidden: true,
         name: 'id',
         value: data.id,
     }, {
         name: 'name',
-        controlType: controlTypes.TEXT_INPUT,
+        type: controlTypes.TEXT_INPUT,
         value: data.name,
         label: 'Quest name',
         required: true
     }, {
         name: 'description',
-        controlType: controlTypes.TEXT_INPUT,
+        type: controlTypes.TEXT_INPUT,
         value: data.description,
         label: 'Quest description',
     }, {
         name: 'keywords',
-        controlType: controlTypes.TAGS_INPUT,
+        type: controlTypes.TAGS_INPUT,
         value: data.keywords,
         label: 'Keywords',
     }, {
         name: 'image',
-        controlType: controlTypes.IMAGE_PICKER,
+        type: controlTypes.IMAGE_PICKER,
         label: 'Quest image',
         required: false,
         value: data.image,
         asBase64: true
     }, {
         name: 'stage',
-        controlType: controlTypes.DROPDOWN,
+        type: controlTypes.DROPDOWN,
         label: 'Stage',
         value: data.stage,
         options: stages,
         showImage: true
     }, {
         name: 'condition',
-        controlType: controlTypes.FORM_ARRAY,
+        type: controlTypes.GROUP,
         label: 'Quest condition: ',
         addButtonText: 'Add condition',
         connectedEntities: ent,
-        childControls: data.condition.map(elem => composeEntityItem(elem, cond_childTemplate)),
+        children: data.condition.map(elem => composeEntityItem(elem, cond_childTemplate)),
         childTemplate: cond_childTemplate
     }, {
         name: 'award',
-        controlType: controlTypes.BUTTON_GROUP,
+        type: controlTypes.BUTTON_GROUP,
         label: 'Quest award: ',
         options: activities,
         value: data.award,
@@ -123,7 +123,7 @@ export function QUEST_DEF(data: Condition = {}, ent: ConnectedEntities): BaseCon
         multiple: true
     }, {
         name: 'penalty',
-        controlType: controlTypes.BUTTON_GROUP,
+        type: controlTypes.BUTTON_GROUP,
         label: 'Quest penalty: ',
         options: activities,
         value: data.penalty,

@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '@app/core';
-import { GameEntity, GameAction, Field, Condition, Round, Faction } from '@app/game-mechanics';
+import { GameEntity, GameAction, Field, Condition, Round, Faction, EffectGroup, EffectStack } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
 import {
     GenericActionPayload,
@@ -112,6 +112,10 @@ export class GenericEffectsService {
                 return this.api.getMapLocations(data);
             case formKeys.PATHS:
                 return this.api.getPaths(data);
+            case formKeys.EFFECT_GROUPS:
+                return this.api.getEffectGroups(data);
+            case formKeys.EFFECT_STACKS:
+                return this.api.getEffectStacks(data);
             case formKeys.GAMES:
                 return this.api.getGames()
             default:
@@ -141,6 +145,10 @@ export class GenericEffectsService {
                 return this.api.saveMapLocation(entity);
             case formKeys.PATHS:
                 return this.api.saveMapPath(entity);
+            case formKeys.EFFECT_GROUPS:
+                return this.api.saveEffectGroup(<EffectGroup>entity);
+            case formKeys.EFFECT_STACKS:
+                return this.api.saveEffectStack(<EffectStack>entity);
             case formKeys.GAMES:
                 return this.api.saveGame(entity)
             default:
@@ -168,6 +176,10 @@ export class GenericEffectsService {
                 return this.api.deleteChoice(entity);
             case formKeys.PATHS:
                 return this.api.deleteMapPath(entity);
+            case formKeys.EFFECT_GROUPS:
+                return this.api.deleteEffectGroup(<EffectGroup>entity);
+            case formKeys.EFFECT_STACKS:
+                return this.api.deleteEffectStack(<EffectStack>entity);
             default:
                 return of(null);
         }

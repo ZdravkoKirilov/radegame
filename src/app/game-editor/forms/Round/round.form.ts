@@ -7,37 +7,37 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
     return [
         {
             name: 'name',
-            controlType: controlTypes.TEXT_INPUT,
+            type: controlTypes.TEXT_INPUT,
             value: data.name,
             label: 'Round name',
             required: true
         }, {
             name: 'description',
-            controlType: controlTypes.TEXT_INPUT,
+            type: controlTypes.TEXT_INPUT,
             value: data.description,
             label: 'Round description',
             required: false
         }, {
             name: 'image',
-            controlType: controlTypes.IMAGE_PICKER,
+            type: controlTypes.IMAGE_PICKER,
             label: 'Round image',
             required: false,
             value: data.image
         }, {
             name: 'order',
-            controlType: controlTypes.NUMBER_INPUT,
+            type: controlTypes.NUMBER_INPUT,
             label: 'Round order',
             value: data.order,
             required: false,
         }, {
             name: 'replay',
-            controlType: controlTypes.NUMBER_INPUT,
+            type: controlTypes.NUMBER_INPUT,
             label: 'Allowed replays',
             value: data.replay,
             required: false,
         }, {
             name: 'condition',
-            controlType: controlTypes.BUTTON_GROUP,
+            type: controlTypes.BUTTON_GROUP,
             multiple: true,
             showImage: true,
             label: 'Condition',
@@ -45,7 +45,7 @@ export function ROUND_DEF(data: Round, ent: ConnectedEntities): BaseControl[] {
             options: composeConditionOptions(ent),
         }, {
             name: 'activities',
-            controlType: controlTypes.BUTTON_GROUP,
+            type: controlTypes.BUTTON_GROUP,
             multiple: true,
             showImage: true,
             label: 'Activity pool',

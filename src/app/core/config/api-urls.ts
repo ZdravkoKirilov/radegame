@@ -50,6 +50,14 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/stages/`;
         return stageId ? `${base}${stageId}/` : base;
     },
+    EFFECT_STACKS: (gameId: number, stageId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/effect-stacks/`;
+        return stageId ? `${base}${stageId}/` : base;
+    },
+    EFFECT_GROUPS: (gameId: number, stageId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/effect-groups/`;
+        return stageId ? `${base}${stageId}/` : base;
+    },
 };
 
 export const AUTH_URLS = {

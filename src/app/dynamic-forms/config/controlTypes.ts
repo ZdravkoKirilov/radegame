@@ -1,14 +1,14 @@
 export const controlTypes = {
 
     TEXT_INPUT: 'TextInput',
-    NUMBER_INPUT: 'NUMBER_INPUT',
-    BUTTON_GROUP: 'BUTTON_GROUP',
-    DROPDOWN: 'DROPDOWN',
+    NUMBER_INPUT: 'NumberInput',
+    BUTTON_GROUP: 'ButtonGroup',
+    DROPDOWN: 'Dropdown',
 
-    IMAGE_PICKER: 'IMAGE_PICKER',
+    IMAGE_PICKER: 'ImagePicker',
 
-    NESTED_FORM: 'NESTED_FORM',
-    FORM_ARRAY: 'FORM_ARRAY',
+    FORM: 'Form',
+    GROUP: 'Group',
 
-    TAGS_INPUT: 'TagsInput'
+    TAGS_INPUT: 'TagsInput',
 };

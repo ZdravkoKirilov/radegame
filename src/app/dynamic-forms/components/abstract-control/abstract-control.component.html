@@ -1,6 +1,6 @@
 <div *ngIf="form" [formGroup]="form">
 
-    <ng-container [ngSwitch]="data.controlType">
+    <ng-container [ngSwitch]="data.type">
 
         <ng-container *ngSwitchCase="types.TEXT_INPUT">
             <rg-text-input [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-text-input>
@@ -18,7 +18,7 @@
             <rg-dropdown [group]="group" [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-dropdown>
         </ng-container>
 
-        <ng-container *ngSwitchCase="types.FORM_ARRAY">
+        <ng-container *ngSwitchCase="types.GROUP">
             <rg-form-array [form]="form" [data]="data"></rg-form-array>
         </ng-container>
 

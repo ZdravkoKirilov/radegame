@@ -8,3 +8,5 @@ export * from './resources/resources.container';
 export * from './rounds/rounds.container';
 export * from './stages/stages.container';
 export * from './choices/choices.container';
+export * from './effect-groups/effect-groups.component';
+export * from './effect-stacks/effect-stacks.component';

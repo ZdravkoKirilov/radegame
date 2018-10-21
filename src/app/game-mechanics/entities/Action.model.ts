@@ -3,15 +3,11 @@ import { Resource } from "./Resource.model";
 import { Condition } from "./Condition.model";
 import { Choice } from "./Choice.model";
 import { Faction } from "./Faction.model";
+import { BaseModel } from "./Base.model";
 
-export type GameAction = Partial<{
-    id: number;
-    game: number; // Game;
-    name: string;
+export type GameAction = BaseModel & Partial<{
+
     mode: ActionMode;
-    description: string;
-    keywords: string;
-    image: string;
 
     cost: number[] | EffectStack[];
     condition: number[] | EffectStack[];

@@ -1,6 +1,7 @@
-export type EffectGroup = Partial<{
-    id: number;
-    game: number;
+import { BaseModel } from "./Base.model";
+
+export type EffectGroup = BaseModel & Partial<{
+
     mode: EffectMode;
     pick: EffectPickMode;
     quota: EffectQuotaMode;

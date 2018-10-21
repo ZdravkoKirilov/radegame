@@ -15,15 +15,6 @@ export class ButtonGroupComponent implements OnInit {
 
     private value: any;
 
-    // ngOnInit() {
-    //     if (this.data.multiple) {
-    //         this.value = this.data.value ? new Set([...this.data.value]) :
-    //             this.data.defaultValue !== undefined ? new Set([this.data.defaultValue]) : new Set();
-    //     } else {
-    //         this.value = this.data.value !== undefined ? this.data.value : this.data.defaultValue;
-    //     }
-    // }
-
     ngOnInit() {
         if (this.data.multiple) {
             this.value = this.data.value ? [...this.data.value] :
@@ -59,7 +50,6 @@ export class ButtonGroupComponent implements OnInit {
                 currentValue.push({ [field]: value });
             }
         } else {
-            // currentValue = { [field]: value };
             currentValue = value;
         }
         this.value = currentValue;

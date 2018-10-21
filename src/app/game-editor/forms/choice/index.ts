@@ -7,21 +7,21 @@ export function TRIVIA_DEF(data: Choice, ent: ConnectedEntities): BaseControl[] 
 
     const activities = composeActionOptions(ent);
     const triviaAnswerTemplate: BaseControl = {
-        controlType: controlTypes.NESTED_FORM,
-        childControls: [
-            { name: 'id', controlType: controlTypes.TEXT_INPUT, hidden: true },
+        type: controlTypes.FORM,
+        children: [
+            { name: 'id', type: controlTypes.TEXT_INPUT, hidden: true },
             {
                 name: 'description',
-                controlType: controlTypes.TEXT_INPUT,
+                type: controlTypes.TEXT_INPUT,
                 label: 'Answer text',
                 required: false
             }, {
                 name: 'image',
-                controlType: controlTypes.IMAGE_PICKER,
+                type: controlTypes.IMAGE_PICKER,
                 label: 'Image',
                 asBase64: true
             }, {
-                controlType: controlTypes.BUTTON_GROUP,
+                type: controlTypes.BUTTON_GROUP,
                 name: 'effect',
                 label: 'Effect',
                 multiple: true,
@@ -35,29 +35,29 @@ export function TRIVIA_DEF(data: Choice, ent: ConnectedEntities): BaseControl[] 
     return [
         {
             name: 'name',
-            controlType: controlTypes.TEXT_INPUT,
+            type: controlTypes.TEXT_INPUT,
             value: data.name,
             label: 'Trivia name',
             required: true
         }, {
             name: 'description',
-            controlType: controlTypes.TEXT_INPUT,
+            type: controlTypes.TEXT_INPUT,
             value: data.description,
             label: 'Trivia question',
             required: false
         }, {
             name: 'image',
-            controlType: controlTypes.IMAGE_PICKER,
+            type: controlTypes.IMAGE_PICKER,
             label: 'Trivia image',
             required: false,
             value: data.image,
             asBase64: true
         }, {
             name: 'answers',
-            controlType: controlTypes.FORM_ARRAY,
+            type: controlTypes.GROUP,
             label: 'Trivia answers',
             addButtonText: 'Add answer',
-            childControls: data.answers.map(elem => composeEntityItem(elem, triviaAnswerTemplate)),
+            children: data.answers.map(elem => composeEntityItem(elem, triviaAnswerTemplate)),
             childTemplate: triviaAnswerTemplate
         }
     ];

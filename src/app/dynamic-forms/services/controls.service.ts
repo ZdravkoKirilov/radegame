@@ -15,7 +15,7 @@ export class ControlsService {
         const group = new FormGroup({});
         controls.forEach((elem: BaseControl) => {
             const validators = this.addValidators(elem, group);
-            if (elem.controlType === controlTypes.FORM_ARRAY) {
+            if (elem.type === controlTypes.GROUP) {
                 const arr = this.toFormArray(elem);
                 group.addControl(elem.name, arr);
             } else {
@@ -28,13 +28,13 @@ export class ControlsService {
     }
 
     toFormArray(control: BaseControl) {
-        const controls = control.childControls;
+        const controls = control.children;
         const formArray = new FormArray([], vd.compose([
             minItems(control),
             maxItems(control),
         ]));
         controls.forEach((elem: BaseControl) => {
-            const subform = this.toFormGroup(elem.childControls);
+            const subform = this.toFormGroup(elem.children);
             formArray.push(subform);
         });
         return formArray;

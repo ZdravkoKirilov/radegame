@@ -26,9 +26,9 @@ export interface BaseControl {
     required?: boolean;
     hidden?: boolean;
     readonly?: boolean;
-    controlType?: string;
+    type?: string;
     options?: Option[];
-    childControls?: BaseControl[];
+    children?: BaseControl[];
     childTemplate?: BaseControl;
     connectedEntities?: ConnectedEntities;
     addButtonText?: string;

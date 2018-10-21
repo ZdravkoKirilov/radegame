@@ -1,6 +1,7 @@
-export type EffectStack = Partial<{
-    id: number;
-    game: number;
+import { BaseModel } from "./Base.model";
+
+export type EffectStack = BaseModel & Partial<{
+
     action: number;
     condition: number;
 

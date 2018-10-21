@@ -1,5 +1,5 @@
 <div class="nested-form">
-    <ng-container *ngFor="let item of data.childControls">
+    <ng-container *ngFor="let item of data.children">
         <div>
             <rg-abstract-control *ngIf="showControl(item)" [form]="form" [group]="group ? group.controls[index] : null" [data]="item"
                 (fieldChange)="fieldChange($event)">

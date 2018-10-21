@@ -33,7 +33,6 @@ export const getEntities = createSelector(
         for (let key in form) {
             result[key] = values(form[key].items);
         }
-
         return result;
     }
 );

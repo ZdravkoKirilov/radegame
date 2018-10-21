@@ -6,24 +6,24 @@ export function RESOURCE_DEF(data: Resource = {}): BaseControl[] {
     return [
         {
             name: 'name',
-            controlType: controlTypes.TEXT_INPUT,
+            type: controlTypes.TEXT_INPUT,
             value: data.name,
             label: 'Resource name',
             required: true
         }, {
             name: 'description',
-            controlType: controlTypes.TEXT_INPUT,
+            type: controlTypes.TEXT_INPUT,
             value: data.description,
             label: 'Resource description',
         }, {
             name: 'keywords',
-            controlType: controlTypes.TAGS_INPUT,
+            type: controlTypes.TAGS_INPUT,
             label: 'Category',
             value: data.keywords,
             maxItems: 2
         }, {
             name: 'image',
-            controlType: controlTypes.IMAGE_PICKER,
+            type: controlTypes.IMAGE_PICKER,
             label: 'Resource image',
             required: true,
             value: data.image

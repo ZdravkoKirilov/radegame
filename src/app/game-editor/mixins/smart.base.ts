@@ -1,13 +1,13 @@
 import { OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Subscription ,  Observable } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AppState, selectGameId } from '@app/core';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { GameEntity } from '@app/game-mechanics';
 import {
-    SaveItemAction, DeleteItemAction, FormKey, FetchItemsAction, getItems, getEntities
+    SaveItemAction, DeleteItemAction, FormKey, getItems, getEntities
 } from '../state';
 
 export abstract class SmartBase implements OnInit, OnDestroy {
@@ -23,7 +23,7 @@ export abstract class SmartBase implements OnInit, OnDestroy {
 
     public gameId: number;
 
-    public connectedEntities: Observable<ConnectedEntities>;
+    public connectedEntities$: Observable<ConnectedEntities>;
     public items$: Observable<GameEntity[]>;
 
 
@@ -67,14 +67,11 @@ export abstract class SmartBase implements OnInit, OnDestroy {
     ngOnInit() {
         this.sub = this.store.pipe(
             select(selectGameId),
-            map(gameId => {
-                this.gameId = gameId;
-                this.store.dispatch(new FetchItemsAction({ key: this.key, data: gameId }));
-            })
+            map(gameId => { this.gameId = gameId; }),
         ).subscribe();
 
         this.items$ = this.store.pipe(select(getItems(this.key)));
-        this.connectedEntities = this.store.pipe(select(getEntities));
+        this.connectedEntities$ = this.store.pipe(select(getEntities));
     }
 
     ngOnDestroy() {
