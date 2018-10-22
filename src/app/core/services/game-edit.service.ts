@@ -16,8 +16,8 @@ import {
     Round,
     Choice,
     Stage,
-    EffectStack,
-    EffectGroup,
+    Stack,
+    Pool,
 } from '@app/game-mechanics';
 import { toMultipartFormData } from '@app/shared';
 import { API_URLS } from '../config';
@@ -170,42 +170,42 @@ export class GameEditService {
         return this.http.delete(API_URLS.ROUNDS(data.game, data.id));
     }
 
-    getEffectStacks(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.EFFECT_STACKS(gameId));
+    getStacks(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.STACKS(gameId));
     }
 
-    saveEffectStack(data: EffectStack): Observable<any> {
+    saveStack(data: Stack): Observable<any> {
         const formData = toMultipartFormData(data);
         const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.EFFECT_STACKS(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.STACKS(data.game, data.id), formData, options);
         } else {
-            return this.http.post(API_URLS.EFFECT_STACKS(data.game), formData, options);
+            return this.http.post(API_URLS.STACKS(data.game), formData, options);
         }
     }
 
-    deleteEffectStack(data: EffectStack): Observable<any> {
-        return this.http.delete(API_URLS.EFFECT_STACKS(data.game, data.id));
+    deleteStack(data: Stack): Observable<any> {
+        return this.http.delete(API_URLS.STACKS(data.game, data.id));
     }
 
-    getEffectGroups(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.EFFECT_GROUPS(gameId));
+    getPools(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.POOLS(gameId));
     }
 
-    saveEffectGroup(data: EffectGroup): Observable<any> {
+    savePool(data: Pool): Observable<any> {
         const formData = toMultipartFormData(data);
         const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.EFFECT_GROUPS(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.POOLS(data.game, data.id), formData, options);
         } else {
-            return this.http.post(API_URLS.EFFECT_GROUPS(data.game), formData, options);
+            return this.http.post(API_URLS.POOLS(data.game), formData, options);
         }
     }
 
-    deleteEffectGroup(data: EffectGroup): Observable<any> {
-        return this.http.delete(API_URLS.EFFECT_GROUPS(data.game, data.id));
+    deletePool(data: Pool): Observable<any> {
+        return this.http.delete(API_URLS.POOLS(data.game, data.id));
     }
 
     getChoices(gameId: number): Observable<any> {

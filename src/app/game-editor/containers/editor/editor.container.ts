@@ -41,8 +41,8 @@ export class EditorContainerComponent implements OnInit, OnDestroy {
         this.store.dispatch(new FetchItemsAction({ key: formKeys.STAGES, data: gameId }));
         this.store.dispatch(new FetchItemsAction({ key: formKeys.PATHS, data: gameId }));
         this.store.dispatch(new FetchItemsAction({ key: formKeys.LOCATIONS, data: gameId }));
-        this.store.dispatch(new FetchItemsAction({ key: formKeys.EFFECT_GROUPS, data: gameId }));
-        this.store.dispatch(new FetchItemsAction({ key: formKeys.EFFECT_STACKS, data: gameId }));
+        this.store.dispatch(new FetchItemsAction({ key: formKeys.POOLS, data: gameId }));
+        this.store.dispatch(new FetchItemsAction({ key: formKeys.STACKS, data: gameId }));
       })
     ).subscribe();
   }

@@ -1,6 +1,6 @@
 import { BaseModel } from "./Base.model";
 
-export type EffectStack = BaseModel & Partial<{
+export type Stack = BaseModel & Partial<{
 
     action: number;
     condition: number;
@@ -16,4 +16,4 @@ export const StackRelations = {
 
 export type StackRelation = keyof typeof StackRelations;
 
-export type StackList = {[key: string]: EffectStack};
+export type StackList = {[key: string]: Stack};

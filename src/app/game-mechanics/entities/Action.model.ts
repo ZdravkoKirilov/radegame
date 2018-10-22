@@ -1,4 +1,4 @@
-import { EffectStack } from "./EffectStack.model";
+import { Stack } from "./Stack.model";
 import { Resource } from "./Resource.model";
 import { Condition } from "./Condition.model";
 import { Choice } from "./Choice.model";
@@ -9,9 +9,9 @@ export type GameAction = BaseModel & Partial<{
 
     mode: ActionMode;
 
-    cost: number[] | EffectStack[];
-    condition: number[] | EffectStack[];
-    restriction: number[] | EffectStack[];
+    cost: number[] | Stack[];
+    condition: number[] | Stack[];
+    restriction: number[] | Stack[];
 
     configs: ActionConfig[];
 }>

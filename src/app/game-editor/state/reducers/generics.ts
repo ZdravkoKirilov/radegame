@@ -69,8 +69,8 @@ export const formReducer: ActionReducer<any> = combineReducers({
     rounds: createEntityReducer(formKeys.ROUNDS),
     choices: createEntityReducer(formKeys.CHOICES),
     stages: createEntityReducer(formKeys.STAGES),
-    effect_stacks: createEntityReducer(formKeys.EFFECT_STACKS),
-    effect_groups: createEntityReducer(formKeys.EFFECT_GROUPS),
+    stacks: createEntityReducer(formKeys.STACKS),
+    pools: createEntityReducer(formKeys.POOLS),
     games: createEntityReducer(formKeys.GAMES)
 });
 

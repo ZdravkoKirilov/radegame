@@ -22,7 +22,7 @@ import {
 import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent, RoundsContainerComponent,
-     StagesContainerComponent, ChoicesContainerComponent, EffectStacksComponent, EffectGroupsComponent
+     StagesContainerComponent, ChoicesContainerComponent, StackContainerComponent, PoolsContainerComponent
 } from './containers';
 import { MapRenderService } from './services';
 
@@ -64,8 +64,8 @@ import { MapRenderService } from './services';
         RoundsContainerComponent,
         StagesContainerComponent,
         ChoicesContainerComponent,
-        EffectStacksComponent,
-        EffectGroupsComponent
+        StackContainerComponent,
+        PoolsContainerComponent
     ]
 })
 export class GameEditorModule {

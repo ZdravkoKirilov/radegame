@@ -133,7 +133,3 @@ export const getKeys = <T>(entity: GameEntity): WithKeys<T> => {
         {}
     );
 };
-
-type WithKeys<T> = {
-    readonly [P in keyof T]: P;
-};

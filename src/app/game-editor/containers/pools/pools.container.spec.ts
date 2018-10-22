@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EffectStacksComponent } from './effect-stacks.component';
+import { PoolsContainerComponent } from './pools.container';
 
-describe('EffectStacksComponent', () => {
-  let component: EffectStacksComponent;
-  let fixture: ComponentFixture<EffectStacksComponent>;
+describe('EffectGroupsComponent', () => {
+  let component: PoolsContainerComponent;
+  let fixture: ComponentFixture<PoolsContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EffectStacksComponent ]
+      declarations: [ PoolsContainerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EffectStacksComponent);
+    fixture = TestBed.createComponent(PoolsContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

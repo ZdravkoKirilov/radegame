@@ -9,12 +9,12 @@ export const formKeys = {
     FACTIONS: 'factions',
     LOCATIONS: 'locations',
     PATHS: 'paths',
-    EFFECT_GROUPS: 'effect_groups',
-    EFFECT_STACKS: 'effect_stacks',
+    POOLS: 'pools',
+    STACKS: 'stacks',
     GAMES: 'games'
 }
 
 export type FormKey = typeof formKeys.RESOURCES | typeof formKeys.CHOICES | typeof formKeys.ROUNDS |
     typeof formKeys.CONDITIONS | typeof formKeys.STAGES | typeof formKeys.FIELDS |
     typeof formKeys.ACTIONS | typeof formKeys.FACTIONS | typeof formKeys.LOCATIONS |
-    typeof formKeys.PATHS | typeof formKeys.EFFECT_GROUPS | typeof formKeys.EFFECT_STACKS;
+    typeof formKeys.PATHS | typeof formKeys.POOLS | typeof formKeys.STACKS;

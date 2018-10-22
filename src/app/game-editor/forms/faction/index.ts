@@ -1,7 +1,6 @@
-import { Faction, FactionResource, FACTION_TYPE } from '@app/game-mechanics';
+import { Faction, FACTION_TYPE } from '@app/game-mechanics';
 import { BaseControl, controlTypes, ConnectedEntities } from '@app/dynamic-forms';
 import { composeResourceOptions, composeEntityItem, composeFieldOptions, composeFromObject } from '../helpers';
-import { composeQuotaTemplate } from '../shared';
 
 export function FACTION_DEF(data: Faction, ent: ConnectedEntities): BaseControl[] {
     data = data || { resources: [], income: [] };

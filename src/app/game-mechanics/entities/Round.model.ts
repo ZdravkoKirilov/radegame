@@ -1,17 +1,19 @@
 import { Condition } from './Condition.model';
 import { GameAction } from './Action.model';
+import { BaseModel } from './Base.model';
 
-export interface Round {
-    id?: number;
-    game?: number;
-    name?: string;
-    description?: string;
-    image?: string;
-    order?: number;
-    replay?: number;
-    condition?: RoundCondition[];
-    activities?: RoundActivity[];
-}
+export type Round = BaseModel & Partial<{
+    order: number;
+    replay: number;
+    condition: RoundCondition[];
+    activities: RoundActivity[];
+}>
+
+export type Phase = Partial<{
+    id: number;
+    image: string;
+    name: string;
+}>
 
 export interface RoundCondition {
     id?: number;

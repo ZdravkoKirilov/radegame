@@ -5,17 +5,17 @@ import { FormDefinition } from '@app/dynamic-forms';
 import { formKeys, FormKey } from '../../state';
 import { SmartBase } from '../../mixins';
 import { AppState } from '@app/core';
-import { composeEffectGroupForm } from '../../forms';
+import { composeStackForm } from '../../forms';
 
 @Component({
-  selector: 'rg-effect-groups',
-  templateUrl: './effect-groups.component.html',
-  styleUrls: ['./effect-groups.component.scss']
+  selector: 'rg-stacks-container',
+  templateUrl: './stacks.container.html',
+  styleUrls: ['./stacks.container.scss']
 })
-export class EffectGroupsComponent extends SmartBase {
+export class StackContainerComponent extends SmartBase {
 
-  formDefinition: FormDefinition = composeEffectGroupForm;
-  key: FormKey = formKeys.EFFECT_GROUPS;
+  formDefinition: FormDefinition = composeStackForm;
+  key: FormKey = formKeys.POOLS;
 
   constructor(public store: Store<AppState>) {
     super(store);

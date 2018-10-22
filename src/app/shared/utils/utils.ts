@@ -26,3 +26,9 @@ export const rebaseListIndex = (source: ObjectWithId, newIndex: string): Indexed
 }
 
 export const asArray = <T>(obj: object): T[] => Object.values(obj);
+
+export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
+
+export type WithKeys<T> = {
+    readonly [P in keyof T]: P;
+};

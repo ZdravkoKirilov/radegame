@@ -5,8 +5,8 @@ import { ROUTER_PARAMS } from '@app/shared';
 import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent,
-    RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent, EffectGroupsComponent,
-    EffectStacksComponent,
+    RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent, PoolsContainerComponent,
+    StackContainerComponent,
 } from './containers';
 import { IndexComponent } from './components';
 
@@ -68,12 +68,12 @@ export const routes: Routes = [
                 component: FactionsContainerComponent
             },
             {
-                path: 'effect-stacks',
-                component: EffectStacksComponent
+                path: 'stacks',
+                component: StackContainerComponent
             },
             {
-                path: 'effect-groups',
-                component: EffectGroupsComponent
+                path: 'pool',
+                component: PoolsContainerComponent
             }
         ]
     }
