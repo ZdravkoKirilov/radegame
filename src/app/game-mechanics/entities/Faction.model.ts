@@ -1,6 +1,7 @@
 import { BaseModel } from "./Base.model";
 import { Omit } from "@app/shared";
 import { Round } from "./Round.model";
+import { Pool } from "./Pool.model";
 
 export type Faction = BaseModel & Partial<{
 
@@ -9,14 +10,19 @@ export type Faction = BaseModel & Partial<{
     action_limit: number;
     resource_limit: number;
 
+    action_play_limit: number;
+
+    effect_pool: number[] | Pool[];
+
 }>
 
 export type Token = Omit<BaseModel, 'game'> & Partial<{
-    
-    action_limit: number;
+
     resource_limit: number;
 
     start: number | Round;
+
+    effect_pool: number[] | Pool[];
 }>
 
 export type FactionList = {

@@ -2,7 +2,7 @@ import { Stack } from "./Stack.model";
 import { Resource } from "./Resource.model";
 import { Condition } from "./Condition.model";
 import { Choice } from "./Choice.model";
-import { Faction } from "./Faction.model";
+import { Faction, Token } from "./Faction.model";
 import { BaseModel } from "./Base.model";
 
 export type GameAction = BaseModel & Partial<{
@@ -29,6 +29,7 @@ export type ActionConfig = Partial<{
     condition: number | Condition;
     choice: number | Choice;
     faction: number | Faction;
+    token: number | Token;
     action: number | GameAction;
     keyword: string;
 }>
@@ -65,6 +66,9 @@ export const TARGET_TYPE = {
     OTHER_PLAYER: 'OTHER_PLAYER',
     SELF: 'SELF',
     ACTIVE_PLAYER: 'ACTIVE_PLAYER',
+    TOKEN: 'TOKEN',
+    OTHER_TOKEN: 'OTHER_TOKEN',
+    ACTIVE_TOKEN: 'ACTIVE_TOKEN',
     FACTION: 'FACTION',
     KEYWORD: 'KEYWORD'
 };
