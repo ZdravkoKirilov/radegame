@@ -11,7 +11,7 @@ import {
 } from '@app/game-mechanics';
 import {
     composeResourceOptions, composeKeywordOptions,
-    composeConditionOptions, composeChoiceOptions, composeFactionOptions, composeActionOptions,
+    composeConditionOptions, composeChoiceOptions, composeFactionOptions, composeActionOptions, composeStackOptions,
 } from '../helpers';
 
 const toggleContexts: { [key: string]: ToggleContext } = {
@@ -63,6 +63,12 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
             <Dropdown name='mode' label='Action mode' options='{modes}'>{data.mode}</Dropdown>
 
+            <ButtonGroup name='cost' label='Cost' options='{stacks}' multiple='{true}'>{cost}</ButtonGroup>
+
+            <ButtonGroup name='restriction' label='Restriction' options='{stacks}' multiple='{true}'>{restriction}</ButtonGroup>
+
+            <ButtonGroup name='condition' label='Condition' options='{stacks}' multiple='{true}'>{condition}</ButtonGroup>
+
             <Group name='configs' label='Action configs' children='{configs}' item='@item' addButtonText='Add'>
 
                 <Form>
@@ -96,7 +102,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const result = parse({
         source: template,
         context: {
-            data, configs,
+            data, configs, cost, restriction, condition,
             types: keys(types).map(key => ({ value: key, label: types[key] })),
             modes: keys(ACTION_MODE).map(key => ({ value: key, label: ACTION_MODE[key] })),
             targets: values(targets),
@@ -105,7 +111,8 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             choices: composeChoiceOptions(ent),
             factions: composeFactionOptions(ent),
             actions: composeActionOptions(ent),
-            keywords: composeKeywordOptions([ent.resources])
+            keywords: composeKeywordOptions([ent.resources]),
+            stacks: composeStackOptions(ent),
         },
     }, true);
 

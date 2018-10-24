@@ -70,6 +70,22 @@ export function composeFactionOptions(ent: ConnectedEntities): Option[] {
     }));
 }
 
+export function composeStackOptions(ent: ConnectedEntities): Option[] {
+    return ent.stacks.map((elem: Faction): Option => ({
+        label: elem.name,
+        value: elem.id,
+        image: elem.image
+    }));
+}
+
+export function composePoolOptions(ent: ConnectedEntities): Option[] {
+    return ent.pools.map((elem: Faction): Option => ({
+        label: elem.name,
+        value: elem.id,
+        image: elem.image
+    }));
+}
+
 export function composeBooleanOptions(positive = 'Yes', negative = 'No'): Option[] {
     return [
         {
@@ -122,14 +138,4 @@ export const composeEntityItem = (item: GameEntity, template: BaseControl): Base
         type: controlTypes.FORM,
         children: template.children.map(elem => ({ ...elem, value: item[elem.name] }))
     };
-};
-
-export const getKeys = <T>(entity: GameEntity): WithKeys<T> => {
-    return keys(entity).reduce(
-        (acc, key) => {
-            acc[key] = key;
-            return acc;
-        },
-        {}
-    );
 };

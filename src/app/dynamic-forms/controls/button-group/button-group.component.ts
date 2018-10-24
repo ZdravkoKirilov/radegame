@@ -28,7 +28,7 @@ export class ButtonGroupComponent implements OnInit {
         if (this.value !== undefined) {
             const field = this.data.valueField;
             if (this.data.multiple) {
-                const index = this.value.map(elem => elem[field]).indexOf(value);
+                const index = this.value.map(elem => field ? elem[field] : elem).indexOf(value);
                 return index !== -1;
             } else {
                 return this.value === value
@@ -41,13 +41,13 @@ export class ButtonGroupComponent implements OnInit {
         const field = this.data.valueField;
         let currentValue = this.value;
         if (this.data.multiple) {
-            const asIntArr = currentValue.map(elem => elem[field]);
+            const asIntArr = currentValue.map(elem => field ? elem[field] : elem);
             const index = asIntArr.indexOf(value);
             currentValue = [...currentValue];
             if (index !== -1) {
                 currentValue.splice(index, 1);
             } else {
-                currentValue.push({ [field]: value });
+                currentValue.push(field ? { [field]: value } : value);
             }
         } else {
             currentValue = value;
