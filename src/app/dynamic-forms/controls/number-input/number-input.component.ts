@@ -21,7 +21,7 @@ export class NumberInputComponent implements OnInit{
     get isValid() {
         const name = this.data.name;
         const controls = this.form.controls;
-        if ('controls' in this.form && name in controls) {
+        if (controls && name in controls) {
             return controls[name].valid;
         }
     }
@@ -35,6 +35,9 @@ export class NumberInputComponent implements OnInit{
     }
 
     ngOnInit() {
-        this.value = this.data.value || '';
+        this.value = this.data.value || this.data.defaultValue || 0;
+        this.change.emit({
+            [this.data.name]: this.value
+        });
     }
 }

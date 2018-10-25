@@ -58,7 +58,8 @@ export const ACTION_TYPE = {
 export const ACTION_MODE = {
     TRAP: 'TRAP',
     TRIGGER: 'TRIGGER',
-    HYBRID: 'HYBRID'
+    HYBRID: 'HYBRID',
+    AUTO: 'AUTO',
 };
 
 export const TARGET_TYPE = {
