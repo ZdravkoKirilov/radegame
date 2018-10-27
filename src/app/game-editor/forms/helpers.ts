@@ -70,6 +70,14 @@ export function composeFactionOptions(ent: ConnectedEntities): Option[] {
     }));
 }
 
+export function composeTokenOptions(ent: ConnectedEntities): Option[] {
+    return ent.tokens.map(elem => ({
+        label: elem.name,
+        value: elem.id,
+        image: elem.image
+    }));
+}
+
 export function composeStackOptions(ent: ConnectedEntities): Option[] {
     return ent.stacks.map((elem: Faction): Option => ({
         label: elem.name,

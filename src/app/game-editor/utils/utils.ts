@@ -1,7 +1,7 @@
 import { DEFAULT_MAP_LOCATION } from './config';
-import { Field, MapLocation } from '@app/game-mechanics';
+import { Field, StageLocation } from '@app/game-mechanics';
 
-export const composeDefaultLoc = (field: Field): MapLocation => {
+export const composeDefaultLoc = (field: Field): StageLocation => {
     return {
         ...DEFAULT_MAP_LOCATION,
         field: field.id,

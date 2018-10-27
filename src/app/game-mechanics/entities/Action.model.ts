@@ -11,7 +11,8 @@ export type GameAction = BaseModel & Partial<{
 
     cost: number[] | Stack[];
     condition: number[] | Stack[];
-    restriction: number[] | Stack[];
+    restricted: number[] | Stack[];
+    allowed: number[] | Stack[];
 
     configs: ActionConfig[];
 }>
@@ -24,6 +25,9 @@ export type ActionConfig = Partial<{
     target: ActionTarget;
 
     amount: number;
+    max_amount: number;
+    min_amount: number;
+    random_amount: boolean;
 
     resource: number | Resource;
     condition: number | Condition;
@@ -31,29 +35,24 @@ export type ActionConfig = Partial<{
     faction: number | Faction;
     token: number | Token;
     action: number | GameAction;
-    keyword: string;
+    keywords: string;
 }>
 
 export type ActionList = {
     [key: string]: GameAction;
 }
 
-export const QUOTA_TYPE = {
-    DISTRIBUTED: 'DISTRIBUTED', // each players gets a share by default
-    LIMITED: 'LIMITED'  // each player may draw if available
-}
-
 export const ACTION_TYPE = {
     WIN_GAME: 'WIN_GAME',
     LOSE_GAME: 'LOSE_GAME',
-    MOVE: 'MOVE', // works as claim also: if field has price
-    TRIGGER_QUEST: 'TRIGGER_QUEST',
-    TRIGGER_TRIVIA: 'TRIGGER_TRIVIA',
-    ALTER: 'ALTER', // resource
-    COLLECT: 'COLLECT', // mine resource from field
+    MOVE: 'MOVE',
+    ALTER_RESOURCE: 'ALTER_RESOURCE',
     DRAW: 'DRAW',
-    CANCEL: 'CANCEL',
-    REDIRECT: 'REDIRECT'
+    REDIRECT: 'REDIRECT',
+    GAMBLE: 'GAMBLE',
+    DROP: 'DROP',
+    LOAD: 'LOAD',
+    ALTER_KEYWORDS: 'ALTER_KEYWORDS'
 };
 export const ACTION_MODE = {
     TRAP: 'TRAP',
@@ -63,15 +62,15 @@ export const ACTION_MODE = {
 };
 
 export const TARGET_TYPE = {
-    PLAYER: 'PLAYER',
-    OTHER_PLAYER: 'OTHER_PLAYER',
-    SELF: 'SELF',
-    ACTIVE_PLAYER: 'ACTIVE_PLAYER',
-    TOKEN: 'TOKEN',
-    OTHER_TOKEN: 'OTHER_TOKEN',
-    ACTIVE_TOKEN: 'ACTIVE_TOKEN',
-    FACTION: 'FACTION',
-    KEYWORD: 'KEYWORD'
+    'PLAYER': 'PLAYER',
+    'OTHER_PLAYER': 'OTHER_PLAYER',
+    'SELF': 'SELF',
+    'ACTIVE_PLAYER': 'ACTIVE_PLAYER',
+    'FACTION': 'FACTION',
+    'KEYWORD': 'KEYWORD',
+    'TOKEN': 'TOKEN',
+    'ACTIVE_TOKEN': 'ACTIVE_TOKEN',
+    'OTHER_TOKEN': 'OTHER_TOKEN'
 };
 
 export type ActionTarget = keyof typeof TARGET_TYPE;
@@ -79,7 +78,5 @@ export type ActionTarget = keyof typeof TARGET_TYPE;
 export type ActionMode = keyof typeof ACTION_MODE;
 
 export type ActionType = keyof typeof ACTION_TYPE;
-
-export type QuotaType = keyof typeof QUOTA_TYPE;
 
 

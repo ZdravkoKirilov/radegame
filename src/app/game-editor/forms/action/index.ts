@@ -1,9 +1,8 @@
 import keys from 'lodash/keys';
-import values from 'lodash/values';
 
 import {
-    BaseControl, Option,
-    FormDefinition, ConnectedEntities, ToggleContext, parse
+    BaseControl,
+    FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import {
     GameAction, ACTION_TYPE as types,
@@ -11,44 +10,15 @@ import {
 } from '@app/game-mechanics';
 import {
     composeResourceOptions, composeKeywordOptions,
-    composeConditionOptions, composeChoiceOptions, composeFactionOptions, composeActionOptions, composeStackOptions,
+    composeConditionOptions, composeChoiceOptions, composeFactionOptions, composeActionOptions, composeStackOptions, composeFromObject, composeBooleanOptions,
 } from '../helpers';
-
-const toggleContexts: { [key: string]: ToggleContext } = {
-    [types.WIN_GAME]: { show: { field: 'type', equals: [types.WIN_GAME] } },
-    [types.LOSE_GAME]: { show: { field: 'type', equals: [types.LOSE_GAME] } },
-    [types.TRIGGER_QUEST]: { show: { field: 'type', equals: [types.TRIGGER_QUEST] } },
-    [types.TRIGGER_TRIVIA]: { show: { field: 'type', equals: [types.TRIGGER_TRIVIA] } },
-    [types.MOVE]: { show: { field: 'type', equals: [types.MOVE] } },
-    [types.ALTER]: { show: { field: 'type', equals: [types.ALTER] } },
-    [types.COLLECT]: { show: { field: 'type', equals: [types.COLLECT] } },
-    [types.DRAW]: { show: { field: 'type', equals: [types.DRAW] } }
-}
-
-const targets: { [key: string]: Option } = {
-    [TARGET_TYPE.SELF]: {
-        value: TARGET_TYPE.SELF,
-        context: { disable: { field: 'type', equals: [types.ALTER] }, defaultValue: '' }
-    },
-    [TARGET_TYPE.ACTIVE_PLAYER]: {
-        value: TARGET_TYPE.ACTIVE_PLAYER,
-        context: { disable: { field: 'type', equals: [] }, defaultValue: '' }
-    },
-    [TARGET_TYPE.OTHER_PLAYER]: {
-        value: TARGET_TYPE.OTHER_PLAYER,
-        context: { disable: { field: 'type', equals: [] }, defaultValue: '' }
-    },
-    [TARGET_TYPE.PLAYER]: {
-        value: TARGET_TYPE.PLAYER,
-        context: { disable: { field: 'type', equals: [] }, defaultValue: '' }
-    }
-}
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
     data = data || {};
     const configs = data.configs || [];
     const cost = data.cost || [];
-    const restriction = data.restriction || [];
+    const restricted = data.restricted || [];
+    const allowed = data.allowed || [];
     const condition = data.condition || [];
 
     const template = `
@@ -65,7 +35,9 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
             <ButtonGroup name='cost' label='Cost' options='{stacks}' multiple='{true}'>{cost}</ButtonGroup>
 
-            <ButtonGroup name='restriction' label='Restriction' options='{stacks}' multiple='{true}'>{restriction}</ButtonGroup>
+            <ButtonGroup name='restricted' label='Restrict' options='{stacks}' multiple='{true}'>{restricted}</ButtonGroup>
+
+            <ButtonGroup name='allowed' label='Allow' options='{stacks}' multiple='{true}'>{allowed}</ButtonGroup>
 
             <ButtonGroup name='condition' label='Condition' options='{stacks}' multiple='{true}'>{condition}</ButtonGroup>
 
@@ -86,11 +58,21 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='faction' label='Faction' options='{factions}' showImage='{true}'>{@item.faction}</Dropdown>
 
+                    <Dropdown name='token' label='Token' options='{tokens}' showImage='{true}'>{@item.token}</Dropdown>
+
                     <Dropdown name='choice' label='Choice' options='{choices}' showImage='{true}'>{@item.choice}</Dropdown>
 
-                    <Dropdown name='keyword' label='Keyword' options='{keywords}'>{@item.keyword}</Dropdown>
+                    <TextInput name='keywords' label='Keyword'>{@item.keywords}</TextInput>
+
+                    <TextInput name='value' label='Value'>{@item.value}</TextInput>
 
                     <NumberInput name='amount' label='Amount'>{@item.amount}</NumberInput>
+
+                    <ButtonGroup name='random_amount' label='Randomize amount' options='{random}'>{@item.random}</ButtonGroup>
+
+                    <NumberInput name='max_amount' label='Max amount'>{@item.max_amount}</NumberInput>
+
+                    <NumberInput name='min_amount' label='Min amount'>{@item.min_amount}</NumberInput>
                 </Form>
 
             </Group>
@@ -102,17 +84,18 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const result = parse({
         source: template,
         context: {
-            data, configs, cost, restriction, condition,
+            data, configs, cost, restricted, allowed, condition,
             types: keys(types).map(key => ({ value: key, label: types[key] })),
             modes: keys(ACTION_MODE).map(key => ({ value: key, label: ACTION_MODE[key] })),
-            targets: values(targets),
+            targets: composeFromObject(TARGET_TYPE),
             resources: composeResourceOptions(ent),
             conditions: composeConditionOptions(ent),
             choices: composeChoiceOptions(ent),
             factions: composeFactionOptions(ent),
+            tokens: [],
             actions: composeActionOptions(ent),
-            keywords: composeKeywordOptions([ent.resources]),
             stacks: composeStackOptions(ent),
+            random: composeBooleanOptions()
         },
     }, true);
 

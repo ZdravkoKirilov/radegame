@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 
 import { AppState, selectGameId, selectStageId } from '@app/core';
 import {
-    Field, Game, MapPath, MapLocationList, MapLocation,
+    Field, Game, StagePath, StageLocationList, StageLocation,
     Stage, SceneRenderService
 } from '@app/game-mechanics';
 import { getItems, getEntities } from '../../state';
@@ -35,11 +35,11 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
     pathCreationMode: boolean;
 
     selectedField: Field;
-    selectedPath: MapPath;
+    selectedPath: StagePath;
 
     fields$: Observable<Field[]>;
-    paths$: Observable<MapPath[]>;
-    locations$: Observable<MapLocationList>;
+    paths$: Observable<StagePath[]>;
+    locations$: Observable<StageLocationList>;
 
     connectedEntities$: Observable<ConnectedEntities>;
 
@@ -88,22 +88,22 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
         this.asList = showAsList;
     }
 
-    savePath(path: MapPath) {
+    savePath(path: StagePath) {
         const pathPayload = { ...path, game: this.gameId, stage: this.stageId };
         this.store.dispatch(new SaveItemAction({ key: this.pKey, data: pathPayload }));
     }
 
-    removePath(path: MapPath) {
+    removePath(path: StagePath) {
         this.store.dispatch(new DeleteItemAction({ key: this.pKey, data: path }));
         this.selectedPath = null;
     }
 
-    selectPath(path: MapPath) {
+    selectPath(path: StagePath) {
         this.selectedField = null;
         this.selectedPath = path;
     }
 
-    saveMapLocation(payload: MapLocation) {
+    saveMapLocation(payload: StageLocation) {
         this.store.dispatch(new SaveItemAction({ key: this.lKey, data: payload }));
     }
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 
-import { Field, MapPath } from '@app/game-mechanics';
+import { Field, StagePath } from '@app/game-mechanics';
 
 @Component({
     selector: 'rg-map-toolbar',
@@ -15,10 +15,10 @@ export class MapToolbarComponent {
     @Output() deleteField: EventEmitter<Field> = new EventEmitter();
     @Output() enterPathCreationMode: EventEmitter<any> = new EventEmitter();
     @Output() exitPathCreationMode: EventEmitter<any> = new EventEmitter();
-    @Output() deletePath: EventEmitter<MapPath> = new EventEmitter();
+    @Output() deletePath: EventEmitter<StagePath> = new EventEmitter();
 
     @Input() pathCreationMode: boolean;
-    @Input() selectedPath: MapPath;
+    @Input() selectedPath: StagePath;
     @Input() selectedField: Field;
     @Input() hasBackground: boolean;
 

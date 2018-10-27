@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { Field, MapLocation, MapPath, Stage, SceneRenderService } from '@app/game-mechanics';
+import { Field, StageLocation, StagePath, Stage, SceneRenderService } from '@app/game-mechanics';
 import { KEYCODES } from '../../../../utils';
 import { propHasChanged, getPropValue } from '@app/shared';
 
@@ -18,24 +18,24 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild('canvasWrapper') canvasWrapper: ElementRef;
 
     @Output() changeBackground: EventEmitter<any> = new EventEmitter();
-    @Output() saveMapLocation: EventEmitter<MapLocation> = new EventEmitter();
+    @Output() saveMapLocation: EventEmitter<StageLocation> = new EventEmitter();
     @Output() deleteField: EventEmitter<any> = new EventEmitter();
     @Output() selectField: EventEmitter<number> = new EventEmitter();
     @Output() setPathCreation: EventEmitter<boolean> = new EventEmitter();
-    @Output() createPath: EventEmitter<MapPath> = new EventEmitter();
-    @Output() deletePath: EventEmitter<MapPath> = new EventEmitter();
-    @Output() selectPath: EventEmitter<MapPath> = new EventEmitter();
+    @Output() createPath: EventEmitter<StagePath> = new EventEmitter();
+    @Output() deletePath: EventEmitter<StagePath> = new EventEmitter();
+    @Output() selectPath: EventEmitter<StagePath> = new EventEmitter();
     @Output() editField: EventEmitter<any> = new EventEmitter();
 
     @Input() stage: Stage;
     @Input() fields: Field[];
     @Input() lastInsertedField: number;
-    @Input() mapLocations: { [key: string]: MapLocation } = {};
-    @Input() mapPaths: MapPath[];
+    @Input() mapLocations: { [key: string]: StageLocation } = {};
+    @Input() mapPaths: StagePath[];
     @Input() hidden: boolean;
     @Input() pathCreationMode: boolean;
     @Input() selectedField: Field;
-    @Input() selectedPath: MapPath;
+    @Input() selectedPath: StagePath;
 
     private subs: Subscription[] = [];
 
@@ -51,16 +51,16 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
         const { scr } = this;
 
         const nodeMoved = scr.nodeMoved
-            .subscribe((loc: MapLocation) => {
+            .subscribe((loc: StageLocation) => {
                 this.saveMapLocation.emit(loc);
             });
-        const nodeSelected = scr.nodeSelected.subscribe((loc: MapLocation) => {
+        const nodeSelected = scr.nodeSelected.subscribe((loc: StageLocation) => {
             const currentSelect = this.selectedField;
             if (this.pathCreationMode && currentSelect) {
                 const fromLoc = this.mapLocations[currentSelect.id].id;
                 const toLoc = this.mapLocations[loc.field].id;
                 if (fromLoc && toLoc) {
-                    const payload: MapPath = { fromLoc, toLoc };
+                    const payload: StagePath = { fromLoc, toLoc };
                     this.createPath.emit(payload);
                     this.selectField.emit(null);
                 }
@@ -70,7 +70,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
             }
 
         });
-        const pathSelected = scr.pathSelected.subscribe((data: MapPath) => {
+        const pathSelected = scr.pathSelected.subscribe((data: StagePath) => {
             this.selectField.emit(null);
             this.selectPath.emit(data);
         });

@@ -1,7 +1,7 @@
 import {
     ResourceList, FactionList, FieldList, ActionList,
-    ConditionList, StageList, RoundList, MapLocationList,
-    MapPathList, ChoiceList
+    ConditionList, StageList, RoundList, StageLocationList,
+    StagePathList, ChoiceList
 } from '../entities';
 import { formKeys } from '@app/game-editor';
 
@@ -14,8 +14,8 @@ export type GameTemplate = {
     conditions?: ConditionList;
     rounds?: RoundList;
     stages?: StageList;
-    locations?: MapLocationList;
-    paths?: MapPathList;
+    locations?: StageLocationList;
+    paths?: StagePathList;
     choices?: ChoiceList;
 }
 

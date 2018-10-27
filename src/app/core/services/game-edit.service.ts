@@ -8,9 +8,8 @@ import {
     Faction,
     Resource,
     Game,
-    MapLocation,
-    MapPath,
-    GameMap,
+    StageLocation,
+    StagePath,
     GameAction,
     Condition,
     Round,
@@ -28,7 +27,7 @@ export class GameEditService {
     constructor(private http: HttpClient) {
     }
 
-    saveMapPath(data: MapPath): Observable<any> {
+    saveMapPath(data: StagePath): Observable<any> {
         if (data.id) {
             return this.http.patch(API_URLS.PATHS(data.game, data.id), data);
         } else {
@@ -36,7 +35,7 @@ export class GameEditService {
         }
     }
 
-    deleteMapPath(data: MapPath): Observable<any> {
+    deleteMapPath(data: StagePath): Observable<any> {
         return this.http.delete(API_URLS.PATHS(data.game, data.id));
     }
 
@@ -233,22 +232,11 @@ export class GameEditService {
         return this.http.delete(API_URLS.CHOICES(data.game, data.id));
     }
 
-    saveMap(data: GameMap): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
-
-        if (data.id) {
-            return this.http.patch(API_URLS.MAPS(data.game, data.id), formData, options);
-        } else {
-            return this.http.post(API_URLS.MAPS(data.game), formData, options);
-        }
-    }
-
     getMaps(gameId: number): Observable<any> {
         return this.http.get(API_URLS.MAPS(gameId));
     }
 
-    saveMapLocation(data: MapLocation): Observable<any> {
+    saveMapLocation(data: StageLocation): Observable<any> {
         if (data.id) {
             return this.http.patch(API_URLS.LOCATIONS(data.game, data.id), data);
         } else {

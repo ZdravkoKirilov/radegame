@@ -4,7 +4,7 @@ import { autoDetectRenderer, Container, Sprite } from 'pixi.js-legacy';
 
 import { WindowRefService } from '@app/core';
 import { SpriteComponent, MapNode, Path } from './graphics';
-import { MapLocation, MapPath } from '../entities';
+import { StageLocation, StagePath } from '../entities';
 
 @Injectable()
 export class SceneRenderService {
@@ -16,15 +16,15 @@ export class SceneRenderService {
     private pathsStage: Container;
     private backgroundSprite: Sprite;
     private nodes: { [key: string]: MapNode } = {};
-    private paths: { [key: string]: Path } = {};
+    private paths: { [key: string]: StagePath } = {};
     private initialized = false;
 
     private selectedNode: number;
     private selectedPath: number;
 
-    public nodeMoved: Subject<MapLocation> = new Subject();
-    public nodeSelected: Subject<MapLocation> = new Subject();
-    public pathSelected: Subject<MapPath> = new Subject();
+    public nodeMoved: Subject<StageLocation> = new Subject();
+    public nodeSelected: Subject<StageLocation> = new Subject();
+    public pathSelected: Subject<StagePath> = new Subject();
     public keypress: Subject<KeyboardEvent> = new Subject();
 
     constructor(private windowRef: WindowRefService) {
@@ -50,7 +50,7 @@ export class SceneRenderService {
         this.initialized = true;
     }
 
-    saveElement(image: string, data: MapLocation, id: number): MapNode {
+    saveElement(image: string, data: StageLocation, id: number): MapNode {
         if (this.initialized) {
             let node;
             if (id in this.nodes) {
@@ -75,10 +75,10 @@ export class SceneRenderService {
         node.change.subscribe(() => {
             this.render();
         });
-        node.moved.subscribe((loc: MapLocation) => {
+        node.moved.subscribe((loc: StageLocation) => {
             this.nodeMoved.next(loc);
         });
-        node.select.subscribe((loc: MapLocation) => {
+        node.select.subscribe((loc: StageLocation) => {
             this.nodeSelected.next(loc);
         });
     }
@@ -95,41 +95,41 @@ export class SceneRenderService {
         }
     }
 
-    savePath(data: MapPath, id: number): Path {
+    savePath(data: StagePath, id: number) {
         if (this.initialized) {
-            const from: MapNode = this.nodes[data.fromLoc];
-            const to: MapNode = this.nodes[data.toLoc];
-            if (from && to && !(id in this.paths)) {
-                const path = new Path(data, from, to);
-                this.paths[id] = path;
-                this.pathsStage.addChild(path.graphics);
-                this.attachPathEvents(path);
-                this.render();
-                return path;
-            } else {
-                console.error('Possible bug in .savePath');
-            }
+            // const from: MapNode = this.nodes[data.fromLoc];
+            // const to: MapNode = this.nodes[data.toLoc];
+            // if (from && to && !(id in this.paths)) {
+            //     const path = new Path(data, from, to);
+            //     this.paths[id] = path;
+            //     this.pathsStage.addChild(path.graphics);
+            //     this.attachPathEvents(path);
+            //     this.render();
+            //     return path;
+            // } else {
+            //     console.error('Possible bug in .savePath');
+            // }
         }
     }
 
-    attachPathEvents(path: Path) {
-        path.select.subscribe((data: MapPath) => {
-            this.pathSelected.next(data);
-        });
-        path.change.subscribe(() => {
-            this.render();
-        });
+    attachPathEvents(path: StagePath) {
+        // path.select.subscribe((data: StagePath) => {
+        //     this.pathSelected.next(data);
+        // });
+        // path.change.subscribe(() => {
+        //     this.render();
+        // });
     }
 
     removePath(id) {
-        if (this.initialized) {
-            const path: Path = this.paths[id];
-            if (path) {
-                delete this.paths[id];
-                this.pathsStage.removeChild(path.graphics);
-                this.render();
-            }
-        }
+        // if (this.initialized) {
+        //     const path: StagePath = this.paths[id];
+        //     if (path) {
+        //         delete this.paths[id];
+        //         this.pathsStage.removeChild(path.graphics);
+        //         this.render();
+        //     }
+        // }
     }
 
     updateBackground(image: string) {
@@ -174,26 +174,26 @@ export class SceneRenderService {
     }
 
     changeSelectedPath(id?: number, selected?: boolean) {
-        if (id) {
-            if (this.selectedPath !== id) {
-                this.deselectPath();
-                this.selectedPath = id;
-            }
-            if (id in this.paths) {
-                this.paths[id].selected = selected;
-                this.changeSelectedNode(null);
-            }
-        } else {
-            this.deselectPath();
-            this.selectedPath = null;
-        }
+        // if (id) {
+        //     if (this.selectedPath !== id) {
+        //         this.deselectPath();
+        //         this.selectedPath = id;
+        //     }
+        //     if (id in this.paths) {
+        //         this.paths[id].selected = selected;
+        //         this.changeSelectedNode(null);
+        //     }
+        // } else {
+        //     this.deselectPath();
+        //     this.selectedPath = null;
+        // }
     }
 
     deselectPath() {
-        const current = this.paths[this.selectedPath];
-        if (current) {
-            current.selected = false;
-        }
+        // const current = this.paths[this.selectedPath];
+        // if (current) {
+        //     current.selected = false;
+        // }
     }
 
     private attachKeyboardListeners(canvas: HTMLCanvasElement) {

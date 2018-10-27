@@ -1,9 +1,17 @@
 import { BaseModel } from "./Base.model";
+import { GameAction } from "./Action.model";
+import { Condition } from "./Condition.model";
+import { Choice } from "./Choice.model";
+import { Token } from "./Faction.model";
+import { Resource } from "./Resource.model";
 
 export type Stack = BaseModel & Partial<{
 
-    action: number;
-    condition: number;
+    action: number | GameAction;
+    condition: number | Condition;
+    choice: number | Choice;
+    token: number | Token;
+    resource: number | Resource;
 
     relation: StackRelation;
 }>;

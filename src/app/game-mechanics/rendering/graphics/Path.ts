@@ -1,20 +1,20 @@
 import { Subject } from 'rxjs';
 import { Graphics, Polygon, Point } from 'pixi.js-legacy';
 
-import { MapPath } from '../../entities';
+import { StagePath } from '../../entities';
 import { MapNode } from './Node';
 
 export class Path {
-    public select: Subject<MapPath> = new Subject();
+    public select: Subject<StagePath> = new Subject();
     public change: Subject<any> = new Subject();
     public graphics: Graphics;
-    private data: MapPath;
+    private data: StagePath;
     private from: MapNode;
     private to: MapNode;
     private hovered = false;
     private _selected = false;
 
-    constructor(data: MapPath, from: MapNode, to: MapNode) {
+    constructor(data: StagePath, from: MapNode, to: MapNode) {
         this.data = data;
         this.from = from;
         this.to = to;

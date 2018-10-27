@@ -1,4 +1,7 @@
 import { BaseModel } from "./Base.model";
+import { Choice } from "./Choice.model";
+import { GameAction } from "./Action.model";
+import { Condition } from "./Condition.model";
 
 export type Pool = BaseModel & Partial<{
 
@@ -17,8 +20,9 @@ export type PoolItem = Partial<{
     id: number;
     owner: number;
 
-    action: number;
-    condition: number;
+    action: number | GameAction;
+    condition: number | Condition;
+    choice: number | Choice;
 
     quota: number;
 
