@@ -9,7 +9,7 @@ import {
     TARGET_TYPE, ACTION_MODE
 } from '@app/game-mechanics';
 import {
-    composeResourceOptions, composeKeywordOptions,
+    composeResourceOptions,
     composeConditionOptions, composeChoiceOptions, composeFactionOptions, composeActionOptions, composeStackOptions, composeFromObject, composeBooleanOptions,
 } from '../helpers';
 

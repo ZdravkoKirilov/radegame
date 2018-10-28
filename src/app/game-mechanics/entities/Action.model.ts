@@ -24,6 +24,8 @@ export type ActionConfig = Partial<{
     type: ActionType;
     target: ActionTarget;
 
+    value: string;
+    
     amount: number;
     max_amount: number;
     min_amount: number;

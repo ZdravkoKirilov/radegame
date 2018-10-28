@@ -71,7 +71,7 @@ export function composeFactionOptions(ent: ConnectedEntities): Option[] {
 }
 
 export function composeTokenOptions(ent: ConnectedEntities): Option[] {
-    return ent.tokens.map(elem => ({
+    return [].map(elem => ({
         label: elem.name,
         value: elem.id,
         image: elem.image

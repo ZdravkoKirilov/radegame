@@ -1,134 +1,90 @@
-import { Condition, QuestCondition, QuestEffect, QUEST_CONDITION as cnd, QUEST_CONDITION } from '@app/game-mechanics';
-import { ConnectedEntities, controlTypes, BaseControl, Option } from '@app/dynamic-forms';
-import {
-    composeActionOptions, composeFieldOptions, composeRoundOptions, composeResourceOptions, composeStageOptions,
-    composeFromObject, composeKeywordOptions, composeEntityItem, composeConditionOptions
-} from '../helpers';
+import { Condition, CONDITION_MODES, CLAUSE_TYPE, CLAUSE_RELATIONS } from "@app/game-mechanics";
+import { ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
+import { composeFromObject, composeStackOptions, composeConditionOptions, composeActionOptions, composeResourceOptions, composeFieldOptions, composeTokenOptions, composeFactionOptions, composeChoiceOptions, composeRoundOptions } from "../helpers";
 
-export function QUEST_DEF(data: Condition = {}, ent: ConnectedEntities): BaseControl[] {
-    data = data || <Condition>{ penalty: [], condition: [], award: [] };
-    const activities = composeActionOptions(ent);
-    const fields = composeFieldOptions(ent);
-    const rounds = composeRoundOptions(ent);
-    const resources = composeResourceOptions(ent);
-    const stages = composeStageOptions(ent);
-    const quests = composeConditionOptions(ent);
-    const keywords = composeKeywordOptions([ent.resources, ent.factions, ent.actions, ent.fields, ent.conditions]);
+export function composeConditionForm(data: Condition, ent: ConnectedEntities): BaseControl[] {
+    data = data || {};
 
-    const conditionType = {
-        name: 'type',
-        controlType: controlTypes.DROPDOWN,
-        label: 'Condition type',
-        options: composeFromObject(QUEST_CONDITION),
-    };
+    const clauses = data.clauses || [];
+    const award = data.award || [];
+    const penalty = data.penalty || [];
+    const restricted = data.restricted || [];
+    const allowed = data.allowed || [];
 
-    const cond_childTemplate: BaseControl = {
-        type: controlTypes.FORM,
-        children: [
-            conditionType,
-            { name: 'id', hidden: true, type: controlTypes.TEXT_INPUT },
-            {
-                name: 'at_round',
-                type: controlTypes.DROPDOWN,
-                label: 'At round',
-                options: rounds
-            }, {
-                name: 'by_round',
-                type: controlTypes.DROPDOWN,
-                label: 'By round',
-                options: rounds
-            }, {
-                name: 'field',
-                type: controlTypes.DROPDOWN,
-                label: 'Field',
-                options: fields
-            }, {
-                name: 'resource',
-                type: controlTypes.DROPDOWN,
-                label: 'Resource',
-                options: resources
-            }, {
-                name: 'activity',
-                type: controlTypes.DROPDOWN,
-                label: 'Action',
-                options: activities
-            }, {
-                name: 'quest',
-                type: controlTypes.DROPDOWN,
-                label: 'Quest',
-                options: quests
-            }, {
-                name: 'keyword',
-                type: controlTypes.DROPDOWN,
-                label: 'Keyword',
-                options: keywords
-            }, {
-                name: 'amount',
-                type: controlTypes.NUMBER_INPUT,
-                label: 'Amount',
-            }
-        ],
-    };
+    const template = `
+    <Form>
+        <TextInput name='name' required='{true}' label='Condition name'>{data.name}</TextInput>
 
-    return [{
-        type: controlTypes.NUMBER_INPUT,
-        hidden: true,
-        name: 'id',
-        value: data.id,
-    }, {
-        name: 'name',
-        type: controlTypes.TEXT_INPUT,
-        value: data.name,
-        label: 'Quest name',
-        required: true
-    }, {
-        name: 'description',
-        type: controlTypes.TEXT_INPUT,
-        value: data.description,
-        label: 'Quest description',
-    }, {
-        name: 'keywords',
-        type: controlTypes.TAGS_INPUT,
-        value: data.keywords,
-        label: 'Keywords',
-    }, {
-        name: 'image',
-        type: controlTypes.IMAGE_PICKER,
-        label: 'Quest image',
-        required: false,
-        value: data.image,
-        asBase64: true
-    }, {
-        name: 'stage',
-        type: controlTypes.DROPDOWN,
-        label: 'Stage',
-        value: data.stage,
-        options: stages,
-        showImage: true
-    }, {
-        name: 'condition',
-        type: controlTypes.GROUP,
-        label: 'Quest condition: ',
-        addButtonText: 'Add condition',
-        connectedEntities: ent,
-        children: data.condition.map(elem => composeEntityItem(elem, cond_childTemplate)),
-        childTemplate: cond_childTemplate
-    }, {
-        name: 'award',
-        type: controlTypes.BUTTON_GROUP,
-        label: 'Quest award: ',
-        options: activities,
-        value: data.award,
-        valueField: 'activity',
-        multiple: true
-    }, {
-        name: 'penalty',
-        type: controlTypes.BUTTON_GROUP,
-        label: 'Quest penalty: ',
-        options: activities,
-        value: data.penalty,
-        valueField: 'activity',
-        multiple: true
-    }
-    ];
+        <TextInput name='description' label='Description'>{data.description}</TextInput>
+
+        <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
+
+        <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+
+        <Dropdown name='mode' label='Condition mode' options='{modes}'>{data.mode}</Dropdown>
+
+        <ButtonGroup name='award' label='Award' options='{stacks}' multiple='{true}'>{award}</ButtonGroup>
+
+        <ButtonGroup name='penalty' label='Penalty' options='{stacks}' multiple='{true}'>{penalty}</ButtonGroup>
+
+        <ButtonGroup name='restricted' label='Restrict' options='{stacks}' multiple='{true}'>{restricted}</ButtonGroup>
+
+        <ButtonGroup name='allowed' label='Allow' options='{stacks}' multiple='{true}'>{allowed}</ButtonGroup>
+
+        <Group name='clauses' label='Condition clauses' children='{clauses}' item='@item' addButtonText='Add'>
+
+            <Form>
+                <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+
+                <Dropdown name='type' label='Type' options='{types}' required='{true}'>{@item.type}</Dropdown>
+
+                <Dropdown name='condition' label='Condition' options='{conditions}'>{@item.condition}</Dropdown>
+
+                <Dropdown name='action' label='Action' options='{actions}'>{@item.action}</Dropdown>
+
+                <Dropdown name='faction' label='Faction' options='{factions}'>{@item.faction}</Dropdown>
+
+                <Dropdown name='token' label='Token' options='{tokens}'>{@item.token}</Dropdown>
+
+                <Dropdown name='resource' label='Resource' options='{resources}'>{@item.resource}</Dropdown>
+
+                <Dropdown name='field' label='Field' options='{fields}'>{@item.field}</Dropdown>
+
+                <Dropdown name='choice' label='Choice' options='{choices}'>{@item.choice}</Dropdown>
+
+                <Dropdown name='round' label='Round' options='{rounds}'>{@item.round}</Dropdown>
+
+                <TextInput name='keywords' label='Keyword'>{@item.keywords}</TextInput>
+
+                <NumberInput name='amount' label='Amount'>{@item.amount}</NumberInput>
+
+                <Dropdown name='relation' label='Relation' options='{relations}'>{@item.relation}</Dropdown>
+              
+            </Form>
+
+        </Group>
+    </Form>
+    `;
+
+    const result = parse({
+        source: template,
+        context: {
+            data, clauses, award, penalty, restricted, allowed,
+            modes: composeFromObject(CONDITION_MODES),
+            relations: composeFromObject(CLAUSE_RELATIONS),
+            stacks: composeStackOptions(ent),
+            types: composeFromObject(CLAUSE_TYPE),
+            conditions: composeConditionOptions(ent),
+            actions: composeActionOptions(ent),
+            resources: composeResourceOptions(ent),
+            fields: composeFieldOptions(ent),
+            tokens: composeTokenOptions(ent),
+            factions: composeFactionOptions(ent),
+            choices: composeChoiceOptions(ent),
+            rounds: composeRoundOptions(ent),
+        },
+    }, true);
+
+    return result as BaseControl[];
+
 }

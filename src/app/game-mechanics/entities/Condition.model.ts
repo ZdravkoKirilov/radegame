@@ -1,59 +1,83 @@
+import { BaseModel } from './Base.model';
+import { Stack } from './Stack.model';
 import { GameAction } from './Action.model';
+import { Resource } from './Resource.model';
+import { Token, Faction } from './Faction.model';
+import { Choice } from './Choice.model';
+import { Field } from './Field.model';
+// import { Stack } from './Stack.model';
 
-export interface Condition {
-    id?: number;
-    game?: number;
-    name?: string;
-    description?: string;
-    keywords?: string;
-    image?: string;
-    stage?: number;
-    award?: QuestEffect[];
-    penalty?: QuestEffect[];
-    condition?: QuestCondition[];
-}
+export type Condition = BaseModel & Partial<{
+
+    mode: ConditionMode;
+
+    award: number[] | Stack[];
+    penalty: number[] | Stack[];
+
+    restricted: number[] | Stack[];
+    allowed: number[] | Stack[];
+
+    clauses: number[] | Clause[];
+}>
 
 export interface ConditionList {
     [key: string]: Condition;
 }
 
-export interface QuestCondition {
-    id?: number;
-    owner?: number;
-    type?: QuestConditionType;
-    field?: number;
-    resource?: number;
-    activity?: number;
-    quest?: number;
-    keyword?: string;
-    amount?: number;
-    by_round?: number;
-    at_round?: number;
+export type Clause = Partial<{
+    id: number;
+    owner: number | Condition;
+
+    type: ClauseType;
+
+    condition: number | Condition;
+    action: number | GameAction;
+    resource: number | Resource;
+    token: number | Token;
+    choice: number | Choice;
+    faction: number | Faction;
+    field: number | Field;
+    keywords: string;
+
+    amount: number;
+
+    relation: ClauseRelation;
+}>
+
+export const CLAUSE_TYPE = {
+    'CLAIM': 'CLAIM',
+    'REACH': 'REACH',
+    'MEET': 'MEET',
+    'AVOID': 'AVOID',
+    'COMPLETE': 'COMPLETE',
+    'PLAY': 'PLAY',
+    'PLAY_MAX': 'PLAY_MAX',
+    'HAVE': 'HAVE',
+    'HAVE_MAX': 'HAVE_MAX',
+    'HAVE_MORE': 'HAVE_MORE',
+    'HAVE_LESS': 'HAVE_LESS',
+    'IS': 'IS',
+    'IS_BEFORE': 'IS_BEFORE',
+    'IS_AFTER': 'IS_AFTER',
 }
 
-export interface QuestEffect {
-    id?: number;
-    activity?: GameAction;
+export const CLAUSE_RELATIONS = {
+    'AND': 'AND',
+    'OR': 'OR',
+    'NOT': 'NOT',
 }
 
-export const QUEST_CONDITION = {
-    GATHER: 'GATHER',
-    CLAIM: 'CLAIM', // field, keyword
-    REACH: 'REACH', // field, keyword
-    MEET: 'MEET', // faction, keyword
-    AVOID: 'AVOID', // faction, activity, keyword
-    COMPLETE: 'COMPLETE', // quest, keyword
-    TRIGGER: 'TRIGGER' // quest, activity, keyword
-};
+export const CONDITION_MODES = {
+    'TRAP': 'TRAP',
+    'TRIGGER': 'TRIGGER',
+    'HYBRID': 'HYBRID',
+    'AUTO': 'AUTO',
+}
 
-export type QuestConditionType =
-    typeof QUEST_CONDITION.CLAIM |
-    typeof QUEST_CONDITION.REACH |
-    typeof QUEST_CONDITION.MEET |
-    typeof QUEST_CONDITION.AVOID |
-    typeof QUEST_CONDITION.COMPLETE |
-    typeof QUEST_CONDITION.TRIGGER |
-    typeof QUEST_CONDITION.GATHER;
+type ConditionMode = keyof typeof CONDITION_MODES;
+type ClauseRelation = keyof typeof CLAUSE_RELATIONS;
+type ClauseType = keyof typeof CLAUSE_TYPE;
+
 
 
 
