@@ -9,11 +9,7 @@ export type Round = BaseModel & Partial<{
     activities: RoundActivity[];
 }>
 
-export type Phase = Partial<{
-    id: number;
-    image: string;
-    name: string;
-}>
+export type Phase = BaseModel;
 
 export interface RoundCondition {
     id?: number;

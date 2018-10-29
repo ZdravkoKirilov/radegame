@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '@app/core';
-import { GameEntity, GameAction, Field, Condition, Round, Faction, Pool, Stack } from '@app/game-mechanics';
+import { GameEntity, GameAction, Field, Condition, Round, Faction, Pool, Stack, Token, Phase } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
 import {
     GenericActionPayload,
@@ -116,6 +116,10 @@ export class GenericEffectsService {
                 return this.api.getPools(data);
             case formKeys.STACKS:
                 return this.api.getStacks(data);
+            case formKeys.TOKENS:
+                return this.api.getTokens(data);
+            case formKeys.PHASES:
+                return this.api.getPhases(data);
             case formKeys.GAMES:
                 return this.api.getGames()
             default:
@@ -149,6 +153,10 @@ export class GenericEffectsService {
                 return this.api.savePool(<Pool>entity);
             case formKeys.STACKS:
                 return this.api.saveStack(<Stack>entity);
+            case formKeys.TOKENS:
+                return this.api.saveToken(<Token>entity);
+            case formKeys.PHASES:
+                return this.api.savePhase(<Phase>entity);
             case formKeys.GAMES:
                 return this.api.saveGame(entity)
             default:
@@ -180,6 +188,10 @@ export class GenericEffectsService {
                 return this.api.deletePool(<Pool>entity);
             case formKeys.STACKS:
                 return this.api.deleteStack(<Stack>entity);
+            case formKeys.TOKENS:
+                return this.api.deleteToken(entity);
+            case formKeys.PHASES:
+                return this.api.deletePhase(entity);
             default:
                 return of(null);
         }

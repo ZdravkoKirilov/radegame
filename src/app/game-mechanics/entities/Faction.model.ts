@@ -1,5 +1,4 @@
 import { BaseModel } from "./Base.model";
-import { Omit } from "@app/shared";
 import { Round } from "./Round.model";
 import { Pool } from "./Pool.model";
 
@@ -16,7 +15,7 @@ export type Faction = BaseModel & Partial<{
 
 }>
 
-export type Token = Omit<BaseModel, 'game'> & Partial<{
+export type Token = BaseModel & Partial<{
 
     resource_limit: number;
 

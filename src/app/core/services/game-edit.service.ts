@@ -17,6 +17,8 @@ import {
     Stage,
     Stack,
     Pool,
+    Token,
+    Phase,
 } from '@app/game-mechanics';
 import { toMultipartFormData } from '@app/shared';
 import { API_URLS } from '../config';
@@ -205,6 +207,44 @@ export class GameEditService {
 
     deletePool(data: Pool): Observable<any> {
         return this.http.delete(API_URLS.POOLS(data.game, data.id));
+    }
+
+    getTokens(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.TOKENS(gameId));
+    }
+
+    saveToken(data: Token): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = { headers: new HttpHeaders({}) };
+
+        if (data.id) {
+            return this.http.patch(API_URLS.TOKENS(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.TOKENS(data.game), formData, options);
+        }
+    }
+
+    deleteToken(data: Token): Observable<any> {
+        return this.http.delete(API_URLS.TOKENS(data.game, data.id));
+    }
+
+    getPhases(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.PHASES(gameId));
+    }
+
+    savePhase(data: Phase): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = { headers: new HttpHeaders({}) };
+
+        if (data.id) {
+            return this.http.patch(API_URLS.PHASES(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.PHASES(data.game), formData, options);
+        }
+    }
+
+    deletePhase(data: Phase): Observable<any> {
+        return this.http.delete(API_URLS.PHASES(data.game, data.id));
     }
 
     getChoices(gameId: number): Observable<any> {

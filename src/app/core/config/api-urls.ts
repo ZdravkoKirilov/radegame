@@ -58,6 +58,14 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/pools/`;
         return stageId ? `${base}${stageId}/` : base;
     },
+    TOKENS: (gameId: number, stageId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/tokens/`;
+        return stageId ? `${base}${stageId}/` : base;
+    },
+    PHASES: (gameId: number, stageId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/phases/`;
+        return stageId ? `${base}${stageId}/` : base;
+    },
 };
 
 export const AUTH_URLS = {
