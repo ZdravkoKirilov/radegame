@@ -1,9 +1,9 @@
 <rg-entity-view
         [formDefinition]="formDefinition"
-        [items]="items"
+        [items]="items$ | async"
         [showEditor]="showEditor"
         [selectedItem]="selectedItem"
-        [connectedEntities]="connectedEntities"
+        [connectedEntities]="connectedEntities$ | async"
         (toggleEditor)="toggleEditor($event)"
         (saveItem)="saveItem($event)"
         (editItem)="editItem($event)"

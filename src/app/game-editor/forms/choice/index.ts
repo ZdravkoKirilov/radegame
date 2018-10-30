@@ -1,64 +1,67 @@
-import { Choice, ChoiceOption } from '@app/game-mechanics';
-import { BaseControl, Option, controlTypes, ConnectedEntities } from '@app/dynamic-forms';
-import { composeActionOptions, composeEntityItem } from '../helpers';
+import { Choice, CHOICE_MODE } from '@app/game-mechanics';
+import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
+import { composeStackOptions, composeFromObject } from '../helpers';
 
-export function TRIVIA_DEF(data: Choice, ent: ConnectedEntities): BaseControl[] {
-    data = data || { answers: [] };
+export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
+    data = data || {};
+    const options = data.options || [];
+    const cost = data.cost || [];
+    const restricted = data.restricted || [];
+    const allowed = data.allowed || [];
+    const condition = data.condition || [];
 
-    const activities = composeActionOptions(ent);
-    const triviaAnswerTemplate: BaseControl = {
-        type: controlTypes.FORM,
-        children: [
-            { name: 'id', type: controlTypes.TEXT_INPUT, hidden: true },
-            {
-                name: 'description',
-                type: controlTypes.TEXT_INPUT,
-                label: 'Answer text',
-                required: false
-            }, {
-                name: 'image',
-                type: controlTypes.IMAGE_PICKER,
-                label: 'Image',
-                asBase64: true
-            }, {
-                type: controlTypes.BUTTON_GROUP,
-                name: 'effect',
-                label: 'Effect',
-                multiple: true,
-                options: activities,
-                valueField: 'activity',
-                value: []
-            }
-        ]
-    };
+    const template = `
+    <Form>
+        <TextInput name='name' required='{true}' label='Choice name'>{data.name}</TextInput>
 
-    return [
-        {
-            name: 'name',
-            type: controlTypes.TEXT_INPUT,
-            value: data.name,
-            label: 'Trivia name',
-            required: true
-        }, {
-            name: 'description',
-            type: controlTypes.TEXT_INPUT,
-            value: data.description,
-            label: 'Trivia question',
-            required: false
-        }, {
-            name: 'image',
-            type: controlTypes.IMAGE_PICKER,
-            label: 'Trivia image',
-            required: false,
-            value: data.image,
-            asBase64: true
-        }, {
-            name: 'answers',
-            type: controlTypes.GROUP,
-            label: 'Trivia answers',
-            addButtonText: 'Add answer',
-            children: data.answers.map(elem => composeEntityItem(elem, triviaAnswerTemplate)),
-            childTemplate: triviaAnswerTemplate
-        }
-    ];
+        <TextInput name='description' label='Description'>{data.description}</TextInput>
+
+        <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
+
+        <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+
+        <Dropdown name='mode' label='Mode' options='{modes}'>{data.mode}</Dropdown>
+
+        <ButtonGroup name='cost' label='Cost' options='{stacks}' multiple='{true}'>{cost}</ButtonGroup>
+
+        <ButtonGroup name='restricted' label='Restrict' options='{stacks}' multiple='{true}'>{restricted}</ButtonGroup>
+
+        <ButtonGroup name='allowed' label='Allow' options='{stacks}' multiple='{true}'>{allowed}</ButtonGroup>
+
+        <ButtonGroup name='condition' label='Condition' options='{stacks}' multiple='{true}'>{condition}</ButtonGroup>
+
+        <Group name='options' label='Options' children='{options}' item='@item' addButtonText='Add'>
+
+            <Form>
+                <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+
+                <NumberInput name='owner' hidden='{true}'>{@item.owner}</NumberInput>
+
+                <TextInput name='name' required='{true}' label='Choice name'>{@item.name}</TextInput>
+
+                <TextInput name='description' label='Description'>{@item.description}</TextInput>
+        
+                <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{@item.image}</ImagePicker>
+        
+                <TagsInput name='keywords' label='Keywords'>{@item.keywords}</TagsInput>
+
+                <ButtonGroup name='effect' label='Effect' options='{stacks}' multiple='{true}'>{@item.effect}</ButtonGroup>
+                
+            </Form>
+
+        </Group>
+
+    </Form>
+    `;
+
+    const result = parse({
+        source: template,
+        context: {
+            data, options, cost, condition, restricted, allowed,
+            stacks: composeStackOptions(ent),
+            modes: composeFromObject(CHOICE_MODE)
+        },
+    }, true);
+
+    return result as BaseControl[];
 }

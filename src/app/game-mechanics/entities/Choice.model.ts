@@ -1,26 +1,32 @@
-export interface Choice {
-    id?: number;
-    game?: number;
-    name?: string;
-    description?: string;
-    image?: string;
-    answers?: ChoiceOption[];
-}
+import { BaseModel } from "./Base.model";
+import { Stack } from "./Stack.model";
+import { Omit } from "@app/shared";
 
-export interface ChoiceOption {
-    id?: number;
-    trivia?: number;
-    name?: string;
-    image?: string;
-    description?: string;
-    effect?: TriviaAnswerEffect[];
-}
+export type Choice = BaseModel & Partial<{
+    mode: ChoiceMode;
 
-export interface TriviaAnswerEffect {
-    id?: number;
-    activity?: number;
-}
+    cost: number[] | Stack[];
+    condition: Stack[] | number[];
+    restricted: number[] | Stack[];
+    allowed: number[] | Stack[];
 
-export interface ChoiceList {
+    options: ChoiceOption[];
+}>
+
+export type ChoiceOption = Omit<BaseModel, 'game'> & Partial<{
+    owner: Choice | number;
+    effect: Stack[] | number[];
+}>
+
+export type ChoiceList = {
     [key: number]: Choice;
 }
+
+export type ChoiceMode = keyof typeof CHOICE_MODE;
+
+export const CHOICE_MODE = {
+    TRAP: 'TRAP',
+    TRIGGER: 'TRIGGER',
+    HYBRID: 'HYBRID',
+    AUTO: 'AUTO',
+};

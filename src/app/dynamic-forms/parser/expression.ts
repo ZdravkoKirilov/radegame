@@ -60,7 +60,8 @@ export const attrIsReserved = (value: string): boolean => {
 
 export const evaluate = (src: string, context: any): any => {
     try {
-        return (new Function("with(this) { return " + src + "}")).call(context) || '';
+        const result = (new Function("with(this) { return " + src + "}")).call(context);
+        return result !== undefined ? result : '';
     } catch (err) {
         // console.group('Problem occured with expression evaluation');
         // console.log('Src: ', src);

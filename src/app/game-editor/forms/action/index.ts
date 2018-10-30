@@ -68,7 +68,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <NumberInput name='amount' label='Amount'>{@item.amount}</NumberInput>
 
-                    <ButtonGroup name='random_amount' label='Randomize amount' options='{random}'>{@item.random}</ButtonGroup>
+                    <ButtonGroup name='random_amount' label='Randomize amount' options='{random}'>{@item.random_amount}</ButtonGroup>
 
                     <NumberInput name='max_amount' label='Max amount'>{@item.max_amount}</NumberInput>
 
