@@ -13,11 +13,12 @@ export const formKeys = {
     PATHS: 'paths',
     POOLS: 'pools',
     STACKS: 'stacks',
-    GAMES: 'games'
+    TEAMS: 'teams',
+    GAMES: 'games',
 }
 
 export type FormKey = typeof formKeys.RESOURCES | typeof formKeys.CHOICES | typeof formKeys.ROUNDS |
     typeof formKeys.CONDITIONS | typeof formKeys.STAGES | typeof formKeys.FIELDS |
     typeof formKeys.ACTIONS | typeof formKeys.FACTIONS | typeof formKeys.LOCATIONS |
     typeof formKeys.PATHS | typeof formKeys.POOLS | typeof formKeys.STACKS | typeof formKeys.TOKENS |
-    typeof formKeys.PHASES;
+    typeof formKeys.PHASES | typeof formKeys.TEAMS;

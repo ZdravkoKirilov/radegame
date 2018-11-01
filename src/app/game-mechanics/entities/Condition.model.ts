@@ -2,9 +2,10 @@ import { BaseModel } from './Base.model';
 import { Stack } from './Stack.model';
 import { GameAction } from './Action.model';
 import { Resource } from './Resource.model';
-import { Token, Faction } from './Faction.model';
+import { Faction } from './Faction.model';
 import { Choice } from './Choice.model';
 import { Field } from './Field.model';
+import { Token } from '@angular/compiler';
 // import { Stack } from './Stack.model';
 
 export type Condition = BaseModel & Partial<{

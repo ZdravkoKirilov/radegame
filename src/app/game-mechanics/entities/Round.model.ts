@@ -9,8 +9,6 @@ export type Round = BaseModel & Partial<{
     activities: RoundActivity[];
 }>
 
-export type Phase = BaseModel;
-
 export interface RoundCondition {
     id?: number;
     quest?: Condition;

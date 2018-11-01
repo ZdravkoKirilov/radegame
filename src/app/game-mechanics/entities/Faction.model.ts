@@ -15,15 +15,6 @@ export type Faction = BaseModel & Partial<{
 
 }>
 
-export type Token = BaseModel & Partial<{
-
-    resource_limit: number;
-
-    start: number | Round;
-
-    effect_pool: number[] | Pool[];
-}>
-
 export type FactionList = {
     [key: string]: Faction;
 }

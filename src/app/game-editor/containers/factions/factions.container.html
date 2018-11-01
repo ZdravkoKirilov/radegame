@@ -1,8 +1,8 @@
 <rg-entity-view
-        [items]="items"
+        [items]="items$ | async"
         [showEditor]="showEditor"
         [selectedItem]="selectedItem"
-        [connectedEntities]="connectedEntities"
+        [connectedEntities]="connectedEntities$ | async"
         [formDefinition]="formDefinition"
         (toggleEditor)="toggleEditor($event)"
         (editItem)="editItem($event)"

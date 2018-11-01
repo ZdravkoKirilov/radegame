@@ -50,21 +50,25 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/stages/`;
         return stageId ? `${base}${stageId}/` : base;
     },
-    STACKS: (gameId: number, stageId?: number) => {
+    STACKS: (gameId: number, stackId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/stacks/`;
-        return stageId ? `${base}${stageId}/` : base;
+        return stackId ? `${base}${stackId}/` : base;
     },
-    POOLS: (gameId: number, stageId?: number) => {
+    POOLS: (gameId: number, poolId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/pools/`;
-        return stageId ? `${base}${stageId}/` : base;
+        return poolId ? `${base}${poolId}/` : base;
     },
-    TOKENS: (gameId: number, stageId?: number) => {
+    TOKENS: (gameId: number, tokenId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/tokens/`;
-        return stageId ? `${base}${stageId}/` : base;
+        return tokenId ? `${base}${tokenId}/` : base;
     },
-    PHASES: (gameId: number, stageId?: number) => {
+    PHASES: (gameId: number, phaseId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/phases/`;
-        return stageId ? `${base}${stageId}/` : base;
+        return phaseId ? `${base}${phaseId}/` : base;
+    },
+    TEAMS: (gameId: number, teamId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/teams/`;
+        return teamId ? `${base}${teamId}/` : base;
     },
 };
 

@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
 
-import { Field, StagePath, StageLocationList, StageLocation, Stage } from '@app/game-mechanics';
+import { Field, PathEntity, LocationEntityList, LocationEntity, Stage } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 
 @Component({
@@ -15,10 +15,10 @@ export class FieldsComponent {
     @Output() saveField: EventEmitter<Field> = new EventEmitter();
     @Output() removeField: EventEmitter<Field> = new EventEmitter();
     @Output() selectField: EventEmitter<Field> = new EventEmitter();
-    @Output() savePath: EventEmitter<StagePath> = new EventEmitter();
-    @Output() removePath: EventEmitter<StagePath> = new EventEmitter();
-    @Output() selectPath: EventEmitter<StagePath> = new EventEmitter();
-    @Output() saveMapLocation: EventEmitter<StageLocation> = new EventEmitter();
+    @Output() savePath: EventEmitter<PathEntity> = new EventEmitter();
+    @Output() removePath: EventEmitter<PathEntity> = new EventEmitter();
+    @Output() selectPath: EventEmitter<PathEntity> = new EventEmitter();
+    @Output() saveMapLocation: EventEmitter<LocationEntity> = new EventEmitter();
     @Output() setPathCreation: EventEmitter<boolean> = new EventEmitter();
     @Output() toggleFieldEditor: EventEmitter<boolean> = new EventEmitter();
     @Output() toggleListView: EventEmitter<boolean> = new EventEmitter();
@@ -27,11 +27,11 @@ export class FieldsComponent {
     @Input() template: TemplateRef<any>;
     @Input() showFieldEditor: boolean;
     @Input() selectedField: Field;
-    @Input() selectedPath: StagePath;
+    @Input() selectedPath: PathEntity;
     @Input() formDefinition: FormDefinition;
     @Input() fields: Field[];
-    @Input() paths: StagePath[];
-    @Input() locations: StageLocationList;
+    @Input() paths: PathEntity[];
+    @Input() locations: LocationEntityList;
     @Input() stage: Stage;
     @Input() connectedEntities: ConnectedEntities;
     @Input() pathCreationMode: boolean;

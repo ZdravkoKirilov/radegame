@@ -8,8 +8,8 @@ import {
     Faction,
     Resource,
     Game,
-    StageLocation,
-    StagePath,
+    LocationEntity,
+    PathEntity,
     GameAction,
     Condition,
     Round,
@@ -29,7 +29,7 @@ export class GameEditService {
     constructor(private http: HttpClient) {
     }
 
-    saveMapPath(data: StagePath): Observable<any> {
+    saveMapPath(data: PathEntity): Observable<any> {
         if (data.id) {
             return this.http.patch(API_URLS.PATHS(data.game, data.id), data);
         } else {
@@ -37,7 +37,7 @@ export class GameEditService {
         }
     }
 
-    deleteMapPath(data: StagePath): Observable<any> {
+    deleteMapPath(data: PathEntity): Observable<any> {
         return this.http.delete(API_URLS.PATHS(data.game, data.id));
     }
 
@@ -243,6 +243,25 @@ export class GameEditService {
         }
     }
 
+    deleteTeam(data: Phase): Observable<any> {
+        return this.http.delete(API_URLS.TEAMS(data.game, data.id));
+    }
+
+    getTeams(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.TEAMS(gameId));
+    }
+
+    saveTeam(data: Phase): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = { headers: new HttpHeaders({}) };
+
+        if (data.id) {
+            return this.http.patch(API_URLS.TEAMS(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.TEAMS(data.game), formData, options);
+        }
+    }
+
     deletePhase(data: Phase): Observable<any> {
         return this.http.delete(API_URLS.PHASES(data.game, data.id));
     }
@@ -276,7 +295,7 @@ export class GameEditService {
         return this.http.get(API_URLS.MAPS(gameId));
     }
 
-    saveMapLocation(data: StageLocation): Observable<any> {
+    saveMapLocation(data: LocationEntity): Observable<any> {
         if (data.id) {
             return this.http.patch(API_URLS.LOCATIONS(data.game, data.id), data);
         } else {

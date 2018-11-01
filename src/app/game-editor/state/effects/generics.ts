@@ -120,6 +120,8 @@ export class GenericEffectsService {
                 return this.api.getTokens(data);
             case formKeys.PHASES:
                 return this.api.getPhases(data);
+            case formKeys.TEAMS:
+                return this.api.getTeams(data);
             case formKeys.GAMES:
                 return this.api.getGames()
             default:
@@ -157,6 +159,8 @@ export class GenericEffectsService {
                 return this.api.saveToken(<Token>entity);
             case formKeys.PHASES:
                 return this.api.savePhase(<Phase>entity);
+            case formKeys.TEAMS:
+                return this.api.saveTeam(entity);
             case formKeys.GAMES:
                 return this.api.saveGame(entity)
             default:
@@ -192,6 +196,8 @@ export class GenericEffectsService {
                 return this.api.deleteToken(entity);
             case formKeys.PHASES:
                 return this.api.deletePhase(entity);
+            case formKeys.TEAMS:
+                return this.api.deleteTeam(entity);
             default:
                 return of(null);
         }

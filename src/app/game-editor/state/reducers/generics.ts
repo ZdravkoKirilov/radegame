@@ -73,7 +73,8 @@ export const formReducer: ActionReducer<any> = combineReducers({
     stages: createEntityReducer(formKeys.STAGES),
     stacks: createEntityReducer(formKeys.STACKS),
     pools: createEntityReducer(formKeys.POOLS),
-    games: createEntityReducer(formKeys.GAMES)
+    games: createEntityReducer(formKeys.GAMES),
+    teams: createEntityReducer(formKeys.TEAMS),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>): any {

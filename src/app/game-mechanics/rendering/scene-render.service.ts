@@ -3,8 +3,8 @@ import { Subject } from 'rxjs';
 import { autoDetectRenderer, Container, Sprite } from 'pixi.js-legacy';
 
 import { WindowRefService } from '@app/core';
-import { SpriteComponent, MapNode, Path } from './graphics';
-import { StageLocation, StagePath } from '../entities';
+import { SpriteComponent, MapNode } from './graphics';
+import { LocationEntity, PathEntity } from '../entities';
 
 @Injectable()
 export class SceneRenderService {
@@ -16,15 +16,15 @@ export class SceneRenderService {
     private pathsStage: Container;
     private backgroundSprite: Sprite;
     private nodes: { [key: string]: MapNode } = {};
-    private paths: { [key: string]: StagePath } = {};
+    private paths: { [key: string]: PathEntity } = {};
     private initialized = false;
 
     private selectedNode: number;
     private selectedPath: number;
 
-    public nodeMoved: Subject<StageLocation> = new Subject();
-    public nodeSelected: Subject<StageLocation> = new Subject();
-    public pathSelected: Subject<StagePath> = new Subject();
+    public nodeMoved: Subject<LocationEntity> = new Subject();
+    public nodeSelected: Subject<LocationEntity> = new Subject();
+    public pathSelected: Subject<PathEntity> = new Subject();
     public keypress: Subject<KeyboardEvent> = new Subject();
 
     constructor(private windowRef: WindowRefService) {
@@ -50,7 +50,7 @@ export class SceneRenderService {
         this.initialized = true;
     }
 
-    saveElement(image: string, data: StageLocation, id: number): MapNode {
+    saveElement(image: string, data: LocationEntity, id: number): MapNode {
         if (this.initialized) {
             let node;
             if (id in this.nodes) {
@@ -75,10 +75,10 @@ export class SceneRenderService {
         node.change.subscribe(() => {
             this.render();
         });
-        node.moved.subscribe((loc: StageLocation) => {
+        node.moved.subscribe((loc: LocationEntity) => {
             this.nodeMoved.next(loc);
         });
-        node.select.subscribe((loc: StageLocation) => {
+        node.select.subscribe((loc: LocationEntity) => {
             this.nodeSelected.next(loc);
         });
     }
@@ -95,7 +95,7 @@ export class SceneRenderService {
         }
     }
 
-    savePath(data: StagePath, id: number) {
+    savePath(data: PathEntity, id: number) {
         if (this.initialized) {
             // const from: MapNode = this.nodes[data.fromLoc];
             // const to: MapNode = this.nodes[data.toLoc];
@@ -112,7 +112,7 @@ export class SceneRenderService {
         }
     }
 
-    attachPathEvents(path: StagePath) {
+    attachPathEvents(path: PathEntity) {
         // path.select.subscribe((data: StagePath) => {
         //     this.pathSelected.next(data);
         // });

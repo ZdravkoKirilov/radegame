@@ -2,8 +2,9 @@ import { Stack } from "./Stack.model";
 import { Resource } from "./Resource.model";
 import { Condition } from "./Condition.model";
 import { Choice } from "./Choice.model";
-import { Faction, Token } from "./Faction.model";
+import { Faction } from "./Faction.model";
 import { BaseModel } from "./Base.model";
+import { Token } from "./Token.model";
 
 export type GameAction = BaseModel & Partial<{
 
