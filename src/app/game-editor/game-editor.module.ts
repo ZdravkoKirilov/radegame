@@ -8,11 +8,10 @@ import { StoreModule } from '@ngrx/store';
 import { FEATURE_NAME } from './utils';
 
 import { routes } from './routing';
-import { reducers, metaReducers } from './state';
+import { reducers, metaReducers, GenericEffectsService } from './state';
 
 import { DynamicFormsModule } from '@app/dynamic-forms';
 import { SharedModule } from '@app/shared';
-import { GenericEffectsService } from './state';
 
 import {
     EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent,
@@ -22,7 +21,8 @@ import {
 import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent, RoundsContainerComponent,
-     StagesContainerComponent, ChoicesContainerComponent, StackContainerComponent, PoolsContainerComponent
+    StagesContainerComponent, ChoicesContainerComponent, StackContainerComponent, PoolsContainerComponent,
+    TeamsContainerComponent, TokensContainerComponent, PhasesContainerComponent,
 } from './containers';
 import { MapRenderService } from './services';
 
@@ -65,7 +65,10 @@ import { MapRenderService } from './services';
         StagesContainerComponent,
         ChoicesContainerComponent,
         StackContainerComponent,
-        PoolsContainerComponent
+        PoolsContainerComponent,
+        TeamsContainerComponent,
+        TokensContainerComponent,
+        PhasesContainerComponent
     ]
 })
 export class GameEditorModule {

@@ -10,3 +10,6 @@ export * from './stages/stages.container';
 export * from './choices/choices.container';
 export * from './pools/pools.container';
 export * from './stacks/stacks.container';
+export * from './tokens/tokens-container.component';
+export * from './teams/teams-container.component';
+export * from './phases/phases-container.component';
