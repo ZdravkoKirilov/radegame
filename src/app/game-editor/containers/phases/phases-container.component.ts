@@ -1,19 +1,32 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import { SmartBase } from '../../mixins';
+import { AppState } from '@app/core';
+import { composePhaseForm } from '../../forms/phase';
+import { formKeys } from '../../state';
 
 @Component({
   selector: 'rg-phases-container',
   template: `
-    <p>
-      phases-container works!
-    </p>
+  <rg-entity-view
+    [items]="items$ | async"
+    [showEditor]="showEditor"
+    [selectedItem]="selectedItem"
+    [formDefinition]="formDefinition"
+    (toggleEditor)="toggleEditor($event)"
+    (editItem)="editItem($event)"
+    (saveItem)="saveItem($event)"
+    (removeItem)="removeItem($event)"
+  ></rg-entity-view>
   `,
   styles: []
 })
-export class PhasesContainerComponent implements OnInit {
+export class PhasesContainerComponent extends SmartBase {
+  formDefinition = composePhaseForm;
+  readonly key = formKeys.PHASES;
 
-  constructor() { }
+  constructor(public store: Store<AppState>) { super(store) }
 
-  ngOnInit() {
-  }
 
 }

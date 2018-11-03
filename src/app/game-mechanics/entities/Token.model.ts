@@ -1,12 +1,16 @@
 import { BaseModel } from "./Base.model";
+import { LocationEntity } from "./Location.model";
+import { Pool } from "./Pool.model";
+import { Stack } from "./Stack.model";
 
 export type Token = BaseModel & Partial<{
 
-    resource_limit: number;
+    start: number | LocationEntity;
+    effect_pool: number[] | Pool[];
+    income: number[] | Stack[];
+    restricted: number[] | Stack[];
+    allowed: number[] | Stack[];
 
-    start: number;
-
-    effect_pool: number[];
 }>
 
 export type TokenList = {

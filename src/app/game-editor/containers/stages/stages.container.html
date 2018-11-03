@@ -1,5 +1,14 @@
-<rg-entity-view [template]="template" [formDefinition]="formDefinition" [items]="items" [showEditor]="showEditor" [selectedItem]="selectedItem" [connectedEntities]="connectedEntities"
-    (toggleEditor)="toggleEditor($event)" (saveItem)="saveItem($event)"></rg-entity-view>
+<rg-entity-view 
+    [template]="template" 
+    [formDefinition]="formDefinition" 
+    [items]="items$ | async" 
+    [showEditor]="showEditor" 
+    [selectedItem]="selectedItem" 
+    [connectedEntities]="connectedEntities$ | async"
+    (toggleEditor)="toggleEditor($event)" 
+    (saveItem)="saveItem($event)"
+    >
+</rg-entity-view>
 
 <ng-template #template let-item>
     <mat-card>

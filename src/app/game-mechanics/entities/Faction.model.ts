@@ -1,16 +1,11 @@
 import { BaseModel } from "./Base.model";
-import { Round } from "./Round.model";
 import { Pool } from "./Pool.model";
+import { Stack } from "./Stack.model";
 
 export type Faction = BaseModel & Partial<{
 
     type: FactionType;
-
-    action_limit: number;
-    resource_limit: number;
-
-    action_play_limit: number;
-
+    income: number[] | Stack[];
     effect_pool: number[] | Pool[];
 
 }>
@@ -21,7 +16,6 @@ export type FactionList = {
 
 export const FACTION_TYPE = {
     PLAYER: 'PLAYER',
-    MASTER: 'MASTER',
     BOT: 'BOT'
 }
 

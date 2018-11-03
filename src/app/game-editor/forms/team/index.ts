@@ -1,8 +1,8 @@
-import { Faction, FACTION_TYPE } from '@app/game-mechanics';
-import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeFromObject, composeStackOptions, composePoolOptions } from '../helpers';
+import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
+import { Team } from "@app/game-mechanics";
+import { composeStackOptions, composePoolOptions } from "../helpers";
 
-export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseControl[] {
+export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
     const income = data.income || [];
     const effect_pool = data.effect_pool || [];
@@ -20,7 +20,9 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
 
         <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-        <Dropdown name='type' label='Type' options='{types}'>{data.type}</Dropdown>
+        <NumberInput name='min_players' label='Min players'>{data.min_players}</NumberInput>
+
+        <NumberInput name='max_players' label='Max players'>{data.max_players}</NumberInput>
 
         <ButtonGroup name='income' label='Income' options='{stacks}' multiple='{true}'>{income}</ButtonGroup>
 
@@ -33,11 +35,10 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
         source: template,
         context: {
             data, income, effect_pool,
-            types: composeFromObject(FACTION_TYPE),
             stacks: composeStackOptions(ent),
-            pools: composePoolOptions(ent)
+            pools: composePoolOptions(ent),
         }
     }, true) as BaseControl[];
 
     return result;
-}
+};

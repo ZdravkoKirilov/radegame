@@ -1,5 +1,5 @@
 <rg-entity-view
-        [items]="items"
+        [items]="items$ | async"
         [showEditor]="showEditor"
         [selectedItem]="selectedItem"
         [formDefinition]="formDefinition"

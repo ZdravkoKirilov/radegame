@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
-import { ROUND_DEF } from '../../forms';
+import { composeRoundForm } from '../../forms';
 import { SmartBase } from '../../mixins';
 import { formKeys, FormKey } from '../../state';
 
@@ -14,7 +14,7 @@ import { formKeys, FormKey } from '../../state';
 })
 export class RoundsContainerComponent extends SmartBase {
 
-    public formDefinition: FormDefinition = ROUND_DEF;
+    public formDefinition: FormDefinition = composeRoundForm;
     public readonly key: FormKey = formKeys.ROUNDS;
 
 

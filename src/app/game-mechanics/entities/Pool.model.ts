@@ -2,6 +2,7 @@ import { BaseModel } from "./Base.model";
 import { Choice } from "./Choice.model";
 import { GameAction } from "./Action.model";
 import { Condition } from "./Condition.model";
+import { Stack } from "./Stack.model";
 
 export type Pool = BaseModel & Partial<{
 
@@ -14,6 +15,8 @@ export type Pool = BaseModel & Partial<{
 
     random_cap: boolean;
     allow_same_pick: boolean;
+
+    items: PoolItem[];
 }>
 
 export type PoolItem = Partial<{
@@ -26,29 +29,30 @@ export type PoolItem = Partial<{
 
     quota: number;
 
-    restriction: number[];
-    cost: number[];
+    restricted: number[] | Stack[];
+    allowed: number[] | Stack[];
+    cost: number[] | Stack[];
 }>
 
-export const PoolModes = {
+export const POOL_MODES = {
     DRAW: 'DRAW',
-    TRIGGER: 'TRIGGER'
+    AUTO: 'AUTO'
 };
 
-export type PoolMode = keyof typeof PoolModes;
+export type PoolMode = keyof typeof POOL_MODES;
 
-export const PoolPickModes = {
+export const POOL_PICK = {
     RANDOM: 'RANDOM',
     CHOICE: 'CHOICE'
 };
 
-export type PoolPickMode = keyof typeof PoolPickModes;
+export type PoolPickMode = keyof typeof POOL_PICK;
 
-export const PoolQuotaModes = {
+export const POOL_QUOTA = {
     ONCE: 'ONCE',
     REPEATING: 'REPEATING'
 };
 
-export type PoolQuotaMode = keyof typeof PoolQuotaModes;
+export type PoolQuotaMode = keyof typeof POOL_QUOTA;
 
 export type PoolList = { [key: string]: Pool };

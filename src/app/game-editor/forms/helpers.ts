@@ -2,7 +2,7 @@ import keys from 'lodash/keys';
 
 import {
     Condition, GameAction, Resource, Field, Round,
-    Stage, EntityWithKeywords, Choice, Faction, GameEntity
+    Stage, EntityWithKeywords, Choice, Faction, GameEntity, Pool, Phase, Stack
 } from '@app/game-mechanics';
 import { Option, ConnectedEntities, ToggleContext, BaseControl, controlTypes } from '@app/dynamic-forms';
 
@@ -79,7 +79,7 @@ export function composeTokenOptions(ent: ConnectedEntities): Option[] {
 }
 
 export function composeStackOptions(ent: ConnectedEntities): Option[] {
-    return ent.stacks.map((elem: Faction): Option => ({
+    return ent.stacks.map((elem: Stack): Option => ({
         label: elem.name,
         value: elem.id,
         image: elem.image
@@ -87,10 +87,25 @@ export function composeStackOptions(ent: ConnectedEntities): Option[] {
 }
 
 export function composePoolOptions(ent: ConnectedEntities): Option[] {
-    return ent.pools.map((elem: Faction): Option => ({
+    return ent.pools.map((elem: Pool): Option => ({
         label: elem.name,
         value: elem.id,
         image: elem.image
+    }));
+}
+
+export function composePhaseOptions(ent: ConnectedEntities): Option[] {
+    return ent.phases.map((elem: Phase): Option => ({
+        label: elem.name,
+        value: elem.id,
+        image: elem.image
+    }));
+}
+
+export function composeLocationOptions(ent: ConnectedEntities): Option[] {
+    return ent.locations.map(elem => ({
+        label: elem.name,
+        value: elem.id,
     }));
 }
 

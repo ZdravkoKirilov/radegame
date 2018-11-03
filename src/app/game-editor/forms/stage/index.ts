@@ -1,21 +1,28 @@
 import { Stage } from '@app/game-mechanics';
-import { BaseControl, controlTypes } from '@app/dynamic-forms';
+import { BaseControl, parse } from '@app/dynamic-forms';
 
-export function STAGE_DEF(data: Stage = {}): BaseControl[] {
+export function composeStageForm(data: Stage = {}): BaseControl[] {
     data = data || {};
-    return [
-        {
-            name: 'name',
-            type: controlTypes.TEXT_INPUT,
-            value: data.name,
-            label: 'Stage name',
-            required: true
-        }, {
-            name: 'description',
-            type: controlTypes.TEXT_INPUT,
-            value: data.description,
-            label: 'Stage description',
-            required: false
+
+    const template = `
+        <Form>
+            <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+            
+            <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+
+            <TextInput name='description' label='Description'>{data.description}</TextInput>
+
+            <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+
+        </Form>
+    `;
+
+    const result = parse({
+        source: template,
+        context: {
+            data
         },
-    ];
+    }, true);
+
+    return result as BaseControl[];
 }

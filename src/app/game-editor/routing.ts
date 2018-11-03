@@ -6,7 +6,7 @@ import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent,
     RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent, PoolsContainerComponent,
-    StackContainerComponent,
+    StackContainerComponent, TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent
 } from './containers';
 import { IndexComponent } from './components';
 
@@ -72,8 +72,20 @@ export const routes: Routes = [
                 component: StackContainerComponent
             },
             {
-                path: 'pool',
+                path: 'pools',
                 component: PoolsContainerComponent
+            },
+            {
+                path: 'tokens',
+                component: TokensContainerComponent
+            },
+            {
+                path: 'phases',
+                component: PhasesContainerComponent
+            },
+            {
+                path: 'teams',
+                component: TeamsContainerComponent
             }
         ]
     }

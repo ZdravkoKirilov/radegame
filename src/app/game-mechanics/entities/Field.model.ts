@@ -1,34 +1,20 @@
-export interface Field {
-    id?: number;
-    game?: number;
-    stage?: number;
-    name?: string;
-    description?: string;
-    keywords?: string;
-    image?: any;
-    income?: FieldResource[];
-    cost?: FieldResource[];
-    quests?: FieldQuest[];
-    activities?: FieldActivity[];
-}
+import { BaseModel } from "./Base.model";
+import { Stack } from "./Stack.model";
+import { Pool } from "./Pool.model";
 
-export interface FieldQuest {
-    id?: number;
-    quest?: number;
-}
+export type Field = BaseModel & Partial<{
+    stage: number;
 
-export interface FieldActivity {
-    id?: number;
-    activity?: number;
-}
+    cost: number[] | Stack[];
+    award: number[] | Stack[];
+    penalty: number[] | Stack[];
 
-export interface FieldList {
+    income: number[] | Stack[];
+
+    effect_pool: number[] | Pool[];
+
+}>
+
+export type FieldList = {
     [key: string]: Field;
-}
-
-export interface FieldResource {
-    id?: number;
-    resource?: number;
-    field?: number;
-    quantity?: number;
 }

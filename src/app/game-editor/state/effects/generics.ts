@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '@app/core';
-import { GameEntity, GameAction, Field, Condition, Round, Faction, Pool, Stack, Token, Phase, Choice } from '@app/game-mechanics';
+import { GameEntity, GameAction, Field, Condition, Round, Faction, Pool, Stack, Token, Phase, Choice, PathEntity } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
 import {
     GenericActionPayload,
@@ -150,7 +150,7 @@ export class GenericEffectsService {
             case formKeys.LOCATIONS:
                 return this.api.saveMapLocation(entity);
             case formKeys.PATHS:
-                return this.api.saveMapPath(entity);
+                return this.api.saveMapPath(<PathEntity>entity);
             case formKeys.POOLS:
                 return this.api.savePool(<Pool>entity);
             case formKeys.STACKS:

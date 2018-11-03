@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
-import { STAGE_DEF } from '../../forms';
+import { composeStageForm } from '../../forms';
 import { SmartBase } from '../../mixins';
 import { formKeys, FormKey } from '../../state';
 
@@ -14,7 +14,7 @@ import { formKeys, FormKey } from '../../state';
 })
 export class StagesContainerComponent extends SmartBase {
 
-    public formDefinition: FormDefinition = STAGE_DEF;
+    public formDefinition: FormDefinition = composeStageForm;
     public readonly key: FormKey = formKeys.STAGES;
 
     constructor(public store: Store<AppState>) {

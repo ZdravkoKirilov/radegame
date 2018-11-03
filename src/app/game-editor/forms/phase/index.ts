@@ -6,7 +6,7 @@ import {
     Resource
 } from '@app/game-mechanics';
 
-export const composeResourceForm: FormDefinition = (data: Resource, ent?: ConnectedEntities) => {
+export const composePhaseForm: FormDefinition = (data: Resource, ent?: ConnectedEntities) => {
     data = data || {};
 
     const template = `

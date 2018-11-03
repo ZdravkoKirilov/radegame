@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
-import { FACTION_DEF } from '../../forms';
+import { composeFactionForm } from '../../forms';
 import { SmartBase } from '../../mixins';
 import { formKeys, FormKey } from '../../state';
 
@@ -14,7 +14,7 @@ import { formKeys, FormKey } from '../../state';
 })
 export class FactionsContainerComponent extends SmartBase {
 
-    formDefinition: FormDefinition = FACTION_DEF;
+    formDefinition: FormDefinition = composeFactionForm;
     readonly key: FormKey = formKeys.FACTIONS
 
     constructor(public store: Store<AppState>) {

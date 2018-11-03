@@ -1,10 +1,12 @@
-import { Faction, FACTION_TYPE } from '@app/game-mechanics';
-import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeFromObject, composeStackOptions, composePoolOptions } from '../helpers';
+import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
+import { Token } from "@app/game-mechanics";
+import { composeStackOptions, composePoolOptions, composeLocationOptions } from "../helpers";
 
-export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseControl[] {
+export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
     const income = data.income || [];
+    const restricted = data.restricted || [];
+    const allowed = data.allowed || [];
     const effect_pool = data.effect_pool || [];
 
     const template = `
@@ -20,9 +22,13 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
 
         <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-        <Dropdown name='type' label='Type' options='{types}'>{data.type}</Dropdown>
+        <Dropdown name='start' label='Start position' options='{locations}'>{data.start}</Dropdown>
 
         <ButtonGroup name='income' label='Income' options='{stacks}' multiple='{true}'>{income}</ButtonGroup>
+
+        <ButtonGroup name='restricted' label='Restricted' options='{stacks}' multiple='{true}'>{restricted}</ButtonGroup>
+
+        <ButtonGroup name='allowed' label='Allowed' options='{stacks}' multiple='{true}'>{allowed}</ButtonGroup>
 
         <ButtonGroup name='effect_pool' label='Effects' options='{pools}' multiple='{true}'>{effect_pool}</ButtonGroup>
 
@@ -32,12 +38,12 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
     const result = parse({
         source: template,
         context: {
-            data, income, effect_pool,
-            types: composeFromObject(FACTION_TYPE),
+            data, income, effect_pool, restricted, allowed,
             stacks: composeStackOptions(ent),
-            pools: composePoolOptions(ent)
+            pools: composePoolOptions(ent),
+            locations: composeLocationOptions(ent),
         }
     }, true) as BaseControl[];
 
     return result;
-}
+};
