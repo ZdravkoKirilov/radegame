@@ -98,9 +98,9 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     ngOnInit() {
-        this.scr.initialize(this.canvasWrapper.nativeElement);
-        this.scr.updateBackground(this.stage.image);
-        this.attachListeners();
+        // this.scr.initialize(this.canvasWrapper.nativeElement);
+        // this.scr.updateBackground(this.stage.image);
+        // this.attachListeners();
     }
 
     ngOnChanges(c: SimpleChanges) {

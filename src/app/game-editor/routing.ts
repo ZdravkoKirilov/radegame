@@ -31,7 +31,7 @@ export const routes: Routes = [
                 component: IndexComponent
             },
             {
-                path: `stages/:${ROUTER_PARAMS.STAGE_ID}/fields`,
+                path: `stages/:${ROUTER_PARAMS.STAGE_ID}/map`,
                 component: FieldsContainerComponent,
                 pathMatch: 'full'
             },
