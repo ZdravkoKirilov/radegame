@@ -1,12 +1,19 @@
 import { Field } from "./Field.model";
 import { Stage } from "./Stage.model";
+import { Token } from "./Token.model";
+import { Stack } from "./Stack.model";
 
 export type LocationEntity =  Partial<{
     id: number;
-    field: number | Field;
     game: number;
-    stage: number | Stage;
-    name: string;
+    owner: number | Stage;
+
+    field: number | Field;
+    token: number | Token;
+
+    restricted: number[] | Stack[];
+    allowed: number[] | Stack[];
+
     top: number;
     left: number;
     width: number;

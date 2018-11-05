@@ -5,9 +5,11 @@ import { Stack } from "./Stack.model";
 
 export type Token = BaseModel & Partial<{
 
-    start: number | LocationEntity;
     effect_pool: number[] | Pool[];
+
     income: number[] | Stack[];
+    cost: number[] | Stack[];
+
     restricted: number[] | Stack[];
     allowed: number[] | Stack[];
 

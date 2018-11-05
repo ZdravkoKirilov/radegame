@@ -9,7 +9,8 @@ import { Token } from "./Token.model";
 export type GameAction = BaseModel & Partial<{
 
     mode: ActionMode;
-
+    limit: number;
+    
     cost: number[] | Stack[];
     condition: number[] | Stack[];
     restricted: number[] | Stack[];

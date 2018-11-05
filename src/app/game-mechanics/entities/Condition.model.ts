@@ -6,6 +6,8 @@ import { Faction } from './Faction.model';
 import { Choice } from './Choice.model';
 import { Field } from './Field.model';
 import { Token } from '@angular/compiler';
+import { EntityType } from './types';
+import { Phase } from './Phase.model';
 // import { Stack } from './Stack.model';
 
 export type Condition = BaseModel & Partial<{
@@ -30,6 +32,7 @@ export type Clause = Partial<{
     owner: number | Condition;
 
     type: ClauseType;
+    target_entity: EntityType;
 
     condition: number | Condition;
     action: number | GameAction;
@@ -38,6 +41,7 @@ export type Clause = Partial<{
     choice: number | Choice;
     faction: number | Faction;
     field: number | Field;
+    phase: number | Phase;
     keywords: string;
 
     amount: number;

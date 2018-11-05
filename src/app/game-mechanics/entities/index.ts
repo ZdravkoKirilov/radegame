@@ -13,6 +13,7 @@ export * from './Token.model';
 export * from './Phase.model';
 export * from './Location.model';
 export * from './Path.model';
+export * from './types';
 
 import { GameAction, ActionList } from './Action.model';
 import { Condition, ConditionList } from './Condition.model';
