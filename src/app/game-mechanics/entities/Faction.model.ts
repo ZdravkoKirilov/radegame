@@ -1,13 +1,14 @@
 import { BaseModel } from "./Base.model";
 import { Pool } from "./Pool.model";
 import { Stack } from "./Stack.model";
+import { Stage } from "./Stage.model";
 
 export type Faction = BaseModel & Partial<{
 
     type: FactionType;
     income: number[] | Stack[];
     effect_pool: number[] | Pool[];
-
+    stage: number | Stage;
 }>
 
 export type FactionList = {

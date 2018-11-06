@@ -22,9 +22,12 @@ import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent, RoundsContainerComponent,
     StagesContainerComponent, ChoicesContainerComponent, StackContainerComponent, PoolsContainerComponent,
-    TeamsContainerComponent, TokensContainerComponent, PhasesContainerComponent,
+    TeamsContainerComponent, TokensContainerComponent, PhasesContainerComponent, BoardContainerComponent
 } from './containers';
 import { MapRenderService } from './services';
+import { BoardEditorComponent } from './components/board/board-editor.component';
+import { BoardToolbarComponent } from './components/board/toolbar/board-toolbar.component';
+import { BoardMainComponent } from './components/board/main/board-main.component';
 
 @NgModule({
     imports: [
@@ -68,7 +71,11 @@ import { MapRenderService } from './services';
         PoolsContainerComponent,
         TeamsContainerComponent,
         TokensContainerComponent,
-        PhasesContainerComponent
+        PhasesContainerComponent,
+        BoardEditorComponent,
+        BoardContainerComponent,
+        BoardToolbarComponent,
+        BoardMainComponent
     ]
 })
 export class GameEditorModule {

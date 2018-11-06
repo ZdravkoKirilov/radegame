@@ -6,7 +6,7 @@ export const composeDefaultLoc = (field: Field): LocationEntity => {
         ...DEFAULT_MAP_LOCATION,
         field: field.id,
         game: field.game,
-        stage: field.stage,
+        owner: field.stage,
     };
 };
 

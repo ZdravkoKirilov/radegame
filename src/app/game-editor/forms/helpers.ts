@@ -102,13 +102,6 @@ export function composePhaseOptions(ent: ConnectedEntities): Option[] {
     }));
 }
 
-export function composeLocationOptions(ent: ConnectedEntities): Option[] {
-    return ent.locations.map(elem => ({
-        label: elem.name,
-        value: elem.id,
-    }));
-}
-
 export function composeBooleanOptions(positive = 'Yes', negative = 'No'): Option[] {
     return [
         {

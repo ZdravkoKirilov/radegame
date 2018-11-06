@@ -1,6 +1,6 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Token } from "@app/game-mechanics";
-import { composeStackOptions, composePoolOptions, composeLocationOptions } from "../helpers";
+import { composeStackOptions, composePoolOptions } from "../helpers";
 
 export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
@@ -22,8 +22,6 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
 
         <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-        <Dropdown name='start' label='Start position' options='{locations}'>{data.start}</Dropdown>
-
         <ButtonGroup name='income' label='Income' options='{stacks}' multiple='{true}'>{income}</ButtonGroup>
 
         <ButtonGroup name='restricted' label='Restricted' options='{stacks}' multiple='{true}'>{restricted}</ButtonGroup>
@@ -41,7 +39,6 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
             data, income, effect_pool, restricted, allowed,
             stacks: composeStackOptions(ent),
             pools: composePoolOptions(ent),
-            locations: composeLocationOptions(ent),
         }
     }, true) as BaseControl[];
 

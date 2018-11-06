@@ -16,7 +16,7 @@ export class ImagePickerComponent implements OnInit {
     }
 
     @Input() form: FormGroup;
-    @Input() data: BaseControl;
+    @Input() data: BaseControl = {};
     @Output() change: EventEmitter<BaseControl> = new EventEmitter();
     @ViewChild('filePicker') filePicker: ElementRef;
     @ViewChild('ownForm') ownForm: ElementRef;

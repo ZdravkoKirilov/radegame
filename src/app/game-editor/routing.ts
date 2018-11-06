@@ -6,7 +6,7 @@ import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent,
     RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent, PoolsContainerComponent,
-    StackContainerComponent, TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent
+    StackContainerComponent, TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent, BoardContainerComponent
 } from './containers';
 import { IndexComponent } from './components';
 
@@ -32,7 +32,7 @@ export const routes: Routes = [
             },
             {
                 path: `stages/:${ROUTER_PARAMS.STAGE_ID}/map`,
-                component: FieldsContainerComponent,
+                component: BoardContainerComponent,
                 pathMatch: 'full'
             },
             {
