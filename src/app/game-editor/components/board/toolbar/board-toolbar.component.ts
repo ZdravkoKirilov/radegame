@@ -1,17 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 
 @Component({
   selector: 'rg-board-toolbar',
   template: `
-    <rg-image-picker [data]="{hideThumbnail: true}">Add background</rg-image-picker>
+
+    <rg-image-picker [data]="{hideThumbnail: true}">{{backgroundText}}</rg-image-picker>
+    <button mat-button color="primary">Add location</button>
+    <button mat-button color="primary">Edit location</button>
+    <button mat-button color="want">Delete location</button>
+
+    <button mat-button color="wanr">Delete path</button>
+    <button mat-button>{{pathCreationText}}</button>
+    
   `,
-  styles: []
+  styles: [`
+  :host {
+    display: flex;
+  }
+  `]
 })
-export class BoardToolbarComponent implements OnInit {
+export class BoardToolbarComponent {
 
   constructor() { }
 
-  ngOnInit() {
+  get backgroundText() {
+    return 'Add background';
+  }
+
+  get pathCreationText() {
+    return 'Enter path creation mode';
   }
 
 }

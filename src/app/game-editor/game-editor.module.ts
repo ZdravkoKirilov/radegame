@@ -24,7 +24,7 @@ import {
     StagesContainerComponent, ChoicesContainerComponent, StackContainerComponent, PoolsContainerComponent,
     TeamsContainerComponent, TokensContainerComponent, PhasesContainerComponent, BoardContainerComponent
 } from './containers';
-import { MapRenderService } from './services';
+import { BoardEditService } from './services';
 import { BoardEditorComponent } from './components/board/board-editor.component';
 import { BoardToolbarComponent } from './components/board/toolbar/board-toolbar.component';
 import { BoardMainComponent } from './components/board/main/board-main.component';
@@ -45,7 +45,7 @@ import { BoardMainComponent } from './components/board/main/board-main.component
     exports: [
         RouterModule
     ],
-    providers: [MapRenderService],
+    providers: [BoardEditService],
     declarations: [
         EntityListComponent,
         EntityComponent,

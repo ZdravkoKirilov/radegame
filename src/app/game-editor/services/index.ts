@@ -1,1 +1,1 @@
-export * from './map-render.service';
+export * from './board-edit.service';

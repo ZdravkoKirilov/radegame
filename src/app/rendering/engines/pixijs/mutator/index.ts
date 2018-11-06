@@ -34,6 +34,7 @@ export class PixiMutator implements AbstractMutator {
 
 const updatePrimitive = (component: BasicComponent) => {
     const { props, graphic, type } = component;
+
     switch (type) {
         case PRIMS.LINE:
             updateLine(props, graphic as Graphics);
