@@ -2,14 +2,13 @@ import { Field } from "./Field.model";
 import { Stage } from "./Stage.model";
 import { Token } from "./Token.model";
 import { Stack } from "./Stack.model";
+import { BaseModel } from "./Base.model";
 
-export type LocationEntity =  Partial<{
-    id: number;
-    game: number;
+export type LocationEntity = BaseModel & Partial<{
     owner: number | Stage;
 
     field: number | Field;
-    token: number | Token;
+    tokens: number | Token[];
 
     restricted: number[] | Stack[];
     allowed: number[] | Stack[];
