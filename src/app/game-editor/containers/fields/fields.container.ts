@@ -44,7 +44,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
     connectedEntities$: Observable<ConnectedEntities>;
 
     gameId: Game;
-    stage: Stage;
+    stage$: Observable<Stage>;
     stageId: number;
 
     asList: boolean = false;
@@ -58,7 +58,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
     }
 
     saveField(field: Field) {
-        const payload = { ...field, game: this.gameId, stage: this.stage.id };
+        const payload = { ...field, game: this.gameId, stage: this.stageId };
         if (this.selectedField) {
             payload.id = this.selectedField.id;
         }
@@ -126,13 +126,14 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
             tap(([gameId, stageId]) => {
                 this.stageId = stageId;
                 this.gameId = gameId;
+                // this.stage$ = this.store.pipe(select(selectStageById(stageId)));
             })
         ).subscribe();
 
         this.connectedEntities$ = this.store.pipe(select(getEntities));
         this.fields$ = this.store.pipe(select(getItems(this.fKey)));
         this.paths$ = this.store.pipe(select(getItems(this.pKey)));
-        this.locations$ = this.store.pipe(select(getItems(this.lKey)));
+        this.locations$ = this.store.pipe(select(getItems<LocationEntityList>(this.lKey)));
     }
 
     ngOnDestroy() {

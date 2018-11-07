@@ -55,7 +55,6 @@ export class BoardEditService {
   startRenderLoop(stage: Container) {
     setInterval(() => {
       requestAnimationFrame(() => {
-        console.log('render')
         this.renderer.render(stage);
       });
     });

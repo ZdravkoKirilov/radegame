@@ -1,15 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'rg-board-toolbar',
   template: `
 
     <rg-image-picker [data]="{hideThumbnail: true}">{{backgroundText}}</rg-image-picker>
-    <button mat-button color="primary">Add location</button>
-    <button mat-button color="primary">Edit location</button>
-    <button mat-button color="want">Delete location</button>
+    <button mat-button color="primary" (click)="showEditor.emit()">Add location</button>
+    <button *ngIf="selectedLocation" mat-button color="primary">Edit location</button>
+    <button *ngIf="selectedLocation" mat-button color="want">Delete location</button>
 
-    <button mat-button color="wanr">Delete path</button>
+    <button *ngIf="selectedPath" mat-button color="wanr">Delete path</button>
     <button mat-button>{{pathCreationText}}</button>
     
   `,
@@ -21,7 +21,10 @@ import { Component } from '@angular/core';
 })
 export class BoardToolbarComponent {
 
-  constructor() { }
+  @Output() showEditor = new EventEmitter();
+
+  @Input() selectedLocation: boolean;
+  @Input() selectedPath: boolean;
 
   get backgroundText() {
     return 'Add background';

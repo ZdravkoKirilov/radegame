@@ -20,4 +20,9 @@ export const selectGameId = createSelector(
     feature => feature.state.params[ROUTER_PARAMS.GAME_ID],
 );
 
+// export const selectStageById = () => createSelector(
+//     selectStageId,
+//     stageId = > 
+// );
+
 

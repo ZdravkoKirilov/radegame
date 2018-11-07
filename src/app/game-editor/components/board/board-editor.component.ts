@@ -1,20 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { composeLocationForm } from '../../forms';
+import { ConnectedEntities } from '@app/dynamic-forms';
+import { LocationEntity, PathEntity, Stage } from '@app/game-mechanics';
 
 @Component({
   selector: 'rg-board-editor',
   template: `
     <div>
-      <rg-board-toolbar></rg-board-toolbar>
-      <rg-board-main></rg-board-main>
+
+      <rg-board-toolbar 
+        *ngIf="!showEditor"
+        [selectedLocation]="!!selectedLocation"
+        [selectedPath]="!!selectedPath"
+        (showEditor)="showEditor = true"
+      ></rg-board-toolbar>
+
+      <rg-board-main [class.hidden]="showEditor"></rg-board-main>
+
+      <rg-entity-editor 
+        *ngIf="showEditor" 
+        [formDefinition]="formDefinition"
+        [selectedItem]="selectedLocation"
+        [connectedEntities]="entities"
+        (cancel)="showEditor = false"
+      ></rg-entity-editor>
+
     </div>
   `,
   styles: []
 })
-export class BoardEditorComponent implements OnInit {
+export class BoardEditorComponent {
 
-  constructor() { }
+  @Input() entities: ConnectedEntities = { fields: [], stacks: [] };
+  @Input() locations: LocationEntity[];
+  @Input() paths: PathEntity[];
+  @Input() stage: Stage;
 
-  ngOnInit() {
-  }
+  showEditor = false;
+  formDefinition = composeLocationForm;
+
+  selectedLocation: LocationEntity;
+  selectedPath: PathEntity;
 
 }
