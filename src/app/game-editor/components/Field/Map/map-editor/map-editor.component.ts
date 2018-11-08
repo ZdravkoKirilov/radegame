@@ -60,7 +60,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
                 const fromLoc = this.mapLocations[currentSelect.id].id;
                 const toLoc = this.mapLocations[loc.field as any].id;
                 if (fromLoc && toLoc) {
-                    const payload: PathEntity = { fromLoc, toLoc };
+                    const payload: PathEntity = { from_loc, to_loc };
                     this.createPath.emit(payload);
                     this.selectField.emit(null);
                 }

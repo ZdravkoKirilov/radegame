@@ -3,12 +3,12 @@ import { Store, select } from '@ngrx/store';
 import { Subscription ,  Observable ,  combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { AppState, selectGameId, selectStageId } from '@app/core';
+import { AppState, selectGameId } from '@app/core';
 import {
     Field, Game, PathEntity, LocationEntityList, LocationEntity,
     Stage, SceneRenderService
 } from '@app/game-mechanics';
-import { getItems, getEntities } from '../../state';
+import { getItems, getEntities, selectStageId } from '../../state';
 import { SaveItemAction, DeleteItemAction } from '../../state';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { FIELD_DEF } from '../../forms';

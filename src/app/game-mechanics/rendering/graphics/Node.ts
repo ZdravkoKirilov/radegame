@@ -79,8 +79,8 @@ export class MapNode implements ISpriteComponent {
             const newPos = event.data.getLocalPosition(this.sprite.parent);
             this.data = {
                 ...this.data,
-                left: newPos.x - this.sprite.width / 2,
-                top: newPos.y - this.sprite.height / 2
+                x: newPos.x - this.sprite.width / 2,
+                y: newPos.y - this.sprite.height / 2
             };
             this.hasMoved = true;
         }
@@ -144,7 +144,7 @@ export class MapNode implements ISpriteComponent {
 
     private update = (): void => {
         if (this.sprite) {
-            this.sprite.position.set(this.data.left, this.data.top);
+            this.sprite.position.set(this.data.x, this.data.y);
             this.sprite.width = this.data.width;
             this.sprite.height = this.data.height;
             this.togglePolygon();

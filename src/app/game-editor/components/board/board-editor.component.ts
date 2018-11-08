@@ -9,13 +9,20 @@ import { LocationEntity, PathEntity, Stage } from '@app/game-mechanics';
     <div>
 
       <rg-board-toolbar 
-        *ngIf="!showEditor"
+        [class.hidden]="showEditor"
         [selectedLocation]="!!selectedLocation"
         [selectedPath]="!!selectedPath"
         (showEditor)="showEditor = true"
       ></rg-board-toolbar>
 
-      <rg-board-main [class.hidden]="showEditor"></rg-board-main>
+      <rg-board-main 
+        [class.hidden]="showEditor"
+        [stage]="stage"
+        [locations]="locations"
+        [selectedLocation]="selectedLocation"
+        [paths]="paths"
+        [selectedPath]="selectedPath"
+      ></rg-board-main>
 
       <rg-entity-editor 
         *ngIf="showEditor" 
@@ -37,6 +44,8 @@ export class BoardEditorComponent {
   @Input() stage: Stage;
 
   showEditor = false;
+  pathMode = false;
+
   formDefinition = composeLocationForm;
 
   selectedLocation: LocationEntity;

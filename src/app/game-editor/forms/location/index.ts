@@ -18,13 +18,13 @@ export const composeLocationForm: FormDefinition = (data: LocationEntity, ent?: 
 
             <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-            <NumberInput name='x' label='Left'>{data.x}</NumberInput>
+            <NumberInput name='x' label='Left' defaultValue='{100}'>{data.x}</NumberInput>
 
-            <NumberInput name='y' label='Top'>{data.y}</NumberInput>
+            <NumberInput name='y' label='Top' defaultValue='{100}'>{data.y}</NumberInput>
 
-            <NumberInput name='width' label='Width'>{data.width}</NumberInput>
+            <NumberInput name='width' label='Width' defaultValue='{100}'>{data.width}</NumberInput>
 
-            <NumberInput name='height' label='Height'>{data.height}</NumberInput>
+            <NumberInput name='height' label='Height' defaultValue='{100}'>{data.height}</NumberInput>
 
             <Dropdown name='field' label='Field' options='{fields}'>{data.field}</Dropdown>
 

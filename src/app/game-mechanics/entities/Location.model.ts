@@ -13,8 +13,8 @@ export type LocationEntity = BaseModel & Partial<{
     restricted: number[] | Stack[];
     allowed: number[] | Stack[];
 
-    top: number;
-    left: number;
+    y: number;
+    x: number;
     width: number;
     height: number;
 }>

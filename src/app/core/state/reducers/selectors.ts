@@ -7,10 +7,6 @@ import { AppState } from './main';
 
 export const selectRouterFeature = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
 
-export const selectStageId = createSelector(selectRouterFeature, (routerState): number => {
-    return Number(routerState.state.params[ROUTER_PARAMS.STAGE_ID]);
-});
-
 export const selectGameId2 = (state: AppState) => {
     return Number(state.router.state.params[ROUTER_PARAMS.GAME_ID]);
 };

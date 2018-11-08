@@ -2,8 +2,8 @@ export interface PathEntity {
     id?: number;
     game?: number;
     stage?: number;
-    fromLoc?: number;
-    toLoc?: number;
+    from_loc?: number;
+    to_loc?: number;
 }
 
 export interface PathEntityList {

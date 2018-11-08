@@ -4,8 +4,11 @@ import values from 'lodash/values';
 import { FEATURE_NAME } from '../utils/config';
 import { GameEditorFeature, EntityForm } from './reducers';
 import { FormKey, formKeys } from './form-keys';
-import { AppState, selectStageId } from '@app/core';
+import { AppState, selectRouterFeature, RouterStateUrl } from '@app/core';
 import { ConnectedEntities } from '@app/dynamic-forms';
+import { Stage } from '@app/game-mechanics';
+import { ROUTER_PARAMS } from '@app/shared';
+import { RouterReducerState } from '@ngrx/router-store';
 
 const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -38,10 +41,16 @@ export const getEntities = createSelector(
     }
 );
 
+export const selectStageId = createSelector(
+    selectRouterFeature, 
+    (routerState) => {
+    return Number(routerState.state.params[ROUTER_PARAMS.STAGE_ID]);
+});
+
 export const getActiveStage = createSelector(
     selectStageId,
     getItems(formKeys.STAGES),
     (stageId, stages) => {
-        return stages && stages.find(elem => elem.id === stageId);
+        return stages && stages.find(elem => elem.id === stageId) as Stage;
     }
 );
