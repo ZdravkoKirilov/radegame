@@ -1,13 +1,13 @@
 import { Points, createElement } from '@app/rendering';
 
-type Props = {
+export type Props = {
     points: Points;
     polygon: Points;
     selected: boolean;
+    selectPath: () => void;
 };
 
 export const Path = (props: Props) => {
-
     const styles = {
         strokeThickness: 2,
         strokeColor: 0xFF0000,
@@ -20,6 +20,7 @@ export const Path = (props: Props) => {
             styles: styles,
             hitArea: props.polygon,
             interactive: true,
+            onPointerDown: props.selectPath
         }),
         createElement('polygon', {
             points: props.polygon,

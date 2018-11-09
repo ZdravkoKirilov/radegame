@@ -34,7 +34,8 @@ export class PixiEventsManager implements AbstractEvent {
                 const handler = comp.props[key];
                 const eventName = key.slice(2).toLowerCase();
                 const graphic = comp.graphic as DisplayObject;
-                if (this.supported.has(eventName)) {
+
+                if (this.supported.has(eventName) && graphic) {
                     graphic.on(eventName as interaction.InteractionEventTypes, event => {
                         handler(event, comp);
                     });

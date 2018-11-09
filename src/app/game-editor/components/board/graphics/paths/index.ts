@@ -2,13 +2,13 @@ import { RenderFunction, createElement, Points } from "@app/rendering";
 import { PathEntity, LocationEntity } from "@app/game-mechanics";
 import { toIndexedList } from "@app/shared";
 
-import Path from './node';
+import Path, { Props as PathProps } from './node';
 
-
-type Props = {
+export type Props = {
     paths: PathEntity[];
     locations: LocationEntity[];
     selected: PathEntity;
+    selectPath: (item: PathEntity) => void;
 }
 
 export const PathsList: RenderFunction<Props> = (props) => {
@@ -32,11 +32,12 @@ export const PathsList: RenderFunction<Props> = (props) => {
         const points = computeLinePoints(from, to);
         const polygon = computePolygon(from, to);
 
-        return createElement(Path,
-            {
-                points, polygon, key: elem.id
-            }
-        );
+        return createElement<PathProps>(Path, {
+            points, polygon, key: elem.id,
+            selected: props.selected && props.selected.id === elem.id,
+            selectPath: () => props.selectPath(elem)
+        });
+
     }) : [];
 
     return createElement('collection', null, lines);

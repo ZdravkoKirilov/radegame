@@ -12,3 +12,4 @@ export * from './pool';
 export * from './stack';
 export * from './team';
 export * from './location';
+export * from './path';

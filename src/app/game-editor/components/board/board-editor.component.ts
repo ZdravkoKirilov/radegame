@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { composeLocationForm } from '../../forms';
+import { Component, Input } from '@angular/core';
+import { composeLocationForm, composePathForm } from '../../forms';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { LocationEntity, PathEntity, Stage } from '@app/game-mechanics';
 
@@ -9,14 +9,15 @@ import { LocationEntity, PathEntity, Stage } from '@app/game-mechanics';
     <div>
 
       <rg-board-toolbar 
-        [class.hidden]="showEditor"
+        [class.hidden]="visibleEditor"
         [selectedLocation]="!!selectedLocation"
         [selectedPath]="!!selectedPath"
-        (showEditor)="showEditor = true"
+        (showLocationEditor)="showLocationEditor = true"
+        (showPathEditor)="showPathEditor = true"
       ></rg-board-toolbar>
 
       <rg-board-main 
-        [class.hidden]="showEditor"
+        [class.hidden]="visibleEditor"
         [stage]="stage"
         [locations]="locations"
         [selectedLocation]="selectedLocation"
@@ -25,11 +26,19 @@ import { LocationEntity, PathEntity, Stage } from '@app/game-mechanics';
       ></rg-board-main>
 
       <rg-entity-editor 
-        *ngIf="showEditor" 
-        [formDefinition]="formDefinition"
+        *ngIf="showLocationEditor" 
+        [formDefinition]="locationForm"
         [selectedItem]="selectedLocation"
         [connectedEntities]="entities"
-        (cancel)="showEditor = false"
+        (cancel)="showLocationEditor = false"
+      ></rg-entity-editor>
+
+      <rg-entity-editor 
+        *ngIf="showPathEditor" 
+        [formDefinition]="pathForm"
+        [selectedItem]="selectedPath"
+        [connectedEntities]="entities"
+        (cancel)="showPathEditor = false"
       ></rg-entity-editor>
 
     </div>
@@ -43,10 +52,16 @@ export class BoardEditorComponent {
   @Input() paths: PathEntity[];
   @Input() stage: Stage;
 
-  showEditor = false;
+  get visibleEditor() {
+    return this.showLocationEditor || this.showPathEditor;
+  }
+
+  showLocationEditor = false;
+  showPathEditor = false;
   pathMode = false;
 
-  formDefinition = composeLocationForm;
+  locationForm = composeLocationForm;
+  pathForm = composePathForm;
 
   selectedLocation: LocationEntity;
   selectedPath: PathEntity;

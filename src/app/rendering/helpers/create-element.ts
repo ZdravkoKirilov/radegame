@@ -1,6 +1,6 @@
 import { RzElementProps, RzElementChild, RzElement, isValidRzElement } from "../models";
 
-export const createElement = (type: any, props: RzElementProps, ...children: RzElementChild[]): RzElement | null => {
+export const createElement = <T = {}>(type: any, props: T & RzElementProps, ...children: RzElementChild[]): RzElement | null => {
     let elemChildren = children || [];
     let computedChildren = [];
 

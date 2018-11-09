@@ -1,7 +1,7 @@
 import { StatefulComponent, createElement, PrimitiveContainer, Lifecycles } from "@app/rendering";
 
 import Locations from './locations';
-import Paths from './paths';
+import Paths, { Props as PathProps } from './paths';
 import { LocationEntity, PathEntity, Stage } from "@app/game-mechanics";
 
 export type Props = {
@@ -10,6 +10,9 @@ export type Props = {
     paths: Array<PathEntity>;
     selectedPath: PathEntity;
     stage: Stage;
+    onLocationSelected: (item: LocationEntity) => void;
+    selectPath: (item: PathEntity) => void;
+    onDragEnded: (item: LocationEntity) => void;
 }
 
 type State = {
@@ -22,12 +25,18 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     }
 
     render() {
-        const { paths } = this.props;
+        const { paths, selectedPath, selectPath } = this.props;
         const { locations } = this.state;
         const { handleDragMove } = this;
 
         return createElement('fragment', {},
-            createElement(Paths, { paths, locations }),
+
+            createElement<PathProps>(Paths, {
+                paths, locations,
+                selectPath,
+                selected: selectedPath
+            }),
+
             createElement(Locations, { locations, onDragMove: handleDragMove }),
         );
 
@@ -35,7 +44,6 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
 
     didMount() {
         const { locations } = this.props;
-
         this.setState({ locations });
     }
 
