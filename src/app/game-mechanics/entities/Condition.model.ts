@@ -1,7 +1,7 @@
-import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes } from './Base.model';
+import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal } from './Base.model';
 import { EntityType } from './types';
 
-export type Condition = BaseModel & WithPermissions & WithBoard & WithCost & WithStakes & Partial<{
+export type Condition = BaseModel & WithPermissions & WithBoard & WithCost & WithStakes & WithReveal & Partial<{
 
     mode: ConditionMode;
 

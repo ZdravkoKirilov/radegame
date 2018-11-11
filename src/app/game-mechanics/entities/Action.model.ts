@@ -1,6 +1,6 @@
-import { BaseModel, WithPermissions, WithCost, WithCondition } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal } from "./Base.model";
 
-export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & Partial<{
+export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & Partial<{
 
     mode: ActionMode;
     limit: number;

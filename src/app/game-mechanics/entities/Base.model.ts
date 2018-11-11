@@ -9,6 +9,7 @@ export type BaseModel = Partial<{
     description: string;
     keywords: string;
     image: string;
+
 }>;
 
 export type WithPermissions = Partial<{
@@ -35,4 +36,8 @@ export type WithCondition = {
 export type WithStakes = {
     done: number; // Source
     undone: number; // Source
+}
+
+export type WithReveal = {
+    reveal: number;
 }
