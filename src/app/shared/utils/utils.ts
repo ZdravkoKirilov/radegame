@@ -32,3 +32,7 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 export type WithKeys<T> = {
     readonly [P in keyof T]: P;
 };
+
+export type Dictionary<T> = {
+    [key: string]: T;
+}

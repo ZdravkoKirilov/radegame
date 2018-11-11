@@ -1,11 +1,9 @@
-export interface PathEntity {
-    id?: number;
-    game?: number;
-    stage?: number;
-    from_loc?: number;
-    to_loc?: number;
-}
+import { BaseModel, WithPermissions, WithBoard, WithRisk } from "./Base.model";
 
-export interface PathEntityList {
-    [key: string]: PathEntity;
-}
+export type PathEntity = BaseModel & WithPermissions & WithBoard & WithRisk & Partial<{
+    owner: number; // Stage
+
+    from_loc: number;
+    to_loc: number;
+}>
+

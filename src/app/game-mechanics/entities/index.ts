@@ -15,27 +15,28 @@ export * from './Location.model';
 export * from './Path.model';
 export * from './types';
 
-import { GameAction, ActionList } from './Action.model';
-import { Condition, ConditionList } from './Condition.model';
-import { Round, RoundList } from './Round.model';
-import { Choice, ChoiceList } from './Choice.model';
-import { Stage, StageList } from './Stage.model';
-import { Resource, ResourceList } from './Resource.model';
-import { Field, FieldList } from './Field.model';
-import { Faction, FactionList } from './Faction.model';
-import { Pool, PoolList } from './Pool.model';
-import { Stack, StackList } from './Stack.model';
-import { Team, TeamList } from './Team.model';
-import { Token, TokenList } from './Token.model';
-import { Phase, PhaseList } from './Phase.model';
-import { PathEntity, PathEntityList } from './Path.model';
-import { LocationEntityList, LocationEntity } from './Location.model';
-
-export type EntityWithKeywords = GameAction | Faction | Field | Condition | Resource;
+import { GameAction } from './Action.model';
+import { Condition } from './Condition.model';
+import { Round } from './Round.model';
+import { Choice } from './Choice.model';
+import { Stage } from './Stage.model';
+import { Resource } from './Resource.model';
+import { Field } from './Field.model';
+import { Faction } from './Faction.model';
+import { Pool } from './Pool.model';
+import { Stack } from './Stack.model';
+import { Team } from './Team.model';
+import { Token } from './Token.model';
+import { Phase } from './Phase.model';
+import { PathEntity } from './Path.model';
+import { LocationEntity } from './Location.model';
+import { Dictionary } from '@app/shared';
 
 export type GameEntity = GameAction | LocationEntity | PathEntity | Condition |
     Round | Choice | Stage | Resource | Field | Faction | Pool | Stack | Token | Team | Phase;
 
-export type GameEntityList = ActionList | LocationEntityList | PathEntityList |
-    ConditionList | RoundList | ChoiceList | StageList | ResourceList | FieldList | FactionList | PoolList | StackList |
-    TeamList | TokenList | PhaseList;
+// export type GameEntityList = ActionList | LocationEntityList | PathEntityList |
+//     ConditionList | RoundList | ChoiceList | StageList | ResourceList | FieldList | FactionList | PoolList | StackList |
+//     TeamList | TokenList | PhaseList;
+
+export type GameEntityList = Dictionary<GameEntity>;

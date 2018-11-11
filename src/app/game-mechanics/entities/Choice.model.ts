@@ -1,26 +1,16 @@
-import { BaseModel } from "./Base.model";
-import { Stack } from "./Stack.model";
+import { BaseModel, WithPermissions, WithCost, WithCondition } from "./Base.model";
 import { Omit } from "@app/shared";
 
-export type Choice = BaseModel & Partial<{
+export type Choice = BaseModel & WithPermissions & WithCost & WithCondition & Partial<{
     mode: ChoiceMode;
 
-    cost: number[] | Stack[];
-    condition: Stack[] | number[];
-    restricted: number[] | Stack[];
-    allowed: number[] | Stack[];
-
-    options: ChoiceOption[];
+    options: number[]; //ChoiceOption[];
 }>
 
 export type ChoiceOption = Omit<BaseModel, 'game'> & Partial<{
-    owner: Choice | number;
-    effect: Stack[] | number[];
+    owner: number; // Choice
+    effect: number; // Source
 }>
-
-export type ChoiceList = {
-    [key: number]: Choice;
-}
 
 export type ChoiceMode = keyof typeof CHOICE_MODE;
 

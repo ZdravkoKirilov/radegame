@@ -1,15 +1,6 @@
-import { BaseModel } from "./Base.model";
-import { Pool } from "./Pool.model";
-import { Stack } from "./Stack.model";
+import { BaseModel, WithBoard } from "./Base.model";
 
-export type Team = BaseModel & Partial<{
+export type Team = BaseModel & WithBoard & Partial<{
     min_players: number;
     max_players: number;
-
-    effect_pool: number[] | Pool[];
-    income: number[] | Stack[];
 }>
-
-export type TeamList = {
-    [key: string]: Team;
-}

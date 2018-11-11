@@ -1,47 +1,32 @@
-import { BaseModel } from './Base.model';
-import { Stack } from './Stack.model';
-import { GameAction } from './Action.model';
-import { Resource } from './Resource.model';
-import { Faction } from './Faction.model';
-import { Choice } from './Choice.model';
-import { Field } from './Field.model';
-import { Token } from '@angular/compiler';
+import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes } from './Base.model';
 import { EntityType } from './types';
-import { Phase } from './Phase.model';
-// import { Stack } from './Stack.model';
 
-export type Condition = BaseModel & Partial<{
+export type Condition = BaseModel & WithPermissions & WithBoard & WithCost & WithStakes & Partial<{
 
     mode: ConditionMode;
 
-    award: number[] | Stack[];
-    penalty: number[] | Stack[];
-
-    restricted: number[] | Stack[];
-    allowed: number[] | Stack[];
-
-    clauses: number[] | Clause[];
+    clauses: number[]; // Clause[];
 }>
-
-export interface ConditionList {
-    [key: string]: Condition;
-}
 
 export type Clause = Partial<{
     id: number;
-    owner: number | Condition;
+    owner: number; // Condition;
 
     type: ClauseType;
     target_entity: EntityType;
 
-    condition: number | Condition;
-    action: number | GameAction;
-    resource: number | Resource;
-    token: number | Token;
-    choice: number | Choice;
-    faction: number | Faction;
-    field: number | Field;
-    phase: number | Phase;
+    condition: number; //Condition;
+    action: number; //GameAction;
+    token: number; //Token;
+    choice: number; //Choice;
+    faction: number; //Faction;
+    field: number; //Field;
+    phase: number; //Phase;
+    team: number; //Team;
+    location: number; // Location
+    round: number; // Round
+    path: number; // Path
+
     keywords: string;
 
     amount: number;

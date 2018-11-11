@@ -1,20 +1,9 @@
-import { Stack } from "./Stack.model";
-import { Resource } from "./Resource.model";
-import { Condition } from "./Condition.model";
-import { Choice } from "./Choice.model";
-import { Faction } from "./Faction.model";
-import { BaseModel } from "./Base.model";
-import { Token } from "./Token.model";
+import { BaseModel, WithPermissions, WithCost, WithCondition } from "./Base.model";
 
-export type GameAction = BaseModel & Partial<{
+export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & Partial<{
 
     mode: ActionMode;
     limit: number;
-    
-    cost: number[] | Stack[];
-    condition: number[] | Stack[];
-    restricted: number[] | Stack[];
-    allowed: number[] | Stack[];
 
     configs: ActionConfig[];
 }>
@@ -33,12 +22,11 @@ export type ActionConfig = Partial<{
     min_amount: number;
     random_amount: boolean;
 
-    resource: number | Resource;
-    condition: number | Condition;
-    choice: number | Choice;
-    faction: number | Faction;
-    token: number | Token;
-    action: number | GameAction;
+    condition: number; // Condition;
+    choice: number; //Choice;
+    faction: number; //Faction;
+    token: number; //Token;
+    action: number; //GameAction;
     keywords: string;
 }>
 
@@ -65,7 +53,7 @@ export const ACTION_MODE = {
     AUTO: 'AUTO',
 };
 
-export const TARGET_TYPE = {
+export const ACTION_TARGET = {
     'PLAYER': 'PLAYER',
     'OTHER_PLAYER': 'OTHER_PLAYER',
     'SELF': 'SELF',
@@ -77,7 +65,18 @@ export const TARGET_TYPE = {
     'OTHER_TOKEN': 'OTHER_TOKEN'
 };
 
-export type ActionTarget = keyof typeof TARGET_TYPE;
+export const ACTION_TARGET_TYPE = {
+    SELF: 'SELF',
+    ACTIVE: 'ACTIVE',
+    OTHER_TARGET: 'OTHER_TARGET',
+    TARGET: 'TARGET',
+    INVOLVED: 'INVOLVED',
+    OTHER_INVOLVED: 'OTHER_INVOLVED',
+}
+
+export type ActionTarget = keyof typeof ACTION_TARGET;
+
+export type ActionTargetType = keyof typeof ACTION_TARGET_TYPE;
 
 export type ActionMode = keyof typeof ACTION_MODE;
 

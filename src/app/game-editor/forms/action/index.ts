@@ -6,7 +6,7 @@ import {
 } from '@app/dynamic-forms';
 import {
     GameAction, ACTION_TYPE as types,
-    TARGET_TYPE, ACTION_MODE
+    ACTION_TARGET, ACTION_MODE
 } from '@app/game-mechanics';
 import {
     composeResourceOptions,
@@ -87,7 +87,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             data, configs, cost, restricted, allowed, condition,
             types: keys(types).map(key => ({ value: key, label: types[key] })),
             modes: keys(ACTION_MODE).map(key => ({ value: key, label: ACTION_MODE[key] })),
-            targets: composeFromObject(TARGET_TYPE),
+            targets: composeFromObject(ACTION_TARGET),
             resources: composeResourceOptions(ent),
             conditions: composeConditionOptions(ent),
             choices: composeChoiceOptions(ent),

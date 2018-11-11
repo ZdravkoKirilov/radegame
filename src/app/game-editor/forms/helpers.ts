@@ -2,7 +2,7 @@ import keys from 'lodash/keys';
 
 import {
     Condition, GameAction, Resource, Field, Round,
-    Stage, EntityWithKeywords, Choice, Faction, GameEntity, Pool, Phase, Stack
+    Stage, Choice, Faction, GameEntity, Pool, Phase, Stack
 } from '@app/game-mechanics';
 import { Option, ConnectedEntities, ToggleContext, BaseControl, controlTypes } from '@app/dynamic-forms';
 
@@ -102,8 +102,16 @@ export function composePhaseOptions(ent: ConnectedEntities): Option[] {
     }));
 }
 
-export function composeLocationOptions(ent: ConnectedEntities): Option[] {
+export function composeLocationOptions<T extends keyof ConnectedEntities>(ent: ConnectedEntities): Option[] {
     return ent.locations.map(elem => ({
+        label: elem.name,
+        value: elem.id,
+        image: elem.image
+    }));
+}
+
+export function composeEntityOptions(ent: ConnectedEntities, key: keyof ConnectedEntities): Option[] {
+    return ent[key as string].map(elem => ({
         label: elem.name,
         value: elem.id,
         image: elem.image
@@ -126,28 +134,6 @@ export function composeFromObject(obj: object): Option[] {
     return Object.keys(obj).map(key => ({ value: key, label: obj[key] }));
 }
 
-export function composeKeywordOptions(entities: Array<EntityWithKeywords>[] = []): Option[] {
-    const result = new Set();
-
-    entities.forEach((group: EntityWithKeywords[]) => {
-
-        group.forEach(elem => {
-            if (elem.keywords) {
-                const keywords = elem.keywords.split(';');
-                keywords.forEach((keyword: string) => {
-                    result.add({
-                        label: keyword,
-                        value: keyword
-                    });
-                });
-            }
-        });
-
-    });
-
-    return Array.from(result);
-}
-
 export function combineContexts(base: ToggleContext, contexts: ToggleContext[] = []): ToggleContext {
     const newContext = { ...base, show: { ...base.show } };
 
@@ -156,10 +142,3 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
     });
     return newContext;
 }
-
-export const composeEntityItem = (item: GameEntity, template: BaseControl): BaseControl => {
-    return {
-        type: controlTypes.FORM,
-        children: template.children.map(elem => ({ ...elem, value: item[elem.name] }))
-    };
-};
