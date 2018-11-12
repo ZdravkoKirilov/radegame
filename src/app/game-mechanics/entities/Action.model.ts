@@ -30,10 +30,6 @@ export type ActionConfig = Partial<{
     keywords: string;
 }>
 
-export type ActionList = {
-    [key: string]: GameAction;
-}
-
 export const ACTION_TYPE = {
     WIN_GAME: 'WIN_GAME',
     LOSE_GAME: 'LOSE_GAME',

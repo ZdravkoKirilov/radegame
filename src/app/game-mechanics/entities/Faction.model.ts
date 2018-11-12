@@ -1,6 +1,6 @@
-import { BaseModel, WithBoard } from "./Base.model";
+import { BaseModel, WithBoard, WithSettings } from "./Base.model";
 
-export type Faction = BaseModel & WithBoard & Partial<{
+export type Faction = BaseModel & WithBoard & WithSettings & Partial<{
     type: FactionType;
 }>
 

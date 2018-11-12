@@ -1,6 +1,3 @@
-import { Condition } from "./Condition.model";
-import { Source } from "./Source.model";
-
 export type BaseModel = Partial<{
     id: number;
     game: number;
@@ -17,27 +14,32 @@ export type WithPermissions = Partial<{
     allowed: number[]; // Condition;
 }>
 
-export type WithBoard = {
+export type WithBoard = Partial<{
     board: number; // Stage
-}
+}>
 
-export type WithCost = {
+export type WithCost = Partial<{
     cost: number; // Source
-}
+}>
 
-export type WithRisk = {
+export type WithRisk = Partial<{
     risk: number; // Source
-}
+}>
 
-export type WithCondition = {
+export type WithCondition = Partial<{
     condition: number; // Condition
-}
+}>
 
-export type WithStakes = {
+export type WithStakes = Partial<{
     done: number; // Source
     undone: number; // Source
-}
+}>
 
-export type WithReveal = {
-    reveal: number;
-}
+export type WithReveal = Partial<{
+    reveal_slots: number;
+    reveal_cost: number;
+}>
+
+export type WithSettings = Partial<{
+    settings: number[]; // Condition
+}>

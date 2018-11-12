@@ -1,11 +1,10 @@
-import { BaseModel, WithPermissions, WithBoard, WithRisk } from "./Base.model";
+import { BaseModel, WithPermissions, WithBoard, WithRisk, WithSettings } from "./Base.model";
 
-export type LocationEntity = BaseModel & WithPermissions & WithBoard & WithRisk & Partial<{
+export type LocationEntity = BaseModel & WithPermissions & WithBoard & WithRisk & WithSettings & Partial<{
     owner: number; // Stage;
 
     field: number; // Field;
     tokens: number[]; // Token[];
-    source: number; // Source;
 
     y: number;
     x: number;
