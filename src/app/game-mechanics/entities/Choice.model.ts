@@ -1,8 +1,10 @@
-import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal, WithSettings } from "./Base.model";
 import { Omit } from "@app/shared";
 
-export type Choice = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & Partial<{
+export type Choice = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & WithSettings & Partial<{
     mode: ChoiceMode;
+    
+    random: boolean;
 
     options: number[]; //ChoiceOption[];
 }>
@@ -15,7 +17,6 @@ export type ChoiceOption = Omit<BaseModel, 'game'> & Partial<{
 export type ChoiceMode = keyof typeof CHOICE_MODE;
 
 export const CHOICE_MODE = {
-    TRAP: 'TRAP',
     TRIGGER: 'TRIGGER',
     HYBRID: 'HYBRID',
     AUTO: 'AUTO',

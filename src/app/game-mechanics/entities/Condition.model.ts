@@ -1,18 +1,19 @@
-import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal } from './Base.model';
+import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal, WithSettings } from './Base.model';
 import { EntityType } from './types';
 
-export type Condition = BaseModel & WithPermissions & WithBoard & WithCost & WithStakes & WithReveal & Partial<{
+export type Condition = BaseModel & WithPermissions & WithBoard &
+    WithCost & WithStakes & WithReveal & WithSettings & Partial<{
 
-    mode: ConditionMode;
+        mode: ConditionMode;
 
-    clauses: number[]; // Clause[];
-}>
+        clauses: number[]; // Clause[];
+    }>
 
 export type Clause = Partial<{
     id: number;
     owner: number; // Condition;
 
-    type: ClauseType;
+    type: Clause;
     target_entity: EntityType;
 
     condition: number; //Condition;
@@ -34,39 +35,49 @@ export type Clause = Partial<{
     relation: ClauseRelation;
 }>
 
+export const CLAUSE = {
+
+    INTERSECT: 'INTERSECT', // meet / avoid
+
+    COMPLETE: 'COMPLETE',
+
+    HAVE: 'HAVE',
+    IS: 'IS',
+
+    GAIN: 'GAIN',
+    REACH: 'REACH',
+}
+
 export const CLAUSE_TYPE = {
-    'CLAIM': 'CLAIM',
-    'REACH': 'REACH',
-    'MEET': 'MEET',
-    'AVOID': 'AVOID',
-    'COMPLETE': 'COMPLETE',
-    'PLAY': 'PLAY',
-    'PLAY_MAX': 'PLAY_MAX',
-    'HAVE': 'HAVE',
-    'HAVE_MAX': 'HAVE_MAX',
-    'HAVE_MORE': 'HAVE_MORE',
-    'HAVE_LESS': 'HAVE_LESS',
-    'IS': 'IS',
-    'IS_BEFORE': 'IS_BEFORE',
-    'IS_AFTER': 'IS_AFTER',
+    MORE: 'MORE',
+    LESS: 'LESS',
+
+    MAX: 'MAX',
+    MIN: 'MIN',
+
+    PLAY: 'PLAY',
+
+    BEFORE: 'BEFORE',
+    AFTER: 'AFTER',
+    AT: 'AT'
 }
 
 export const CLAUSE_RELATIONS = {
-    'AND': 'AND',
-    'OR': 'OR',
-    'NOT': 'NOT',
+    AND: 'AND',
+    OR: 'OR',
+    NOT: 'NOT',
 }
 
 export const CONDITION_MODES = {
-    'TRAP': 'TRAP',
-    'TRIGGER': 'TRIGGER',
-    'HYBRID': 'HYBRID',
-    'AUTO': 'AUTO',
+    TRIGGER: 'TRIGGER',
+    HYBRID: 'HYBRID',
+    AUTO: 'AUTO',
+    RULE: 'RULE',
 }
 
 type ConditionMode = keyof typeof CONDITION_MODES;
 type ClauseRelation = keyof typeof CLAUSE_RELATIONS;
-type ClauseType = keyof typeof CLAUSE_TYPE;
+type Clause = keyof typeof CLAUSE;
 
 
 

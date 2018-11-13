@@ -14,6 +14,7 @@ export * from './Phase.model';
 export * from './Location.model';
 export * from './Path.model';
 export * from './types';
+export * from './Edition.model';
 
 import { GameAction } from './Action.model';
 import { Condition } from './Condition.model';
@@ -30,13 +31,10 @@ import { Token } from './Token.model';
 import { Phase } from './Phase.model';
 import { PathEntity } from './Path.model';
 import { LocationEntity } from './Location.model';
+import { Edition } from './Edition.model';
 import { Dictionary } from '@app/shared';
 
 export type GameEntity = GameAction | LocationEntity | PathEntity | Condition |
-    Round | Choice | Stage | Resource | Field | Faction | Pool | Stack | Token | Team | Phase;
-
-// export type GameEntityList = ActionList | LocationEntityList | PathEntityList |
-//     ConditionList | RoundList | ChoiceList | StageList | ResourceList | FieldList | FactionList | PoolList | StackList |
-//     TeamList | TokenList | PhaseList;
+    Round | Choice | Stage | Resource | Field | Faction | Pool | Stack | Token | Team | Phase | Edition;
 
 export type GameEntityList = Dictionary<GameEntity>;

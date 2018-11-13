@@ -1,10 +1,6 @@
-import { BaseModel } from "./Base.model";
-import { Choice } from "./Choice.model";
-import { GameAction } from "./Action.model";
-import { Condition } from "./Condition.model";
-import { Token } from "./Token.model";
+import { BaseModel, WithPermissions, WithCost } from "./Base.model";
 
-export type Source = BaseModel & Partial<{
+export type Source = BaseModel & WithPermissions & WithCost & Partial<{
 
     mode: SourceMode;
     pick: SourcePickMode;
@@ -17,16 +13,12 @@ export type SourceItem = Partial<{
     id: number;
     owner: number;
 
-    action: number | GameAction;
-    condition: number | Condition;
-    choice: number | Choice;
-    token: number | Token;
+    action: number; //GameAction;
+    condition: number; //Condition;
+    choice: number; //Choice;
+    token: number; //Token;
     source: number; // Source
 
-    restricted: number[] | Condition[];
-    allowed: number[] | Condition[];
-
-    cost: number[] | Source[];
     relation: SourceRelation;
 }>
 
@@ -35,21 +27,15 @@ export const SOURCE_MODES = {
     AUTO: 'AUTO',
 };
 
-export type SourceMode = keyof typeof SOURCE_MODES;
-
 export const SOURCE_PICK = {
     RANDOM: 'RANDOM',
     CHOICE: 'CHOICE'
 };
 
-export type SourcePickMode = keyof typeof SOURCE_PICK;
-
 export const SOURCE_QUOTA = {
     ONCE: 'ONCE',
     REPEATING: 'REPEATING'
 };
-
-export type SourceQuotaMode = keyof typeof SOURCE_QUOTA;
 
 export const SOURCE_RELATION = {
     NONE: 'NONE',
@@ -58,4 +44,7 @@ export const SOURCE_RELATION = {
     NOT: 'NOT'
 };
 
+export type SourceMode = keyof typeof SOURCE_MODES;
+export type SourcePickMode = keyof typeof SOURCE_PICK;
+export type SourceQuotaMode = keyof typeof SOURCE_QUOTA;
 export type SourceRelation = keyof typeof SOURCE_RELATION;

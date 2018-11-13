@@ -1,9 +1,8 @@
-import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal, WithSettings } from "./Base.model";
 
-export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & Partial<{
+export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & WithSettings & Partial<{
 
     mode: ActionMode;
-    limit: number;
 
     configs: ActionConfig[];
 }>
@@ -16,7 +15,7 @@ export type ActionConfig = Partial<{
     target: ActionTarget;
 
     value: string;
-    
+
     amount: number;
     max_amount: number;
     min_amount: number;
@@ -31,34 +30,41 @@ export type ActionConfig = Partial<{
 }>
 
 export const ACTION_TYPE = {
+
     WIN_GAME: 'WIN_GAME',
     LOSE_GAME: 'LOSE_GAME',
+
     MOVE: 'MOVE',
-    ALTER_RESOURCE: 'ALTER_RESOURCE',
+    HOP: 'HOP', // teleport
+
     DRAW: 'DRAW',
-    REDIRECT: 'REDIRECT',
-    GAMBLE: 'GAMBLE',
+    REVEAL: 'REVEAL',
+    RETURN: 'RETURN',
+    DISCARD: 'DISCARD',
     DROP: 'DROP',
-    LOAD: 'LOAD',
-    ALTER_KEYWORDS: 'ALTER_KEYWORDS'
+
+    ALTER: 'ALTER',
+
+    GAIN: 'GAIN',
+
+    GAMBLE: 'GAMBLE', // may require more fields?
 };
+
 export const ACTION_MODE = {
-    TRAP: 'TRAP',
     TRIGGER: 'TRIGGER',
+    AUTO: 'AUTO', // onstep @ revealed, onstep @ hidden when field/loc. Revealed when on faction
+
     HYBRID: 'HYBRID',
-    AUTO: 'AUTO',
 };
 
 export const ACTION_TARGET = {
-    'PLAYER': 'PLAYER',
-    'OTHER_PLAYER': 'OTHER_PLAYER',
-    'SELF': 'SELF',
-    'ACTIVE_PLAYER': 'ACTIVE_PLAYER',
-    'FACTION': 'FACTION',
-    'KEYWORD': 'KEYWORD',
-    'TOKEN': 'TOKEN',
-    'ACTIVE_TOKEN': 'ACTIVE_TOKEN',
-    'OTHER_TOKEN': 'OTHER_TOKEN'
+    PLAYER: 'PLAYER',
+    FACTION: 'FACTION',
+    KEYWORD: 'KEYWORD',
+    TEAM: 'TEAM',
+    TOKEN: 'TOKEN',
+    LOCATION: 'LOCATION',
+    PATH: 'PATH',
 };
 
 export const ACTION_TARGET_TYPE = {
@@ -68,6 +74,8 @@ export const ACTION_TARGET_TYPE = {
     TARGET: 'TARGET',
     INVOLVED: 'INVOLVED',
     OTHER_INVOLVED: 'OTHER_INVOLVED',
+    OPPONENT: 'OPPONENT',
+    TEAMMATE: 'TEAMMATE',
 }
 
 export type ActionTarget = keyof typeof ACTION_TARGET;
