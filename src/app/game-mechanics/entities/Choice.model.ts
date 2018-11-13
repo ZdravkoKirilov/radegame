@@ -1,15 +1,17 @@
-import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal, WithSettings } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal, WithSettings, WithStakes } from "./Base.model";
 import { Omit } from "@app/shared";
 
-export type Choice = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & WithSettings & Partial<{
-    mode: ChoiceMode;
-    
-    random: boolean;
+export type Choice = BaseModel & WithPermissions & WithCost & WithCondition &
+    WithStakes & WithReveal & WithSettings & Partial<{
+        mode: ChoiceMode;
 
-    options: number[]; //ChoiceOption[];
-}>
+        random: boolean;
 
-export type ChoiceOption = Omit<BaseModel, 'game'> & Partial<{
+        options: number[]; //ChoiceOption[];
+    }>
+
+// settings -> conditions with isTrue and isFalse to mark each answer as such, which allows the parent to have withStake
+export type ChoiceOption = Omit<BaseModel, 'game'> & WithSettings & Partial<{
     owner: number; // Choice
     effect: number; // Source
 }>

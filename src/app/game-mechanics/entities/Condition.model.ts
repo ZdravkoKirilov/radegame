@@ -46,6 +46,9 @@ export const CLAUSE = {
 
     GAIN: 'GAIN',
     REACH: 'REACH',
+
+    TRIGGER: 'TRIGGER',
+    REVEAL: 'REVEAL',
 }
 
 export const CLAUSE_TYPE = {
@@ -55,11 +58,12 @@ export const CLAUSE_TYPE = {
     MAX: 'MAX',
     MIN: 'MIN',
 
-    PLAY: 'PLAY',
-
     BEFORE: 'BEFORE',
     AFTER: 'AFTER',
-    AT: 'AT'
+    AT: 'AT',
+
+    CORRECT: 'CORRECT',
+    INCORRECT: 'INCORRECT',
 }
 
 export const CLAUSE_RELATIONS = {
