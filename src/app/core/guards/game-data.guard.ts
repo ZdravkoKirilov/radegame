@@ -57,7 +57,7 @@ export class GameDataGuard implements CanActivate {
             this.api.getStages(gameId),
             this.api.getConditions(gameId),
             this.api.getFields(gameId),
-            this.api.getMapLocations(gameId),
+            this.api.getSlots(gameId),
             this.api.getPaths(gameId),
             this.api.getChoices(gameId)
         ]).pipe(

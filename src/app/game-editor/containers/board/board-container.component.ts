@@ -32,7 +32,7 @@ export class BoardContainerComponent {
     entities: ConnectedEntities
   }> = combineLatest(
     this.store.pipe(select(getActiveStage)),
-    this.store.pipe(select(getItems<Slot[]>(formKeys.LOCATIONS))),
+    this.store.pipe(select(getItems<Slot[]>(formKeys.SLOTS))),
     this.store.pipe(select(getItems<PathEntity[]>(formKeys.PATHS))),
     this.store.pipe(select(getEntities)),
   ).pipe(

@@ -25,7 +25,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
     private sub: Subscription;
 
     private fKey = formKeys.FIELDS;
-    private lKey = formKeys.LOCATIONS;
+    private lKey = formKeys.SLOTS;
     private pKey = formKeys.PATHS;
     private sKey = formKeys.STAGES;
 

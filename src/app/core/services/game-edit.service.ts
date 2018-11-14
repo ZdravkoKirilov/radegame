@@ -16,6 +16,7 @@ import {
     Stage,
     Token,
     Phase,
+    Source,
 } from '@app/game-mechanics';
 import { toMultipartFormData } from '@app/shared';
 import { API_URLS } from '../config';
@@ -43,14 +44,6 @@ export class GameEditService {
     }
 
     saveFaction(data: Faction): Observable<any> {
-        // const formData = toMultipartFormData(data);
-        // const options = { headers: new HttpHeaders({}) };
-
-        // if (data.id) {
-        //     return this.http.patch(API_URLS.FACTIONS(data.game, data.id), formData, options);
-        // } else {
-        //     return this.http.post(API_URLS.FACTIONS(data.game), formData, options);
-        // }
         if (data.id) {
             return this.http.patch(API_URLS.FACTIONS(data.game, data.id), data);
         } else {
@@ -63,14 +56,6 @@ export class GameEditService {
     }
 
     saveAction(data: GameAction): Observable<any> {
-        //const formData = toMultipartFormData(data);
-        //const options = { headers: new HttpHeaders({}) };
-
-        // if (data.id) {
-        //     return this.http.patch(API_URLS.ACTIVITIES(data.game, data.id), formData, options);
-        // } else {
-        //     return this.http.post(API_URLS.ACTIVITIES(data.game), formData, options);
-        // }
         if (data.id) {
             return this.http.patch(API_URLS.ACTIONS(data.game, data.id), data);
         } else {
@@ -110,14 +95,6 @@ export class GameEditService {
     }
 
     saveCondition(data: Condition): Observable<any> {
-        // const formData = toMultipartFormData(data);
-        // const options = { headers: new HttpHeaders({}) };
-
-        // if (data.id) {
-        //     return this.http.patch(API_URLS.QUESTS(data.game, data.id), formData, options);
-        // } else {
-        //     return this.http.post(API_URLS.QUESTS(data.game), formData, options);
-        // }
 
         if (data.id) {
             return this.http.patch(API_URLS.CONDITIONS(data.game, data.id), data);
@@ -211,14 +188,6 @@ export class GameEditService {
     }
 
     saveChoice(data: Choice): Observable<any> {
-        // const formData = objectToFormData(data);
-        // const options = { headers: new HttpHeaders({}) };
-
-        // if (data.id) {
-        //     return this.http.patch(API_URLS.TRIVIA(data.game, data.id), formData, options);
-        // } else {
-        //     return this.http.post(API_URLS.TRIVIA(data.game), formData, options);
-        // }
 
         if (data.id) {
             return this.http.patch(API_URLS.CHOICES(data.game, data.id), data);
@@ -235,19 +204,39 @@ export class GameEditService {
         return this.http.get(API_URLS.MAPS(gameId));
     }
 
-    saveMapLocation(data: Slot): Observable<any> {
+    saveSlot(data: Slot): Observable<any> {
         if (data.id) {
-            return this.http.patch(API_URLS.LOCATIONS(data.game, data.id), data);
+            return this.http.patch(API_URLS.SLOTS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.LOCATIONS(data.game), data);
+            return this.http.post(API_URLS.SLOTS(data.game), data);
         }
     }
 
-    getMapLocations(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.LOCATIONS(gameId));
+    deleteSlot(data: Slot): Observable<any> {
+        return this.http.delete(API_URLS.SLOTS(data.game, data.id));
     }
 
-    saveBoardField(data: Field): Observable<any> {
+    getSlots(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.SLOTS(gameId));
+    }
+
+    saveSource(data: Source): Observable<any> {
+        if (data.id) {
+            return this.http.patch(API_URLS.SOURCES(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.SOURCES(data.game), data);
+        }
+    }
+
+    deleteSource(data: Source): Observable<any> {
+        return this.http.delete(API_URLS.SOURCES(data.game, data.id));
+    }
+
+    getSources(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.SOURCES(gameId));
+    }
+
+    saveField(data: Field): Observable<any> {
         const formData: any = toMultipartFormData(data);
         const options = { headers: new HttpHeaders({}) };
         if (data.id) {
@@ -257,7 +246,7 @@ export class GameEditService {
         }
     }
 
-    deleteBoardField(data: Field): Observable<any> {
+    deleteField(data: Field): Observable<any> {
         return this.http.delete(API_URLS.FIELDS(data.game, data.id));
     }
 

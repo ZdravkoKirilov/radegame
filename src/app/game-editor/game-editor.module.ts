@@ -28,6 +28,7 @@ import { BoardEditService } from './services';
 import { BoardEditorComponent } from './components/board/board-editor.component';
 import { BoardToolbarComponent } from './components/board/toolbar/board-toolbar.component';
 import { BoardMainComponent } from './components/board/main/board-main.component';
+import { SourcesContainerComponent } from './containers/sources/sources-container.component';
 
 @NgModule({
     imports: [
@@ -72,7 +73,8 @@ import { BoardMainComponent } from './components/board/main/board-main.component
         BoardEditorComponent,
         BoardContainerComponent,
         BoardToolbarComponent,
-        BoardMainComponent
+        BoardMainComponent,
+        SourcesContainerComponent
     ]
 })
 export class GameEditorModule {

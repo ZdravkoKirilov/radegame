@@ -1,9 +1,7 @@
 import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal, WithSettings } from "./Base.model";
 
 export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & WithSettings & Partial<{
-
     mode: ActionMode;
-
     configs: ActionConfig[];
 }>
 

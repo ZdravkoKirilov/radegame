@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '@app/core';
-import { GameEntity, GameAction, Field, Condition, Round, Faction, Token, Phase, Choice, PathEntity } from '@app/game-mechanics';
+import { GameEntity, GameAction, Field, Condition, Round, Faction, Token, Phase, Choice, PathEntity, Source } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
 import {
     GenericActionPayload,
@@ -107,17 +107,20 @@ export class GenericEffectsService {
                 return this.api.getStages(data);
             case formKeys.CHOICES:
                 return this.api.getChoices(data);
-            case formKeys.LOCATIONS:
-                return this.api.getMapLocations(data);
+            case formKeys.SLOTS:
+                return this.api.getSlots(data);
             case formKeys.PATHS:
                 return this.api.getPaths(data);
+            case formKeys.TOKENS:
                 return this.api.getTokens(data);
             case formKeys.PHASES:
                 return this.api.getPhases(data);
             case formKeys.TEAMS:
                 return this.api.getTeams(data);
+            case formKeys.SOURCES:
+                return this.api.getSources(data);
             case formKeys.GAMES:
-                return this.api.getGames()
+                return this.api.getGames();
             default:
                 return of(null);
         }
@@ -130,7 +133,7 @@ export class GenericEffectsService {
             case formKeys.FACTIONS:
                 return this.api.saveFaction(<Faction>entity);
             case formKeys.FIELDS:
-                return this.api.saveBoardField(<Field>entity);
+                return this.api.saveField(<Field>entity);
             case formKeys.CONDITIONS:
                 return this.api.saveCondition(<Condition>entity);
             case formKeys.ROUNDS:
@@ -139,8 +142,8 @@ export class GenericEffectsService {
                 return this.api.saveStage(entity);
             case formKeys.CHOICES:
                 return this.api.saveChoice(<Choice>entity);
-            case formKeys.LOCATIONS:
-                return this.api.saveMapLocation(entity);
+            case formKeys.SLOTS:
+                return this.api.saveSlot(entity);
             case formKeys.PATHS:
                 return this.api.saveMapPath(<PathEntity>entity);
             case formKeys.TOKENS:
@@ -149,8 +152,10 @@ export class GenericEffectsService {
                 return this.api.savePhase(<Phase>entity);
             case formKeys.TEAMS:
                 return this.api.saveTeam(entity);
+            case formKeys.SOURCES:
+                return this.api.saveSource(<Source>entity);
             case formKeys.GAMES:
-                return this.api.saveGame(entity)
+                return this.api.saveGame(entity);
             default:
                 return of(null);
         }
@@ -163,7 +168,7 @@ export class GenericEffectsService {
             case formKeys.FACTIONS:
                 return this.api.deleteFaction(entity);
             case formKeys.FIELDS:
-                return this.api.deleteBoardField(entity);
+                return this.api.deleteField(entity);
             case formKeys.CONDITIONS:
                 return this.api.deleteCondition(entity);
             case formKeys.ROUNDS:
@@ -180,6 +185,10 @@ export class GenericEffectsService {
                 return this.api.deletePhase(entity);
             case formKeys.TEAMS:
                 return this.api.deleteTeam(entity);
+            case formKeys.SLOTS:
+                return this.api.deleteSlot(entity);
+            case formKeys.SOURCES:
+                return this.api.deleteSource(entity);
             default:
                 return of(null);
         }

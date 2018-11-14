@@ -6,7 +6,7 @@ import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent,
     RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent,
-    TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent, BoardContainerComponent
+    TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent, BoardContainerComponent, SourcesContainerComponent
 } from './containers';
 import { IndexComponent } from './components';
 
@@ -74,6 +74,10 @@ export const routes: Routes = [
             {
                 path: 'teams',
                 component: TeamsContainerComponent
+            },
+            {
+                path: 'sources',
+                component: SourcesContainerComponent
             }
         ]
     }
