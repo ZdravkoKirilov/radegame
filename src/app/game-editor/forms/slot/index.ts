@@ -1,8 +1,7 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { LocationEntity } from "@app/game-mechanics";
-import { composeFieldOptions, composeTokenOptions, composeStackOptions } from "../helpers";
+import { Slot } from "@app/game-mechanics";
 
-export const composeLocationForm: FormDefinition = (data: LocationEntity, ent?: ConnectedEntities) => {
+export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
 
     data = data || {};
 
@@ -41,9 +40,9 @@ export const composeLocationForm: FormDefinition = (data: LocationEntity, ent?: 
         source: template,
         context: {
             data,
-            fields: composeFieldOptions(ent),
-            tokens: composeTokenOptions(ent),
-            stacks: composeStackOptions(ent),
+            fields: [],
+            tokens: [],
+            stacks: [],
         },
     }, true);
 

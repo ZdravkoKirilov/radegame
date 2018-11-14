@@ -4,7 +4,7 @@ import { AppState } from '@app/core';
 import { combineLatest, Observable } from 'rxjs';
 import { getActiveStage, getItems, formKeys, getEntities } from 'app/game-editor/state';
 import { map, filter } from 'rxjs/operators';
-import { Stage, LocationEntity, PathEntity } from '@app/game-mechanics';
+import { Stage, Slot, PathEntity } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
 
 @Component({
@@ -27,12 +27,12 @@ export class BoardContainerComponent {
 
   data$: Observable<{
     stage: Stage,
-    locations: LocationEntity[],
+    locations: Slot[],
     paths: PathEntity[],
     entities: ConnectedEntities
   }> = combineLatest(
     this.store.pipe(select(getActiveStage)),
-    this.store.pipe(select(getItems<LocationEntity[]>(formKeys.LOCATIONS))),
+    this.store.pipe(select(getItems<Slot[]>(formKeys.LOCATIONS))),
     this.store.pipe(select(getItems<PathEntity[]>(formKeys.PATHS))),
     this.store.pipe(select(getEntities)),
   ).pipe(

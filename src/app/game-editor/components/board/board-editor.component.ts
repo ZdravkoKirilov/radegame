@@ -1,7 +1,7 @@
 import { Component, Input } from '@angular/core';
-import { composeLocationForm, composePathForm } from '../../forms';
+import { composeSlotForm, composePathForm } from '../../forms';
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { LocationEntity, PathEntity, Stage } from '@app/game-mechanics';
+import { Slot, PathEntity, Stage } from '@app/game-mechanics';
 
 @Component({
   selector: 'rg-board-editor',
@@ -47,8 +47,8 @@ import { LocationEntity, PathEntity, Stage } from '@app/game-mechanics';
 })
 export class BoardEditorComponent {
 
-  @Input() entities: ConnectedEntities = { fields: [], stacks: [] };
-  @Input() locations: LocationEntity[];
+  @Input() entities: ConnectedEntities = { fields: [] };
+  @Input() locations: Slot[];
   @Input() paths: PathEntity[];
   @Input() stage: Stage;
 
@@ -60,10 +60,10 @@ export class BoardEditorComponent {
   showPathEditor = false;
   pathMode = false;
 
-  locationForm = composeLocationForm;
+  locationForm = composeSlotForm;
   pathForm = composePathForm;
 
-  selectedLocation: LocationEntity;
+  selectedLocation: Slot;
   selectedPath: PathEntity;
 
 }

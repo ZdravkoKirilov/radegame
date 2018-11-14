@@ -61,7 +61,6 @@ export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFe
 export const formReducer: ActionReducer<any> = combineReducers({
     factions: createEntityReducer(formKeys.FACTIONS),
     tokens: createEntityReducer(formKeys.TOKENS),
-    resources: createEntityReducer(formKeys.RESOURCES),
     fields: createEntityReducer(formKeys.FIELDS),
     locations: createEntityReducer(formKeys.LOCATIONS),
     paths: createEntityReducer(formKeys.PATHS),
@@ -71,8 +70,6 @@ export const formReducer: ActionReducer<any> = combineReducers({
     phases: createEntityReducer(formKeys.PHASES),
     choices: createEntityReducer(formKeys.CHOICES),
     stages: createEntityReducer(formKeys.STAGES),
-    stacks: createEntityReducer(formKeys.STACKS),
-    pools: createEntityReducer(formKeys.POOLS),
     games: createEntityReducer(formKeys.GAMES),
     teams: createEntityReducer(formKeys.TEAMS),
 });

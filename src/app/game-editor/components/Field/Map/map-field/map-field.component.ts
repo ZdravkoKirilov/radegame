@@ -1,7 +1,6 @@
 import { Component, OnInit, OnDestroy, OnChanges, Input, ChangeDetectionStrategy, SimpleChanges } from '@angular/core';
 
-import { Field, LocationEntity, SceneRenderService } from '@app/game-mechanics';
-import { DEFAULT_MAP_LOCATION } from '../../../../utils';
+import { Field, Slot, SceneRenderService } from '@app/game-mechanics';
 import { propHasNewValue } from '@app/shared';
 
 @Component({
@@ -12,7 +11,7 @@ import { propHasNewValue } from '@app/shared';
 })
 export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
     @Input() data: Field;
-    @Input() mapLocation: LocationEntity;
+    @Input() mapLocation: Slot;
     @Input() selected = false;
 
     constructor(private scr: SceneRenderService) {
@@ -27,7 +26,7 @@ export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
                 paths: new Set(),
                 id
             };
-            const initialSettings = this.mapLocation || DEFAULT_MAP_LOCATION;
+            const initialSettings = this.mapLocation || {};
             this.scr.saveElement(this.data.image, initialSettings, data.id);
         }
     }
@@ -38,7 +37,7 @@ export class MapFieldComponent implements OnInit, OnDestroy, OnChanges {
 
     ngOnChanges(c: SimpleChanges) {
         if (propHasNewValue(c, 'mapLocation')) {
-            const locValue: LocationEntity = c.mapLocation.currentValue;
+            const locValue: Slot = c.mapLocation.currentValue;
             this.scr.saveElement(this.data.image, locValue, locValue.id);
         }
     }

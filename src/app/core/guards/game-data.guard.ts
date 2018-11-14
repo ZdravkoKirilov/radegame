@@ -8,7 +8,7 @@ import * as actions from '../state/actions';
 import { selectPreloadedGameIds, Cache } from '../state';
 import { toIndexedList, ROUTER_PARAMS } from '@app/shared';
 import { GameEditService } from '../services';
-import { GameTemplate, GameEntity } from '@app/game-mechanics';
+import { GameTemplate } from '@app/game-mechanics';
 
 @Injectable()
 export class GameDataGuard implements CanActivate {
@@ -51,7 +51,6 @@ export class GameDataGuard implements CanActivate {
 
     load(gameId: number): Observable<GameTemplate> {
         return forkJoin([
-            this.api.getResources(gameId),
             this.api.getFactions(gameId),
             this.api.getActions(gameId),
             this.api.getRounds(gameId),

@@ -6,17 +6,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import {
     Field,
     Faction,
-    Resource,
     Game,
-    LocationEntity,
+    Slot,
     PathEntity,
     GameAction,
     Condition,
     Round,
     Choice,
     Stage,
-    Stack,
-    Pool,
     Token,
     Phase,
 } from '@app/game-mechanics';
@@ -108,25 +105,6 @@ export class GameEditService {
         return this.http.get(API_URLS.STAGES(gameId));
     }
 
-    getResources(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.RESOURCES(gameId));
-    }
-
-    saveResource(data: Resource): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
-
-        if (data.id) {
-            return this.http.patch(API_URLS.RESOURCES(data.game, data.id), formData, options);
-        } else {
-            return this.http.post(API_URLS.RESOURCES(data.game), formData, options);
-        }
-    }
-
-    deleteResource(data: Resource): Observable<any> {
-        return this.http.delete(API_URLS.RESOURCES(data.game, data.id));
-    }
-
     getConditions(gameId: number): Observable<any> {
         return this.http.get(API_URLS.CONDITIONS(gameId));
     }
@@ -169,44 +147,6 @@ export class GameEditService {
 
     deleteRound(data: Round): Observable<any> {
         return this.http.delete(API_URLS.ROUNDS(data.game, data.id));
-    }
-
-    getStacks(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.STACKS(gameId));
-    }
-
-    saveStack(data: Stack): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
-
-        if (data.id) {
-            return this.http.patch(API_URLS.STACKS(data.game, data.id), formData, options);
-        } else {
-            return this.http.post(API_URLS.STACKS(data.game), formData, options);
-        }
-    }
-
-    deleteStack(data: Stack): Observable<any> {
-        return this.http.delete(API_URLS.STACKS(data.game, data.id));
-    }
-
-    getPools(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.POOLS(gameId));
-    }
-
-    savePool(data: Pool): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
-
-        if (data.id) {
-            return this.http.patch(API_URLS.POOLS(data.game, data.id), formData, options);
-        } else {
-            return this.http.post(API_URLS.POOLS(data.game), formData, options);
-        }
-    }
-
-    deletePool(data: Pool): Observable<any> {
-        return this.http.delete(API_URLS.POOLS(data.game, data.id));
     }
 
     getTokens(gameId: number): Observable<any> {
@@ -295,7 +235,7 @@ export class GameEditService {
         return this.http.get(API_URLS.MAPS(gameId));
     }
 
-    saveMapLocation(data: LocationEntity): Observable<any> {
+    saveMapLocation(data: Slot): Observable<any> {
         if (data.id) {
             return this.http.patch(API_URLS.LOCATIONS(data.game, data.id), data);
         } else {

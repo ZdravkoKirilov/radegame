@@ -4,9 +4,7 @@ import { Omit } from "@app/shared";
 export type Choice = BaseModel & WithPermissions & WithCost & WithCondition &
     WithStakes & WithReveal & WithSettings & Partial<{
         mode: ChoiceMode;
-
         random: boolean;
-
         options: number[]; //ChoiceOption[];
     }>
 

@@ -1,7 +1,7 @@
 import { Subject } from 'rxjs';
 import * as PIXI from 'pixi.js-legacy';
 
-import { LocationEntity } from '../../entities';
+import { Slot } from '../../entities';
 import { ISpriteComponent } from './SpriteComponent';
 
 export class MapNode implements ISpriteComponent {
@@ -12,16 +12,16 @@ export class MapNode implements ISpriteComponent {
 
     loaded: Subject<PIXI.Sprite> = new Subject();
     change: Subject<any> = new Subject();
-    moved: Subject<LocationEntity> = new Subject();
-    select: Subject<LocationEntity> = new Subject();
+    moved: Subject<Slot> = new Subject();
+    select: Subject<Slot> = new Subject();
 
     loader: PIXI.Loader;
     sprite: PIXI.Sprite;
     graphics: PIXI.Graphics;
     image: string;
-    _data: LocationEntity;
+    _data: Slot;
 
-    constructor(image: string, data: LocationEntity) {
+    constructor(image: string, data: Slot) {
         this.image = image;
         this.loader = new PIXI.Loader();
         this.graphics = new PIXI.Graphics();
@@ -100,7 +100,7 @@ export class MapNode implements ISpriteComponent {
         return this._data;
     }
 
-    set data(data: LocationEntity) {
+    set data(data: Slot) {
         this._data = data;
         this.update();
     }

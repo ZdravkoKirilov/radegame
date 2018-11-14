@@ -2,11 +2,9 @@ import {
     BaseControl,
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
-import {
-    Resource
-} from '@app/game-mechanics';
+import { Phase } from '@app/game-mechanics';
 
-export const composePhaseForm: FormDefinition = (data: Resource, ent?: ConnectedEntities) => {
+export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEntities) => {
     data = data || {};
 
     const template = `

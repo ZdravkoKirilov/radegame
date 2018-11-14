@@ -1,6 +1,6 @@
 import { Component, Input, Output, EventEmitter, ChangeDetectionStrategy, TemplateRef } from '@angular/core';
 
-import { Field, PathEntity, LocationEntityList, LocationEntity, Stage } from '@app/game-mechanics';
+import { Field, PathEntity, Slot, Stage } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 
 @Component({
@@ -18,7 +18,7 @@ export class FieldsComponent {
     @Output() savePath: EventEmitter<PathEntity> = new EventEmitter();
     @Output() removePath: EventEmitter<PathEntity> = new EventEmitter();
     @Output() selectPath: EventEmitter<PathEntity> = new EventEmitter();
-    @Output() saveMapLocation: EventEmitter<LocationEntity> = new EventEmitter();
+    @Output() saveMapLocation: EventEmitter<Slot> = new EventEmitter();
     @Output() setPathCreation: EventEmitter<boolean> = new EventEmitter();
     @Output() toggleFieldEditor: EventEmitter<boolean> = new EventEmitter();
     @Output() toggleListView: EventEmitter<boolean> = new EventEmitter();
@@ -31,7 +31,7 @@ export class FieldsComponent {
     @Input() formDefinition: FormDefinition;
     @Input() fields: Field[];
     @Input() paths: PathEntity[];
-    @Input() locations: LocationEntityList;
+    @Input() locations: any;
     @Input() stage: Stage;
     @Input() connectedEntities: ConnectedEntities;
     @Input() pathCreationMode: boolean;

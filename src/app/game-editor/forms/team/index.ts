@@ -1,11 +1,10 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Team } from "@app/game-mechanics";
-import { composeStackOptions, composePoolOptions } from "../helpers";
 
 export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
-    const income = data.income || [];
-    const effect_pool = data.effect_pool || [];
+    const income =  [];
+    const effect_pool = [];
 
     const template = `
     <Form>
@@ -35,8 +34,8 @@ export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntiti
         source: template,
         context: {
             data, income, effect_pool,
-            stacks: composeStackOptions(ent),
-            pools: composePoolOptions(ent),
+            stacks: [],
+            pools: [],
         }
     }, true) as BaseControl[];
 

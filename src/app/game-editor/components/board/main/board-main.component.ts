@@ -5,7 +5,7 @@ import {
 import { Store } from '@ngrx/store';
 
 import { BoardEditService } from '../../../services';
-import { LocationEntity, PathEntity, Stage } from '@app/game-mechanics';
+import { Slot, PathEntity, Stage } from '@app/game-mechanics';
 import { AppState } from '@app/core';
 
 @Component({
@@ -20,12 +20,12 @@ export class BoardMainComponent implements OnInit, OnChanges {
 
   @ViewChild('canvasWrapper') canvasWrapper: ElementRef<HTMLDivElement>;
 
-  @Output() selectLocation = new EventEmitter<LocationEntity>();
+  @Output() selectLocation = new EventEmitter<Slot>();
   @Output() selectPath = new EventEmitter<PathEntity>();
-  @Output() dragEnd = new EventEmitter<LocationEntity>();
+  @Output() dragEnd = new EventEmitter<Slot>();
 
-  @Input() locations: LocationEntity[];
-  @Input() selectedLocation: LocationEntity;
+  @Input() locations: Slot[];
+  @Input() selectedLocation: Slot;
 
   @Input() paths: PathEntity[];
   @Input() selectedPath: PathEntity;

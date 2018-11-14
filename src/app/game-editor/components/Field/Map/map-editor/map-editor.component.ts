@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { Subscription } from 'rxjs';
 
-import { Field, LocationEntity, PathEntity, Stage, SceneRenderService } from '@app/game-mechanics';
+import { Field, Slot, PathEntity, Stage, SceneRenderService } from '@app/game-mechanics';
 import { KEYCODES } from '../../../../utils';
 import { propHasChanged, getPropValue } from '@app/shared';
 
@@ -18,7 +18,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @ViewChild('canvasWrapper') canvasWrapper: ElementRef;
 
     @Output() changeBackground: EventEmitter<any> = new EventEmitter();
-    @Output() saveMapLocation: EventEmitter<LocationEntity> = new EventEmitter();
+    @Output() saveMapLocation: EventEmitter<Slot> = new EventEmitter();
     @Output() deleteField: EventEmitter<any> = new EventEmitter();
     @Output() selectField: EventEmitter<number> = new EventEmitter();
     @Output() setPathCreation: EventEmitter<boolean> = new EventEmitter();
@@ -30,7 +30,7 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
     @Input() stage: Stage;
     @Input() fields: Field[];
     @Input() lastInsertedField: number;
-    @Input() mapLocations: { [key: string]: LocationEntity } = {};
+    @Input() mapLocations: { [key: string]: Slot } = {};
     @Input() mapPaths: PathEntity[];
     @Input() hidden: boolean;
     @Input() pathCreationMode: boolean;
@@ -51,10 +51,10 @@ export class MapEditorComponent implements OnInit, OnChanges, OnDestroy {
         const { scr } = this;
 
         const nodeMoved = scr.nodeMoved
-            .subscribe((loc: LocationEntity) => {
+            .subscribe((loc: Slot) => {
                 this.saveMapLocation.emit(loc);
             });
-        const nodeSelected = scr.nodeSelected.subscribe((loc: LocationEntity) => {
+        const nodeSelected = scr.nodeSelected.subscribe((loc: Slot) => {
             const currentSelect = this.selectedField;
             if (this.pathCreationMode && currentSelect) {
                 // const fromLoc = this.mapLocations[currentSelect.id].id;

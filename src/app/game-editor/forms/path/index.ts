@@ -1,6 +1,5 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { PathEntity } from "@app/game-mechanics";
-import { composeLocationOptions } from "../helpers";
 
 export const composePathForm: FormDefinition = (data: PathEntity, ent?: ConnectedEntities) => {
 
@@ -22,7 +21,7 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
         source: template,
         context: {
             data,
-            locations: composeLocationOptions(ent),
+            locations: [],
         },
     }, true);
 

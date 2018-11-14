@@ -1,6 +1,6 @@
 import { Condition, CONDITION_MODES, CLAUSE, CLAUSE_RELATIONS } from "@app/game-mechanics";
 import { ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { composeFromObject, composeStackOptions, composeConditionOptions, composeActionOptions, composeResourceOptions, composeFieldOptions, composeTokenOptions, composeFactionOptions, composeChoiceOptions, composeRoundOptions } from "../helpers";
+import { composeFromObject } from "../helpers";
 
 export function composeConditionForm(data: Condition, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -72,16 +72,15 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
             data, clauses, award, penalty, restricted, allowed,
             modes: composeFromObject(CONDITION_MODES),
             relations: composeFromObject(CLAUSE_RELATIONS),
-            stacks: composeStackOptions(ent),
             types: composeFromObject(CLAUSE),
-            conditions: composeConditionOptions(ent),
-            actions: composeActionOptions(ent),
-            resources: composeResourceOptions(ent),
-            fields: composeFieldOptions(ent),
-            tokens: composeTokenOptions(ent),
-            factions: composeFactionOptions(ent),
-            choices: composeChoiceOptions(ent),
-            rounds: composeRoundOptions(ent),
+            conditions: [],
+            actions: [],
+            resources: [],
+            fields: [],
+            tokens: [],
+            factions: [],
+            choices: [],
+            rounds: [],
         },
     }, true);
 

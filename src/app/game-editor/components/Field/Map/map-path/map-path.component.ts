@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy, Input, ChangeDetectionStrategy } from '@angular/core';
 
-import { SceneRenderService, LocationEntity, PathEntity } from '@app/game-mechanics';
+import { SceneRenderService, Slot, PathEntity } from '@app/game-mechanics';
 
 @Component({
     selector: 'rg-map-path',
@@ -10,7 +10,7 @@ import { SceneRenderService, LocationEntity, PathEntity } from '@app/game-mechan
 })
 export class MapPathComponent implements OnInit, OnDestroy {
     @Input() data: PathEntity;
-    @Input() mapLocations: { [key: string]: LocationEntity };
+    @Input() mapLocations: { [key: string]: Slot };
     @Input() selected = false;
 
     constructor(private scr: SceneRenderService) {

@@ -1,6 +1,6 @@
 import { BaseModel, WithPermissions, WithBoard, WithRisk, WithSettings } from "./Base.model";
 
-export type LocationEntity = BaseModel & WithPermissions & WithBoard & WithRisk & WithSettings & Partial<{
+export type Slot = BaseModel & WithPermissions & WithBoard & WithRisk & WithSettings & Partial<{
     owner: number; // Stage;
 
     field: number; // Field. Static field for the location

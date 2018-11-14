@@ -4,7 +4,7 @@ import { autoDetectRenderer, Container, Sprite } from 'pixi.js-legacy';
 
 import { WindowRefService } from '@app/core';
 import { SpriteComponent, MapNode } from './graphics';
-import { LocationEntity, PathEntity } from '../entities';
+import { Slot, PathEntity } from '../entities';
 
 @Injectable()
 export class SceneRenderService {
@@ -22,8 +22,8 @@ export class SceneRenderService {
     private selectedNode: number;
     private selectedPath: number;
 
-    public nodeMoved: Subject<LocationEntity> = new Subject();
-    public nodeSelected: Subject<LocationEntity> = new Subject();
+    public nodeMoved: Subject<Slot> = new Subject();
+    public nodeSelected: Subject<Slot> = new Subject();
     public pathSelected: Subject<PathEntity> = new Subject();
     public keypress: Subject<KeyboardEvent> = new Subject();
 
@@ -50,7 +50,7 @@ export class SceneRenderService {
         this.initialized = true;
     }
 
-    saveElement(image: string, data: LocationEntity, id: number): MapNode {
+    saveElement(image: string, data: Slot, id: number): MapNode {
         if (this.initialized) {
             let node;
             if (id in this.nodes) {
@@ -75,10 +75,10 @@ export class SceneRenderService {
         node.change.subscribe(() => {
             this.render();
         });
-        node.moved.subscribe((loc: LocationEntity) => {
+        node.moved.subscribe((loc: Slot) => {
             this.nodeMoved.next(loc);
         });
-        node.select.subscribe((loc: LocationEntity) => {
+        node.select.subscribe((loc: Slot) => {
             this.nodeSelected.next(loc);
         });
     }

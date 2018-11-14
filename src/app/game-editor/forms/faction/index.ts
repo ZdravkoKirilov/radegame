@@ -1,11 +1,11 @@
 import { Faction, FACTION_TYPE } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeFromObject, composeStackOptions, composePoolOptions } from '../helpers';
+import { composeFromObject } from '../helpers';
 
 export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
-    const income = data.income || [];
-    const effect_pool = data.effect_pool || [];
+    const income = [];
+    const effect_pool =  [];
 
     const template = `
     <Form>
@@ -34,8 +34,8 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
         context: {
             data, income, effect_pool,
             types: composeFromObject(FACTION_TYPE),
-            stacks: composeStackOptions(ent),
-            pools: composePoolOptions(ent)
+            stacks: [],
+            pools: [],
         }
     }, true) as BaseControl[];
 

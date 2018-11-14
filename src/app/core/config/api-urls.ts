@@ -26,10 +26,6 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/maps/`;
         return mapId ? `${base}${mapId}/` : base;
     },
-    RESOURCES: (gameId: number, resourceId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/resources/`;
-        return resourceId ? `${base}${resourceId}/` : base;
-    },
     FACTIONS: (gameId: number, factionId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/factions/`;
         return factionId ? `${base}${factionId}/` : base;
@@ -49,14 +45,6 @@ export const API_URLS = {
     STAGES: (gameId: number, stageId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/stages/`;
         return stageId ? `${base}${stageId}/` : base;
-    },
-    STACKS: (gameId: number, stackId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/stacks/`;
-        return stackId ? `${base}${stackId}/` : base;
-    },
-    POOLS: (gameId: number, poolId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/pools/`;
-        return poolId ? `${base}${poolId}/` : base;
     },
     TOKENS: (gameId: number, tokenId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/tokens/`;

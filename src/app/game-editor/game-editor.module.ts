@@ -20,8 +20,8 @@ import {
 
 import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
-    GamesContainerComponent, ConditionsContainerComponent, ResourcesContainerComponent, RoundsContainerComponent,
-    StagesContainerComponent, ChoicesContainerComponent, StackContainerComponent, PoolsContainerComponent,
+    GamesContainerComponent, ConditionsContainerComponent, RoundsContainerComponent,
+    StagesContainerComponent, ChoicesContainerComponent,
     TeamsContainerComponent, TokensContainerComponent, PhasesContainerComponent, BoardContainerComponent
 } from './containers';
 import { BoardEditService } from './services';
@@ -63,12 +63,9 @@ import { BoardMainComponent } from './components/board/main/board-main.component
         FieldsContainerComponent,
         GamesContainerComponent,
         ConditionsContainerComponent,
-        ResourcesContainerComponent,
         RoundsContainerComponent,
         StagesContainerComponent,
         ChoicesContainerComponent,
-        StackContainerComponent,
-        PoolsContainerComponent,
         TeamsContainerComponent,
         TokensContainerComponent,
         PhasesContainerComponent,

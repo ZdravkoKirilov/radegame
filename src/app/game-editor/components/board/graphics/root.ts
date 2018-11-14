@@ -2,21 +2,21 @@ import { StatefulComponent, createElement, PrimitiveContainer, Lifecycles } from
 
 import Locations from './locations';
 import Paths, { Props as PathProps } from './paths';
-import { LocationEntity, PathEntity, Stage } from "@app/game-mechanics";
+import { Slot, PathEntity, Stage } from "@app/game-mechanics";
 
 export type Props = {
-    locations: Array<LocationEntity>;
-    selectedLocation: LocationEntity;
+    locations: Array<Slot>;
+    selectedLocation: Slot;
     paths: Array<PathEntity>;
     selectedPath: PathEntity;
     stage: Stage;
-    onLocationSelected: (item: LocationEntity) => void;
+    onLocationSelected: (item: Slot) => void;
     selectPath: (item: PathEntity) => void;
-    onDragEnded: (item: LocationEntity) => void;
+    onDragEnded: (item: Slot) => void;
 }
 
 type State = {
-    locations: Array<LocationEntity>;
+    locations: Array<Slot>;
 }
 
 export class RootComponent extends StatefulComponent<Props, State> implements Lifecycles {

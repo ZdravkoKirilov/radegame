@@ -5,14 +5,14 @@ import { tap } from 'rxjs/operators';
 
 import { AppState, selectGameId } from '@app/core';
 import {
-    Field, Game, PathEntity, LocationEntityList, LocationEntity,
+    Field, Game, PathEntity, Slot,
     Stage, SceneRenderService
 } from '@app/game-mechanics';
 import { getItems, getEntities, selectStageId } from '../../state';
 import { SaveItemAction, DeleteItemAction } from '../../state';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { FIELD_DEF } from '../../forms';
-import { formKeys } from 'app/game-editor/state';
+import { formKeys } from '../../state';
 
 @Component({
     selector: 'rg-fields-container',
@@ -39,7 +39,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
 
     fields$: Observable<Field[]>;
     paths$: Observable<PathEntity[]>;
-    locations$: Observable<LocationEntityList>;
+    locations$: any;
 
     connectedEntities$: Observable<ConnectedEntities>;
 
@@ -90,7 +90,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
 
     savePath(path: PathEntity) {
         const pathPayload = { ...path, game: this.gameId, stage: this.stageId };
-        this.store.dispatch(new SaveItemAction({ key: this.pKey, data: pathPayload }));
+        this.store.dispatch(new SaveItemAction({ key: this.pKey, data: pathPayload as any }));
     }
 
     removePath(path: PathEntity) {
@@ -103,7 +103,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
         this.selectedPath = path;
     }
 
-    saveMapLocation(payload: LocationEntity) {
+    saveMapLocation(payload: Slot) {
         this.store.dispatch(new SaveItemAction({ key: this.lKey, data: payload }));
     }
 
@@ -114,7 +114,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
     updateStage(image: any) {
         image = image || null;
         const stage = { id: this.stageId, image, game: this.gameId };
-        this.store.dispatch(new SaveItemAction({ key: this.sKey, data: stage }));
+        this.store.dispatch(new SaveItemAction({ key: this.sKey, data: stage as any }));
     }
 
     ngOnInit() {
@@ -133,7 +133,7 @@ export class FieldsContainerComponent implements OnInit, OnDestroy {
         this.connectedEntities$ = this.store.pipe(select(getEntities));
         this.fields$ = this.store.pipe(select(getItems(this.fKey)));
         this.paths$ = this.store.pipe(select(getItems(this.pKey)));
-        this.locations$ = this.store.pipe(select(getItems<LocationEntityList>(this.lKey)));
+        this.locations$ = this.store.pipe(select(getItems<any>(this.lKey)));
     }
 
     ngOnDestroy() {

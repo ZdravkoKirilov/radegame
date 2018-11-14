@@ -1,6 +1,6 @@
 import { Round } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeBooleanOptions, composeStackOptions, composePoolOptions, composePhaseOptions } from '../helpers';
+import { composeBooleanOptions } from '../helpers';
 
 export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -42,9 +42,9 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
         source: template,
         context: {
             data, bools: composeBooleanOptions(),
-            pools: composePoolOptions(ent),
-            stacks: composeStackOptions(ent),
-            phases: composePhaseOptions(ent),
+            pools: [],
+            stacks: [],
+            phases: [],
         },
     }, true);
 

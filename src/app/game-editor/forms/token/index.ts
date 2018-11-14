@@ -1,13 +1,12 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Token } from "@app/game-mechanics";
-import { composeStackOptions, composePoolOptions } from "../helpers";
 
 export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
-    const income = data.income || [];
+    const income =  [];
     const restricted = data.restricted || [];
     const allowed = data.allowed || [];
-    const effect_pool = data.effect_pool || [];
+    const effect_pool = [];
 
     const template = `
     <Form>
@@ -37,8 +36,8 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
         source: template,
         context: {
             data, income, effect_pool, restricted, allowed,
-            stacks: composeStackOptions(ent),
-            pools: composePoolOptions(ent),
+            stacks: [],
+            pools: [],
         }
     }, true) as BaseControl[];
 

@@ -6,7 +6,7 @@ import { createRenderer, PixiEngine, createElement, Component } from '@app/rende
 import { Subject } from 'rxjs';
 
 import { RootComponent, Props as BoardData } from '../components/board/graphics';
-import { LocationEntity, PathEntity } from '@app/game-mechanics';
+import { Slot, PathEntity } from '@app/game-mechanics';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,8 +17,8 @@ export class BoardEditService {
 	private rootComponent: Component;
 
 	public pathSelected$ = new Subject<PathEntity>();
-	public locationSelected$ = new Subject<LocationEntity>();
-	public dragEnded$ = new Subject<LocationEntity>();
+	public locationSelected$ = new Subject<Slot>();
+	public dragEnded$ = new Subject<Slot>();
 
 	constructor(private windowRef: WindowRefService) {
 	}
@@ -27,7 +27,7 @@ export class BoardEditService {
 		this.rootComponent && this.rootComponent.setProps(data);
 	}
 
-	extractAssets(locations: LocationEntity[]): Set<string> {
+	extractAssets(locations: Slot[]): Set<string> {
 		return new Set(locations.map(elem => elem.image));
 	}
 
@@ -67,7 +67,7 @@ export class BoardEditService {
 		});
 	}
 
-	handleLocationSelect = (item: LocationEntity) => {
+	handleLocationSelect = (item: Slot) => {
 		this.locationSelected$.next(item);
 	}
 
@@ -76,7 +76,7 @@ export class BoardEditService {
 		this.pathSelected$.next(item);
 	}
 
-	handleDragEnd = (item: LocationEntity) => {
+	handleDragEnd = (item: Slot) => {
 		this.dragEnded$.next(item);
 	}
 }

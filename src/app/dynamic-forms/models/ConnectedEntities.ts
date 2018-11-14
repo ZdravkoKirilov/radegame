@@ -1,10 +1,9 @@
 import {
-    Resource, Field, Faction, Condition, Stack, Pool,
-    GameAction, Round, Stage, Choice, LocationEntity, PathEntity, Token, Phase
+ Field, Faction, Condition,
+    GameAction, Round, Stage, Choice, Slot, PathEntity, Token, Phase
 } from '@app/game-mechanics';
 
 export type ConnectedEntities = Partial<{
-    resources: Resource[];
     fields: Field[];
     factions: Faction[];
     tokens: Token[];
@@ -14,8 +13,6 @@ export type ConnectedEntities = Partial<{
     phases: Phase[];
     stages: Stage[];
     choices: Choice[];
-    locations: LocationEntity[];
+    locations: Slot[];
     paths: PathEntity[];
-    stacks: Stack[];
-    pools: Pool[];
 }>

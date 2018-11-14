@@ -4,7 +4,7 @@ import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '@app/core';
-import { GameEntity, GameAction, Field, Condition, Round, Faction, Pool, Stack, Token, Phase, Choice, PathEntity } from '@app/game-mechanics';
+import { GameEntity, GameAction, Field, Condition, Round, Faction, Token, Phase, Choice, PathEntity } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
 import {
     GenericActionPayload,
@@ -92,8 +92,7 @@ export class GenericEffectsService {
 
     fetchRequest(key: FormKey, data: number): Observable<GameEntity[]> {
         switch (key) {
-            case formKeys.RESOURCES:
-                return this.api.getResources(data);
+
             case formKeys.ACTIONS:
                 return this.api.getActions(data);
             case formKeys.FACTIONS:
@@ -112,11 +111,6 @@ export class GenericEffectsService {
                 return this.api.getMapLocations(data);
             case formKeys.PATHS:
                 return this.api.getPaths(data);
-            case formKeys.POOLS:
-                return this.api.getPools(data);
-            case formKeys.STACKS:
-                return this.api.getStacks(data);
-            case formKeys.TOKENS:
                 return this.api.getTokens(data);
             case formKeys.PHASES:
                 return this.api.getPhases(data);
@@ -131,8 +125,6 @@ export class GenericEffectsService {
 
     saveRequest(key: FormKey, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
-            case formKeys.RESOURCES:
-                return this.api.saveResource(entity);
             case formKeys.ACTIONS:
                 return this.api.saveAction(<GameAction>entity);
             case formKeys.FACTIONS:
@@ -151,10 +143,6 @@ export class GenericEffectsService {
                 return this.api.saveMapLocation(entity);
             case formKeys.PATHS:
                 return this.api.saveMapPath(<PathEntity>entity);
-            case formKeys.POOLS:
-                return this.api.savePool(<Pool>entity);
-            case formKeys.STACKS:
-                return this.api.saveStack(<Stack>entity);
             case formKeys.TOKENS:
                 return this.api.saveToken(<Token>entity);
             case formKeys.PHASES:
@@ -170,8 +158,6 @@ export class GenericEffectsService {
 
     deleteRequest(key: FormKey, entity: any): Observable<GameEntity> {
         switch (key) {
-            case formKeys.RESOURCES:
-                return this.api.deleteResource(entity);
             case formKeys.ACTIONS:
                 return this.api.deleteAction(entity);
             case formKeys.FACTIONS:
@@ -188,10 +174,6 @@ export class GenericEffectsService {
                 return this.api.deleteChoice(entity);
             case formKeys.PATHS:
                 return this.api.deleteMapPath(entity);
-            case formKeys.POOLS:
-                return this.api.deletePool(<Pool>entity);
-            case formKeys.STACKS:
-                return this.api.deleteStack(<Stack>entity);
             case formKeys.TOKENS:
                 return this.api.deleteToken(entity);
             case formKeys.PHASES:

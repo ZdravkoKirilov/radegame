@@ -1,11 +1,11 @@
 import { RenderFunction, createElement, PrimitiveContainer } from "@app/rendering";
-import { LocationEntity } from "@app/game-mechanics";
+import { Slot } from "@app/game-mechanics";
 
 import Node from './node';
 
 type Props = {
-    locations: LocationEntity[];
-    selected: LocationEntity;
+    locations: Slot[];
+    selected: Slot;
     onDragMove: (comp: PrimitiveContainer) => void;
 }
 

@@ -1,12 +1,12 @@
 import { RenderFunction, createElement, Points } from "@app/rendering";
-import { PathEntity, LocationEntity } from "@app/game-mechanics";
+import { PathEntity, Slot } from "@app/game-mechanics";
 import { toIndexedList } from "@app/shared";
 
 import Path, { Props as PathProps } from './node';
 
 export type Props = {
     paths: PathEntity[];
-    locations: LocationEntity[];
+    locations: Slot[];
     selected: PathEntity;
     selectPath: (item: PathEntity) => void;
 }

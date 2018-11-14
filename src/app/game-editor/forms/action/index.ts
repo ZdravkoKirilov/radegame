@@ -9,8 +9,7 @@ import {
     ACTION_TARGET, ACTION_MODE
 } from '@app/game-mechanics';
 import {
-    composeResourceOptions,
-    composeConditionOptions, composeChoiceOptions, composeFactionOptions, composeActionOptions, composeStackOptions, composeFromObject, composeBooleanOptions,
+composeFromObject, composeBooleanOptions,
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
@@ -88,13 +87,13 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             types: keys(types).map(key => ({ value: key, label: types[key] })),
             modes: keys(ACTION_MODE).map(key => ({ value: key, label: ACTION_MODE[key] })),
             targets: composeFromObject(ACTION_TARGET),
-            resources: composeResourceOptions(ent),
-            conditions: composeConditionOptions(ent),
-            choices: composeChoiceOptions(ent),
-            factions: composeFactionOptions(ent),
+            resources: [],
+            conditions: [],
+            choices: [],
+            factions: [],
             tokens: [],
-            actions: composeActionOptions(ent),
-            stacks: composeStackOptions(ent),
+            actions: [],
+            stacks: [],
             random: composeBooleanOptions()
         },
     }, true);

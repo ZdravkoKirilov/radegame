@@ -1,6 +1,6 @@
 import { Choice, CHOICE_MODE } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeStackOptions, composeFromObject } from '../helpers';
+import { composeFromObject } from '../helpers';
 
 export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -58,7 +58,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
         source: template,
         context: {
             data, options, cost, condition, restricted, allowed,
-            stacks: composeStackOptions(ent),
+            stacks: [],
             modes: composeFromObject(CHOICE_MODE)
         },
     }, true);

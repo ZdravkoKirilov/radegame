@@ -1,133 +1,23 @@
-import keys from 'lodash/keys';
+import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 
-import {
-    Condition, GameAction, Resource, Field, Round,
-    Stage, Choice, Faction, GameEntity, Pool, Phase, Stack
-} from '@app/game-mechanics';
-import { Option, ConnectedEntities, ToggleContext, BaseControl, controlTypes } from '@app/dynamic-forms';
-
-export function composeConditionOptions(ent: ConnectedEntities): Option[] {
-    return ent.conditions.map((elem: Condition): Option => ({
+export function composeEntityOptions(ent: ConnectedEntities, key: keyof ConnectedEntities, exclude = []): Option[] {
+    const result: Option[] = ent[key as string].map(elem => ({
         label: elem.name,
         value: elem.id,
         image: elem.image
     }));
-}
 
-export function composeActionOptions(ent: ConnectedEntities): Option[] {
-    return ent.actions.map((elem: GameAction): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeResourceOptions(ent: ConnectedEntities): Option[] {
-    return ent.resources.map((elem: Resource): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeFieldOptions(ent: ConnectedEntities): Option[] {
-    return ent.fields.map((elem: Field): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeRoundOptions(ent: ConnectedEntities): Option[] {
-    return ent.rounds.map((elem: Round): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeStageOptions(ent: ConnectedEntities): Option[] {
-    return ent.stages.map((elem: Stage): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeChoiceOptions(ent: ConnectedEntities): Option[] {
-    return ent.choices.map((elem: Choice): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeFactionOptions(ent: ConnectedEntities): Option[] {
-    return ent.factions.map((elem: Faction): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeTokenOptions(ent: ConnectedEntities): Option[] {
-    return [].map(elem => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeStackOptions(ent: ConnectedEntities): Option[] {
-    return ent.stacks.map((elem: Stack): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composePoolOptions(ent: ConnectedEntities): Option[] {
-    return ent.pools.map((elem: Pool): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composePhaseOptions(ent: ConnectedEntities): Option[] {
-    return ent.phases.map((elem: Phase): Option => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeLocationOptions<T extends keyof ConnectedEntities>(ent: ConnectedEntities): Option[] {
-    return ent.locations.map(elem => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
-}
-
-export function composeEntityOptions(ent: ConnectedEntities, key: keyof ConnectedEntities): Option[] {
-    return ent[key as string].map(elem => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem.image
-    }));
+    return exclude.length > 0 ? result.filter(elem => !exclude.includes(elem.value)) : result;
 }
 
 export function composeBooleanOptions(positive = 'Yes', negative = 'No'): Option[] {
-    return [
-        {
-            label: positive,
-            value: true
-        }, {
-            label: negative,
-            value: false
-        }
-    ]
+    return [{
+        label: positive,
+        value: true
+    }, {
+        label: negative,
+        value: false
+    }];
 }
 
 export function composeFromObject(obj: object): Option[] {
