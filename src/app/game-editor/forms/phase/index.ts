@@ -5,7 +5,7 @@ import {
 import { Phase } from '@app/game-mechanics';
 
 export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEntities) => {
-    data = data || {};
+    data = data || {} as Phase;
 
     const template = `
         <Form>

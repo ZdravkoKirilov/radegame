@@ -16,7 +16,7 @@ import {
     Stage,
     Token,
     Phase,
-    Source,
+    Source, Team
 } from '@app/game-mechanics';
 import { toMultipartFormData } from '@app/shared';
 import { API_URLS } from '../config';
@@ -160,7 +160,7 @@ export class GameEditService {
         }
     }
 
-    deleteTeam(data: Phase): Observable<any> {
+    deleteTeam(data: Team): Observable<any> {
         return this.http.delete(API_URLS.TEAMS(data.game, data.id));
     }
 
@@ -168,7 +168,7 @@ export class GameEditService {
         return this.http.get(API_URLS.TEAMS(gameId));
     }
 
-    saveTeam(data: Phase): Observable<any> {
+    saveTeam(data: Team): Observable<any> {
         const formData = toMultipartFormData(data);
         const options = { headers: new HttpHeaders({}) };
 

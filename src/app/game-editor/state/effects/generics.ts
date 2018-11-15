@@ -5,7 +5,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService } from '@app/core';
 import {
-    GameEntity, GameAction, Field, Condition, Round,
+    GameEntity, GameAction, Field, Condition, Round, Team,
     Faction, Token, Phase, Choice, PathEntity, Source, Game
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
@@ -154,7 +154,7 @@ export class GenericEffectsService {
             case formKeys.PHASES:
                 return this.api.savePhase(<Phase>entity);
             case formKeys.TEAMS:
-                return this.api.saveTeam(entity);
+                return this.api.saveTeam(<Team>entity);
             case formKeys.SOURCES:
                 return this.api.saveSource(<Source>entity);
             case formKeys.GAMES:
