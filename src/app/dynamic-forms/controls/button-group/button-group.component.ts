@@ -17,8 +17,14 @@ export class ButtonGroupComponent implements OnInit {
 
     ngOnInit() {
         if (this.data.multiple) {
-            this.value = this.data.value ? [...this.data.value] :
-                this.data.defaultValue !== undefined ? [this.data.defaultValue] : [];
+            if (this.data.asString) {
+                this.value = this.data.value ? this.data.value.split(',').filter(elem => !!elem) :
+                    this.data.defaultValue !== undefined ? this.data.defaultValue : [];
+            } else {
+                this.value = this.data.value ? [...this.data.value] :
+                    this.data.defaultValue !== undefined ? [this.data.defaultValue] : [];
+            }
+
         } else {
             this.value = this.data.value !== undefined ? this.data.value : this.data.defaultValue;
         }
@@ -26,8 +32,9 @@ export class ButtonGroupComponent implements OnInit {
 
     isButtonChecked(value) {
         if (this.value !== undefined) {
-            const field = this.data.valueField;
+
             if (this.data.multiple) {
+                const field = this.data.valueField;
                 const index = this.value.map(elem => field ? elem[field] : elem).indexOf(value);
                 return index !== -1;
             } else {
@@ -49,6 +56,7 @@ export class ButtonGroupComponent implements OnInit {
             } else {
                 currentValue.push(field ? { [field]: value } : value);
             }
+            currentValue = this.data.asString ? currentValue.join(',') : currentValue;
         } else {
             currentValue = value;
         }

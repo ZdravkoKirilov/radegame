@@ -3,11 +3,11 @@ import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AppState, selectGameId } from '@app/core';
+import { AppState } from '@app/core';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { GameEntity } from '@app/game-mechanics';
 import {
-    SaveItemAction, DeleteItemAction, FormKey, getItems, getEntities
+    SaveItemAction, DeleteItemAction, FormKey, getItems, getEntities, selectGameId
 } from '../state';
 
 export abstract class SmartBase implements OnInit, OnDestroy {

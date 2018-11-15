@@ -1,8 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FieldsContainerComponent } from './fields.container';
+import { FieldsContainerComponent } from './fields-container.component';
 
-describe('SmartFieldsComponent', () => {
+describe('FieldsContainerComponent', () => {
   let component: FieldsContainerComponent;
   let fixture: ComponentFixture<FieldsContainerComponent>;
 

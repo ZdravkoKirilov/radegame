@@ -1,5 +1,4 @@
 import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal, WithSettings } from './Base.model';
-import { EntityType } from './types';
 
 export type Condition = BaseModel & WithPermissions & WithBoard &
     WithCost & WithStakes & WithReveal & WithSettings & Partial<{
@@ -9,12 +8,12 @@ export type Condition = BaseModel & WithPermissions & WithBoard &
         clauses: number[]; // Clause[];
     }>
 
-export type Clause = Partial<{
+export type ClauseItem = Partial<{
     id: number;
     owner: number; // Condition;
 
-    type: Clause;
-    target_entity: EntityType;
+    clause: Clause;
+    type: string; // comma separated list of targets
 
     condition: number; //Condition;
     action: number; //GameAction;
@@ -24,9 +23,9 @@ export type Clause = Partial<{
     field: number; //Field;
     phase: number; //Phase;
     team: number; //Team;
-    location: number; // Location
     round: number; // Round
     path: number; // Path
+    slot: number; // Slot
 
     keywords: string;
 
@@ -42,7 +41,7 @@ export const CLAUSE = {
     COMPLETE: 'COMPLETE',
 
     HAVE: 'HAVE',
-    IS: 'IS',
+    IS: 'IS', // "NOT" is achieved via relation: NOT
 
     GAIN: 'GAIN',
     REACH: 'REACH',
@@ -79,9 +78,10 @@ export const CONDITION_MODES = {
     RULE: 'RULE',
 }
 
-type ConditionMode = keyof typeof CONDITION_MODES;
-type ClauseRelation = keyof typeof CLAUSE_RELATIONS;
-type Clause = keyof typeof CLAUSE;
+export type ConditionMode = keyof typeof CONDITION_MODES;
+export type ClauseRelation = keyof typeof CLAUSE_RELATIONS;
+export type Clause = keyof typeof CLAUSE;
+export type ClauseType = keyof typeof CLAUSE_TYPE;
 
 
 

@@ -7,6 +7,8 @@ export type BaseModel = Partial<{
     keywords: string;
     image: string;
 
+    editions: number[]; // Edition
+
 }>;
 
 export type WithPermissions = Partial<{
@@ -36,7 +38,6 @@ export type WithStakes = Partial<{
 }>
 
 export type WithReveal = Partial<{
-    reveal_slots: number;
     reveal_cost: number;
 }>
 

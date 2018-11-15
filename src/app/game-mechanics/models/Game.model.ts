@@ -1,16 +1,20 @@
-export interface Game {
-    id?: number;
-    title?: string;
-    image?: string;
+import { Edition } from '../entities';
 
-    min_players?: number;
-    max_players?: number;
-    recommended_age?: number;
+export type Game = Partial<{
+    id: number;
+    title: string;
+    image: string;
 
-    main_stage?: number;
+    min_players: number;
+    max_players: number;
+    recommended_age: number;
 
-    hide_factions?:boolean;
-}
+    main_stage: number;
+
+    hide_factions: boolean;
+
+    editions: Edition[];
+}>
 
 export interface GameList {
     [key: string]: Game;

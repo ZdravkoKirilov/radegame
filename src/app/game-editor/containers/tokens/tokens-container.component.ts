@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { SmartBase } from '../../mixins';
-import { composeTokenForm } from '../../forms/token';
+import { composeTokenForm } from '../../forms';
 import { formKeys } from '../../state';
 
 @Component({

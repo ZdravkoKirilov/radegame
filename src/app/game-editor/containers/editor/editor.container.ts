@@ -3,8 +3,8 @@ import { Store, select } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { AppState, selectGameId } from '@app/core';
-import { formKeys, FetchItemsAction } from '../../state';
+import { AppState } from '@app/core';
+import { formKeys, FetchItemsAction, selectGameId } from '../../state';
 import { selectUser } from '@app/profile';
 
 @Component({
