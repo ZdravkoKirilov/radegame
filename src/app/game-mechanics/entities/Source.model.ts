@@ -34,7 +34,9 @@ export const SOURCE_PICK = {
 
 export const SOURCE_QUOTA = {
     ONCE: 'ONCE',
-    REPEATING: 'REPEATING'
+    ON_TURN: 'ON_TURN',
+    ON_PHASE: 'ON_PHASE',
+    ON_ROUND: 'ON_ROUND',
 };
 
 export const SOURCE_RELATION = {
