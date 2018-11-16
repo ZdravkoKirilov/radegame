@@ -53,7 +53,7 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            data, condition, done, undone, risk, phases, bools: composeBooleanOptions(),
+            data, condition, done, undone, risk, phases, setups, bools: composeBooleanOptions(),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             phase_options: composeEntityOptions(ent, 'phases'),

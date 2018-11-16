@@ -4,7 +4,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { selectUser } from '@app/profile';
 import { FormDefinition } from '@app/dynamic-forms';
-import { GAME_DEF } from '../../forms';
+import { composeGameForm } from '../../forms';
 
 import { formKeys, FetchItemsAction, getItems } from '../../state';
 import { SmartBase } from '../../mixins';
@@ -19,7 +19,7 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
 
     readonly key = formKeys.GAMES;
 
-    formDefinition: FormDefinition = GAME_DEF;
+    formDefinition: FormDefinition = composeGameForm;
 
     constructor(public store: Store<AppState>) {
         super(store);

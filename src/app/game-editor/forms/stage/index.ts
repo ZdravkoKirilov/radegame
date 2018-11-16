@@ -12,6 +12,8 @@ export function composeStageForm(data: Stage = {}): BaseControl[] {
 
             <TextInput name='description' label='Description'>{data.description}</TextInput>
 
+            <ImagePicker name='image' label='image' asBase64='{true}'>{data.image}</ImagePicker>
+
             <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
         </Form>

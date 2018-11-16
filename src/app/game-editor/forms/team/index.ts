@@ -1,10 +1,11 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Team } from "@app/game-mechanics";
+import { composeEntityOptions } from "../helpers";
 
 export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
-    const income =  [];
-    const effect_pool = [];
+    const setups = data.setups || [];
+    const settings = data.settings || [];
 
     const template = `
     <Form>
@@ -19,13 +20,11 @@ export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntiti
 
         <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-        <NumberInput name='min_players' label='Min players'>{data.min_players}</NumberInput>
+        <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
 
-        <NumberInput name='max_players' label='Max players'>{data.max_players}</NumberInput>
+        <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
 
-        <ButtonGroup name='income' label='Income' options='{stacks}' multiple='{true}'>{income}</ButtonGroup>
-
-        <ButtonGroup name='effect_pool' label='Effects' options='{pools}' multiple='{true}'>{effect_pool}</ButtonGroup>
+        <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>{settings}</ButtonGroup>
 
     </Form>
    `;
@@ -33,9 +32,10 @@ export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntiti
     const result = parse({
         source: template,
         context: {
-            data, income, effect_pool,
-            stacks: [],
-            pools: [],
+            data, setups, settings,
+            stages: composeEntityOptions(ent, 'stages'),
+            setup_options: composeEntityOptions(ent, 'setups'),
+            conditions: composeEntityOptions(ent, 'conditions'),
         }
     }, true) as BaseControl[];
 

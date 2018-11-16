@@ -8,6 +8,7 @@ import { composeEntityOptions } from '../helpers';
 export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEntities) => {
     data = data || {} as Phase;
     const settings = data.settings || [];
+    const setups = data.setups || [];
 
     const template = `
         <Form>
@@ -21,6 +22,8 @@ export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEnt
 
             <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
+            <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
+
             <NumberInput name='turn_cycles' label='Turn cycles'>{data.turn_cycles}</NumberInput>
 
             <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>
@@ -33,8 +36,9 @@ export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEnt
     const result = parse({
         source: template,
         context: {
-            data, settings,
-            conditions: composeEntityOptions(ent, 'conditions')
+            data, settings, setups,
+            conditions: composeEntityOptions(ent, 'conditions'),
+            setup_options: composeEntityOptions(ent, 'setups')
         },
     }, true);
 

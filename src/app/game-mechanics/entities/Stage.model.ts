@@ -1,6 +1,7 @@
 import { BaseModel } from "./Base.model";
+import { Omit } from "@app/shared";
 
-export type Stage  = BaseModel;
+export type Stage  = Omit<BaseModel, 'setups'>;
 
 
 

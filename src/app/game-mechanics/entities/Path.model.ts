@@ -3,7 +3,7 @@ import { BaseModel, WithPermissions, WithBoard, WithRisk, WithSettings } from ".
 export type PathEntity = BaseModel & WithPermissions & WithBoard & WithRisk & WithSettings & Partial<{
     owner: number; // Stage
 
-    from_loc: number;
-    to_loc: number;
+    from_slot: number;
+    to_slot: number;
 }>
 
