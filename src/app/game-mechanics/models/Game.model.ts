@@ -1,4 +1,4 @@
-import { Edition } from '../entities';
+import { Setup } from '../entities';
 
 export type Game = Partial<{
     id: number;
@@ -13,7 +13,7 @@ export type Game = Partial<{
 
     hide_factions: boolean;
 
-    editions: Edition[];
+    setups: Setup[];
 }>
 
 export interface GameList {

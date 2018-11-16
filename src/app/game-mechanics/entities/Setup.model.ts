@@ -1,3 +1,3 @@
 import { BaseModel } from "./Base.model";
 
-export type Edition = BaseModel;
+export type Setup = BaseModel;

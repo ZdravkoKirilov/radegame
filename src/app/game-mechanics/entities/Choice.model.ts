@@ -11,7 +11,7 @@ export type Choice = BaseModel & WithPermissions & WithCost & WithCondition &
 // settings -> conditions with isTrue and isFalse to mark each answer as such, which allows the parent to have withStake
 export type ChoiceOption = Omit<BaseModel, 'game'> & WithSettings & Partial<{
     owner: number; // Choice
-    effect: number; // Source
+    effect: number[]; // Source[]
 }>
 
 export type ChoiceMode = keyof typeof CHOICE_MODE;

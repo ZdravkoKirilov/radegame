@@ -11,6 +11,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
     const restricted = data.restricted || [];
     const allowed = data.allowed || [];
     const settings = data.settings || [];
+    const setups = data.setups || [];
 
     const template = `
     <Form>
@@ -22,7 +23,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
 
         <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-        <ButtonGroup name='editions' label='Editions' options='{editions}' multiple='{true}'>{editions}</ButtonGroup>
+        <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
 
         <Dropdown name='mode' label='Condition mode' options='{modes}'>{data.mode}</Dropdown>
 
@@ -40,7 +41,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
 
         <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
 
-        <Dropdown name='cost' label='Cost' options='{sources}'>{data.cost}</Dropdown>
+        <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{data.cost}</ButtonGroup>
 
         <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>{settings}</ButtonGroup>
 
@@ -89,13 +90,13 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
     const result = parse({
         source: template,
         context: {
-            data, items, done, undone, restricted, allowed, settings,
+            data, items, done, undone, restricted, allowed, settings, setups,
             modes: composeFromObject(CONDITION_MODES),
             relations: composeFromObject(CLAUSE_RELATIONS),
             clauses: composeFromObject(CLAUSE),
             clause_types: composeFromObject(CLAUSE_TYPE),
             sources: composeEntityOptions(ent, 'sources'),
-            editions: composeEntityOptions(ent, 'editions'),
+            setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
             actions: composeEntityOptions(ent, 'actions'),
             fields: composeEntityOptions(ent, 'fields'),

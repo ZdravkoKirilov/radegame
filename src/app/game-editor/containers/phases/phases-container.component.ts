@@ -14,6 +14,7 @@ import { formKeys } from '../../state';
     [showEditor]="showEditor"
     [selectedItem]="selectedItem"
     [formDefinition]="formDefinition"
+    [connectedEntities]="connectedEntities$ | async"
     (toggleEditor)="toggleEditor($event)"
     (editItem)="editItem($event)"
     (saveItem)="saveItem($event)"

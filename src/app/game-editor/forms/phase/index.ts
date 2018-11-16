@@ -3,9 +3,11 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import { Phase } from '@app/game-mechanics';
+import { composeEntityOptions } from '../helpers';
 
 export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEntities) => {
     data = data || {} as Phase;
+    const settings = data.settings || [];
 
     const template = `
         <Form>
@@ -19,13 +21,20 @@ export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEnt
 
             <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
+            <NumberInput name='turn_cycles' label='Turn cycles'>{data.turn_cycles}</NumberInput>
+
+            <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>
+                {settings}
+            </ButtonGroup>
+
         </Form>
     `;
 
     const result = parse({
         source: template,
         context: {
-            data
+            data, settings,
+            conditions: composeEntityOptions(ent, 'conditions')
         },
     }, true);
 
