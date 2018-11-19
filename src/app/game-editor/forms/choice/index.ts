@@ -60,6 +60,8 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
 
                 <ButtonGroup name='effect' label='Effect' options='{sources}' multiple='{true}'>{@item.effect}</ButtonGroup>
 
+                <TextInput name='value' label='Value'>{@item.value}</TextInput>
+
                 <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>
                     {@item.settings}
                 </ButtonGroup>

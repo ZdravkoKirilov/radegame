@@ -37,6 +37,8 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
 
         <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
 
+        <Dropdown name='attributes' label='Attributes' options='{sources}'>{data.attributes}</Dropdown>
+
     </Form>
    `;
 

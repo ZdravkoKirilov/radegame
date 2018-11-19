@@ -1,4 +1,4 @@
-import { Condition, CONDITION_MODES, CLAUSE, CLAUSE_RELATIONS, CLAUSE_TYPE } from "@app/game-mechanics";
+import { Condition, CONDITION_MODES, PRIMARY_CLAUSE, CLAUSE_RELATIONS, SECONDARY_CLAUSE } from "@app/game-mechanics";
 import { ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { composeFromObject, composeEntityOptions } from "../helpers";
 
@@ -50,9 +50,13 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
             <Form>
                 <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
 
-                <Dropdown name='clause' label='Clause' options='{clauses}' required='{true}'>{@item.clause}</Dropdown>
+                <Dropdown name='primary_clause' label='Clause' options='{primary_clauses}' required='{true}'>
+                    {@item.primary_clause}
+                </Dropdown>
 
-                <Dropdown name='type' label='Type' options='{clause_types}'>{@item.type}</Dropdown>
+                <Dropdown name='secondary_clause' label='Type' options='{secondary_clauses}'>
+                    {@item.secondary_clause}
+                </Dropdown>
 
                 <Dropdown name='condition' label='Condition' options='{conditions}'>{@item.condition}</Dropdown>
 
@@ -93,8 +97,8 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
             data, items, done, undone, restricted, allowed, settings, setups,
             modes: composeFromObject(CONDITION_MODES),
             relations: composeFromObject(CLAUSE_RELATIONS),
-            clauses: composeFromObject(CLAUSE),
-            clause_types: composeFromObject(CLAUSE_TYPE),
+            primary_clauses: composeFromObject(PRIMARY_CLAUSE),
+            secondary_clauses: composeFromObject(SECONDARY_CLAUSE),
             sources: composeEntityOptions(ent, 'sources'),
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),

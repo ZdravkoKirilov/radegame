@@ -41,9 +41,9 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             <ButtonGroup name='tokens' label='Tokens' options='{tokens}' multiple='true'>{data.tokens}</ButtonGroup>
 
-            <ButtonGroup name='source' label='Source' options='{sources}' multiple='true'>
+            <Dropdown name='source' label='Source' options='{sources}'>
                 {source}
-            </ButtonGroup>
+            </Dropdown>
 
             <ButtonGroup name='restricted' label='Restrict' options='{conditions}' multiple='true'>
                 {restricted}

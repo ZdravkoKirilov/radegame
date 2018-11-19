@@ -12,6 +12,7 @@ export type Choice = BaseModel & WithPermissions & WithCost & WithCondition &
 export type ChoiceOption = Omit<BaseModel, 'game'> & WithSettings & Partial<{
     owner: number; // Choice
     effect: number[]; // Source[]
+    value: string; // in combination with "random" for dice mechanic
 }>
 
 export type ChoiceMode = keyof typeof CHOICE_MODE;

@@ -4,7 +4,7 @@ import {
 } from '@app/dynamic-forms';
 import {
     GameAction, ACTION_TYPE as types,
-    ACTION_TARGET, ACTION_MODE
+    ACTION_TARGET, ACTION_MODE, ACTION_TARGET_TYPE, COMPUTED_VALUES
 } from '@app/game-mechanics';
 import {
     composeFromObject, composeEntityOptions, composeBooleanOptions
@@ -55,7 +55,12 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='type' label='Type' options='{types}' required='{true}'>{@item.type}</Dropdown>
 
-                    <ButtonGroup name='target' label='Target' options='{targets}' multiple='{true}' asString='{true}'>              {@item.target}
+                    <ButtonGroup name='target' label='Target' options='{targets}' multiple='{true}' asString='{true}'>
+                        {@item.target}
+                    </ButtonGroup>
+
+                    <ButtonGroup name='target_type' label='Target' options='{target_types}' multiple='{true}' asString='{true}'>
+                        {@item.target_type}
                     </ButtonGroup>
 
                     <Dropdown name='action' label='Action' options='{actions}' showImage='{true}'>{@item.action}</Dropdown>
@@ -72,7 +77,12 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <TextInput name='keywords' label='Keyword'>{@item.keywords}</TextInput>
 
+
                     <TextInput name='value' label='Value'>{@item.value}</TextInput>
+
+                    <Dropdown name='computed_value' label='Computed value' options='{computedValues}'>
+                        {@item.computed_value}
+                    </Dropdown>
 
                     <NumberInput name='amount' label='Amount'>{@item.amount}</NumberInput>
 
@@ -98,6 +108,8 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             types: composeFromObject(types),
             modes: composeFromObject(ACTION_MODE),
             targets: composeFromObject(ACTION_TARGET),
+            target_types: composeFromObject(ACTION_TARGET_TYPE),
+            computed_values: composeFromObject(COMPUTED_VALUES),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             choices: composeEntityOptions(ent, 'choices'),
@@ -105,7 +117,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             tokens: composeEntityOptions(ent, 'tokens'),
             actions: composeEntityOptions(ent, 'actions'),
             setup_options: composeEntityOptions(ent, 'setups'),
-            random: composeBooleanOptions()
+            random: composeBooleanOptions(),
         },
     }, true);
 

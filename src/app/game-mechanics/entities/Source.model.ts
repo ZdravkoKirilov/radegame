@@ -19,12 +19,15 @@ export type SourceItem = Partial<{
     token: number; //Token;
     source: number; // Source
 
+    amount: number; // for token attributes
+
     relation: SourceRelation;
 }>
 
 export const SOURCE_MODES = {
     DRAW: 'DRAW',
     AUTO: 'AUTO',
+    PASSIVE: 'PASSIVE', // for token attributes
 };
 
 export const SOURCE_PICK = {
@@ -43,7 +46,6 @@ export const SOURCE_RELATION = {
     NONE: 'NONE',
     AND: 'AND',
     OR: 'OR',
-    NOT: 'NOT'
 };
 
 export type SourceMode = keyof typeof SOURCE_MODES;

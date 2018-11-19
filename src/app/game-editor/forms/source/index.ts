@@ -53,6 +53,8 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
                     <Dropdown name='token' label='Token' options='{tokens}'>{@item.token}</Dropdown>
         
                     <Dropdown name='source' label='Source' options='{sources}'>{@item.source}</Dropdown>
+
+                    <NumberInput name='amount' label='Amount'>{@item.amount}</NumberInput>
         
                     <Dropdown name='relation' label='Relation' options='{relations}'>{@item.relation}</Dropdown>
 

@@ -12,8 +12,10 @@ export type ClauseItem = Partial<{
     id: number;
     owner: number; // Condition;
 
-    clause: Clause;
-    type: string; // comma separated list of targets
+    primary_clause: PrimaryClause;
+    secondary_clause: SecondaryClause;
+
+    negative: boolean; // "NOT" mechanics
 
     condition: number; //Condition;
     action: number; //GameAction;
@@ -34,54 +36,82 @@ export type ClauseItem = Partial<{
     relation: ClauseRelation;
 }>
 
-export const CLAUSE = {
+export const PRIMARY_CLAUSE = {
 
     INTERSECT: 'INTERSECT', // meet / avoid
 
-    COMPLETE: 'COMPLETE',
+    COMPLETE: 'COMPLETE', // other condition(quest)
 
-    HAVE: 'HAVE',
-    IS: 'IS', // "NOT" is achieved via relation: NOT
+    HAVE: 'HAVE', // resources, cards
+    IS: 'IS', // "NOT" is achieved via relation: NOT. Phase, 
 
-    GAIN: 'GAIN',
-    REACH: 'REACH',
+    HAND_SIZE: 'HAND_SIZE', // enforcing rules
 
-    TRIGGER: 'TRIGGER',
-    REVEAL: 'REVEAL',
+    REVEAL_SIZE: 'REVEAL_SIZE', // enforcing rules
+
+    GAIN: 'GAIN', // slot, field, KEYWORD?
+    REACH: 'REACH', // slot, resources
+
+    TRIGGER: 'TRIGGER', // action
+    REVEAL: 'REVEAL', // when a card gets revealed
+
+    BID: 'BID', // with WIN LOSE TIE
+
+    DISTANCE: 'DISTANCE', // rule for enabling certaion actions. E.g. attacking only at 2 slots distance
+
+    IN: 'IN', // Get bonus in X rounds
+
+    PLAY_WHEN: 'PLAY_AT', // your turn, 
+
+    DROP: 'DROP', // DROP item AT location
 }
 
-export const CLAUSE_TYPE = {
-    MORE: 'MORE',
-    LESS: 'LESS',
+export const SECONDARY_CLAUSE = {
+    MORE: 'MORE', // resources
+    LESS: 'LESS', // resource
 
-    MAX: 'MAX',
-    MIN: 'MIN',
+    MAX: 'MAX', // hand size
+    MIN: 'MIN', // hand size
 
-    BEFORE: 'BEFORE',
-    AFTER: 'AFTER',
-    AT: 'AT',
+    BEFORE: 'BEFORE', // round, phase
+    AFTER: 'AFTER', // round, phase
+    AT: 'AT', // round, phase
 
-    CORRECT: 'CORRECT',
-    INCORRECT: 'INCORRECT',
+    TRUE: 'TRUE', // for choices
+    FALSE: 'FALSE', // for choices
+
+    WIN: 'WIN', // BID, GAMBLE
+    LOSE: 'LOSE', // BID, GAMBLE
+    TIE: 'TIE',  // BID, GAMBLE
+
+    YOUR_TURN: 'YOUR_TURN', // when a spell can be played
+    ENEMY_TURN: 'ENEMY_TURN', // when a spell can be played
+    ALL_TURNS: 'ALL_TURNS', // when a spell can be played
+
+    RESPONSE_TO: 'RESPONSE_TO', // response to: spell with keyword, specific spell
 }
 
 export const CLAUSE_RELATIONS = {
     AND: 'AND',
     OR: 'OR',
-    NOT: 'NOT',
 }
 
 export const CONDITION_MODES = {
     TRIGGER: 'TRIGGER',
     HYBRID: 'HYBRID',
     AUTO: 'AUTO',
+    PASSIVE: 'PASSIVE',
     RULE: 'RULE',
 }
 
 export type ConditionMode = keyof typeof CONDITION_MODES;
 export type ClauseRelation = keyof typeof CLAUSE_RELATIONS;
-export type Clause = keyof typeof CLAUSE;
-export type ClauseType = keyof typeof CLAUSE_TYPE;
+export type PrimaryClause = keyof typeof PRIMARY_CLAUSE;
+export type SecondaryClause = keyof typeof SECONDARY_CLAUSE;
+
+
+// BID + WIN + keyword/token ( the type that was bidded) = Done effect => GOT like outcomes for different challenges. Military,
+// Intrigue, Power etc
 
 
 
