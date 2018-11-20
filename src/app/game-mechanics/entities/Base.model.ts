@@ -38,7 +38,7 @@ export type WithStakes = Partial<{
 }>
 
 export type WithReveal = Partial<{
-    reveal_cost: number;
+    reveal_cost: number; // Source
     reveal_slots: number;
 }>
 

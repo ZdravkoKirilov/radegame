@@ -1,6 +1,6 @@
 import { BaseModel, WithPermissions, WithCost } from "./Base.model";
 
-export type Source = BaseModel & WithPermissions & WithCost & Partial<{
+export type Source = BaseModel & Partial<{
 
     mode: SourceMode;
     pick: SourcePickMode;
@@ -9,7 +9,7 @@ export type Source = BaseModel & WithPermissions & WithCost & Partial<{
     items: SourceItem[];
 }>
 
-export type SourceItem = Partial<{
+export type SourceItem = WithPermissions & WithCost & Partial<{
     id: number;
     owner: number;
 
@@ -17,9 +17,9 @@ export type SourceItem = Partial<{
     condition: number; //Condition;
     choice: number; //Choice;
     token: number; //Token;
-    source: number; // Source
+    source: number; // Source;
 
-    amount: number; // for token attributes
+    amount: number; // for token attributes / Number of available instance for drawing
 
     relation: SourceRelation;
 }>
