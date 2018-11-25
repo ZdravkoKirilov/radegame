@@ -17,16 +17,16 @@ export const PathsList: RenderFunction<Props> = (props) => {
     const lines = props.locations.length ? props.paths.map(elem => {
 
         const from = {
-            left: nodesList[elem.from_loc].x,
-            top: nodesList[elem.from_loc].y,
-            width: nodesList[elem.from_loc].width,
-            height: nodesList[elem.from_loc].height
+            left: nodesList[elem.from_slot].x,
+            top: nodesList[elem.from_slot].y,
+            width: nodesList[elem.from_slot].width,
+            height: nodesList[elem.from_slot].height
         }
         const to = {
-            left: nodesList[elem.to_loc].x,
-            top: nodesList[elem.to_loc].y,
-            width: nodesList[elem.to_loc].width,
-            height: nodesList[elem.to_loc].height
+            left: nodesList[elem.to_slot].x,
+            top: nodesList[elem.to_slot].y,
+            width: nodesList[elem.to_slot].width,
+            height: nodesList[elem.to_slot].height
         }
 
         const points = computeLinePoints(from, to);

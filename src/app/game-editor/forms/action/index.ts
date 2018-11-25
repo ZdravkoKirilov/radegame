@@ -14,11 +14,10 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     data = data || {};
     const configs = data.configs || [];
     const cost = data.cost || [];
-    const restricted = data.restricted || [];
-    const allowed = data.allowed || [];
+    const disable = data.disable || [];
+    const enable = data.enable || [];
     const condition = data.condition || [];
-    const settings = data.settings || [];
-    const setups = data.setups || [];
+    const reveal_cost = data.reveal_cost || [];
 
     const template = `
         <Form>
@@ -26,27 +25,25 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
             <TextInput name='description' label='Description'>{data.description}</TextInput>
 
-            <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
+            <ImagePicker name='image' label='Add image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
+
+            <Dropdown name='mode' label='Action mode' options='{modes}' required='true'>{data.mode}</Dropdown>
 
             <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-            <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-
-            <Dropdown name='mode' label='Action mode' options='{modes}'>{data.mode}</Dropdown>
-
             <NumberInput name='reveal_slots' label='Reveal slots'>{data.reveal_slots}</NumberInput>
 
-            <NumberInput name='reveal_cost' label='Reveal cost'>{data.reveal_cost}</NumberInput>
+            <ButtonGroup name='reveal_cost' label='Reveal cost' options='{sources}' multiple='{true}'>
+                {reveal_cost}
+            </ButtonGroup>
 
             <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
 
-            <ButtonGroup name='restricted' label='Restrict' options='{conditions}' multiple='{true}'>{restricted}</ButtonGroup>
+            <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
 
-            <ButtonGroup name='allowed' label='Allow' options='{conditions}' multiple='{true}'>{allowed}</ButtonGroup>
+            <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
 
             <ButtonGroup name='condition' label='Condition' options='{conditions}' multiple='{true}'>{condition}</ButtonGroup>
-
-            <ButtonGroup name='settings' label='Settings' options='{sources}' multiple='{true}'>{settings}</ButtonGroup>
 
             <Group name='configs' label='Action configs' children='{configs}' item='@item' addButtonText='Add'>
 
@@ -55,13 +52,20 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='type' label='Type' options='{types}' required='{true}'>{@item.type}</Dropdown>
 
-                    <ButtonGroup name='target' label='Target' options='{targets}' multiple='{true}' asString='{true}'>
+                    <ButtonGroup 
+                        name='target' 
+                        label='Target' 
+                        options='{targets}' 
+                        multiple='{true}' 
+                        asString='{true}' 
+                        required='true'
+                    >
                         {@item.target}
                     </ButtonGroup>
 
-                    <ButtonGroup name='target_type' label='Target' options='{target_types}' multiple='{true}' asString='{true}'>
+                    <Dropdown name='target_type' label='Target type' options='{target_types}'>
                         {@item.target_type}
-                    </ButtonGroup>
+                    </Dropdown>
 
                     <Dropdown name='action' label='Action' options='{actions}' showImage='{true}'>{@item.action}</Dropdown>
 
@@ -76,7 +80,6 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
                     <Dropdown name='choice' label='Choice' options='{choices}' showImage='{true}'>{@item.choice}</Dropdown>
 
                     <TextInput name='keywords' label='Keyword'>{@item.keywords}</TextInput>
-
 
                     <TextInput name='value' label='Value'>{@item.value}</TextInput>
 
@@ -97,14 +100,13 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
             </Group>
 
-
         </Form>
     `;
 
     const result = parse({
         source: template,
         context: {
-            data, configs, cost, restricted, allowed, condition, settings, setups,
+            data, configs, cost, disable, enable, condition, reveal_cost,
             types: composeFromObject(types),
             modes: composeFromObject(ACTION_MODE),
             targets: composeFromObject(ACTION_TARGET),
@@ -116,7 +118,6 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             factions: composeEntityOptions(ent, 'factions'),
             tokens: composeEntityOptions(ent, 'tokens'),
             actions: composeEntityOptions(ent, 'actions'),
-            setup_options: composeEntityOptions(ent, 'setups'),
             random: composeBooleanOptions(),
         },
     }, true);

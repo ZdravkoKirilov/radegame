@@ -24,9 +24,14 @@ export class ButtonGroupComponent implements OnInit {
                 this.value = this.data.value ? [...this.data.value] :
                     this.data.defaultValue !== undefined ? [this.data.defaultValue] : [];
             }
+            
+            this.change.emit({
+                [this.data.name]: this.value
+            });
 
         } else {
             this.value = this.data.value !== undefined ? this.data.value : this.data.defaultValue;
+            this.handleChange(this.value);
         }
     }
 
@@ -47,6 +52,7 @@ export class ButtonGroupComponent implements OnInit {
     handleChange(value) {
         const field = this.data.valueField;
         let currentValue = this.value;
+
         if (this.data.multiple) {
             const asIntArr = currentValue.map(elem => field ? elem[field] : elem);
             const index = asIntArr.indexOf(value);
@@ -56,14 +62,14 @@ export class ButtonGroupComponent implements OnInit {
             } else {
                 currentValue.push(field ? { [field]: value } : value);
             }
-            currentValue = this.data.asString ? currentValue.join(',') : currentValue;
         } else {
             currentValue = value;
         }
+
         this.value = currentValue;
 
         this.change.emit({
-            [this.data.name]: currentValue
+            [this.data.name]: this.data.asString ? currentValue.join(',') : currentValue
         });
     }
 }

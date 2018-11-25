@@ -6,14 +6,11 @@ export type BaseModel = Partial<{
     description: string;
     keywords: string;
     image: string;
-
-    setups: number[]; // Edition
-
 }>;
 
 export type WithPermissions = Partial<{
-    restricted: number[]; // Condition;
-    allowed: number[]; // Condition;
+    enable: number[]; // Condition;
+    disable: number[]; // Condition;
 }>
 
 export type WithBoard = Partial<{
@@ -44,4 +41,8 @@ export type WithReveal = Partial<{
 
 export type WithSettings = Partial<{
     settings: number[]; // Condition
+}>
+
+export type WithSetups = Partial<{
+    setups: number[]; // Setup[]
 }>

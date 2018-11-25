@@ -6,10 +6,12 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
     data = data || {};
     const options = data.options || [];
     const cost = data.cost || [];
-    const restricted = data.restricted || [];
-    const allowed = data.allowed || [];
+    const disable = data.disable || [];
+    const enable = data.enable || [];
     const condition = data.condition || [];
-    const setups = data.setups || [];
+    const reveal_cost = data.reveal_cost || [];
+    const done = data.done || [];
+    const undone = data.undone || [];
 
     const template = `
     <Form>
@@ -21,23 +23,21 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
 
         <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-        <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-
         <Dropdown name='mode' label='Mode' options='{modes}'>{data.mode}</Dropdown>
 
         <NumberInput name='reveal_slots' label='Reveal slots'>{data.reveal_slots}</NumberInput>
 
-        <NumberInput name='reveal_cost' label='Reveal cost'>{data.reveal_cost}</NumberInput>
+        <ButtonGroup name='reveal_cost' label='Reveal cost' options='{sources}' multiple='true'>
+            {reveal_cost}
+        </ButtonGroup>
 
         <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
 
-        <ButtonGroup name='restricted' label='Restrict' options='{conditions}' multiple='{true}'>{restricted}</ButtonGroup>
+        <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
 
-        <ButtonGroup name='allowed' label='Allow' options='{conditions}' multiple='{true}'>{allowed}</ButtonGroup>
+        <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
 
         <ButtonGroup name='condition' label='Condition' options='{conditions}' multiple='{true}'>{condition}</ButtonGroup>
-
-        <ButtonGroup name='settings' label='Settings' options='{sources}' multiple='{true}'>{settings}</ButtonGroup>
 
         <ButtonGroup name='done' label='Award' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
 
@@ -47,8 +47,6 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
 
             <Form>
                 <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
-
-                <NumberInput name='owner' hidden='{true}'>{@item.owner}</NumberInput>
 
                 <TextInput name='name' required='{true}' label='Choice name'>{@item.name}</TextInput>
 
@@ -76,10 +74,10 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
     const result = parse({
         source: template,
         context: {
-            data, options, cost, condition, restricted, allowed, setups,
+            data, options, cost, condition, disable, enable, reveal_cost, done, undone,
             sources: composeEntityOptions(ent, 'sources'),
+            conditions: composeEntityOptions(ent, 'conditions'),
             modes: composeFromObject(CHOICE_MODE),
-            setup_options: composeEntityOptions(ent, 'setups'),
         },
     }, true);
 

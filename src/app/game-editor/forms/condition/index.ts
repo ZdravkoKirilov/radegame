@@ -8,10 +8,10 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
     const items = data.clauses || [];
     const done = data.done || [];
     const undone = data.undone || [];
-    const restricted = data.restricted || [];
-    const allowed = data.allowed || [];
-    const settings = data.settings || [];
-    const setups = data.setups || [];
+    const disable = data.disable || [];
+    const enable = data.enable || [];
+    const cost = data.cost || [];
+    const reveal_cost = data.reveal_cost || [];
 
     const template = `
     <Form>
@@ -23,27 +23,25 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
 
         <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-        <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-
         <Dropdown name='mode' label='Condition mode' options='{modes}'>{data.mode}</Dropdown>
 
         <NumberInput name='reveal_slots' label='Reveal slots'>{data.reveal_slots}</NumberInput>
 
-        <NumberInput name='reveal_cost' label='Reveal cost'>{data.reveal_cost}</NumberInput>
+        <ButtonGroup name='reveal_cost' label='Reveal cost' options='{sources}' multiple='true'>
+            {reveal_cost}
+        </ButtonGroup>
 
         <ButtonGroup name='done' label='Award' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
 
         <ButtonGroup name='undone' label='Penalty' options='{sources}' multiple='{true}'>{undone}</ButtonGroup>
 
-        <ButtonGroup name='restricted' label='Restrict' options='{conditions}' multiple='{true}'>{restricted}</ButtonGroup>
+        <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
 
-        <ButtonGroup name='allowed' label='Allow' options='{conditions}' multiple='{true}'>{allowed}</ButtonGroup>
+        <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
 
         <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
 
-        <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{data.cost}</ButtonGroup>
-
-        <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>{settings}</ButtonGroup>
+        <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
 
         <Group name='clauses' label='Condition clauses' children='{items}' item='@item' addButtonText='Add'>
 
@@ -94,13 +92,12 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
     const result = parse({
         source: template,
         context: {
-            data, items, done, undone, restricted, allowed, settings, setups,
+            data, items, done, undone, disable, enable, reveal_cost, cost,
             modes: composeFromObject(CONDITION_MODES),
             relations: composeFromObject(CLAUSE_RELATIONS),
             primary_clauses: composeFromObject(PRIMARY_CLAUSE),
             secondary_clauses: composeFromObject(SECONDARY_CLAUSE),
             sources: composeEntityOptions(ent, 'sources'),
-            setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
             actions: composeEntityOptions(ent, 'actions'),
             fields: composeEntityOptions(ent, 'fields'),

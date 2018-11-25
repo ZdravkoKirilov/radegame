@@ -1,3 +1,3 @@
-import { BaseModel, WithBoard, WithCost, WithRisk } from "./Base.model";
+import { BaseModel, WithBoard, WithStakes, WithCost, WithRisk } from "./Base.model";
 
-export type Field = BaseModel & WithBoard & WithCost & WithRisk;
+export type Field = BaseModel & WithBoard & WithCost & WithRisk & WithStakes;

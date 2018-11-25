@@ -6,9 +6,8 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
 
     data = data || {};
     const risk = data.risk || [];
-    const allowed = data.allowed || [];
-    const restricted = data.restricted || [];
-    const settings = data.settings || [];
+    const enable = data.enable || [];
+    const disable = data.disable || [];
     const setups = data.setups || [];
 
     const template = `
@@ -22,13 +21,11 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
 
             <Dropdown name='board' label='Board' options='{stages}' showImage='{true}'>{data.board}</Dropdown>
 
-            <ButtonGroup name='restricted' label='Restrict' options='{conditions}' multiple='{true}'>{restricted}</ButtonGroup>
+            <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
 
-            <ButtonGroup name='allowed' label='Allow' options='{conditions}' multiple='{true}'>{allowed}</ButtonGroup>
+            <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
 
             <ButtonGroup name='risk' label='Risk' options='{sources}' multiple='{true}'>{risk}</ButtonGroup>
-
-            <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>{settings}</ButtonGroup>
 
         </Form>
     `;
@@ -36,7 +33,7 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
     const result = parse({
         source: template,
         context: {
-            data, risk, allowed, restricted, settings, setups,
+            data, risk, enable, disable, setups,
             stages: composeEntityOptions(ent, 'stages'),
             slots: composeEntityOptions(ent, 'slots'),
             conditions: composeEntityOptions(ent, 'conditions'),

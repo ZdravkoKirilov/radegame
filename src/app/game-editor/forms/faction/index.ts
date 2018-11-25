@@ -1,4 +1,4 @@
-import { Faction, FACTION_TYPE } from '@app/game-mechanics';
+import { Faction } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import { composeFromObject, composeEntityOptions } from '../helpers';
 
@@ -23,8 +23,6 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
 
         <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
 
-        <Dropdown name='type' label='Type' options='{types}'>{data.type}</Dropdown>
-
         <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
 
         <ButtonGroup name='settings' label='Settings' options='{sources}' multiple='{true}'>{settings}</ButtonGroup>
@@ -36,7 +34,6 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
         source: template,
         context: {
             data, setups, settings,
-            types: composeFromObject(FACTION_TYPE),
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
             stages: composeEntityOptions(ent, 'stages'),

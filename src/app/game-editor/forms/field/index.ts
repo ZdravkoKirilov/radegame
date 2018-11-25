@@ -7,7 +7,8 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
 
     const cost = data.cost || [];
     const risk = data.risk || [];
-    const setups = data.setups || [];
+    const done = data.done || [];
+    const undone = data.undone || [];
 
     const template = `
         <Form>
@@ -19,13 +20,15 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
 
             <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-            <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-
             <Dropdown name='board' label='Board' options='{stages}' showImage='{true}'>{data.board}</Dropdown>
 
             <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
 
             <ButtonGroup name='risk' label='Risk' options='{sources}' multiple='{true}'>{risk}</ButtonGroup>
+
+            <ButtonGroup name='done' label='Award' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
+
+            <ButtonGroup name='undone' label='Penalty' options='{sources}' multiple='{true}'>{undone}</ButtonGroup>
 
         </Form>
     `;
@@ -33,8 +36,7 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
     const result = parse({
         source: template,
         context: {
-            data, cost, risk, setups,
-            setup_options: composeEntityOptions(ent, 'setups'),
+            data, cost, risk, done, undone,
             stages: composeEntityOptions(ent, 'stages'),
             sources: composeEntityOptions(ent, 'sources'),
         },

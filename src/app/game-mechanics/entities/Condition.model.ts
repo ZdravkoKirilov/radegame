@@ -1,7 +1,7 @@
-import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal, WithSettings } from './Base.model';
+import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal } from './Base.model';
 
 export type Condition = BaseModel & WithPermissions & WithBoard &
-    WithCost & WithStakes & WithReveal & WithSettings & Partial<{
+    WithCost & WithStakes & WithReveal & Partial<{
 
         mode: ConditionMode;
 
@@ -98,7 +98,6 @@ export const CLAUSE_RELATIONS = {
 
 export const CONDITION_MODES = {
     TRIGGER: 'TRIGGER',
-    HYBRID: 'HYBRID',
     AUTO: 'AUTO',
     PASSIVE: 'PASSIVE',
     RULE: 'RULE',

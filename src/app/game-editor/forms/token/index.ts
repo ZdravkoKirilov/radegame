@@ -5,10 +5,9 @@ import { composeEntityOptions } from "../helpers";
 export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
 
-    const restricted = data.restricted || [];
-    const allowed = data.allowed || [];
+    const disable = data.disable || [];
+    const enable = data.enable || [];
     const cost = data.cost || [];
-    const setups = data.setups || [];
 
     const template = `
     <Form>
@@ -23,15 +22,13 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
 
         <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-        <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-
         <NumberInput name='reveal_slots' label='Reveal slots'>{data.reveal_slots}</NumberInput>
 
         <NumberInput name='reveal_cost' label='Reveal cost'>{data.reveal_cost}</NumberInput>
 
-        <ButtonGroup name='allowed' label='Allowed' options='{conditions}' multiple='{true}'>{allowed}</ButtonGroup>
+        <ButtonGroup name='enable' label='Allowed' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
 
-        <ButtonGroup name='restricted' label='Restricted' options='{conditions}' multiple='{true}'>{restricted}</ButtonGroup>
+        <ButtonGroup name='disable' label='Restricted' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
 
         <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
 
@@ -45,7 +42,7 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
     const result = parse({
         source: template,
         context: {
-            data, cost, restricted, allowed, setups,
+            data, cost, disable, enable,
             setup_options: composeEntityOptions(ent, 'setups'),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),

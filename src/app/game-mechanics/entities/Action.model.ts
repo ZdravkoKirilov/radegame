@@ -1,6 +1,6 @@
-import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal, WithSettings } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal } from "./Base.model";
 
-export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & WithSettings & Partial<{
+export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & Partial<{
     mode: ActionMode;
     configs: ActionConfig[];
 }>
@@ -58,9 +58,6 @@ export const ACTION_TYPE = {
 export const ACTION_MODE = {
     TRIGGER: 'TRIGGER',
     AUTO: 'AUTO', // onstep @ revealed, onstep @ hidden when field/loc. Revealed when on faction
-    PASSIVE: 'PASSIVE',
-
-    HYBRID: 'HYBRID',
 };
 
 export const ACTION_TARGET = {

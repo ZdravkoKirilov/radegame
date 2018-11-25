@@ -10,7 +10,6 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
     const condition = data.condition || [];
     const done = data.done || [];
     const undone = data.undone || [];
-    const risk = data.risk || [];
 
     const template = `
     <Form>
@@ -40,8 +39,6 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
 
         <ButtonGroup name='done' label='Award' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
 
-        <ButtonGroup name='risk' label='Risk' options='{sources}' multiple='{true}'>{risk}</ButtonGroup>
-
         <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
 
         <Dropdown name='stage' label='Stage' options='{stages}'>{data.stage}</Dropdown>
@@ -53,7 +50,7 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            data, condition, done, undone, risk, phases, setups, bools: composeBooleanOptions(),
+            data, condition, done, undone, phases, setups, bools: composeBooleanOptions(),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             phase_options: composeEntityOptions(ent, 'phases'),

@@ -1,5 +1,5 @@
-import { BaseModel, WithPermissions, WithBoard, WithCost, WithReveal } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithReveal } from "./Base.model";
 
-export type Token = BaseModel & WithPermissions & WithBoard & WithCost & WithReveal & {
+export type Token = BaseModel & WithPermissions & WithCost & WithReveal & Partial<{
     attributes: number; // Source with passive mode
-};
+}>;

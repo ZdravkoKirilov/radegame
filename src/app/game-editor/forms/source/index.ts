@@ -6,10 +6,6 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
 
     data = data || {};
     const items = data.items || [];
-    const cost = data.cost || [];
-    const allowed = data.allowed || [];
-    const restricted = data.restricted || [];
-    const setups = data.setups || [];
 
     const template = `
         <Form>
@@ -23,19 +19,11 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
 
             <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 
-            <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-
             <Dropdown name='mode' label='Mode' options='{mode}'>{data.mode}</Dropdown>
 
             <Dropdown name='pick' label='Pick' options='{pick}'>{data.pick}</Dropdown>
 
             <Dropdown name='quota' label='Quota' options='{quota}'>{data.quota}</Dropdown>
-
-            <ButtonGroup name='restricted' label='Restrict' options='{conditions}' multiple='true'>{restricted}</ButtonGroup>
-
-            <ButtonGroup name='allowed' label='Allow' options='{conditions}' multiple='true'>{allowed}</ButtonGroup>
-
-            <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='true'>{cost}</ButtonGroup>
 
             <Group name='items' label='Source items' children='{items}' item='@item' addButtonText='Add'>
                 <Form>
@@ -43,6 +31,22 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
                     <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
 
                     <NumberInput name='owner' hidden='{true}'>{@item.owner}</NumberInput>
+
+                    <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>
+                        {@item.cost}
+                    </ButtonGroup>
+
+                    <ButtonGroup name='enable' label='Enable' options='{conditions}' multiple='{true}'>
+                        {@item.enable}
+                    </ButtonGroup>
+
+                    <ButtonGroup name='disable' label='Disable' options='{conditions}' multiple='{true}'>
+                        {@item.disable}
+                    </ButtonGroup>
+
+                    <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>
+                        {@item.setups}
+                    </ButtonGroup>
 
                     <Dropdown name='action' label='Action' options='{actions}'>{@item.action}</Dropdown>
 
@@ -67,7 +71,7 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
     const result = parse({
         source: template,
         context: {
-            data, cost, allowed, restricted, items, setups,
+            data, items,
             relations: composeFromObject(SOURCE_RELATION),
             mode: composeFromObject(SOURCE_MODES),
             pick: composeFromObject(SOURCE_PICK),

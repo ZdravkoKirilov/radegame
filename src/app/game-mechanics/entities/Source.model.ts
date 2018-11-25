@@ -1,4 +1,4 @@
-import { BaseModel, WithPermissions, WithCost } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithSetups } from "./Base.model";
 
 export type Source = BaseModel & Partial<{
 
@@ -9,7 +9,7 @@ export type Source = BaseModel & Partial<{
     items: SourceItem[];
 }>
 
-export type SourceItem = WithPermissions & WithCost & Partial<{
+export type SourceItem = WithPermissions & WithCost & WithSetups & Partial<{
     id: number;
     owner: number;
 

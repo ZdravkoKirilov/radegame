@@ -8,7 +8,7 @@
     </div>
 
     <div *ngIf="!existingImage && !data.hideThumbnail">
-        <button mat-button color="primary" (click)="browseImage()">Add image</button>
+        <button mat-button color="primary" (click)="browseImage()">{{label}}</button>
     </div>
 
     <button mat-button [color]="data?.buttonColor" (click)="browseImage()">

@@ -21,6 +21,11 @@ export class ImagePickerComponent implements OnInit {
     @ViewChild('filePicker') filePicker: ElementRef;
     @ViewChild('ownForm') ownForm: ElementRef;
 
+    get label() {
+        const label = this.data.label || 'Add image';
+        return this.data.required ? label + ' *' : label;
+    }
+
     existingImage?: any;
 
     ngOnInit() {

@@ -6,12 +6,11 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
     data = data || {};
     const setups = data.setups || [];
-    const restricted = data.restricted || [];
-    const allowed = data.allowed || [];
+    const disable = data.disable || [];
+    const enable = data.enable || [];
     const risk = data.risk || [];
     const settings = data.settings || [];
     const revealed = data.revealed || [];
-    const source = data.source || [];
 
     const template = `
         <Form>
@@ -45,12 +44,12 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {source}
             </Dropdown>
 
-            <ButtonGroup name='restricted' label='Restrict' options='{conditions}' multiple='true'>
-                {restricted}
+            <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='true'>
+                {disable}
             </ButtonGroup>
 
-            <ButtonGroup name='allowed' label='Allow' options='{conditions}' multiple='true'>
-                {allowed}
+            <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='true'>
+                {enable}
             </ButtonGroup>
 
             <ButtonGroup name='risk' label='Risk' options='{sources}' multiple='true'>
@@ -61,9 +60,9 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {settings}
             </ButtonGroup>
 
-            <ButtonGroup name='revealed' label='Revealed' options='{sources}' multiple='true'>
+            <Dropdown name='revealed' label='Revealed' options='{sources}'>
                 {revealed}
-            </ButtonGroup>
+            </Dropdown>
 
         </Form>
     `;
@@ -71,7 +70,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const result = parse({
         source: template,
         context: {
-            data, setups, allowed, restricted, risk, settings, revealed, source,
+            data, setups, enable, disable, risk, settings, revealed,
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
             sources: composeEntityOptions(ent, 'sources'),
