@@ -34,11 +34,9 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
 }
 
 export const baseTemplate = `
-    <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
-    <NumberInput name='game' hidden='{true}'>{data.game}</NumberInput>
     <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
     <TextInput name='description' label='Description'>{data.description}</TextInput>
-    <ImagePicker name='image' label='Add image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
+    <ImagePicker name='image' label='Add image' required='{false}' asBase64='{true}'>{data.image}</ImagePicker>
     <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 `;
 

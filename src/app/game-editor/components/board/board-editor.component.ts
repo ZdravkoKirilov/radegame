@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { composeSlotForm, composePathForm } from '../../forms';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { Slot, PathEntity, Stage } from '@app/game-mechanics';
@@ -31,6 +31,7 @@ import { Slot, PathEntity, Stage } from '@app/game-mechanics';
         [selectedItem]="selectedLocation"
         [connectedEntities]="entities"
         (cancel)="showLocationEditor = false"
+        (save)="handleSaveSlot($event)"
       ></rg-entity-editor>
 
       <rg-entity-editor 
@@ -51,9 +52,21 @@ export class BoardEditorComponent {
   @Input() locations: Slot[];
   @Input() paths: PathEntity[];
   @Input() stage: Stage;
+  @Input() gameId: number;
+
+  @Output() saveSlot = new EventEmitter<Slot>();
 
   get visibleEditor() {
     return this.showLocationEditor || this.showPathEditor;
+  }
+
+  handleSaveSlot(payload: Slot) {
+    const slot = <Slot>{ ...payload, game: this.gameId, owner: this.stage.id };
+    if (this.selectedLocation) {
+      slot.id = this.selectedLocation.id;
+    }
+    this.saveSlot.emit(slot);
+    this.showLocationEditor = false;
   }
 
   showLocationEditor = false;

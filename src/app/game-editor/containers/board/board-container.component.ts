@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { combineLatest, Observable } from 'rxjs';
-import { getActiveStage, getItems, formKeys, getEntities } from 'app/game-editor/state';
+import { getActiveStage, getItems, formKeys, getEntities, SaveItemAction, selectGameId } from '../../state';
 import { map, filter } from 'rxjs/operators';
 import { Stage, Slot, PathEntity } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
@@ -16,6 +16,8 @@ import { ConnectedEntities } from '@app/dynamic-forms';
         [locations]="data.locations"
         [paths]="data.paths"
         [entities]="data.entities"
+        [gameId]="data.gameId"
+        (saveSlot)="saveSlot($event)"
       ></rg-board-editor>
     </ng-container>
   `,
@@ -35,12 +37,20 @@ export class BoardContainerComponent {
     this.store.pipe(select(getItems<Slot[]>(formKeys.SLOTS))),
     this.store.pipe(select(getItems<PathEntity[]>(formKeys.PATHS))),
     this.store.pipe(select(getEntities)),
+    this.store.pipe(select(selectGameId)),
   ).pipe(
     filter(data => data.every(elem => !!elem)),
-    map(([stage, locations, paths, entities]) => {
-      return { stage, locations, paths, entities };
+    map(([stage, locations, paths, entities, gameId]) => {
+      return { stage, locations, paths, entities, gameId };
     }),
   )
 
+  saveSlot = (slot: Slot) => {
+
+    this.store.dispatch(new SaveItemAction({
+      key: formKeys.SLOTS,
+      data: slot,
+    }));
+  }
 
 }

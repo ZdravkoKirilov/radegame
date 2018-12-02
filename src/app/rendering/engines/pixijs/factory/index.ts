@@ -22,8 +22,9 @@ export class PixiFactory implements AbstractFactory {
         return text;
     }
     createSprite(elem: RzElement, meta: MetaProps): PrimitiveSprite {
-        const image = meta.assets.getTexture(elem.props.image).texture;
-        const pixiSprite = new Sprite(image);
+        const asset = meta.assets.getTexture(elem.props.image);
+        const image = asset ? asset.texture : null;
+        const pixiSprite = image ? new Sprite(image) : null;
         const sprite = new PrimitiveSprite(elem.props, pixiSprite, meta);
         return sprite;
     }

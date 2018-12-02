@@ -10,7 +10,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const enable = data.enable || [];
     const risk = data.risk || [];
     const settings = data.settings || [];
-    const revealed = data.revealed || [];
 
     const template = `
         <Form>
@@ -30,10 +29,8 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             ${boardTemplate}
 
-            <ButtonGroup name='tokens' label='Tokens' options='{tokens}' multiple='true'>{data.tokens}</ButtonGroup>
-
-            <Dropdown name='source' label='Source' options='{sources}'>
-                {source}
+            <Dropdown name='draw' label='Draw' options='{sources}'>
+                {data.draw}
             </Dropdown>
 
             ${permissionsTemplate}
@@ -43,7 +40,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             ${settingsTemplate}
 
             <Dropdown name='revealed' label='Revealed' options='{sources}'>
-                {revealed}
+                {data.revealed}
             </Dropdown>
 
         </Form>
@@ -52,7 +49,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const result = parse({
         source: template,
         context: {
-            data, setups, enable, disable, risk, settings, revealed,
+            data, setups, enable, disable, risk, settings,
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
             sources: composeEntityOptions(ent, 'sources'),

@@ -72,9 +72,11 @@ const updatePrimitive = (component: BasicComponent) => {
 
 const updateGeneric = (comp: Component) => {
     const { props } = comp;
-    Object.keys(props.styles || {}).forEach(key => {
-        setProp(comp, key, props.styles[key]);
-    });
+    if (comp.graphic) {
+        Object.keys(props.styles || {}).forEach(key => {
+            setProp(comp, key, props.styles[key]);
+        });
+    }
 };
 
 const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
@@ -93,26 +95,24 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
 };
 
 const updateSprite = (comp: PrimitiveSprite) => {
-    try {
-        const { props, graphic, container, meta } = comp;
-        const assetManager = meta.assets;
-        const image = assetManager.getTexture(props.image);
-        const newGraphic = new Sprite(image.texture);
-        const index = container.getChildIndex(graphic);
-        container.addChildAt(newGraphic, index);
-        container.removeChild(graphic);
-        comp.graphic = newGraphic;
-    } catch (err) {
 
+    const { props, graphic, container, meta } = comp;
+    const assetManager = meta.assets;
+    const image = assetManager.getTexture(props.image);
+
+    if (image) {
+        const newGraphic = new Sprite(image.texture);
+        if (graphic) {
+            const index = container.getChildIndex(graphic);
+            container.addChildAt(newGraphic, index);
+            container.removeChild(graphic);
+        } else {
+            container.addChild(newGraphic);
+        }
+        comp.graphic = newGraphic;
     }
-    // const { props, graphic, container, meta } = comp;
-    // const assetManager = meta.assets;
-    // const image = assetManager.getTexture(props.image);
-    // const newGraphic = new Sprite(image.texture);
-    // const index = container.getChildIndex(graphic);
-    // container.addChildAt(newGraphic, index);
-    // container.removeChild(graphic);
-    // comp.graphic = newGraphic;
+
+
 }
 
 const updateText = (comp: PrimitiveText) => {

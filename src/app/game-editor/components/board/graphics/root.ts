@@ -49,7 +49,12 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
 
             createElement(Locations, { locations, onDragMove: handleDragMove }),
         );
+    }
 
+    willReceiveProps({ locations }: Props) {
+        if (locations !== this.props.locations) {
+            this.setState({ locations });
+        }
     }
 
     didMount() {

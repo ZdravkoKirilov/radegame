@@ -35,7 +35,7 @@ export class NumberInputComponent implements OnInit{
     }
 
     ngOnInit() {
-        this.value = this.data.value || this.data.defaultValue || 0;
+        this.value = this.data.value || this.data.defaultValue || '';
         this.change.emit({
             [this.data.name]: this.value
         });
