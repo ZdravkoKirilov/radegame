@@ -1,6 +1,7 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { PathEntity } from "@app/game-mechanics";
-import { composeEntityOptions } from "../helpers";
+import { composeEntityOptions, baseTemplate, permissionsTemplate, stakesTemplate,
+     riskTemplate, boardTemplate, costTemplate, setupsTemplate } from "../helpers";
 
 export const composePathForm: FormDefinition = (data: PathEntity, ent?: ConnectedEntities) => {
 
@@ -8,24 +9,30 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
     const risk = data.risk || [];
     const enable = data.enable || [];
     const disable = data.disable || [];
-    const setups = data.setups || [];
+    const cost = data.cost || [];
+    const done = data.done || [];
+    const undone = data.undone || [];
 
     const template = `
         <Form>
-            <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
-            <NumberInput name='game' hidden='{true}'>{data.game}</NumberInput>
-            <NumberInput name='stage' hidden='{true}'>{data.stage}</NumberInput>
+            <NumberInput name='owner' hidden='{true}'>{data.stage}</NumberInput>
+
+            ${baseTemplate}
             
             <Dropdown name='from_slot' label='From' options='{slots}' showImage='{true}'>{data.from_slot}</Dropdown>
             <Dropdown name='to_slot' label='To' options='{slots}' showImage='{true}'>{data.to_slot}</Dropdown>
 
-            <Dropdown name='board' label='Board' options='{stages}' showImage='{true}'>{data.board}</Dropdown>
+            ${boardTemplate}
 
-            <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
+            ${permissionsTemplate}
 
-            <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
+            ${costTemplate}
 
-            <ButtonGroup name='risk' label='Risk' options='{sources}' multiple='{true}'>{risk}</ButtonGroup>
+            ${stakesTemplate}
+
+            ${riskTemplate}
+
+            ${setupsTemplate}
 
         </Form>
     `;
@@ -33,7 +40,7 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
     const result = parse({
         source: template,
         context: {
-            data, risk, enable, disable, setups,
+            data, risk, enable, disable, cost, done, undone,
             stages: composeEntityOptions(ent, 'stages'),
             slots: composeEntityOptions(ent, 'slots'),
             conditions: composeEntityOptions(ent, 'conditions'),

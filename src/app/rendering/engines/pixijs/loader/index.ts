@@ -12,6 +12,7 @@ export class PixiLoader implements AbstractLoader {
 
             this.loader.load((loader, resources) => {
                 resolve(resources);
+                loader.loading = false;
             });
             //this.loader.onLoad.add
         });

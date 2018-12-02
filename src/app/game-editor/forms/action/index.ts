@@ -7,7 +7,8 @@ import {
     ACTION_TARGET, ACTION_MODE, ACTION_TARGET_TYPE, COMPUTED_VALUES
 } from '@app/game-mechanics';
 import {
-    composeFromObject, composeEntityOptions, composeBooleanOptions
+    composeFromObject, composeEntityOptions, composeBooleanOptions, baseTemplate, revealTemplate,
+    costTemplate, permissionsTemplate, conditionTemplate
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
@@ -21,29 +22,15 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
     const template = `
         <Form>
-            <TextInput name='name' required='{true}' label='Action name'>{data.name}</TextInput>
+            ${baseTemplate}
 
-            <TextInput name='description' label='Description'>{data.description}</TextInput>
+            ${revealTemplate}
 
-            <ImagePicker name='image' label='Add image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
+            ${costTemplate}
 
-            <Dropdown name='mode' label='Action mode' options='{modes}' required='true'>{data.mode}</Dropdown>
+            ${permissionsTemplate}
 
-            <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
-
-            <NumberInput name='reveal_slots' label='Reveal slots'>{data.reveal_slots}</NumberInput>
-
-            <ButtonGroup name='reveal_cost' label='Reveal cost' options='{sources}' multiple='{true}'>
-                {reveal_cost}
-            </ButtonGroup>
-
-            <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
-
-            <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
-
-            <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
-
-            <ButtonGroup name='condition' label='Condition' options='{conditions}' multiple='{true}'>{condition}</ButtonGroup>
+            ${conditionTemplate}
 
             <Group name='configs' label='Action configs' children='{configs}' item='@item' addButtonText='Add'>
 

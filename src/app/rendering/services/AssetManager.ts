@@ -14,11 +14,16 @@ export class AssetManager {
 
     }
 
+    async addMany(urls: Set<string>) {
+        const result = await this.loader.loadAll(urls);
+        this.data.textures = { ...this.data.textures, ...result };
+    }
+
     add(resourceUrl: string) {
         this.loader.loadOne(resourceUrl).then(asset => {
             this.data.textures[resourceUrl] = asset;
             this.handlers.forEach(cb => cb(asset, this.data.textures));
-        })
+        });
     }
 
     getTexture(key: string) {

@@ -2,10 +2,10 @@ import { DisplayObject } from "pixi.js";
 import { isRelative, isCalculable, isSelector, getClosestContainer, Component, resolveSelectors } from "@app/rendering";
 
 export const bringToFront = (obj: DisplayObject) => {
-    if (obj.parent) {
-        const children = obj.parent.children.filter(elem => elem !== obj);
-        children.push(obj);
-        obj.parent.children = children;
+    const parent = obj.parent;
+    if (parent) {
+        const length = parent.children.length;
+        parent.setChildIndex(obj, length -1);
     }
 };
 

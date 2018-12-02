@@ -46,8 +46,7 @@ export const updateContainer = (newProps: RzElementProps, component: PrimitiveCo
             const sameType = existing.type === child.type;
             if (sameType) {
                 child.props.children = child.children;
-
-                existing.setProps(child.props);
+                (existing).setProps(child.props);
                 newChildren[index] = existing;
             } else {
                 newChildren[index] = createComponent(child, component.meta.engine.factory, component.meta, component);

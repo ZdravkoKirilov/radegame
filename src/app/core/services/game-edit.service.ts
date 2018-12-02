@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 
 import {
@@ -18,7 +18,7 @@ import {
     Phase,
     Source, Team
 } from '@app/game-mechanics';
-import { toMultipartFormData } from '@app/shared';
+
 import { API_URLS } from '../config';
 
 @Injectable()
@@ -72,13 +72,11 @@ export class GameEditService {
     }
 
     saveStage(data: Stage): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.STAGES(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.STAGES(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.STAGES(data.game), formData, options);
+            return this.http.post(API_URLS.STAGES(data.game), data);
         }
     }
 
@@ -112,13 +110,11 @@ export class GameEditService {
     }
 
     saveRound(data: Round): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.ROUNDS(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.ROUNDS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.ROUNDS(data.game), formData, options);
+            return this.http.post(API_URLS.ROUNDS(data.game), data);
         }
     }
 
@@ -131,13 +127,11 @@ export class GameEditService {
     }
 
     saveToken(data: Token): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.TOKENS(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.TOKENS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.TOKENS(data.game), formData, options);
+            return this.http.post(API_URLS.TOKENS(data.game), data);
         }
     }
 
@@ -150,13 +144,11 @@ export class GameEditService {
     }
 
     savePhase(data: Phase): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.PHASES(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.PHASES(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.PHASES(data.game), formData, options);
+            return this.http.post(API_URLS.PHASES(data.game), data);
         }
     }
 
@@ -169,13 +161,11 @@ export class GameEditService {
     }
 
     saveTeam(data: Team): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.TEAMS(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.TEAMS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.TEAMS(data.game), formData, options);
+            return this.http.post(API_URLS.TEAMS(data.game), data);
         }
     }
 
@@ -237,12 +227,11 @@ export class GameEditService {
     }
 
     saveField(data: Field): Observable<any> {
-        const formData: any = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
+
         if (data.id) {
-            return this.http.patch(API_URLS.FIELDS(data.game, data.id), formData, options);
+            return this.http.patch(API_URLS.FIELDS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.FIELDS(data.game), formData, options);
+            return this.http.post(API_URLS.FIELDS(data.game), data);
         }
     }
 
@@ -251,13 +240,11 @@ export class GameEditService {
     }
 
     saveGame(data: Game): Observable<any> {
-        const formData = toMultipartFormData(data);
-        const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.GAMES(data.id), formData, options);
+            return this.http.patch(API_URLS.GAMES(data.id), data);
         } else {
-            return this.http.post(API_URLS.GAMES(data.id), formData, options);
+            return this.http.post(API_URLS.GAMES(data.id), data);
         }
     }
 

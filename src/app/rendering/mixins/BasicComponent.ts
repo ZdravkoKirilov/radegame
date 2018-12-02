@@ -1,11 +1,11 @@
 import { RzElementProps, MetaProps, Component, RzElementType } from "../models";
 import { AbstractContainer } from "../interfaces";
 
-export class BasicComponent {
+export class BasicComponent<T = RzElementProps & any> {
     static defaultProps?: any;
     type: RzElementType;
     meta: MetaProps;
-    props: RzElementProps;
+    props: T;
     graphic: any;
     container: AbstractContainer;
     parent: Component;
@@ -14,7 +14,7 @@ export class BasicComponent {
         [key: string]: Component;
     }
 
-    constructor(props: RzElementProps, graphic: any, meta: MetaProps) {
+    constructor(props: T, graphic: any, meta: MetaProps) {
         this.graphic = graphic;
         this.props = props;
         this.meta = meta;
@@ -30,9 +30,9 @@ export class BasicComponent {
         this.meta.engine.mutator.updateComponent(this);
     }
 
-    setProps(props: RzElementProps | any) {
+    setProps(props: T | any) {
         const current = this.props || {};
-        const next = { ...current, ...props };
+        const next = { ...current, ...props } as T;
 
         if (this.shouldUpdate(next)) {
             this.props = next;
@@ -48,9 +48,9 @@ export class BasicComponent {
         this.meta.engine.mutator.removeComponent(this);
     }
 
-    shouldUpdate(nextProps: RzElementProps, nextState?: any): boolean;
+    shouldUpdate(nextProps: T, nextState?: any): boolean;
 
-    shouldUpdate(nextProps: RzElementProps): boolean {
+    shouldUpdate(nextProps: T): boolean {
         return true;
     }
 }

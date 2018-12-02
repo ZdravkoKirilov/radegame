@@ -1,6 +1,6 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Source, SOURCE_RELATION, SOURCE_MODES, SOURCE_PICK, SOURCE_QUOTA } from "@app/game-mechanics";
-import { composeEntityOptions, composeFromObject } from "../helpers";
+import { composeEntityOptions, composeFromObject, baseTemplate } from "../helpers";
 
 export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedEntities) => {
 
@@ -9,15 +9,7 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
 
     const template = `
         <Form>
-            <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
-            
-            <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-
-            <TextInput name='description' label='Description'>{data.description}</TextInput>
-
-            <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
-
-            <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+            ${baseTemplate}
 
             <Dropdown name='mode' label='Mode' options='{mode}'>{data.mode}</Dropdown>
 

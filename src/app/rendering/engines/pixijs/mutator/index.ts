@@ -2,9 +2,9 @@ import {
     AbstractMutator, Component, isComposite,
     RzElementProps, PRIMS, Points, updateComposite,
     updateCollection, updateContainer, unmountComposite, BasicComponent,
-    PrimitiveText
+    PrimitiveText, PrimitiveSprite
 } from "@app/rendering";
-import { DisplayObject, Graphics, Point, Polygon, Rectangle } from "pixi.js";
+import { DisplayObject, Graphics, Point, Polygon, Rectangle, Sprite } from "pixi.js";
 import { setProp, getValue } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
@@ -60,6 +60,9 @@ const updatePrimitive = (component: BasicComponent) => {
         case PRIMS.TEXT:
             updateGeneric(component);
             updateText(component as PrimitiveText);
+        case PRIMS.SPRITE:
+            updateGeneric(component);
+            updateSprite(component);
         default:
             updateGeneric(component);
             break;
@@ -88,6 +91,29 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
     graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
     graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
 };
+
+const updateSprite = (comp: PrimitiveSprite) => {
+    try {
+        const { props, graphic, container, meta } = comp;
+        const assetManager = meta.assets;
+        const image = assetManager.getTexture(props.image);
+        const newGraphic = new Sprite(image.texture);
+        const index = container.getChildIndex(graphic);
+        container.addChildAt(newGraphic, index);
+        container.removeChild(graphic);
+        comp.graphic = newGraphic;
+    } catch (err) {
+
+    }
+    // const { props, graphic, container, meta } = comp;
+    // const assetManager = meta.assets;
+    // const image = assetManager.getTexture(props.image);
+    // const newGraphic = new Sprite(image.texture);
+    // const index = container.getChildIndex(graphic);
+    // container.addChildAt(newGraphic, index);
+    // container.removeChild(graphic);
+    // comp.graphic = newGraphic;
+}
 
 const updateText = (comp: PrimitiveText) => {
     const { props } = comp;

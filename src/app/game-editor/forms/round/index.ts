@@ -1,6 +1,9 @@
 import { Round } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeBooleanOptions, composeEntityOptions } from '../helpers';
+import {
+    composeBooleanOptions, composeEntityOptions, baseTemplate, setupsTemplate,
+    conditionTemplate, stakesTemplate, boardTemplate
+} from '../helpers';
 
 export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -13,17 +16,9 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
 
     const template = `
     <Form>
-        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
-        
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+        ${baseTemplate}
 
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
-
-        <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
-
-        <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
-
-        <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
+        ${setupsTemplate}
 
         <NumberInput name='replay_limit' label='Replay limit'>{data.replay_limit}</NumberInput>
 
@@ -33,13 +28,11 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
 
         <TextInput name='phase_order' label='Phase order'>{data.phase_order}</TextInput>
 
-        <ButtonGroup name='condition' label='Condition' options='{conditions}' multiple='{true}'>{condition}</ButtonGroup>
+        ${conditionTemplate}
 
-        <ButtonGroup name='undone' label='Penalty' options='{sources}' multiple='{true}'>{dundone}</ButtonGroup>
+        ${stakesTemplate}
 
-        <ButtonGroup name='done' label='Award' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
-
-        <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
+        ${boardTemplate}
 
         <Dropdown name='stage' label='Stage' options='{stages}'>{data.stage}</Dropdown>
 

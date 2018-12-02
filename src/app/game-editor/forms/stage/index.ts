@@ -1,20 +1,13 @@
 import { Stage } from '@app/game-mechanics';
 import { BaseControl, parse } from '@app/dynamic-forms';
+import { baseTemplate } from '../helpers';
 
 export function composeStageForm(data: Stage = {}): BaseControl[] {
     data = data || {};
 
     const template = `
         <Form>
-            <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
-            
-            <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-
-            <TextInput name='description' label='Description'>{data.description}</TextInput>
-
-            <ImagePicker name='image' label='image' asBase64='{true}'>{data.image}</ImagePicker>
-
-            <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+            ${baseTemplate}
 
             <NumberInput name='width' label='Width' defaultValue='{100}'>{data.width}</NumberInput>
 

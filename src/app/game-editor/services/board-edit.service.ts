@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 
 import { WindowRefService } from '@app/core';
 import { Renderer, CanvasRenderer, Container } from 'pixi.js';
-import { createRenderer, PixiEngine, createElement, Component } from '@app/rendering';
+import { createRenderer, createPixiEngine, createElement, Component } from '@app/rendering';
 import { Subject } from 'rxjs';
 
 import { RootComponent, Props as BoardData } from '../components/board/graphics';
@@ -42,22 +42,23 @@ export class BoardEditService {
 		DOMElem.appendChild(this.renderer.view);
 
 		const assets = this.extractAssets(data.locations);
+		assets.add(data.stage.image);
 
 		this.render(stage, data, assets);
 		this.startRenderLoop(stage);
 	}
 
-	render(stage: Container, data: Partial<BoardData> = {}, assets: Set<string>) {
-
+	async render(stage: Container, data: Partial<BoardData> = {}, assets: Set<string>) {
+		const PixiEngine = createPixiEngine();
 		const render = createRenderer(PixiEngine, assets);
-		const props = { ...data, selectPath: this.handlePathSelect} as BoardData;
+		const props = { ...data, selectPath: this.handlePathSelect } as BoardData;
 
-		render(createElement<BoardData>(RootComponent, props), stage).then((component: Component) => {
-			console.log(component);
-			this.rootComponent = component;
-			component.update();
-		});
-	}
+		const component = await render(createElement<BoardData>(RootComponent, props), stage);
+		console.log(component);
+		this.rootComponent = component;
+		component.update();
+	};
+
 
 	startRenderLoop(stage: Container) {
 		setInterval(() => {

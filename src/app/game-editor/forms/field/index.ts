@@ -1,6 +1,6 @@
 import { Field } from '@app/game-mechanics';
 import { ConnectedEntities, FormDefinition, parse, BaseControl } from '@app/dynamic-forms';
-import { composeEntityOptions } from '../helpers';
+import { composeEntityOptions, baseTemplate, costTemplate, riskTemplate, boardTemplate, stakesTemplate } from '../helpers';
 
 export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEntities) => {
     data = data || {};
@@ -12,23 +12,15 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
 
     const template = `
         <Form>
-            <TextInput name='name' required='{true}' label='Action name'>{data.name}</TextInput>
+            ${baseTemplate}
 
-            <TextInput name='description' label='Description'>{data.description}</TextInput>
+            ${boardTemplate}
 
-            <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
+            ${costTemplate}
 
-            <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+            ${riskTemplate}
 
-            <Dropdown name='board' label='Board' options='{stages}' showImage='{true}'>{data.board}</Dropdown>
-
-            <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
-
-            <ButtonGroup name='risk' label='Risk' options='{sources}' multiple='{true}'>{risk}</ButtonGroup>
-
-            <ButtonGroup name='done' label='Award' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
-
-            <ButtonGroup name='undone' label='Penalty' options='{sources}' multiple='{true}'>{undone}</ButtonGroup>
+            ${stakesTemplate}
 
         </Form>
     `;

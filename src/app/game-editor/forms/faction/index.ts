@@ -1,6 +1,6 @@
 import { Faction } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeFromObject, composeEntityOptions } from '../helpers';
+import { composeEntityOptions, baseTemplate, setupsTemplate, boardTemplate, settingsTemplate } from '../helpers';
 
 export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -11,21 +11,13 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
     const template = `
     <Form>
 
-        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+        ${baseTemplate}
 
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+        ${setupsTemplate}
 
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
+        ${boardTemplate}
 
-        <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
-
-        <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
-
-        <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-
-        <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
-
-        <ButtonGroup name='settings' label='Settings' options='{sources}' multiple='{true}'>{settings}</ButtonGroup>
+        ${settingsTemplate}
 
     </Form>
    `;

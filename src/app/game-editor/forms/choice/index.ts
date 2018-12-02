@@ -1,6 +1,9 @@
 import { Choice, CHOICE_MODE } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeFromObject, composeEntityOptions } from '../helpers';
+import {
+    composeFromObject, composeEntityOptions, baseTemplate, revealTemplate,
+    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate
+} from '../helpers';
 
 export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -15,33 +18,19 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
 
     const template = `
     <Form>
-        <TextInput name='name' required='{true}' label='Choice name'>{data.name}</TextInput>
-
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
-
-        <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
-
-        <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+        ${baseTemplate}
 
         <Dropdown name='mode' label='Mode' options='{modes}'>{data.mode}</Dropdown>
 
-        <NumberInput name='reveal_slots' label='Reveal slots'>{data.reveal_slots}</NumberInput>
+        ${revealTemplate}
 
-        <ButtonGroup name='reveal_cost' label='Reveal cost' options='{sources}' multiple='true'>
-            {reveal_cost}
-        </ButtonGroup>
+        ${costTemplate}
 
-        <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
+        ${permissionsTemplate}
 
-        <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
+        ${conditionTemplate}
 
-        <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
-
-        <ButtonGroup name='condition' label='Condition' options='{conditions}' multiple='{true}'>{condition}</ButtonGroup>
-
-        <ButtonGroup name='done' label='Award' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
-
-        <ButtonGroup name='undone' label='Penalty' options='{sources}' multiple='{true}'>{undone}</ButtonGroup>
+        ${stakesTemplate}
 
         <Group name='options' label='Options' children='{options}' item='@item' addButtonText='Add'>
 

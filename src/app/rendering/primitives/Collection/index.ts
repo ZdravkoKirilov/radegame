@@ -1,7 +1,7 @@
 import { RzElementProps, MetaProps } from "../../models";
 import { BasicComponent } from "../../mixins";
 
-export class PrimitiveCollection extends BasicComponent {
+export class PrimitiveCollection extends BasicComponent<RzElementProps> {
 
     constructor(props: RzElementProps, graphic: any, meta: MetaProps) {
         super(props, graphic, meta);

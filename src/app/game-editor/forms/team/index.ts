@@ -1,6 +1,6 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Team } from "@app/game-mechanics";
-import { composeEntityOptions } from "../helpers";
+import { composeEntityOptions, baseTemplate, setupsTemplate, boardTemplate, settingsTemplate } from "../helpers";
 
 export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
@@ -10,21 +10,13 @@ export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntiti
     const template = `
     <Form>
 
-        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+        ${baseTemplate}
 
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+        ${setupsTemplate}
 
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
+        ${boardTemplate}
 
-        <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
-
-        <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
-
-        <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-
-        <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
-
-        <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>{settings}</ButtonGroup>
+        ${settingsTemplate}
 
     </Form>
    `;

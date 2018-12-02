@@ -1,6 +1,9 @@
 import { Condition, CONDITION_MODES, PRIMARY_CLAUSE, CLAUSE_RELATIONS, SECONDARY_CLAUSE } from "@app/game-mechanics";
 import { ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { composeFromObject, composeEntityOptions } from "../helpers";
+import {
+    composeFromObject, composeEntityOptions, baseTemplate, revealTemplate,
+    stakesTemplate, permissionsTemplate, costTemplate, boardTemplate
+} from "../helpers";
 
 export function composeConditionForm(data: Condition, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -15,33 +18,19 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
 
     const template = `
     <Form>
-        <TextInput name='name' required='{true}' label='Condition name'>{data.name}</TextInput>
-
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
-
-        <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
-
-        <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+        ${baseTemplate}
 
         <Dropdown name='mode' label='Condition mode' options='{modes}'>{data.mode}</Dropdown>
 
-        <NumberInput name='reveal_slots' label='Reveal slots'>{data.reveal_slots}</NumberInput>
+        ${revealTemplate}
 
-        <ButtonGroup name='reveal_cost' label='Reveal cost' options='{sources}' multiple='true'>
-            {reveal_cost}
-        </ButtonGroup>
+        ${stakesTemplate}
 
-        <ButtonGroup name='done' label='Award' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
+        ${permissionsTemplate}
 
-        <ButtonGroup name='undone' label='Penalty' options='{sources}' multiple='{true}'>{undone}</ButtonGroup>
+        ${boardTemplate}
 
-        <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
-
-        <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
-
-        <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
-
-        <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
+        ${costTemplate}
 
         <Group name='clauses' label='Condition clauses' children='{items}' item='@item' addButtonText='Add'>
 

@@ -1,6 +1,6 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Slot } from "@app/game-mechanics";
-import { composeEntityOptions } from "../helpers";
+import { composeEntityOptions, baseTemplate, setupsTemplate, boardTemplate, permissionsTemplate, riskTemplate, settingsTemplate } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
 
@@ -14,17 +14,9 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
     const template = `
         <Form>
-            <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
-            
-            <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+            ${baseTemplate}
 
-            <TextInput name='description' label='Description'>{data.description}</TextInput>
-
-            <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
-
-            <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
-
-            <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
+            ${setupsTemplate}
 
             <NumberInput name='x' label='Left' defaultValue='{100}'>{data.x}</NumberInput>
 
@@ -36,7 +28,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             <Dropdown name='field' label='Field' options='{fields}'>{data.field}</Dropdown>
 
-            <Dropdown name='board' label='Board' options='{stages}'>{data.board}</Dropdown>
+            ${boardTemplate}
 
             <ButtonGroup name='tokens' label='Tokens' options='{tokens}' multiple='true'>{data.tokens}</ButtonGroup>
 
@@ -44,21 +36,11 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {source}
             </Dropdown>
 
-            <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='true'>
-                {disable}
-            </ButtonGroup>
+            ${permissionsTemplate}
 
-            <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='true'>
-                {enable}
-            </ButtonGroup>
+            ${riskTemplate}
 
-            <ButtonGroup name='risk' label='Risk' options='{sources}' multiple='true'>
-                {risk}
-            </ButtonGroup>
-
-            <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='true'>
-                {settings}
-            </ButtonGroup>
+            ${settingsTemplate}
 
             <Dropdown name='revealed' label='Revealed' options='{sources}'>
                 {revealed}

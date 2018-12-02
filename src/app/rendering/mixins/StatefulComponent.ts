@@ -1,7 +1,7 @@
 import { BasicComponent } from "./BasicComponent";
 import { RzElementProps, RzElement, MetaProps, Lifecycles } from "../models";
 
-export class StatefulComponent<P = any, S = any> extends BasicComponent {
+export class StatefulComponent<P = any, S = any> extends BasicComponent<P> {
     static stateful = true;
     static defaultProps: any;
     state: S;

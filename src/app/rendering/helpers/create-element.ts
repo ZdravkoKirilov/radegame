@@ -1,6 +1,9 @@
 import { RzElementProps, RzElementChild, RzElement, isValidRzElement } from "../models";
 
-export const createElement = <T = {}>(type: any, props: T & RzElementProps, ...children: RzElementChild[]): RzElement | null => {
+export const createElement = <T>(
+    type: any,
+    props: T & RzElementProps,
+    ...children: RzElementChild[]): RzElement | null => {
     let elemChildren = children || [];
     let computedChildren = [];
 
@@ -24,5 +27,5 @@ export const createElement = <T = {}>(type: any, props: T & RzElementProps, ...c
         return computedChildren[index] = elem;
     });
 
-    return { type, props: props || {}, children: computedChildren as RzElement[] };
+    return { type, props: props || {} as T, children: computedChildren as RzElement[] };
 };

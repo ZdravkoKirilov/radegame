@@ -1,7 +1,7 @@
 import { BasicComponent } from "./BasicComponent";
 import { RzElementProps, RzElement, RenderFunction, MetaProps } from "../models";
 
-export class FunctionalComponent<P extends RzElementProps> extends BasicComponent {
+export class FunctionalComponent<P extends RzElementProps> extends BasicComponent<P> {
     template: RenderFunction<P>;
 
     constructor(props: P, template: RenderFunction<P>, meta: MetaProps) {

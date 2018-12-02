@@ -7,9 +7,6 @@ import { map } from 'rxjs/operators';
 import { AppState } from '@app/core';
 import { fadeAnimation } from '@app/animations';
 import { GetCurrentUserAction } from '@app/profile';
-import { PixiEngine, createRenderer, createElement, StatefulComponent } from '@app/rendering';
-import { Root } from '@app/game-arena';
-import { parse, controlTypes } from '@app/dynamic-forms';
 
 @Component({
     selector: 'rg-root',
@@ -31,86 +28,9 @@ export class AppComponent implements OnInit {
         })
     }
 
-    render(stage) {
-        const assets = new Set(['https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg']);
-
-        const render = createRenderer(PixiEngine, assets);
-        render(createElement(Root, {}), stage).then((component: StatefulComponent<any, any>) => {
-            console.log(component);
-        });
-    }
-
-    createTestCanvas() {
-        const renderer = autoDetectRenderer(1500, 1000, { transparent: false, antialias: true, resolution: 1 });
-        const stage = new Container();
-        renderer.autoResize = true;
-        this.DOMElem.nativeElement.appendChild(renderer.view);
-
-        setInterval(() => {
-            requestAnimationFrame(() => {
-                renderer.render(stage);
-            });
-        }, 1);
-
-        this.render(stage);
-    }
     ngOnInit() {
         this.store.subscribe(data => console.log(data));
         this.store.dispatch(new GetCurrentUserAction());
-        //this.createTestCanvas();
-
-        // const data = {
-        //     name: {
-        //         name: 'name',
-        //         controlType: controlTypes.TEXT_INPUT,
-        //         value: 'name value',
-        //         label: 'Resource name',
-        //         required: true
-        //     },
-        //     desc: {
-        //         name: 'description',
-        //         controlType: controlTypes.TEXT_INPUT,
-        //         value: 'desc value',
-        //         label: 'Resource description',
-        //     },
-        //     keywords: {
-        //         name: 'keywords',
-        //         controlType: controlTypes.TAGS_INPUT,
-        //         label: 'Category',
-        //         value: 'keywords value',
-        //         maxItems: 2
-        //     },
-        //     image: {
-        //         name: 'image',
-        //         controlType: controlTypes.IMAGE_PICKER,
-        //         label: 'Resource image',
-        //         required: true,
-        //         value: ''
-        //     },
-        //     parseContext: {
-        //         source: '<testElem required="{true}"></testElem>',
-        //     }
-        // }
-
-        // const template = `
-        //     <form>
-        //         <TextInput name='{name.name}' label='{name.label}' required='{true}'>{name.value}</TextInput>
-        //         <TagsInput 
-        //             childTemplate='(parse({parseContext}))' 
-        //             name='{keywords.name}' 
-        //             label='{keywords.label}' 
-        //             maxItems='{1 + 2}'>
-        //             {keywords.value}
-        //         </TagsInput>
-        //     </form>
-        // `;
-
-        // const parsed = parse({
-        //     source: template,
-        //     context: data,
-        // });
-
-        // console.log(parsed);
     }
 
     public getRouterOutletState(outlet: any) {

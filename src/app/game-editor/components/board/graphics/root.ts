@@ -1,4 +1,4 @@
-import { StatefulComponent, createElement, PrimitiveContainer, Lifecycles } from "@app/rendering";
+import { StatefulComponent, createElement, PrimitiveContainer, Lifecycles, WithAsset, WithAssetProps } from "@app/rendering";
 
 import Locations from './locations';
 import Paths, { Props as PathProps } from './paths';
@@ -25,11 +25,21 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     }
 
     render() {
-        const { paths, selectedPath, selectPath } = this.props;
+        const { paths, selectedPath, selectPath, stage } = this.props;
         const { locations } = this.state;
         const { handleDragMove } = this;
 
         return createElement('fragment', {},
+
+            createElement<WithAssetProps>(WithAsset, { url: stage.image, }, createElement('sprite', {
+                image: stage.image,
+                styles: {
+                    x: 0,
+                    y: 0,
+                    width: stage.width,
+                    height: stage.height,
+                }
+            })),
 
             createElement<PathProps>(Paths, {
                 paths, locations,

@@ -2,9 +2,9 @@ import { AbstractRenderEngine } from "../interfaces";
 import { ComponentConstructor } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 
-export type RzElement = {
+export type RzElement<T = any> = {
     type: RzElementType;
-    props: RzElementProps,
+    props: RzElementProps & T,
     children: RzElement[];
 };
 
@@ -12,16 +12,21 @@ export type RzElementChild = RzElement | Function | RzElement[];
 
 export type RzElementKey = number | string;
 
-export type RzElementProps = Partial<{
-    [key: string]: any;
+export type RzElementProps = DefaultEvents & Partial<{
     styles: Partial<Styles>;
     key: RzElementKey;
+    id: string | number;
+    interactive: boolean;
+    hitArea: any;
+    textStyle: { [key: string]: any };
+    points: Points;
     children: RzElementChild;
+    // [key: string]: any;
 }>;
 
-export type RenderFunction<T> = (props?: T) => RzElement;
+export type RenderFunction<T = any> = (props?: T) => RzElement;
 
-export type RzElementType = PrimitiveType | ComponentConstructor | RenderFunction<any>;
+export type RzElementType = PrimitiveType | ComponentConstructor | RenderFunction;
 
 export type Styles = {
     width: number;
@@ -34,13 +39,11 @@ export type Styles = {
     padding: number;
     strokeThickness?: number;
     strokeColor?: number;
-    zIndex?: number;
 };
 
 export type Points = Array<Array<number>>;
 
 export type MetaProps = {
-    textures?: any;
     engine?: AbstractRenderEngine;
     context?: ContextManager;
     assets?: AssetManager;
@@ -63,3 +66,11 @@ export type PrimitiveType = string;
 export const isValidRzElement = (elem: any): elem is RzElement => {
     return 'type' in elem && 'props' in elem && 'children' in elem;
 }
+
+type EventHandler = (...args: any) => any;
+
+export type DefaultEvents = Partial<{
+    onClick: EventHandler,
+    onRightClick: EventHandler;
+    onClickOutside: EventHandler;
+}>;

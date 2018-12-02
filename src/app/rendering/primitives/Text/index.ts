@@ -1,7 +1,7 @@
 import { RzElementProps, MetaProps } from "../../models";
 import { BasicComponent } from "../../mixins";
 
-export class PrimitiveText extends BasicComponent {
+export class PrimitiveText extends BasicComponent<RzElementProps> {
 
     static defaultTextStyle = {
         fontFamily: 'Arial', fontSize: 24, stroke: '#ffffff', fill: ['#ffffff'], align: 'center', strokeThickness: 1,
