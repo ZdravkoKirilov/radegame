@@ -101,7 +101,8 @@ const updateSprite = (comp: PrimitiveSprite) => {
     const image = assetManager.getTexture(props.image);
 
     if (image) {
-        const newGraphic = new Sprite(image.texture);
+        const newGraphic = new Sprite(image);
+        comp.graphic = newGraphic;
         if (graphic) {
             const index = container.getChildIndex(graphic);
             container.addChildAt(newGraphic, index);
@@ -109,7 +110,7 @@ const updateSprite = (comp: PrimitiveSprite) => {
         } else {
             container.addChild(newGraphic);
         }
-        comp.graphic = newGraphic;
+        
     }
 
 

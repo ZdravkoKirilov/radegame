@@ -56,6 +56,16 @@ export class BoardEditorComponent {
 
   @Output() saveSlot = new EventEmitter<Slot>();
 
+  showLocationEditor = false;
+  showPathEditor = false;
+  pathMode = false;
+
+  locationForm = composeSlotForm;
+  pathForm = composePathForm;
+
+  selectedLocation: Slot;
+  selectedPath: PathEntity;
+
   get visibleEditor() {
     return this.showLocationEditor || this.showPathEditor;
   }
@@ -68,15 +78,5 @@ export class BoardEditorComponent {
     this.saveSlot.emit(slot);
     this.showLocationEditor = false;
   }
-
-  showLocationEditor = false;
-  showPathEditor = false;
-  pathMode = false;
-
-  locationForm = composeSlotForm;
-  pathForm = composePathForm;
-
-  selectedLocation: Slot;
-  selectedPath: PathEntity;
 
 }

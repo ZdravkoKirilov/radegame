@@ -1,4 +1,4 @@
-import { createElement, PrimitiveContainer, Points, RenderFunction } from "@app/rendering";
+import { createElement, PrimitiveContainer, Points, RenderFunction, DynamicSprite } from "@app/rendering";
 import { Slot } from "@app/game-mechanics";
 
 type Props = {
@@ -24,7 +24,7 @@ export const Node: RenderFunction<Props> = (props) => {
                     height: data.height + 10,
                 }
             },
-                createElement('sprite', {
+                createElement(DynamicSprite, {
                     image: data.image, styles: {
                         x: 5,
                         y: 5,

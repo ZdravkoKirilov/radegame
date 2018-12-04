@@ -27,7 +27,8 @@ export class AssetManager {
     }
 
     getTexture(key: string) {
-        return this.data.textures[key];
+        const file = this.data.textures[key];
+        return file ? file.texture : null;
     }
 
     subscribe = (callback: Callback) => {
