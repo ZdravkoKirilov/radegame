@@ -6,15 +6,15 @@ import Path, { Props as PathProps } from './node';
 
 export type Props = {
     paths: PathEntity[];
-    locations: Slot[];
+    slots: Slot[];
     selected: PathEntity;
     selectPath: (item: PathEntity) => void;
 }
 
 export const PathsList: RenderFunction<Props> = (props) => {
-    const nodesList = toIndexedList(props.locations);
+    const nodesList = toIndexedList(props.slots);
 
-    const lines = props.locations.length ? props.paths.map(elem => {
+    const lines = props.slots.length ? props.paths.map(elem => {
 
         const from = {
             left: nodesList[elem.from_slot].x,

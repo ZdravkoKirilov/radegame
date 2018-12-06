@@ -17,7 +17,7 @@ export class BoardEditService {
 	private rootComponent: Component;
 
 	public pathSelected$ = new Subject<PathEntity>();
-	public locationSelected$ = new Subject<Slot>();
+	public slotSelected$ = new Subject<Slot>();
 	public dragEnded$ = new Subject<Slot>();
 
 	constructor(private windowRef: WindowRefService) {
@@ -27,8 +27,8 @@ export class BoardEditService {
 		this.rootComponent && this.rootComponent.setProps(data);
 	}
 
-	extractAssets(locations: Slot[]): Set<string> {
-		return new Set(locations.map(elem => elem.image));
+	extractAssets(slots: Slot[]): Set<string> {
+		return new Set(slots.map(elem => elem.image));
 	}
 
 	initialize(DOMElem: HTMLDivElement, data?: Partial<BoardData>) {
@@ -41,7 +41,7 @@ export class BoardEditService {
 
 		DOMElem.appendChild(this.renderer.view);
 
-		const assets = this.extractAssets(data.locations);
+		const assets = this.extractAssets(data.slots);
 		assets.add(data.stage.image);
 
 		this.render(stage, data, assets);
@@ -68,8 +68,8 @@ export class BoardEditService {
 		});
 	}
 
-	handleLocationSelect = (item: Slot) => {
-		this.locationSelected$.next(item);
+	handleSlotSelect = (item: Slot) => {
+		this.slotSelected$.next(item);
 	}
 
 	handlePathSelect = (item: PathEntity) => {

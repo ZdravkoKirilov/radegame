@@ -4,14 +4,14 @@ import { Slot } from "@app/game-mechanics";
 import Node from './node';
 
 type Props = {
-    locations: Slot[];
+    slots: Slot[];
     selected: Slot;
     onDragMove: (comp: PrimitiveContainer) => void;
 }
 
-export const LocationsList: RenderFunction<Props> = ({locations, onDragMove}) => {
+export const SlotsList: RenderFunction<Props> = ({slots, onDragMove}) => {
 
-    const items = locations.map((elem) => {
+    const items = slots.map((elem) => {
         return createElement(Node, { data: elem, key: elem.id, onDragMove });
     });
 
@@ -19,4 +19,4 @@ export const LocationsList: RenderFunction<Props> = ({locations, onDragMove}) =>
 
 }
 
-export default LocationsList;
+export default SlotsList;

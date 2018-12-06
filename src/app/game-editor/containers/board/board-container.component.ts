@@ -13,7 +13,7 @@ import { ConnectedEntities } from '@app/dynamic-forms';
     <ng-container *ngIf="data$ | async as data">
       <rg-board-editor 
         [stage]="data.stage"
-        [locations]="data.locations"
+        [slots]="data.slots"
         [paths]="data.paths"
         [entities]="data.entities"
         [gameId]="data.gameId"
@@ -29,7 +29,7 @@ export class BoardContainerComponent {
 
   data$: Observable<{
     stage: Stage,
-    locations: Slot[],
+    slots: Slot[],
     paths: PathEntity[],
     entities: ConnectedEntities
   }> = combineLatest(
@@ -40,8 +40,8 @@ export class BoardContainerComponent {
     this.store.pipe(select(selectGameId)),
   ).pipe(
     filter(data => data.every(elem => !!elem)),
-    map(([stage, locations, paths, entities, gameId]) => {
-      return { stage, locations, paths, entities, gameId };
+    map(([stage, slots, paths, entities, gameId]) => {
+      return { stage, slots, paths, entities, gameId };
     }),
   )
 

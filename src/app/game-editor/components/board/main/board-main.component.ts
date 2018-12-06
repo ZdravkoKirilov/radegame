@@ -11,7 +11,7 @@ import { AppState } from '@app/core';
 @Component({
   selector: 'rg-board-main',
   template: `
-    <div class="canvas-wrapper" #canvasWrapper tabindex="0"></div>
+      <div class="canvas-wrapper" #canvasWrapper tabindex="0"></div>
   `,
   styles: [],
   changeDetection: ChangeDetectionStrategy.OnPush
@@ -20,12 +20,12 @@ export class BoardMainComponent implements OnInit, OnChanges {
 
   @ViewChild('canvasWrapper') canvasWrapper: ElementRef<HTMLDivElement>;
 
-  @Output() selectLocation = new EventEmitter<Slot>();
+  @Output() selectSlot = new EventEmitter<Slot>();
   @Output() selectPath = new EventEmitter<PathEntity>();
   @Output() dragEnd = new EventEmitter<Slot>();
 
-  @Input() locations: Slot[];
-  @Input() selectedLocation: Slot;
+  @Input() slots: Slot[];
+  @Input() selectedSlot: Slot;
 
   @Input() paths: PathEntity[];
   @Input() selectedPath: PathEntity;
@@ -35,16 +35,16 @@ export class BoardMainComponent implements OnInit, OnChanges {
   constructor(private boardEditService: BoardEditService, private store: Store<AppState>) { }
 
   ngOnInit() {
-    const { locations, selectedLocation, paths, selectedPath, stage } = this;
+    const { slots, selectedSlot, paths, selectedPath, stage } = this;
     this.boardEditService.initialize(this.canvasWrapper.nativeElement, {
-      locations, selectedLocation, paths, selectedPath, stage
+      slots, selectedSlot, paths, selectedPath, stage
     });
   }
 
   ngOnChanges() {
-    const { locations, selectedLocation, paths, selectedPath, stage } = this;
+    const { slots, selectedSlot, paths, selectedPath, stage } = this;
     this.boardEditService.update({
-      locations, selectedLocation, paths, selectedPath, stage
+      slots, selectedSlot, paths, selectedPath, stage
     });
   }
 

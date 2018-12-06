@@ -14,8 +14,7 @@ import { DynamicFormsModule } from '@app/dynamic-forms';
 import { SharedModule } from '@app/shared';
 
 import {
-    EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent,
-    FieldsComponent, MapEditorComponent, MapFieldComponent, MapPathComponent, MapToolbarComponent, IndexComponent
+    EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent, IndexComponent
 } from './components';
 
 import {
@@ -52,11 +51,6 @@ import { SourcesContainerComponent } from './containers/sources/sources-containe
         EntityComponent,
         EntityEditorComponent,
         EntityViewComponent,
-        MapEditorComponent,
-        MapFieldComponent,
-        MapPathComponent,
-        MapToolbarComponent,
-        FieldsComponent,
         IndexComponent,
         ActionsContainerComponent,
         FactionsContainerComponent,

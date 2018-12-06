@@ -8,29 +8,20 @@ import { Slot, PathEntity, Stage } from '@app/game-mechanics';
   template: `
     <div>
 
-      <rg-board-toolbar 
+      <rg-board-toolbar
         [class.hidden]="visibleEditor"
-        [selectedLocation]="!!selectedLocation"
+        [selectedSlot]="!!selectedSlot"
         [selectedPath]="!!selectedPath"
-        (showLocationEditor)="showLocationEditor = true"
-        (showPathEditor)="showPathEditor = true"
+        (showSlotEditor)="toggleSlotEditor(true)"
+        (showPathEditor)="togglePathEditor(true)"
       ></rg-board-toolbar>
 
-      <rg-board-main 
-        [class.hidden]="visibleEditor"
-        [stage]="stage"
-        [locations]="locations"
-        [selectedLocation]="selectedLocation"
-        [paths]="paths"
-        [selectedPath]="selectedPath"
-      ></rg-board-main>
-
       <rg-entity-editor 
-        *ngIf="showLocationEditor" 
-        [formDefinition]="locationForm"
-        [selectedItem]="selectedLocation"
+        *ngIf="showSlotEditor" 
+        [formDefinition]="slotForm"
+        [selectedItem]="selectedSlot"
         [connectedEntities]="entities"
-        (cancel)="showLocationEditor = false"
+        (cancel)="toggleSlotEditor(false)"
         (save)="handleSaveSlot($event)"
       ></rg-entity-editor>
 
@@ -39,8 +30,16 @@ import { Slot, PathEntity, Stage } from '@app/game-mechanics';
         [formDefinition]="pathForm"
         [selectedItem]="selectedPath"
         [connectedEntities]="entities"
-        (cancel)="showPathEditor = false"
+        (cancel)="togglePathEditor(false)"
       ></rg-entity-editor>
+
+      <rg-board-main 
+        [stage]="stage"
+        [slots]="slots"
+        [selectedSlot]="selectedSlot"
+        [paths]="paths"
+        [selectedPath]="selectedPath"
+      ></rg-board-main>
 
     </div>
   `,
@@ -49,34 +48,42 @@ import { Slot, PathEntity, Stage } from '@app/game-mechanics';
 export class BoardEditorComponent {
 
   @Input() entities: ConnectedEntities = { fields: [] };
-  @Input() locations: Slot[];
+  @Input() slots: Slot[];
   @Input() paths: PathEntity[];
   @Input() stage: Stage;
   @Input() gameId: number;
 
   @Output() saveSlot = new EventEmitter<Slot>();
 
-  showLocationEditor = false;
+  showSlotEditor = false;
   showPathEditor = false;
   pathMode = false;
 
-  locationForm = composeSlotForm;
+  slotForm = composeSlotForm;
   pathForm = composePathForm;
 
-  selectedLocation: Slot;
+  selectedSlot: Slot;
   selectedPath: PathEntity;
 
   get visibleEditor() {
-    return this.showLocationEditor || this.showPathEditor;
+    return this.showSlotEditor || this.showPathEditor;
+  }
+
+  toggleSlotEditor(isVisible: boolean) {
+    this.showSlotEditor = isVisible;
+  }
+
+  togglePathEditor(isVisible: boolean) {
+    this.showPathEditor = isVisible;
   }
 
   handleSaveSlot(payload: Slot) {
     const slot = <Slot>{ ...payload, game: this.gameId, owner: this.stage.id };
-    if (this.selectedLocation) {
-      slot.id = this.selectedLocation.id;
+    if (this.selectedSlot) {
+      slot.id = this.selectedSlot.id;
     }
+    this.showSlotEditor = false;
     this.saveSlot.emit(slot);
-    this.showLocationEditor = false;
   }
 
 }

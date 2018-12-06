@@ -110,10 +110,7 @@ const updateSprite = (comp: PrimitiveSprite) => {
         } else {
             container.addChild(newGraphic);
         }
-        
     }
-
-
 }
 
 const updateText = (comp: PrimitiveText) => {
