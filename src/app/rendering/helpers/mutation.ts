@@ -1,9 +1,9 @@
 import { RzElement, RzElementKey, RzElementProps } from "../models";
-import { CompositeComponent, ComponentList, Component } from "../models";
+import { CompositeComponent, ComponentList, Component, Styles } from "../models";
 import { createComponent } from "./creation";
 import { toIndexedList } from "@app/shared";
 import { FunctionalComponent, StatefulComponent } from "../mixins";
-import { PrimitiveContainer, PrimitiveCollection } from "../primitives";
+import { PrimitiveContainer, PrimitiveCollection, PrimitiveRectangle } from "../primitives";
 import { mountComponent } from "./mounting";
 import { AbstractContainer } from "../interfaces";
 
@@ -106,23 +106,37 @@ export const unmountComposite = (component: CompositeComponent): void => {
     component.children.forEach(child => child.remove());
 };
 
-export const isRelative = (value: any): boolean => {
-    return typeof value === 'string' && value.endsWith('%');
-}
-
-export const isCalculable = (value: any): boolean => {
-    return typeof value === 'string' && (value.includes('+') || value.includes('-'));
-}
-
-export const isComputed = (value: any) => {
-    return isRelative(value) || isCalculable(value);
-}
-
-export const isStateful = (component: Component): boolean => {
-    return 'composite' in component;
-};
-
 export const isComposite = (component: Component): component is CompositeComponent => {
     return component instanceof StatefulComponent || component instanceof FunctionalComponent;
 };
+
+const isRealContainer = (component: Component) => {
+    return component instanceof PrimitiveCollection || component instanceof PrimitiveContainer;
+};
+
+const isVirtualContainer = (component: Component) => {
+    return component instanceof PrimitiveRectangle;
+};
+
+export const findRelativeParent = (component: Component): Component | null => {
+    const next = component.parent;
+
+    if (next) {
+        if (isRealContainer(next)) {
+            return null;
+        }
+        if (isVirtualContainer(next)) {
+            return next;
+        }
+
+        return findRelativeParent(next);
+    }
+
+    return null;
+
+};
+
+export const propIsRelative = (prop: keyof Styles) => prop === 'x' || prop === 'y';
+
+
 

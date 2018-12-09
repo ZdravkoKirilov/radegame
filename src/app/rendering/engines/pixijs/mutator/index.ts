@@ -2,11 +2,10 @@ import {
     AbstractMutator, Component, isComposite,
     RzElementProps, PRIMS, Points, updateComposite,
     updateCollection, updateContainer, unmountComposite, BasicComponent,
-    PrimitiveText, PrimitiveSprite, PrimitiveFragment,
+    PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, Styles
 } from "@app/rendering";
 import { Graphics, Point, Polygon, Rectangle, Sprite, Circle } from "pixi.js";
 import { setProp, getValue } from "../helpers";
-import { PrimitiveCircle } from "app/rendering/primitives";
 
 export class PixiMutator implements AbstractMutator {
     updateComponent(component: Component) {
@@ -104,9 +103,10 @@ const updatePrimitive = (component: BasicComponent) => {
 }
 
 const updateGeneric = (comp: Component) => {
-    const { props } = comp;
-    if (comp.graphic) {
-        Object.keys(props.styles || {}).forEach(key => {
+    const { props, graphic } = comp;
+    const styles: Styles = props.styles;
+    if (graphic && styles) {
+        Object.keys(styles).forEach((key: keyof Styles) => {
             setProp(comp, key, props.styles[key]);
         });
     }
@@ -152,7 +152,7 @@ const updateText = (comp: PrimitiveText) => {
     const textStyle = props.textStyle || {};
     Object.keys(textStyle || {}).forEach(key => {
         const value = textStyle[key];
-        const result = getValue(value as string, key, comp);
+        const result = getValue(value as string, key as any, comp);
         comp.style[key] = result;
     });
 };
