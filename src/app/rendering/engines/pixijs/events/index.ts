@@ -39,6 +39,11 @@ export class PixiEventsManager implements AbstractEvent {
                     graphic.on(eventName as interaction.InteractionEventTypes, event => {
                         handler(event, comp);
                     });
+                    graphic.interactive = true;
+
+                    if (comp.props.button) {
+                        graphic.buttonMode = true;
+                    }
                 }
             }
         });

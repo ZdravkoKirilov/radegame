@@ -1,6 +1,6 @@
-import { StatefulComponent, createElement, PrimitiveContainer, Lifecycles, WithAsset, WithAssetProps } from "@app/rendering";
+import { StatefulComponent, createElement, PrimitiveContainer, Lifecycles, WithAsset, WithAssetProps, SpriteProps } from "@app/rendering";
 
-import Slots from './slots';
+import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
 import { Slot, PathEntity, Stage } from "@app/game-mechanics";
 
@@ -10,9 +10,9 @@ export type Props = {
     paths: Array<PathEntity>;
     selectedPath: PathEntity;
     stage: Stage;
-    onSlotSelected: (item: Slot) => void;
     selectPath: (item: PathEntity) => void;
-    onDragEnded: (item: Slot) => void;
+    selectSlot: (item: Slot) => void;
+    onDragEnd: (item: Slot) => void;
 }
 
 type State = {
@@ -25,21 +25,28 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     }
 
     render() {
-        const { paths, selectedPath, selectPath, stage } = this.props;
+        const { paths, selectedPath, selectPath, selectedSlot, selectSlot, stage } = this.props;
         const { slots } = this.state;
-        const { handleDragMove } = this;
+        const { handleDragMove, handleDragEnd } = this;
 
         return createElement('fragment', {},
 
-            createElement<WithAssetProps>(WithAsset, { url: stage.image, }, createElement('sprite', {
-                image: stage.image,
-                styles: {
-                    x: 0,
-                    y: 0,
-                    width: stage.width,
-                    height: stage.height,
-                }
-            })),
+            createElement<WithAssetProps>(WithAsset, { url: stage.image, },
+                createElement('container', {
+                    onClick: () => {
+                        this.props.selectSlot(null);
+                        this.props.selectPath(null);
+                    },
+                },
+                    createElement<SpriteProps>('sprite', {
+                        image: stage.image,
+                        styles: {
+                            x: 0,
+                            y: 0,
+                            width: stage.width,
+                            height: stage.height,
+                        },
+                    }))),
 
             createElement<PathProps>(Paths, {
                 paths, slots,
@@ -47,7 +54,20 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 selected: selectedPath
             }),
 
-            createElement(Slots, { slots, onDragMove: handleDragMove }),
+            createElement<SlotProps>(Slots, {
+                slots, onDragMove: handleDragMove,
+                selectSlot,
+                selected: selectedSlot,
+                onDragEnd: handleDragEnd
+            }),
+
+            createElement('circle', {
+                styles: {
+                    x: 300, y: 200, radius: 50,
+                    strokeColor: 0xFF0000, strokeThickness: 5
+                },
+                button: true,
+            })
         );
     }
 
@@ -62,6 +82,11 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         this.setState({ slots });
     }
 
+    handleDragEnd = (slotId: number) => {
+        const slot = this.state.slots.find(elem => elem.id === slotId);
+        this.props.onDragEnd(slot);
+    }
+
     handleDragMove = (comp: PrimitiveContainer) => {
         const { x, y } = comp.props.styles;
         const { id } = comp.props;
@@ -69,7 +94,8 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         const index = slots.findIndex(elem => elem.id === id);
         const node = slots[index];
         const newNodes = [...slots];
-        newNodes[index] = { ...node, x, y };
+        const newNode = { ...node, x, y };
+        newNodes[index] = newNode;
 
         this.setState({ slots: newNodes });
     }

@@ -16,7 +16,7 @@ export type RzElementProps = DefaultEvents & Partial<{
     styles: Partial<Styles>;
     key: RzElementKey;
     id: string | number;
-    interactive: boolean;
+    button: boolean;
     hitArea: any;
     textStyle: { [key: string]: any };
     points: Points;
@@ -26,7 +26,7 @@ export type RzElementProps = DefaultEvents & Partial<{
 
 export type RenderFunction<T = any> = (props?: T) => RzElement;
 
-export type RzElementType = PrimitiveType | ComponentConstructor | RenderFunction;
+export type RzElementType<T = any> = PrimitiveType | ComponentConstructor<T> | RenderFunction;
 
 export type Styles = {
     width: number;
@@ -37,6 +37,7 @@ export type Styles = {
     alpha: number;
     fill: number;
     padding: number;
+    radius: number;
     strokeThickness?: number;
     strokeColor?: number;
 };
@@ -50,18 +51,18 @@ export type MetaProps = {
 };
 
 export const PRIMS = {
-    SPRITE: 'sprite',
-    TEXT: 'text',
-    CIRCLE: 'circle',
-    LINE: 'line',
-    RECTANGLE: 'rectangle',
-    COLLECTION: 'collection',
-    CONTAINER: 'container',
-    FRAGMENT: 'fragment',
-    POLYGON: 'polygon',
+    sprite: 'sprite',
+    text: 'text',
+    circle: 'circle',
+    line: 'line',
+    rectangle: 'rectangle',
+    collection: 'collection',
+    container: 'container',
+    fragment: 'fragment',
+    polygon: 'polygon',
 };
 
-export type PrimitiveType = string;
+export type PrimitiveType = keyof typeof PRIMS;
 
 export const isValidRzElement = (elem: any): elem is RzElement => {
     return 'type' in elem && 'props' in elem && 'children' in elem;
@@ -71,6 +72,6 @@ type EventHandler = (...args: any) => any;
 
 export type DefaultEvents = Partial<{
     onClick: EventHandler,
-    onRightClick: EventHandler;
+    onPointerDown: EventHandler,
     onClickOutside: EventHandler;
 }>;

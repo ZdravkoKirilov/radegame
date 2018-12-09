@@ -51,6 +51,6 @@ export class BasicComponent<T = RzElementProps & any> {
     shouldUpdate(nextProps: T, nextState?: any): boolean;
 
     shouldUpdate(nextProps: T): boolean {
-        return true;
+        return nextProps !== this.props;
     }
 }

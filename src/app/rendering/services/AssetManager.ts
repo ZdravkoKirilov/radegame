@@ -1,6 +1,6 @@
 import { LoaderResources, LoaderResource, AbstractLoader } from "../interfaces";
 
-type Callback = (resource: LoaderResource, allResources: LoaderResources) => void;
+type Callback = (resource: LoaderResource, allResources?: LoaderResources) => void;
 
 export class AssetManager {
 

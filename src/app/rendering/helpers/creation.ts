@@ -6,7 +6,7 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
     let component = null;
 
     if (Array.isArray(element)) {
-        element = element[0];
+        element = element[0]; // only 1 direct child
     }
 
     if (!element) {
@@ -47,22 +47,24 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
 
 const createPrimitiveComponent = (element: RzElement, factory: AbstractFactory, meta: MetaProps): BasicComponent => {
     switch (element.type) {
-        case PRIMS.CONTAINER:
+        case PRIMS.container:
             return factory.createContainer(element, meta);
-        case PRIMS.COLLECTION:
+        case PRIMS.collection:
             return factory.createCollection(element, meta);
-        case PRIMS.SPRITE:
+        case PRIMS.sprite:
             return factory.createSprite(element, meta);
-        case PRIMS.TEXT:
+        case PRIMS.text:
             return factory.createText(element, meta);
-        case PRIMS.LINE:
+        case PRIMS.line:
             return factory.createLine(element, meta);
-        case PRIMS.FRAGMENT:
+        case PRIMS.fragment:
             return factory.createFragment(element, meta);
-        case PRIMS.POLYGON:
+        case PRIMS.polygon:
             return factory.createPolygon(element, meta);
-        case PRIMS.RECTANGLE:
+        case PRIMS.rectangle:
             return factory.createRectangle(element, meta);
+        case PRIMS.circle:
+            return factory.createCircle(element, meta);
         default:
             return null;
     }

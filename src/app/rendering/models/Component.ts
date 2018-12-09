@@ -15,6 +15,6 @@ export interface Lifecycles<T = any> {
     didUpdate?: () => void;
 };
 
-export interface ComponentConstructor {
-    new(props: RzElementProps, graphic: any, container: AbstractContainer): Component;
+export interface ComponentConstructor<T = any> {
+    new(props: RzElementProps & T, graphic: any, container: AbstractContainer): Component;
 }

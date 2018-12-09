@@ -164,22 +164,22 @@ export class GenericEffectsService {
         }
     };
 
-    deleteRequest(key: FormKey, entity: any): Observable<GameEntity> {
+    deleteRequest(key: FormKey, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
             case formKeys.ACTIONS:
-                return this.api.deleteAction(entity);
+                return this.api.deleteAction(<GameAction>entity);
             case formKeys.FACTIONS:
                 return this.api.deleteFaction(entity);
             case formKeys.FIELDS:
                 return this.api.deleteField(entity);
             case formKeys.CONDITIONS:
-                return this.api.deleteCondition(entity);
+                return this.api.deleteCondition(<Condition>entity);
             case formKeys.ROUNDS:
                 return this.api.deleteRound(entity);
             case formKeys.STAGES:
                 return this.api.deleteStage(entity);
             case formKeys.CHOICES:
-                return this.api.deleteChoice(entity);
+                return this.api.deleteChoice(<Choice>entity);
             case formKeys.PATHS:
                 return this.api.deleteMapPath(entity);
             case formKeys.TOKENS:
@@ -191,7 +191,7 @@ export class GenericEffectsService {
             case formKeys.SLOTS:
                 return this.api.deleteSlot(entity);
             case formKeys.SOURCES:
-                return this.api.deleteSource(entity);
+                return this.api.deleteSource(<Source>entity);
             default:
                 return of(null);
         }

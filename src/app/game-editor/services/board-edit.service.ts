@@ -51,7 +51,12 @@ export class BoardEditService {
 	async render(stage: Container, data: Partial<BoardData> = {}, assets: Set<string>) {
 		const PixiEngine = createPixiEngine();
 		const render = createRenderer(PixiEngine, assets);
-		const props = { ...data, selectPath: this.handlePathSelect } as BoardData;
+		const props = {
+			...data,
+			selectPath: this.handlePathSelect,
+			selectSlot: this.handleSlotSelect,
+			onDragEnd: this.handleDragEnd
+		} as BoardData;
 
 		const component = await render(createElement<BoardData>(RootComponent, props), stage);
 		console.log(component);
@@ -73,7 +78,6 @@ export class BoardEditService {
 	}
 
 	handlePathSelect = (item: PathEntity) => {
-		console.log(item);
 		this.pathSelected$.next(item);
 	}
 

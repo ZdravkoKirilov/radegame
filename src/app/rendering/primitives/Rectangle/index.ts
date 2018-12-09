@@ -1,16 +1,16 @@
 import { BasicComponent } from '../../mixins';
-import { RzElementProps, MetaProps, Points } from '../../models';
+import { RzElementProps, MetaProps } from '../../models';
 
-type Props = RzElementProps & {
-    points: Points
+export type RecProps = RzElementProps & {
+    
 }
-export class PrimitiveRectangle extends BasicComponent<Props> {
+export class PrimitiveRectangle extends BasicComponent<RecProps> {
 
-    constructor(props: Props, graphic: any, meta: MetaProps) {
+    constructor(props: RecProps, graphic: any, meta: MetaProps) {
         super(props, graphic, meta);
     }
 
-    shouldUpdate(nextProps: Props) {
-        return nextProps.styles !== this.props.styles || nextProps.points !== this.props.points;
+    shouldUpdate(nextProps: RecProps) {
+        return nextProps.styles !== this.props.styles;
     }
 }

@@ -2,10 +2,11 @@ import {
     AbstractMutator, Component, isComposite,
     RzElementProps, PRIMS, Points, updateComposite,
     updateCollection, updateContainer, unmountComposite, BasicComponent,
-    PrimitiveText, PrimitiveSprite
+    PrimitiveText, PrimitiveSprite, PrimitiveFragment,
 } from "@app/rendering";
-import { DisplayObject, Graphics, Point, Polygon, Rectangle, Sprite } from "pixi.js";
+import { Graphics, Point, Polygon, Rectangle, Sprite, Circle } from "pixi.js";
 import { setProp, getValue } from "../helpers";
+import { PrimitiveCircle } from "app/rendering/primitives";
 
 export class PixiMutator implements AbstractMutator {
     updateComponent(component: Component) {
@@ -21,8 +22,7 @@ export class PixiMutator implements AbstractMutator {
         if (isComposite(component)) {
             unmountComposite(component);
         } else {
-            const graphic: DisplayObject = component.graphic;
-            graphic.parent.removeChild(graphic);
+            unmountPrimitive(component);
         }
     }
 
@@ -32,37 +32,70 @@ export class PixiMutator implements AbstractMutator {
     }
 }
 
+const unmountPrimitive = (component: BasicComponent) => {
+    const { type } = component;
+
+    switch (type) {
+        case PRIMS.fragment:
+            unmountChildren(component);
+            break;
+        default:
+            unmountGeneric(component);
+            unmountChildren(component);
+            break;
+
+    }
+};
+
+const unmountGeneric = (component: BasicComponent) => {
+    const { graphic } = component;
+
+    if (graphic) {
+        graphic.parent && graphic.parent.removeChild(graphic);
+    }
+};
+
+const unmountChildren = (component: PrimitiveFragment): void => {
+    component.children.forEach(child => child.remove());
+};
+
 const updatePrimitive = (component: BasicComponent) => {
     const { props, graphic, type } = component;
 
     switch (type) {
-        case PRIMS.LINE:
+        case PRIMS.line:
             updateLine(props, graphic as Graphics);
             break;
-        case PRIMS.POLYGON:
+        case PRIMS.polygon:
             updatePolygon(props, graphic as Graphics);
             break;
-        case PRIMS.FRAGMENT:
+        case PRIMS.fragment:
             updateGeneric(component);
             updateContainer(props, component, component.container);
             break;
-        case PRIMS.CONTAINER:
+        case PRIMS.container:
             updateGeneric(component);
             updateContainer(props, component, component.graphic);
             break;
-        case PRIMS.COLLECTION:
+        case PRIMS.collection:
             updateGeneric(component);
             updateCollection(props, component);
             break;
-        case PRIMS.RECTANGLE:
+        case PRIMS.rectangle:
             updateRectangle(props, component.graphic);
             updateContainer(props, component, component.container);
-        case PRIMS.TEXT:
+            break;
+        case PRIMS.text:
             updateGeneric(component);
             updateText(component as PrimitiveText);
-        case PRIMS.SPRITE:
-            updateGeneric(component);
+            break;
+        case PRIMS.sprite:
             updateSprite(component);
+            updateGeneric(component);
+            break;
+        case PRIMS.circle:
+            updateCircle(component);
+            updateContainer(props, component, component.container);
         default:
             updateGeneric(component);
             break;
@@ -83,15 +116,16 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
     const { styles } = props;
 
     graphic.clear();
-
-    if (props.interactive) {
-        graphic.interactive = true;
-        graphic.buttonMode = true;
-        graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
-    }
+    graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
 
     graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
-    graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
+
+    if (styles && !isNaN(Number(styles.radius))) {
+        graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.radius);
+    } else {
+        graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
+    }
+
 };
 
 const updateSprite = (comp: PrimitiveSprite) => {
@@ -137,9 +171,7 @@ const updateLine = (props: RzElementProps, line: Graphics) => {
         line.lineTo(coord[0], coord[1]);
     });
 
-    if (props.interactive && hitArea) {
-        line.buttonMode = true;
-        line.interactive = true;
+    if (hitArea) {
         const polygon = new Polygon(hitArea.map(elem => new Point(elem[0], elem[1])));
         line.hitArea = polygon;
     }
@@ -156,12 +188,29 @@ const updatePolygon = (props: RzElementProps, graphic: Graphics) => {
         return new Point(point[0], point[1]);
     });
 
-    if (props.interactive) {
+    if (props.hitArea) {
         graphic.hitArea = new Polygon(props.hitArea || polygon);
     }
 
     graphic.moveTo(0, 0);
     graphic.drawPolygon(polygon);
+};
+
+const updateCircle = (comp: PrimitiveCircle) => {
+    const graphic: Graphics = comp.graphic;
+    const { styles } = comp.props;
+
+    if (styles) {
+        graphic.clear();
+        graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
+        graphic.drawCircle(styles.x, styles.y, styles.radius);
+
+        if (comp.props.button) {
+            graphic.hitArea = new Circle(styles.x, styles.y, styles.radius);
+            graphic.buttonMode = true;
+            graphic.interactive = true;
+        }
+    }
 };
 
 

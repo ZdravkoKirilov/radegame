@@ -13,8 +13,8 @@ export class StatefulComponent<P = any, S = any> extends BasicComponent<P> {
 
     setState(state: S) {
         const current = this.state || {};
-        const next = { ...current, ...state || {} };
-        if (this.shouldUpdate(this.props, state)) {
+        const next = { ...current, ...state || {} } as S;
+        if (this.shouldUpdate(this.props, next)) {
             this.state = next as S;
             this.update();
         } else {
@@ -38,7 +38,7 @@ export class StatefulComponent<P = any, S = any> extends BasicComponent<P> {
     }
 
     shouldUpdate(nextProps: P & RzElementProps, nextState: S) {
-        return true;
+        return nextProps !== this.props || nextState !== this.state;
     }
 
     render(): RzElement {

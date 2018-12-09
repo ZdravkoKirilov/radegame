@@ -2,11 +2,20 @@ import { interaction, DisplayObject } from 'pixi.js-legacy';
 import { AbstractEnhancer, Component, RzElementProps } from "@app/rendering";
 import { bringToFront } from '../helpers';
 
+type coords = { x: number, y: number };
+
 type Draggable = {
     dragging?: boolean;
     hasMoved?: boolean;
     dragPoint?: any;
+    initial?: coords;
 }
+
+const dragWasReal = (initial: coords, result: coords): boolean => {
+    const validDragX = Math.abs(initial.x - result.x) > 0;
+    const validDragY = Math.abs(initial.y - result.y) > 0;
+    return validDragX && validDragY;
+};
 
 export class PixiEnhancer implements AbstractEnhancer {
     assignEnhancers(comp: Component) {
@@ -26,6 +35,7 @@ export class PixiEnhancer implements AbstractEnhancer {
                 closure.dragPoint.x -= comp.graphic.x;
                 closure.dragPoint.y -= comp.graphic.y;
                 closure.dragging = true;
+                closure.initial = { x: comp.graphic.x, y: comp.graphic.y };
                 bringToFront(elem);
             });
 
@@ -34,7 +44,11 @@ export class PixiEnhancer implements AbstractEnhancer {
                 closure.dragging = false;
                 closure.hasMoved = false;
                 closure.dragPoint = null;
-                comp.props.onDragEnd && comp.props.onDragEnd(comp);
+                const { x, y } = comp.props.styles;
+
+                if (dragWasReal(closure.initial, { x, y })) {
+                    comp.props.onDragEnd && comp.props.onDragEnd(comp);
+                }
             });
 
             elem.on('pointermove', (event: interaction.InteractionEvent) => {

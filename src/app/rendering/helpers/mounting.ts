@@ -41,25 +41,26 @@ const mountFunctionalComponent = (component: FunctionalComponent<any>, container
 
 const mountPrimitiveComponent = (component: BasicComponent, container: AbstractContainer) => {
     switch (component.type) {
-        case PRIMS.CONTAINER:
-        case PRIMS.COLLECTION:
+        case PRIMS.container:
+        case PRIMS.collection:
             component.container = container;
             container.addChild(component.graphic);
             component.children.forEach(child => mountComponent(child, component.graphic));
             break;
-        case PRIMS.RECTANGLE:
+        case PRIMS.rectangle:
+        case PRIMS.circle:
             component.container = container;
             container.addChild(component.graphic);
             component.children.forEach(child => mountComponent(child, container));
             break;
-        case PRIMS.SPRITE:
-        case PRIMS.TEXT:
-        case PRIMS.LINE:
-        case PRIMS.POLYGON:
+        case PRIMS.sprite:
+        case PRIMS.text:
+        case PRIMS.line:
+        case PRIMS.polygon:
             component.container = container;
             container.addChild(component.graphic);
             break;
-        case PRIMS.FRAGMENT:
+        case PRIMS.fragment:
             component.container = container;
             component.children.forEach(child => mountComponent(child, container));
         default:

@@ -1,7 +1,7 @@
-import { RzElementProps, RzElementChild, RzElement, isValidRzElement } from "../models";
+import { RzElementProps, RzElementChild, RzElement, isValidRzElement, RzElementType } from "../models";
 
 export const createElement = <T>(
-    type: any,
+    type: RzElementType<T>,
     props: T & RzElementProps,
     ...children: RzElementChild[]): RzElement | null => {
     let elemChildren = children || [];

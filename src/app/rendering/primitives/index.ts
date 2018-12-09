@@ -6,3 +6,4 @@ export * from './Line';
 export * from './Fragment';
 export * from './Polygon';
 export * from './Rectangle';
+export * from './Circle';

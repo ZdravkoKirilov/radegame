@@ -1,43 +1,52 @@
 import { createElement, PrimitiveContainer, Points, RenderFunction, DynamicSprite } from "@app/rendering";
 import { Slot } from "@app/game-mechanics";
 
-type Props = {
+export type Props = {
     data: Slot;
+    selected: boolean;
     onDragMove: (comp: PrimitiveContainer) => void;
+    onDragEnd: (slot: Slot) => void;
+    onSelect: (item: Slot) => void;
 };
 
 export const Node: RenderFunction<Props> = (props) => {
 
-    const { data, onDragMove } = props;
+    const { data, onDragMove, onDragEnd, onSelect, selected } = props;
 
     return (
-        createElement('container', { styles: { x: data.x, y: data.y }, id: data.id, draggable: true, onDragMove },
+        createElement('container', {
+            styles: { x: data.x, y: data.y },
+            id: data.id, draggable: true, onDragMove, onDragEnd,
+            onPointerDown: () => onSelect(data),
+        },
             createElement('rectangle', {
-                interactive: true,
                 container: true,
                 styles: {
-                    strokeThickness: 1,
+                    strokeThickness: selected ? 5 : 1,
                     strokeColor: 0x00ff00,
                     x: 0,
                     y: 0,
                     width: data.width + 10,
-                    height: data.height + 10,
+                    height: data.height + 35,
+                    radius: 5,
                 }
             },
                 createElement(DynamicSprite, {
                     image: data.image, styles: {
                         x: 5,
-                        y: 5,
+                        y: 30,
                         width: data.width,
                         height: data.height,
                     }
                 }),
                 createElement('text', {
                     value: data.name, styles: {
-                        x: 10,
-                        y: 10,
+                        x: 5,
+                        y: 5,
                     }, textStyle: {
-                        fontSize: 18
+                        fontSize: 18,
+                        stroke: '#141619',
+                        fill: '#141619'
                     }
                 })
             ),
