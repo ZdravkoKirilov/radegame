@@ -19,10 +19,3 @@ export const setProp = (comp: Component, prop: string, value: string | number) =
     graphic[prop] = result;
     return result;
 };
-
-export const REL_PROPS = {
-    x: 'width',
-    y: 'height',
-    width: 'width',
-    height: 'height'
-}
