@@ -1,9 +1,27 @@
 <div *ngIf="form">
-  <rg-dynamic-form [form]="form" [controls]="controls">
-    <div class="button-toolbar">
-      <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="saveItem()">Save
-      </button>
-      <button mat-raised-button (click)="cancelAction()">Cancel</button>
-    </div>
-  </rg-dynamic-form>
+
+  <mat-tab-group dynamicHeight mat-stretch-tabs>
+
+    <mat-tab label="Internals">
+      <ng-template matTabContent>
+        <rg-dynamic-form [form]="form" [controls]="controls">
+          <div class="button-toolbar">
+            <button mat-raised-button color="primary" [disabled]="!form.valid" (click)="saveItem()">Save
+            </button>
+            <button mat-raised-button (click)="cancelAction()">Cancel</button>
+          </div>
+        </rg-dynamic-form>
+      </ng-template>
+    </mat-tab>
+
+    <mat-tab label="Presentation">
+      <ng-template matTabContent>
+        <div>
+          much visual veri lol
+        </div>
+      </ng-template>
+    </mat-tab>
+
+  </mat-tab-group>
+
 </div>
