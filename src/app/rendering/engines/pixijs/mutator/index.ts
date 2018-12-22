@@ -2,9 +2,10 @@ import {
     AbstractMutator, Component, isComposite,
     RzElementProps, PRIMS, Points, updateComposite,
     updateCollection, updateContainer, unmountComposite, BasicComponent,
-    PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, Styles
+    PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, Styles,
+    PrimitiveEllipse,
 } from "@app/rendering";
-import { Graphics, Point, Polygon, Rectangle, Sprite, Circle } from "pixi.js";
+import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse } from "pixi.js";
 import { setProp, getValue } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
@@ -95,6 +96,11 @@ const updatePrimitive = (component: BasicComponent) => {
         case PRIMS.circle:
             updateCircle(component);
             updateContainer(props, component, component.container);
+            break;
+        case PRIMS.ellipse:
+            updateEllipse(component);
+            updateContainer(props, component, component.container);
+            break;
         default:
             updateGeneric(component);
             break;
@@ -120,8 +126,8 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
 
     graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
 
-    if (styles && !isNaN(Number(styles.radius))) {
-        graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.radius);
+    if (styles && !isNaN(Number(styles.borderRadius))) {
+        graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.borderRadius);
     } else {
         graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
     }
@@ -188,11 +194,12 @@ const updatePolygon = (props: RzElementProps, graphic: Graphics) => {
         return new Point(point[0], point[1]);
     });
 
-    if (props.hitArea) {
-        graphic.hitArea = new Polygon(props.hitArea || polygon);
+    if (props.button) {
+        graphic.hitArea = new Polygon(polygon);
+        graphic.buttonMode = true;
+        graphic.interactive = true;
     }
 
-    graphic.moveTo(0, 0);
     graphic.drawPolygon(polygon);
 };
 
@@ -207,6 +214,23 @@ const updateCircle = (comp: PrimitiveCircle) => {
 
         if (comp.props.button) {
             graphic.hitArea = new Circle(styles.x, styles.y, styles.radius);
+            graphic.buttonMode = true;
+            graphic.interactive = true;
+        }
+    }
+};
+
+const updateEllipse = (comp: PrimitiveEllipse) => {
+    const graphic: Graphics = comp.graphic;
+    const { styles } = comp.props;
+
+    if (styles) {
+        graphic.clear();
+        graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
+        graphic.drawEllipse(styles.x, styles.y, styles.width, styles.height);
+
+        if (comp.props.button) {
+            graphic.hitArea = new Ellipse(styles.x, styles.y, styles.width, styles.height);
             graphic.buttonMode = true;
             graphic.interactive = true;
         }

@@ -1,4 +1,7 @@
-import { StatefulComponent, createElement, PrimitiveContainer, Lifecycles, WithAsset, WithAssetProps, SpriteProps } from "@app/rendering";
+import {
+    StatefulComponent, createElement, PrimitiveContainer,
+    Lifecycles, WithAsset, WithAssetProps, SpriteProps
+} from "@app/rendering";
 
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
@@ -61,13 +64,13 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 onDragEnd: handleDragEnd
             }),
 
-            createElement('circle', {
-                styles: {
-                    x: 300, y: 200, radius: 50,
-                    strokeColor: 0xFF0000, strokeThickness: 5
-                },
-                button: true,
-            })
+            // createElement('ellipse', {
+            //     styles: {
+            //         x: 300, y: 300, width: 100, height: 100,
+            //         strokeColor: 0xFF0000, strokeThickness: 5
+            //     },
+            //     button: true,
+            // })
         );
     }
 

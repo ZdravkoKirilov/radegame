@@ -21,7 +21,13 @@ export class DropdownComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.value = this.data.value || '';
+        this.value = this.data.value || this.data.defaultValue || '';
+        if (this.value) {
+            this.change.emit({
+                [this.data.name]: this.value
+            });
+        }
+
     }
 
     handleChange(event: MatSelectChange) {

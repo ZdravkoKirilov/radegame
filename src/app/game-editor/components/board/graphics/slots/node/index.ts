@@ -1,5 +1,6 @@
 import { createElement, PrimitiveContainer, Points, RenderFunction, DynamicSprite } from "@app/rendering";
 import { Slot } from "@app/game-mechanics";
+import { composePoints } from "@app/rendering";
 
 export type Props = {
     data: Slot;
@@ -19,8 +20,10 @@ export const Node: RenderFunction<Props> = (props) => {
             id: data.id, draggable: true, onDragMove, onDragEnd,
             onPointerDown: () => onSelect(data),
         },
-            createElement('rectangle', {
+            createElement(data.shape || 'rectangle', {
                 container: true,
+                button: true,
+                points: composePoints(data.points),
                 styles: {
                     strokeThickness: selected ? 5 : 1,
                     strokeColor: 0x00ff00,
@@ -28,17 +31,18 @@ export const Node: RenderFunction<Props> = (props) => {
                     y: 0,
                     width: data.width + 10,
                     height: data.height + 35,
-                    radius: 5,
+                    borderRadius: 5,
+                    radius: data.width
                 }
             },
-                createElement(DynamicSprite, {
+                data.image ? createElement(DynamicSprite, {
                     image: data.image, styles: {
                         x: 5,
                         y: 30,
                         width: data.width,
                         height: data.height,
                     }
-                }),
+                }) : null,
                 createElement('text', {
                     value: data.name, styles: {
                         x: 5,

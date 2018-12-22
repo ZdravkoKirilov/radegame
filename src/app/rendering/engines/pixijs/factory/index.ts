@@ -5,6 +5,7 @@ import {
     PrimitiveContainer, PrimitiveCollection,
     PrimitiveText, PrimitiveSprite, PrimitiveLine, PrimitiveFragment, PrimitivePolygon, PrimitiveRectangle, PrimitiveCircle
 } from "@app/rendering";
+import { EllipseProps, PrimitiveEllipse } from "app/rendering/primitives";
 
 export class PixiFactory implements AbstractFactory {
     createContainer(elem: RzElement, meta: MetaProps): PrimitiveContainer {
@@ -46,5 +47,9 @@ export class PixiFactory implements AbstractFactory {
     createCircle(elem: RzElement<{}>, meta: MetaProps): PrimitiveCircle {
         const circle = new PrimitiveCircle(elem.props, new Graphics(), meta);
         return circle;
+    }
+    createEllipse(elem: RzElement<EllipseProps>, meta: MetaProps): PrimitiveEllipse {
+        const ellipse = new PrimitiveEllipse(elem.props, new Graphics(), meta);
+        return ellipse;
     }
 }

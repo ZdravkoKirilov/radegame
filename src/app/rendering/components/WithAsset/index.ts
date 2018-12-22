@@ -34,19 +34,24 @@ export class WithAsset extends StatefulComponent<WithAssetProps, State> implemen
 
     didMount() {
         const file = !!this.meta.assets.getTexture(this.props.url);
-        if (!file) {
+        const url = this.props.url;
+        if (!file && url) {
             this.setState({ canLoad: false });
             this.meta.assets.add(this.props.url);
         }
 
-        this.sub = this.meta.assets.subscribe(() => {
-            if (!!this.meta.assets.getTexture(this.props.url)) {
-                this.setState({ canLoad: true });
-            }
-        });
+        if (url) {
+            this.sub = this.meta.assets.subscribe(() => {
+                if (!!this.meta.assets.getTexture(this.props.url)) {
+                    this.setState({ canLoad: true });
+                }
+            });
+        }
     }
 
     willUnmount() {
-        this.sub.unsubscribe();
+        if (this.sub) {
+            this.sub.unsubscribe();
+        }
     }
 }

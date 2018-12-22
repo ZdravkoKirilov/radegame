@@ -1,6 +1,7 @@
 import {
     PrimitiveContainer, PrimitiveCollection, PrimitiveSprite,
-    PrimitiveText, PrimitiveLine, PrimitiveFragment, PrimitivePolygon, PrimitiveRectangle,
+    PrimitiveText, PrimitiveLine, PrimitiveFragment, PrimitivePolygon,
+    PrimitiveRectangle, PrimitiveCircle, PrimitiveEllipse,
 } from "../primitives";
 import { Component } from "../models";
 
@@ -15,6 +16,8 @@ export abstract class AbstractMutator {
     abstract updateFragment?(component: PrimitiveFragment): void;
     abstract updatePolygon?(component: PrimitivePolygon): void;
     abstract updateRectangle?(component: PrimitiveRectangle): void;
+    abstract updateCircle?(component: PrimitiveCircle): void;
+    abstract updateEllipse?(component: PrimitiveEllipse): void;
 
     abstract removeComponent(component: Component): void;
 

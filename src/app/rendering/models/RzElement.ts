@@ -38,6 +38,7 @@ export type Styles = {
     fill: number;
     padding: number;
     radius: number;
+    borderRadius: number;
     strokeThickness?: number;
     strokeColor?: number;
 };
@@ -54,6 +55,7 @@ export const PRIMS = {
     sprite: 'sprite',
     text: 'text',
     circle: 'circle',
+    ellipse: 'ellipse',
     line: 'line',
     rectangle: 'rectangle',
     collection: 'collection',

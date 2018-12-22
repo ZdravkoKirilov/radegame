@@ -4,6 +4,7 @@ import {
     PrimitiveContainer, PrimitiveCollection, PrimitiveSprite,
     PrimitiveText, PrimitiveLine, PrimitiveFragment, PrimitivePolygon, PrimitiveRectangle,
     PrimitiveCircle,
+    PrimitiveEllipse,
 } from "../primitives";
 
 export abstract class AbstractFactory {
@@ -17,6 +18,7 @@ export abstract class AbstractFactory {
     abstract createPolygon(element: RzElement, meta: MetaProps): PrimitivePolygon;
     abstract createRectangle(element: RzElement, meta: MetaProps): PrimitiveRectangle;
     abstract createCircle(element: RzElement, meta: MetaProps): PrimitiveCircle;
+    abstract createEllipse(element: RzElement, meta: MetaProps): PrimitiveEllipse;
 };
 
 export type Renderer = (element: RzElement, meta: MetaProps, container: AbstractContainer) => void;

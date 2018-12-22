@@ -65,6 +65,8 @@ const createPrimitiveComponent = (element: RzElement, factory: AbstractFactory, 
             return factory.createRectangle(element, meta);
         case PRIMS.circle:
             return factory.createCircle(element, meta);
+        case PRIMS.ellipse:
+            return factory.createEllipse(element, meta);
         default:
             return null;
     }

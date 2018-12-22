@@ -1,6 +1,10 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Slot } from "@app/game-mechanics";
-import { composeEntityOptions, baseTemplate, setupsTemplate, boardTemplate, permissionsTemplate, riskTemplate, settingsTemplate } from "../helpers";
+import { Slot, SLOT_SHAPES } from "@app/game-mechanics";
+import {
+    composeEntityOptions, baseTemplate, setupsTemplate,
+    boardTemplate, permissionsTemplate, riskTemplate, settingsTemplate,
+    composeFromObject
+} from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
 
@@ -17,13 +21,19 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             ${setupsTemplate}
 
+            <Dropdown name="shape" label="Shape" defaultValue='rectangle' options='{shapes}' required='true'>
+                {data.shape}
+            </Dropdown>
+
             <NumberInput name='x' label='Left' defaultValue='{100}'>{data.x}</NumberInput>
 
             <NumberInput name='y' label='Top' defaultValue='{100}'>{data.y}</NumberInput>
 
-            <NumberInput name='width' label='Width' defaultValue='{100}'>{data.width}</NumberInput>
+            <NumberInput name='width' label='Width / Radius' defaultValue='{100}'>{data.width}</NumberInput>
 
             <NumberInput name='height' label='Height' defaultValue='{100}'>{data.height}</NumberInput>
+
+            <TextInput name='points' label='Points'>{data.points}</TextInput>
 
             <Dropdown name='field' label='Field' options='{fields}'>{data.field}</Dropdown>
 
@@ -50,6 +60,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
         source: template,
         context: {
             data, setups, enable, disable, risk, settings,
+            shapes: composeFromObject(SLOT_SHAPES),
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
             sources: composeEntityOptions(ent, 'sources'),

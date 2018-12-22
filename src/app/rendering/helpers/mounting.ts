@@ -49,6 +49,8 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
             break;
         case PRIMS.rectangle:
         case PRIMS.circle:
+        case PRIMS.ellipse:
+        case PRIMS.polygon:
             component.container = container;
             container.addChild(component.graphic);
             component.children.forEach(child => mountComponent(child, container));
@@ -56,7 +58,6 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
         case PRIMS.sprite:
         case PRIMS.text:
         case PRIMS.line:
-        case PRIMS.polygon:
             component.container = container;
             container.addChild(component.graphic);
             break;

@@ -19,10 +19,14 @@ export class PixiLoader implements AbstractLoader {
     }
     loadOne(asset: string): Promise<LoaderResource> {
         return new Promise(resolve => {
-            this.loader.add(asset);
-            this.loader.load((loader, resources) => {
-                resolve(resources[asset]);
-            })
+            if (this.loader.resources[asset]) {
+                resolve(this.loader.resources[asset]);
+            } else {
+                this.loader.add(asset);
+                this.loader.load((loader, resources) => {
+                    resolve(resources[asset]);
+                })
+            };
         });
     }
 };

@@ -20,10 +20,12 @@ export class AssetManager {
     }
 
     add(resourceUrl: string) {
-        this.loader.loadOne(resourceUrl).then(asset => {
-            this.data.textures[resourceUrl] = asset;
-            this.handlers.forEach(cb => cb(asset, this.data.textures));
-        });
+        if (!this.getTexture(resourceUrl)) {
+            this.loader.loadOne(resourceUrl).then(asset => {
+                this.data.textures[resourceUrl] = asset;
+                this.handlers.forEach(cb => cb(asset, this.data.textures));
+            });
+        }
     }
 
     getTexture(key: string) {

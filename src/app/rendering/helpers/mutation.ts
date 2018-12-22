@@ -3,7 +3,10 @@ import { CompositeComponent, ComponentList, Component, Styles } from "../models"
 import { createComponent } from "./creation";
 import { toIndexedList } from "@app/shared";
 import { FunctionalComponent, StatefulComponent } from "../mixins";
-import { PrimitiveContainer, PrimitiveCollection, PrimitiveRectangle } from "../primitives";
+import {
+    PrimitiveContainer, PrimitiveCollection, PrimitiveRectangle,
+    PrimitiveCircle, PrimitiveEllipse, PrimitivePolygon
+} from "../primitives";
 import { mountComponent } from "./mounting";
 import { AbstractContainer } from "../interfaces";
 
@@ -103,7 +106,11 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
 export const unmountComposite = (component: CompositeComponent): void => {
     console.warn('unmount composite: ');
     console.dir(component);
-    component.children.forEach(child => child.remove());
+    component.children.forEach(child => {
+        if (child) {
+            child.remove();
+        }
+    });
 };
 
 export const isComposite = (component: Component): component is CompositeComponent => {
@@ -115,7 +122,8 @@ const isRealContainer = (component: Component) => {
 };
 
 const isVirtualContainer = (component: Component) => {
-    return component instanceof PrimitiveRectangle;
+    return component instanceof PrimitiveRectangle || component instanceof PrimitivePolygon
+        || component instanceof PrimitiveCircle || component instanceof PrimitiveEllipse;
 };
 
 export const findRelativeParent = (component: Component): Component | null => {

@@ -1,6 +1,6 @@
 <mat-form-field>
     <mat-placeholder>{{data.label}}</mat-placeholder>
-    <mat-select (selectionChange)="handleChange($event)" [value]="value || data.defaultValue" [required]="data.required" [disabled]="data.readonly">
+    <mat-select (selectionChange)="handleChange($event)" [value]="value" [required]="data.required" [disabled]="data.readonly">
         <mat-option [disabled]="isDisabled(item)" class="dropdown-option" *ngFor="let item of data.options" [value]="item.value">
             <img *ngIf="data.showImage && item.image" [src]="item.image" /> {{item.label || item.value}}
         </mat-option>

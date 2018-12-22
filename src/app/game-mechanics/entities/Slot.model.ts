@@ -13,6 +13,17 @@ export type Slot = BaseModel & WithPermissions & WithBoard & WithRisk & WithSett
     x: number;
     width: number;
     height: number;
+
+    shape: SlotShape;
+    points: string; // comma separated list of numbers
 }>
 
+export const SLOT_SHAPES = {
+    circle: 'circle',
+    rectangle: 'rectangle',
+    ellipse: 'ellipse',
+    polygon: 'polygon',
+};
+
+type SlotShape = keyof typeof SLOT_SHAPES;
 // max revealed cards: via settings
