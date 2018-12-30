@@ -6,6 +6,7 @@ import { actionTypes } from '../actions/actionTypes';
 
 import { GameEntity, GameEntityList, GameTemplate } from '@app/game-mechanics';
 import { EditorGenericAction } from '../actions';
+import { Dictionary } from '@app/shared';
 
 export interface EntityFeature {
     items?: GameEntityList;
@@ -13,9 +14,7 @@ export interface EntityFeature {
     lastDelete?: GameEntity;
 }
 
-export interface EntityForm {
-    [key: string]: EntityFeature;
-}
+export type EntityForm = Dictionary<EntityFeature>;
 
 const entityFeatureState: EntityFeature = {
     items: null,
@@ -73,6 +72,7 @@ export const formReducer: ActionReducer<any> = combineReducers({
     stages: createEntityReducer(formKeys.STAGES),
     games: createEntityReducer(formKeys.GAMES),
     teams: createEntityReducer(formKeys.TEAMS),
+    images: createEntityReducer(formKeys.IMAGES),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>): any {

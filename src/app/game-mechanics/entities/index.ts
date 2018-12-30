@@ -13,6 +13,7 @@ export * from './Path.model';
 export * from './types';
 export * from './Setup.model';
 export * from './Source.model';
+export * from './ImageAsset.model';
 
 import { GameAction } from './Action.model';
 import { Condition } from './Condition.model';
@@ -29,8 +30,10 @@ import { Slot } from './Slot.model';
 import { Setup } from './Setup.model';
 import { Dictionary } from '@app/shared';
 import { Source } from './Source.model';
+import { ImageAsset } from './ImageAsset.model';
 
 export type GameEntity = GameAction | Slot | PathEntity | Condition |
-    Round | Choice | Stage | Field | Faction | Token | Team | Phase | Setup | Source;
+    Round | Choice | Stage | Field | Faction | Token | Team | Phase |
+    Setup | Source | ImageAsset;
 
 export type GameEntityList = Dictionary<GameEntity>;

@@ -1,7 +1,8 @@
 import {
     Faction, Field, GameAction,
     Condition, Stage, Round, Slot,
-    PathEntity, Choice, Team, Setup, Phase, Token
+    PathEntity, Choice, Team, Setup, Phase, Token,
+    ImageAsset
 } from '../entities';
 import { Dictionary } from '@app/shared';
 
@@ -19,6 +20,7 @@ export type GameTemplate = Partial<{
     setups: Dictionary<Setup>;
     phases: Dictionary<Phase>;
     tokens: Dictionary<Token>;
+    images: Dictionary<ImageAsset>;
 }>
 
 

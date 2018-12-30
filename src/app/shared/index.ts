@@ -3,3 +3,4 @@ export * from './utils';
 export * from './config';
 export * from './models';
 export * from './shared.module';
+export * from './mixins';

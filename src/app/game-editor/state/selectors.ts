@@ -7,7 +7,7 @@ import { FormKey, formKeys } from './form-keys';
 import { AppState, selectRouterFeature } from '@app/core';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { Stage, Game } from '@app/game-mechanics';
-import { ROUTER_PARAMS, Dictionary } from '@app/shared';
+import { ROUTER_PARAMS } from '@app/shared';
 
 const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 

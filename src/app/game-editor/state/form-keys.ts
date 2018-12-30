@@ -13,10 +13,11 @@ export const formKeys = {
     TEAMS: 'teams',
     SOURCES: 'sources',
     GAMES: 'games',
+    IMAGES: 'images',
 }
 
 export type FormKey = typeof formKeys.CHOICES | typeof formKeys.ROUNDS |
     typeof formKeys.CONDITIONS | typeof formKeys.STAGES | typeof formKeys.FIELDS |
     typeof formKeys.ACTIONS | typeof formKeys.FACTIONS | typeof formKeys.SLOTS |
     typeof formKeys.PATHS | typeof formKeys.TOKENS |
-    typeof formKeys.PHASES | typeof formKeys.TEAMS;
+    typeof formKeys.PHASES | typeof formKeys.TEAMS | typeof formKeys.IMAGES;
