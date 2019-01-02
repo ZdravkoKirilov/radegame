@@ -6,7 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { GameEditService } from '@app/core';
 import {
     GameEntity, GameAction, Field, Condition, Round, Team,
-    Faction, Token, Phase, Choice, PathEntity, Source, Game
+    Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset,
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
 import {
@@ -122,6 +122,8 @@ export class GenericEffectsService {
                 return this.api.getTeams(data);
             case formKeys.SOURCES:
                 return this.api.getSources(data);
+            case formKeys.IMAGES:
+                return this.api.getImages(data);
             case formKeys.GAMES:
                 return this.api.getGames();
             default:
@@ -157,6 +159,8 @@ export class GenericEffectsService {
                 return this.api.saveTeam(<Team>entity);
             case formKeys.SOURCES:
                 return this.api.saveSource(<Source>entity);
+            case formKeys.IMAGES:
+                return this.api.saveImage(entity);
             case formKeys.GAMES:
                 return this.api.saveGame(<Game>entity);
             default:
@@ -192,6 +196,8 @@ export class GenericEffectsService {
                 return this.api.deleteSlot(entity);
             case formKeys.SOURCES:
                 return this.api.deleteSource(<Source>entity);
+            case formKeys.IMAGES:
+                return this.api.deleteImage(entity);
             default:
                 return of(null);
         }

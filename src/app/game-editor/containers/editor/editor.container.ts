@@ -29,7 +29,7 @@ export class EditorContainerComponent implements OnInit, OnDestroy {
     ).pipe(
       tap(([user, gameId]) => {
         this.gameId = gameId;
-  
+
         this.store.dispatch(new FetchItemsAction({ key: formKeys.GAMES, data: user ? user.id : null }));
         this.store.dispatch(new FetchItemsAction({ key: formKeys.ACTIONS, data: gameId }));
         this.store.dispatch(new FetchItemsAction({ key: formKeys.CHOICES, data: gameId }));
@@ -44,6 +44,7 @@ export class EditorContainerComponent implements OnInit, OnDestroy {
         this.store.dispatch(new FetchItemsAction({ key: formKeys.PHASES, data: gameId }));
         this.store.dispatch(new FetchItemsAction({ key: formKeys.TEAMS, data: gameId }));
         this.store.dispatch(new FetchItemsAction({ key: formKeys.SOURCES, data: gameId }));
+        this.store.dispatch(new FetchItemsAction({ key: formKeys.IMAGES, data: gameId }));
       })
     ).subscribe();
   }

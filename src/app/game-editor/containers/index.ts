@@ -12,3 +12,4 @@ export * from './teams/teams-container.component';
 export * from './phases/phases-container.component';
 export * from './board/board-container.component';
 export * from './sources/sources-container.component';
+export * from './images/image-asset-container.component';

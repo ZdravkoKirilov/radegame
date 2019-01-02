@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 
 import {
@@ -16,10 +16,11 @@ import {
     Stage,
     Token,
     Phase,
-    Source, Team
+    Source, Team, ImageAsset
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../config';
+import { toMultipartFormData } from '@app/shared';
 
 @Injectable()
 export class GameEditService {
@@ -224,6 +225,25 @@ export class GameEditService {
 
     getSources(gameId: number): Observable<any> {
         return this.http.get(API_URLS.SOURCES(gameId));
+    }
+
+    getImages(gameId: number): Observable<any> {
+        return this.http.get(API_URLS.IMAGES(gameId));
+    }
+
+    saveImage(data: ImageAsset): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = { headers: new HttpHeaders({}) };
+
+        if (data.id) {
+            return this.http.patch(API_URLS.IMAGES(data.game, data.id), data, options);
+        } else {
+            return this.http.post(API_URLS.IMAGES(data.game), data, options);
+        }
+    }
+
+    deleteImage(data: ImageAsset): Observable<any> {
+        return this.http.delete(API_URLS.IMAGES(data.game, data.id));
     }
 
     saveField(data: Field): Observable<any> {
