@@ -1,11 +1,13 @@
 import { AbstractContainer } from './AbstractContainer';
-import { RzElement, MetaProps } from "../models";
+import { RzElement, MetaProps, Component } from "../models";
 import {
     PrimitiveContainer, PrimitiveCollection, PrimitiveSprite,
     PrimitiveText, PrimitiveLine, PrimitiveFragment, PrimitivePolygon, PrimitiveRectangle,
     PrimitiveCircle,
     PrimitiveEllipse,
 } from "../primitives";
+
+import { Dictionary } from "@app/shared";
 
 export abstract class AbstractFactory {
     abstract createContainer(element: RzElement, meta: MetaProps): PrimitiveContainer;
@@ -19,6 +21,10 @@ export abstract class AbstractFactory {
     abstract createRectangle(element: RzElement, meta: MetaProps): PrimitiveRectangle;
     abstract createCircle(element: RzElement, meta: MetaProps): PrimitiveCircle;
     abstract createEllipse(element: RzElement, meta: MetaProps): PrimitiveEllipse;
+
+    customResolvers?: Array<Dictionary<Component>>;
+
+    addCustomResolver: (config: Dictionary<Component>) => void;
 };
 
 export type Renderer = (element: RzElement, meta: MetaProps, container: AbstractContainer) => void;

@@ -1,3 +1,4 @@
+import toArray from 'lodash/values';
 import { RzElement, MetaProps, Component, PRIMS, RenderFunction } from "../models";
 import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent, FunctionalComponent } from "../mixins";
@@ -20,11 +21,27 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
     element.props.children = element.children; // ?
 
     if (typeof element.type === 'string') {
-        component = createPrimitiveComponent(element, factory, meta) as BasicComponent;
-        component.type = element.type;
-        component.parent = parent;
-        component.children = element.children.map(child => createComponent(child, factory, meta, component));
-        return component;
+        let { type } = element;
+
+        if (new Set(toArray(PRIMS)).has(element.type)) {
+            component = createPrimitiveComponent(element, factory, meta) as BasicComponent;
+            component.type = element.type;
+            component.parent = parent;
+            component.children = element.children.map(child => createComponent(child, factory, meta, component));
+            return component;
+        } else {
+            let realType = factory.customResolvers.reduce((accumulator, resolver) => {
+                if (type in resolver) {
+                    return resolver[type] as any;
+                }
+            }, null);
+
+            if (realType) {
+                component = createComponent(element, factory, meta);
+                return component;
+            }
+        }
+
     }
 
     if ((element.type as any).stateful) {
@@ -40,6 +57,10 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
         component.parent = parent;
         component.children = [createComponent(component.render(), factory, meta, component)];
         return component;
+    }
+
+    if (!component && component.type) {
+        console.warn('Unrecognized component: ', element);
     }
 
     return component;
