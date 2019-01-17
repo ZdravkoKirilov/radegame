@@ -37,7 +37,7 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
             }, null);
 
             if (realType) {
-                component = createComponent(element, factory, meta);
+                component = createComponent(element, factory, meta, parent);
                 return component;
             }
         }
