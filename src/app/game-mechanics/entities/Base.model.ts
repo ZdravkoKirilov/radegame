@@ -1,3 +1,5 @@
+import { ImageAsset } from "./ImageAsset.model";
+
 export type BaseModel = Partial<{
     id: number;
     game: number;

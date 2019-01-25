@@ -1,7 +1,7 @@
 <mat-card>
   <mat-card-header>
     <mat-card-title>{{data.name}}</mat-card-title>
-    <img mat-card-avatar [src]="data.image" />
+    <img *ngIf="image" mat-card-avatar [src]="image" />
   </mat-card-header>
   <mat-card-content>
     <p>{{data.description}}</p>

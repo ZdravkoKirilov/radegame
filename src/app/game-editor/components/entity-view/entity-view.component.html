@@ -1,6 +1,6 @@
 <div class="wrapper">
 
-  <rg-entity-list [ngClass]="{'hidden': showEditor}" [template]="template" [items]="items" (editItem)="editItem.emit($event)"
+  <rg-entity-list [ngClass]="{'hidden': showEditor}" [template]="template" [items]="items" [connectedEntities]="connectedEntities" (editItem)="editItem.emit($event)"
     (removeItem)="removeItem.emit($event)"></rg-entity-list>
 
   <div *ngIf="!showEditor" class="fab-create fab-right">

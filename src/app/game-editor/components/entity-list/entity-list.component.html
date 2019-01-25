@@ -1,7 +1,7 @@
 <div class="cards-container">
 
   <ng-container *ngIf="!template; else customTemplate">
-    <rg-entity *ngFor="let item of items" [data]="item" (editItem)="editItem.emit($event)" (removeItem)="removeItem.emit($event)"></rg-entity>
+    <rg-entity *ngFor="let item of items" [data]="item" [image]="getImage(item)" (editItem)="editItem.emit($event)" (removeItem)="removeItem.emit($event)"></rg-entity>
   </ng-container>
 
 </div>
