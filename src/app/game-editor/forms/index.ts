@@ -12,3 +12,4 @@ export * from './slot';
 export * from './path';
 export * from './source';
 export * from './token';
+export * from './image';

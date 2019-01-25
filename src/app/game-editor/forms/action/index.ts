@@ -105,6 +105,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             factions: composeEntityOptions(ent, 'factions'),
             tokens: composeEntityOptions(ent, 'tokens'),
             actions: composeEntityOptions(ent, 'actions'),
+            images: composeEntityOptions(ent, 'images', 'thumbnail'),
             random: composeBooleanOptions(),
         },
     }, true);

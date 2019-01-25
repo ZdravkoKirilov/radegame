@@ -1,15 +1,23 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+
+import { FormDefinition } from '@app/dynamic-forms';
+import { composeImageForm } from '../../forms';
+import { FormKey, formKeys } from '../../state';
+import { SmartBase } from '../../mixins';
+import { AppState } from '@app/core';
 
 @Component({
   selector: 'rg-image-asset-container',
   templateUrl: './image-asset-container.component.html',
   styleUrls: ['./image-asset-container.component.scss']
 })
-export class ImageAssetContainerComponent implements OnInit {
+export class ImageAssetContainerComponent extends SmartBase {
 
-  constructor() { }
+  formDefinition: FormDefinition = composeImageForm;
 
-  ngOnInit() {
-  }
+  public readonly key: FormKey = formKeys.IMAGES;
+
+  constructor(public store: Store<AppState>) { super(store); }
 
 }

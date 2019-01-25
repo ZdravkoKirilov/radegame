@@ -1,10 +1,15 @@
 import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 
-export function composeEntityOptions(ent: ConnectedEntities, key: keyof ConnectedEntities, exclude = []): Option[] {
+
+export function composeEntityOptions(
+    ent: ConnectedEntities,
+    key: keyof ConnectedEntities,
+    imageProp = 'image',
+    exclude = []): Option[] {
     const result: Option[] = ent[key as string].map(elem => ({
         label: elem.name,
         value: elem.id,
-        image: elem.image
+        image: elem[imageProp]
     }));
 
     return exclude.length > 0 ? result.filter(elem => !exclude.includes(elem.value)) : result;
@@ -36,7 +41,7 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
 export const baseTemplate = `
     <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
     <TextInput name='description' label='Description'>{data.description}</TextInput>
-    <ImagePicker name='image' label='Add image' required='{false}' asBase64='{true}'>{data.image}</ImagePicker>
+    <Dropdown name='image' label='Image' options='{images}' showImage='{true}'>{data.image}</Dropdown>
     <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
 `;
 

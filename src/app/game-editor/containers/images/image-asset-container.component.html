@@ -1,3 +1,10 @@
-<p>
-  image-asset-container works!
-</p>
+<rg-entity-view 
+    [formDefinition]="formDefinition" 
+    [items]="items$ | async" 
+    [showEditor]="showEditor" 
+    [selectedItem]="selectedItem" 
+    [connectedEntities]="connectedEntities$ | async"
+    (toggleEditor)="toggleEditor($event)" 
+    (saveItem)="saveItem($event)"
+    >
+</rg-entity-view>
