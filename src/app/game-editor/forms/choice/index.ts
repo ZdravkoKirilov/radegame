@@ -2,7 +2,7 @@ import { Choice, CHOICE_MODE } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
     composeFromObject, composeEntityOptions, baseTemplate, revealTemplate,
-    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate
+    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate, composeBooleanOptions
 } from '../helpers';
 
 export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
@@ -21,6 +21,8 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
         ${baseTemplate}
 
         <Dropdown name='mode' label='Mode' options='{modes}'>{data.mode}</Dropdown>
+
+        <ButtonGroup name='random' label='Random' options='{bools}'>{data.random}</ButtonGroup>
 
         ${revealTemplate}
 
@@ -47,6 +49,8 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
 
                 <ButtonGroup name='effect' label='Effect' options='{sources}' multiple='{true}'>{@item.effect}</ButtonGroup>
 
+                <ButtonGroup name='secret' label='Secret effect' options='{bools}'>{@item.secret}</ButtonGroup>
+
                 <TextInput name='value' label='Value'>{@item.value}</TextInput>
 
                 <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>
@@ -67,6 +71,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             modes: composeFromObject(CHOICE_MODE),
+            bools: composeBooleanOptions()
         },
     }, true);
 

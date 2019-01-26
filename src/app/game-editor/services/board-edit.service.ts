@@ -6,7 +6,8 @@ import { createRenderer, createPixiEngine, createElement, Component } from '@app
 import { Subject } from 'rxjs';
 
 import { RootComponent, Props as BoardData } from '../components/board/graphics';
-import { Slot, PathEntity } from '@app/game-mechanics';
+import { Slot, PathEntity, ImageAsset, GameEntity } from '@app/game-mechanics';
+import { toIndexedList } from '@app/shared';
 
 @Injectable({
 	providedIn: 'root'
@@ -27,8 +28,14 @@ export class BoardEditService {
 		this.rootComponent && this.rootComponent.setProps(data);
 	}
 
-	extractAssets(slots: Slot[]): Set<string> {
-		return new Set(slots.map(elem => elem.image));
+	extractAssets(slots: GameEntity[], images: ImageAsset[]): Set<string> {
+		const imageList = toIndexedList<ImageAsset>(images);
+		return new Set(slots.map(elem => {
+			const img = imageList[elem.image];
+			if (img) {
+				return img.thumbnail || img.svg;
+			}
+		}).filter(elem => !!elem));
 	}
 
 	initialize(DOMElem: HTMLDivElement, data?: Partial<BoardData>) {
@@ -41,16 +48,15 @@ export class BoardEditService {
 
 		DOMElem.appendChild(this.renderer.view);
 
-		const assets = this.extractAssets(data.slots);
-		assets.add(data.stage.image);
+		const assets = this.extractAssets(data.slots, data.images);
 
 		this.render(stage, data, assets);
 		this.startRenderLoop(stage);
 	}
 
-	async render(stage: Container, data: Partial<BoardData> = {}, assets: Set<string>) {
+	async render(stage: Container, data: Partial<BoardData> = {}, assets?: Set<string>) {
 		const PixiEngine = createPixiEngine();
-		const render = createRenderer(PixiEngine, assets);
+		const render = createRenderer(PixiEngine, assets || new Set());
 		const props = {
 			...data,
 			selectPath: this.handlePathSelect,

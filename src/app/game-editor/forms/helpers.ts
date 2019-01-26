@@ -4,12 +4,12 @@ import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 export function composeEntityOptions(
     ent: ConnectedEntities,
     key: keyof ConnectedEntities,
-    imageProp = 'image',
+    imageProp = ['image'],
     exclude = []): Option[] {
     const result: Option[] = ent[key as string].map(elem => ({
         label: elem.name,
         value: elem.id,
-        image: elem[imageProp]
+        image: elem[imageProp[0]] || elem[imageProp[1]]
     }));
 
     return exclude.length > 0 ? result.filter(elem => !exclude.includes(elem.value)) : result;

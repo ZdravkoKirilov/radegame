@@ -1,6 +1,6 @@
-import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal, WithStakes } from "./Base.model";
 
-export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & WithReveal & Partial<{
+export type GameAction = BaseModel & WithPermissions & WithCost & WithCondition & WithStakes & WithReveal & Partial<{
     mode: ActionMode;
     configs: ActionConfig[];
 }>
@@ -12,7 +12,7 @@ export type ActionConfig = Partial<{
     type: ActionType;
 
     target: ActionTarget;
-    target_type: ActionTargetType;
+    target_filter: ActionTargetFilter;
 
     value: string;
     computed_value: ActionComputedValue;
@@ -21,6 +21,7 @@ export type ActionConfig = Partial<{
     max_amount: number;
     min_amount: number;
     random_amount: boolean;
+    dice_amount: number; // Choice
 
     condition: number; // Condition;
     choice: number; //Choice;
@@ -52,7 +53,7 @@ export const ACTION_TYPE = {
 
     GAMBLE: 'GAMBLE', // may require more fields?
 
-    BID: 'BID',  // used for fighting.
+    START_BID: 'START_BID',  // used for fighting.
 };
 
 export const ACTION_MODE = {
@@ -70,7 +71,7 @@ export const ACTION_TARGET = {
     PATH: 'PATH',
 };
 
-export const ACTION_TARGET_TYPE = {
+export const ACTION_TARGET_FILTER = {
     SELF: 'SELF',
     ACTIVE: 'ACTIVE',
     OTHER_TARGET: 'OTHER_TARGET',
@@ -93,7 +94,7 @@ export const COMPUTED_VALUES = {
 
 export type ActionTarget = keyof typeof ACTION_TARGET;
 
-export type ActionTargetType = keyof typeof ACTION_TARGET_TYPE;
+export type ActionTargetFilter = keyof typeof ACTION_TARGET_FILTER;
 
 export type ActionMode = keyof typeof ACTION_MODE;
 

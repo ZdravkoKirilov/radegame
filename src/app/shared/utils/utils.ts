@@ -5,19 +5,19 @@ interface ObjectWithId {
     [key: string]: any;
 }
 
-interface IndexedList {
-    [key: string]: ObjectWithId;
+interface IndexedList<T> {
+    [key: string]: T;
 }
 
-export const toIndexedList = (source: ObjectWithId[], indexProp = 'id'): IndexedList => {
-    return source.reduce((acc: IndexedList, elem: ObjectWithId, index) => {
-        const prop = deepProp.get(elem, indexProp, index);
+export const toIndexedList = <T = ObjectWithId>(source: T[], indexProp = 'id'): IndexedList<T> => {
+    return source.reduce((acc: IndexedList<T>, elem: T, index) => {
+        const prop = deepProp.get(elem as any, indexProp, index);
         acc[prop] = elem;
         return acc;
     }, {});
 };
 
-export const rebaseListIndex = (source: ObjectWithId, newIndex: string): IndexedList => {
+export const rebaseListIndex = (source: ObjectWithId, newIndex: string): IndexedList<any> => {
     return Object.values(source).reduce((acc, item, index) => {
         const prop = deepProp.get(item, newIndex, index);
         acc[prop] = item;

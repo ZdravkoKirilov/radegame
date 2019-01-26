@@ -5,7 +5,7 @@ import {
 
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
-import { Slot, PathEntity, Stage } from "@app/game-mechanics";
+import { Slot, PathEntity, Stage, ImageAsset } from "@app/game-mechanics";
 
 export type Props = {
     slots: Array<Slot>;
@@ -13,6 +13,7 @@ export type Props = {
     paths: Array<PathEntity>;
     selectedPath: PathEntity;
     stage: Stage;
+    images: Array<ImageAsset>;
     selectPath: (item: PathEntity) => void;
     selectSlot: (item: Slot) => void;
     onDragEnd: (item: Slot) => void;
@@ -28,13 +29,14 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     }
 
     render() {
-        const { paths, selectedPath, selectPath, selectedSlot, selectSlot, stage } = this.props;
+        const { paths, selectedPath, selectPath, selectedSlot, selectSlot, stage, images } = this.props;
         const { slots } = this.state;
         const { handleDragMove, handleDragEnd } = this;
-
+        const background = images.find(img => img.id === stage.image);
+        const stageImage = background ? background.thumbnail || background.svg: '';
         return createElement('fragment', {},
 
-            createElement<WithAssetProps>(WithAsset, { url: stage.image, },
+            createElement<WithAssetProps>(WithAsset, { url: stageImage, },
                 createElement('container', {
                     onClick: () => {
                         this.props.selectSlot(null);
@@ -42,14 +44,15 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                     },
                 },
                     createElement<SpriteProps>('sprite', {
-                        image: stage.image,
+                        image: stageImage,
                         styles: {
                             x: 0,
                             y: 0,
                             width: stage.width,
                             height: stage.height,
                         },
-                    }))),
+                    }))
+            ),
 
             createElement<PathProps>(Paths, {
                 paths, slots,
@@ -61,6 +64,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 slots, onDragMove: handleDragMove,
                 selectSlot,
                 selected: selectedSlot,
+                images,
                 onDragEnd: handleDragEnd
             }),
 

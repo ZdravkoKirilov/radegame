@@ -7,7 +7,7 @@ export type BaseModel = Partial<{
     name: string;
     description: string;
     keywords: string;
-    image: string;
+    image: number;
 }>;
 
 export type WithPermissions = Partial<{

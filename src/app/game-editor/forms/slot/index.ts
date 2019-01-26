@@ -66,7 +66,8 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             sources: composeEntityOptions(ent, 'sources'),
             fields: composeEntityOptions(ent, 'fields'),
             tokens: composeEntityOptions(ent, 'tokens'),
-            stages: composeEntityOptions(ent, 'stages')
+            stages: composeEntityOptions(ent, 'stages'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 

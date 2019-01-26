@@ -7,7 +7,7 @@ import {
 	DeleteItemAction, selectGameId
 } from '../../state';
 import { map, filter } from 'rxjs/operators';
-import { Stage, Slot, PathEntity } from '@app/game-mechanics';
+import { Stage, Slot, PathEntity, ImageAsset } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
 
 @Component({
@@ -20,6 +20,7 @@ import { ConnectedEntities } from '@app/dynamic-forms';
 			[paths]="data.paths"
 			[entities]="data.entities"
 			[gameId]="data.gameId"
+			[images]="data.images"
 			(saveSlot)="saveSlot($event)"
 			(savePath)="savePath($event)"
 			(deleteSlot)="deleteSlot($event)"
@@ -44,10 +45,11 @@ export class BoardContainerComponent {
 		this.store.pipe(select(getItems<PathEntity[]>(formKeys.PATHS))),
 		this.store.pipe(select(getEntities)),
 		this.store.pipe(select(selectGameId)),
+		this.store.pipe(select(getItems<ImageAsset[]>(formKeys.IMAGES)))
 	).pipe(
 		filter(data => data.every(elem => !!elem)),
-		map(([stage, slots, paths, entities, gameId]) => {
-			return { stage, slots, paths, entities, gameId };
+		map(([stage, slots, paths, entities, gameId, images]) => {
+			return { stage, slots, paths, entities, gameId, images };
 		}),
 	)
 

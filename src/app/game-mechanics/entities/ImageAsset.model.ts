@@ -5,4 +5,5 @@ export type ImageAsset = Partial<{
     name: string;
     image: string;
     thumbnail: string;
+    svg: string;
 }>

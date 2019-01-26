@@ -4,6 +4,7 @@ import { composePoints } from "@app/rendering";
 
 export type Props = {
     data: Slot;
+    image: string;
     selected: boolean;
     onDragMove: (comp: PrimitiveContainer) => void;
     onDragEnd: (slot: Slot) => void;
@@ -12,7 +13,7 @@ export type Props = {
 
 export const Node: RenderFunction<Props> = (props) => {
 
-    const { data, onDragMove, onDragEnd, onSelect, selected } = props;
+    const { data, onDragMove, onDragEnd, onSelect, selected, image } = props;
 
     return (
         createElement('container', {
@@ -35,8 +36,8 @@ export const Node: RenderFunction<Props> = (props) => {
                     radius: data.width
                 }
             },
-                data.image ? createElement(DynamicSprite, {
-                    image: data.image, styles: {
+                image ? createElement(DynamicSprite, {
+                    image: image, styles: {
                         x: 5,
                         y: 30,
                         width: data.width,

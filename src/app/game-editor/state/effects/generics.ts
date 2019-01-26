@@ -6,7 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { GameEditService } from '@app/core';
 import {
     GameEntity, GameAction, Field, Condition, Round, Team,
-    Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset,
+    Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset, Stage, Slot,
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
 import {
@@ -144,11 +144,11 @@ export class GenericEffectsService {
             case formKeys.ROUNDS:
                 return this.api.saveRound(<Round>entity);
             case formKeys.STAGES:
-                return this.api.saveStage(entity);
+                return this.api.saveStage(<Stage>entity);
             case formKeys.CHOICES:
                 return this.api.saveChoice(<Choice>entity);
             case formKeys.SLOTS:
-                return this.api.saveSlot(entity);
+                return this.api.saveSlot(<Slot>entity);
             case formKeys.PATHS:
                 return this.api.saveMapPath(<PathEntity>entity);
             case formKeys.TOKENS:
@@ -160,7 +160,7 @@ export class GenericEffectsService {
             case formKeys.SOURCES:
                 return this.api.saveSource(<Source>entity);
             case formKeys.IMAGES:
-                return this.api.saveImage(entity);
+                return this.api.saveImage(<ImageAsset>entity);
             case formKeys.GAMES:
                 return this.api.saveGame(<Game>entity);
             default:
@@ -173,31 +173,31 @@ export class GenericEffectsService {
             case formKeys.ACTIONS:
                 return this.api.deleteAction(<GameAction>entity);
             case formKeys.FACTIONS:
-                return this.api.deleteFaction(entity);
+                return this.api.deleteFaction(<Faction>entity);
             case formKeys.FIELDS:
-                return this.api.deleteField(entity);
+                return this.api.deleteField(<Field>entity);
             case formKeys.CONDITIONS:
                 return this.api.deleteCondition(<Condition>entity);
             case formKeys.ROUNDS:
-                return this.api.deleteRound(entity);
+                return this.api.deleteRound(<Round>entity);
             case formKeys.STAGES:
-                return this.api.deleteStage(entity);
+                return this.api.deleteStage(<Stage>entity);
             case formKeys.CHOICES:
                 return this.api.deleteChoice(<Choice>entity);
             case formKeys.PATHS:
-                return this.api.deleteMapPath(entity);
+                return this.api.deleteMapPath(<PathEntity>entity);
             case formKeys.TOKENS:
-                return this.api.deleteToken(entity);
+                return this.api.deleteToken(<Token>entity);
             case formKeys.PHASES:
-                return this.api.deletePhase(entity);
+                return this.api.deletePhase(<Phase>entity);
             case formKeys.TEAMS:
-                return this.api.deleteTeam(entity);
+                return this.api.deleteTeam(<Team>entity);
             case formKeys.SLOTS:
-                return this.api.deleteSlot(entity);
+                return this.api.deleteSlot(<Slot>entity);
             case formKeys.SOURCES:
                 return this.api.deleteSource(<Source>entity);
             case formKeys.IMAGES:
-                return this.api.deleteImage(entity);
+                return this.api.deleteImage(<ImageAsset>entity);
             default:
                 return of(null);
         }

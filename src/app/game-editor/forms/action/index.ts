@@ -4,11 +4,11 @@ import {
 } from '@app/dynamic-forms';
 import {
     GameAction, ACTION_TYPE as types,
-    ACTION_TARGET, ACTION_MODE, ACTION_TARGET_TYPE, COMPUTED_VALUES
+    ACTION_TARGET, ACTION_MODE, ACTION_TARGET_FILTER, COMPUTED_VALUES
 } from '@app/game-mechanics';
 import {
     composeFromObject, composeEntityOptions, composeBooleanOptions, baseTemplate, revealTemplate,
-    costTemplate, permissionsTemplate, conditionTemplate
+    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
@@ -19,6 +19,8 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const enable = data.enable || [];
     const condition = data.condition || [];
     const reveal_cost = data.reveal_cost || [];
+    const done = data.done || [];
+    const undone = data.undone || [];
 
     const template = `
         <Form>
@@ -31,6 +33,8 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             ${permissionsTemplate}
 
             ${conditionTemplate}
+
+            ${stakesTemplate}
 
             <Group name='configs' label='Action configs' children='{configs}' item='@item' addButtonText='Add'>
 
@@ -50,8 +54,8 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
                         {@item.target}
                     </ButtonGroup>
 
-                    <Dropdown name='target_type' label='Target type' options='{target_types}'>
-                        {@item.target_type}
+                    <Dropdown name='target_filter' label='Target type' options='{target_types}'>
+                        {@item.target_filter}
                     </Dropdown>
 
                     <Dropdown name='action' label='Action' options='{actions}' showImage='{true}'>{@item.action}</Dropdown>
@@ -80,6 +84,8 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
                         {@item.random_amount}
                     </ButtonGroup>
 
+                    <Dropdown name='dice_amount' label='Use dice' options='{choices}' showImage='{true}'>{@item.dice_amount}</Dropdown>
+
                     <NumberInput name='max_amount' label='Max amount'>{@item.max_amount}</NumberInput>
 
                     <NumberInput name='min_amount' label='Min amount'>{@item.min_amount}</NumberInput>
@@ -93,11 +99,11 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const result = parse({
         source: template,
         context: {
-            data, configs, cost, disable, enable, condition, reveal_cost,
+            data, configs, cost, disable, enable, condition, reveal_cost, done, undone,
             types: composeFromObject(types),
             modes: composeFromObject(ACTION_MODE),
             targets: composeFromObject(ACTION_TARGET),
-            target_types: composeFromObject(ACTION_TARGET_TYPE),
+            target_types: composeFromObject(ACTION_TARGET_FILTER),
             computed_values: composeFromObject(COMPUTED_VALUES),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
@@ -105,7 +111,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             factions: composeEntityOptions(ent, 'factions'),
             tokens: composeEntityOptions(ent, 'tokens'),
             actions: composeEntityOptions(ent, 'actions'),
-            images: composeEntityOptions(ent, 'images', 'thumbnail'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
             random: composeBooleanOptions(),
         },
     }, true);
