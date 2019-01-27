@@ -210,6 +210,7 @@ const updateCircle = (comp: PrimitiveCircle) => {
     if (styles) {
         graphic.clear();
         graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
+        graphic.pivot.set((styles.radius / 2) * -1, (styles.radius / 2) * -1);
         graphic.drawCircle(styles.x, styles.y, styles.radius);
 
         if (comp.props.button) {
@@ -227,6 +228,7 @@ const updateEllipse = (comp: PrimitiveEllipse) => {
     if (styles) {
         graphic.clear();
         graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
+        graphic.pivot.set(-1 * styles.width / 2, -1 * styles.height / 2);
         graphic.drawEllipse(styles.x, styles.y, styles.width, styles.height);
 
         if (comp.props.button) {

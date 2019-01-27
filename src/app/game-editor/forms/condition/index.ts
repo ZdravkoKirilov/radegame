@@ -94,6 +94,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
             phases: composeEntityOptions(ent, 'phases'),
             slots: composeEntityOptions(ent, 'slots'),
             paths: composeEntityOptions(ent, 'paths'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 

@@ -71,7 +71,8 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             modes: composeFromObject(CHOICE_MODE),
-            bools: composeBooleanOptions()
+            bools: composeBooleanOptions(),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 

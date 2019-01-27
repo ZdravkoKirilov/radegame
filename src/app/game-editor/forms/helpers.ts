@@ -1,4 +1,6 @@
 import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
+import { toIndexedList } from '@app/shared';
+import { ImageAsset } from '@app/game-mechanics';
 
 
 export function composeEntityOptions(
@@ -6,11 +8,25 @@ export function composeEntityOptions(
     key: keyof ConnectedEntities,
     imageProp = ['image'],
     exclude = []): Option[] {
-    const result: Option[] = ent[key as string].map(elem => ({
-        label: elem.name,
-        value: elem.id,
-        image: elem[imageProp[0]] || elem[imageProp[1]]
-    }));
+    const images = toIndexedList<ImageAsset>(ent.images);
+
+    const result: Option[] = ent[key as string].map(elem => {
+        let image;
+        if (key === 'images') {
+            image = elem[imageProp[0]] || elem[imageProp[1]];
+        } else {
+            const img = images[elem.image];
+            if (img) {
+                image = img[imageProp[0]] || img[imageProp[1]];
+            }
+        }
+
+        return {
+            label: elem.name,
+            value: elem.id,
+            image
+        };
+    });
 
     return exclude.length > 0 ? result.filter(elem => !exclude.includes(elem.value)) : result;
 }

@@ -28,6 +28,7 @@ export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntiti
             stages: composeEntityOptions(ent, 'stages'),
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         }
     }, true) as BaseControl[];
 

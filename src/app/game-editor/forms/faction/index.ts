@@ -29,6 +29,7 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
             stages: composeEntityOptions(ent, 'stages'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         }
     }, true) as BaseControl[];
 

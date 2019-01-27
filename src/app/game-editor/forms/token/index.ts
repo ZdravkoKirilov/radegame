@@ -37,6 +37,7 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             stages: composeEntityOptions(ent, 'stages'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         }
     }, true) as BaseControl[];
 

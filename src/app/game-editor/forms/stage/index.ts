@@ -19,7 +19,8 @@ export function composeStageForm(data: Stage = {}): BaseControl[] {
     const result = parse({
         source: template,
         context: {
-            data
+            data,
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 

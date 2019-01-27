@@ -49,6 +49,7 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
             phase_options: composeEntityOptions(ent, 'phases'),
             stages: composeEntityOptions(ent, 'stages'),
             setup_options: composeEntityOptions(ent, 'setups'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 

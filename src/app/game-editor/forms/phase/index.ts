@@ -28,7 +28,8 @@ export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEnt
         context: {
             data, settings, setups,
             conditions: composeEntityOptions(ent, 'conditions'),
-            setup_options: composeEntityOptions(ent, 'setups')
+            setup_options: composeEntityOptions(ent, 'setups'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 

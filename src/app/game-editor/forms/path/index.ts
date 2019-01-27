@@ -46,7 +46,7 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
             conditions: composeEntityOptions(ent, 'conditions'),
             sources: composeEntityOptions(ent, 'sources'),
             setup_options: composeEntityOptions(ent, 'setups'),
-            
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 

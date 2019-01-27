@@ -13,6 +13,7 @@ export type Props = {
 
 export const Node: RenderFunction<Props> = (props) => {
 
+
     const { data, onDragMove, onDragEnd, onSelect, selected, image } = props;
 
     return (
@@ -35,29 +36,72 @@ export const Node: RenderFunction<Props> = (props) => {
                     borderRadius: 5,
                     radius: data.width
                 }
-            },
-                image ? createElement(DynamicSprite, {
-                    image: image, styles: {
-                        x: 5,
-                        y: 30,
-                        width: data.width,
-                        height: data.height,
-                    }
-                }) : null,
-                createElement('text', {
-                    value: data.name, styles: {
-                        x: 5,
-                        y: 5,
-                    }, textStyle: {
-                        fontSize: 18,
-                        stroke: '#141619',
-                        fill: '#141619'
-                    }
-                })
-            ),
+            }),
+            image ? createElement(DynamicSprite, {
+                image: image, styles: {
+                    x: 5,
+                    y: 30,
+                    width: data.width,
+                    height: data.height,
+                }
+            }) : null,
+            createElement('text', {
+                value: data.name, styles: {
+                    x: 5,
+                    y: 5,
+                }, textStyle: {
+                    fontSize: 18,
+                    stroke: '#141619',
+                    fill: '#141619'
+                }
+            })
 
         )
     );
+
+    // return (
+    //     createElement('container', {
+    //         styles: { x: data.x, y: data.y },
+    //         id: data.id, draggable: true, onDragMove, onDragEnd,
+    //         onPointerDown: () => onSelect(data),
+    //     },
+    //         createElement(data.shape || 'rectangle', {
+    //             container: true,
+    //             button: true,
+    //             points: composePoints(data.points),
+    //             styles: {
+    //                 strokeThickness: selected ? 5 : 1,
+    //                 strokeColor: 0x00ff00,
+    //                 x: 0,
+    //                 y: 0,
+    //                 width: data.width + 10,
+    //                 height: data.height + 35,
+    //                 borderRadius: 5,
+    //                 radius: data.width
+    //             }
+    //         },
+    //             image ? createElement(DynamicSprite, {
+    //                 image: image, styles: {
+    //                     x: 5,
+    //                     y: 30,
+    //                     width: data.width,
+    //                     height: data.height,
+    //                 }
+    //             }) : null,
+    //             createElement('text', {
+    //                 value: data.name, styles: {
+    //                     x: 5,
+    //                     y: 5,
+    //                 }, textStyle: {
+    //                     fontSize: 18,
+    //                     stroke: '#141619',
+    //                     fill: '#141619'
+    //                 }
+    //             })
+    //         ),
+
+    //     )
+    // );
 };
 
 export default Node;

@@ -31,6 +31,7 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
             data, cost, risk, done, undone,
             stages: composeEntityOptions(ent, 'stages'),
             sources: composeEntityOptions(ent, 'sources'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 

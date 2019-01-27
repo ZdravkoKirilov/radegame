@@ -74,6 +74,7 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
             tokens: composeEntityOptions(ent, 'tokens'),
             actions: composeEntityOptions(ent, 'actions'),
             choices: composeEntityOptions(ent, 'choices'),
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         },
     }, true);
 
