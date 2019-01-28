@@ -32,6 +32,7 @@
     "immer": "^1.7.4",
     "lodash": "^4.17.11",
     "pixi.js-legacy": "^5.0.0-alpha.3",
+    "ramda": "^0.26.1",
     "rxjs": "^6.3.3",
     "zone.js": "^0.8.26"
   },

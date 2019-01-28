@@ -13,3 +13,7 @@ export type Game = Partial<{
 export interface GameList {
     [key: string]: Game;
 }
+
+export type GameState = Partial<{
+
+}>;

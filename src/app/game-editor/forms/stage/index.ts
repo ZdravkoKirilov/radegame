@@ -1,8 +1,8 @@
 import { Stage } from '@app/game-mechanics';
-import { BaseControl, parse } from '@app/dynamic-forms';
-import { baseTemplate } from '../helpers';
+import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
+import { baseTemplate, composeEntityOptions } from '../helpers';
 
-export function composeStageForm(data: Stage = {}): BaseControl[] {
+export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
 
     const template = `

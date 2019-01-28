@@ -1,15 +1,5 @@
-import { PlayerAction } from './GameAction.model';
+import { CommandAction, MutatorAction } from './GameAction.model';
+import { GameState } from './Game.model';
+import { GameTemplate } from './GameTemplate.model';
 
-export type ResolverFunction = <T>(action?: PlayerAction, state?: T) => ResolverResult;
-
-export type Resolver = {
-    name: string;
-    call: ResolverFunction;
-}
-
-export type ResolverResult = {
-    actions: PlayerAction[]; // redux actions
-    nextResolvers?: Resolver[];
-    clear?: boolean;
-    clearQueue?: boolean;
-}
+export type Resoler = (action: CommandAction, state: GameState, conf: GameTemplate) => MutatorAction[];
