@@ -1,10 +1,12 @@
+import { CommandType } from "../actions/commands";
+
 export type PlayerActionPayload = {
     player: number; // Player
     data: any;
 }
 
 export type CommandAction = {
-    type: string;
+    type: CommandType;
     payload: PlayerActionPayload;
 }
 

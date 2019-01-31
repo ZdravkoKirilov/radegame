@@ -1,14 +1,15 @@
 import { createSelector, createFeatureSelector } from '@ngrx/store';
 
 import { CoreAction, actionTypes } from '../actions';
-import { GameTemplate, GameList } from '@app/game-mechanics';
+import { GameTemplate, Game } from '@app/game-mechanics';
 import { AppState } from './main';
+import { Dictionary } from '@app/shared';
 
 export interface Cache {
     gameAssets: {
         [key: string]: GameTemplate
     };
-    games: GameList;
+    games: Dictionary<Game>;
 }
 
 const initialState: Cache = {

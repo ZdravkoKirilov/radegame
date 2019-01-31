@@ -1,7 +1,8 @@
 import { Action } from '@ngrx/store';
 
 import { actionTypes } from './actionTypes';
-import { GameTemplate, GameList } from '@app/game-mechanics';
+import { GameTemplate, Game } from '@app/game-mechanics';
+import { Dictionary } from '@app/shared';
 
 export class OperationSuccessAction implements Action {
     readonly type = actionTypes.OPERATION_SUCCESS;
@@ -32,7 +33,7 @@ export class GetGamesSuccessAction implements Action {
 }
 
 export class SetGamesAction implements Action {
-    constructor(public payload: GameList) {
+    constructor(public payload: Dictionary<Game>) {
 
     }
 
