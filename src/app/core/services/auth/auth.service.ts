@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { AuthPayload, AuthResponse, User } from '@app/profile';
-import { AUTH_URLS } from '../config';
+import { AUTH_URLS } from '../../config';
 
 @Injectable()
 export class AuthService {

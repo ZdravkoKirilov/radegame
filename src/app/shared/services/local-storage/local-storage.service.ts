@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 
-@Injectable()
+@Injectable({
+  providedIn: 'root'
+})
 export class AppLocalStorageService {
 
   save(key: string, data: any, stringify = false): void {

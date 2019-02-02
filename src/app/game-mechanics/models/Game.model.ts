@@ -1,9 +1,11 @@
-import { Setup, Team } from '../entities';
+import { Setup, Team, Faction } from '../entities';
 import { Dictionary } from '@app/shared';
 import { Player } from './Player.model';
 import { CommandAction } from './GameAction.model';
+import { WithBoard, WithSettings } from '../entities';
+import { GameTemplate } from './GameTemplate.model';
 
-export type Game = Partial<{
+export type Game = WithBoard & WithSettings & Partial<{
     id: number;
 
     title: string;
@@ -20,15 +22,21 @@ type Stats = Partial<{
     boards: any;
 }>
 
-export type GameState = Partial<{
+export type GameState = {
+    conf: GameConfig;
     players: Dictionary<Player>;
-    teams: Dictionary<Team>;
+    teams?: Dictionary<Team>;
+    factions?: Dictionary<Faction>;
     index: {
         round: number; // Round id
         phase: number; // Phase id
         activePlayer: number; // Player id
+        lastAction: CommandAction;
     };
-    lastAction: CommandAction;
     playerStats: Dictionary<Stats>; // by playerid
-    teamStats: Dictionary<Stats>;
-}>;
+    teamStats?: Dictionary<Stats>;
+};
+
+export type GameConfig = GameTemplate & {
+    game: Game;
+}

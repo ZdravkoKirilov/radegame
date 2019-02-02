@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpEvent, HttpInterceptor, HttpHandler, HttpRequest } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { AppLocalStorageService } from '../services';
+import { AppLocalStorageService } from '@app/shared';
 import { AUTH_URLS } from '../config';
 
 @Injectable()

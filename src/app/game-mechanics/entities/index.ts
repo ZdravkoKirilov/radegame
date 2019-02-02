@@ -14,6 +14,7 @@ export * from './types';
 export * from './Setup.model';
 export * from './Source.model';
 export * from './ImageAsset.model';
+export * from './Base.model';
 
 import { GameAction } from './Action.model';
 import { Condition } from './Condition.model';
@@ -37,3 +38,5 @@ export type GameEntity = GameAction | Slot | PathEntity | Condition |
     Setup | Source | ImageAsset;
 
 export type GameEntityList = Dictionary<GameEntity>;
+
+export * from './types';

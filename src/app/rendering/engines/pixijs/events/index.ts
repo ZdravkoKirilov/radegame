@@ -1,5 +1,5 @@
 import { AbstractEvent, Component } from "@app/rendering";
-import { DisplayObject, interaction } from "pixi.js-legacy";
+import { DisplayObject, interaction } from "pixi.js";
 
 export class PixiEventsManager implements AbstractEvent {
     supported = new Set([

@@ -1,4 +1,3 @@
-import { autoDetectRenderer, Container } from 'pixi.js-legacy';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';

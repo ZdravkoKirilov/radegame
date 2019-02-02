@@ -19,7 +19,7 @@ import {
     Source, Team, ImageAsset
 } from '@app/game-mechanics';
 
-import { API_URLS } from '../config';
+import { API_URLS } from '../../config';
 import { toMultipartFormData } from '@app/shared';
 
 @Injectable()

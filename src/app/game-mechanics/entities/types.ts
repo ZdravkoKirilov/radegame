@@ -1,4 +1,6 @@
-export const ENTITY_TYPES = {
+export type EntityType = keyof typeof ENTITY;
+
+export const ENTITY = {
     'FACTION': 'FACTION',
     'TOKEN': 'TOKEN',
     'CONDITION': 'CONDITION',
@@ -9,8 +11,6 @@ export const ENTITY_TYPES = {
     'FIELD': 'FIELD',
     'STAGE': 'STAGE',
     'TEAM': 'TEAM',
-    'RESOURCE': 'RESOURCE',
-    'LOCATION': 'LOCATION',
+    'SLOT': 'SLOT',
+    'SOURCE': 'SOURCE',
 }
-
-export type EntityType = keyof typeof ENTITY_TYPES;

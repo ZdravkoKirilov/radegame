@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 
-import { WindowRefService } from '@app/core';
+import { WindowRefService } from '@app/shared';
 import { Renderer, CanvasRenderer, Container } from 'pixi.js';
 import { createRenderer, createPixiEngine, createElement, Component } from '@app/rendering';
 import { Subject } from 'rxjs';

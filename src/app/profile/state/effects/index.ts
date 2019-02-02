@@ -3,7 +3,7 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable ,  of } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
-import { AuthService, AppLocalStorageService } from '@app/core';
+import { AuthService } from '@app/core';
 import { AuthResponse, User } from '../../models';
 import {
     EmailRegisterAction, EmailRegisterSuccessAction, EmailRegisterFailAction,
@@ -11,6 +11,7 @@ import {
     SetCurrentUserAction, GetCurrentUserAction, GetCurrentUserFailAction,
     GetCurrentUserSuccessAction, actionTypes
 } from '../actions';
+import { AppLocalStorageService } from '@app/shared';
 
 @Injectable()
 export class AuthEffectsService {

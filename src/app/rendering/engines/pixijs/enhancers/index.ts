@@ -1,4 +1,4 @@
-import { interaction, DisplayObject } from 'pixi.js-legacy';
+import { interaction, DisplayObject } from 'pixi.js';
 import { AbstractEnhancer, Component, RzElementProps } from "@app/rendering";
 import { bringToFront } from '../helpers';
 

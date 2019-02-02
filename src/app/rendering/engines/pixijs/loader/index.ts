@@ -1,4 +1,4 @@
-import * as PIXI from "pixi.js-legacy";
+import * as PIXI from "pixi.js";
 import { AbstractLoader, LoaderResources, LoaderResource } from "@app/rendering";
 
 export class PixiLoader implements AbstractLoader {

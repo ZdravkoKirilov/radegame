@@ -1,4 +1,2 @@
-export * from './window-ref.service';
-export * from './game-edit.service';
-export * from './auth.service';
-export * from './local-storage.service';
+export * from './edit/game-edit.service';
+export * from './auth/auth.service';

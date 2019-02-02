@@ -1,3 +1,5 @@
 export type Player = {
-    id?: number;
+    id: number;
+    faction?: number;
+    team?: number;
 }
