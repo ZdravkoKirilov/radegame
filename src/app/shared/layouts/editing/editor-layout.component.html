@@ -1,0 +1,16 @@
+<mat-sidenav-container class="stretched">
+	<mat-sidenav opened="true" mode="side">
+		<rg-edit-sidebar></rg-edit-sidebar>
+	</mat-sidenav>
+
+	<mat-sidenav-content>
+		<rg-edit-header></rg-edit-header>
+
+		<main class="main">
+			<ng-scrollbar>
+				<ng-content></ng-content>
+			</ng-scrollbar>
+		</main>
+
+	</mat-sidenav-content>
+</mat-sidenav-container>
