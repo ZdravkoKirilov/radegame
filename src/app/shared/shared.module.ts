@@ -4,20 +4,16 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgScrollbarModule } from 'ngx-scrollbar';
+import { RouterModule } from '@angular/router';
 
 import { NgMaterialModule } from '../ng-material/ng-material.module';
 import { DividerComponent, MainMenuComponent, SocialButtonComponent } from './components';
 
-import { EditHeaderComponent } from './layouts/editing/header/edit-header.component';
-import { EditSidebarComponent } from './layouts/editing/sidebar/edit-sidebar.component';
-import { EditorLayoutComponent } from './layouts/editing/editor-layout.component';
-import { EditSidebarHeaderComponent } from './layouts/editing/sidebar/header/edit-sidebar-header.component';
-import { EditSidebarNavComponent } from './layouts/editing/sidebar/nav/edit-sidebar-nav.component';
 
 @NgModule({
     imports: [
         CommonModule, NgMaterialModule, FormsModule, ReactiveFormsModule, HttpClientModule,
-        NgScrollbarModule
+        NgScrollbarModule, RouterModule,
     ],
     exports: [
         CommonModule,
@@ -26,13 +22,9 @@ import { EditSidebarNavComponent } from './layouts/editing/sidebar/nav/edit-side
         ReactiveFormsModule,
         DividerComponent, MainMenuComponent, SocialButtonComponent,
         NgScrollbarModule,
-        EditHeaderComponent,
-        EditSidebarComponent,
-        EditorLayoutComponent
     ],
     declarations: [
-        DividerComponent, MainMenuComponent, SocialButtonComponent, EditHeaderComponent,
-        EditSidebarComponent, EditorLayoutComponent, EditSidebarHeaderComponent, EditSidebarNavComponent
+        DividerComponent, MainMenuComponent, SocialButtonComponent
     ],
     providers: []
 })

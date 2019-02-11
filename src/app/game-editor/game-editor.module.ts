@@ -29,6 +29,7 @@ import { BoardToolbarComponent } from './components/board/toolbar/board-toolbar.
 import { BoardMainComponent } from './components/board/main/board-main.component';
 import { SourcesContainerComponent } from './containers/sources/sources-container.component';
 import { ImageAssetContainerComponent } from './containers/images/image-asset-container.component';
+import { EditorLayoutComponent, EditHeaderComponent, EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent, EditSidebarLinkComponent } from './layouts';
 
 @NgModule({
     imports: [
@@ -70,7 +71,13 @@ import { ImageAssetContainerComponent } from './containers/images/image-asset-co
         BoardToolbarComponent,
         BoardMainComponent,
         SourcesContainerComponent,
-        ImageAssetContainerComponent
+        ImageAssetContainerComponent,
+        EditorLayoutComponent,
+        EditHeaderComponent,
+        EditSidebarComponent,
+        EditSidebarNavComponent,
+        EditSidebarHeaderComponent,
+        EditSidebarLinkComponent,
     ]
 })
 export class GameEditorModule {

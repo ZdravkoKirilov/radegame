@@ -3,7 +3,7 @@
   <rg-entity-list [ngClass]="{'hidden': showEditor}" [template]="template" [items]="items" [connectedEntities]="connectedEntities" (editItem)="editItem.emit($event)"
     (removeItem)="removeItem.emit($event)"></rg-entity-list>
 
-  <div *ngIf="!showEditor" class="fab-create fab-right">
+  <div *ngIf="!showEditor" class="create-btn">
     <button mat-fab color="primary" class="create-new-btn" (click)="showItemEditor()">
       <mat-icon>add</mat-icon>
     </button>

@@ -1,6 +1,6 @@
 @import './styles/_mixins.scss';
 :host {
-    @include routeTransition;
+    // @include routeTransition;
     display: block;
     height: 100%;
 }

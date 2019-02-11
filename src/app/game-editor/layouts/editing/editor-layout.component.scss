@@ -1,0 +1,21 @@
+:host {
+    display: block;
+    height: 100%;
+    mat-sidenav {
+        background: whitesmoke;
+    }
+
+    .main {
+        height: 100%;
+    }
+
+    /deep/ {
+        mat-sidenav-content {
+            overflow: hidden;
+        }
+        rg-entity-view, .wrapper, rg-entity-list, .cards-container {
+            display: block;
+            height: 100%;
+        }
+    }
+}

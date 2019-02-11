@@ -50,7 +50,7 @@ export const selectGame = createSelector(
     getItems<Game[]>('games'),
     selectGameId,
     (games, id) => {
-        return games ? games.find(elem => elem.id === id) : null;
+        return games ? games.find(elem => elem.id == id) : null;
     }
 );
 
