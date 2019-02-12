@@ -3,12 +3,12 @@ import { Actions, Effect } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
-import { GameEditService } from '@app/core';
+import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Field, Condition, Round, Team,
-    Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset, Stage, Slot,
+    Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset, Stage, Slot, GameTemplate,
 } from '@app/game-mechanics';
-import { actionTypes, SetItemsAction, FetchItemsSuccessAction } from '../actions';
+import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
 import {
     GenericActionPayload,
     SaveItemAction, SaveItemSuccessAction, SaveItemFailAction, SetItemAction, DeleteItemAction,
@@ -20,8 +20,32 @@ import { toIndexedList } from '@app/shared';
 @Injectable()
 export class GenericEffectsService {
 
-    constructor(private actions$: Actions, private api: GameEditService) {
+    constructor(private actions$: Actions, private api: GameEditService, private fetcher: GameFetchService) {
     }
+
+    @Effect() fetchGameData: Observable<any> = this.actions$
+        .ofType(actionTypes.FETCH_GAME_DATA)
+        .pipe(
+            mergeMap((action: FetchGameDataAction) => {
+                return this.fetcher.getGameData(action.payload)
+                    .pipe(
+                        mergeMap(res => {
+                            const payload = Object.keys(res).reduce((acc, key) => {
+                                acc[key] = toIndexedList(res[key]);
+                                return acc;
+                            }, {}) as GameTemplate;
+
+                            return [
+                                new FetchGameDataSuccess(),
+                                new FillFormAction(payload),
+                            ];
+                        }),
+                        catchError(err => {
+                            return [new FetchGameDataFail()];
+                        })
+                    )
+            })
+        )
 
     @Effect() fetchItems: Observable<any> = this.actions$.ofType(actionTypes.FETCH_ITEMS).pipe(
         map((action: FetchItemsAction) => {
@@ -97,35 +121,35 @@ export class GenericEffectsService {
         switch (key) {
 
             case formKeys.ACTIONS:
-                return this.api.getActions(data);
+                return this.fetcher.getActions(data);
             case formKeys.FACTIONS:
-                return this.api.getFactions(data);
+                return this.fetcher.getFactions(data);
             case formKeys.FIELDS:
-                return this.api.getFields(data);
+                return this.fetcher.getFields(data);
             case formKeys.CONDITIONS:
-                return this.api.getConditions(data);
+                return this.fetcher.getConditions(data);
             case formKeys.ROUNDS:
-                return this.api.getRounds(data);
+                return this.fetcher.getRounds(data);
             case formKeys.STAGES:
-                return this.api.getStages(data);
+                return this.fetcher.getStages(data);
             case formKeys.CHOICES:
-                return this.api.getChoices(data);
+                return this.fetcher.getChoices(data);
             case formKeys.SLOTS:
-                return this.api.getSlots(data);
+                return this.fetcher.getSlots(data);
             case formKeys.PATHS:
-                return this.api.getPaths(data);
+                return this.fetcher.getPaths(data);
             case formKeys.TOKENS:
-                return this.api.getTokens(data);
+                return this.fetcher.getTokens(data);
             case formKeys.PHASES:
-                return this.api.getPhases(data);
+                return this.fetcher.getPhases(data);
             case formKeys.TEAMS:
-                return this.api.getTeams(data);
+                return this.fetcher.getTeams(data);
             case formKeys.SOURCES:
-                return this.api.getSources(data);
+                return this.fetcher.getSources(data);
             case formKeys.IMAGES:
-                return this.api.getImages(data);
+                return this.fetcher.getImages(data);
             case formKeys.GAMES:
-                return this.api.getGames();
+                return this.fetcher.getGames();
             default:
                 return of(null);
         }

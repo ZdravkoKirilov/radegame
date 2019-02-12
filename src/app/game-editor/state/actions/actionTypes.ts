@@ -1,5 +1,7 @@
 export const CLEAR_FORM = 'CLEAR_FORM';
 
+export const FILL_FORM = 'FILL_FORM';
+
 export const actionTypes = {
     SAVE_ITEM: 'SAVE_ITEM',
     SAVE_ITEM_SUCCESS: 'SAVE_ITEM_SUCCESS',
@@ -21,7 +23,11 @@ export const actionTypes = {
     TOGGLE_EDITOR: 'TOGGLE_EDITOR',
     CHANGE_SELECTED_ITEM: 'CHANGE_SELECTED_ITEM',
 
-    SET_ALL_ITEMS: 'SET_ALL_ITEMS'
+    SET_ALL_ITEMS: 'SET_ALL_ITEMS',
+
+    FETCH_GAME_DATA: 'FETCH_GAME_DATA',
+    FETCH_GAME_DATA_SUCCESS: 'FETCH_GAME_DATA_SUCCESS',
+    FETCH_GAME_DATA_FAIL: 'FETCH_GAME_DATA_FAIL',
 }
 
 export type EditorActionType = typeof actionTypes.SAVE_ITEM | typeof actionTypes.REMOVE_ITEM |

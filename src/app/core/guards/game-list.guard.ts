@@ -8,12 +8,12 @@ import * as actions from '../state/actions';
 
 import { AppState } from '../state';
 import { toIndexedList } from '@app/shared';
-import { GameEditService } from '../services';
+import { GameEditService, GameFetchService } from '../services';
 
 @Injectable()
 export class GameListGuard implements CanActivate {
 
-    constructor(private store: Store<AppState>, private api: GameEditService) { }
+    constructor(private store: Store<AppState>, private api: GameFetchService) { }
 
     canActivate(): Observable<any> {
         return this.api.getGames().pipe(

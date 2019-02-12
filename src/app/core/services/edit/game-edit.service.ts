@@ -40,10 +40,6 @@ export class GameEditService {
         return this.http.delete(API_URLS.PATHS(data.game, data.id));
     }
 
-    getPaths(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.PATHS(gameId));
-    }
-
     saveFaction(data: Faction): Observable<any> {
         if (data.id) {
             return this.http.patch(API_URLS.FACTIONS(data.game, data.id), data);
@@ -68,10 +64,6 @@ export class GameEditService {
         return this.http.delete(API_URLS.ACTIONS(data.game, data.id));
     }
 
-    getActions(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.ACTIONS(gameId));
-    }
-
     saveStage(data: Stage): Observable<any> {
 
         if (data.id) {
@@ -83,14 +75,6 @@ export class GameEditService {
 
     deleteStage(data: Stage): Observable<any> {
         return this.http.delete(API_URLS.STAGES(data.game, data.id));
-    }
-
-    getStages(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.STAGES(gameId));
-    }
-
-    getConditions(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.CONDITIONS(gameId));
     }
 
     saveCondition(data: Condition): Observable<any> {
@@ -106,10 +90,6 @@ export class GameEditService {
         return this.http.delete(API_URLS.CONDITIONS(data.game, data.id));
     }
 
-    getRounds(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.ROUNDS(gameId));
-    }
-
     saveRound(data: Round): Observable<any> {
 
         if (data.id) {
@@ -121,10 +101,6 @@ export class GameEditService {
 
     deleteRound(data: Round): Observable<any> {
         return this.http.delete(API_URLS.ROUNDS(data.game, data.id));
-    }
-
-    getTokens(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.TOKENS(gameId));
     }
 
     saveToken(data: Token): Observable<any> {
@@ -140,10 +116,6 @@ export class GameEditService {
         return this.http.delete(API_URLS.TOKENS(data.game, data.id));
     }
 
-    getPhases(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.PHASES(gameId));
-    }
-
     savePhase(data: Phase): Observable<any> {
 
         if (data.id) {
@@ -155,10 +127,6 @@ export class GameEditService {
 
     deleteTeam(data: Team): Observable<any> {
         return this.http.delete(API_URLS.TEAMS(data.game, data.id));
-    }
-
-    getTeams(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.TEAMS(gameId));
     }
 
     saveTeam(data: Team): Observable<any> {
@@ -174,10 +142,6 @@ export class GameEditService {
         return this.http.delete(API_URLS.PHASES(data.game, data.id));
     }
 
-    getChoices(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.CHOICES(gameId));
-    }
-
     saveChoice(data: Choice): Observable<any> {
 
         if (data.id) {
@@ -189,10 +153,6 @@ export class GameEditService {
 
     deleteChoice(data: Choice): Observable<any> {
         return this.http.delete(API_URLS.CHOICES(data.game, data.id));
-    }
-
-    getMaps(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.MAPS(gameId));
     }
 
     saveSlot(data: Slot): Observable<any> {
@@ -207,10 +167,6 @@ export class GameEditService {
         return this.http.delete(API_URLS.SLOTS(data.game, data.id));
     }
 
-    getSlots(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.SLOTS(gameId));
-    }
-
     saveSource(data: Source): Observable<any> {
         if (data.id) {
             return this.http.patch(API_URLS.SOURCES(data.game, data.id), data);
@@ -221,14 +177,6 @@ export class GameEditService {
 
     deleteSource(data: Source): Observable<any> {
         return this.http.delete(API_URLS.SOURCES(data.game, data.id));
-    }
-
-    getSources(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.SOURCES(gameId));
-    }
-
-    getImages(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.IMAGES(gameId));
     }
 
     saveImage(data: ImageAsset): Observable<any> {
@@ -266,21 +214,5 @@ export class GameEditService {
         } else {
             return this.http.post(API_URLS.GAMES(data.id), data);
         }
-    }
-
-    getGames(): Observable<any> {
-        return this.http.get<Game[]>(API_URLS.GAMES());
-    }
-
-    getGame(id: number): Observable<any> {
-        return this.http.get(API_URLS.GAMES(id));
-    }
-
-    getFields(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.FIELDS(gameId));
-    }
-
-    getFactions(gameId: number): Observable<any> {
-        return this.http.get(API_URLS.FACTIONS(gameId));
     }
 }

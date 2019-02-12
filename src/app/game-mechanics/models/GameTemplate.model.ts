@@ -23,4 +23,21 @@ export type GameTemplate = Partial<{
     images: Dictionary<ImageAsset>;
 }>
 
+export type GameData = Partial<{
+    factions: Faction[];
+    actions: GameAction[];
+    fields: Field[];
+    conditions: Condition[];
+    rounds: Round[];
+    stages: Stage[];
+    locations: Slot[];
+    paths: PathEntity[];
+    choices: Choice[];
+    teams: Team[];
+    setups: Setup[];
+    phases: Phase[];
+    tokens: Token[];
+    images: ImageAsset[];
+}>
+
 

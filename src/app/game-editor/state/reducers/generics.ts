@@ -2,11 +2,12 @@ import { ActionReducer, combineReducers } from '@ngrx/store';
 import produce from 'immer';
 
 import { FormKey, formKeys } from '../form-keys';
-import { actionTypes } from '../actions/actionTypes';
+import { actionTypes, FILL_FORM } from '../actions/actionTypes';
 
-import { GameEntity, GameEntityList, GameTemplate } from '@app/game-mechanics';
-import { EditorGenericAction } from '../actions';
+import { GameEntity, GameEntityList } from '@app/game-mechanics';
+import { EditorGenericAction, EditorAction, FillFormAction } from '../actions';
 import { Dictionary } from '@app/shared';
+import { GameEditorFeature } from './main.reducer';
 
 export interface EntityFeature {
     items?: GameEntityList;
@@ -75,28 +76,39 @@ export const formReducer: ActionReducer<any> = combineReducers({
     images: createEntityReducer(formKeys.IMAGES),
 });
 
-export function editorMetaReducer(anyReducer: ActionReducer<any>): any {
-    return function newReducer(state, action) {
-        if (action.type === actionTypes.SET_ALL_ITEMS) {
-            const payload = <GameTemplate>action.payload.data;
-            const form = {};
-            Object.keys(payload).forEach((key: FormKey) => {
-                form[key] = {
-                    ...state.form[key],
-                    items: {
-                        ...state.form[key].items,
-                        ...payload[key]
-                    }
-                }
-            });
-            return {
-                ...state,
-                form: {
-                    ...state.form,
-                    ...form
-                }
-            }
+export function editorMetaReducer(anyReducer: ActionReducer<any>) {
+    return function newReducer(state: GameEditorFeature, action: EditorAction) {
+
+        switch (action.type) {
+            case FILL_FORM:
+                const { payload } = action as FillFormAction;
+
+                return {
+                    ...state,
+                    form: payload
+                };
+            default:
+                return anyReducer(state, action) as GameEditorFeature;
         }
-        return anyReducer(state, action);
+        // if (action.type === actionTypes.SET_ALL_ITEMS) {
+        //     const payload = <GameTemplate>action.payload.data;
+        //     const form = {};
+        //     Object.keys(payload).forEach((key: FormKey) => {
+        //         form[key] = {
+        //             ...state.form[key],
+        //             items: {
+        //                 ...state.form[key].items,
+        //                 ...payload[key]
+        //             }
+        //         }
+        //     });
+        //     return {
+        //         ...state,
+        //         form: {
+        //             ...state.form,
+        //             ...form
+        //         }
+        //     }
+        // }
     };
 }

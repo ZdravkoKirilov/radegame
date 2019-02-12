@@ -5,7 +5,7 @@ import { Observable ,  of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material';
 
-import { GameEditService } from '../../services';
+import { GameEditService, GameFetchService } from '../../services';
 import { AppState } from '../reducers';
 import { Game } from '@app/game-mechanics';
 import { toIndexedList } from '@app/shared';
@@ -20,7 +20,7 @@ export class CoreEffectsService {
     constructor(
         private actions$: Actions,
         private snackbar: MatSnackBar,
-        private api: GameEditService,
+        private api: GameFetchService,
         private store: Store<AppState>) {
     }
 
