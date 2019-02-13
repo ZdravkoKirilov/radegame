@@ -1,0 +1,83 @@
+@import '~@angular/material/theming';
+
+$primary-palette: (
+    50 : #e8f5ea,
+    100 : #c6e7ca,
+    200 : #a0d7a7,
+    300 : #79c783,
+    400 : #5dbb69,
+    500 : #40af4e,
+    600 : #3aa847,
+    700 : #329f3d,
+    800 : #2a9635,
+    900 : #1c8625,
+    A100 : #c0ffc4,
+    A200 : #8dff95,
+    A400 : #5aff65,
+    A700 : #41ff4d,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$accent-palette: (
+    50 : #fff2f1,
+    100 : #ffdfdd,
+    200 : #ffcac7,
+    300 : #ffb4b0,
+    400 : #ffa49f,
+    500 : #ff948e,
+    600 : #ff8c86,
+    700 : #ff817b,
+    800 : #ff7771,
+    900 : #ff655f,
+    A100 : #ffffff,
+    A200 : #ffffff,
+    A400 : #ffffff,
+    A700 : #ffeae9,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #000000,
+        600 : #000000,
+        700 : #000000,
+        800 : #000000,
+        900 : #000000,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
+$default-font: Roboto;
+
+$custom-typography: mat-typography-config(
+    $font-family: $default-font
+);
+
+@include mat-core($custom-typography);
+
+
+$primary: mat-palette($primary-palette);
+$accent: mat-palette($accent-palette);
+
+$default-theme: mat-light-theme($primary, $accent);
+
+@include angular-material-theme($default-theme);

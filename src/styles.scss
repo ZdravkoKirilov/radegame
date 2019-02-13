@@ -1,7 +1,26 @@
 /* You can add global styles to this file, and also import other style files */
 
-@import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
-@import './app/styles/base.style.scss';
-@import './app//styles/layout.style.scss';
-@import './app//styles/module.style.scss';
+// @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @import './app//styles/state.style.scss';
+@import './app/styles/theme.scss';
+@import './app/styles/breakpoints';
+html,
+body {
+    height: 100%;
+    overflow: hidden;
+}
+
+.rg-container {
+    display: block;
+    max-width: 1024px;
+    margin: 0 auto;
+    height: 100%;
+    @include phone {
+        width: 96%;
+    }
+}
+
+.block {
+    display: block;
+    height: 100%;
+}

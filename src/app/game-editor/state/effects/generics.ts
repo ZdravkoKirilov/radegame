@@ -15,7 +15,7 @@ import {
     DeleteItemSuccessAction, DeleteItemFailAction, RemoveItemAction, FetchItemsAction
 } from '../actions';
 import { FormKey, formKeys } from '../form-keys';
-import { toIndexedList } from '@app/shared';
+import { toDictionary } from '@app/shared';
 
 @Injectable()
 export class GenericEffectsService {
@@ -31,7 +31,7 @@ export class GenericEffectsService {
                     .pipe(
                         mergeMap(res => {
                             const payload = Object.keys(res).reduce((acc, key) => {
-                                acc[key] = toIndexedList(res[key]);
+                                acc[key] = toDictionary(res[key]);
                                 return acc;
                             }, {}) as GameTemplate;
 
@@ -58,7 +58,7 @@ export class GenericEffectsService {
             return this.fetchRequest(key, data as any).pipe(
                 mergeMap((res: GameEntity[]) => {
                     const response: GenericActionPayload = {
-                        key, data: toIndexedList(res, 'id'),
+                        key, data: toDictionary(res, 'id'),
                     };
                     return [
                         new SetItemsAction(response),

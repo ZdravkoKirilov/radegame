@@ -7,7 +7,7 @@ import { switchMap, catchError } from 'rxjs/operators';
 import * as actions from '../state/actions';
 
 import { AppState } from '../state';
-import { toIndexedList } from '@app/shared';
+import { toDictionary } from '@app/shared';
 import { GameEditService, GameFetchService } from '../services';
 
 @Injectable()
@@ -18,7 +18,7 @@ export class GameListGuard implements CanActivate {
     canActivate(): Observable<any> {
         return this.api.getGames().pipe(
             switchMap(data => {
-                const games = toIndexedList(data);
+                const games = toDictionary(data);
                 this.store.dispatch(new actions.SetGamesAction(games));
                 return of(true);
             }),

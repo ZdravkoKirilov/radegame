@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 
 import { RootComponent, Props as BoardData } from '../components/board/graphics';
 import { Slot, PathEntity, ImageAsset, GameEntity } from '@app/game-mechanics';
-import { toIndexedList } from '@app/shared';
+import { toDictionary } from '@app/shared';
 
 @Injectable({
 	providedIn: 'root'
@@ -29,7 +29,7 @@ export class BoardEditService {
 	}
 
 	extractAssets(slots: GameEntity[], images: ImageAsset[]): Set<string> {
-		const imageList = toIndexedList<ImageAsset>(images);
+		const imageList = toDictionary<ImageAsset>(images);
 		return new Set(slots.map(elem => {
 			const img = imageList[elem.image];
 			if (img) {

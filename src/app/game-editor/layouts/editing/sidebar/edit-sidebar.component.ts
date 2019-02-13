@@ -4,7 +4,6 @@ import { AppState } from '@app/core';
 import { Observable } from 'rxjs';
 import { Game } from '@app/game-mechanics';
 import { selectGame } from '../../../state';
-import { map } from 'rxjs/operators';
 
 @Component({
 	selector: 'rg-edit-sidebar',

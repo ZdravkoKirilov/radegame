@@ -85,7 +85,10 @@ export function editorMetaReducer(anyReducer: ActionReducer<any>) {
 
                 return {
                     ...state,
-                    form: payload
+                    form: {
+                        ...state.form,
+                        ...payload
+                    }
                 };
             default:
                 return anyReducer(state, action) as GameEditorFeature;
