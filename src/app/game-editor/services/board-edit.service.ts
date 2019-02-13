@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 
 import { WindowRefService } from '@app/shared';
-import { Renderer, CanvasRenderer, Container } from 'pixi.js';
+import { WebGLRenderer, Container } from 'pixi.js';
 import { createRenderer, createPixiEngine, createElement, Component } from '@app/rendering';
 import { Subject } from 'rxjs';
 
@@ -14,7 +14,7 @@ import { toDictionary } from '@app/shared';
 })
 export class BoardEditService {
 
-	private renderer: Renderer | CanvasRenderer;
+	private renderer: WebGLRenderer;
 	private rootComponent: Component;
 
 	public pathSelected$ = new Subject<PathEntity>();
@@ -43,7 +43,7 @@ export class BoardEditService {
 		const height = this.windowRef.nativeWindow.innerHeight;
 		const stage = new Container();
 
-		this.renderer = new Renderer(width, height, { transparent: true, antialias: true, resolution: 1 });
+		this.renderer = new WebGLRenderer(width, height, { transparent: true, antialias: true, resolution: 1 });
 		this.renderer.autoResize = true;
 
 		DOMElem.appendChild(this.renderer.view);

@@ -6,49 +6,51 @@ import { Slot, PathEntity, Stage, ImageAsset } from '@app/game-mechanics';
 @Component({
 	selector: 'rg-board-editor',
 	template: `
-    <div>
+		<rg-editor-layout>
+		
+			<rg-edit-header title="Edit board" [showButtons]="false"></rg-edit-header>
 
-		<rg-board-toolbar
-			[class.hidden]="visibleEditor"
-			[selectedSlot]="!!selectedSlot"
-			[selectedPath]="!!selectedPath"
-			(showSlotEditor)="toggleSlotEditor(true)"
-			(showPathEditor)="togglePathEditor(true)"
-			(deletePath)="handleDeletePath()"
-			(deleteSlot)="handleDeleteSlot()"
-		></rg-board-toolbar>
+			<rg-board-toolbar
+				[class.hidden]="visibleEditor"
+				[selectedSlot]="!!selectedSlot"
+				[selectedPath]="!!selectedPath"
+				(showSlotEditor)="toggleSlotEditor(true)"
+				(showPathEditor)="togglePathEditor(true)"
+				(deletePath)="handleDeletePath()"
+				(deleteSlot)="handleDeleteSlot()"
+			></rg-board-toolbar>
 
-		<rg-entity-editor 
-			*ngIf="showSlotEditor" 
-			[formDefinition]="slotForm"
-			[selectedItem]="selectedSlot"
-			[connectedEntities]="entities"
-			(cancel)="toggleSlotEditor(false)"
-			(save)="handleSaveSlot($event)"
-		></rg-entity-editor>
+			<rg-entity-editor 
+				*ngIf="showSlotEditor" 
+				[formDefinition]="slotForm"
+				[selectedItem]="selectedSlot"
+				[connectedEntities]="entities"
+				(cancel)="toggleSlotEditor(false)"
+				(save)="handleSaveSlot($event)"
+			></rg-entity-editor>
 
-		<rg-entity-editor 
-			*ngIf="showPathEditor" 
-			[formDefinition]="pathForm"
-			[selectedItem]="selectedPath"
-			[connectedEntities]="entities"
-			(cancel)="togglePathEditor(false)"
-			(save)="handleSavePath($event)"
-		></rg-entity-editor>
+			<rg-entity-editor 
+				*ngIf="showPathEditor" 
+				[formDefinition]="pathForm"
+				[selectedItem]="selectedPath"
+				[connectedEntities]="entities"
+				(cancel)="togglePathEditor(false)"
+				(save)="handleSavePath($event)"
+			></rg-entity-editor>
 
-		<rg-board-main 
-			[stage]="stage"
-			[slots]="slots"
-			[selectedSlot]="selectedSlot"
-			[paths]="paths"
-			[selectedPath]="selectedPath"
-			[images]="images"
-			(selectSlot)="selectSlot($event)"
-			(dragEnd)="handleSaveSlot($event)"
-			(selectPath)="selectPath($event)"
-		></rg-board-main>
+			<rg-board-main 
+				[stage]="stage"
+				[slots]="slots"
+				[selectedSlot]="selectedSlot"
+				[paths]="paths"
+				[selectedPath]="selectedPath"
+				[images]="images"
+				(selectSlot)="selectSlot($event)"
+				(dragEnd)="handleSaveSlot($event)"
+				(selectPath)="selectPath($event)"
+			></rg-board-main>
 
-    </div>
+    </rg-editor-layout>
   `,
 	styles: []
 })

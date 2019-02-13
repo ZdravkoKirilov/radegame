@@ -2,6 +2,7 @@ import {
 	Component, Input, TemplateRef,
 	EventEmitter, Output,
 } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 
 import { GameEntity } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
@@ -26,14 +27,15 @@ export class EntityViewComponent {
 	@Output() removeItem: EventEmitter<GameEntity> = new EventEmitter();
 
 	draft: GameEntity;
+	form: FormGroup;
 
 	handleSave() {
-		debugger;
 		this.saveItem.emit(this.draft);
 	}
 
-	handleDraftUpdate(state: GameEntity) {
-		this.draft = state;
+	handleDraftUpdate(form: FormGroup) {
+		this.form = form;
+		this.draft = form.value;
 	}
 
 	showItemEditor() {

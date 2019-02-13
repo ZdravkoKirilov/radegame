@@ -16,6 +16,9 @@ import {
 } from '../actions';
 import { FormKey, formKeys } from '../form-keys';
 import { toDictionary } from '@app/shared';
+import { environment } from '../../../../environments/environment';
+
+const { BASE_URL } = environment;
 
 @Injectable()
 export class GenericEffectsService {
@@ -31,6 +34,13 @@ export class GenericEffectsService {
                     .pipe(
                         mergeMap(res => {
                             const payload = Object.keys(res).reduce((acc, key) => {
+                                if (key === 'images') {
+                                    const images = res[key];
+                                    images.forEach(img => {
+                                        img.thumbnail = BASE_URL + img.thumbnail
+                                        img.image = BASE_URL + img.image
+                                    });
+                                }
                                 acc[key] = toDictionary(res[key]);
                                 return acc;
                             }, {}) as GameTemplate;

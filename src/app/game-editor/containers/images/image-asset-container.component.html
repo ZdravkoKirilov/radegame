@@ -1,10 +1,13 @@
-<rg-entity-view 
-    [formDefinition]="formDefinition" 
-    [items]="items$ | async" 
-    [showEditor]="showEditor" 
-    [selectedItem]="selectedItem" 
+<rg-editor-layout>
+    <rg-entity-view
+    [formDefinition]="formDefinition"
+    [items]="items$ | async"
+    [showEditor]="showEditor$ | async"
+    [selectedItem]="selectedItem$ | async"
     [connectedEntities]="connectedEntities$ | async"
-    (toggleEditor)="toggleEditor($event)" 
+    (toggleEditor)="toggleEditor($event)"
     (saveItem)="saveItem($event)"
-    >
-</rg-entity-view>
+    (editItem)="editItem($event)"
+    (removeItem)="removeItem($event)">
+    </rg-entity-view>
+</rg-editor-layout>

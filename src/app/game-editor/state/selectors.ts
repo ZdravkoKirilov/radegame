@@ -65,7 +65,7 @@ export const getEntities = createSelector(
             result = result || {};
             result[key] = values(form[key].items);
         }
-        result.setups = game ? game.setups : [];
+        result.setups = game ? game.setups || [] : [];
         return result;
     }
 );

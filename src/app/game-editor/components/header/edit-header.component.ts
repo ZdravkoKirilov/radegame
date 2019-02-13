@@ -9,6 +9,9 @@ import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from 
 export class EditHeaderComponent {
 
 	@Input() showEditor: boolean;
+	@Input() title: string;
+	@Input() showButtons = true;
+	@Input() saveEnabled: boolean;
 
 	@Output() save = new EventEmitter();
 	@Output() cancel = new EventEmitter();

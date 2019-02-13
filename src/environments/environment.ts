@@ -4,5 +4,7 @@
 // The list of which env maps toLoc which file can be found in `.angular-cli.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  BASE_URL: 'http://localhost:8000',
+  API_BASE_URL: 'http://localhost:8000/api/v1',
 };

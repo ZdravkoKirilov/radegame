@@ -184,9 +184,9 @@ export class GameEditService {
         const options = { headers: new HttpHeaders({}) };
 
         if (data.id) {
-            return this.http.patch(API_URLS.IMAGES(data.game, data.id), data, options);
+            return this.http.patch(API_URLS.IMAGES(data.game, data.id), formData, options);
         } else {
-            return this.http.post(API_URLS.IMAGES(data.game), data, options);
+            return this.http.post(API_URLS.IMAGES(data.game), formData, options);
         }
     }
 

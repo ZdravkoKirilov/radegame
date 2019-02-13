@@ -9,7 +9,6 @@ import {
     TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent,
     BoardContainerComponent, SourcesContainerComponent, ImageAssetContainerComponent,
 } from './containers';
-import { IndexComponent } from './components';
 
 export const routes: Routes = [
     {
@@ -27,18 +26,16 @@ export const routes: Routes = [
         },
         children: [
             {
-                path: '',
-                pathMatch: 'full',
-                component: IndexComponent
-            },
-            {
                 path: `stages/:${ROUTER_PARAMS.STAGE_ID}/map`,
                 component: BoardContainerComponent,
                 pathMatch: 'full'
             },
             {
                 path: 'images',
-                component: ImageAssetContainerComponent
+                component: ImageAssetContainerComponent,
+                data: {
+                    title: 'Image entities'
+                }
             },
             {
                 path: 'stages',
@@ -83,6 +80,9 @@ export const routes: Routes = [
             {
                 path: 'sources',
                 component: SourcesContainerComponent
+            }, {
+                path: '**',
+                redirectTo: 'actions'
             }
         ]
     }

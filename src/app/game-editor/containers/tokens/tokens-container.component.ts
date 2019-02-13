@@ -8,17 +8,19 @@ import { formKeys } from '../../state';
 @Component({
   selector: 'rg-tokens-container',
   template: `
-  <rg-entity-view
-        [items]="items$ | async"
-        [showEditor]="showEditor"
-        [selectedItem]="selectedItem"
-        [connectedEntities]="connectedEntities$ | async"
-        [formDefinition]="formDefinition"
-        (toggleEditor)="toggleEditor($event)"
-        (editItem)="editItem($event)"
-        (saveItem)="saveItem($event)"
-        (removeItem)="removeItem($event)"
-  ></rg-entity-view>
+<rg-editor-layout>
+      <rg-entity-view
+          [formDefinition]="formDefinition"
+          [items]="items$ | async"
+          [showEditor]="showEditor$ | async"
+          [selectedItem]="selectedItem$ | async"
+          [connectedEntities]="connectedEntities$ | async"
+          (toggleEditor)="toggleEditor($event)"
+          (saveItem)="saveItem($event)"
+          (editItem)="editItem($event)"
+          (removeItem)="removeItem($event)">
+      </rg-entity-view>
+</rg-editor-layout>
   `,
   styles: []
 })

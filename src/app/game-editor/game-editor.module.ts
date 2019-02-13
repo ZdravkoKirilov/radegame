@@ -14,7 +14,7 @@ import { DynamicFormsModule } from '@app/dynamic-forms';
 import { SharedModule } from '@app/shared';
 
 import {
-    EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent, IndexComponent
+    EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent
 } from './components';
 
 import {
@@ -54,7 +54,6 @@ import { EditHeaderComponent } from './components/header/edit-header.component';
         EntityComponent,
         EntityEditorComponent,
         EntityViewComponent,
-        IndexComponent,
         ActionsContainerComponent,
         FactionsContainerComponent,
         EditorContainerComponent,

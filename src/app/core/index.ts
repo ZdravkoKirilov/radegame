@@ -5,3 +5,4 @@ export * from './services';
 export * from './guards';
 export * from './router-custom.serializer';
 export * from './http';
+export * from './config';

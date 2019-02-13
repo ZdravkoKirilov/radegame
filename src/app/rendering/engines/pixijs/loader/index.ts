@@ -1,10 +1,10 @@
-import * as PIXI from "pixi.js";
 import { AbstractLoader, LoaderResources, LoaderResource } from "@app/rendering";
+import { loaders } from "pixi.js";
 
 export class PixiLoader implements AbstractLoader {
-    loader: PIXI.Loader;
+    loader: loaders.Loader;
     constructor() {
-        this.loader = new PIXI.Loader();
+        this.loader = new loaders.Loader;
     }
     loadAll(assets: Set<string>): Promise<LoaderResources> {
         return new Promise((resolve, reject) => {

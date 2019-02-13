@@ -1,20 +1,23 @@
-<rg-entity-view 
-    [template]="template" 
-    [formDefinition]="formDefinition" 
-    [items]="items$ | async" 
-    [showEditor]="showEditor" 
-    [selectedItem]="selectedItem" 
+<rg-editor-layout>
+    <rg-entity-view
+    [formDefinition]="formDefinition"
+    [items]="items$ | async"
+    [showEditor]="showEditor$ | async"
+    [selectedItem]="selectedItem$ | async"
     [connectedEntities]="connectedEntities$ | async"
-    (toggleEditor)="toggleEditor($event)" 
+    [template]="template"
+    (toggleEditor)="toggleEditor($event)"
     (saveItem)="saveItem($event)"
-    >
-</rg-entity-view>
+    (editItem)="editItem($event)"
+    (removeItem)="removeItem($event)">
+    </rg-entity-view>
+</rg-editor-layout>
 
 <ng-template #template let-item>
     <mat-card>
         <mat-card-header>
             <mat-card-title>{{item.name}}</mat-card-title>
-            <img mat-card-avatar [src]="item.image" />
+            <img *ngIf="item.image" mat-card-avatar [src]="item.image" />
         </mat-card-header>
         <mat-card-content>
 

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
+import { Component, OnInit, HostBinding } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -6,58 +6,39 @@ import { tap } from 'rxjs/operators';
 import { AppState } from '@app/core';
 import { formKeys, FetchItemsAction, selectGameId, FetchGameDataAction } from '../../state';
 import { selectUser } from '@app/profile';
+import { AutoUnsubscribe } from '@app/shared';
 
 @Component({
-  selector: 'rg-editor-container',
-  templateUrl: './editor.container.html',
-  styleUrls: ['./editor.container.scss']
+	selector: 'rg-editor-container',
+	templateUrl: './editor.container.html',
+	styleUrls: ['./editor.container.scss']
 })
-export class EditorContainerComponent implements OnInit, OnDestroy {
+@AutoUnsubscribe()
+export class EditorContainerComponent implements OnInit {
 
-  @HostBinding('class.block') hostClass = true;
-  
-  private sub: Subscription;
-  private hasLoaded = false;
+	@HostBinding('class.block') hostClass = true;
 
-  gameId: number;
+	private data$: Subscription;
 
-  constructor(private store: Store<AppState>) { }
+	gameId: number;
 
-  ngOnInit() {
+	constructor(private store: Store<AppState>) { }
 
-    this.sub = combineLatest(
-      this.store.pipe(select(selectUser)),
-      this.store.pipe(select(selectGameId))
-    ).pipe(
-      tap(([user, gameId]) => {
-        this.gameId = gameId;
+	ngOnInit() {
 
-        this.store.dispatch(new FetchItemsAction({ key: formKeys.GAMES, data: user ? user.id : null }));
-        this.store.dispatch(new FetchGameDataAction(gameId));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.ACTIONS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.CHOICES, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.CONDITIONS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.FACTIONS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.FIELDS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.ROUNDS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.STAGES, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.PATHS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.SLOTS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.TOKENS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.PHASES, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.TEAMS, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.SOURCES, data: gameId }));
-        // this.store.dispatch(new FetchItemsAction({ key: formKeys.IMAGES, data: gameId }));
-      })
-    ).subscribe();
-  }
+		this.data$ = combineLatest(
+			this.store.pipe(select(selectUser)),
+			this.store.pipe(select(selectGameId))
+		).pipe(
+			tap(([user, gameId]) => {
+				this.gameId = gameId;
 
-  ngOnDestroy() {
-    this.sub.unsubscribe();
-  }
+				this.store.dispatch(
+					new FetchItemsAction({ key: formKeys.GAMES, data: user ? user.id : null })
+				);
+				this.store.dispatch(new FetchGameDataAction(gameId));
 
-  get backURL() {
-    return `/games/${this.gameId}/editor`;
-  }
-
+			})
+		).subscribe();
+	}
 }

@@ -1,5 +1,6 @@
-const BASE_URL = 'http://localhost:8000';  // Django REST
-const API_BASE_URL = 'http://localhost:8000/api/v1';
+import { environment } from '../../../environments/environment';
+
+const { API_BASE_URL, BASE_URL } = environment;
 
 export const API_URLS = {
     GAMES: (gameId?: number) => {

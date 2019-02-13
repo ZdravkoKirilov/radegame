@@ -1,5 +1,14 @@
 <ng-container *ngIf="game">
-  <h1 class="title">{{game.title}}</h1>
 
-  <img class="img" alt="Game image" [src]="game.image" />
+	<a class="back-btn" routerLink="/games/list">
+		<button mat-button>
+			<mat-icon class="icon">arrow_back</mat-icon>
+			<span>Back to games</span>
+		</button>
+	</a>
+
+
+	<h1 class="title mat-headline">{{game.title}}</h1>
+
+	<img class="img" alt="Game image" [src]="game.image" />
 </ng-container>

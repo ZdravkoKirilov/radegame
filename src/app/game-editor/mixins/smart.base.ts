@@ -19,7 +19,6 @@ export abstract class SmartBase implements OnInit {
 
     gameId$: Subscription;
     formDefinition: FormDefinition;
-    showEditor: boolean;
     selectedItem: GameEntity;
 
     gameId: number;
@@ -81,6 +80,12 @@ export abstract class SmartBase implements OnInit {
         this.items$ = this.store.pipe(select(getItems(this.key)));
         this.connectedEntities$ = this.store.pipe(select(getEntities));
         this.showEditor$ = this.store.pipe(select(getEditorState(this.key)));
-        this.selectedItem$ = this.store.pipe(select(getSelectedEntity(this.key)));
+        this.selectedItem$ = this.store.pipe(
+            select(getSelectedEntity(this.key)),
+            map(item => {
+                this.selectedItem = item;
+                return item;
+            }),
+        );
     }
 }

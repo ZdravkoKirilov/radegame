@@ -1,15 +1,17 @@
 <mat-toolbar>
 
+	<h1 *ngIf="title" class="title">{{title}}</h1>
+
 	<span class="spacer"></span>
 
-	<section class="buttons">
+	<section *ngIf="showButtons" class="buttons">
 		<button *ngIf="!showEditor" mat-mini-fab color="accent" class="create-btn" (click)="add.emit()">
 			<mat-icon>add</mat-icon>
 		</button>
 
 		<ng-container *ngIf="showEditor">
 
-			<button mat-mini-fab color="primary" class="save-btn" (click)="save.emit()">
+			<button [disabled]="!saveEnabled" mat-mini-fab color="primary" class="save-btn" (click)="save.emit()">
 				<mat-icon>check</mat-icon>
 			</button>
 

@@ -20,7 +20,7 @@ export class EntityEditorComponent implements OnInit {
 	@Input() selectedItem: GameEntity;
 	@Input() connectedEntities: ConnectedEntities;
 
-	@Output() update = new EventEmitter<GameEntity>();
+	@Output() update = new EventEmitter<FormGroup>();
 
 	public form: FormGroup;
 	public controls: BaseControl[];
@@ -32,7 +32,7 @@ export class EntityEditorComponent implements OnInit {
 			this.controls = this.formDefinition(this.selectedItem, this.connectedEntities);
 			this.form = this.cs.toFormGroup(this.controls);
 			this.form.valueChanges.pipe(
-				map(data => this.update.emit(data)),
+				map(() => this.update.emit(this.form)),
 			).subscribe();
 		}
 	}
