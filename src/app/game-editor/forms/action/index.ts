@@ -26,6 +26,8 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
         <Form>
             ${baseTemplate}
 
+            <Dropdown name="mode" label="Mode" options='{modes}'>{data.mode}</Dropdown>
+
             ${revealTemplate}
 
             ${costTemplate}
