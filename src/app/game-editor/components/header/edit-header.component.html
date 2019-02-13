@@ -1,0 +1,22 @@
+<mat-toolbar>
+
+	<span class="spacer"></span>
+
+	<section class="buttons">
+		<button *ngIf="!showEditor" mat-mini-fab color="accent" class="create-btn" (click)="add.emit()">
+			<mat-icon>add</mat-icon>
+		</button>
+
+		<ng-container *ngIf="showEditor">
+
+			<button mat-mini-fab color="primary" class="save-btn" (click)="save.emit()">
+				<mat-icon>check</mat-icon>
+			</button>
+
+			<button mat-mini-fab color="primary" class="cancel-btn" (click)="cancel.emit()">
+				<mat-icon>close</mat-icon>
+			</button>
+
+		</ng-container>
+	</section>
+</mat-toolbar>

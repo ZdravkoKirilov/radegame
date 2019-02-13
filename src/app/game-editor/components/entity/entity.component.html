@@ -1,14 +1,20 @@
 <mat-card>
-  <mat-card-header>
-    <mat-card-title>{{data.name}}</mat-card-title>
-    <img *ngIf="image" mat-card-avatar [src]="image" />
-  </mat-card-header>
-  <mat-card-content>
-    <p>{{data.description}}</p>
-  </mat-card-content>
+	<mat-card-header>
+		<mat-card-title>{{data.name}}</mat-card-title>
+		<img *ngIf="image" mat-card-avatar [src]="image" />
+	</mat-card-header>
+	<mat-card-content>
+		<p>{{data.description}}</p>
+	</mat-card-content>
 
-  <mat-card-actions>
-    <button mat-button (click)="removeItem.emit(data)">Remove</button>
-    <button mat-button (click)="editItem.emit(data)">Edit</button>
-  </mat-card-actions>
+	<mat-card-actions>
+		<button mat-button (click)="editItem.emit(data)">
+			<mat-icon class="icon">edit</mat-icon>
+			<span>Edit</span>
+		</button>
+		<button mat-button (click)="removeItem.emit(data)">
+			<mat-icon class="icon">delete</mat-icon>
+			<span>Remove</span>
+		</button>
+	</mat-card-actions>
 </mat-card>

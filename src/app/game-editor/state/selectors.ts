@@ -69,3 +69,13 @@ export const getEntities = createSelector(
         return result;
     }
 );
+
+export const getEditorState = (key: FormKey) => createSelector(
+    selectFeature,
+    feature => feature.form[key].showEditor
+);
+
+export const getSelectedEntity = (key: FormKey) => createSelector(
+    selectFeature,
+    feature => feature.form[key].selectedEntity
+);

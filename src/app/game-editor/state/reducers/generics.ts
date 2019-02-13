@@ -6,13 +6,15 @@ import { actionTypes, FILL_FORM } from '../actions/actionTypes';
 
 import { GameEntity, GameEntityList } from '@app/game-mechanics';
 import { EditorGenericAction, EditorAction, FillFormAction } from '../actions';
-import { Dictionary } from '@app/shared';
+import { Dictionary, asArray } from '@app/shared';
 import { GameEditorFeature } from './main.reducer';
 
 export interface EntityFeature {
     items?: GameEntityList;
     lastChange?: GameEntity;
     lastDelete?: GameEntity;
+    showEditor: boolean;
+    selectedEntity: GameEntity;
 }
 
 export type EntityForm = Dictionary<EntityFeature>;
@@ -21,6 +23,8 @@ const entityFeatureState: EntityFeature = {
     items: null,
     lastChange: null,
     lastDelete: null,
+    showEditor: false,
+    selectedEntity: null,
 }
 
 export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFeature> => {
@@ -47,6 +51,16 @@ export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFe
                     data = action.payload.data as GameEntityList;
                     return produce(state, draft => {
                         draft.items = data;
+                    });
+                case actionTypes.CHANGE_SELECTED_ITEM:
+                    data = action.payload.data as GameEntity;
+                    return produce(state, draft => {
+                        draft.selectedEntity = data;
+                    });
+                case actionTypes.TOGGLE_EDITOR:
+                    data = action.payload.data as boolean;
+                    return produce(state, draft => {
+                        draft.showEditor = data;
                     });
                 default:
                     return state;
@@ -82,12 +96,17 @@ export function editorMetaReducer(anyReducer: ActionReducer<any>) {
         switch (action.type) {
             case FILL_FORM:
                 const { payload } = action as FillFormAction;
+                const updatedForm = Object.keys(state.form).reduce((acc, key) => {
+                    const currentItems = state.form[key] ? state.form[key].items : {};
+                    acc[key] = { ...state.form[key], items: { ...currentItems, ...payload[key] } };
+                    return acc;
+                }, {} as EntityFeature);
 
                 return {
                     ...state,
                     form: {
                         ...state.form,
-                        ...payload
+                        ...updatedForm
                     }
                 };
             default:

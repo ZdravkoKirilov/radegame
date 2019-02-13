@@ -1,0 +1,19 @@
+@import '../../../styles/colors';
+:host {
+    mat-toolbar {
+        display: flex;
+        background: $background-hover;
+
+        .buttons {
+            display: flex;
+
+            .save-btn, .cancel-btn {
+                color: $text-alternate;
+            }
+
+            .save-btn {
+                margin-right: 10px;
+            }
+        }
+    }
+}

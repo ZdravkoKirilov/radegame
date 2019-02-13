@@ -9,15 +9,19 @@ import { composeGameForm } from '../../forms';
 import { formKeys, FetchItemsAction, getItems } from '../../state';
 import { SmartBase } from '../../mixins';
 import { map } from 'rxjs/operators';
+import { AutoUnsubscribe } from '@app/shared';
+import { Subscription } from 'rxjs';
 
 @Component({
     selector: 'rg-games-container',
     templateUrl: './games.container.html',
     styleUrls: ['./games.container.scss']
 })
+@AutoUnsubscribe()
 export class GamesContainerComponent extends SmartBase implements OnInit {
 
     readonly key = formKeys.GAMES;
+    private user$: Subscription;
 
     formDefinition: FormDefinition = composeGameForm;
 
@@ -26,7 +30,7 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
     }
 
     ngOnInit() {
-        this.sub = this.store
+        this.user$ = this.store
             .pipe(
                 select(selectUser),
                 map(user => {

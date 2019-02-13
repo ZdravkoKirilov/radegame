@@ -1,3 +1,4 @@
+@import '../../../../../styles/colors';
 :host {
     display: block;
 
@@ -6,5 +7,6 @@
     }
     .title {
         margin: 0 0 15px 0;
+        color: $text-alternate;
     }
 }

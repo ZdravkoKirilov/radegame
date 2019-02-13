@@ -29,7 +29,8 @@ import { BoardToolbarComponent } from './components/board/toolbar/board-toolbar.
 import { BoardMainComponent } from './components/board/main/board-main.component';
 import { SourcesContainerComponent } from './containers/sources/sources-container.component';
 import { ImageAssetContainerComponent } from './containers/images/image-asset-container.component';
-import { EditorLayoutComponent, EditHeaderComponent, EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent, EditSidebarLinkComponent } from './layouts';
+import { EditorLayoutComponent, EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent, EditSidebarLinkComponent } from './layouts';
+import { EditHeaderComponent } from './components/header/edit-header.component';
 
 @NgModule({
     imports: [

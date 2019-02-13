@@ -1,8 +1,7 @@
-<div class="dynamic-form">
-    <form [formGroup]="form" novalidate>
-        <div *ngFor="let control of controls">
-            <rg-abstract-control *ngIf="showControl(control)" [form]="form" [data]="control" (fieldChange)="handleFieldChange($event)"></rg-abstract-control>
-        </div>
-    </form>
-    <ng-content></ng-content>
-</div>
+<form [formGroup]="form" novalidate>
+    <div *ngFor="let control of controls">
+        <rg-abstract-control *ngIf="showControl(control)" [form]="form" [data]="control"
+            (fieldChange)="handleFieldChange($event)"></rg-abstract-control>
+    </div>
+</form>
+<ng-content></ng-content>

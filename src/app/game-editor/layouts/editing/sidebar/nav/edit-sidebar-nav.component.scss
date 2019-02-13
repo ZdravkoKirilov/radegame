@@ -1,7 +1,10 @@
 :host {
+    display: block;
+    height: 100%;
     nav {
         display: grid;
         grid-gap: 10px;
         text-align: center;
+        height: 100%;
     }
 }

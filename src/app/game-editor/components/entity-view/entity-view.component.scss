@@ -1,10 +1,5 @@
 :host {
-    position: relative;
-    .create-btn {
-        position: absolute;
-        top: 0;
-        // left: calc(50% - 56px);
-        right: 10px;
-        z-index: 2;
+    rg-entity-editor {
+        margin: 30px auto;
     }
 }

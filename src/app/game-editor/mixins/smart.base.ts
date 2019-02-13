@@ -1,4 +1,4 @@
-import { OnInit, OnDestroy, ViewChild, TemplateRef } from '@angular/core';
+import { OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -7,25 +7,27 @@ import { AppState } from '@app/core';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { GameEntity } from '@app/game-mechanics';
 import {
-    SaveItemAction, DeleteItemAction, FormKey, getItems, getEntities, selectGameId
+    SaveItemAction, DeleteItemAction, FormKey, getItems, getEntities, selectGameId, getEditorState, getSelectedEntity, ChangeSelectedItemAction, ToggleEditorAction
 } from '../state';
-
-export abstract class SmartBase implements OnInit, OnDestroy {
+import { AutoUnsubscribe } from '@app/shared';
+@AutoUnsubscribe()
+export abstract class SmartBase implements OnInit {
 
     @ViewChild('template') template: TemplateRef<any>;
 
     abstract key: FormKey;
 
-    public sub: Subscription;
-    public formDefinition: FormDefinition;
-    public showEditor: boolean;
-    public selectedItem: GameEntity;
+    gameId$: Subscription;
+    formDefinition: FormDefinition;
+    showEditor: boolean;
+    selectedItem: GameEntity;
 
-    public gameId: number;
+    gameId: number;
 
-    public connectedEntities$: Observable<ConnectedEntities>;
-    public items$: Observable<GameEntity[]>;
-
+    connectedEntities$: Observable<ConnectedEntities>;
+    items$: Observable<GameEntity[]>;
+    showEditor$: Observable<boolean>;
+    selectedItem$: Observable<GameEntity>;
 
     constructor(public store: Store<AppState>) { }
 
@@ -54,27 +56,31 @@ export abstract class SmartBase implements OnInit, OnDestroy {
     }
 
     changeSelectedItem(payload: GameEntity) {
-        this.selectedItem = payload;
+        this.store.dispatch(new ChangeSelectedItemAction({
+            key: this.key,
+            data: payload
+        }));
     }
 
     toggleEditor(isVisible: boolean) {
         if (!isVisible) {
             this.changeSelectedItem(null);
         }
-        this.showEditor = isVisible;
+        this.store.dispatch(new ToggleEditorAction({
+            key: this.key,
+            data: isVisible
+        }));
     }
 
     ngOnInit() {
-        this.sub = this.store.pipe(
+        this.gameId$ = this.store.pipe(
             select(selectGameId),
             map(gameId => { this.gameId = gameId; }),
         ).subscribe();
 
         this.items$ = this.store.pipe(select(getItems(this.key)));
         this.connectedEntities$ = this.store.pipe(select(getEntities));
-    }
-
-    ngOnDestroy() {
-        this.sub.unsubscribe();
+        this.showEditor$ = this.store.pipe(select(getEditorState(this.key)));
+        this.selectedItem$ = this.store.pipe(select(getSelectedEntity(this.key)));
     }
 }
