@@ -8,7 +8,7 @@ import { MatSnackBar } from '@angular/material';
 import { GameEditService, GameFetchService } from '../../services';
 import { AppState } from '../reducers';
 import { Game } from '@app/game-mechanics';
-import { toIndexedList } from '@app/shared';
+import { toDictionary } from '@app/shared';
 import {
     actionTypes, CoreAction, SetGamesAction,
     GetGamesSuccessAction, GetGamesFailAction
@@ -36,7 +36,7 @@ export class CoreEffectsService {
         mergeMap(() => {
             return this.api.getGames().pipe(
                 mergeMap((res: Game[]) => {
-                    const items = toIndexedList(res);
+                    const items = toDictionary(res);
                     return [new SetGamesAction(items), new GetGamesSuccessAction()];
                 }),
                 catchError(() => {

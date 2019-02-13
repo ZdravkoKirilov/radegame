@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostBinding } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
@@ -14,6 +14,8 @@ import { selectUser } from '@app/profile';
 })
 export class EditorContainerComponent implements OnInit, OnDestroy {
 
+  @HostBinding('class.block') hostClass = true;
+  
   private sub: Subscription;
   private hasLoaded = false;
 

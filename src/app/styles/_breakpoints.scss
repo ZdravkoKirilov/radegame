@@ -1,0 +1,25 @@
+$small-phone: 359px; // max-width start
+$medium-phone: 399px;
+$large-phone: 599px;
+$small-tablet: 719px;
+$large-tablet: 959px;
+$desktop: 1439px;
+$medium-desktop: 1919px; // max-width end
+$large-desktop: 1920px; // min-width, no max-width restriction
+@mixin phone {
+    @media (max-width: #{$large-phone}) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (min-width: #{$large-phone} and (max-width: #{$large-tablet})) {
+        @content;
+    }
+}
+
+@mixin mobile {
+    @media (max-width: #{$large-tablet}) {
+        @content;
+    }
+}

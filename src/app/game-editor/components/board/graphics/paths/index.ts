@@ -1,6 +1,6 @@
 import { RenderFunction, createElement, Points } from "@app/rendering";
 import { PathEntity, Slot } from "@app/game-mechanics";
-import { toIndexedList } from "@app/shared";
+import { toDictionary } from "@app/shared";
 
 import Path, { Props as PathProps } from './node';
 
@@ -12,7 +12,7 @@ export type Props = {
 }
 
 export const PathsList: RenderFunction<Props> = (props) => {
-    const nodesList = toIndexedList(props.slots);
+    const nodesList = toDictionary(props.slots);
 
     const lines = props.slots.length ? props.paths.map(elem => {
 

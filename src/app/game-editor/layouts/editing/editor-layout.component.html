@@ -1,4 +1,4 @@
-<mat-sidenav-container class="stretched">
+<mat-sidenav-container class="block">
 	<mat-sidenav opened="true" mode="side">
 		<rg-edit-sidebar></rg-edit-sidebar>
 	</mat-sidenav>
@@ -6,11 +6,12 @@
 	<mat-sidenav-content>
 		<rg-edit-header></rg-edit-header>
 
-		<main class="main">
-			<ng-scrollbar>
+		<ng-scrollbar>
+			<main class="main">
 				<ng-content></ng-content>
-			</ng-scrollbar>
-		</main>
+			</main>
+		</ng-scrollbar>
+
 
 	</mat-sidenav-content>
 </mat-sidenav-container>

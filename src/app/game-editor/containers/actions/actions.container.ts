@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { AppState } from '@app/core';
@@ -14,6 +14,7 @@ import { formKeys, FormKey } from '../../state';
 })
 export class ActionsContainerComponent extends SmartBase {
 
+    @HostBinding('class.block') hostClass = true;
 
     formDefinition: FormDefinition = composeActivityForm;
     key: FormKey = formKeys.ACTIONS;

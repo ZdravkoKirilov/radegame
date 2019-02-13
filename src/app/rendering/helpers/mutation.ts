@@ -1,7 +1,7 @@
 import { RzElement, RzElementKey, RzElementProps } from "../models";
 import { CompositeComponent, ComponentList, Component, Styles } from "../models";
 import { createComponent } from "./creation";
-import { toIndexedList } from "@app/shared";
+import { toDictionary } from "@app/shared";
 import { FunctionalComponent, StatefulComponent } from "../mixins";
 import {
     PrimitiveContainer, PrimitiveCollection, PrimitiveRectangle,
@@ -68,7 +68,7 @@ export const updateContainer = (newProps: RzElementProps, component: PrimitiveCo
 
 export const updateCollection = (newProps: RzElementProps, component: PrimitiveCollection) => {
 
-    const current = toIndexedList(component.children, 'props.key') as ComponentList;
+    const current = toDictionary(component.children, 'props.key') as ComponentList;
     const currentKeys: Set<RzElementKey> = new Set(component.children.map(elem => elem.props.key));
     const newPropsChildren = newProps.children as RzElement[];
 

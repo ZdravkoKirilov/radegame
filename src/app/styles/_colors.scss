@@ -1,2 +1,21 @@
+@import './theme.scss';
+
 $facebook: #3B5998;
 $google: #db3236;
+
+$background-base: map-get($default-theme, background);
+$primary-base: map-get($default-theme, primary);
+$foreground-base: map-get($default-theme, foreground);
+$warn-base: map-get($default-theme, warn);
+$accent-base: map-get($default-theme, accent);
+
+$background: mat-color($background-base, background);
+$background-hover: mat-color($background-base, hover);
+$focused-button: mat-color($background-base, focused-button);
+$app-bar-bg: mat-color($background-base, app-bar);
+$primary: mat-color($primary-base);
+$accent: mat-color($accent-base);
+$warn: mat-color($warn-base);
+$text: mat-color($foreground-base, text);
+$text-secondary: mat-color($foreground-base, secondary-text);
+$text-alternate: white;

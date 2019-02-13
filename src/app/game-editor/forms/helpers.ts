@@ -1,5 +1,5 @@
 import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
-import { toIndexedList } from '@app/shared';
+import { toDictionary } from '@app/shared';
 import { ImageAsset } from '@app/game-mechanics';
 
 
@@ -8,7 +8,7 @@ export function composeEntityOptions(
     key: keyof ConnectedEntities,
     imageProp = ['image'],
     exclude = []): Option[] {
-    const images = toIndexedList<ImageAsset>(ent.images);
+    const images = toDictionary<ImageAsset>(ent.images);
 
     const result: Option[] = ent[key as string].map(elem => {
         let image;
