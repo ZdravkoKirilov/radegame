@@ -6,7 +6,7 @@ import { actionTypes, FILL_FORM } from '../actions/actionTypes';
 
 import { GameEntity, GameEntityList } from '@app/game-mechanics';
 import { EditorGenericAction, EditorAction, FillFormAction } from '../actions';
-import { Dictionary, asArray } from '@app/shared';
+import { Dictionary } from '@app/shared';
 import { GameEditorFeature } from './main.reducer';
 
 export interface EntityFeature {

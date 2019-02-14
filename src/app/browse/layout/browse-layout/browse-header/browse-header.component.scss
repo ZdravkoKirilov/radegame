@@ -1,0 +1,6 @@
+@import '../../../../styles/colors';
+:host {
+    .heading {
+        color: $text-alternate;
+    }
+}
