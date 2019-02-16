@@ -1,14 +1,16 @@
 import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '@app/core';
+import { map, filter } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
+
+import { AppState } from '@app/core';
 import {
 	getActiveStage, getItems, formKeys, getEntities, SaveItemAction,
-	DeleteItemAction, selectGameId
+	DeleteItemAction
 } from '../../state';
-import { map, filter } from 'rxjs/operators';
 import { Stage, Slot, PathEntity, ImageAsset } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
+import { selectGameId } from '@app/shared';
 
 @Component({
 	selector: 'rg-board-container',

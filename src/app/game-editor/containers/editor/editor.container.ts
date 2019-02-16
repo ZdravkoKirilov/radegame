@@ -4,9 +4,9 @@ import { Subscription, combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
-import { formKeys, FetchItemsAction, selectGameId, FetchGameDataAction } from '../../state';
+import { formKeys, FetchItemsAction, FetchGameDataAction } from '../../state';
 import { selectUser } from '@app/profile';
-import { AutoUnsubscribe } from '@app/shared';
+import { AutoUnsubscribe, selectGameId } from '@app/shared';
 
 @Component({
 	selector: 'rg-editor-container',

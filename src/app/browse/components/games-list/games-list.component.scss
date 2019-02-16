@@ -1,0 +1,13 @@
+@import '../../../styles/_colors';
+:host {
+    display: grid;
+    height: 100%;
+    grid-template-columns: repeat(5, 1fr);
+    grid-template-rows: minmax(200px, 300px);
+    grid-gap: 30px;
+    padding: 30px;
+
+    .details-link {
+        color: $text-secondary;
+    }
+}

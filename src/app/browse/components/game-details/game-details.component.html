@@ -1,0 +1,15 @@
+<article *ngIf="game" class="rg-container">
+	<mat-card>
+		<header>
+			<h1>{{game.title}}</h1>
+		</header>
+	</mat-card>
+
+	<mat-card-content>
+		<img [src]="game.image" />
+
+		<section class="description">
+			{{game.description}}
+		</section>
+	</mat-card-content>
+</article>

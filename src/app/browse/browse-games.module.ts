@@ -13,10 +13,11 @@ import { BrowseHeaderComponent } from './layout/browse-layout/browse-header/brow
 import { GamesListComponent } from './components/games-list/games-list.component';
 import { FEATURE_NAME } from './config';
 import { mainReducer, BrowseEffects } from './state';
+import { GameDetailsComponent } from './components/game-details/game-details.component';
 
 
 @NgModule({
-	declarations: [GamesListPage, GameDetailsPage, BrowseLayoutComponent, BrowseHeaderComponent, GamesListComponent],
+	declarations: [GamesListPage, GameDetailsPage, BrowseLayoutComponent, BrowseHeaderComponent, GamesListComponent, GameDetailsComponent],
 	imports: [
 		CommonModule,
 		SharedModule,

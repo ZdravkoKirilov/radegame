@@ -8,6 +8,7 @@ import { GameEditorFeature } from '@app/game-editor';
 import { RouterStateUrl } from '../../router-custom.serializer';
 import { SocialAuthState } from '../../../social-auth';
 import { ProfileFeature } from '@app/profile';
+import { BrowseFeatureState } from '@app/browse';
 
 export const reducers: ActionReducerMap<AppState> = {
     router: routerReducer,
@@ -20,4 +21,5 @@ export interface AppState {
     editor?: GameEditorFeature;
     profile?: ProfileFeature;
     social_auth?: SocialAuthState;
+    browse?: BrowseFeatureState
 }

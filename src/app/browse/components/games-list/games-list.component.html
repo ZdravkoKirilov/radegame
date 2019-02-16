@@ -1,3 +1,19 @@
-<p>
-  games-list works!
-</p>
+<mat-card *ngFor="let game of games">
+	<header>
+		<mat-card-title>{{game.title}}</mat-card-title>
+	</header>
+
+	<mat-card-content>
+		<img [src]="game.image" />
+	</mat-card-content>
+
+
+	<mat-card-content>
+		<mat-card-actions>
+			<a class="details-link" [routerLink]="[game.id]">
+				<button mat-button>Details</button>
+			</a>
+		</mat-card-actions>
+	</mat-card-content>
+
+</mat-card>

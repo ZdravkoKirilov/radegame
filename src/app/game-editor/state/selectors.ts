@@ -4,17 +4,12 @@ import values from 'lodash/values';
 import { FEATURE_NAME } from '../utils/config';
 import { GameEditorFeature, EntityForm } from './reducers';
 import { FormKey, formKeys } from './form-keys';
-import { AppState, selectRouterFeature } from '@app/core';
+import { AppState } from '@app/core';
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Stage, Game } from '@app/game-mechanics';
-import { ROUTER_PARAMS } from '@app/shared';
+import { Stage, Game, GameEntity } from '@app/game-mechanics';
+import { ROUTER_PARAMS, selectRouterFeature, selectGameId } from '@app/shared';
 
 const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
-
-export const selectGameId = createSelector<AppState, any, number>(
-    selectRouterFeature,
-    feature => feature.state.params[ROUTER_PARAMS.GAME_ID],
-);
 
 export const selectForm = createSelector<AppState, GameEditorFeature, EntityForm>(
     selectFeature,
@@ -26,7 +21,7 @@ export const getItemById = (key: FormKey, id: number) => createSelector(
     form => form[key].items[id],
 );
 
-export const getItems = <T = any[]>(key: FormKey) => createSelector<AppState, GameEditorFeature, EntityForm, T>(
+export const getItems = <T = GameEntity[]>(key: FormKey) => createSelector<AppState, GameEditorFeature, EntityForm, T>(
     selectForm,
     form => form[key] && form[key].items ? values(form[key].items) : null,
 );

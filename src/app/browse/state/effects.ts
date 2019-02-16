@@ -1,23 +1,39 @@
 import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
+import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
-import { BrowseAction, FetchGamesSuccess, FetchGamesFail } from './actions';
+import { FetchGamesSuccess, FetchGamesFail, FetchGame, FetchGames } from './actions';
 import { GameFetchService } from '@app/core';
-import { FETCH_GAMES } from './actionTypes';
+import { FETCH_GAMES, FETCH_GAME } from './actionTypes';
 import { toDictionary } from '@app/shared';
 import { Game } from '@app/game-mechanics';
 
-
+@Injectable()
 export class BrowseEffects {
     constructor(private actions$: Actions, private fetcher: GameFetchService) { }
 
     @Effect()
-    fetchGames = this.actions$.ofType<BrowseAction>(FETCH_GAMES).pipe(
+    fetchGames = this.actions$.ofType<FetchGames>(FETCH_GAMES).pipe(
         mergeMap(action => {
             return this.fetcher.getGames().pipe(
                 map(response => {
                     const asDict = toDictionary<Game>(response);
+                    return new FetchGamesSuccess(asDict);
+                }),
+                catchError(() => {
+                    return of(new FetchGamesFail());
+                })
+            )
+        }),
+    )
+
+    @Effect()
+    fetchGame = this.actions$.ofType<FetchGame>(FETCH_GAME).pipe(
+        mergeMap(action => {
+            return this.fetcher.getGame(action.payload).pipe(
+                map(response => {
+                    const asDict = toDictionary<Game>([response]);
                     return new FetchGamesSuccess(asDict);
                 }),
                 catchError(() => {

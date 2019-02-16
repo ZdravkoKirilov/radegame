@@ -7,9 +7,9 @@ import { AppState } from '@app/core';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { GameEntity } from '@app/game-mechanics';
 import {
-    SaveItemAction, DeleteItemAction, FormKey, getItems, getEntities, selectGameId, getEditorState, getSelectedEntity, ChangeSelectedItemAction, ToggleEditorAction
+    SaveItemAction, DeleteItemAction, FormKey, getItems, getEntities, getEditorState, getSelectedEntity, ChangeSelectedItemAction, ToggleEditorAction
 } from '../state';
-import { AutoUnsubscribe } from '@app/shared';
+import { AutoUnsubscribe, selectGameId } from '@app/shared';
 @AutoUnsubscribe()
 export abstract class SmartBase implements OnInit {
 

@@ -1,7 +1,7 @@
-import { BaseControl, parse } from '@app/dynamic-forms';
+import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
 import { Game } from '@app/game-mechanics';
 
-export function composeGameForm(data: Game): BaseControl[] {
+export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl[] {
     data = data || {} as Game;
     const setups = data.setups || [];
 
@@ -20,7 +20,7 @@ export function composeGameForm(data: Game): BaseControl[] {
                 <Form>
                     <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
 
-                    <TextInput name='name' required='{true}' label='Action name'>{@item.name}</TextInput>
+                    <TextInput name='name' required='{true}' label='Name'>{@item.name}</TextInput>
 
                     <TextInput name='description' label='Description'>{@item.description}</TextInput>
         
@@ -42,8 +42,7 @@ export function composeGameForm(data: Game): BaseControl[] {
     const result = parse({
         source: template,
         context: {
-            data,
-
+            data, setups,
         },
     }, true);
 

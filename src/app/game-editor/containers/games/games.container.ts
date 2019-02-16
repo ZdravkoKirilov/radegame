@@ -1,16 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+import { Subscription, Observable } from 'rxjs';
+import { map, filter, take } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { selectUser } from '@app/profile';
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeGameForm } from '../../forms';
-
-import { formKeys, FetchItemsAction, getItems } from '../../state';
+import { formKeys, FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities } from '../../state';
 import { SmartBase } from '../../mixins';
-import { map } from 'rxjs/operators';
-import { AutoUnsubscribe } from '@app/shared';
-import { Subscription } from 'rxjs';
+import { AutoUnsubscribe, selectGameId } from '@app/shared';
 
 @Component({
     selector: 'rg-games-container',
@@ -22,6 +21,8 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
 
     readonly key = formKeys.GAMES;
     private user$: Subscription;
+
+    showEditor$: Observable<boolean>;
 
     formDefinition: FormDefinition = composeGameForm;
 
@@ -39,6 +40,29 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
             )
             .subscribe();
 
-        this.items$ = this.store.pipe(select(getItems(this.key)));
+        this.items$ = this.store.pipe(
+            select(getItems(this.key)),
+            filter(games => !!games),
+            take(1),
+            map(games => {
+                games.forEach(elem => {
+                    this.store.dispatch(new FetchItemsAction({
+                        key: formKeys.CONDITIONS,
+                        data: elem.id
+                    }));
+                });
+                return games;
+            }),
+        );
+
+        this.showEditor$ = this.store.pipe(select(getEditorState(this.key)));
+        this.selectedItem$ = this.store.pipe(
+            select(getSelectedEntity(this.key)),
+            map(item => {
+                this.selectedItem = item;
+                return item;
+            }),
+        );
+        this.connectedEntities$ = this.store.pipe(select(getEntities));
     }
 }
