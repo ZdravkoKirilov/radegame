@@ -3,13 +3,23 @@
 		<header>
 			<h1>{{game.title}}</h1>
 		</header>
+
+
+		<mat-card-content>
+			<div class="setups">
+				<img class="image" [src]="game.image" />
+				<div class="links">
+					<a *ngFor="let item of game.setups">
+						<img class="setup-image" [src]="item.image" />
+						<button mat-button>{{item.name}}</button>
+					</a>
+				</div>
+			</div>
+
+			<section class="description">
+				{{game.description}}
+			</section>
+		</mat-card-content>
+
 	</mat-card>
-
-	<mat-card-content>
-		<img [src]="game.image" />
-
-		<section class="description">
-			{{game.description}}
-		</section>
-	</mat-card-content>
 </article>

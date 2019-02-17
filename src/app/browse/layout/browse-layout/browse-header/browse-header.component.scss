@@ -3,4 +3,10 @@
     .heading {
         color: $text-alternate;
     }
+    .links {
+        margin-right: 30px;
+        a {
+            color: $text;
+        }
+    }
 }

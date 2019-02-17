@@ -11,10 +11,7 @@ import { AutoUnsubscribe, selectGameId } from '@app/shared';
 @Component({
 	selector: 'rg-game-details-page',
 	template: `
-	<rg-browse-layout>
-		<rg-game-details [game]="game$ | async">
-		</rg-game-details>
-	<rg-browse-layout>
+	<rg-browse-layout><rg-game-details [game]="game$ | async"></rg-game-details></rg-browse-layout>
 `,
 	styles: []
 })
