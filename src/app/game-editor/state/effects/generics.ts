@@ -196,6 +196,9 @@ export class GenericEffectsService {
             case formKeys.IMAGES:
                 return this.api.saveImage(<ImageAsset>entity);
             case formKeys.GAMES:
+                if (entity.image && (entity as Game).image.includes('http')) {
+                    delete entity.image
+                }
                 return this.api.saveGame(<Game>entity);
             default:
                 return of(null);

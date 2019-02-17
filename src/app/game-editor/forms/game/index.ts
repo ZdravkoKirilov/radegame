@@ -1,5 +1,6 @@
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
 import { Game } from '@app/game-mechanics';
+import { composeEntityOptions } from '../helpers';
 
 export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl[] {
     data = data || {} as Game;
@@ -24,13 +25,15 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
 
                     <TextInput name='description' label='Description'>{@item.description}</TextInput>
         
-                    <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{@item.image}</ImagePicker>
+                    <Dropdown name='image' label='Image' options='{images}' showImage='{true}'>{@item.image}</Dropdown>
 
                     <NumberInput name='min_players' label='Min players'>{@item.min_players}</NumberInput>
 
                     <NumberInput name='max_players' label='Max players'>{@item.max_players}</NumberInput>
 
                     <TextInput name='recommended_age' label='Recommended age'>{@item.recommended_age}</TextInput>
+
+                    <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>{@item.settings}</ButtonGroup>
                 
                 </Form>
 
@@ -43,6 +46,8 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
         source: template,
         context: {
             data, setups,
+            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            conditions: composeEntityOptions(ent, 'conditions'),
         },
     }, true);
 

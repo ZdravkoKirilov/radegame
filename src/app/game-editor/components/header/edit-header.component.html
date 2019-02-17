@@ -1,11 +1,17 @@
 <mat-toolbar>
 
+	<div *ngIf="!showEditor" class="links">
+		<a class="home-link" routerLink="/">
+			<button mat-button>Home</button>
+		</a>
+	</div>
+
 	<h1 *ngIf="title" class="title">{{title}}</h1>
 
 	<span class="spacer"></span>
 
 	<section *ngIf="showButtons" class="buttons">
-		<button *ngIf="!showEditor" mat-mini-fab color="accent" class="create-btn" (click)="add.emit()">
+		<button *ngIf="!showEditor" mat-mini-fab color="primary" class="create-btn" (click)="add.emit()">
 			<mat-icon>add</mat-icon>
 		</button>
 

@@ -9,7 +9,7 @@ import { FormDefinition } from '@app/dynamic-forms';
 import { composeGameForm } from '../../forms';
 import { formKeys, FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities } from '../../state';
 import { SmartBase } from '../../mixins';
-import { AutoUnsubscribe, selectGameId } from '@app/shared';
+import { AutoUnsubscribe } from '@app/shared';
 
 @Component({
     selector: 'rg-games-container',
@@ -25,6 +25,8 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
     showEditor$: Observable<boolean>;
 
     formDefinition: FormDefinition = composeGameForm;
+
+    private hasLoadedDependencies = false;
 
     constructor(public store: Store<AppState>) {
         super(store);
@@ -43,14 +45,21 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
         this.items$ = this.store.pipe(
             select(getItems(this.key)),
             filter(games => !!games),
-            take(1),
             map(games => {
-                games.forEach(elem => {
-                    this.store.dispatch(new FetchItemsAction({
-                        key: formKeys.CONDITIONS,
-                        data: elem.id
-                    }));
-                });
+
+                if (!this.hasLoadedDependencies) {
+                    games.forEach(elem => {
+                        this.store.dispatch(new FetchItemsAction({
+                            key: formKeys.CONDITIONS,
+                            data: elem.id
+                        }));
+                        this.store.dispatch(new FetchItemsAction({
+                            key: formKeys.IMAGES,
+                            data: elem.id
+                        }));
+                    });
+                    this.hasLoadedDependencies = true;
+                }
                 return games;
             }),
         );
