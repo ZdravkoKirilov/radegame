@@ -28,7 +28,7 @@ export class GameDetailsPage implements OnInit {
 
 	ngOnInit() {
 		this.game$ = this.store.pipe(select(getGame));
-		this.images$ = this.store.pipe(select(getImages);
+		this.images$ = this.store.pipe(select(getImages));
 
 		this.gameId$ = this.store.pipe(
 			select(selectGameId),
