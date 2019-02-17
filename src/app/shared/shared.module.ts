@@ -8,6 +8,7 @@ import { RouterModule } from '@angular/router';
 
 import { NgMaterialModule } from '../ng-material/ng-material.module';
 import { DividerComponent, MainMenuComponent, SocialButtonComponent } from './components';
+import { ServeImagePipe } from './pipes';
 
 
 @NgModule({
@@ -22,9 +23,10 @@ import { DividerComponent, MainMenuComponent, SocialButtonComponent } from './co
         ReactiveFormsModule,
         DividerComponent, MainMenuComponent, SocialButtonComponent,
         NgScrollbarModule,
+        ServeImagePipe
     ],
     declarations: [
-        DividerComponent, MainMenuComponent, SocialButtonComponent
+        DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe
     ],
     providers: []
 })

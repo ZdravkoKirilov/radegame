@@ -1,7 +1,7 @@
 import produce from 'immer';
 import { BrowseFeatureState, initialState } from './shape';
 import { BrowseAction } from './actions';
-import { FETCH_GAMES_SUCCESS, FETCH_GAMES_FAIL, FETCH_GAMES, FETCH_GAME } from './actionTypes';
+import { FETCH_GAMES_SUCCESS, FETCH_GAMES_FAIL, FETCH_GAMES, FETCH_GAME, FETCH_IMAGES_SUCCESS } from './actionTypes';
 
 export const mainReducer = (
     state: BrowseFeatureState = initialState,
@@ -26,6 +26,10 @@ export const mainReducer = (
         case FETCH_GAME:
             return produce(state, draft => {
                 draft.loading = true;
+            });
+        case FETCH_IMAGES_SUCCESS:
+            return produce(state, draft => {
+                draft.images = action.payload
             });
         default:
             return state;

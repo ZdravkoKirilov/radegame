@@ -18,3 +18,8 @@ export const getGame = createSelector(
         return feature.items[gameId];
     }
 );
+
+export const getImages = createSelector(
+    selectFeature,
+    feature => feature.images,
+);

@@ -4,13 +4,12 @@
 			<h1>{{game.title}}</h1>
 		</header>
 
-
 		<mat-card-content>
 			<div class="setups">
 				<img class="image" [src]="game.image" />
 				<div class="links">
 					<a *ngFor="let item of game.setups">
-						<img class="setup-image" [src]="item.image" />
+						<img class="setup-image" [src]="item.image | serveImage:images" />
 						<button mat-button>{{item.name}}</button>
 					</a>
 				</div>

@@ -1,5 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Game } from '@app/game-mechanics';
+import { Game, ImageAsset } from '@app/game-mechanics';
+import { Dictionary } from '@app/shared';
 
 @Component({
 	selector: 'rg-game-details',
@@ -9,6 +10,7 @@ import { Game } from '@app/game-mechanics';
 })
 export class GameDetailsComponent {
 
-	@Input() game: Game
+	@Input() game: Game;
+	@Input() images: Dictionary<ImageAsset>;
 
 }

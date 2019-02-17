@@ -3,11 +3,11 @@ import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
-import { FetchGamesSuccess, FetchGamesFail, FetchGame, FetchGames } from './actions';
+import { FetchGamesSuccess, FetchGamesFail, FetchGame, FetchGames, FetchImages, FetchImagesSuccess, FetchImagesFail } from './actions';
 import { GameFetchService } from '@app/core';
-import { FETCH_GAMES, FETCH_GAME } from './actionTypes';
+import { FETCH_GAMES, FETCH_GAME, FETCH_IMAGES } from './actionTypes';
 import { toDictionary } from '@app/shared';
-import { Game } from '@app/game-mechanics';
+import { Game, ImageAsset } from '@app/game-mechanics';
 
 @Injectable()
 export class BrowseEffects {
@@ -38,6 +38,21 @@ export class BrowseEffects {
                 }),
                 catchError(() => {
                     return of(new FetchGamesFail());
+                })
+            )
+        }),
+    )
+
+    @Effect()
+    fetchImages = this.actions$.ofType<FetchImages>(FETCH_IMAGES).pipe(
+        mergeMap(action => {
+            return this.fetcher.getImages(action.payload).pipe(
+                map(response => {
+                    const asDict = toDictionary<ImageAsset>(response);
+                    return new FetchImagesSuccess(asDict);
+                }),
+                catchError(() => {
+                    return of(new FetchImagesFail());
                 })
             )
         }),
