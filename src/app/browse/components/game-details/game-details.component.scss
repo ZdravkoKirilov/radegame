@@ -6,10 +6,22 @@
             max-width: 100%;
         }
 
+        .links {
+            display: grid;
+            grid-gap: 20px;
+        }
+
         .setups {
             display: grid;
             grid-template-columns: repeat(2, 1fr);
-            grid-column-gap: 20px;
+            grid-gap: 20px;
+        }
+
+        .setup {
+            .setup-image {
+                max-height: 25px;
+                margin-right: 20px;
+            }
         }
     }
 }

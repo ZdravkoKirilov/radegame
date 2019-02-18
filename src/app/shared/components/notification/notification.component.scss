@@ -1,0 +1,16 @@
+@import '../../../styles/_colors';
+
+:host {
+    display: none;
+}
+
+/deep/ {
+    .error-snackbar {
+        background: $warn;
+        color: $text-alternate;
+    }
+    .success-snackbar {
+        background: lighten($primary, 15%);
+        color: $text-alternate;
+    }
+}

@@ -8,10 +8,9 @@
 			<div class="setups">
 				<img class="image" [src]="game.image" />
 				<div class="links">
-					<a *ngFor="let item of game.setups">
-						<img class="setup-image" [src]="item.image | serveImage:images" />
-						<button mat-button>{{item.name}}</button>
-					</a>
+					<rg-setup-link *ngFor="let item of game.setups" [data]="item" [images]="images">
+
+					</rg-setup-link>
 				</div>
 			</div>
 

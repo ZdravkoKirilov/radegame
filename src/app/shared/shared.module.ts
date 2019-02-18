@@ -9,6 +9,8 @@ import { RouterModule } from '@angular/router';
 import { NgMaterialModule } from '../ng-material/ng-material.module';
 import { DividerComponent, MainMenuComponent, SocialButtonComponent } from './components';
 import { ServeImagePipe } from './pipes';
+import { OverlayComponent } from './components/overlay/overlay.component';
+import { NotificationComponent } from './components/notification/notification.component';
 
 
 @NgModule({
@@ -23,10 +25,12 @@ import { ServeImagePipe } from './pipes';
         ReactiveFormsModule,
         DividerComponent, MainMenuComponent, SocialButtonComponent,
         NgScrollbarModule,
-        ServeImagePipe
+        ServeImagePipe,
+        OverlayComponent,
+        NotificationComponent
     ],
     declarations: [
-        DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe
+        DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe, OverlayComponent, NotificationComponent
     ],
     providers: []
 })
