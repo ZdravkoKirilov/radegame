@@ -32,6 +32,9 @@ import { NotificationComponent } from './components/notification/notification.co
     declarations: [
         DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe, OverlayComponent, NotificationComponent
     ],
+    entryComponents: [
+        OverlayComponent
+    ],
     providers: []
 })
 export class SharedModule {

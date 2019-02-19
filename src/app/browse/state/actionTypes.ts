@@ -6,3 +6,5 @@ export const FETCH_GAME = '[Browse] FETCH_GAME';
 export const FETCH_IMAGES = '[Browse] FETCH_IMAGES';
 export const FETCH_IMAGES_SUCCESS = '[Browse] FETCH_IMAGES_SUCCESS';
 export const FETCH_IMAGES_FAIL = '[Browse] FETCH_IMAGES_FAIL';
+
+export const SELECT_SETUP = '[Browse] SELECT_SETUP';

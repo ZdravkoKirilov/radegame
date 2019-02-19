@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Game, ImageAsset } from '@app/game-mechanics';
+import { Component, ChangeDetectionStrategy, Input, EventEmitter, Output } from '@angular/core';
+import { Game, ImageAsset, Setup } from '@app/game-mechanics';
 import { Dictionary } from '@app/shared';
 
 @Component({
@@ -12,5 +12,12 @@ export class GameDetailsComponent {
 
 	@Input() game: Game;
 	@Input() images: Dictionary<ImageAsset>;
+	@Input() showForm: boolean;
+
+	@Output() createLobby = new EventEmitter<Setup>();
+
+	_createLobby(setup: Setup) {
+		this.createLobby.emit(setup);
+	}
 
 }

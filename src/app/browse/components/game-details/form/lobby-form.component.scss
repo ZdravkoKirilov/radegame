@@ -1,0 +1,6 @@
+@import '../../../../styles/colors';
+:host {
+    padding: 20px;
+    display: grid;
+    background: $background;
+}

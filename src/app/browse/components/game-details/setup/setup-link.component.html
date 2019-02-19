@@ -12,8 +12,12 @@
 				<button mat-stroked-button>Details</button>
 			</a>
 
-			<button mat-stroked-button>
-				Play
+			<button class="join" mat-stroked-button>
+				Join game
+			</button>
+
+			<button class="create" mat-stroked-button (click)="createGame.emit()">
+				Create game
 			</button>
 		</mat-card-actions>
 

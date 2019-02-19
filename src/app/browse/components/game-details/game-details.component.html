@@ -1,3 +1,7 @@
+<rg-overlay *ngIf="showForm">
+	<rg-lobby-form #content></rg-lobby-form>
+</rg-overlay>
+
 <article *ngIf="game" class="rg-container">
 	<mat-card>
 		<header>
@@ -8,9 +12,11 @@
 			<div class="setups">
 				<img class="image" [src]="game.image" />
 				<div class="links">
-					<rg-setup-link *ngFor="let item of game.setups" [data]="item" [images]="images">
+					<ng-container *ngFor="let item of game.setups">
+						<rg-setup-link (createGame)="_createLobby(item)" [data]="item" [images]="images">
+						</rg-setup-link>
+					</ng-container>
 
-					</rg-setup-link>
 				</div>
 			</div>
 

@@ -1,6 +1,6 @@
-import { Component, ChangeDetectionStrategy, Input, Output } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Setup, ImageAsset } from '@app/game-mechanics';
-import { EventEmitter, Dictionary } from '@app/shared';
+import { Dictionary } from '@app/shared';
 
 @Component({
 	selector: 'rg-setup-link',
@@ -10,9 +10,10 @@ import { EventEmitter, Dictionary } from '@app/shared';
 })
 export class SetupLinkComponent {
 
+	@Output() createGame = new EventEmitter();
+
 	@Input() data: Setup;
 	@Input() images: Dictionary<ImageAsset>;
 
-	@Output() hostGame = new EventEmitter<number>();
 
 }

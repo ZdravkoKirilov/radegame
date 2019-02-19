@@ -16,10 +16,11 @@ import { mainReducer, BrowseEffects } from './state';
 import { GameDetailsComponent } from './components/game-details/game-details.component';
 import { SetupLinkComponent } from './components/game-details/setup/setup-link.component';
 import { SetupDetailsPageComponent } from './pages/setup-details/setup-details-page.component';
+import { LobbyFormComponent } from './components/game-details/form/lobby-form.component';
 
 
 @NgModule({
-	declarations: [GamesListPage, GameDetailsPage, BrowseLayoutComponent, BrowseHeaderComponent, GamesListComponent, GameDetailsComponent, SetupLinkComponent, SetupDetailsPageComponent],
+	declarations: [GamesListPage, GameDetailsPage, BrowseLayoutComponent, BrowseHeaderComponent, GamesListComponent, GameDetailsComponent, SetupLinkComponent, SetupDetailsPageComponent, LobbyFormComponent],
 	imports: [
 		CommonModule,
 		SharedModule,
@@ -27,6 +28,7 @@ import { SetupDetailsPageComponent } from './pages/setup-details/setup-details-p
 		EffectsModule.forFeature([BrowseEffects]),
 		RouterModule.forChild(routes)
 	],
+	entryComponents: [LobbyFormComponent],
 	exports: [RouterModule]
 })
 export class BrowseGamesModule { }
