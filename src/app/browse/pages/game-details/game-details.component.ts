@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Observable, Subscription, combineLatest } from 'rxjs';
 import { select, Store } from '@ngrx/store';
 import { map, filter } from 'rxjs/operators';
 
@@ -11,8 +11,8 @@ import { AutoUnsubscribe, selectGameId, Dictionary } from '@app/shared';
 @Component({
 	selector: 'rg-game-details-page',
 	template: `
-	<rg-browse-layout>
-		<rg-game-details [game]="game$ | async" [images]="images$ | async" [showForm]="selectedSetup$ | async" (createLobby)="createLobby($event)"></rg-game-details>
+	<rg-browse-layout *ngIf="data$ | async as data">
+		<rg-game-details [game]="data.game" [images]="data.images" [showForm]="data.selectedSetup" (createLobby)="createLobby($event)"></rg-game-details>
 	</rg-browse-layout>
 `,
 	styles: []
@@ -24,13 +24,24 @@ export class GameDetailsPage implements OnInit {
 	game$: Observable<Game>;
 	images$: Observable<Dictionary<ImageAsset>>;
 	selectedSetup$: Observable<number>;
+	data$: Observable<{ game: Game, images: Dictionary<ImageAsset>, selectedSetup: number }>
 
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit() {
-		this.game$ = this.store.pipe(select(getGame));
-		this.images$ = this.store.pipe(select(getImages));
-		this.selectedSetup$ = this.store.pipe(select(getSelectedSetup));
+
+		this.data$ = combineLatest(
+			this.store.pipe(select(getGame)),
+			this.store.pipe(select(getImages)),
+			this.store.pipe(select(getSelectedSetup))
+		).pipe(
+			filter(([game, images]) => {
+				return !!game && !!images;
+			}),
+			map(([game, images, selectedSetup]) => {
+				return { game, images, selectedSetup };
+			}),
+		)
 
 		this.gameId$ = this.store.pipe(
 			select(selectGameId),

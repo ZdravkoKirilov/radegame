@@ -1,7 +1,32 @@
-<p>
-	lobby-form works!
+<header>
+	<h1 class="mat-title">New game</h1>
+</header>
 
+<form [formGroup]="form">
+
+	<mat-form-field appearance="outline">
+		<mat-label>Name:</mat-label>
+		<input formControlName="name" matInput required/>
+	</mat-form-field>
+
+	<mat-button-toggle-group formControlName="mode">
+		<mat-button-toggle value="public">Public</mat-button-toggle>
+		<mat-button-toggle value="private">Private</mat-button-toggle>
+	</mat-button-toggle-group>
+
+	<mat-form-field appearance="outline">
+		<mat-label>Password:</mat-label>
+		<input matInput formControlName="password" />
+	</mat-form-field>
+
+
+</form>
+
+<footer>
+	<button [disabled]="!form.valid" mat-stroked-button (click)="create()">
+		Create
+	</button>
 	<button mat-stroked-button (click)="cancel()">
 		Cancel
 	</button>
-</p>
+</footer>

@@ -1,6 +1,24 @@
 @import '../../../../styles/colors';
 :host {
-    padding: 20px;
+    padding: 20px 40px 40px 40px;
     display: grid;
     background: $background;
+    min-width: 400px;
+
+    mat-button-toggle-group, footer {
+        display: flex;
+        justify-content: center;
+        mat-button-toggle, button {
+            flex-grow: 1;
+        }
+    }
+    
+    form {
+        display: grid;
+        grid-gap: 20px;
+    }
+
+    footer {
+        padding-top: 30px;
+    }
 }
