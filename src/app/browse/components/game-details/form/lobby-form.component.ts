@@ -4,6 +4,8 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { SelectSetup } from '../../../state';
+import { BrowseService } from '../../../services/browse.service';
+import { createNameValidator } from './validators/lobby-name-available';
 
 
 @Component({
@@ -17,15 +19,15 @@ export class LobbyFormComponent implements OnInit {
 
 	form: FormGroup;
 
-	constructor(private store: Store<AppState>, private fb: FormBuilder) { 
+	constructor(private store: Store<AppState>, private fb: FormBuilder, private api: BrowseService) { 
 
 		this.form = fb.group({
-			name: ['', Validators.required],
+			name: ['', [Validators.required, Validators.min(3)], createNameValidator(api)],
 			mode: ['public', Validators.required],
 			password: ['']
 		});
 
-		this.form.valueChanges.subscribe(data => console.log(data));
+		this.form.valueChanges.subscribe(data => console.log(this.form));
 	}
 
 	ngOnInit() {
