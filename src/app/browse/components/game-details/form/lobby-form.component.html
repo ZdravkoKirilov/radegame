@@ -6,7 +6,9 @@
 
 	<mat-form-field appearance="outline">
 		<mat-label>Name:</mat-label>
-		<input formControlName="name" matInput required/>
+		<input formControlName="name" matInput required />
+		<mat-icon *ngIf="nameValid()" class="icon available" matSuffix>check</mat-icon>
+		<mat-icon *ngIf="nameInvalid()" class="icon taken" matSuffix>warning</mat-icon>
 	</mat-form-field>
 
 	<mat-button-toggle-group formControlName="mode">
@@ -18,7 +20,6 @@
 		<mat-label>Password:</mat-label>
 		<input matInput formControlName="password" />
 	</mat-form-field>
-
 
 </form>
 

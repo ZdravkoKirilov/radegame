@@ -16,6 +16,15 @@
     form {
         display: grid;
         grid-gap: 20px;
+
+        .icon {
+            &.available {
+                color: $primary;
+            }
+            &.taken {
+                color: $warn;
+            }
+        }
     }
 
     footer {

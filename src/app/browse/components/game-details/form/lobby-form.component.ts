@@ -41,4 +41,14 @@ export class LobbyFormComponent implements OnInit {
 		this.store.dispatch(new SelectSetup(null));
 	}
 
+	nameValid() {
+		const control = this.form.controls['name'];
+		return control.dirty && control.value.length >= 3 && control.valid;
+	}
+
+	nameInvalid() {
+		const control = this.form.controls['name'];
+		return control.dirty && control.value.length >= 3 && control.invalid;
+	}
+
 }
