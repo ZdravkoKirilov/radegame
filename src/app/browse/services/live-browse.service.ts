@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { filter } from 'rxjs/operators';
+import { Action } from '@ngrx/store';
+
 import { BROWSE_URLS } from '@app/core';
 
 @Injectable({
@@ -7,9 +10,14 @@ import { BROWSE_URLS } from '@app/core';
 })
 export class LiveBrowseService {
 
-	public stream$ = new Subject();
-
+	private stream$ = new Subject<Action>();
 	private socket: WebSocket;
+
+	public ofType(...types: string[]) {
+		return this.stream$.pipe(
+			filter((action: Action) => types.some(type => type === action.type))
+		);
+	}
 
 	constructor() { 
 		this.socket = new WebSocket(BROWSE_URLS.LIVE_LOBBIES);
