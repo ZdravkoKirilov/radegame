@@ -1,8 +1,7 @@
 import { Round } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    composeBooleanOptions, composeEntityOptions, baseTemplate, setupsTemplate,
-    conditionTemplate, stakesTemplate, boardTemplate
+    composeBooleanOptions, composeEntityOptions, baseTemplate, setupsTemplate, stakesTemplate, boardTemplate, settingsTemplate
 } from '../helpers';
 
 export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseControl[] {
@@ -10,7 +9,7 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
 
     const setups = data.setups || [];
     const phases = data.phases || [];
-    const condition = data.condition || [];
+    const settings = data.settings || [];
     const done = data.done || [];
     const undone = data.undone || [];
 
@@ -28,7 +27,7 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
 
         <TextInput name='phase_order' label='Phase order'>{data.phase_order}</TextInput>
 
-        ${conditionTemplate}
+        ${settingsTemplate}
 
         ${stakesTemplate}
 
@@ -43,7 +42,7 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            data, condition, done, undone, phases, setups, bools: composeBooleanOptions(),
+            data, settings, done, undone, phases, setups, bools: composeBooleanOptions(),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             phase_options: composeEntityOptions(ent, 'phases'),

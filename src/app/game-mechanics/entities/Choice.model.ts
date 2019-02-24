@@ -1,8 +1,8 @@
-import { BaseModel, WithPermissions, WithCost, WithCondition, WithReveal, WithSettings, WithStakes } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithReveal, WithSettings, WithStakes } from "./Base.model";
 import { Omit } from "@app/shared";
 
-export type Choice = BaseModel & WithPermissions & WithCost & WithCondition &
-    WithStakes & WithReveal & Partial<{
+export type Choice = BaseModel & WithPermissions & WithCost &
+    WithStakes & WithReveal & WithSettings & Partial<{
         mode: ChoiceMode;
         random: boolean;
         options: number[]; //ChoiceOption[];

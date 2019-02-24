@@ -2,7 +2,7 @@ import { Choice, CHOICE_MODE } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
     composeFromObject, composeEntityOptions, baseTemplate, revealTemplate,
-    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate, composeBooleanOptions
+    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate, composeBooleanOptions, settingsTemplate
 } from '../helpers';
 
 export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
@@ -11,7 +11,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
     const cost = data.cost || [];
     const disable = data.disable || [];
     const enable = data.enable || [];
-    const condition = data.condition || [];
+    const settings = data.settings || [];
     const reveal_cost = data.reveal_cost || [];
     const done = data.done || [];
     const undone = data.undone || [];
@@ -30,7 +30,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
 
         ${permissionsTemplate}
 
-        ${conditionTemplate}
+        ${settingsTemplate}
 
         ${stakesTemplate}
 
@@ -67,7 +67,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
     const result = parse({
         source: template,
         context: {
-            data, options, cost, condition, disable, enable, reveal_cost, done, undone,
+            data, options, cost, settings, disable, enable, reveal_cost, done, undone,
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             modes: composeFromObject(CHOICE_MODE),

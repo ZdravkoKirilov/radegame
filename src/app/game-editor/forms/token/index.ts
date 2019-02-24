@@ -1,6 +1,6 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Token } from "@app/game-mechanics";
-import { composeEntityOptions, baseTemplate, revealTemplate, permissionsTemplate, costTemplate, conditionTemplate } from "../helpers";
+import { composeEntityOptions, baseTemplate, revealTemplate, permissionsTemplate, costTemplate, conditionTemplate, settingsTemplate } from "../helpers";
 
 export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
@@ -9,7 +9,7 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
     const enable = data.enable || [];
     const cost = data.cost || [];
     const reveal_cost = data.reveal_cost || [];
-    const condition = data.condition || [];
+    const settings = data.settings || [];
 
     const template = `
     <Form>
@@ -22,9 +22,9 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
 
         ${costTemplate}
 
-        ${conditionTemplate}
+        ${settingsTemplate}
 
-        <Dropdown name='attributes' label='Attributes' options='{sources}'>{data.attributes}</Dropdown>
+        <Dropdown name='value' label='Value' options='{sources}'>{data.value}</Dropdown>
 
     </Form>
    `;
@@ -32,7 +32,7 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
     const result = parse({
         source: template,
         context: {
-            data, cost, disable, enable, reveal_cost, condition,
+            data, cost, disable, enable, reveal_cost, settings,
             setup_options: composeEntityOptions(ent, 'setups'),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),

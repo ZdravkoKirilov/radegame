@@ -8,7 +8,7 @@ import {
 } from '@app/game-mechanics';
 import {
     composeFromObject, composeEntityOptions, composeBooleanOptions, baseTemplate, revealTemplate,
-    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate
+    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate, settingsTemplate
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
@@ -17,7 +17,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const cost = data.cost || [];
     const disable = data.disable || [];
     const enable = data.enable || [];
-    const condition = data.condition || [];
+    const settings = data.settings || [];
     const reveal_cost = data.reveal_cost || [];
     const done = data.done || [];
     const undone = data.undone || [];
@@ -34,7 +34,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
             ${permissionsTemplate}
 
-            ${conditionTemplate}
+            ${settingsTemplate}
 
             ${stakesTemplate}
 
@@ -101,7 +101,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const result = parse({
         source: template,
         context: {
-            data, configs, cost, disable, enable, condition, reveal_cost, done, undone,
+            data, configs, cost, disable, enable, settings, reveal_cost, done, undone,
             types: composeFromObject(types),
             modes: composeFromObject(ACTION_MODE),
             targets: composeFromObject(ACTION_TARGET),

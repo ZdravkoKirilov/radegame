@@ -27,10 +27,6 @@ export type WithRisk = Partial<{
     risk: number[]; // Source
 }>
 
-export type WithCondition = Partial<{
-    condition: number[]; // Condition
-}>
-
 export type WithStakes = Partial<{
     done: number[]; // Source
     undone: number[]; // Source
