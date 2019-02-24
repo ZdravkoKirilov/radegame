@@ -9,6 +9,7 @@
 		<input formControlName="name" matInput required />
 		<mat-icon *ngIf="nameValid()" class="icon available" matSuffix>check</mat-icon>
 		<mat-icon *ngIf="nameInvalid()" class="icon taken" matSuffix>warning</mat-icon>
+		<mat-error *ngIf="nameInvalid()">Lobby name is taken</mat-error>
 	</mat-form-field>
 
 	<mat-button-toggle-group formControlName="mode">

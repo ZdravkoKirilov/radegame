@@ -1,6 +1,18 @@
 import { environment } from '../../../environments/environment';
 
-const { API_BASE_URL, BASE_URL } = environment;
+const { API_BASE_URL, BASE_URL, WS_BROWSE_LOBBIES_BASE_URL } = environment;
+
+export const BROWSE_URLS = {
+    LOBBIES: (lobbyName?: string) => {
+        const base = `${API_BASE_URL}/lobbies/`;
+        return lobbyName ? `${base}/${lobbyName}` : base;
+    },
+    PLAYERS: (lobbyName: string, playerName?: string) => {
+        const base = `${API_BASE_URL}/${lobbyName}/players/`;
+        return playerName ? `${base}/${playerName}/` : base;
+    },
+    LIVE_LOBBIES: `${WS_BROWSE_LOBBIES_BASE_URL}`
+};
 
 export const API_URLS = {
     GAMES: (gameId?: number) => {
