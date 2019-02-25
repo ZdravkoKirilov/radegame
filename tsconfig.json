@@ -29,7 +29,8 @@
       "@app/game-arena": ["app/game-arena/index"],
       "@app/profile": ["app/profile/index"],
       "@app/rendering": ["app/rendering/index"],
-      "@app/browse": ["app/browse/index"]
+      "@app/catalog": ["app/catalog/index"],
+      "@app/lobby": ["app/lobby/index"]
     }
   }
 }

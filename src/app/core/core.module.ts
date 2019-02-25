@@ -11,7 +11,7 @@ import { SharedModule } from '@app/shared';
 import { GameEditorModule } from '@app/game-editor';
 import { ProfileModule } from '@app/profile';
 import { AppRoutingModule } from '../app-routing.module';
-import { BrowseGamesModule } from '@app/browse';
+import { CatalogModule } from '@app/catalog';
 
 import { CoreEffectsService, reducers } from './state';
 import { CustomRouterSerializer } from './router-custom.serializer';
@@ -38,7 +38,7 @@ import { NotFoundComponent } from './components';
         HomeModule,
         GameEditorModule,
         ProfileModule,
-        BrowseGamesModule,
+        CatalogModule,
         AppRoutingModule,
     ],
     exports: [AppRoutingModule],
