@@ -44,6 +44,7 @@ export class FetchLobbiesFail {
 
 export class FetchLobby {
     readonly type = FETCH_LOBBY;
+    constructor(public payload: string) { }
 }
 
 export class FetchLobbySuccess {
