@@ -3,15 +3,17 @@ import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
-import { FetchGamesSuccess, FetchGamesFail, FetchGame, FetchGames, FetchImages, FetchImagesSuccess, FetchImagesFail } from './actions';
+import { FetchGamesSuccess, FetchGamesFail, FetchGame, FetchGames, FetchImages, FetchImagesSuccess, FetchImagesFail, FetchLobbies, FetchLobbiesSuccess, FetchLobbiesFail } from './actions';
 import { GameFetchService } from '@app/core';
-import { FETCH_GAMES, FETCH_GAME, FETCH_IMAGES } from './actionTypes';
+import { FETCH_GAMES, FETCH_GAME, FETCH_IMAGES, FETCH_LOBBIES } from './actionTypes';
 import { toDictionary } from '@app/shared';
 import { Game, ImageAsset } from '@app/game-mechanics';
+import { BrowseService } from '../services/browse.service';
+import { Lobby } from '../models';
 
 @Injectable()
 export class BrowseEffects {
-    constructor(private actions$: Actions, private fetcher: GameFetchService) { }
+    constructor(private actions$: Actions, private fetcher: GameFetchService, private lobbyService: BrowseService) { }
 
     @Effect()
     fetchGames = this.actions$.ofType<FetchGames>(FETCH_GAMES).pipe(
@@ -56,5 +58,20 @@ export class BrowseEffects {
                 })
             )
         }),
+    )
+
+    @Effect()
+    fetchLobbies = this.actions$.ofType<FetchLobbies>(FETCH_LOBBIES).pipe(
+        mergeMap(action => {
+            return this.lobbyService.fetchLobbies().pipe(
+                map(response => {
+                    const asDict = toDictionary<Lobby>(response);
+                    return new FetchLobbiesSuccess(asDict);
+                }),
+                catchError(() => {
+                    return of(new FetchLobbiesFail());
+                })
+            )
+        })
     )
 }
