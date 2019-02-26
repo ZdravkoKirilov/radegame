@@ -20,17 +20,17 @@ export type GameEntityState = EntityState<Game>;
 export type PlayerEntityState = EntityState<Player>;
 export type LobbyEntityState = EntityState<Lobby>;
 
-const selectBy = (prop: 'name' | 'title') => (elem: LobbyFeatureEntity): string => {
+const selectBy = (prop: 'name' | 'title' | 'id') => (elem: LobbyFeatureEntity): string => {
     return elem[prop];
 };
 
-const sortBy = (prop: 'name' | 'title') => (a: LobbyFeatureEntity, b: LobbyFeatureEntity): number {
+const sortBy = (prop: 'name' | 'title' | 'id') => (a: LobbyFeatureEntity, b: LobbyFeatureEntity): number => {
     return a[prop].localeCompare(b[prop]);
 };
 
 export const gameAdapter = createEntityAdapter<Game>({
-    selectId: selectBy('title'),
-    sortComparer: sortBy('title'),
+    selectId: selectBy('id'),
+    sortComparer: sortBy('id'),
 });
 
 export const lobbyAdapter = createEntityAdapter<Lobby>({

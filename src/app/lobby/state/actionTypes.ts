@@ -14,3 +14,7 @@ export const ADD_LOBBY = '[Lobby] ADD_LOBBY';
 export const REMOVE_LOBBY = '[Lobby] REMOVE_LOBBY';
 
 export const TOGGLE_FORM = '[Lobby] SHOW_FORM';
+
+export const FETCH_GAME = '[Lobby] FETCH_GAME';
+export const FETCH_GAME_SUCCESS = '[Lobby] FETCH_GAME_SUCCESS';
+export const FETCH_GAME_FAIL = '[Lobby] FETCH_GAME_FAIL';

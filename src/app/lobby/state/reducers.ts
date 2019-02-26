@@ -1,12 +1,15 @@
 import produce from 'immer';
-import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState } from './shape';
+import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter } from './shape';
 import { LobbyAction } from './actions';
 import { ActionReducerMap } from '@ngrx/store';
+import { FETCH_GAME_SUCCESS } from './actionTypes';
 
 const gamesReducer = (
     state: GameEntityState = initialState.games,
     action: LobbyAction): GameEntityState => {
     switch (action.type) {
+        case FETCH_GAME_SUCCESS:
+            return gameAdapter.upsertOne(action.payload, state);
         default:
             return state;
     }

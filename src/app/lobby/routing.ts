@@ -6,7 +6,7 @@ import { LobbiesPageComponent } from './pages/lobbies-page/lobbies-page.componen
 export const routes: Routes = [
 
     {
-        path: `lobbies/games/:${ROUTER_PARAMS.GAME_NAME}`,
+        path: `lobbies/games/:${ROUTER_PARAMS.GAME_ID}`,
         component: LobbiesPageComponent,
         data: {
             title: 'Radegast: game lobbies'
