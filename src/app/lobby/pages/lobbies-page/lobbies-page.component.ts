@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
-import { FetchGame, getSelectedGame } from '../../state';
+import { FetchGame, getSelectedGame, FetchLobbies } from '../../state';
 import { Game } from '@app/game-mechanics';
 
 @Component({
@@ -34,6 +34,8 @@ export class LobbiesPageComponent implements OnInit {
 				this.store.dispatch(new FetchGame(id));
 			}),
 		).subscribe();
+
+		this.store.dispatch(new FetchLobbies());
 	}
 
 }

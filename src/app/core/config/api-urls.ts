@@ -2,7 +2,7 @@ import { environment } from '../../../environments/environment';
 
 const { API_BASE_URL, BASE_URL, WS_BROWSE_LOBBIES_BASE_URL } = environment;
 
-export const BROWSE_URLS = {
+export const LOBBY_URLS = {
     LOBBIES: (lobbyName?: string) => {
         const base = `${API_BASE_URL}/lobbies/`;
         return lobbyName ? `${base}/${lobbyName}` : base;

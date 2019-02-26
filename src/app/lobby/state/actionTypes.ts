@@ -18,3 +18,7 @@ export const TOGGLE_FORM = '[Lobby] SHOW_FORM';
 export const FETCH_GAME = '[Lobby] FETCH_GAME';
 export const FETCH_GAME_SUCCESS = '[Lobby] FETCH_GAME_SUCCESS';
 export const FETCH_GAME_FAIL = '[Lobby] FETCH_GAME_FAIL';
+
+export const FETCH_PLAYERS = '[Lobby] FETCH_PLAYERS';
+export const FETCH_PLAYERS_SUCCESS = '[Lobby] FETCH_PLAYERS_SUCCESS';
+export const FETCH_PLAYERS_FAIL = '[Lobby] FETCH_PLAYERS_FAIL';

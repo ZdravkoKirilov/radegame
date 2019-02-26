@@ -1,8 +1,8 @@
 import produce from 'immer';
-import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter } from './shape';
+import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter } from './shape';
 import { LobbyAction } from './actions';
 import { ActionReducerMap } from '@ngrx/store';
-import { FETCH_GAME_SUCCESS } from './actionTypes';
+import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS } from './actionTypes';
 
 const gamesReducer = (
     state: GameEntityState = initialState.games,
@@ -19,6 +19,8 @@ const lobbyReducer = (
     state: LobbyEntityState = initialState.lobbies,
     action: LobbyAction): LobbyEntityState => {
     switch (action.type) {
+        case FETCH_LOBBIES_SUCCESS:
+            return lobbyAdapter.addMany(action.payload, state);
         default:
             return state;
     }

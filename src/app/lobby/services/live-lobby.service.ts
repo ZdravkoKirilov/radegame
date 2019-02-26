@@ -3,7 +3,7 @@ import { Subject } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 
-import { BROWSE_URLS } from '@app/core';
+import { LOBBY_URLS } from '@app/core';
 
 @Injectable({
 	providedIn: 'root'
@@ -20,7 +20,7 @@ export class LiveLobbyService {
 	}
 
 	constructor() { 
-		this.socket = new WebSocket(BROWSE_URLS.LIVE_LOBBIES);
+		this.socket = new WebSocket(LOBBY_URLS.LIVE_LOBBIES);
 
 		this.socket.onmessage = (e: MessageEvent) => {
 			const data = JSON.parse(e.data);

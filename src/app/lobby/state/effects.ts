@@ -4,9 +4,9 @@ import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
 import {
-    FetchLobbiesFail, FetchLobbies, FetchLobby, FetchLobbyFail, FetchGame, FetchGameFail, FetchGameSuccess
+    FetchLobbiesFail, FetchLobbies, FetchLobby, FetchLobbyFail, FetchGame, FetchGameFail, FetchGameSuccess, FetchLobbiesSuccess, FetchPlayers, FetchPlayersFail, FetchPlayersSuccess
 } from './actions';
-import { FETCH_LOBBIES, FETCH_LOBBY, FETCH_GAME } from './actionTypes';
+import { FETCH_LOBBIES, FETCH_LOBBY, FETCH_GAME, FETCH_PLAYERS } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
 import { GameFetchService } from '@app/core';
 
@@ -37,7 +37,7 @@ export class LobbyEffects {
         mergeMap(action => {
             return this.api.fetchLobbies().pipe(
                 map(response => {
-
+                    return new FetchLobbiesSuccess(response);
                 }),
                 catchError(() => {
                     return of(new FetchLobbiesFail());
@@ -45,6 +45,20 @@ export class LobbyEffects {
             )
         }),
     );
+
+    @Effect()
+    fetchPlayers = this.actions$.ofType<FetchPlayers>(FETCH_PLAYERS).pipe(
+        mergeMap(action => {
+            return this.api.fetchPlayers(action.payload).pipe(
+                map(response => {
+                    return new FetchPlayersSuccess(response);
+                }),
+                catchError(() => {
+                    return of(new FetchPlayersFail())
+                })
+            )
+        })
+    )
 
     @Effect()
     fetchLobby = this.actions$.ofType<FetchLobby>(FETCH_LOBBY).pipe(
