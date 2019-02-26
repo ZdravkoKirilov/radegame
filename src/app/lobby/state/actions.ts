@@ -1,14 +1,14 @@
 import {
-    SELECT_SETUP, CREATE_LOBBY, CREATE_LOBBY_FAIL, CREATE_LOBBY_SUCCESS,
+    TOGGLE_FORM, CREATE_LOBBY, CREATE_LOBBY_FAIL, CREATE_LOBBY_SUCCESS,
     ADD_LOBBY, FETCH_LOBBIES, FETCH_LOBBIES_FAIL, FETCH_LOBBIES_SUCCESS, FETCH_LOBBY,
     FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS
 } from "./actionTypes";
 import { Lobby } from "../models";
 import { Dictionary } from "@app/shared";
 
-export class SelectSetup {
-    readonly type = SELECT_SETUP;
-    constructor(public payload: number) { }
+export class ToggleForm {
+    readonly type = TOGGLE_FORM;
+    constructor(public payload: boolean) { }
 }
 
 export class CreateLobby {
@@ -56,5 +56,5 @@ export class FetchLobbyFail {
     readonly type = FETCH_LOBBY_FAIL;
 }
 
-export type LobbyAction = SelectSetup | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
+export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
     FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail;

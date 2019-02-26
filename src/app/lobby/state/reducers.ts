@@ -2,7 +2,7 @@ import produce from 'immer';
 import { LobbyFeatureState, initialState } from './shape';
 import { LobbyAction } from './actions';
 import {
-    SELECT_SETUP
+    TOGGLE_FORM
 } from './actionTypes';
 
 export const mainReducer = (
@@ -10,9 +10,9 @@ export const mainReducer = (
     action: LobbyAction
 ): LobbyFeatureState => {
     switch (action.type) {
-        case SELECT_SETUP:
+        case TOGGLE_FORM:
             return produce(state, draft => {
-                draft.selectedSetup = action.payload;
+                draft.showForm = action.payload;
             });
         default:
             return state;

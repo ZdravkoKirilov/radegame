@@ -3,9 +3,9 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
-import { SelectSetup } from '../../state';
 import { LobbyService } from '../../services/lobby.service';
 import { createNameValidator } from './validators/lobby-name-available';
+import { ToggleForm } from 'app/lobby/state';
 
 
 @Component({
@@ -19,7 +19,7 @@ export class LobbyFormComponent implements OnInit {
 
 	form: FormGroup;
 
-	constructor(private store: Store<AppState>, private fb: FormBuilder, private api: LobbyService) { 
+	constructor(private store: Store<AppState>, private fb: FormBuilder, private api: LobbyService) {
 
 		this.form = fb.group({
 			name: ['', [Validators.required, Validators.min(3)], createNameValidator(api)],
@@ -34,11 +34,11 @@ export class LobbyFormComponent implements OnInit {
 	}
 
 	create() {
-		this.store.dispatch(new SelectSetup(null));
+		this.store.dispatch(new ToggleForm(false));
 	}
 
 	cancel() {
-		this.store.dispatch(new SelectSetup(null));
+		this.store.dispatch(new ToggleForm(false));
 	}
 
 	nameValid() {

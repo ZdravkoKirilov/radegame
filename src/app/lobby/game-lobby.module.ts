@@ -9,10 +9,12 @@ import { LobbyFormComponent } from './components/form/lobby-form.component';
 import { LobbyEffects, mainReducer } from './state';
 import { FEATURE_NAME } from './config';
 import { SharedModule } from '@app/shared';
+import { LobbiesPageComponent } from './pages/lobbies-page/lobbies-page.component';
 
 @NgModule({
 	declarations: [
-		LobbyFormComponent
+		LobbyFormComponent,
+		LobbiesPageComponent
 	],
 	imports: [
 		CommonModule,
@@ -23,6 +25,7 @@ import { SharedModule } from '@app/shared';
 	],
 	entryComponents: [
 		LobbyFormComponent
-	]
+	],
+	exports: [RouterModule]
 })
 export class GameLobbyModule { }

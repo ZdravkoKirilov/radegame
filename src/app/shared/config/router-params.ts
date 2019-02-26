@@ -3,4 +3,5 @@ export const ROUTER_PARAMS = {
     STAGE_ID: 'STAGE_ID',
     SETUP_ID: 'SETUP_ID',
     HOST_ID: 'HOST_ID',
+    GAME_NAME: 'GAME_NAME'
 };

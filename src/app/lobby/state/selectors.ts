@@ -4,7 +4,7 @@ import { LobbyFeatureState } from "./shape";
 
 const selectFeature = createFeatureSelector<LobbyFeatureState>(FEATURE_NAME);
 
-export const getSelectedSetup = createSelector(
+export const getFormState = createSelector(
     selectFeature,
-    feature => feature.selectedSetup,
+    feature => feature.showForm,
 );

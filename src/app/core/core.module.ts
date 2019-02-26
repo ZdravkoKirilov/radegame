@@ -22,6 +22,7 @@ import { AuthInterceptor } from './http';
 import { GameDataGuard, GameListGuard } from './guards';
 import { HomeModule } from '../home';
 import { NotFoundComponent } from './components';
+import { GameLobbyModule } from '@app/lobby';
 
 @NgModule({
     imports: [
@@ -39,6 +40,7 @@ import { NotFoundComponent } from './components';
         GameEditorModule,
         ProfileModule,
         CatalogModule,
+        GameLobbyModule,
         AppRoutingModule,
     ],
     exports: [AppRoutingModule],

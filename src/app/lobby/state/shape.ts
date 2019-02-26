@@ -1,5 +1,5 @@
 export type LobbyFeatureState = {
-    selectedSetup: number;
+    showForm: boolean;
     error: boolean;
     loading: boolean;
 };
@@ -7,5 +7,5 @@ export type LobbyFeatureState = {
 export const initialState: LobbyFeatureState = {
     error: false,
     loading: false,
-    selectedSetup: null,
+    showForm: false,
 };
