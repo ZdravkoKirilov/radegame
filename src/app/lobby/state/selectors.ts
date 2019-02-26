@@ -6,5 +6,9 @@ const selectFeature = createFeatureSelector<LobbyFeatureState>(FEATURE_NAME);
 
 export const getFormState = createSelector(
     selectFeature,
-    feature => feature.showForm,
+    feature => feature.meta.showForm,
+);
+
+export const getSelectedGame = createSelector(
+    selectFeature,
 );

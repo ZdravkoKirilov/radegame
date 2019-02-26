@@ -1,20 +1,47 @@
 import produce from 'immer';
-import { LobbyFeatureState, initialState } from './shape';
+import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState } from './shape';
 import { LobbyAction } from './actions';
-import {
-    TOGGLE_FORM
-} from './actionTypes';
+import { ActionReducerMap } from '@ngrx/store';
 
-export const mainReducer = (
-    state: LobbyFeatureState = initialState,
-    action: LobbyAction
-): LobbyFeatureState => {
+const gamesReducer = (
+    state: GameEntityState = initialState.games,
+    action: LobbyAction): GameEntityState => {
     switch (action.type) {
-        case TOGGLE_FORM:
-            return produce(state, draft => {
-                draft.showForm = action.payload;
-            });
         default:
             return state;
     }
+};
+
+const lobbyReducer = (
+    state: LobbyEntityState = initialState.lobbies,
+    action: LobbyAction): LobbyEntityState => {
+    switch (action.type) {
+        default:
+            return state;
+    }
+};
+
+const playerReducer = (
+    state: PlayerEntityState = initialState.players,
+    action: LobbyAction): PlayerEntityState => {
+    switch (action.type) {
+        default:
+            return state;
+    }
+};
+
+const metaReducer = (
+    state: LobbyMetaState = initialState.meta,
+    action: LobbyAction): LobbyMetaState => {
+    switch (action.type) {
+        default:
+            return state;
+    }
+};
+
+export const mainReducer: ActionReducerMap<LobbyFeatureState> = {
+    meta: metaReducer,
+    games: gamesReducer,
+    lobbies: lobbyReducer,
+    players: playerReducer,
 };
