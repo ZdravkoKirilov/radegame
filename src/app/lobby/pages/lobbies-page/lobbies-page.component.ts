@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
-import { FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers, getLobbies, getPlayers } from '../../state';
+import { FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers, getLobbies, getPlayers, getLobbiesWithPlayers } from '../../state';
 import { Game } from '@app/game-mechanics';
 import { Lobby, Player } from '../../models';
 
@@ -30,7 +30,7 @@ export class LobbiesPageComponent implements OnInit {
 
 	ngOnInit() {
 		this.game$ = this.store.pipe(select(getSelectedGame));
-		this.lobbies$ = this.store.pipe(select(getLobbies));
+		this.lobbies$ = this.store.pipe(select(getLobbiesWithPlayers));
 		this.players$ = this.store.pipe(select(getPlayers));
 
 		this.route$ = this.store.pipe(

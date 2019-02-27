@@ -2,16 +2,16 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { values } from 'lodash';
 
 import { FEATURE_NAME } from '../utils/config';
-import { GameEditorFeature, EntityForm } from './reducers';
+import { GameEditorFeature } from './reducers';
 import { FormKey, formKeys } from './form-keys';
-import { AppState } from '@app/core';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { Stage, Game, GameEntity } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, selectGameId } from '@app/shared';
+import { Dictionary } from '@ngrx/entity';
 
 const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
-export const selectForm = createSelector<AppState, GameEditorFeature, EntityForm>(
+export const selectForm = createSelector(
     selectFeature,
     feature => feature.form
 );
@@ -21,9 +21,9 @@ export const getItemById = (key: FormKey, id: number) => createSelector(
     form => form[key].items[id],
 );
 
-export const getItems = <T = GameEntity[]>(key: FormKey) => createSelector<AppState, GameEditorFeature, EntityForm, T>(
+export const getItems = <T = GameEntity>(key: FormKey) => createSelector(
     selectForm,
-    form => form[key] && form[key].items ? values(form[key].items) : null,
+    form => form[key] && form[key].items ? values(form[key].items as Dictionary<T>) : null,
 );
 
 export const selectStageId = createSelector(
@@ -35,14 +35,14 @@ export const selectStageId = createSelector(
 
 export const getActiveStage = createSelector(
     selectStageId,
-    getItems<Stage[]>(formKeys.STAGES),
+    getItems<Stage>(formKeys.STAGES),
     (stageId, stages) => {
         return stages && stages.find(elem => elem.id === stageId) as Stage;
     }
 );
 
 export const selectGame = createSelector(
-    getItems<Game[]>('games'),
+    getItems<Game>('games'),
     selectGameId,
     (games, id) => {
         return games ? games.find(elem => elem.id == id) : null;

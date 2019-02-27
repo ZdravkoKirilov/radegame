@@ -1,12 +1,9 @@
-<rg-lobby-list-layout>
+<rg-lobby-list-layout *ngIf="game">
 
 	<div class="list rg-container mat-elevation-z2" role="list">
-		<mat-card *ngFor="let item of lobbies" role="listitem" class="lobby">
-			<h2>{{item.name}}</h2>
-			<a class="join" [routerLink]="[item.name]">
-				<button mat-raised-button color="primary">Join</button>
-			</a>
-		</mat-card>
+		<ng-container *ngFor="let item of lobbies">
+			<rg-lobby-list-item [game]="game" [lobby]="item"></rg-lobby-list-item>
+		</ng-container>
 	</div>
 
 	<div class="create-btn" matTooltip="Create new game">

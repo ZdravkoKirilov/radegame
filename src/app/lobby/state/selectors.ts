@@ -58,3 +58,13 @@ const getPlayersPerLobby = createSelector(
     getPlayers,
     players => groupBy(players, 'lobby')
 );
+
+export const getLobbiesWithPlayers = createSelector(
+    getLobbies,
+    getPlayersPerLobby,
+    (lobbies, players) => {
+        return lobbies.map(elem => {
+            return { ...elem, players: players[elem.name] || []}
+        });
+    }
+);

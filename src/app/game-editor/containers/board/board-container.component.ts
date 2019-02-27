@@ -40,14 +40,16 @@ export class BoardContainerComponent {
 		stage: Stage,
 		slots: Slot[],
 		paths: PathEntity[],
-		entities: ConnectedEntities
+		entities: ConnectedEntities,
+		gameId: number,
+		images: ImageAsset[]
 	}> = combineLatest(
 		this.store.pipe(select(getActiveStage)),
-		this.store.pipe(select(getItems<Slot[]>(formKeys.SLOTS))),
-		this.store.pipe(select(getItems<PathEntity[]>(formKeys.PATHS))),
+		this.store.pipe(select(getItems<Slot>(formKeys.SLOTS))),
+		this.store.pipe(select(getItems<PathEntity>(formKeys.PATHS))),
 		this.store.pipe(select(getEntities)),
 		this.store.pipe(select(selectGameId)),
-		this.store.pipe(select(getItems<ImageAsset[]>(formKeys.IMAGES)))
+		this.store.pipe(select(getItems<ImageAsset>(formKeys.IMAGES)))
 	).pipe(
 		filter(data => data.every(elem => !!elem)),
 		map(([stage, slots, paths, entities, gameId, images]) => {

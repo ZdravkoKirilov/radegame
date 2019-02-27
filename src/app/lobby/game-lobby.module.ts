@@ -12,13 +12,15 @@ import { SharedModule } from '@app/shared';
 import { LobbiesPageComponent } from './pages/lobbies-page/lobbies-page.component';
 import { GameLobbiesComponent } from './components/lobbies/game-lobbies.component';
 import { ListLayoutComponent } from './layout/list-layout/list-layout.component';
+import { LobbyListItemComponent } from './components/lobbies/item/lobby-list-item.component';
 
 @NgModule({
 	declarations: [
 		LobbyFormComponent,
 		LobbiesPageComponent,
 		GameLobbiesComponent,
-		ListLayoutComponent
+		ListLayoutComponent,
+		LobbyListItemComponent
 	],
 	imports: [
 		CommonModule,

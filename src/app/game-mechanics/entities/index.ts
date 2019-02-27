@@ -32,8 +32,9 @@ import { Setup } from './Setup.model';
 import { Dictionary } from '@app/shared';
 import { Source } from './Source.model';
 import { ImageAsset } from './ImageAsset.model';
+import { Game } from '../models';
 
-export type GameEntity = GameAction | Slot | PathEntity | Condition |
+export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
     Round | Choice | Stage | Field | Faction | Token | Team | Phase |
     Setup | Source | ImageAsset;
 
