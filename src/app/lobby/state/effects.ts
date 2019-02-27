@@ -4,9 +4,11 @@ import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
 import {
-    FetchLobbiesFail, FetchLobbies, FetchLobby, FetchLobbyFail, FetchGame, FetchGameFail, FetchGameSuccess, FetchLobbiesSuccess, FetchPlayers, FetchPlayersFail, FetchPlayersSuccess
+    FetchLobbiesFail, FetchLobbies, FetchLobby, FetchLobbyFail, FetchGame, FetchGameFail,
+    FetchGameSuccess, FetchLobbiesSuccess, FetchPlayers, FetchPlayersFail, FetchPlayersSuccess,
+    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail
 } from './actions';
-import { FETCH_LOBBIES, FETCH_LOBBY, FETCH_GAME, FETCH_PLAYERS } from './actionTypes';
+import { FETCH_LOBBIES, FETCH_LOBBY, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
 import { GameFetchService } from '@app/core';
 
@@ -55,6 +57,20 @@ export class LobbyEffects {
                 }),
                 catchError(() => {
                     return of(new FetchPlayersFail())
+                })
+            )
+        })
+    )
+
+    @Effect()
+    fetchAllPlayers = this.actions$.ofType<FetchAllPlayers>(FETCH_ALL_PLAYERS).pipe(
+        mergeMap(action => {
+            return this.api.fetchAllPlayers().pipe(
+                map(response => {
+                    return new FetchAllPlayersSuccess(response);
+                }),
+                catchError(() => {
+                    return of(new FetchAllPlayersFail())
                 })
             )
         })

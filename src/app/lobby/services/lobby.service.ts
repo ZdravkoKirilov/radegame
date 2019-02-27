@@ -34,6 +34,10 @@ export class LobbyService {
 		return this.http.get<Player[]>(LOBBY_URLS.PLAYERS(lobbyName));
 	}
 
+	fetchAllPlayers() {
+		return this.http.get<Player[]>(LOBBY_URLS.ALL_PLAYERS);
+	}
+
 	savePlayer(lobbyName: string, player: Player) {
 		return this.http.post<Player>(LOBBY_URLS.PLAYERS(lobbyName), player);
 	}

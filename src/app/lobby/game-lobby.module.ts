@@ -11,12 +11,14 @@ import { FEATURE_NAME } from './config';
 import { SharedModule } from '@app/shared';
 import { LobbiesPageComponent } from './pages/lobbies-page/lobbies-page.component';
 import { GameLobbiesComponent } from './components/lobbies/game-lobbies.component';
+import { ListLayoutComponent } from './layout/list-layout/list-layout.component';
 
 @NgModule({
 	declarations: [
 		LobbyFormComponent,
 		LobbiesPageComponent,
-		GameLobbiesComponent
+		GameLobbiesComponent,
+		ListLayoutComponent
 	],
 	imports: [
 		CommonModule,

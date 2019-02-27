@@ -1,7 +1,7 @@
 import {
     TOGGLE_FORM, CREATE_LOBBY, CREATE_LOBBY_FAIL, CREATE_LOBBY_SUCCESS,
     ADD_LOBBY, FETCH_LOBBIES, FETCH_LOBBIES_FAIL, FETCH_LOBBIES_SUCCESS, FETCH_LOBBY,
-    FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS, FETCH_GAME_FAIL, FETCH_GAME_SUCCESS, FETCH_GAME, FETCH_PLAYERS, FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL,
+    FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS, FETCH_GAME_FAIL, FETCH_GAME_SUCCESS, FETCH_GAME, FETCH_PLAYERS, FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS, FETCH_PLAYERS_ALL_FAIL,
 } from "./actionTypes";
 import { Lobby, Player } from "../models";
 import { Game } from "@app/game-mechanics";
@@ -84,6 +84,21 @@ export class FetchPlayersFail {
     readonly type = FETCH_PLAYERS_FAIL;
 }
 
+export class FetchAllPlayers {
+    readonly type = FETCH_ALL_PLAYERS;
+    constructor() { }
+}
+
+export class FetchAllPlayersSuccess {
+    readonly type = FETCH_ALL_PLAYERS_SUCCESS;
+    constructor(public payload: Player[]) { }
+}
+
+export class FetchAllPlayersFail {
+    readonly type = FETCH_PLAYERS_ALL_FAIL;
+}
+
 export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
     FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
-    FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess;
+    FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess |
+    FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess;

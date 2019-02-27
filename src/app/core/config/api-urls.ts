@@ -11,6 +11,7 @@ export const LOBBY_URLS = {
         const base = `${API_BASE_URL}/${lobbyName}/players/`;
         return playerName ? `${base}/${playerName}/` : base;
     },
+    ALL_PLAYERS: API_BASE_URL + '/all_players',
     LIVE_LOBBIES: `${WS_BROWSE_LOBBIES_BASE_URL}`
 };
 
