@@ -1,3 +1,6 @@
+import { Player } from "./Player";
+
+
 export type Lobby = {
     name: string;
     mode: 'public' | 'private';
@@ -6,4 +9,6 @@ export type Lobby = {
     game: number;
     setup: number;
     owner: number;
+
+    players?: Player[];
 }

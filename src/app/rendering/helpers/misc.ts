@@ -1,4 +1,4 @@
-import chunk from 'lodash/chunk';
+import { chunk } from 'lodash';
 import { Points } from '../models';
 
 export const composePoints = (source: string): Points => {

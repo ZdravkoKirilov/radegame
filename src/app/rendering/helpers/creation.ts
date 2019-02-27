@@ -1,4 +1,4 @@
-import toArray from 'lodash/values';
+import { values } from 'lodash';
 import { RzElement, MetaProps, Component, PRIMS, RenderFunction } from "../models";
 import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent, FunctionalComponent } from "../mixins";
@@ -23,7 +23,7 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
     if (typeof element.type === 'string') {
         let { type } = element;
 
-        if (new Set(toArray(PRIMS)).has(element.type)) {
+        if (new Set(values(PRIMS)).has(element.type)) {
             component = createPrimitiveComponent(element, factory, meta) as BasicComponent;
             component.type = element.type;
             component.parent = parent;

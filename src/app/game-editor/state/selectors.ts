@@ -1,5 +1,5 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
-import values from 'lodash/values';
+import { values } from 'lodash';
 
 import { FEATURE_NAME } from '../utils/config';
 import { GameEditorFeature, EntityForm } from './reducers';

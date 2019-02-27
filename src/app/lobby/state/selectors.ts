@@ -1,4 +1,6 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { groupBy } from 'lodash';
+
 import { FEATURE_NAME } from "../config";
 import { LobbyFeatureState, gameAdapter, lobbyAdapter, playerAdapter } from "./shape";
 import { selectGameId } from "@app/shared";
@@ -36,7 +38,6 @@ const getGameEntities = createSelector(
     fromGameAdapter.selectEntities,
 );
 
-
 export const getSelectedGame = createSelector(
     selectGameId,
     getGameEntities,
@@ -51,4 +52,9 @@ export const getLobbies = createSelector(
 export const getPlayers = createSelector(
     selectPlayers,
     fromPlayerAdapter.selectAll
+);
+
+const getPlayersPerLobby = createSelector(
+    getPlayers,
+    players => groupBy(players, 'lobby')
 );
