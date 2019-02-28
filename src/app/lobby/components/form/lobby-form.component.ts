@@ -5,7 +5,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { LobbyService } from '../../services/lobby.service';
 import { createNameValidator } from './validators/lobby-name-available';
-import { ToggleForm } from 'app/lobby/state';
+import { ToggleForm } from '../../state';
 
 
 @Component({
@@ -21,8 +21,8 @@ export class LobbyFormComponent implements OnInit {
 
 	constructor(private store: Store<AppState>, private fb: FormBuilder, private api: LobbyService) {
 
-		this.form = fb.group({
-			name: ['', [Validators.required, Validators.min(3)], createNameValidator(api)],
+		this.form = this.fb.group({
+			name: ['', [Validators.required, Validators.min(3)], createNameValidator(this.api)],
 			mode: ['public', Validators.required],
 			password: ['']
 		});

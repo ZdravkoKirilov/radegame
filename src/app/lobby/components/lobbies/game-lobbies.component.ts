@@ -1,4 +1,4 @@
-import { Component, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Game } from '@app/game-mechanics';
 import { Lobby, Player } from '../../models';
 
@@ -13,5 +13,8 @@ export class GameLobbiesComponent {
 	@Input() game: Game;
 	@Input() lobbies: Lobby[];
 	@Input() players: Player[];
+	@Input() showForm: boolean;
+
+	@Output() createLobby = new EventEmitter();
 
 }

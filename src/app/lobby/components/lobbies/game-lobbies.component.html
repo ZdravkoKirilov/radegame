@@ -7,10 +7,14 @@
 	</div>
 
 	<div class="create-btn" matTooltip="Create new game">
-		<button mat-fab color="accent">
+		<button mat-fab color="accent" (click)="createLobby.emit()">
 			<mat-icon class="icon">add</mat-icon>
 		</button>
 	</div>
+
+	<rg-overlay *ngIf="showForm">
+		<rg-lobby-form #content></rg-lobby-form>
+	</rg-overlay>
 
 
 </rg-lobby-list-layout>

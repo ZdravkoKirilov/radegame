@@ -2,7 +2,7 @@ import produce from 'immer';
 import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter } from './shape';
 import { LobbyAction } from './actions';
 import { ActionReducerMap } from '@ngrx/store';
-import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS } from './actionTypes';
+import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM } from './actionTypes';
 
 const gamesReducer = (
     state: GameEntityState = initialState.games,
@@ -41,6 +41,10 @@ const metaReducer = (
     state: LobbyMetaState = initialState.meta,
     action: LobbyAction): LobbyMetaState => {
     switch (action.type) {
+        case TOGGLE_FORM:
+            return produce(state, draft => {
+                draft.showForm = action.payload
+            });
         default:
             return state;
     }
