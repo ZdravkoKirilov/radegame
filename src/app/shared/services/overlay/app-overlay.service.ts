@@ -1,4 +1,4 @@
-import { Injectable, ComponentRef } from '@angular/core';
+import { Injectable, ComponentRef, Component } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 
@@ -40,8 +40,7 @@ export class AppOverlayService {
         const overlayComponent = this.attachDialogContainer(component, overlayRef);
         overlayComponent.data = config.data;
 
-
-        return dialogRef;
+        return [dialogRef, overlayComponent] as [AppOverlayRef, any];
     }
 
     private createOverlay(config: AppOverlayData) {

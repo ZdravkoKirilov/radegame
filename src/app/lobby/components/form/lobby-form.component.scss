@@ -7,7 +7,7 @@
     mat-button-toggle-group,
     footer {
         display: flex;
-        justify-content: center;
+        flex-wrap: wrap;
         mat-button-toggle,
         button {
             flex-grow: 1;

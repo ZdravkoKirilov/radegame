@@ -12,7 +12,7 @@
 		</button>
 	</div>
 
-	<rg-overlay *ngIf="showForm">
+	<rg-overlay *ngIf="showForm" [data]="{game: game}">
 		<rg-lobby-form #content></rg-lobby-form>
 	</rg-overlay>
 

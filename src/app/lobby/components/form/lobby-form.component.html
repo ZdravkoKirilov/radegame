@@ -2,7 +2,7 @@
 	<h1 class="mat-title">New game</h1>
 </header>
 
-<form [formGroup]="form">
+<form [formGroup]="form" *ngIf="data?.game">
 
 	<mat-form-field appearance="outline">
 		<mat-label>Name:</mat-label>
@@ -11,6 +11,12 @@
 		<mat-icon *ngIf="nameInvalid()" class="icon taken" matSuffix>warning</mat-icon>
 		<mat-error *ngIf="nameInvalid()">Lobby name is taken</mat-error>
 	</mat-form-field>
+
+	<mat-button-toggle-group formControlName="setup">
+		<mat-button-toggle *ngFor="let setup of data.game.setups" [value]="setup.id">
+			{{setup.name}}
+		</mat-button-toggle>
+	</mat-button-toggle-group>
 
 	<mat-button-toggle-group formControlName="mode">
 		<mat-button-toggle value="public">Public</mat-button-toggle>
