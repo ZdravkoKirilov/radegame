@@ -1,0 +1,14 @@
+<article *ngIf="data" class="rg-container mat-elevation-z2">
+	<header>
+		<img [src]="data.game.image" />
+		<section>
+			{{data.game.title}}
+		</section>
+	</header>
+
+	<section role="list" class="players">
+		<mat-card *ngFor="let item of data.lobby.players">
+			{{item.name}}
+		</mat-card>
+	</section>
+</article>

@@ -3,15 +3,17 @@ import { FormGroup, Validators, FormBuilder } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import { AppState } from '@app/core';
 import { LobbyService } from '../../services/lobby.service';
 import { createNameValidator } from './validators/lobby-name-available';
-import { ToggleForm, getSelectedGame, CreateLobby } from '../../state';
-import { AutoUnsubscribe } from '@app/shared';
+import { ToggleForm, getSelectedGame, CreateLobby, getLobbies, getLobbiesWithPlayers } from '../../state';
+import { AutoUnsubscribe, WithTimeout } from '@app/shared';
 import { Game } from '@app/game-mechanics';
 import { selectUser, User } from '@app/profile';
 import { Player, Lobby } from '../../models';
+
 
 @Component({
 	selector: 'rg-lobby-form',
@@ -25,6 +27,7 @@ export class LobbyFormComponent implements OnInit {
 
 	game$: Subscription;
 	user$: Subscription;
+	lobbies$: Subscription;
 
 	game: Game;
 	user: User;
@@ -34,6 +37,7 @@ export class LobbyFormComponent implements OnInit {
 		private store: Store<AppState>,
 		private fb: FormBuilder,
 		private api: LobbyService,
+		private router: Router
 	) {
 		this.form = this.fb.group(
 			{
@@ -59,6 +63,24 @@ export class LobbyFormComponent implements OnInit {
 			select(selectUser),
 			map(user => this.user = user)
 		).subscribe();
+
+		this.lobbies$ = this.store.pipe(
+			select(getLobbiesWithPlayers),
+			map(lobbies => {
+				const lobby = lobbies.find(elem => elem.name === this.form.value.name);
+				const player = lobby ? lobby.players.find(elem => elem.user === this.user.id) : null;
+				if (lobby && player) {
+					this.enterLobby(lobby);
+				}
+
+			})
+		).subscribe();
+	}
+
+	enterLobby(lobby: Lobby) {
+		this.store.dispatch(new ToggleForm(false));
+		this.router.navigate(['lobbies', 'games', this.game.id, lobby.name]);
+
 	}
 
 	create() {
@@ -81,7 +103,6 @@ export class LobbyFormComponent implements OnInit {
 		};
 
 		this.store.dispatch(new CreateLobby({ lobby, owner }));
-		this.store.dispatch(new ToggleForm(false));
 	}
 
 	cancel() {

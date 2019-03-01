@@ -12,7 +12,6 @@ export class GameLobbiesComponent {
 
 	@Input() game: Game;
 	@Input() lobbies: Lobby[];
-	@Input() players: Player[];
 	@Input() showForm: boolean;
 
 	@Output() createLobby = new EventEmitter();

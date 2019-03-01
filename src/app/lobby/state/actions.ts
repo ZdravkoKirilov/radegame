@@ -133,4 +133,4 @@ export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLob
     RemoveLobby | FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
     FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess |
     FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess | CreatePlayer | CreatePlayerFail |
-    CreatePlayerSuccess | AddPlayer | RemovePlayer;
+    CreatePlayerSuccess | AddPlayer | RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess;

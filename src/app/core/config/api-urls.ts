@@ -8,7 +8,7 @@ export const LOBBY_URLS = {
         return lobbyName ? `${base}${lobbyName}` : base;
     },
     PLAYERS: (lobbyName: string, playerName?: string) => {
-        const base = `${API_BASE_URL}/${lobbyName}/players/`;
+        const base = `${API_BASE_URL}/lobbies/${lobbyName}/players`;
         return playerName ? `${base}/${playerName}/` : base;
     },
     ALL_PLAYERS: API_BASE_URL + '/all_players',

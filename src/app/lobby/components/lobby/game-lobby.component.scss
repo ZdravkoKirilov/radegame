@@ -1,0 +1,17 @@
+:host {
+    margin-top: 20px;
+    display: block;
+    article {
+        padding: 20px 10px;
+    }
+    header {
+        display: flex;
+        height: 25vh;
+        overflow: hidden;
+        img {
+            max-width: calc(50% - 20px);
+            margin-right: 20px;
+            height: auto;
+        }
+    }
+}
