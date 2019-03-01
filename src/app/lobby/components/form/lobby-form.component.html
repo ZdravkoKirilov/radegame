@@ -2,7 +2,7 @@
 	<h1 class="mat-title">New game</h1>
 </header>
 
-<form [formGroup]="form" *ngIf="data?.game">
+<form [formGroup]="form" *ngIf="game">
 
 	<mat-form-field appearance="outline">
 		<mat-label>Name:</mat-label>
@@ -13,7 +13,7 @@
 	</mat-form-field>
 
 	<mat-button-toggle-group formControlName="setup">
-		<mat-button-toggle *ngFor="let setup of data.game.setups" [value]="setup.id">
+		<mat-button-toggle *ngFor="let setup of game.setups" [value]="setup.id">
 			{{setup.name}}
 		</mat-button-toggle>
 	</mat-button-toggle-group>

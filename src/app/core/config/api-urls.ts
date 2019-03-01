@@ -5,7 +5,7 @@ const { API_BASE_URL, BASE_URL, WS_BROWSE_LOBBIES_BASE_URL } = environment;
 export const LOBBY_URLS = {
     LOBBIES: (lobbyName?: string) => {
         const base = `${API_BASE_URL}/lobbies/`;
-        return lobbyName ? `${base}/${lobbyName}` : base;
+        return lobbyName ? `${base}${lobbyName}` : base;
     },
     PLAYERS: (lobbyName: string, playerName?: string) => {
         const base = `${API_BASE_URL}/${lobbyName}/players/`;

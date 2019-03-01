@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { LOBBY_URLS } from '@app/core';
 import { Lobby, Player } from '../models';
 
@@ -22,8 +21,8 @@ export class LobbyService {
 		return this.http.get<Lobby[]>(LOBBY_URLS.LOBBIES());
 	}
 
-	createLobby(lobby: Lobby) {
-		return this.http.post<Lobby>(LOBBY_URLS.LOBBIES(), lobby);
+	createLobby(data: { lobby: Lobby, owner: Player }) {
+		return this.http.post<{ lobby: Lobby, owner: Player }>(LOBBY_URLS.LOBBIES(), data);
 	}
 
 	deleteLobby(name: string) {
@@ -38,8 +37,8 @@ export class LobbyService {
 		return this.http.get<Player[]>(LOBBY_URLS.ALL_PLAYERS);
 	}
 
-	savePlayer(lobbyName: string, player: Player) {
-		return this.http.post<Player>(LOBBY_URLS.PLAYERS(lobbyName), player);
+	savePlayer(player: Player) {
+		return this.http.post<Player>(LOBBY_URLS.PLAYERS(player.lobby), player);
 	}
 
 	deletePlayer(lobbyName: string, playerName: string) {

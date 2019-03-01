@@ -1,7 +1,10 @@
 export type Player = {
     name: string;
     lobby: string;
-    team: number;
-    faction: number;
-    color: number;
+    user: number;
+    game: number;
+
+    team?: number;
+    faction?: number;
+    color?: number;
 }
