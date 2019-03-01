@@ -32,3 +32,7 @@ export type WithKeys<T> = {
 export type Dictionary<T> = {
     [key: string]: T;
 }
+
+export const extractLobbyPlayerName = (compositeName: string) => {
+    return compositeName.split(':')[2];
+};

@@ -1,14 +1,21 @@
 <article *ngIf="data" class="rg-container mat-elevation-z2">
-	<header>
-		<img [src]="data.game.image" />
-		<section>
-			{{data.game.title}}
-		</section>
-	</header>
+	<mat-card>
+		<header>
+			<img [src]="data.game.image" />
+			<section>
+				{{data.game.title}}
+			</section>
+		</header>
+	</mat-card>
 
-	<section role="list" class="players">
-		<mat-card *ngFor="let item of data.lobby.players">
+
+	<mat-card role="list" class="players">
+		<div *ngFor="let item of data.lobby.players" role="listitem" class="player">
 			{{item.name}}
-		</mat-card>
-	</section>
+		</div>
+	</mat-card>
+
+	<mat-card class="chat">
+		bla bla bla
+	</mat-card>
 </article>

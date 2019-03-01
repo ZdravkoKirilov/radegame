@@ -14,4 +14,18 @@
             height: auto;
         }
     }
+    .players,
+    .chat {
+        margin-top: 20px;
+    }
+    .players {
+        height: 45vh;
+        .player {
+            padding: 10px 15px;
+            background: darken(white, 10%);
+        }
+    }
+    .chat {
+        height: 30vh;
+    }
 }
