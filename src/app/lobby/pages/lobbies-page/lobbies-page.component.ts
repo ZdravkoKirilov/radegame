@@ -6,11 +6,10 @@ import { map } from 'rxjs/operators';
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
 import {
-	FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers,
-	getPlayers, getLobbiesWithPlayers, getFormState, ToggleForm
+	FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers, getLobbiesWithPlayers, getFormState, ToggleForm
 } from '../../state';
 import { Game } from '@app/game-mechanics';
-import { Lobby, Player } from '../../models';
+import { Lobby } from '../../models';
 
 @Component({
 	selector: 'rg-lobbies-page',
@@ -18,13 +17,16 @@ import { Lobby, Player } from '../../models';
 	<rg-game-lobbies 
 		[game]="game$ | async" 
 		[lobbies]="lobbies$ | async" 
-		[players]="players$ | async"
 		[showForm]="showForm$ | async"
 		(createLobby)="showCreateLobbyForm()"
 	>
     </rg-game-lobbies>
     `,
-	styles: []
+	styles: [`
+		:host {
+			display: block;
+		}
+	`]
 })
 @AutoUnsubscribe()
 export class LobbiesPageComponent implements OnInit {
@@ -33,7 +35,6 @@ export class LobbiesPageComponent implements OnInit {
 
 	game$: Observable<Game>;
 	lobbies$: Observable<Lobby[]>;
-	players$: Observable<Player[]>;
 
 	showForm$: Observable<boolean>;
 
@@ -42,7 +43,6 @@ export class LobbiesPageComponent implements OnInit {
 	ngOnInit() {
 		this.game$ = this.store.pipe(select(getSelectedGame));
 		this.lobbies$ = this.store.pipe(select(getLobbiesWithPlayers));
-		this.players$ = this.store.pipe(select(getPlayers));
 		this.showForm$ = this.store.pipe(select(getFormState));
 
 		this.route$ = this.store.pipe(

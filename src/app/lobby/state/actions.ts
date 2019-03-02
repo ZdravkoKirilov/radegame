@@ -1,7 +1,7 @@
 import {
     TOGGLE_FORM, CREATE_LOBBY, CREATE_LOBBY_FAIL, CREATE_LOBBY_SUCCESS,
     ADD_LOBBY, FETCH_LOBBIES, FETCH_LOBBIES_FAIL, FETCH_LOBBIES_SUCCESS, FETCH_LOBBY,
-    FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS, FETCH_GAME_FAIL, FETCH_GAME_SUCCESS, FETCH_GAME, FETCH_PLAYERS, FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS, FETCH_PLAYERS_ALL_FAIL,
+    FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS, FETCH_GAME_FAIL, FETCH_GAME_SUCCESS, FETCH_GAME, FETCH_PLAYERS, FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS, FETCH_PLAYERS_ALL_FAIL, CREATE_PLAYER, CREATE_PLAYER_SUCCESS, CREATE_PLAYER_FAIL, ADD_PLAYER, REMOVE_PLAYER, REMOVE_LOBBY,
 } from "./actionTypes";
 import { Lobby, Player } from "../models";
 import { Game } from "@app/game-mechanics";
@@ -13,7 +13,10 @@ export class ToggleForm {
 
 export class CreateLobby {
     readonly type = CREATE_LOBBY;
-    constructor(public payload: Lobby) { }
+    constructor(public payload: {
+        lobby: Lobby,
+        owner: Player
+    }) { }
 }
 
 export class CreateLobbySuccess {
@@ -27,6 +30,11 @@ export class CreateLobbyFail {
 export class AddLobby {
     readonly type = ADD_LOBBY;
     constructor(public payload: Lobby) { }
+}
+
+export class RemoveLobby {
+    readonly type = REMOVE_LOBBY;
+    constructor(public payload: string) { }
 }
 
 export class FetchLobbies {
@@ -98,7 +106,31 @@ export class FetchAllPlayersFail {
     readonly type = FETCH_PLAYERS_ALL_FAIL;
 }
 
+export class CreatePlayer {
+    readonly type = CREATE_PLAYER;
+    constructor(public payload: Player) { }
+}
+
+export class CreatePlayerSuccess {
+    readonly type = CREATE_PLAYER_SUCCESS;
+}
+
+export class CreatePlayerFail {
+    readonly type = CREATE_PLAYER_FAIL;
+}
+
+export class AddPlayer {
+    readonly type = ADD_PLAYER;
+    constructor(public payload: Player) { }
+}
+
+export class RemovePlayer {
+    readonly type = REMOVE_PLAYER;
+    constructor(public payload: string) { }
+}
+
 export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
-    FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
+    RemoveLobby | FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
     FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess |
-    FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess;
+    FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess | CreatePlayer | CreatePlayerFail |
+    CreatePlayerSuccess | AddPlayer | RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess;

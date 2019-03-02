@@ -3,7 +3,8 @@ import { groupBy } from 'lodash';
 
 import { FEATURE_NAME } from "../config";
 import { LobbyFeatureState, gameAdapter, lobbyAdapter, playerAdapter } from "./shape";
-import { selectGameId } from "@app/shared";
+import { selectGameId, selectLobbyName } from "@app/shared";
+import { Lobby } from "../models";
 
 const selectFeature = createFeatureSelector<LobbyFeatureState>(FEATURE_NAME);
 
@@ -49,7 +50,12 @@ export const getLobbies = createSelector(
     fromLobbyAdapter.selectAll
 );
 
-export const getPlayers = createSelector(
+const getLobbyEntities = createSelector(
+    selectLobbies,
+    fromLobbyAdapter.selectEntities,
+)
+
+const getPlayers = createSelector(
     selectPlayers,
     fromPlayerAdapter.selectAll
 );
@@ -64,7 +70,23 @@ export const getLobbiesWithPlayers = createSelector(
     getPlayersPerLobby,
     (lobbies, players) => {
         return lobbies.map(elem => {
-            return { ...elem, players: players[elem.name] || []}
+            return { ...elem, players: players[elem.name] || [] } as Lobby;
         });
     }
 );
+
+const getSelectedLobby = createSelector(
+    selectLobbyName,
+    getLobbyEntities,
+    (name, entities) => entities[name]
+);
+
+export const getSelectedLobbyWithPlayers = createSelector(
+    getSelectedLobby,
+    getPlayersPerLobby,
+    (lobby, players) => {
+        if (lobby && players) {
+            return { ...lobby, players: [...(players[lobby.name] || [])] } as Lobby;
+        }
+    }
+)

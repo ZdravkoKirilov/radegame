@@ -36,3 +36,7 @@ export type Dictionary<T> = {
 export const genericTrackByFn = <T>(prop: keyof T) => (index: number, item: T) => {
     return item[prop];
 };
+
+export const extractLobbyPlayerName = (compositeName: string) => {
+    return compositeName.split(':')[2];
+};

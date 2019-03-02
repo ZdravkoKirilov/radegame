@@ -1,8 +1,8 @@
 import { AbstractControl } from "@angular/forms";
-import { map, switchMap, first } from "rxjs/operators";
+import { map, switchMap, first, catchError } from "rxjs/operators";
 
 import { LobbyService } from "../../../services/lobby.service";
-import { timer } from "rxjs";
+import { timer, of } from "rxjs";
 
 export const createNameValidator = (api: LobbyService, minLength = 3) => (control: AbstractControl) => {
 
@@ -12,6 +12,9 @@ export const createNameValidator = (api: LobbyService, minLength = 3) => (contro
                 map(lobby => {
                     return lobby ? { nameTaken: true } : null;
                 }),
+                catchError(() => {
+                    return of(null);
+                })
             )),
             first()
         );
