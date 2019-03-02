@@ -32,3 +32,7 @@ export type WithKeys<T> = {
 export type Dictionary<T> = {
     [key: string]: T;
 }
+
+export const genericTrackByFn = <T>(prop: keyof T) => (index: number, item: T) => {
+    return item[prop];
+};
