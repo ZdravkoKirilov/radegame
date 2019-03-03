@@ -27,11 +27,11 @@ export type FactionEntityState = EntityState<Faction>;
 export type ImageEntityState = EntityState<ImageAsset>;
 
 const selectBy = (prop: 'name' | 'title' | 'id') => (elem: LobbyFeatureEntity): string => {
-    return elem[prop];
+    return String(elem[prop]);
 };
 
 const sortBy = (prop: 'name' | 'title' | 'id') => (a: LobbyFeatureEntity, b: LobbyFeatureEntity): number => {
-    return a[prop].localeCompare(b[prop]);
+    return String(a[prop]).localeCompare(b[prop]);
 };
 
 export const gameAdapter = createEntityAdapter<Game>({

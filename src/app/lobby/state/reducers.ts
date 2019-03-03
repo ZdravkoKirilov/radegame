@@ -2,7 +2,7 @@ import produce from 'immer';
 import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter, TeamEntityState, FactionEntityState, ImageEntityState, teamAdapter, factionAdapter, imageAdapter } from './shape';
 import { LobbyAction } from './actions';
 import { ActionReducerMap } from '@ngrx/store';
-import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM, ADD_LOBBY, REMOVE_LOBBY, ADD_PLAYER, REMOVE_PLAYER, FETCH_LOBBY_SUCCESS, FETCH_PLAYERS_SUCCESS, FETCH_TEAMS_SUCCESS, FETCH_FACTIONS_SUCCESS, FETCH_IMAGES_SUCCESS } from './actionTypes';
+import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM, ADD_LOBBY, REMOVE_LOBBY, SAVE_PLAYER, REMOVE_PLAYER, FETCH_LOBBY_SUCCESS, FETCH_PLAYERS_SUCCESS, FETCH_TEAMS_SUCCESS, FETCH_FACTIONS_SUCCESS, FETCH_IMAGES_SUCCESS } from './actionTypes';
 
 const gamesReducer = (
     state: GameEntityState = initialState.games,
@@ -39,7 +39,7 @@ const playerReducer = (
             return playerAdapter.addAll(action.payload, state);
         case FETCH_PLAYERS_SUCCESS:
             return playerAdapter.addMany(action.payload, state);
-        case ADD_PLAYER:
+        case SAVE_PLAYER:
             return playerAdapter.addOne(action.payload, state);
         case REMOVE_PLAYER:
             return playerAdapter.removeOne(action.payload, state);

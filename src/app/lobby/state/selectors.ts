@@ -1,41 +1,32 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { createFeatureSelector, createSelector, select } from "@ngrx/store";
 import { groupBy } from 'lodash';
 
 import { FEATURE_NAME } from "../config";
-import { LobbyFeatureState, gameAdapter, lobbyAdapter, playerAdapter } from "./shape";
+import { LobbyFeatureState, gameAdapter, lobbyAdapter, playerAdapter, teamAdapter, factionAdapter, imageAdapter, LobbyMetaState } from "./shape";
 import { selectGameId, selectLobbyName } from "@app/shared";
 import { Lobby } from "../models";
 
 const selectFeature = createFeatureSelector<LobbyFeatureState>(FEATURE_NAME);
 
-const selectGames = createSelector(
+const selectSubfeature = (key: keyof LobbyFeatureState) => createSelector(
     selectFeature,
-    feature => feature.games,
+    feature => feature[key]
 );
-const selectLobbies = createSelector(
-    selectFeature,
-    feature => feature.lobbies
-);
-const selectPlayers = createSelector(
-    selectFeature,
-    feature => feature.players
-);
-const selectMeta = createSelector(
-    selectFeature,
-    feature => feature.meta
-)
 
 const fromGameAdapter = gameAdapter.getSelectors();
 const fromLobbyAdapter = lobbyAdapter.getSelectors();
 const fromPlayerAdapter = playerAdapter.getSelectors();
+const fromTeamAdapter = teamAdapter.getSelectors();
+const fromFactionAdapter = factionAdapter.getSelectors();
+const fromImageAdapter = imageAdapter.getSelectors();
 
 export const getFormState = createSelector(
-    selectMeta,
-    meta => meta.showForm,
+    selectSubfeature('meta'),
+    (meta: LobbyMetaState) => meta.showForm,
 );
 
 const getGameEntities = createSelector(
-    selectGames,
+    selectSubfeature('games'),
     fromGameAdapter.selectEntities,
 );
 
@@ -46,17 +37,17 @@ export const getSelectedGame = createSelector(
 );
 
 export const getLobbies = createSelector(
-    selectLobbies,
+    selectSubfeature('lobbies'),
     fromLobbyAdapter.selectAll
 );
 
 const getLobbyEntities = createSelector(
-    selectLobbies,
+    selectSubfeature('lobbies'),
     fromLobbyAdapter.selectEntities,
 )
 
 const getPlayers = createSelector(
-    selectPlayers,
+    selectSubfeature('players'),
     fromPlayerAdapter.selectAll
 );
 
@@ -87,6 +78,31 @@ export const getSelectedLobbyWithPlayers = createSelector(
     (lobby, players) => {
         if (lobby && players) {
             return { ...lobby, players: [...(players[lobby.name] || [])] } as Lobby;
+        }
+    }
+);
+
+export const getImages = createSelector(
+    selectSubfeature('images'),
+    fromImageAdapter.selectAll
+);
+
+export const getTeams = createSelector(
+    selectSubfeature('teams'),
+    fromTeamAdapter.selectAll
+);
+
+export const getFactions = createSelector(
+    selectSubfeature('factions'),
+    fromFactionAdapter.selectAll
+);
+
+export const getSetup = createSelector(
+    getSelectedGame,
+    getSelectedLobby,
+    (game, lobby) => {
+        if (game && lobby) {
+            return game.setups.find(setup => setup.id == lobby.setup);
         }
     }
 )

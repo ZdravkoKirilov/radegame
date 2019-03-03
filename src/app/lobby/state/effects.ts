@@ -6,7 +6,7 @@ import { mergeMap, map, catchError } from 'rxjs/operators';
 import {
     FetchLobbiesFail, FetchLobbies, FetchGame, FetchGameFail,
     FetchGameSuccess, FetchLobbiesSuccess, FetchPlayers, FetchPlayersFail, FetchPlayersSuccess,
-    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail, CreateLobbySuccess, AddLobby, CreatePlayer, CreatePlayerFail, AddPlayer, CreatePlayerSuccess, FetchLobby, FetchLobbyFail, FetchLobbySuccess, FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail, FetchImages, FetchImagesSuccess, FetchImagesFail
+    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail, CreateLobbySuccess, AddLobby, CreatePlayer, CreatePlayerFail, SavePlayer, CreatePlayerSuccess, FetchLobby, FetchLobbyFail, FetchLobbySuccess, FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail, FetchImages, FetchImagesSuccess, FetchImagesFail
 } from './actions';
 import { FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY, CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
@@ -97,7 +97,7 @@ export class LobbyEffects {
 
                 return [
                     new AddLobby(response.lobby),
-                    new AddPlayer(response.owner),
+                    new SavePlayer(response.owner),
                     new CreateLobbySuccess(),
                 ];
             }),
@@ -112,7 +112,7 @@ export class LobbyEffects {
         mergeMap(action => this.api.savePlayer(action.payload).pipe(
             map(response => {
                 return [
-                    new AddPlayer(response),
+                    new SavePlayer(response),
                     new CreatePlayerSuccess(),
                 ];
             }),

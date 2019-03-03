@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
 import { Lobby } from '../../models';
-import { Game } from '@app/game-mechanics';
+import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User } from '@app/profile';
 
 @Component({
@@ -15,6 +15,10 @@ export class GameLobbyComponent {
 		lobby: Lobby;
 		game: Game;
 		user: User;
+		teams: Team[];
+		factions: Faction[];
+		images: ImageAsset[];
+		setup: Setup;
 	}
 
 }
