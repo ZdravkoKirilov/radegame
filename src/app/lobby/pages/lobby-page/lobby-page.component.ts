@@ -5,11 +5,13 @@ import { map, filter } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectLobbyName, selectGameId } from '@app/shared';
-import { FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame } from '../../state';
+import {
+	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
+	FetchTeams, FetchFactions, FetchImages,
+} from '../../state';
 import { Lobby } from '../../models';
 import { Game } from '@app/game-mechanics';
 import { User, selectUser } from '@app/profile';
-import { element } from '@angular/core/src/render3';
 
 
 @Component({
@@ -49,6 +51,9 @@ export class LobbyPageComponent implements OnInit {
 			select(selectGameId),
 			map(gameId => {
 				this.store.dispatch(new FetchGame(gameId));
+				this.store.dispatch(new FetchTeams(gameId));
+				this.store.dispatch(new FetchFactions(gameId));
+				this.store.dispatch(new FetchImages(gameId));
 			})
 		).subscribe();
 

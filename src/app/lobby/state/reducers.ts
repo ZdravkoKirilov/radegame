@@ -1,8 +1,8 @@
 import produce from 'immer';
-import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter } from './shape';
+import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter, TeamEntityState, FactionEntityState, ImageEntityState, teamAdapter, factionAdapter, imageAdapter } from './shape';
 import { LobbyAction } from './actions';
 import { ActionReducerMap } from '@ngrx/store';
-import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM, ADD_LOBBY, REMOVE_LOBBY, ADD_PLAYER, REMOVE_PLAYER, FETCH_LOBBY_SUCCESS, FETCH_PLAYERS_SUCCESS } from './actionTypes';
+import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM, ADD_LOBBY, REMOVE_LOBBY, ADD_PLAYER, REMOVE_PLAYER, FETCH_LOBBY_SUCCESS, FETCH_PLAYERS_SUCCESS, FETCH_TEAMS_SUCCESS, FETCH_FACTIONS_SUCCESS, FETCH_IMAGES_SUCCESS } from './actionTypes';
 
 const gamesReducer = (
     state: GameEntityState = initialState.games,
@@ -61,9 +61,48 @@ const metaReducer = (
     }
 };
 
+const teamReducer = (
+    state: TeamEntityState = initialState.teams,
+    action: LobbyAction
+): TeamEntityState => {
+    switch (action.type) {
+        case FETCH_TEAMS_SUCCESS:
+            return teamAdapter.addAll(action.payload, state);
+        default:
+            return state;
+    }
+};
+
+const factionReducer = (
+    state: FactionEntityState = initialState.factions,
+    action: LobbyAction
+): FactionEntityState => {
+    switch (action.type) {
+        case FETCH_FACTIONS_SUCCESS:
+            return factionAdapter.addAll(action.payload, state);
+        default:
+            return state;
+    }
+};
+
+const imageReducer = (
+    state: ImageEntityState = initialState.images,
+    action: LobbyAction
+): ImageEntityState => {
+    switch (action.type) {
+        case FETCH_IMAGES_SUCCESS:
+            return imageAdapter.addAll(action.payload, state);
+        default:
+            return state;
+    }
+};
+
 export const mainReducer: ActionReducerMap<LobbyFeatureState> = {
     meta: metaReducer,
     games: gamesReducer,
     lobbies: lobbyReducer,
     players: playerReducer,
+    teams: teamReducer,
+    factions: factionReducer,
+    images: imageReducer,
 };

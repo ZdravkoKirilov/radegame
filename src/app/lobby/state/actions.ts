@@ -1,10 +1,10 @@
 import {
     TOGGLE_FORM, CREATE_LOBBY, CREATE_LOBBY_FAIL, CREATE_LOBBY_SUCCESS,
     ADD_LOBBY, FETCH_LOBBIES, FETCH_LOBBIES_FAIL, FETCH_LOBBIES_SUCCESS, FETCH_LOBBY,
-    FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS, FETCH_GAME_FAIL, FETCH_GAME_SUCCESS, FETCH_GAME, FETCH_PLAYERS, FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS, FETCH_PLAYERS_ALL_FAIL, CREATE_PLAYER, CREATE_PLAYER_SUCCESS, CREATE_PLAYER_FAIL, ADD_PLAYER, REMOVE_PLAYER, REMOVE_LOBBY,
+    FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS, FETCH_GAME_FAIL, FETCH_GAME_SUCCESS, FETCH_GAME, FETCH_PLAYERS, FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS, FETCH_PLAYERS_ALL_FAIL, CREATE_PLAYER, CREATE_PLAYER_SUCCESS, CREATE_PLAYER_FAIL, ADD_PLAYER, REMOVE_PLAYER, REMOVE_LOBBY, FETCH_TEAMS, FETCH_TEAMS_SUCCESS, FETCH_TEAMS_FAIL, FETCH_FACTIONS, FETCH_FACTIONS_SUCCESS, FETCH_FACTIONS_FAIL, FETCH_IMAGES, FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL,
 } from "./actionTypes";
 import { Lobby, Player } from "../models";
-import { Game } from "@app/game-mechanics";
+import { Game, Team, Faction, ImageAsset } from "@app/game-mechanics";
 
 export class ToggleForm {
     readonly type = TOGGLE_FORM;
@@ -129,8 +129,52 @@ export class RemovePlayer {
     constructor(public payload: string) { }
 }
 
+export class FetchTeams {
+    readonly type = FETCH_TEAMS;
+    constructor(public payload: number) { }
+}
+
+export class FetchTeamsSuccess {
+    readonly type = FETCH_TEAMS_SUCCESS;
+    constructor(public payload: Team[]) { }
+}
+
+export class FetchTeamsFail {
+    readonly type = FETCH_TEAMS_FAIL;
+}
+
+export class FetchFactions {
+    readonly type = FETCH_FACTIONS;
+    constructor(public payload: number) { }
+}
+
+export class FetchFactionsSuccess {
+    readonly type = FETCH_FACTIONS_SUCCESS;
+    constructor(public payload: Faction[]) { }
+}
+
+export class FetchFactionsFail {
+    readonly type = FETCH_FACTIONS_FAIL;
+}
+
+export class FetchImages {
+    readonly type = FETCH_IMAGES;
+    constructor(public payload: number) { }
+}
+
+export class FetchImagesSuccess {
+    readonly type = FETCH_IMAGES_SUCCESS;
+    constructor(public payload: ImageAsset[]) { }
+}
+
+export class FetchImagesFail {
+    readonly type = FETCH_IMAGES_FAIL;
+}
+
 export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
     RemoveLobby | FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
     FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess |
     FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess | CreatePlayer | CreatePlayerFail |
-    CreatePlayerSuccess | AddPlayer | RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess;
+    CreatePlayerSuccess | AddPlayer | RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess
+    | FetchTeams | FetchTeamsSuccess | FetchTeamsFail | FetchFactions | FetchFactionsSuccess |
+    FetchFactionsFail | FetchImages | FetchImagesFail | FetchImagesSuccess;

@@ -6,9 +6,9 @@ import { mergeMap, map, catchError } from 'rxjs/operators';
 import {
     FetchLobbiesFail, FetchLobbies, FetchGame, FetchGameFail,
     FetchGameSuccess, FetchLobbiesSuccess, FetchPlayers, FetchPlayersFail, FetchPlayersSuccess,
-    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail, CreateLobbySuccess, AddLobby, CreatePlayer, CreatePlayerFail, AddPlayer, CreatePlayerSuccess, FetchLobby, FetchLobbyFail, FetchLobbySuccess
+    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail, CreateLobbySuccess, AddLobby, CreatePlayer, CreatePlayerFail, AddPlayer, CreatePlayerSuccess, FetchLobby, FetchLobbyFail, FetchLobbySuccess, FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail, FetchImages, FetchImagesSuccess, FetchImagesFail
 } from './actions';
-import { FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY, CREATE_PLAYER, FETCH_LOBBY } from './actionTypes';
+import { FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY, CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
 import { GameFetchService } from '@app/core';
 
@@ -121,4 +121,46 @@ export class LobbyEffects {
             })
         ))
     )
+
+    @Effect()
+    fetchTeams = this.actions$.ofType<FetchTeams>(FETCH_TEAMS).pipe(
+        mergeMap(action => {
+            return this.fetcher.getTeams(action.payload).pipe(
+                map(response => {
+                    return new FetchTeamsSuccess(response);
+                }),
+                catchError(() => {
+                    return of(new FetchTeamsFail());
+                })
+            )
+        }),
+    );
+
+    @Effect()
+    fetchFactions = this.actions$.ofType<FetchFactions>(FETCH_FACTIONS).pipe(
+        mergeMap(action => {
+            return this.fetcher.getFactions(action.payload).pipe(
+                map(response => {
+                    return new FetchFactionsSuccess(response);
+                }),
+                catchError(() => {
+                    return of(new FetchFactionsFail());
+                })
+            )
+        }),
+    );
+
+    @Effect()
+    fetchImages = this.actions$.ofType<FetchImages>(FETCH_IMAGES).pipe(
+        mergeMap(action => {
+            return this.fetcher.getImages(action.payload).pipe(
+                map(response => {
+                    return new FetchImagesSuccess(response);
+                }),
+                catchError(() => {
+                    return of(new FetchImagesFail());
+                })
+            )
+        }),
+    );
 }
