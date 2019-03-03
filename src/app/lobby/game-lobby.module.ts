@@ -15,6 +15,7 @@ import { ListLayoutComponent } from './layout/list-layout/list-layout.component'
 import { LobbyListItemComponent } from './components/lobbies/item/lobby-list-item.component';
 import { LobbyPageComponent } from './pages/lobby-page/lobby-page.component';
 import { GameLobbyComponent } from './components/lobby/game-lobby.component';
+import { LiveLobbyService } from './services/live-lobby.service';
 
 @NgModule({
 	declarations: [
@@ -36,6 +37,7 @@ import { GameLobbyComponent } from './components/lobby/game-lobby.component';
 	entryComponents: [
 		LobbyFormComponent
 	],
-	exports: [RouterModule]
+	exports: [RouterModule],
+	providers: [LiveLobbyService]
 })
 export class GameLobbyModule { }

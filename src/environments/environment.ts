@@ -8,5 +8,5 @@ export const environment = {
 	BASE_URL: 'http://localhost:8000',
 	API_BASE_URL: 'http://localhost:8000/api/v1',
 	WS_BASE_URL: 'ws://localhost:8000',
-	WS_BROWSE_LOBBIES_BASE_URL: 'ws://localhost:8000/lobbies'
+	WS_BROWSE_LOBBIES_BASE_URL: 'ws://localhost:8000/ws/lobbies/'
 };

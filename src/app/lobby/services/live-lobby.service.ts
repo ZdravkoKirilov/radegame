@@ -1,26 +1,28 @@
 import { Injectable } from '@angular/core';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 
 import { LOBBY_URLS } from '@app/core';
 
-@Injectable({
-	providedIn: 'root'
-})
+@Injectable()
 export class LiveLobbyService {
 
 	private stream$ = new Subject<Action>();
 	private socket: WebSocket;
 
-	public ofType(...types: string[]) {
+	public ofType<T extends Action>(...types: string[]) {
 		return this.stream$.pipe(
-			filter((action: Action) => types.some(type => type === action.type))
-		);
+			filter((action) => types.some(type => type === action.type))
+		) as Observable<T>;
 	}
 
 	constructor() { 
 		this.socket = new WebSocket(LOBBY_URLS.LIVE_LOBBIES);
+
+		this.socket.onopen = () => {
+			this.socket.send(JSON.stringify({'message': 'Hello from client!'}));
+		};
 
 		this.socket.onmessage = (e: MessageEvent) => {
 			const data = JSON.parse(e.data);
@@ -28,7 +30,7 @@ export class LiveLobbyService {
 		};
 
 		this.socket.onclose = (e: CloseEvent) => {
-
+			
 		};
 	}
 

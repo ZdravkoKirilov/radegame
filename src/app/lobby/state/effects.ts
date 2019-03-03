@@ -11,14 +11,23 @@ import {
 import { FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY, CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
 import { GameFetchService } from '@app/core';
+import { LiveLobbyService } from '../services/live-lobby.service';
 
 @Injectable()
 export class LobbyEffects {
     constructor(
         private actions$: Actions,
         private api: LobbyService,
+        private sockets: LiveLobbyService,
         private fetcher: GameFetchService,
     ) { }
+
+    @Effect({ dispatch: false })
+    onSocketMessage = this.sockets.ofType('GOSHO').pipe(
+        map(action => {
+            debugger;
+        })
+    )
 
     @Effect()
     fetchGame = this.actions$.ofType<FetchGame>(FETCH_GAME).pipe(
