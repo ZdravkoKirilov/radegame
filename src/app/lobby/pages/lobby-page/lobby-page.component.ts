@@ -43,6 +43,7 @@ export class LobbyPageComponent implements OnInit {
 	constructor(private store: Store<AppState>) { }
 
 	ngOnInit() {
+
 		this.lobbyName$ = this.store.pipe(
 			select(selectLobbyName),
 			map(lobbyName => {

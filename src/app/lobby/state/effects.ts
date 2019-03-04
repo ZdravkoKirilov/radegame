@@ -1,33 +1,67 @@
 import { Actions, Effect } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { mergeMap, map, catchError } from 'rxjs/operators';
+import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
+import { Store, select } from '@ngrx/store';
 
 import {
     FetchLobbiesFail, FetchLobbies, FetchGame, FetchGameFail,
     FetchGameSuccess, FetchLobbiesSuccess, FetchPlayers, FetchPlayersFail, FetchPlayersSuccess,
-    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail, CreateLobbySuccess, AddLobby, CreatePlayer, CreatePlayerFail, SavePlayer, CreatePlayerSuccess, FetchLobby, FetchLobbyFail, FetchLobbySuccess, FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail, FetchImages, FetchImagesSuccess, FetchImagesFail
+    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail, CreateLobbySuccess, AddLobby, CreatePlayer, SavePlayer, FetchLobby, FetchLobbyFail, FetchLobbySuccess, FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail, FetchImages, FetchImagesSuccess, FetchImagesFail, RemoveLobby, RemovePlayers, RemovePlayer, UpdatePlayer, DeletePlayer
 } from './actions';
-import { FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY, CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES } from './actionTypes';
+import { FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY, CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES, REMOVE_LOBBY, REMOVE_PLAYER, SAVE_PLAYER, UPDATE_PLAYER, DELETE_PLAYER } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
-import { GameFetchService } from '@app/core';
+import { GameFetchService, AppState } from '@app/core';
 import { LiveLobbyService } from '../services/live-lobby.service';
+import { getPlayers } from './selectors';
 
 @Injectable()
 export class LobbyEffects {
     constructor(
+        private store: Store<AppState>,
         private actions$: Actions,
         private api: LobbyService,
         private sockets: LiveLobbyService,
         private fetcher: GameFetchService,
     ) { }
 
-    @Effect({ dispatch: false })
-    onSocketMessage = this.sockets.ofType('GOSHO').pipe(
-        map(action => {
-            debugger;
+    @Effect()
+    onLobbyCreated = this.sockets.ofType<CreateLobby>(CREATE_LOBBY).pipe(
+        mergeMap(action => {
+            return [
+                new AddLobby(action.payload.lobby),
+                new SavePlayer(action.payload.owner),
+            ];
         })
-    )
+    );
+
+    @Effect()
+    onLobbyDeleted = this.sockets.ofType<RemoveLobby>(REMOVE_LOBBY).pipe(
+        withLatestFrom(this.store.pipe(select(getPlayers))),
+        mergeMap(([action, players]) => {
+            const playersPendingDelete = players
+                .filter(elem => elem.lobby === action.payload)
+                .map(elem => elem.name);
+            return [
+                new RemoveLobby(action.payload),
+                new RemovePlayers(playersPendingDelete),
+            ];
+        })
+    );
+
+    @Effect()
+    onPlayerDeleted = this.sockets.ofType<RemovePlayer>(REMOVE_PLAYER).pipe(
+        map(action => {
+            return new RemovePlayer(action.payload);
+        }),
+    );
+
+    @Effect()
+    onPlayerSave = this.sockets.ofType<SavePlayer>(SAVE_PLAYER).pipe(
+        map(action => {
+            return new SavePlayer(action.payload);
+        })
+    );
 
     @Effect()
     fetchGame = this.actions$.ofType<FetchGame>(FETCH_GAME).pipe(
@@ -116,19 +150,27 @@ export class LobbyEffects {
         ))
     )
 
-    @Effect()
-    savePlayer = this.actions$.ofType<CreatePlayer>(CREATE_PLAYER).pipe(
-        mergeMap(action => this.api.savePlayer(action.payload).pipe(
-            map(response => {
-                return [
-                    new SavePlayer(response),
-                    new CreatePlayerSuccess(),
-                ];
-            }),
-            catchError(() => {
-                return of(new CreatePlayerFail())
-            })
-        ))
+    @Effect({ dispatch: false })
+    savePlayer = this.actions$
+        .ofType<CreatePlayer | UpdatePlayer>(CREATE_PLAYER, UPDATE_PLAYER)
+        .pipe(
+            map(action => this.sockets.savePlayer(action))
+            // mergeMap(action => this.api.savePlayer(action.payload).pipe(
+            //     map(response => {
+            //         return [
+            //             new SavePlayer(response),
+            //             new CreatePlayerSuccess(),
+            //         ];
+            //     }),
+            //     catchError(() => {
+            //         return of(new CreatePlayerFail())
+            //     })
+            // ))
+        )
+
+    @Effect({ dispatch: false })
+    deletePlayer = this.actions$.ofType<DeletePlayer>(DELETE_PLAYER).pipe(
+        map(action => this.sockets.removePlayer(action))
     )
 
     @Effect()

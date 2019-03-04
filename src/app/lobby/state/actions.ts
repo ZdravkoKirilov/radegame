@@ -1,7 +1,7 @@
 import {
     TOGGLE_FORM, CREATE_LOBBY, CREATE_LOBBY_FAIL, CREATE_LOBBY_SUCCESS,
     ADD_LOBBY, FETCH_LOBBIES, FETCH_LOBBIES_FAIL, FETCH_LOBBIES_SUCCESS, FETCH_LOBBY,
-    FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS, FETCH_GAME_FAIL, FETCH_GAME_SUCCESS, FETCH_GAME, FETCH_PLAYERS, FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS, FETCH_PLAYERS_ALL_FAIL, REMOVE_PLAYER, REMOVE_LOBBY, FETCH_TEAMS, FETCH_TEAMS_SUCCESS, FETCH_TEAMS_FAIL, FETCH_FACTIONS, FETCH_FACTIONS_SUCCESS, FETCH_FACTIONS_FAIL, FETCH_IMAGES, FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL, CREATE_PLAYER, CREATE_PLAYER_SUCCESS, CREATE_PLAYER_FAIL, SAVE_PLAYER,
+    FETCH_LOBBY_FAIL, FETCH_LOBBY_SUCCESS, FETCH_GAME_FAIL, FETCH_GAME_SUCCESS, FETCH_GAME, FETCH_PLAYERS, FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS, FETCH_PLAYERS_ALL_FAIL, REMOVE_PLAYER, REMOVE_LOBBY, FETCH_TEAMS, FETCH_TEAMS_SUCCESS, FETCH_TEAMS_FAIL, FETCH_FACTIONS, FETCH_FACTIONS_SUCCESS, FETCH_FACTIONS_FAIL, FETCH_IMAGES, FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL, CREATE_PLAYER, CREATE_PLAYER_SUCCESS, CREATE_PLAYER_FAIL, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER,
 } from "./actionTypes";
 import { Lobby, Player } from "../models";
 import { Game, Team, Faction, ImageAsset } from "@app/game-mechanics";
@@ -124,9 +124,24 @@ export class SavePlayer {
     constructor(public payload: Player) { }
 }
 
+export class UpdatePlayer {
+    readonly type = UPDATE_PLAYER;
+    constructor(public payload: Player) { }
+}
+
 export class RemovePlayer {
     readonly type = REMOVE_PLAYER;
     constructor(public payload: string) { }
+}
+
+export class DeletePlayer {
+    readonly type = DELETE_PLAYER;
+    constructor(public payload: string) {}
+}
+
+export class RemovePlayers {
+    readonly type = REMOVE_PLAYERS;
+    constructor(public payload: string[]) { }
 }
 
 export class FetchTeams {
@@ -177,4 +192,4 @@ export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLob
     FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess | CreatePlayer | CreatePlayerFail |
     CreatePlayerSuccess | SavePlayer | RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess
     | FetchTeams | FetchTeamsSuccess | FetchTeamsFail | FetchFactions | FetchFactionsSuccess |
-    FetchFactionsFail | FetchImages | FetchImagesFail | FetchImagesSuccess;
+    FetchFactionsFail | FetchImages | FetchImagesFail | FetchImagesSuccess | RemovePlayers;

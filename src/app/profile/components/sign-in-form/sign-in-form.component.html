@@ -1,38 +1,43 @@
 <div class="sign-in-form">
 
-  <section class="social-buttons-wrapper">
+	<section class="social-buttons-wrapper">
 
-    <a [routerLink]="['social/facebook']" [queryParams]="{returnTo: '/home'}" class="social-link">
-      <rg-social-button [type]="buttons.FACEBOOK" [label]="'Use Facebook'">
-      </rg-social-button>
-    </a>
+		<a [routerLink]="['social/facebook']" [queryParams]="{returnTo: '/home'}" class="social-link">
+			<rg-social-button [type]="buttons.FACEBOOK" [label]="'Use Facebook'">
+			</rg-social-button>
+		</a>
 
-    <a [routerLink]="['social/google']" class="social-link">
-      <rg-social-button [type]="buttons.GOOGLE" [label]="'Use Google'">
-      </rg-social-button>
-    </a>
+		<a [routerLink]="['social/google']" class="social-link">
+			<rg-social-button [type]="buttons.GOOGLE" [label]="'Use Google'">
+			</rg-social-button>
+		</a>
 
-  </section>
+	</section>
 
-  <rg-divider width="60%">
-    <i>or use email</i>
-  </rg-divider>
+	<rg-divider width="60%">
+		<i>or use email</i>
+	</rg-divider>
 
-  <section>
+	<section>
 
-    <form [formGroup]="form" class="email-wrapper">
+		<form [formGroup]="form" class="email-wrapper">
 
-      <mat-form-field>
-        <input type="email" matInput placeholder="Email" formControlName="email" />
-      </mat-form-field>
+			<mat-form-field>
+				<input type="email" matInput placeholder="Email" formControlName="email" />
+			</mat-form-field>
 
-      <mat-form-field>
-        <input type="password" matInput placeholder="Password" formControlName="password" />
-      </mat-form-field>
+			<mat-form-field>
+				<input type="text" matInput placeholder="Alias" formControlName="alias" />
+			</mat-form-field>
 
-      <button [disabled]="!form.valid" (click)="onSignIn(buttons.EMAIL)" type="button" mat-raised-button color="primary">{{buttonText}}</button>
-    </form>
+			<mat-form-field>
+				<input type="password" matInput placeholder="Password" formControlName="password" />
+			</mat-form-field>
 
-  </section>
+			<button [disabled]="!form.valid" (click)="onSignIn(buttons.EMAIL)" type="button" mat-raised-button
+				color="primary">{{buttonText}}</button>
+		</form>
+
+	</section>
 
 </div>

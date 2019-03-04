@@ -48,12 +48,12 @@ export const LEAVE_LOBBY_SUCCESS = '[Lobby] LEAVE_LOBBY_SUCCESS';
 export const LEAVE_LOBBY_FAIL = '[Lobby] LEAVE_LOBBY_FAIL';
 
 export const UPDATE_PLAYER = '[Lobby] UPDATE_PLAYER';
-export const UPDATE_PLAYER_SUCCESS = '[Lobby] UPDATE_PLAYER_SUCCESS';
-export const UPDATE_PLAYER_FAIL = '[Lobby] UPDATE_PLAYER_FAIL';
-
 export const SAVE_PLAYER = '[Lobby] SAVE_PLAYER';
 export const REMOVE_PLAYER = '[Lobby] REMOVE_PLAYER';
+export const REMOVE_PLAYERS = '[Lobby] REMOVE_PLAYERS';
 
 export const CREATE_PLAYER = '[Lobby] CREATE_PLAYER';
 export const CREATE_PLAYER_SUCCESS = '[Lobby] CREATE_PLAYER_SUCCESS';
 export const CREATE_PLAYER_FAIL = '[Lobby] CREATE_PLAYER_FAIL';
+
+export const DELETE_PLAYER = '[Lobby] DELETE_PLAYER';

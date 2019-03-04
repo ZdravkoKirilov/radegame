@@ -4,6 +4,7 @@ import { filter } from 'rxjs/operators';
 import { Action } from '@ngrx/store';
 
 import { LOBBY_URLS } from '@app/core';
+import { CreatePlayer, UpdatePlayer, DeletePlayer } from '../state';
 
 @Injectable()
 export class LiveLobbyService {
@@ -17,11 +18,11 @@ export class LiveLobbyService {
 		) as Observable<T>;
 	}
 
-	constructor() { 
+	constructor() {
 		this.socket = new WebSocket(LOBBY_URLS.LIVE_LOBBIES);
 
 		this.socket.onopen = () => {
-			this.socket.send(JSON.stringify({'message': 'Hello from client!'}));
+			// this.socket.send(JSON.stringify({ 'message': 'Hello from client!' }));
 		};
 
 		this.socket.onmessage = (e: MessageEvent) => {
@@ -30,11 +31,23 @@ export class LiveLobbyService {
 		};
 
 		this.socket.onclose = (e: CloseEvent) => {
-			
+
 		};
 	}
 
-	send(data: object) {
-		this.socket.send(JSON.stringify(data));
+	savePlayer(action: CreatePlayer | UpdatePlayer) {
+		debugger;
+		this.socket.send(JSON.stringify({
+			type: action.type,
+			payload: action.payload,
+		}));
+	}
+
+	removePlayer(action: DeletePlayer) {
+		debugger;
+		this.socket.send(JSON.stringify({
+			type: action.type,
+			payload: action.payload,
+		}));
 	}
 }

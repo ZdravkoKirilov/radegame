@@ -46,7 +46,7 @@ const getLobbyEntities = createSelector(
     fromLobbyAdapter.selectEntities,
 )
 
-const getPlayers = createSelector(
+export const getPlayers = createSelector(
     selectSubfeature('players'),
     fromPlayerAdapter.selectAll
 );
