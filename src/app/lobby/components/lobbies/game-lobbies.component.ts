@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { Game } from '@app/game-mechanics';
-import { Lobby, Player } from '../../models';
+import { Lobby } from '../../models';
 
 @Component({
 	selector: 'rg-game-lobbies',
@@ -11,9 +11,11 @@ import { Lobby, Player } from '../../models';
 export class GameLobbiesComponent {
 
 	@Input() game: Game;
+
 	@Input() lobbies: Lobby[];
 	@Input() showForm: boolean;
 
 	@Output() createLobby = new EventEmitter();
+	@Output() joinLobby = new EventEmitter<Lobby>();
 
 }

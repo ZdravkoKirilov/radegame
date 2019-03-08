@@ -8,11 +8,12 @@ import { Router } from '@angular/router';
 import { AppState } from '@app/core';
 import { LobbyService } from '../../services/lobby.service';
 import { createNameValidator } from './validators/lobby-name-available';
-import { ToggleForm, getSelectedGame, CreateLobby, getLobbies, getLobbiesWithPlayers } from '../../state';
-import { AutoUnsubscribe, WithTimeout } from '@app/shared';
+import { ToggleForm, getSelectedGame, CreateLobby, getLobbiesWithPlayers } from '../../state';
+import { AutoUnsubscribe } from '@app/shared';
 import { Game } from '@app/game-mechanics';
 import { selectUser, User } from '@app/profile';
 import { Player, Lobby } from '../../models';
+import { composePlayerName } from '../../utils';
 
 
 @Component({
@@ -86,7 +87,7 @@ export class LobbyFormComponent implements OnInit {
 	create() {
 
 		const owner: Player = {
-			name: `${this.game.title}:${this.form.value.name}:${this.user.alias}`,
+			name: composePlayerName(this.game.title, this.form.value.name, this.user.alias),
 			lobby: this.form.value.name,
 			user: this.user.id,
 			game: this.game.id,

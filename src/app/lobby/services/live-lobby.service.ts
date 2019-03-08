@@ -36,7 +36,6 @@ export class LiveLobbyService {
 	}
 
 	savePlayer(action: CreatePlayer | UpdatePlayer) {
-		debugger;
 		this.socket.send(JSON.stringify({
 			type: action.type,
 			payload: action.payload,
@@ -44,7 +43,6 @@ export class LiveLobbyService {
 	}
 
 	removePlayer(action: DeletePlayer) {
-		debugger;
 		this.socket.send(JSON.stringify({
 			type: action.type,
 			payload: action.payload,

@@ -39,21 +39,11 @@ export const FETCH_IMAGES = '[Lobby] FETCH_IMAGES';
 export const FETCH_IMAGES_SUCCESS = '[Lobby] FETCH_IMAGES_SUCCESS';
 export const FETCH_IMAGES_FAIL = '[Lobby] FETCH_IMAGES_FAIL';
 
-export const JOIN_LOBBY = '[Lobby] JOIN_LOBBY';
-export const JOIN_LOBBY_SUCCESS = '[Lobby] JOIN_LOBBY_SUCCESS';
-export const JOIN_LOBBY_FAIL = '[Lobby] JOIN_LOBBY_FAIL';
-
-export const LEAVE_LOBBY = '[Lobby] LEAVE_LOBBY';
-export const LEAVE_LOBBY_SUCCESS = '[Lobby] LEAVE_LOBBY_SUCCESS';
-export const LEAVE_LOBBY_FAIL = '[Lobby] LEAVE_LOBBY_FAIL';
-
 export const UPDATE_PLAYER = '[Lobby] UPDATE_PLAYER';
 export const SAVE_PLAYER = '[Lobby] SAVE_PLAYER';
 export const REMOVE_PLAYER = '[Lobby] REMOVE_PLAYER';
 export const REMOVE_PLAYERS = '[Lobby] REMOVE_PLAYERS';
 
 export const CREATE_PLAYER = '[Lobby] CREATE_PLAYER';
-export const CREATE_PLAYER_SUCCESS = '[Lobby] CREATE_PLAYER_SUCCESS';
-export const CREATE_PLAYER_FAIL = '[Lobby] CREATE_PLAYER_FAIL';
 
 export const DELETE_PLAYER = '[Lobby] DELETE_PLAYER';

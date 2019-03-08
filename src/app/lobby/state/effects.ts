@@ -155,17 +155,6 @@ export class LobbyEffects {
         .ofType<CreatePlayer | UpdatePlayer>(CREATE_PLAYER, UPDATE_PLAYER)
         .pipe(
             map(action => this.sockets.savePlayer(action))
-            // mergeMap(action => this.api.savePlayer(action.payload).pipe(
-            //     map(response => {
-            //         return [
-            //             new SavePlayer(response),
-            //             new CreatePlayerSuccess(),
-            //         ];
-            //     }),
-            //     catchError(() => {
-            //         return of(new CreatePlayerFail())
-            //     })
-            // ))
         )
 
     @Effect({ dispatch: false })

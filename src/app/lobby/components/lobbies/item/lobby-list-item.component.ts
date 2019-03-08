@@ -1,4 +1,4 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Game, Setup } from '@app/game-mechanics';
 import { Lobby } from '../../../models';
 import { OnChange } from '@app/shared';
@@ -10,13 +10,17 @@ import { OnChange } from '@app/shared';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LobbyListItemComponent {
-
-	setup: Setup;
-
 	@Input() game: Game;
 
-	@OnChange<Lobby>(function(lobby) {
-		this.setup = this.game.setups.find(setup => setup.id === lobby.setup);
-	})
 	@Input() lobby: Lobby;
+
+	get setup(): Setup {
+		return this.game.setups.find(setup => setup.id == this.lobby.setup);
+	}
+
+	@Output() joinLobby = new EventEmitter<Lobby>();
+
+	join() {
+		this.joinLobby.emit(this.lobby);
+	}
 }

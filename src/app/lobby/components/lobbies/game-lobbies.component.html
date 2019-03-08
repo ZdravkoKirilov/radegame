@@ -3,7 +3,8 @@
 	<ng-scrollbar>
 		<div class="list rg-container mat-elevation-z2" role="list">
 			<ng-container *ngFor="let item of lobbies">
-				<rg-lobby-list-item [game]="game" [lobby]="item"></rg-lobby-list-item>
+				<rg-lobby-list-item [game]="game" [lobby]="item" (joinLobby)="joinLobby.emit($event)">
+				</rg-lobby-list-item>
 			</ng-container>
 		</div>
 	</ng-scrollbar>
