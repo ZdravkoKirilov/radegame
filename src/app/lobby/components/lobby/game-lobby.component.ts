@@ -1,5 +1,5 @@
-import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Lobby } from '../../models';
+import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
+import { Lobby, Player } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User } from '@app/profile';
 
@@ -11,6 +11,8 @@ import { User } from '@app/profile';
 })
 export class GameLobbyComponent {
 
+	@Output() kickPlayer = new EventEmitter<Player>();
+
 	@Input() data: {
 		lobby: Lobby;
 		game: Game;
@@ -19,6 +21,7 @@ export class GameLobbyComponent {
 		factions: Faction[];
 		images: ImageAsset[];
 		setup: Setup;
+		isOwner: boolean;
 	}
 
 }

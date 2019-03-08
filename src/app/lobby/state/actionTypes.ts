@@ -10,6 +10,8 @@ export const CREATE_LOBBY = '[Lobby] CREATE_LOBBY';
 export const CREATE_LOBBY_SUCCESS = '[Lobby] CREATE_LOBBY_SUCCESS';
 export const CREATE_LOBBY_FAIL = '[Lobby] CREATE_LOBBY_FAIL';
 
+export const DELETE_LOBBY = '[Lobby] DELETE_LOBBY';
+
 export const ADD_LOBBY = '[Lobby] ADD_LOBBY';
 export const REMOVE_LOBBY = '[Lobby] REMOVE_LOBBY';
 

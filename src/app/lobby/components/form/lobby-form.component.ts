@@ -80,7 +80,7 @@ export class LobbyFormComponent implements OnInit {
 
 	enterLobby(lobby: Lobby) {
 		this.store.dispatch(new ToggleForm(false));
-		// this.router.navigate(['lobbies', 'games', this.game.id, lobby.name]);
+		this.router.navigate(['lobbies', 'games', this.game.id, lobby.name]);
 
 	}
 

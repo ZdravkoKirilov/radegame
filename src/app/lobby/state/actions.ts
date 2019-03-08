@@ -5,7 +5,7 @@ import {
     FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS,
     FETCH_PLAYERS_ALL_FAIL, REMOVE_PLAYER, REMOVE_LOBBY, FETCH_TEAMS, FETCH_TEAMS_SUCCESS, FETCH_TEAMS_FAIL,
     FETCH_FACTIONS, FETCH_FACTIONS_SUCCESS, FETCH_FACTIONS_FAIL, FETCH_IMAGES, FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL,
-    CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER,
+    CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY,
 } from "./actionTypes";
 import { Lobby, Player } from "../models";
 import { Game, Team, Faction, ImageAsset } from "@app/game-mechanics";
@@ -38,6 +38,11 @@ export class AddLobby {
 
 export class RemoveLobby {
     readonly type = REMOVE_LOBBY;
+    constructor(public payload: string) { }
+}
+
+export class DeleteLobby {
+    readonly type = DELETE_LOBBY;
     constructor(public payload: string) { }
 }
 
@@ -185,6 +190,6 @@ export class FetchImagesFail {
 export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
     RemoveLobby | FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
     FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess |
-    FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess | CreatePlayer | SavePlayer | RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess
+    FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess | CreatePlayer | SavePlayer | RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess | DeleteLobby
     | FetchTeams | FetchTeamsSuccess | FetchTeamsFail | FetchFactions | FetchFactionsSuccess |
     FetchFactionsFail | FetchImages | FetchImagesFail | FetchImagesSuccess | RemovePlayers;

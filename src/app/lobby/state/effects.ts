@@ -7,9 +7,9 @@ import { Store, select } from '@ngrx/store';
 import {
     FetchLobbiesFail, FetchLobbies, FetchGame, FetchGameFail,
     FetchGameSuccess, FetchLobbiesSuccess, FetchPlayers, FetchPlayersFail, FetchPlayersSuccess,
-    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail, CreateLobbySuccess, AddLobby, CreatePlayer, SavePlayer, FetchLobby, FetchLobbyFail, FetchLobbySuccess, FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail, FetchImages, FetchImagesSuccess, FetchImagesFail, RemoveLobby, RemovePlayers, RemovePlayer, UpdatePlayer, DeletePlayer
+    FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail, CreateLobbySuccess, AddLobby, CreatePlayer, SavePlayer, FetchLobby, FetchLobbyFail, FetchLobbySuccess, FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail, FetchImages, FetchImagesSuccess, FetchImagesFail, RemoveLobby, RemovePlayers, RemovePlayer, UpdatePlayer, DeletePlayer, DeleteLobby
 } from './actions';
-import { FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY, CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES, REMOVE_LOBBY, REMOVE_PLAYER, SAVE_PLAYER, UPDATE_PLAYER, DELETE_PLAYER } from './actionTypes';
+import { FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY, CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES, REMOVE_LOBBY, REMOVE_PLAYER, SAVE_PLAYER, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
 import { GameFetchService, AppState } from '@app/core';
 import { LiveLobbyService } from '../services/live-lobby.service';
@@ -149,6 +149,19 @@ export class LobbyEffects {
             })
         ))
     )
+
+    @Effect()
+    deleteLobby = this.actions$.ofType<DeleteLobby>(DELETE_LOBBY).pipe(
+        mergeMap(action => this.api.deleteLobby(action.payload).pipe(
+            map(() => {
+                return new RemoveLobby(action.payload);
+            }),
+            catchError(() => {
+                return of(new CreateLobbyFail());
+            })
+        ))
+    )
+
 
     @Effect({ dispatch: false })
     savePlayer = this.actions$

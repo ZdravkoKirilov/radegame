@@ -1,4 +1,4 @@
-<mat-card role="listitem" class="lobby">
+<mat-card role="listitem" class="lobby" *ngIf="setup && lobby">
 	<h2>{{lobby.name}}</h2>
 
 	{{lobby.players.length}} / {{setup.max_players}}

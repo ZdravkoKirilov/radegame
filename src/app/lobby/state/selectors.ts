@@ -112,7 +112,30 @@ export const playerJoined = createSelector(
     getSelectedLobbyWithPlayers,
     selectUser,
     (lobby, user) => {
-        debugger;
-        return Boolean(lobby.players.find(player => player.user == user.id))
+        if (lobby && user) {
+            return Boolean(lobby.players.find(player => player.user == user.id));
+        }
+        return true;
+    }
+);
+
+export const isOwner = createSelector(
+    getSelectedLobby,
+    selectUser,
+    (lobby, user) => {
+        if (lobby && user) {
+            return lobby.owner == user.id;
+        }
+        return false;
+    }
+);
+
+export const getSelf = createSelector(
+    selectUser,
+    getPlayers,
+    (user, players) => {
+        if (user && players) {
+            return players.find(player => player.user == user.id);
+        }
     }
 );

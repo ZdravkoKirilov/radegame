@@ -6,12 +6,11 @@ import { map } from 'rxjs/operators';
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
 import {
-	FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers, getLobbiesWithPlayers, getFormState, ToggleForm, CreatePlayer
+	FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers, getLobbiesWithPlayers, getFormState, ToggleForm
 } from '../../state';
 import { Game } from '@app/game-mechanics';
-import { Lobby, Player } from '../../models';
+import { Lobby } from '../../models';
 import { User, selectUser } from '@app/profile';
-import { composePlayerName } from '../../utils';
 
 @Component({
 	selector: 'rg-lobbies-page',

@@ -1,4 +1,4 @@
-<article *ngIf="data" class="rg-container mat-elevation-z2">
+<article *ngIf="data?.lobby && data.setup && data.game" class="rg-container mat-elevation-z2">
 	<mat-card>
 		<header>
 			<img [src]="data.game.image" />
@@ -8,6 +8,12 @@
 				<br>
 
 				{{data.lobby.players.length}} / {{data.setup.min_players}}-{{data.setup.max_players}}
+			</section>
+
+			<section>
+				<a [routerLink]="['../']">
+					<button mat-stroked-button>Leave</button>
+				</a>
 			</section>
 		</header>
 	</mat-card>
@@ -34,6 +40,11 @@
 					</mat-option>
 				</mat-select>
 			</mat-form-field>
+
+			<button mat-stroked-button *ngIf="data.isOwner && item.user !== data.user.id"
+				(click)="kickPlayer.emit(item)">
+				Kick
+			</button>
 
 
 		</mat-list-item>
