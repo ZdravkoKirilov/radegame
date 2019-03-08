@@ -5,6 +5,7 @@ import { FEATURE_NAME } from "../config";
 import { LobbyFeatureState, gameAdapter, lobbyAdapter, playerAdapter, teamAdapter, factionAdapter, imageAdapter, LobbyMetaState } from "./shape";
 import { selectGameId, selectLobbyName } from "@app/shared";
 import { Lobby } from "../models";
+import { selectUser } from "@app/profile";
 
 const selectFeature = createFeatureSelector<LobbyFeatureState>(FEATURE_NAME);
 
@@ -105,4 +106,13 @@ export const getSetup = createSelector(
             return game.setups.find(setup => setup.id == lobby.setup);
         }
     }
-)
+);
+
+export const playerJoined = createSelector(
+    getSelectedLobbyWithPlayers,
+    selectUser,
+    (lobby, user) => {
+        debugger;
+        return Boolean(lobby.players.find(player => player.user == user.id))
+    }
+);

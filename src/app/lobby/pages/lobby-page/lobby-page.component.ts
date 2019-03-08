@@ -7,11 +7,12 @@ import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectLobbyName, selectGameId } from '@app/shared';
 import {
 	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
-	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup,
+	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup, CreatePlayer, playerJoined,
 } from '../../state';
-import { Lobby } from '../../models';
+import { Lobby, Player } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User, selectUser } from '@app/profile';
+import { composePlayerName } from '../../utils';
 
 
 @Component({
@@ -38,6 +39,7 @@ export class LobbyPageComponent implements OnInit {
 		factions: Faction[];
 		images: ImageAsset[];
 		setup: Setup;
+		hasJoined: boolean;
 	};
 
 	constructor(private store: Store<AppState>) { }
@@ -70,19 +72,30 @@ export class LobbyPageComponent implements OnInit {
 			this.store.pipe(select(getTeams)),
 			this.store.pipe(select(getFactions)),
 			this.store.pipe(select(getImages)),
-			this.store.pipe(select(getSetup))
+			this.store.pipe(select(getSetup)),
+			this.store.pipe(select(playerJoined))
 		).pipe(
-			filter(chunk => {
-				if (Array.isArray(chunk)) {
-					return chunk.every(elem => !!elem);
-				} else {
-					return !!chunk;
-				}
-			}),
-			map(([game, user, lobby, teams, factions, images, setup]) => {
-				this.data = { game, user, lobby, teams, factions, images, setup };
+			// filter(chunk => {
+			// 	if (Array.isArray(chunk)) {
+			// 		return chunk.every(elem => !!elem);
+			// 	} else {
+			// 		return !!chunk;
+			// 	}
+			// }),
+			map(([game, user, lobby, teams, factions, images, setup, hasJoined]) => {
+				this.data = { game, user, lobby, teams, factions, images, setup, hasJoined };
 			})
 		).subscribe();
+	}
+
+	joinLobby(lobby: Lobby) {
+		const player: Player = {
+			name: composePlayerName(this.data.game.title, lobby.name, this.data.user.alias),
+			game: this.data.game.id,
+			user: this.data.user.id,
+			lobby: lobby.name,
+		};
+		this.store.dispatch(new CreatePlayer(player));
 	}
 
 }

@@ -17,10 +17,4 @@ export class LobbyListItemComponent {
 	get setup(): Setup {
 		return this.game.setups.find(setup => setup.id == this.lobby.setup);
 	}
-
-	@Output() joinLobby = new EventEmitter<Lobby>();
-
-	join() {
-		this.joinLobby.emit(this.lobby);
-	}
 }

@@ -7,8 +7,8 @@
 		{{setup.name}}
 	</span>
 
-	<a class="join">
-		<button mat-raised-button color="primary" (click)="join()">
+	<a class="join" [routerLink]="[lobby.name]">
+		<button mat-raised-button color="primary">
 			<mat-icon class="icon" *ngIf="lobby.password">lock</mat-icon>
 			<mat-icon class="icon" *ngIf="!lobby.password">lock_open</mat-icon>
 			<span>Join</span>

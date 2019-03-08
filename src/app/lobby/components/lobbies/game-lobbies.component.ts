@@ -16,6 +16,5 @@ export class GameLobbiesComponent {
 	@Input() showForm: boolean;
 
 	@Output() createLobby = new EventEmitter();
-	@Output() joinLobby = new EventEmitter<Lobby>();
 
 }

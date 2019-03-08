@@ -21,7 +21,6 @@ import { composePlayerName } from '../../utils';
 		[lobbies]="lobbies$ | async" 
 		[showForm]="showForm$ | async"
 		(createLobby)="showCreateLobbyForm()"
-		(joinLobby)="joinLobby($event)"
 	>
     </rg-game-lobbies>
     `,
@@ -75,15 +74,4 @@ export class LobbiesPageComponent implements OnInit {
 	showCreateLobbyForm() {
 		this.store.dispatch(new ToggleForm(true));
 	}
-
-	joinLobby(lobby: Lobby) {
-		const player: Player = {
-			name: composePlayerName(this.game.title, lobby.name, this.user.alias),
-			game: this.game.id,
-			user: this.user.id,
-			lobby: lobby.name,
-		};
-		this.store.dispatch(new CreatePlayer(player));
-	}
-
 }
