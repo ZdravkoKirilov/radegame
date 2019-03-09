@@ -1,3 +1,4 @@
+@import '../../../styles/_colors';
 :host {
     margin-top: 20px;
     display: block;
@@ -14,14 +15,31 @@
             height: auto;
         }
     }
+    .details {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        .actions {
+            a {
+                color: $text;
+                margin-right: 50px;
+            }
+        }
+    }
     .players,
     .chat {
         margin-top: 20px;
     }
     .players {
+        display: grid;
+        grid-gap: 30px;
         .player {
-            padding: 10px 15px;
-            background: darken(white, 10%);
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-gap: 20px;
+            background: darken(white, 5%);
+            padding: 20px;
         }
     }
     .chat {

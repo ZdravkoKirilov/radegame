@@ -2,25 +2,32 @@
 	<mat-card>
 		<header>
 			<img [src]="data.game.image" />
-			<section>
-				{{data.game.title}}
+			<section class="details">
 
-				<br>
+				<div class="info">
+					{{data.game.title}}
 
-				{{data.lobby.players.length}} / {{data.setup.min_players}}-{{data.setup.max_players}}
-			</section>
+					<br>
 
-			<section>
-				<a [routerLink]="['../']">
-					<button mat-stroked-button>Leave</button>
-				</a>
+					{{data.lobby.players.length}} / {{data.setup.min_players}}-{{data.setup.max_players}}
+				</div>
+
+				<div class="actions">
+					<a [routerLink]="['../']">
+						<button mat-stroked-button color="warn">Leave</button>
+					</a>
+
+					<a>
+						<button mat-stroked-button color="primary">Start</button>
+					</a>
+				</div>
 			</section>
 		</header>
 	</mat-card>
+	a
 
-
-	<mat-list class="players mat-elevation-z2">
-		<mat-list-item *ngFor="let item of data.lobby.players" class="player">
+	<div class="players mat-elevation-z2">
+		<div *ngFor="let item of data.lobby.players" class="player">
 			{{item.name}}
 
 			<mat-form-field>
@@ -43,14 +50,15 @@
 				</mat-select>
 			</mat-form-field>
 
-			<button mat-stroked-button *ngIf="data.isOwner && item.user !== data.user.id"
-				(click)="kickPlayer.emit(item)">
-				Kick
-			</button>
+			<div>
+				<button mat-stroked-button *ngIf="data.isOwner && item.user !== data.user.id"
+					(click)="kickPlayer.emit(item)">
+					Kick
+				</button>
+			</div>
 
-
-		</mat-list-item>
-	</mat-list>
+		</div>
+	</div>
 
 	<mat-card class="chat">
 		bla bla bla
