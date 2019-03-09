@@ -12,6 +12,7 @@ import { User } from '@app/profile';
 export class GameLobbyComponent {
 
 	@Output() kickPlayer = new EventEmitter<Player>();
+	@Output() updatePlayer = new EventEmitter<Partial<Player>>();
 
 	@Input() data: {
 		lobby: Lobby;
@@ -22,6 +23,13 @@ export class GameLobbyComponent {
 		images: ImageAsset[];
 		setup: Setup;
 		isOwner: boolean;
+	}
+	
+	onPlayerUpdate(player: Player, data: Partial<Player>) {
+		this.updatePlayer.emit({
+			...player,
+			...data
+		});
 	}
 
 }

@@ -8,7 +8,7 @@ import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectLobbyName, selectGameId, OnChange } from '@app/shared';
 import {
 	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
-	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup, CreatePlayer, playerJoined, isOwner, DeletePlayer, DeleteLobby, getSelf,
+	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup, CreatePlayer, playerJoined, isOwner, DeletePlayer, DeleteLobby, getSelf, UpdatePlayer,
 } from '../../state';
 import { Lobby, Player } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
@@ -19,7 +19,7 @@ import { composePlayerName } from '../../utils';
 @Component({
 	selector: 'rg-lobby-page',
 	template: `
-		<rg-game-lobby [data]="data" (kickPlayer)="kickPlayer($event)">
+		<rg-game-lobby [data]="data" (kickPlayer)="kickPlayer($event)" (updatePlayer)="updatePlayer($event)">
 		</rg-game-lobby>
     `,
 	styles: []
@@ -144,6 +144,10 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
 	kickPlayer(player: Player) {
 		this.store.dispatch(new DeletePlayer(player.name));
+	}
+
+	updatePlayer(player: Partial<Player>) {
+		this.store.dispatch(new UpdatePlayer(player));
 	}
 
 }

@@ -127,7 +127,7 @@ export class SavePlayer {
 
 export class UpdatePlayer {
     readonly type = UPDATE_PLAYER;
-    constructor(public payload: Player) { }
+    constructor(public payload: Partial<Player>) { }
 }
 
 export class RemovePlayer {
