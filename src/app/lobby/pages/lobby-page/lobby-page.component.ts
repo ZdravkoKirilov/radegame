@@ -8,18 +8,24 @@ import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectLobbyName, selectGameId, OnChange } from '@app/shared';
 import {
 	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
-	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup, CreatePlayer, playerJoined, isOwner, DeletePlayer, DeleteLobby, getSelf, UpdatePlayer,
+	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup, CreatePlayer, playerJoined, isOwner,
+	DeletePlayer, DeleteLobby, getSelf, UpdatePlayer, SendMessage, getMessages,
 } from '../../state';
-import { Lobby, Player } from '../../models';
+import { Lobby, Player, ChatMessage } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User, selectUser } from '@app/profile';
 import { composePlayerName } from '../../utils';
-
+import { LiveLobbyService } from '../../services/live-lobbies.service';
 
 @Component({
 	selector: 'rg-lobby-page',
 	template: `
-		<rg-game-lobby [data]="data" (kickPlayer)="kickPlayer($event)" (updatePlayer)="updatePlayer($event)">
+		<rg-game-lobby 
+			[data]="data" 
+			(kickPlayer)="kickPlayer($event)"
+			(updatePlayer)="updatePlayer($event)"
+			(sendMessage)="sendMessage($event)"
+		>
 		</rg-game-lobby>
     `,
 	styles: []
@@ -34,6 +40,8 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 	self$: Subscription;
 
 	pendingLeave: boolean;
+
+	constructor(private store: Store<AppState>, private router: Router, private lobbyService: LiveLobbyService) { }
 
 	@OnChange(function (value, change) {
 		if (!change.currentValue && change.previousValue) {
@@ -58,17 +66,17 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 		teams: Team[];
 		factions: Faction[];
 		images: ImageAsset[];
+		messages: ChatMessage[];
 		setup: Setup;
 		isOwner: boolean;
 	};
-
-	constructor(private store: Store<AppState>, private router: Router) { }
 
 	ngOnInit() {
 
 		this.lobbyName$ = this.store.pipe(
 			select(selectLobbyName),
 			map(lobbyName => {
+				this.lobbyService.initLobby(lobbyName);
 				this.store.dispatch(new FetchPlayers(lobbyName));
 				this.store.dispatch(new FetchLobby(lobbyName));
 			})
@@ -95,6 +103,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 			this.store.pipe(select(getTeams)),
 			this.store.pipe(select(getFactions)),
 			this.store.pipe(select(getImages)),
+			this.store.pipe(select(getMessages)),
 			this.store.pipe(select(getSetup)),
 			this.store.pipe(select(isOwner)),
 			this.store.pipe(select(playerJoined)),
@@ -106,10 +115,10 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 					return chunk !== null && chunk !== undefined;
 				}
 			}),
-			map(([game, user, lobby, teams, factions, images, setup, isOwner, hasJoined]) => {
+			map(([game, user, lobby, teams, factions, images, messages, setup, isOwner, hasJoined]) => {
 				this.data = {
 					game, user, lobby, teams, factions,
-					images, setup, isOwner
+					images, setup, isOwner, messages,
 				};
 				if (!hasJoined && !this.pendingLeave) {
 					this.joinLobby(this.data.lobby);
@@ -148,6 +157,10 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
 	updatePlayer(player: Partial<Player>) {
 		this.store.dispatch(new UpdatePlayer(player));
+	}
+
+	sendMessage(message: ChatMessage) {
+		this.store.dispatch(new SendMessage(message));
 	}
 
 }

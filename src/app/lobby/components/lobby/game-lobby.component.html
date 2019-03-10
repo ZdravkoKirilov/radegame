@@ -24,7 +24,6 @@
 			</section>
 		</header>
 	</mat-card>
-	a
 
 	<div class="players mat-elevation-z2">
 		<div *ngFor="let item of data.lobby.players" class="player">
@@ -61,6 +60,6 @@
 	</div>
 
 	<mat-card class="chat">
-		bla bla bla
+		<rg-lobby-chat [messages]="data.messages" [user]="data.user" (send)="sendMessage.emit($event)"></rg-lobby-chat>
 	</mat-card>
 </article>

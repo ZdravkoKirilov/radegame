@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { Lobby, Player } from '../../models';
+import { Lobby, Player, ChatMessage } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User } from '@app/profile';
 
@@ -13,6 +13,7 @@ export class GameLobbyComponent {
 
 	@Output() kickPlayer = new EventEmitter<Player>();
 	@Output() updatePlayer = new EventEmitter<Partial<Player>>();
+	@Output() sendMessage = new EventEmitter<ChatMessage>();
 
 	@Input() data: {
 		lobby: Lobby;
@@ -21,10 +22,11 @@ export class GameLobbyComponent {
 		teams: Team[];
 		factions: Faction[];
 		images: ImageAsset[];
+		messages: ChatMessage[];
 		setup: Setup;
 		isOwner: boolean;
 	}
-	
+
 	onPlayerUpdate(player: Player, data: Partial<Player>) {
 		this.updatePlayer.emit({
 			...player,

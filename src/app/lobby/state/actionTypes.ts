@@ -47,5 +47,7 @@ export const REMOVE_PLAYER = '[Lobby] REMOVE_PLAYER';
 export const REMOVE_PLAYERS = '[Lobby] REMOVE_PLAYERS';
 
 export const CREATE_PLAYER = '[Lobby] CREATE_PLAYER';
-
 export const DELETE_PLAYER = '[Lobby] DELETE_PLAYER';
+
+export const SEND_MESSAGE = '[Lobby] SEND_MESSAGE';
+export const SAVE_MESSAGE = '[Lobby] SAVE_MESSAGE';

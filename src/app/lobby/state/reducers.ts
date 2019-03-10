@@ -1,8 +1,8 @@
 import produce from 'immer';
-import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter, TeamEntityState, FactionEntityState, ImageEntityState, teamAdapter, factionAdapter, imageAdapter } from './shape';
+import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter, TeamEntityState, FactionEntityState, ImageEntityState, teamAdapter, factionAdapter, imageAdapter, MessageEntityState, messageAdapter } from './shape';
 import { LobbyAction } from './actions';
 import { ActionReducerMap } from '@ngrx/store';
-import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM, ADD_LOBBY, REMOVE_LOBBY, SAVE_PLAYER, REMOVE_PLAYER, FETCH_LOBBY_SUCCESS, FETCH_PLAYERS_SUCCESS, FETCH_TEAMS_SUCCESS, FETCH_FACTIONS_SUCCESS, FETCH_IMAGES_SUCCESS, REMOVE_PLAYERS } from './actionTypes';
+import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM, ADD_LOBBY, REMOVE_LOBBY, SAVE_PLAYER, REMOVE_PLAYER, FETCH_LOBBY_SUCCESS, FETCH_PLAYERS_SUCCESS, FETCH_TEAMS_SUCCESS, FETCH_FACTIONS_SUCCESS, FETCH_IMAGES_SUCCESS, REMOVE_PLAYERS, SAVE_MESSAGE } from './actionTypes';
 
 const gamesReducer = (
     state: GameEntityState = initialState.games,
@@ -99,6 +99,18 @@ const imageReducer = (
     }
 };
 
+const messageReducer = (
+    state: MessageEntityState = initialState.messages,
+    action: LobbyAction
+): MessageEntityState => {
+    switch (action.type) {
+        case SAVE_MESSAGE:
+            return messageAdapter.addOne(action.payload, state);
+        default:
+            return state;
+    }
+}
+
 export const mainReducer: ActionReducerMap<LobbyFeatureState> = {
     meta: metaReducer,
     games: gamesReducer,
@@ -107,4 +119,5 @@ export const mainReducer: ActionReducerMap<LobbyFeatureState> = {
     teams: teamReducer,
     factions: factionReducer,
     images: imageReducer,
+    messages: messageReducer,
 };

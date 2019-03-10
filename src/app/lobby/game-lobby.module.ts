@@ -15,7 +15,8 @@ import { ListLayoutComponent } from './layout/list-layout/list-layout.component'
 import { LobbyListItemComponent } from './components/lobbies/item/lobby-list-item.component';
 import { LobbyPageComponent } from './pages/lobby-page/lobby-page.component';
 import { GameLobbyComponent } from './components/lobby/game-lobby.component';
-import { LiveLobbyService } from './services/live-lobby.service';
+import { LiveLobbyService } from './services/live-lobbies.service';
+import { LobbyChatComponent } from './components/lobby/chat/lobby-chat.component';
 
 @NgModule({
 	declarations: [
@@ -25,7 +26,8 @@ import { LiveLobbyService } from './services/live-lobby.service';
 		ListLayoutComponent,
 		LobbyListItemComponent,
 		LobbyPageComponent,
-		GameLobbyComponent
+		GameLobbyComponent,
+		LobbyChatComponent
 	],
 	imports: [
 		CommonModule,

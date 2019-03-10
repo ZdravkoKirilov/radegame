@@ -12,7 +12,9 @@ export const LOBBY_URLS = {
         return playerName ? `${base}/${playerName}/` : base;
     },
     ALL_PLAYERS: API_BASE_URL + '/all_players',
-    LIVE_LOBBIES: `${WS_BROWSE_LOBBIES_BASE_URL}`
+    LIVE_LOBBIES: (lobbyName?: string) => {
+        return lobbyName ? `${WS_BROWSE_LOBBIES_BASE_URL}/${lobbyName}/` : WS_BROWSE_LOBBIES_BASE_URL;
+    }
 };
 
 export const API_URLS = {

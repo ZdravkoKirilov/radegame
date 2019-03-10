@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector, select } from "@ngrx/store";
 import { groupBy } from 'lodash';
 
 import { FEATURE_NAME } from "../config";
-import { LobbyFeatureState, gameAdapter, lobbyAdapter, playerAdapter, teamAdapter, factionAdapter, imageAdapter, LobbyMetaState } from "./shape";
+import { LobbyFeatureState, gameAdapter, lobbyAdapter, playerAdapter, teamAdapter, factionAdapter, imageAdapter, LobbyMetaState, messageAdapter } from "./shape";
 import { selectGameId, selectLobbyName } from "@app/shared";
 import { Lobby } from "../models";
 import { selectUser } from "@app/profile";
@@ -20,6 +20,7 @@ const fromPlayerAdapter = playerAdapter.getSelectors();
 const fromTeamAdapter = teamAdapter.getSelectors();
 const fromFactionAdapter = factionAdapter.getSelectors();
 const fromImageAdapter = imageAdapter.getSelectors();
+const fromMessageAdapter = messageAdapter.getSelectors();
 
 export const getFormState = createSelector(
     selectSubfeature('meta'),
@@ -81,6 +82,11 @@ export const getSelectedLobbyWithPlayers = createSelector(
             return { ...lobby, players: [...(players[lobby.name] || [])] } as Lobby;
         }
     }
+);
+
+export const getMessages = createSelector(
+    selectSubfeature('messages'),
+    fromMessageAdapter.selectAll
 );
 
 export const getImages = createSelector(
