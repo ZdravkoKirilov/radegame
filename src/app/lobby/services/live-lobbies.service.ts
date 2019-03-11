@@ -13,15 +13,41 @@ export class LiveLobbyService {
 	private socket: WebSocket;
 	private lobbySocket: WebSocket;
 
+	constructor() {
+		this.initLobbies();
+	}
+
 	public ofType<T extends Action>(...types: string[]) {
 		return this.stream$.pipe(
 			filter((action) => types.some(type => type === action.type))
 		) as Observable<T>;
 	}
 
-	initLobby(lobbyName: string) {
+	initLobbies(closeOthers = false) {
 
-		if (this.lobbySocket) {
+		if (closeOthers && this.lobbySocket) {
+			this.lobbySocket.close();
+		}
+
+		this.socket = new WebSocket(LOBBY_URLS.LIVE_LOBBIES());
+
+		this.socket.onopen = () => {
+			// this.socket.send(JSON.stringify({ 'message': 'Hello from client!' }));
+		};
+
+		this.socket.onmessage = (e: MessageEvent) => {
+			const data = JSON.parse(e.data);
+			this.stream$.next(data);
+		};
+
+		this.socket.onclose = (e: CloseEvent) => {
+
+		};
+	}
+
+	initLobby(lobbyName: string, closeOthers = false) {
+
+		if (closeOthers && this.lobbySocket) {
 			this.lobbySocket.close();
 		}
 
@@ -43,23 +69,6 @@ export class LiveLobbyService {
 		this.lobbySocket.onerror = (e: ErrorEvent) => {
 
 		}
-	}
-
-	constructor() {
-		this.socket = new WebSocket(LOBBY_URLS.LIVE_LOBBIES());
-
-		this.socket.onopen = () => {
-			// this.socket.send(JSON.stringify({ 'message': 'Hello from client!' }));
-		};
-
-		this.socket.onmessage = (e: MessageEvent) => {
-			const data = JSON.parse(e.data);
-			this.stream$.next(data);
-		};
-
-		this.socket.onclose = (e: CloseEvent) => {
-
-		};
 	}
 
 	savePlayer(action: CreatePlayer | UpdatePlayer) {

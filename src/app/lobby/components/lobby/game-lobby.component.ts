@@ -2,6 +2,7 @@ import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from 
 import { Lobby, Player, ChatMessage } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User } from '@app/profile';
+import { MatCheckboxChange } from '@angular/material';
 
 @Component({
 	selector: 'rg-game-lobby',
@@ -31,6 +32,20 @@ export class GameLobbyComponent {
 		this.updatePlayer.emit({
 			...player,
 			...data
+		});
+	}
+
+	get self() {
+		if (this.data) {
+			return this.data.lobby.players.find(player => player.user == this.data.user.id);
+		}
+	}
+
+	onStatusChange(event: MatCheckboxChange) {
+		const { checked } = event;
+		this.updatePlayer.emit({
+			...this.self,
+			ready: checked
 		});
 	}
 

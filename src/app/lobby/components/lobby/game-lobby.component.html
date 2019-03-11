@@ -1,65 +1,83 @@
-<article *ngIf="data?.lobby && data.setup && data.game" class="rg-container mat-elevation-z2">
-	<mat-card>
-		<header>
-			<img [src]="data.game.image" />
-			<section class="details">
+<mat-toolbar color="primary">
+	<a [routerLink]="['/lobbies', 'games', data?.game.id]">
+		<button mat-button>
+			Back to games
+		</button>
+	</a>
+	Header works!
+</mat-toolbar>
 
-				<div class="info">
-					{{data.game.title}}
+<ng-scrollbar>
+	<article *ngIf="data?.lobby && data.setup && data.game" class="rg-container mat-elevation-z2">
+		<mat-card>
+			<header>
+				<img [src]="data.game.image" />
+				<section class="details">
 
-					<br>
+					<div class="info">
+						{{data.game.title}}
 
-					{{data.lobby.players.length}} / {{data.setup.min_players}}-{{data.setup.max_players}}
+						<br>
+
+						{{data.lobby.players.length}} / {{data.setup.min_players}}-{{data.setup.max_players}}
+					</div>
+
+					<div class="actions">
+						<a [routerLink]="['../']">
+							<button mat-stroked-button color="warn">Leave</button>
+						</a>
+
+						<a *ngIf="data.isOwner">
+							<button mat-stroked-button color="primary">Start</button>
+						</a>
+
+						<mat-checkbox *ngIf="!data.isOwner" (change)="onStatusChange($event)" [checked]="self?.ready">Ready</mat-checkbox>
+					</div>
+				</section>
+			</header>
+		</mat-card>
+
+		<div class="players mat-elevation-z2">
+			<div *ngFor="let item of data.lobby.players" class="player">
+				{{item.name}}
+
+				<mat-form-field>
+					<mat-label>Team</mat-label>
+					<mat-select (valueChange)="onPlayerUpdate(item, {team: $event})"
+						[disabled]="item.user !== this.data.user.id" [value]="item.team">
+						<mat-option *ngFor="let team of data.teams" [value]="team.id">
+							{{team.name}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+				<mat-form-field>
+					<mat-label>Faction</mat-label>
+					<mat-select (valueChange)="onPlayerUpdate(item, {faction: $event})"
+						[disabled]="item.user !== this.data.user.id" [value]="item.faction">
+						<mat-option *ngFor="let faction of data.factions" [value]="faction.id">
+							{{faction.name}}
+						</mat-option>
+					</mat-select>
+				</mat-form-field>
+
+				<div>
+					<button mat-stroked-button *ngIf="data.isOwner && item.user !== data.user.id"
+						(click)="kickPlayer.emit(item)">
+						Kick
+					</button>
 				</div>
 
-				<div class="actions">
-					<a [routerLink]="['../']">
-						<button mat-stroked-button color="warn">Leave</button>
-					</a>
-
-					<a>
-						<button mat-stroked-button color="primary">Start</button>
-					</a>
+				<div *ngIf="item.ready" class="ready-status">
+					<mat-icon color="primary" matTooltip="Player is ready">check</mat-icon>
 				</div>
-			</section>
-		</header>
-	</mat-card>
 
-	<div class="players mat-elevation-z2">
-		<div *ngFor="let item of data.lobby.players" class="player">
-			{{item.name}}
-
-			<mat-form-field>
-				<mat-label>Team</mat-label>
-				<mat-select (valueChange)="onPlayerUpdate(item, {team: $event})"
-					[disabled]="item.user !== this.data.user.id" [value]="item.team">
-					<mat-option *ngFor="let team of data.teams" [value]="team.id">
-						{{team.name}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
-
-			<mat-form-field>
-				<mat-label>Faction</mat-label>
-				<mat-select (valueChange)="onPlayerUpdate(item, {faction: $event})"
-					[disabled]="item.user !== this.data.user.id" [value]="item.faction">
-					<mat-option *ngFor="let faction of data.factions" [value]="faction.id">
-						{{faction.name}}
-					</mat-option>
-				</mat-select>
-			</mat-form-field>
-
-			<div>
-				<button mat-stroked-button *ngIf="data.isOwner && item.user !== data.user.id"
-					(click)="kickPlayer.emit(item)">
-					Kick
-				</button>
 			</div>
-
 		</div>
-	</div>
 
-	<mat-card class="chat">
-		<rg-lobby-chat [messages]="data.messages" [user]="data.user" (send)="sendMessage.emit($event)"></rg-lobby-chat>
-	</mat-card>
-</article>
+		<mat-card class="chat">
+			<rg-lobby-chat [messages]="data.messages" [user]="data.user" (send)="sendMessage.emit($event)">
+			</rg-lobby-chat>
+		</mat-card>
+	</article>
+</ng-scrollbar>

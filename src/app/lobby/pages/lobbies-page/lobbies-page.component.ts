@@ -43,7 +43,9 @@ export class LobbiesPageComponent implements OnInit {
 	game: Game;
 	user: User;
 
-	constructor(private store: Store<AppState>) { }
+	constructor(private store: Store<AppState>) { 
+		
+	}
 
 	ngOnInit() {
 		this.game$ = this.store.pipe(

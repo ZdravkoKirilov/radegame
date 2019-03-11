@@ -41,7 +41,8 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
 	pendingLeave: boolean;
 
-	constructor(private store: Store<AppState>, private router: Router, private lobbyService: LiveLobbyService) { }
+	constructor(private store: Store<AppState>, private router: Router, private lobbyService: LiveLobbyService) {
+	}
 
 	@OnChange(function (value, change) {
 		if (!change.currentValue && change.previousValue) {

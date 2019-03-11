@@ -7,4 +7,5 @@ export type Player = {
     team?: number;
     faction?: number;
     color?: number;
+    ready?: boolean;
 }

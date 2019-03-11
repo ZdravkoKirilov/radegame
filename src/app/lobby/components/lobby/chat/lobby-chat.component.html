@@ -1,7 +1,7 @@
 <div class="messages">
 	<p *ngFor="let msg of messages" class="message">
 		<span class="owner">{{msg.owner}}</span>
-		<span class="time">{{msg.timestamp | date}}</span>
+		<span class="time">{{msg.timestamp | date:'short'}}</span>
 		<span class="text">{{msg.message}}</span>
 	</p>
 </div>
