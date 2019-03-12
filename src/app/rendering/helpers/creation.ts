@@ -28,6 +28,7 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
             component.type = element.type;
             component.parent = parent;
             component.children = element.children.map(child => createComponent(child, factory, meta, component));
+            createRefs(component);
             return component;
         } else {
             let realType = factory.customResolvers.reduce((accumulator, resolver) => {
@@ -107,4 +108,12 @@ const createFunctionalComponent = (element: RzElement, meta: MetaProps): Functio
     const component = new FunctionalComponent(props, renderFunc as RenderFunction<any>, meta);
     component.meta = meta;
     return component;
+};
+
+const createRefs = (component: BasicComponent) => {
+    const refCallback = component.props.ref;
+
+    if (refCallback && typeof refCallback === typeof Function) {
+        refCallback(component.graphic);
+    }
 };

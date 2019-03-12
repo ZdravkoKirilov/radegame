@@ -21,6 +21,7 @@ export type RzElementProps = DefaultEvents & Partial<{
     textStyle: { [key: string]: any };
     points: Points;
     children: RzElementChild;
+    ref?: Function;
     // [key: string]: any;
 }>;
 
@@ -33,10 +34,13 @@ export type Styles = {
     height: number;
     x: number;
     y: number;
-    rotation: number;
+    rotation: number;  // radians
+    skew: string; // "xValue yValue"
+    angle: number; // degrees
+    pivot: number;  // exact pixels
+    anchor: number; // 0 - 1
     alpha: number;
     fill: number;
-    padding: number;
     radius: number;
     borderRadius: number;
     strokeThickness?: number;

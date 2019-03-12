@@ -1,6 +1,6 @@
 import { RzElementProps, RzElementChild, RzElement, isValidRzElement, RzElementType } from "../models";
 
-export const createElement = <T>(
+export const createElement = <T = {} & RzElementProps>(
     type: RzElementType<T>,
     props: T & RzElementProps,
     ...children: RzElementChild[]): RzElement | null => {

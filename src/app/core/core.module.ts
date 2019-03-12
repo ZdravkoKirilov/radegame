@@ -23,6 +23,7 @@ import { GameDataGuard, GameListGuard } from './guards';
 import { HomeModule } from '../home';
 import { NotFoundComponent } from './components';
 import { GameLobbyModule } from '@app/lobby';
+import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.module';
 
 @NgModule({
     imports: [
@@ -41,6 +42,7 @@ import { GameLobbyModule } from '@app/lobby';
         ProfileModule,
         CatalogModule,
         GameLobbyModule,
+        ExperimentsRoutingModule,
         AppRoutingModule,
     ],
     exports: [AppRoutingModule],

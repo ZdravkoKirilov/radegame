@@ -2,12 +2,13 @@ import { Injectable } from '@angular/core';
 
 import { WindowRefService } from '@app/shared';
 import { WebGLRenderer, Container } from 'pixi.js';
-import { createRenderer, createPixiEngine, createElement, Component } from '@app/rendering';
+import { createRenderer, createElement, Component } from '@app/rendering';
 import { Subject } from 'rxjs';
 
 import { RootComponent, Props as BoardData } from '../components/board/graphics';
 import { Slot, PathEntity, ImageAsset, GameEntity } from '@app/game-mechanics';
 import { toDictionary } from '@app/shared';
+import { createPixiEngine } from '@app/engines/pixi';
 
 @Injectable({
 	providedIn: 'root'

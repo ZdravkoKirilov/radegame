@@ -36,7 +36,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         const stageImage = background ? background.thumbnail || background.svg: '';
         return createElement('fragment', {},
 
-            createElement<WithAssetProps>(WithAsset, { url: stageImage, },
+            createElement<WithAssetProps>(WithAsset, { url: stageImage },
                 createElement('container', {
                     onClick: () => {
                         this.props.selectSlot(null);

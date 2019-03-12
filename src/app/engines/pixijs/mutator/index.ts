@@ -90,7 +90,7 @@ const updatePrimitive = (component: BasicComponent) => {
             updateText(component as PrimitiveText);
             break;
         case PRIMS.sprite:
-            updateSprite(component);
+            updateSprite(component as PrimitiveSprite);
             updateGeneric(component);
             break;
         case PRIMS.circle:

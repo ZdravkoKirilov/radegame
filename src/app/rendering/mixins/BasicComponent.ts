@@ -1,7 +1,7 @@
 import { RzElementProps, MetaProps, Component, RzElementType } from "../models";
 import { AbstractContainer } from "../interfaces";
 
-export class BasicComponent<T = RzElementProps & any> {
+export class BasicComponent<T extends object = RzElementProps> {
     static defaultProps?: any;
     type: RzElementType;
     meta: MetaProps;

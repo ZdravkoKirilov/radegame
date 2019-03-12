@@ -24,13 +24,13 @@ const mountStatefulComponent = (component: StatefulComponent<any, any>, containe
     component.container = container;
 
     if ('willMount' in component) {
-        (component as any).willMount();
+        (component as any).willMount.call(component);
     }
 
     component.children.forEach(child => mountComponent(child, container));
 
     if ('didMount' in component) {
-        (component as any).didMount();
+        (component as any).didMount.call(component);
     }
 };
 
