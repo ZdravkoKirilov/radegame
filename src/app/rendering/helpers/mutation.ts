@@ -46,7 +46,7 @@ export const updateContainer = (newProps: RzElementProps, component: PrimitiveCo
         const existing = current[index];
 
         if (existing !== null) {
-            const sameType = existing.type === child.type;
+            const sameType = existing.type === (child || { type: '' }).type;
             if (sameType) {
                 child.props.children = child.children;
                 (existing).setProps(child.props);

@@ -5,6 +5,7 @@ import {
     PrimitiveText, PrimitiveLine, PrimitiveFragment, PrimitivePolygon, PrimitiveRectangle,
     PrimitiveCircle,
     PrimitiveEllipse,
+    PrimitiveShadow,
 } from "../primitives";
 
 import { Dictionary } from "@app/shared";
@@ -21,6 +22,7 @@ export abstract class AbstractFactory {
     abstract createRectangle(element: RzElement, meta: MetaProps): PrimitiveRectangle;
     abstract createCircle(element: RzElement, meta: MetaProps): PrimitiveCircle;
     abstract createEllipse(element: RzElement, meta: MetaProps): PrimitiveEllipse;
+    abstract createShadow(element: RzElement, meta: MetaProps): PrimitiveShadow;
 
     customResolvers?: Array<Dictionary<Component>>;
 

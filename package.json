@@ -35,6 +35,7 @@
     "lodash": "^4.17.11",
     "ngx-scrollbar": "^4.1.1",
     "path": "^0.12.7",
+    "pixi-filters": "^2.7.0",
     "pixi.js": "^4.8.5",
     "ramda": "^0.26.1",
     "rxjs": "^6.4.0",

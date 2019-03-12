@@ -4,8 +4,10 @@ import {
     updateCollection, updateContainer, unmountComposite, BasicComponent,
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, Styles,
     PrimitiveEllipse,
+    PrimitiveShadow,
 } from "@app/rendering";
-import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse } from "pixi.js";
+import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, DisplayObject } from "pixi.js";
+import { DropShadowFilter } from 'pixi-filters';
 import { setProp, getValue } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
@@ -39,11 +41,24 @@ const unmountPrimitive = (component: BasicComponent) => {
         case PRIMS.fragment:
             unmountChildren(component);
             break;
+        case PRIMS.shadow:
+            unmountShadow(component as PrimitiveShadow);
+            break;
         default:
             unmountGeneric(component);
             unmountChildren(component);
             break;
 
+    }
+};
+
+const unmountShadow = (comp: PrimitiveShadow) => {
+    if (comp.parent && comp.parent.graphic) {
+        const target: DisplayObject = comp.parent.graphic;
+        const shadow = comp.graphic;
+        if (target.filters && target.filters.length) {
+            target.filters = target.filters.filter(elem => elem !== shadow);
+        }
     }
 };
 
@@ -101,6 +116,9 @@ const updatePrimitive = (component: BasicComponent) => {
             updateEllipse(component);
             updateContainer(props, component, component.container);
             break;
+        case PRIMS.shadow:
+            updateShadow(component as PrimitiveShadow);
+            break;
         default:
             updateGeneric(component);
             break;
@@ -118,11 +136,34 @@ const updateGeneric = (comp: Component) => {
     }
 };
 
+const updateShadow = (comp: PrimitiveShadow) => {
+
+    if (comp.parent && comp.parent.graphic) {
+        const target: DisplayObject = comp.parent.graphic;
+        const filters = target.filters || [];
+        const filter: DropShadowFilter = comp.graphic;
+
+        filter.alpha = comp.props.alpha;
+        filter.blur = comp.props.blur;
+        filter.distance = comp.props.distance;
+        filter.color = comp.props.color;
+
+        const notAdded = !filters.find(elem => elem === filter);
+        if (notAdded) {
+            target.filters = [filter];
+        }
+    }
+};
+
 const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
     const { styles } = props;
 
     graphic.clear();
     graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
+
+    if (props.styles.fill) {
+        graphic.beginFill(props.styles.fill);
+    }
 
     graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
 

@@ -66,6 +66,7 @@ export const PRIMS = {
     container: 'container',
     fragment: 'fragment',
     polygon: 'polygon',
+    shadow: 'shadow',
 };
 
 export type PrimitiveType = keyof typeof PRIMS;
@@ -79,5 +80,8 @@ type EventHandler = (...args: any) => any;
 export type DefaultEvents = Partial<{
     onClick: EventHandler,
     onPointerDown: EventHandler,
-    onClickOutside: EventHandler;
+    onPointerUp: EventHandler,
+    onClickOutside: EventHandler,
+    onPointerOver: EventHandler;
+    onPointerOut: EventHandler;
 }>;

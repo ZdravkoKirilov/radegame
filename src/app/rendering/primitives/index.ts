@@ -8,3 +8,4 @@ export * from './Polygon';
 export * from './Rectangle';
 export * from './Circle';
 export * from './Ellipse';
+export * from './Shadow';

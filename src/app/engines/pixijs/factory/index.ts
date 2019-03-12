@@ -1,10 +1,11 @@
 import { Graphics, Container, TextStyle, Text, Sprite } from "pixi.js";
+import { DropShadowFilter } from 'pixi-filters';
 
 import {
     AbstractFactory, RzElement, MetaProps,
     PrimitiveContainer, PrimitiveCollection,
     PrimitiveText, PrimitiveSprite, PrimitiveLine, PrimitiveFragment, PrimitivePolygon, PrimitiveRectangle, PrimitiveCircle,
-    EllipseProps, PrimitiveEllipse, Component
+    EllipseProps, PrimitiveEllipse, Component, ShadowProps, PrimitiveShadow
 } from "@app/rendering";
 
 import { Dictionary } from '@app/shared';
@@ -53,6 +54,11 @@ export class PixiFactory implements AbstractFactory {
     createEllipse(elem: RzElement<EllipseProps>, meta: MetaProps): PrimitiveEllipse {
         const ellipse = new PrimitiveEllipse(elem.props, new Graphics(), meta);
         return ellipse;
+    }
+
+    createShadow(elem: RzElement<ShadowProps>, meta: MetaProps): PrimitiveShadow {
+        const shadow = new PrimitiveShadow(elem.props, new DropShadowFilter(), meta);
+        return shadow;
     }
 
     customResolvers = [];

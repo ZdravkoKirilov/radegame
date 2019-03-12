@@ -89,6 +89,8 @@ const createPrimitiveComponent = (element: RzElement, factory: AbstractFactory, 
             return factory.createCircle(element, meta);
         case PRIMS.ellipse:
             return factory.createEllipse(element, meta);
+        case PRIMS.shadow:
+            return factory.createShadow(element, meta);
         default:
             return null;
     }

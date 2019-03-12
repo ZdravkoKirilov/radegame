@@ -24,7 +24,8 @@ export class RenderService {
         const window = this.windowRef.nativeWindow;
 
         this.app = new Application({
-            width, height, transparent: true, antialias: true, resolution: 1, autoResize: true
+            width, height, transparent: true, antialias: true, resolution: 1, autoResize: true,
+            backgroundColor: 0xffffff
         })
 
         DOMElem.appendChild(this.app.view);
