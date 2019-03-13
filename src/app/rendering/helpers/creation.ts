@@ -1,5 +1,5 @@
 import { values } from 'lodash';
-import { RzElement, MetaProps, Component, PRIMS, RenderFunction } from "../models";
+import { RzElement, MetaProps, Component, PRIMS, RenderFunction, PrimitiveType } from "../models";
 import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent, FunctionalComponent } from "../mixins";
 
@@ -27,7 +27,7 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
             component = createPrimitiveComponent(element, factory, meta) as BasicComponent;
             component.type = element.type;
             component.parent = parent;
-            component.children = element.children.map(child => createComponent(child, factory, meta, component));
+            component.children = createPrimitiveChildren(element, factory, meta, component);
             createRefs(component);
             return component;
         } else {
@@ -117,5 +117,15 @@ const createRefs = (component: BasicComponent) => {
 
     if (refCallback && typeof refCallback === typeof Function) {
         refCallback(component.graphic);
+    }
+};
+
+const primitivesWithRenderedChildren = new Set([PRIMS.shadow]);
+
+const createPrimitiveChildren = (element: RzElement, factory: AbstractFactory, meta: MetaProps, component: Component) => {
+    if (primitivesWithRenderedChildren.has(element.type as PrimitiveType)) {
+        return [createComponent(component.render(), factory, meta, component)];
+    } else {
+        return element.children.map(child => createComponent(child, factory, meta, component));
     }
 };
