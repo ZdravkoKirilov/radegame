@@ -6,4 +6,3 @@ export * from './AbstractEnhancer';
 export * from './AbstractLoader';
 export * from './AbstractRenderEngine';
 export * from './AbstractFilter';
-export * from './AbstractAnimation';

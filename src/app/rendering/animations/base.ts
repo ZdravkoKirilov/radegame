@@ -3,6 +3,12 @@ import { Subject } from "rxjs";
 
 import { Component, Styles } from "../models";
 
+export type AnimationConfig = {
+    id: string | number;
+    transition: string;
+    prop: string;
+    animation: AnimationBase;
+}
 export class AnimationBase<T = Partial<Styles>> {
     tween: Tween;
     target: Component;

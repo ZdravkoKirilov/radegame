@@ -1,5 +1,5 @@
-import { DisplayObject, Container, Sprite } from "pixi.js";
-import { Component, findRelativeParent, Styles, propIsRelative } from "@app/rendering";
+import { DisplayObject, Sprite } from "pixi.js";
+import { Component, Styles } from "@app/rendering";
 
 export const bringToFront = (obj: DisplayObject) => {
     const parent = obj.parent;
@@ -10,26 +10,17 @@ export const bringToFront = (obj: DisplayObject) => {
 };
 
 export const getValue = (value: any, prop: keyof Styles, comp: Component): any => {
-    // if (propIsRelative(prop)) {
-    //     const parent = findRelativeParent(comp);
-    //     const styles = parent ? parent.props.styles : null;
-    //     if (styles) {
-    //         const parentValue = getValue(styles[prop], prop, parent);
-    //         return value + parentValue;
-    //     }
-    //     return value;
-    // }
     return value;
 }
 
 export const setProp = (comp: Component, prop: keyof Styles, value: string | number) => {
-    const graphic: DisplayObject  = comp.graphic;
+    const graphic: DisplayObject = comp.graphic;
     const result = getValue(value, prop, comp);
 
     if (prop === 'anchor') {
         return (graphic as Sprite).anchor.set(result);
     }
-    
+
     if (prop === 'pivot') {
         return (graphic as Sprite).pivot.set(result);
     }

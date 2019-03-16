@@ -17,6 +17,10 @@ export class StatefulComponent<P extends object = {}, S extends object = {}> ext
         if (this.shouldUpdate(this.props, next)) {
             this.state = next as S;
             this.update();
+
+            if ('didUpdate' in this) {
+                (this as Lifecycles).didUpdate({ state: { prev: current, next } });
+            }
         } else {
             this.state = next as S;
         }
@@ -32,6 +36,10 @@ export class StatefulComponent<P extends object = {}, S extends object = {}> ext
             }
             this.props = next as P;
             this.update();
+
+            if ('didUpdate' in this) {
+                (this as Lifecycles).didUpdate({ props: { prev: current, next } });
+            }
         } else {
             this.props = next as P;
         }

@@ -1,6 +1,7 @@
 import { AbstractRenderEngine } from "../interfaces";
 import { ComponentConstructor } from "./Component";
 import { ContextManager, AssetManager } from "../services";
+import { AnimationBase } from "../animations";
 
 export type RzElement<T = any> = {
     type: RzElementType;
@@ -21,7 +22,8 @@ export type RzElementProps = DefaultEvents & Partial<{
     textStyle: { [key: string]: any };
     points: Points;
     children: RzElementChild;
-    ref?: Function;
+    ref: Function;
+    animations: AnimationBase[];
     // [key: string]: any;
 }>;
 
