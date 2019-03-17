@@ -10,48 +10,64 @@ export type AnimationConfig = {
     animation: AnimationBase;
 }
 export class AnimationBase<T = Partial<Styles>> {
-    tween: Tween;
-    target: Component;
+    private components: Set<Component> = new Set();
+    private active: Array<{
+        tween: Tween;
+        component: Component;
+    }> = [];
 
-    complete$ = new Subject();
-    start$ = new Subject();
-    pause$ = new Subject();
+    addComponent(component: Component) {
+        this.components.add(component);
+    }
+
+    removeComponent(component: Component) {
+        this.components.delete(component);
+    }
+
+    isAnimating(component: Component) {
+        return this.active.some(elem => elem.component === component);
+    }
+
+    complete$ = new Subject<Component>();
+    start$ = new Subject<Component>();
+    pause$ = new Subject<Component>();
 
     constructor(
         public id: string | number,
-        public initial: T,
-        public expected: T,
         public easing: (data: number) => number,
-        public timing: number
-    ) {
-        this.tween = new Tween(this.initial)
+        public timing: number,
+        public expected?: T,
+        public initial?: T,
+    ) { }
+
+    play(target: Component) {
+        const tween = new Tween(this.initial)
             .to(this.expected, this.timing)
             .easing(this.easing)
             .onUpdate((data: T) => {
                 const keys: string[] = Object.keys(data);
 
                 keys.forEach(key => {
-                    this.target.setProps({
+                    target.setProps({
                         styles: {
-                            ...this.target.props.styles,
+                            ...target.props.styles,
                             [key]: data[key]
                         }
                     })
                 });
             })
             .onComplete(() => {
-                this.complete$.next();
-            })
-    }
+                this.complete$.next(target);
+            });
 
-    play(target: Component) {
-        this.target = target;
-        this.tween.start();
-        this.start$.next();
+        this.active.push({
+            tween, component: target
+        });
+
+        tween.start();
     }
 
     stop() {
-        this.tween.stop();
-        this.pause$.next();
+
     }
 }
