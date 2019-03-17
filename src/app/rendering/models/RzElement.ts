@@ -47,6 +47,7 @@ export type Styles = {
     borderRadius: number;
     strokeThickness?: number;
     strokeColor?: number;
+    scale?: number;
 };
 
 export type Points = Array<Array<number>>;

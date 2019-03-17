@@ -45,8 +45,7 @@ export class AnimationBase<T = Partial<Styles>> {
             .to(this.expected, this.timing)
             .easing(this.easing)
             .onUpdate((data: T) => {
-                const keys: string[] = Object.keys(data);
-
+                const keys = Object.keys(data);
                 keys.forEach(key => {
                     target.setProps({
                         styles: {
@@ -64,6 +63,9 @@ export class AnimationBase<T = Partial<Styles>> {
             tween, component: target
         });
 
+        tween.repeat(Infinity);
+        tween.yoyo(true);
+
         tween.start();
     }
 
@@ -71,3 +73,6 @@ export class AnimationBase<T = Partial<Styles>> {
 
     }
 }
+
+// TODO: * syntax for taking the current value as initial
+// +500 syntax - taking the current value and adding 500 to it as expected value

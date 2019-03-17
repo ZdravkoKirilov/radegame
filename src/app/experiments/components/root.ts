@@ -1,6 +1,6 @@
 import {
     StatefulComponent, createElement,
-    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps
+    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, createBounceAnimation, createScaleAnimation
 } from "@app/rendering";
 
 export type Props = {
@@ -16,6 +16,27 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     ref: any;
 
     render() {
+        const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+
+        return createElement<SpriteProps>(
+            DynamicSprite, {
+                image,
+                styles: {
+                    // width: 300,
+                    // height: 300,
+                    x: 1200,
+                    y: 100,
+                    alpha: 0.8,
+                    // anchor: 0.5,
+                    // skew: '0.1 0',
+                    // rotation: 120 * 0.0174532925
+                },
+                ref: this.onRef,
+            }
+        );
+    }
+
+    render2() {
         const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
         const { show } = this.state;
 
@@ -85,5 +106,15 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
 
     didMount() {
 
+        setTimeout(() => {
+            const sprite = this.children[0].children[0].children[0];
+            const fade = createFadeInAnimation('pesho');
+            const bounce = createBounceAnimation('gosho');
+            const scale = createScaleAnimation('tosho');
+
+            // fade.play(sprite);
+            // bounce.play(sprite);
+            // scale.play(sprite);
+        }, 1000);
     }
 }

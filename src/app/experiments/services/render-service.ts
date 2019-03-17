@@ -7,6 +7,8 @@ import { createRenderer, createElement } from '@app/rendering';
 import { createPixiEngine } from '@app/engines/pixi';
 import { RootComponent } from '../components/root';
 
+import * as Tween from '@tweenjs/tween.js';
+
 @Injectable({
     providedIn: 'root'
 })
@@ -55,8 +57,9 @@ export class RenderService {
     startRenderLoop(stage: Container) {
         this.zone.runOutsideAngular(() => {
             setInterval(() => {
-                requestAnimationFrame(() => {
+                requestAnimationFrame(time => {
                     this.app.renderer.render(stage);
+                    Tween.update(time);
                 });
             });
         });

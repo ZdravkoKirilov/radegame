@@ -30,6 +30,10 @@ export const setProp = (comp: Component, prop: keyof Styles, value: string | num
         return (graphic as Sprite).skew.set(x, y);
     }
 
+    if (prop === 'scale') {
+        return (graphic as Sprite).scale.set(result);
+    }
+
     graphic[prop] = result;
     return result;
 };
