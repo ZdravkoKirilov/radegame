@@ -1,6 +1,7 @@
 import { Component, PRIMS } from "../models";
 import { AbstractContainer } from "../interfaces";
 import { StatefulComponent, FunctionalComponent, BasicComponent } from "../mixins";
+import { AnimationGroup } from "../animations";
 
 export const mountComponent = (component: Component, container: AbstractContainer) => {
     if (!component) {
@@ -9,6 +10,12 @@ export const mountComponent = (component: Component, container: AbstractContaine
 
     if (component instanceof StatefulComponent) {
         mountStatefulComponent(component, container);
+        component.animations.forEach(animation => {
+            const enterAnimations: AnimationGroup[] = [];
+            enterAnimations.forEach(animation => {
+                animation.playAll();
+            });
+        });
     }
     if (component instanceof FunctionalComponent) {
         mountFunctionalComponent(component, container);

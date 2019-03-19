@@ -3,13 +3,34 @@ import { Subject } from "rxjs";
 
 import { Component, Styles } from "../models";
 
-export type AnimationConfig = {
-    id: string | number;
-    transition: string;
-    prop: string;
-    animation: AnimationBase;
+export class AnimationGroup {
+    type: 'parallel' | 'sequence' | 'exclusive';
+    transition: string;   // done => undone, hot <=> cold etc.
+    prop: string;   //  state.pesho, props.gosho
+    animations: AnimationBase[];
+    gap?: number; // in case of type=sequence
+
+    async playAll() {
+        if (this.type === 'parallel') {
+            return Promise.all(this.animations.map(animation => animation.playAll()));
+        }
+    }
 }
+
+// Note to myself: pass the animation object directly to children
+// then children .push directly themselves into the components[] of the animation
+// then the parent component -> onUpdate - animations.forEach -> playAll()
+
+export type AnimationConfig<T> = {
+    id: string | number,
+    easing: (data: number) => number,
+    timing: number,
+    expected?: T,
+    initial?: T,
+}
+
 export class AnimationBase<T = Partial<Styles>> {
+
     private components: Set<Component> = new Set();
     private active: Array<{
         tween: Tween;
@@ -40,33 +61,44 @@ export class AnimationBase<T = Partial<Styles>> {
         public initial?: T,
     ) { }
 
+    playAll() {
+        return Promise.all(Array.from(this.components).map(comp => this.play(comp)));
+    }
+
     play(target: Component) {
-        const tween = new Tween(this.initial)
-            .to(this.expected, this.timing)
-            .easing(this.easing)
-            .onUpdate((data: T) => {
-                const keys = Object.keys(data);
-                keys.forEach(key => {
-                    target.setProps({
-                        styles: {
-                            ...target.props.styles,
-                            [key]: data[key]
-                        }
-                    })
+        return new Promise((resolve) => {
+            const tween = new Tween(this.initial)
+                .to(this.expected, this.timing)
+                .easing(this.easing)
+                .onUpdate((data: T) => {
+                    this.update(target, data);
+                })
+                .onComplete(() => {
+                    this.complete$.next(target);
+                    resolve(target);
                 });
-            })
-            .onComplete(() => {
-                this.complete$.next(target);
+
+            this.active.push({
+                tween, component: target
             });
 
-        this.active.push({
-            tween, component: target
+            // tween.repeat(Infinity);
+            // tween.yoyo(true);
+
+            tween.start();
         });
+    }
 
-        tween.repeat(Infinity);
-        tween.yoyo(true);
-
-        tween.start();
+    update(target: Component, data: T) {
+        const keys = Object.keys(data);
+        keys.forEach(key => {
+            target.setProps({
+                styles: {
+                    ...target.props.styles,
+                    [key]: data[key]
+                }
+            })
+        });
     }
 
     stop() {
@@ -75,4 +107,5 @@ export class AnimationBase<T = Partial<Styles>> {
 }
 
 // TODO: * syntax for taking the current value as initial
-// +500 syntax - taking the current value and adding 500 to it as expected value
+// +500 / -500 syntax - taking the current value and adding 500 to it as expected value
+// @id.width

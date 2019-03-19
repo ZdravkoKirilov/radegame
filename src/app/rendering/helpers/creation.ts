@@ -4,7 +4,7 @@ import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent, FunctionalComponent } from "../mixins";
 
 export const createComponent = (element: RzElement | RzElement[], factory: AbstractFactory, meta?: MetaProps, parent?: Component): Component | null => {
-    let component = null;
+    let component: Component = null;
 
     if (Array.isArray(element)) {
         element = element[0]; // only 1 direct child
@@ -24,7 +24,10 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
         let { type } = element;
 
         if (new Set(values(PRIMS)).has(element.type)) {
-            component = createPrimitiveComponent(element, factory, meta) as BasicComponent;
+            component = createPrimitiveComponent(element, factory, meta);
+            if (component.props.animations) {
+                component.props.animations.forEach(animation => animation.addComponent(component));
+            }
             component.type = element.type;
             component.parent = parent;
             component.children = createPrimitiveChildren(element, factory, meta, component);
