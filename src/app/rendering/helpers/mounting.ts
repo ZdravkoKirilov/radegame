@@ -10,12 +10,6 @@ export const mountComponent = (component: Component, container: AbstractContaine
 
     if (component instanceof StatefulComponent) {
         mountStatefulComponent(component, container);
-        component.animations.forEach(animation => {
-            const enterAnimations: AnimationGroup[] = [];
-            enterAnimations.forEach(animation => {
-                animation.playAll();
-            });
-        });
     }
     if (component instanceof FunctionalComponent) {
         mountFunctionalComponent(component, container);
@@ -39,6 +33,13 @@ const mountStatefulComponent = (component: StatefulComponent<any, any>, containe
     if ('didMount' in component) {
         (component as any).didMount.call(component);
     }
+
+    component.animations.forEach(animation => {
+        const enterAnimations: AnimationGroup[] = [];
+        enterAnimations.forEach(animation => {
+            animation.playAll();
+        });
+    });
 };
 
 const mountFunctionalComponent = (component: FunctionalComponent<any>, container: AbstractContainer) => {

@@ -25,9 +25,8 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
 
         if (new Set(values(PRIMS)).has(element.type)) {
             component = createPrimitiveComponent(element, factory, meta);
-            if (component.props.animations) {
-                component.props.animations.forEach(animation => animation.addComponent(component));
-            }
+
+            registerAnimations(component);
             component.type = element.type;
             component.parent = parent;
             component.children = createPrimitiveChildren(element, factory, meta, component);
@@ -120,6 +119,12 @@ const createRefs = (component: BasicComponent) => {
 
     if (refCallback && typeof refCallback === typeof Function) {
         refCallback(component.graphic);
+    }
+};
+
+const registerAnimations = (component: BasicComponent) => {
+    if (component.props.animations) {
+        component.props.animations.forEach(animation => animation.addComponent(component));
     }
 };
 

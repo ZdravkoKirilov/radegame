@@ -8,7 +8,7 @@ import {
 } from "../primitives";
 import { mountComponent } from "./mounting";
 import { AbstractContainer } from "../interfaces";
-import { AnimationBase, AnimationGroup } from "../animations";
+import { AnimationGroup } from "../animations";
 
 export const updateComposite = (element: RzElement | RzElement[], component: CompositeComponent) => {
     const current = component.children[0];
@@ -107,7 +107,7 @@ export const unmountComposite = async (component: CompositeComponent) => {
     console.warn('unmount composite: ');
     console.dir(component);
 
-    if (component instanceof StatefulComponent && component.animations.length) {
+    if (component instanceof StatefulComponent) {
         const leaveAnimations: AnimationGroup[] = [];
         await Promise.all([...leaveAnimations.map(animation => animation.playAll())]);
     }

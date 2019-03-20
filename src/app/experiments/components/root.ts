@@ -1,6 +1,6 @@
 import {
     StatefulComponent, createElement,
-    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, createBounceAnimation, createScaleAnimation
+    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, createBounceAnimation, createScaleAnimation, WithAnimations
 } from "@app/rendering";
 
 export type Props = {
@@ -10,7 +10,7 @@ export type Props = {
 type State = {
     show: boolean;
 }
-
+@WithAnimations()
 export class RootComponent extends StatefulComponent<Props, State> implements Lifecycles {
     state = { show: false }
     ref: any;

@@ -1,7 +1,8 @@
 import { Tween } from "@tweenjs/tween.js";
 import { Subject } from "rxjs";
 
-import { Component, Styles } from "../models";
+import { Component, Styles, DidUpdatePayload, Lifecycles } from "../models";
+import { StatefulComponent } from "../mixins";
 
 export class AnimationGroup {
     type: 'parallel' | 'sequence' | 'exclusive';
@@ -13,6 +14,14 @@ export class AnimationGroup {
     async playAll() {
         if (this.type === 'parallel') {
             return Promise.all(this.animations.map(animation => animation.playAll()));
+        }
+    }
+
+    async playIfEligible(data: DidUpdatePayload) {
+        if ('transition is correct') {
+            return this.playAll();
+        } else {
+            return Promise.resolve();
         }
     }
 }
@@ -109,3 +118,16 @@ export class AnimationBase<T = Partial<Styles>> {
 // TODO: * syntax for taking the current value as initial
 // +500 / -500 syntax - taking the current value and adding 500 to it as expected value
 // @id.width
+
+export function WithAnimations(animations: AnimationGroup[] = []) {
+
+    return function (constructor) {
+        const original = constructor.prototype.didUpdate;
+
+        constructor.prototype.didUpdate = function (data: DidUpdatePayload) {
+            animations.forEach(animation => animation.playIfEligible(data));
+            original && typeof original === 'function' && original.apply(this, arguments);
+        };
+        constructor.prototype.animations = animations;
+    }
+}
