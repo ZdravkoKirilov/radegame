@@ -41,7 +41,7 @@ export class AnimationGroup {
     prop: string;   //  state.pesho, props.gosho
     animations: AnimationBase[];
 
-    async playAll() {
+    playAll() {
         if (this.type === 'parallel') {
             return Promise.all(this.animations.map(animation => animation.playAll()));
         } else { // sequence
@@ -51,7 +51,7 @@ export class AnimationGroup {
         }
     }
 
-    async playIfEligible(data: DidUpdatePayload) {
+    playIfEligible(data: DidUpdatePayload) {
         if (this.isEligible(data)) {
             return this.playAll();
         } else {
@@ -128,7 +128,7 @@ export class AnimationBase<T = Partial<Styles>> {
 
     parseValues(from: Partial<Styles>, comp: Component) {
         const transformed = Object.keys(from).reduce((acc, key) => {
-            const value = parseValue(from[key]);
+            const value = parseValue(from[key], key, comp);
 
             acc[key] = value;
             return acc;
@@ -174,7 +174,6 @@ export function WithAnimations(animations: AnimationGroup[] = []) {
 }
 
 export type AnimationConfig<T = any> = {
-    id: string | number,
     easing: (data: number) => number,
     timing: number,
     expected?: T,

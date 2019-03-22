@@ -1,6 +1,6 @@
 import { BasicComponent } from "./BasicComponent";
 import { RzElementProps, RzElement, MetaProps, Lifecycles } from "../models";
-import { AnimationGroup } from "../animations";
+import { AnimationOrchestrator } from "../animations";
 
 export class StatefulComponent<P extends object = {}, S extends object = {}> extends BasicComponent<P> {
     static stateful = true;
@@ -9,7 +9,7 @@ export class StatefulComponent<P extends object = {}, S extends object = {}> ext
     state: S;
     props: P & RzElementProps;
 
-    animations: AnimationGroup[] = [];
+    animations: AnimationOrchestrator[] = [];
 
     constructor(props: P, meta: MetaProps) {
         super(props, null, meta);

@@ -1,6 +1,6 @@
 import {
     StatefulComponent, createElement,
-    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, createBounceAnimation, createScaleAnimation, WithAnimations
+    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations
 } from "@app/rendering";
 
 export type Props = {
