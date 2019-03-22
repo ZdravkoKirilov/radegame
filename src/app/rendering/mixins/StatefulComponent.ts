@@ -9,15 +9,17 @@ export class StatefulComponent<P extends object = {}, S extends object = {}> ext
     state: S;
     props: P & RzElementProps;
 
-    animations: AnimationOrchestrator[] = [];
+    get animations(): AnimationOrchestrator[] {
+        return (this.type as any).animations || [];
+    }
 
     constructor(props: P, meta: MetaProps) {
         super(props, null, meta);
     }
 
-    setState(state: S) {
-        const current = this.state || {};
-        const next = { ...current, ...state || {} } as S;
+    setState(state: Partial<S>) {
+        const current = this.state as any || {} as any;
+        const next = { ...current, ...(state as any) || {} } as S;
         if (this.shouldUpdate(this.props, next)) {
             this.state = next as S;
             this.update();
@@ -30,7 +32,7 @@ export class StatefulComponent<P extends object = {}, S extends object = {}> ext
         }
     }
 
-    setProps(props: P | any) {
+    setProps(props: Partial<P> | any) {
         const current = this.props || {};
         const next = { ...current, ...props };
 

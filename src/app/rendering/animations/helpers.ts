@@ -8,6 +8,7 @@ const SPECIALS = {
     LEAVE: ':leave',
     FORWARDS: '=>',
     BIDIRECTIONAL: '<=>',
+    PERCENT: '%',
 };
 
 export const shouldTransition = (transition: string, prop: string, payload: DidUpdatePayload) => {
@@ -41,13 +42,21 @@ const isSpecialValue = (value: string | number) => {
     return value && typeof value === 'string';
 };
 
-const parseSpecial = (value: string, prop: string, comp: Component) => {
-    const sign = value[0];
-    const valuePart = Number(value.slice(1));
+const parseSpecial = (data: string, prop: string, comp: Component) => {
+    const sign = data[0];
+    const valueAsString = data.slice(1);
+    let valuePart = Number(valueAsString);
     const current = comp.props.styles[prop];
 
     if (isNaN(valuePart)) {
-        throw new TypeError('Incorrect animation value: ' + value);
+        if (valueAsString.endsWith(SPECIALS.PERCENT)) {
+            valuePart = Number(valueAsString.slice(-1));
+            if (isNaN(valuePart)) {
+                throw new TypeError('Unrecognized animation value: ' + data);
+            }
+        } else {
+            throw new TypeError('Unrecognized animation value: ' + data);
+        }
     }
 
     if (sign === SPECIALS.PLUS) {

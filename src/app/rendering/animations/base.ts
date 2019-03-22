@@ -1,20 +1,25 @@
 import { Tween } from "@tweenjs/tween.js";
 
 import { Component, Styles, DidUpdatePayload } from "../models";
-import { parseValue } from "./helpers";
+import { parseValue, shouldTransition } from "./helpers";
+
+export const createOrchestrator = (type: 'parallel' | 'exclusive', groups: AnimationGroup[]) => {
+    return new AnimationOrchestrator(type, groups);
+};
+
+export const createAnimationGroup = (
+    type: 'parallel' | 'sequence',
+    transition: string,
+    prop: string,
+    animations: AnimationBase[]
+) => {
+    return new AnimationGroup(type, transition, prop, animations);
+};
 
 export class AnimationOrchestrator {
-    type: 'parallel' | 'exclusive';
-    groups: AnimationGroup[];
 
-    checkAll(data: DidUpdatePayload) {
-        const eligibleGroups = this.groups.filter(group => group.isEligible(data));
-        return eligibleGroups;
-    }
+    constructor(private type: 'parallel' | 'exclusive', private groups: AnimationGroup[]) { }
 
-    playAll(groups: AnimationGroup[]) {
-        return Promise.all([...groups.map(group => group.playAll())])
-    }
 
     playAllEligible(data: DidUpdatePayload) {
         const eligible = this.checkAll(data);
@@ -22,7 +27,16 @@ export class AnimationOrchestrator {
         if (this.type === 'exclusive') {
             this.stopOthers(eligible);
         }
-        return this.playAll(eligible);
+        return this.playAll(eligible, data);
+    }
+
+    checkAll(data: DidUpdatePayload) {
+        const eligibleGroups = this.groups.filter(group => group.isEligible(data));
+        return eligibleGroups;
+    }
+
+    playAll(groups: AnimationGroup[], data: DidUpdatePayload) {
+        return Promise.all([...groups.map(group => group.playIfEligible(data))]);
     }
 
     stopOthers(exceptions: AnimationGroup[]) {
@@ -36,18 +50,38 @@ export class AnimationOrchestrator {
 
 
 export class AnimationGroup {
-    type: 'parallel' | 'sequence';
-    transition: string;   // done => undone, hot <=> cold etc.
-    prop: string;   //  state.pesho, props.gosho
-    animations: AnimationBase[];
+    constructor(
+        private type: 'parallel' | 'sequence',
+        private transition: string,   // done => undone, hot <=> cold etc.
+        private prop: string,   //  state.pesho, props.gosho
+        private animations: AnimationBase[]
+    ) { }
 
-    playAll() {
+    async playAll() {
         if (this.type === 'parallel') {
             return Promise.all(this.animations.map(animation => animation.playAll()));
         } else { // sequence
-            return this.animations.reduce((total, animation) => {
-                return animation.playAll();
-            }, Promise.all([]));
+
+            return new Promise(resolve => {
+                this.playSequence(this.animations, resolve);
+            });
+            
+            // return this.animations.reduce((total, animation) => {
+            //     return animation.playAll();
+            // }, Promise.resolve([]));
+        }
+    }
+
+    playSequence(animations: AnimationBase[], resolve: Function) {
+        const animationsCopy = [...animations];
+
+        if (animationsCopy.length) {
+            const next = animationsCopy.shift();
+            next.playAll().then(() => {
+                this.playSequence(animationsCopy, resolve);
+            });
+        } else {
+            resolve();
         }
     }
 
@@ -55,12 +89,12 @@ export class AnimationGroup {
         if (this.isEligible(data)) {
             return this.playAll();
         } else {
-            return Promise.resolve();
+            return Promise.resolve([]);
         }
     }
 
     isEligible(data: DidUpdatePayload) {
-        return true;
+        return shouldTransition(this.transition, this.prop, data);
     }
 
     stopAll() {
@@ -160,16 +194,15 @@ export class AnimationBase<T = Partial<Styles>> {
 // +500 / -500 syntax - taking the current value and adding 500 to it as expected value
 // @id.width
 
-export function WithAnimations(animations: AnimationGroup[] = []) {
+export function WithAnimations(animations: AnimationOrchestrator[] = []) {
 
     return function (constructor) {
         const original = constructor.prototype.didUpdate;
-
         constructor.prototype.didUpdate = function (data: DidUpdatePayload) {
-            animations.forEach(animation => animation.playIfEligible(data));
+            animations.forEach(animation => animation.playAllEligible(data));
             original && typeof original === 'function' && original.apply(this, arguments);
         };
-        constructor.prototype.animations = animations;
+        constructor.animations = animations;
     }
 }
 

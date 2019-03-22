@@ -1,6 +1,6 @@
 import {
     StatefulComponent, createElement,
-    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations
+    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation
 } from "@app/rendering";
 
 export type Props = {
@@ -8,11 +8,27 @@ export type Props = {
 }
 
 type State = {
-    show: boolean;
+    show: string;
+    move: boolean;
 }
-@WithAnimations()
+
+const fadeAnimation = createFadeInAnimation();
+const bounceAnimation = createBounceAnimation();
+@WithAnimations([
+    createOrchestrator(
+        'parallel',
+        [
+            createAnimationGroup(
+                'sequence',
+                'pesho => gosho',
+                'state.show',
+                [fadeAnimation, bounceAnimation]
+            ),
+        ]
+    )
+])
 export class RootComponent extends StatefulComponent<Props, State> implements Lifecycles {
-    state = { show: false }
+    state = { show: 'pesho', move: false }
     ref: any;
 
     render() {
@@ -26,12 +42,13 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                     // height: 300,
                     x: 1200,
                     y: 100,
-                    alpha: 0.8,
+                    alpha: 1,
                     // anchor: 0.5,
                     // skew: '0.1 0',
                     // rotation: 120 * 0.0174532925
                 },
                 ref: this.onRef,
+                animations: [fadeAnimation, bounceAnimation]
             }
         );
     }
@@ -88,13 +105,13 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         );
     }
 
-    onShow = () => {
-        this.setState({ show: true });
-    }
+    // onShow = () => {
+    //     this.setState({ show: true });
+    // }
 
-    onHide = () => {
-        this.setState({ show: false });
-    }
+    // onHide = () => {
+    //     this.setState({ show: false });
+    // }
 
     onRef = (elem) => {
         this.ref = elem;
@@ -108,13 +125,17 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
 
         setTimeout(() => {
             const sprite = this.children[0].children[0].children[0];
-            const fade = createFadeInAnimation('pesho');
-            const bounce = createBounceAnimation('gosho');
-            const scale = createScaleAnimation('tosho');
+            // const fade = createFadeInAnimation('pesho');
+
+            this.setState({ show: 'gosho' });
 
             // fade.play(sprite);
             // bounce.play(sprite);
             // scale.play(sprite);
         }, 1000);
+
+        setTimeout(() => {
+            this.setState({ move: true });
+        }, 3000);
     }
 }
