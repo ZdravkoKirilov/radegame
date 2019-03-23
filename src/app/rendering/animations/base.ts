@@ -65,7 +65,7 @@ export class AnimationGroup {
             return new Promise(resolve => {
                 this.playSequence(this.animations, resolve);
             });
-            
+
             // return this.animations.reduce((total, animation) => {
             //     return animation.playAll();
             // }, Promise.resolve([]));
@@ -125,10 +125,25 @@ export class AnimationBase<T = Partial<Styles>> {
     }
 
     playAll() {
-        return Promise.all(Array.from(this.components).map(comp => this.play(comp)));
+        if (this.config.staggerBy) {
+            return this.playStagger(Array.from(this.components));
+        } else {
+            return Promise.all(Array.from(this.components).map(comp => this.play(comp)));
+        }
     }
 
-    play(target: Component) {
+    playStagger(components: Component[]) {
+        let delay = 0;
+        const promises = components.map(comp => {
+            const promise = this.play(comp, delay);
+            delay += this.config.staggerBy;
+            return promise;
+        });
+
+        return Promise.all(promises);
+    }
+
+    play(target: Component, enforcedDelay = 0) {
         let { expected, initial, timing, easing, repeat = 0, delay = 0, yoyo = false } = this.config;
 
         expected = this.parseValues(expected, target);
@@ -138,7 +153,7 @@ export class AnimationBase<T = Partial<Styles>> {
             const tween = new Tween(initial)
                 .to(expected, timing)
                 .easing(easing)
-                .delay(delay)
+                .delay(enforcedDelay || delay)
                 .onUpdate((data: T) => {
                     this.update(target, data);
                 })
@@ -214,4 +229,5 @@ export type AnimationConfig<T = any> = {
     repeat?: number;
     yoyo?: boolean;
     delay?: number;
+    staggerBy?: number;
 }

@@ -1,14 +1,12 @@
 import { Component, DidUpdatePayload } from "../models";
+import { evaluate } from "@app/dynamic-forms";
 
 const SPECIALS = {
-    PLUS: '+',
-    MINUS: '-',
     WILDCARD: '*',
     ENTER: ':enter',
     LEAVE: ':leave',
     FORWARDS: '=>',
     BIDIRECTIONAL: '<=>',
-    PERCENT: '%',
 };
 
 export const shouldTransition = (transition: string, prop: string, payload: DidUpdatePayload) => {
@@ -42,34 +40,16 @@ const isSpecialValue = (value: string | number) => {
     return value && typeof value === 'string';
 };
 
-const parseSpecial = (data: string, prop: string, comp: Component) => {
-    const sign = data[0];
-    const valueAsString = data.slice(1);
-    let valuePart = Number(valueAsString);
+const parseSpecial = (source: string, prop: string, comp: Component) => {
+    var start = source[0];
     const current = comp.props.styles[prop];
 
-    if (isNaN(valuePart)) {
-        if (valueAsString.endsWith(SPECIALS.PERCENT)) {
-            valuePart = Number(valueAsString.slice(-1));
-            if (isNaN(valuePart)) {
-                throw new TypeError('Unrecognized animation value: ' + data);
-            }
-        } else {
-            throw new TypeError('Unrecognized animation value: ' + data);
-        }
-    }
-
-    if (sign === SPECIALS.PLUS) {
-        return current + valuePart;
-    }
-
-    if (sign === SPECIALS.MINUS) {
-        return current - valuePart;
-    }
-
-    if (sign === SPECIALS.WILDCARD) {
+    if (start === SPECIALS.WILDCARD) {
         return current;
     }
+
+    const result = evaluate(source, comp.props.styles);
+    return result;
 };
 
 export const parseValue = (value: string | number, prop: string, comp: Component) => {

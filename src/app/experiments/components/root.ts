@@ -1,6 +1,6 @@
 import {
     StatefulComponent, createElement,
-    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation
+    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation, createUpliftAnimation
 } from "@app/rendering";
 
 export type Props = {
@@ -14,6 +14,7 @@ type State = {
 
 const fadeAnimation = createFadeInAnimation();
 const bounceAnimation = createBounceAnimation();
+const upliftAnimation = createUpliftAnimation();
 @WithAnimations([
     createOrchestrator(
         'parallel',
@@ -22,7 +23,7 @@ const bounceAnimation = createBounceAnimation();
                 'sequence',
                 'pesho => gosho',
                 'state.show',
-                [fadeAnimation, bounceAnimation]
+                [upliftAnimation, bounceAnimation, fadeAnimation]
             ),
         ]
     )
@@ -41,69 +42,69 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                     // width: 300,
                     // height: 300,
                     x: 1200,
-                    y: 100,
+                    y: 300,
                     alpha: 1,
                     // anchor: 0.5,
                     // skew: '0.1 0',
                     // rotation: 120 * 0.0174532925
                 },
                 ref: this.onRef,
-                animations: [fadeAnimation, bounceAnimation]
+                animations: [bounceAnimation, upliftAnimation, fadeAnimation]
             }
         );
     }
 
-    render2() {
-        const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
-        const { show } = this.state;
+    // render2() {
+    //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+    //     const { show } = this.state;
 
-        return createElement('container',
-            {
-                styles: {
-                    x: 800,
-                    y: 200,
-                },
-                onPointerOver: this.onShow,
-                onPointerOut: this.onHide,
-            },
-            show ? createElement<ShadowProps>('shadow', {
-                color: 0xa1a8b5,
-                alpha: 1,
-                blur: 1,
-                distance: 10
-            }) : null,
-            createElement<SpriteProps>(
-                DynamicSprite, {
-                    image,
-                    styles: {
-                        // width: 300,
-                        // height: 300,
-                        // x: 0,
-                        // y: 0,
-                        anchor: 0.5,
-                        // skew: '0.1 0',
-                        // rotation: 120 * 0.0174532925
-                    },
-                    ref: this.onRef,
-                }
-            ),
+    //     return createElement('container',
+    //         {
+    //             styles: {
+    //                 x: 800,
+    //                 y: 200,
+    //             },
+    //             onPointerOver: this.onShow,
+    //             onPointerOut: this.onHide,
+    //         },
+    //         show ? createElement<ShadowProps>('shadow', {
+    //             color: 0xa1a8b5,
+    //             alpha: 1,
+    //             blur: 1,
+    //             distance: 10
+    //         }) : null,
+    //         createElement<SpriteProps>(
+    //             DynamicSprite, {
+    //                 image,
+    //                 styles: {
+    //                     // width: 300,
+    //                     // height: 300,
+    //                     // x: 0,
+    //                     // y: 0,
+    //                     anchor: 0.5,
+    //                     // skew: '0.1 0',
+    //                     // rotation: 120 * 0.0174532925
+    //                 },
+    //                 ref: this.onRef,
+    //             }
+    //         ),
 
-            // createElement<RecProps>(
-            //     'rectangle',
-            //     {
-            //         styles: { width: 300, height: 300, fill: 0x99ff99 },
-            //         onPointerDown: this.onShow,
-            //         onPointerUp: this.onHide
-            //     },
-            //     show ? createElement<ShadowProps>('shadow', {
-            //         color: 0xff9999,
-            //         alpha: 1,
-            //         blur: 2,
-            //         distance: 10
-            //     }) : null
-            // )
-        );
-    }
+    //         // createElement<RecProps>(
+    //         //     'rectangle',
+    //         //     {
+    //         //         styles: { width: 300, height: 300, fill: 0x99ff99 },
+    //         //         onPointerDown: this.onShow,
+    //         //         onPointerUp: this.onHide
+    //         //     },
+    //         //     show ? createElement<ShadowProps>('shadow', {
+    //         //         color: 0xff9999,
+    //         //         alpha: 1,
+    //         //         blur: 2,
+    //         //         distance: 10
+    //         //     }) : null
+    //         // )
+    //     );
+    // }
 
     // onShow = () => {
     //     this.setState({ show: true });

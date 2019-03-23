@@ -1,12 +1,7 @@
 import { BasicComponent } from '../../mixins';
 import { RzElementProps, MetaProps } from '../../models';
 
-export type ShadowProps = RzElementProps & {
-    color: number;
-    alpha: number;
-    blur: number;
-    distance: number;
-}
+export type ShadowProps = RzElementProps & {}
 export class PrimitiveShadow extends BasicComponent<ShadowProps> {
 
     constructor(props: ShadowProps, graphic: any, meta: MetaProps) {

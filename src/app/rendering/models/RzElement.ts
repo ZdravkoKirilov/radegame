@@ -45,9 +45,12 @@ export type Styles = {
     fill: number;
     radius: number;
     borderRadius: number;
-    strokeThickness?: number;
-    strokeColor?: number;
-    scale?: number;
+    strokeThickness: number;
+    strokeColor: number;
+    scale: number;
+    color: number;
+    blur: number;
+    distance: number;
 };
 
 export type Points = Array<Array<number>>;

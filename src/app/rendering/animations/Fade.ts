@@ -4,7 +4,7 @@ import { Easing } from "@tweenjs/tween.js";
 export const createFadeInAnimation = () => {
     return new AnimationBase({
         easing: Easing.Cubic.InOut,
-        timing: 300,
+        timing: 3000,
         expected: { alpha: .8 },
         initial: { alpha: 1 },
         // yoyo: true,
@@ -16,10 +16,19 @@ export const createBounceAnimation = () => {
     return new AnimationBase({
         easing: Easing.Bounce.Out,
         timing: 3000,
-        expected: { x: 100 },
+        expected: { x: '(x - x) + 50' },
         initial: { x: 1200 },
         // yoyo: true,
         // repeat: Infinity
+    });
+};
+
+export const createUpliftAnimation = () => {
+    return new AnimationBase({
+        easing: Easing.Elastic.InOut,
+        timing: 3000,
+        expected: { y: 'y - 200' },
+        initial: { y: '*' }
     });
 };
 

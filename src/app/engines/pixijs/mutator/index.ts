@@ -142,11 +142,12 @@ const updateShadow = (comp: PrimitiveShadow) => {
         const target: DisplayObject = comp.parent.graphic;
         const filters = target.filters || [];
         const filter: DropShadowFilter = comp.graphic;
+        const styles = comp.props.styles;
 
-        filter.alpha = comp.props.alpha;
-        filter.blur = comp.props.blur;
-        filter.distance = comp.props.distance;
-        filter.color = comp.props.color;
+        filter.alpha = styles.alpha;
+        filter.blur = styles.blur;
+        filter.distance = styles.distance;
+        filter.color = styles.color;
 
         const notAdded = !filters.find(elem => elem === filter);
         if (notAdded) {
