@@ -4,3 +4,4 @@ export * from './create-element';
 export * from './mounting';
 export * from './creation';
 export * from './misc';
+export * from './layout';

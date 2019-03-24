@@ -1,6 +1,7 @@
 import {
     StatefulComponent, createElement,
-    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation, createUpliftAnimation
+    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation,
+    createUpliftAnimation, composeGrid, gridItems
 } from "@app/rendering";
 
 export type Props = {
@@ -33,26 +34,39 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     ref: any;
 
     render() {
-        const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+        const asGrid = composeGrid(gridItems, 1000, '20 20');
+    
+        const items = asGrid.map((elem, index) => {
+            return createElement<RecProps>('rectangle', {
+                styles: {...elem},
+                key: index,
+            });
+        });
+        return createElement('collection', {}, items);
 
-        return createElement<SpriteProps>(
-            DynamicSprite, {
-                image,
-                styles: {
-                    // width: 300,
-                    // height: 300,
-                    x: 1200,
-                    y: 300,
-                    alpha: 1,
-                    // anchor: 0.5,
-                    // skew: '0.1 0',
-                    // rotation: 120 * 0.0174532925
-                },
-                ref: this.onRef,
-                animations: [bounceAnimation, upliftAnimation, fadeAnimation]
-            }
-        );
     }
+
+    // render() {
+    //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+
+    //     return createElement<SpriteProps>(
+    //         DynamicSprite, {
+    //             image,
+    //             styles: {
+    //                 // width: 300,
+    //                 // height: 300,
+    //                 x: 1200,
+    //                 y: 300,
+    //                 alpha: 1,
+    //                 // anchor: 0.5,
+    //                 // skew: '0.1 0',
+    //                 // rotation: 120 * 0.0174532925
+    //             },
+    //             ref: this.onRef,
+    //             animations: [bounceAnimation, upliftAnimation, fadeAnimation]
+    //         }
+    //     );
+    // }
 
     // render2() {
     //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';

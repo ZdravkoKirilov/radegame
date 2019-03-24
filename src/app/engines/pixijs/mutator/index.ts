@@ -166,7 +166,7 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
         graphic.beginFill(props.styles.fill);
     }
 
-    graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
+    graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
 
     if (styles && !isNaN(Number(styles.borderRadius))) {
         graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.borderRadius);
