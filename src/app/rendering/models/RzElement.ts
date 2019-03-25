@@ -17,6 +17,7 @@ export type RzElementProps = DefaultEvents & Partial<{
     styles: Partial<Styles>;
     key: RzElementKey;
     id: string | number;
+    name: string;
     button: boolean;
     hitArea: any;
     textStyle: { [key: string]: any };
@@ -51,6 +52,7 @@ export type Styles = {
     color: number;
     blur: number;
     distance: number;
+    mask: number[];
 };
 
 export type Points = Array<Array<number>>;

@@ -69,6 +69,10 @@ export const gridItems = [
         height: 300,
         fill: 0x99ff99,
     }, {
+        width: 200,
+        height: 200,
+        fill: 0x99ff99,
+    }, {
         width: 1000,
         height: 200,
         fill: 0x99ff99,

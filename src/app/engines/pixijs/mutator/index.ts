@@ -129,6 +129,9 @@ const updatePrimitive = (component: BasicComponent) => {
 const updateGeneric = (comp: Component) => {
     const { props, graphic } = comp;
     const styles: Styles = props.styles;
+    if (graphic && props.name) {
+        graphic.name = props.name;
+    }
     if (graphic && styles) {
         Object.keys(styles).forEach((key: keyof Styles) => {
             setProp(comp, key, props.styles[key]);
@@ -151,7 +154,8 @@ const updateShadow = (comp: PrimitiveShadow) => {
 
         const notAdded = !filters.find(elem => elem === filter);
         if (notAdded) {
-            target.filters = [filter];
+            target.filters = target.filters || [];
+            target.filters.push(filter);
         }
     }
 };
@@ -173,6 +177,10 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
     } else {
         graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
     }
+
+    // const maskElem = new Graphics().drawRect(styles.x, styles.y, styles.width / 2, styles.height / 2);
+
+    // graphic.mask = maskElem;
 
 };
 

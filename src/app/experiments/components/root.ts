@@ -33,16 +33,46 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     state = { show: 'pesho', move: false }
     ref: any;
 
+    // render() {
+    //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+
+    //     return createElement(
+    //         'container',
+    //         {
+    //             styles: {
+    //                 x: 200,
+    //                 y: 200,
+    //                 mask: [null, null, 50]
+    //                 // mask: [300, 250, 100, 100]
+    //             }
+    //         },
+    //         createElement<SpriteProps>(
+    //             DynamicSprite, {
+    //                 image,
+    //                 styles: {
+    //                     // width: 300,
+    //                     // height: 300,
+    //                     alpha: 1,
+    //                 },
+    //             }
+    //         ));
+    // }
+
     render() {
         const asGrid = composeGrid(gridItems, 1000, '20 20');
-    
+
         const items = asGrid.map((elem, index) => {
             return createElement<RecProps>('rectangle', {
-                styles: {...elem},
+                styles: { ...elem },
                 key: index,
             });
         });
-        return createElement('collection', {}, items);
+        return createElement('collection', {
+            styles: {
+                // mask: [350, 350, 250]
+            },
+            name: 'rectangles'
+        }, items);
 
     }
 
@@ -82,7 +112,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     //             onPointerOut: this.onHide,
     //         },
     //         show ? createElement<ShadowProps>('shadow', {
-    //             color: 0xa1a8b5,
+    //             color: 0x919499,
     //             alpha: 1,
     //             blur: 1,
     //             distance: 10
@@ -138,19 +168,19 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
 
     didMount() {
 
-        setTimeout(() => {
-            const sprite = this.children[0].children[0].children[0];
-            // const fade = createFadeInAnimation('pesho');
+        // setTimeout(() => {
+        //     const sprite = this.children[0].children[0].children[0];
+        //     // const fade = createFadeInAnimation('pesho');
 
-            this.setState({ show: 'gosho' });
+        //     this.setState({ show: 'gosho' });
 
-            // fade.play(sprite);
-            // bounce.play(sprite);
-            // scale.play(sprite);
-        }, 1000);
+        //     // fade.play(sprite);
+        //     // bounce.play(sprite);
+        //     // scale.play(sprite);
+        // }, 1000);
 
-        setTimeout(() => {
-            this.setState({ move: true });
-        }, 3000);
+        // setTimeout(() => {
+        //     this.setState({ move: true });
+        // }, 3000);
     }
 }
