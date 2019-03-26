@@ -1,4 +1,4 @@
-import { RzElement, RzElementKey, RzElementProps, Lifecycles } from "../models";
+import { RzElement, RzElementKey, RzElementProps } from "../models";
 import { CompositeComponent, ComponentList, Component } from "../models";
 import { createComponent } from "./creation";
 import { toDictionary } from "@app/shared";
@@ -8,7 +8,6 @@ import {
 } from "../primitives";
 import { mountComponent } from "./mounting";
 import { AbstractContainer } from "../interfaces";
-import { AnimationGroup } from "../animations";
 
 export const updateComposite = (element: RzElement | RzElement[], component: CompositeComponent) => {
     const current = component.children[0];
@@ -101,26 +100,6 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
     });
 
     component.children = Object.values(newChildren);//sort here if needed
-};
-
-export const unmountComposite = async (component: CompositeComponent) => {
-    console.warn('unmount composite: ');
-    console.dir(component);
-
-    if (component instanceof StatefulComponent) {
-        const leaveAnimations: AnimationGroup[] = [];
-        await Promise.all([...leaveAnimations.map(animation => animation.playAll())]);
-    }
-
-    if ('willUnmount' in this) {
-        (this as Lifecycles).willUnmount();
-    }
-
-    component.children.forEach(child => {
-        if (child) {
-            child.remove();
-        }
-    });
 };
 
 export const isComposite = (component: Component): component is CompositeComponent => {

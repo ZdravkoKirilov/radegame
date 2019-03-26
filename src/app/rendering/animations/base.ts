@@ -1,7 +1,7 @@
 import { Tween } from "@tweenjs/tween.js";
 
 import { Component, Styles, DidUpdatePayload } from "../models";
-import { parseValue, shouldTransition } from "./helpers";
+import { parseValue, shouldTransition, extractTransitionValues } from "./helpers";
 
 export const createOrchestrator = (type: 'parallel' | 'exclusive', groups: AnimationGroup[]) => {
     return new AnimationOrchestrator(type, groups);
@@ -57,28 +57,23 @@ export class AnimationGroup {
         private animations: AnimationBase[]
     ) { }
 
-    async playAll() {
+    async playAll(data?: any[]) {
         if (this.type === 'parallel') {
-            return Promise.all(this.animations.map(animation => animation.playAll()));
+            return Promise.all(this.animations.map(animation => animation.playAll(data)));
         } else { // sequence
-
             return new Promise(resolve => {
-                this.playSequence(this.animations, resolve);
+                this.playSequence(this.animations, data, resolve);
             });
-
-            // return this.animations.reduce((total, animation) => {
-            //     return animation.playAll();
-            // }, Promise.resolve([]));
         }
     }
 
-    playSequence(animations: AnimationBase[], resolve: Function) {
+    playSequence(animations: AnimationBase[], data: any[], resolve: Function) {
         const animationsCopy = [...animations];
 
         if (animationsCopy.length) {
-            const next = animationsCopy.shift();
-            next.playAll().then(() => {
-                this.playSequence(animationsCopy, resolve);
+            const nextAnimation = animationsCopy.shift();
+            nextAnimation.playAll(data).then(() => {
+                this.playSequence(animationsCopy, data, resolve);
             });
         } else {
             resolve();
@@ -87,7 +82,7 @@ export class AnimationGroup {
 
     playIfEligible(data: DidUpdatePayload) {
         if (this.isEligible(data)) {
-            return this.playAll();
+            return this.playAll(extractTransitionValues(this.prop, data));
         } else {
             return Promise.resolve([]);
         }
@@ -124,7 +119,7 @@ export class AnimationBase<T = Partial<Styles>> {
         return this.active.some(elem => elem.component === component);
     }
 
-    playAll() {
+    playAll(data?: any[]) {
         if (this.config.staggerBy) {
             return this.playStagger(Array.from(this.components));
         } else {
@@ -143,10 +138,12 @@ export class AnimationBase<T = Partial<Styles>> {
         return Promise.all(promises);
     }
 
-    play(target: Component, enforcedDelay = 0) {
-        let { expected, initial, timing, easing, repeat = 0, delay = 0, yoyo = false } = this.config;
+    play(target: Component, enforcedDelay = 0, data?: any[]) {
+        let { expected, initial, timing, easing,
+            repeat = 0, delay = 0, yoyo = false,
+            dynamic = false, dynamicProp = '' } = this.config;
 
-        expected = this.parseValues(expected, target);
+        expected = dynamic ? {[dynamicProp]: data[1]} : this.parseValues(expected, target);
         initial = this.parseValues(initial, target);
 
         return new Promise((resolve) => {
@@ -178,7 +175,6 @@ export class AnimationBase<T = Partial<Styles>> {
     parseValues(from: Partial<Styles>, comp: Component) {
         const transformed = Object.keys(from).reduce((acc, key) => {
             const value = parseValue(from[key], key, comp);
-
             acc[key] = value;
             return acc;
         }, {});
@@ -225,6 +221,8 @@ export type AnimationConfig<T = any> = {
     easing: (data: number) => number,
     timing: number,
     expected?: T,
+    dynamic?: boolean,
+    dynamicProp?: string,
     initial?: T,
     repeat?: number;
     yoyo?: boolean;

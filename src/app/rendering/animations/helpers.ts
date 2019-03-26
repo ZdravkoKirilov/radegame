@@ -36,6 +36,17 @@ export const shouldTransition = (transition: string, prop: string, payload: DidU
     }
 };
 
+export const extractTransitionValues = (
+    prop: string,
+    payload: DidUpdatePayload
+) => {
+    const props = prop.split('.');
+    const prev = payload[props[0]].prev[props[1]];
+    const next = payload[props[0]].next[props[1]];
+
+    return [prev, next];
+};
+
 const isSpecialValue = (value: string | number) => {
     return value && typeof value === 'string';
 };

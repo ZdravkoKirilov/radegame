@@ -58,45 +58,45 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     //         ));
     // }
 
-    render() {
-        const asGrid = composeGrid(gridItems, 1000, '20 20');
-
-        const items = asGrid.map((elem, index) => {
-            return createElement<RecProps>('rectangle', {
-                styles: { ...elem },
-                key: index,
-            });
-        });
-        return createElement('collection', {
-            styles: {
-                // mask: [350, 350, 250]
-            },
-            name: 'rectangles'
-        }, items);
-
-    }
-
     // render() {
-    //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+    //     const asGrid = composeGrid(gridItems, 1000, '20 20');
 
-    //     return createElement<SpriteProps>(
-    //         DynamicSprite, {
-    //             image,
-    //             styles: {
-    //                 // width: 300,
-    //                 // height: 300,
-    //                 x: 1200,
-    //                 y: 300,
-    //                 alpha: 1,
-    //                 // anchor: 0.5,
-    //                 // skew: '0.1 0',
-    //                 // rotation: 120 * 0.0174532925
-    //             },
-    //             ref: this.onRef,
-    //             animations: [bounceAnimation, upliftAnimation, fadeAnimation]
-    //         }
-    //     );
+    //     const items = asGrid.map((elem, index) => {
+    //         return createElement<RecProps>('rectangle', {
+    //             styles: { ...elem },
+    //             key: index,
+    //         });
+    //     });
+    //     return createElement('collection', {
+    //         styles: {
+    //             // mask: [350, 350, 250]
+    //         },
+    //         name: 'rectangles'
+    //     }, items);
+
     // }
+
+    render() {
+        const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+
+        return createElement<SpriteProps>(
+            DynamicSprite, {
+                image,
+                styles: {
+                    // width: 300,
+                    // height: 300,
+                    x: 1200,
+                    y: 300,
+                    alpha: 1,
+                    // anchor: 0.5,
+                    // skew: '0.1 0',
+                    // rotation: 120 * 0.0174532925
+                },
+                ref: this.onRef,
+                animations: [bounceAnimation, upliftAnimation, fadeAnimation]
+            }
+        );
+    }
 
     // render2() {
     //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
@@ -168,19 +168,19 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
 
     didMount() {
 
-        // setTimeout(() => {
-        //     const sprite = this.children[0].children[0].children[0];
-        //     // const fade = createFadeInAnimation('pesho');
+        setTimeout(() => {
+            const sprite = this.children[0].children[0].children[0];
+            // const fade = createFadeInAnimation('pesho');
 
-        //     this.setState({ show: 'gosho' });
+            this.setState({ show: 'gosho' });
 
-        //     // fade.play(sprite);
-        //     // bounce.play(sprite);
-        //     // scale.play(sprite);
-        // }, 1000);
+            // fade.play(sprite);
+            // bounce.play(sprite);
+            // scale.play(sprite);
+        }, 1000);
 
-        // setTimeout(() => {
-        //     this.setState({ move: true });
-        // }, 3000);
+        setTimeout(() => {
+            this.setState({ move: true });
+        }, 3000);
     }
 }

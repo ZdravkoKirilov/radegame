@@ -1,4 +1,4 @@
-import { Component, PRIMS } from "../models";
+import { Component, PRIMS, CompositeComponent, Lifecycles } from "../models";
 import { AbstractContainer } from "../interfaces";
 import { StatefulComponent, FunctionalComponent, BasicComponent } from "../mixins";
 import { AnimationGroup } from "../animations";
@@ -35,10 +35,10 @@ const mountStatefulComponent = (component: StatefulComponent<any, any>, containe
     }
 
     component.animations.forEach(animation => {
-        const enterAnimations: AnimationGroup[] = [];
-        enterAnimations.forEach(animation => {
-            animation.playAll();
-        });
+        // const enterAnimations: AnimationGroup[] = [];
+        // enterAnimations.forEach(animation => {
+        //     animation.playAll();
+        // });
     });
 };
 
@@ -77,4 +77,24 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
         default:
             break;
     }
+};
+
+export const unmountComposite = async (component: CompositeComponent) => {
+    console.warn('unmount composite: ');
+    console.dir(component);
+
+    if (component instanceof StatefulComponent) {
+        // const leaveAnimations: AnimationGroup[] = [];
+        // await Promise.all(leaveAnimations.map(animation => animation.playAll()));
+    }
+
+    if ('willUnmount' in this) {
+        (this as Lifecycles).willUnmount();
+    }
+
+    component.children.forEach(child => {
+        if (child) {
+            child.remove();
+        }
+    });
 };
