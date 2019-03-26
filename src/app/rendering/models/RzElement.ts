@@ -25,8 +25,18 @@ export type RzElementProps = DefaultEvents & Partial<{
     children: RzElementChild;
     ref: Function;
     animations: AnimationBase[];
+    draggable: DraggableConfig;
     // [key: string]: any;
 }>;
+
+export type DraggableConfig = Partial<{
+    xAxis: boolean;
+    yAxis: boolean;
+    maxX: number;
+    minX: number;
+    maxY: number;
+    minY: number;
+}>
 
 export type RenderFunction<T = any> = (props?: T) => RzElement;
 
@@ -92,4 +102,6 @@ export type DefaultEvents = Partial<{
     onClickOutside: EventHandler,
     onPointerOver: EventHandler;
     onPointerOut: EventHandler;
+    onDragEnd: EventHandler;
+    onDragMove: EventHandler;
 }>;

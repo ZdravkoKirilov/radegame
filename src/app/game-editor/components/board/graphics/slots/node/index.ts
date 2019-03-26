@@ -19,7 +19,7 @@ export const Node: RenderFunction<Props> = (props) => {
     return (
         createElement('container', {
             styles: { x: data.x, y: data.y },
-            id: data.id, draggable: true, onDragMove, onDragEnd,
+            id: data.id, draggable: { xAxis: true, yAxis: true }, onDragMove, onDragEnd,
             onPointerDown: () => onSelect(data),
         },
             createElement(data.shape || 'rectangle', {

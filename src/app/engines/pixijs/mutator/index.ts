@@ -128,7 +128,7 @@ const updatePrimitive = (component: BasicComponent) => {
 
 const updateGeneric = (comp: Component) => {
     const { props, graphic } = comp;
-    const styles: Styles = props.styles;
+    const styles = props.styles;
     if (graphic && props.name) {
         graphic.name = props.name;
     }

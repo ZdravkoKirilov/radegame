@@ -2,8 +2,9 @@ import { BasicComponent, FunctionalComponent, StatefulComponent } from "../mixin
 import { RzElementProps } from "./RzElement";
 import { AbstractContainer } from "../interfaces";
 
-export type CompositeComponent = FunctionalComponent<RzElementProps> | StatefulComponent<RzElementProps, any>;
-export type Component = BasicComponent<any> | CompositeComponent;
+export type CompositeComponent = FunctionalComponent<Partial<RzElementProps>> |
+    StatefulComponent<Partial<RzElementProps>, {}>;
+export type Component = BasicComponent<Partial<RzElementProps>> | CompositeComponent;
 
 export type ComponentList = { [key: string]: Component };
 
@@ -27,5 +28,5 @@ export type DidUpdatePayload<T = any, S = any> = {
 }
 
 export interface ComponentConstructor<T = any> {
-    new(props: RzElementProps & T, graphic: any, container: AbstractContainer): Component;
+    new(props: Partial<RzElementProps> & T, graphic: any, container: AbstractContainer): Component;
 }

@@ -51,7 +51,7 @@ export class StatefulComponent<P extends object = {}, S extends object = {}> ext
         }
     }
 
-    shouldUpdate(nextProps: P & RzElementProps, nextState: S) {
+    shouldUpdate(nextProps: any, nextState: any) {
         return nextProps !== this.props || nextState !== this.state;
     }
 
