@@ -45,11 +45,11 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
             createElement(
                 'container',
                 {
-                    styles: { x: xScroll + (paddingX), y: yScroll + (paddingY) },
+                    styles: { x: xScroll + (paddingX), y: yScroll + paddingY },
                     scrollable: {
                         yThreshold: 50,
                         xThreshold: 50,
-                        maxY: `0 - ${paddingY}`,
+                        maxY: `0 + ${paddingY}`,
                         minY: `(height - ${height} + (${paddingY} * 2)) * -1`
                     },
                     onScroll: this.onChildScroll

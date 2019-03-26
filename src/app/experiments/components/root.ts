@@ -59,7 +59,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     // }
 
     render() {
-        const asGrid = composeGrid(gridItems, 1000, '20 20');
+        const asGrid = composeGrid(gridItems, 960, '20 20');
 
         const items = asGrid.map((elem, index) => {
             return createElement<RecProps>('rectangle', {
@@ -79,7 +79,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 horizontal: false,
                 borderSize: 1,
                 borderColor: 0x161616,
-                padding: '50 50'
+                padding: '20 20'
             },
             createElement('collection', {
                 styles: {
