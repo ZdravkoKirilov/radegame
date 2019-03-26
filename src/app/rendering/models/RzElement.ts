@@ -42,6 +42,10 @@ export type DraggableConfig = Partial<{
 export type ScrollableConfig = Partial<{
     xThreshold: number;
     yThreshold: number;
+    maxX: string;
+    minX: string;
+    maxY: string;
+    minY: string;
 }>;
 
 export type RenderFunction<T = any> = (props?: T) => RzElement;

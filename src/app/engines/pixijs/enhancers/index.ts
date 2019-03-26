@@ -1,6 +1,7 @@
 import { interaction, DisplayObject } from 'pixi.js';
-import { AbstractEnhancer, Component, RzElementProps } from "@app/rendering";
+import { AbstractEnhancer, Component, RzElementProps, ScrollableConfig } from "@app/rendering";
 import { bringToFront } from '../helpers';
+import { evaluate } from '@app/dynamic-forms';
 
 type Coords = { x: number, y: number };
 
@@ -20,12 +21,45 @@ const dragWasReal = (initial: Coords, result: Coords): boolean => {
 const getThresholdState = (
     initial: Coords,
     result: Coords,
-    xThreshold: number,
-    yThreshold: number
+    config: ScrollableConfig,
+    comp: Component,
 ) => {
-    const validDragX = Math.abs(initial.x - result.x) > xThreshold;
-    const validDragY = Math.abs(initial.y - result.y) > yThreshold;
-    return { x: validDragX, y: validDragY };
+    const { xThreshold, yThreshold, minX, maxX, minY, maxY } = config;
+    let validDragX = Math.abs(initial.x - result.x) > xThreshold;
+    let validDragY = Math.abs(initial.y - result.y) > yThreshold;
+    let minYValid = true;
+    let maxYValid = true;
+    let minXValid = true;
+    let maxXValid = true;
+
+    const context = {
+        width: comp.graphic.width,
+        height: comp.graphic.height,
+        y: comp.graphic.y,
+        x: comp.graphic.x,
+    };
+
+    if (minX) {
+        minXValid = result.x >= evaluate(minX, context);
+    }
+
+    if (maxX) {
+        maxXValid = result.x <= evaluate(maxX, context);
+    }
+
+    if (minY) {
+        minYValid = result.y >= evaluate(minY, context);
+    }
+
+    if (maxY) {
+        maxYValid = result.y <= evaluate(maxY, context);
+    }
+
+
+    return {
+        x: validDragX && minXValid && maxXValid,
+        y: validDragY && minYValid && maxYValid
+    };
 };
 
 export class PixiEnhancer implements AbstractEnhancer {
@@ -83,7 +117,7 @@ export class PixiEnhancer implements AbstractEnhancer {
     }
 
     makeScrollable(comp: Component) {
-      
+
         if (comp.props.scrollable) {
             const closure: Draggable = {};
             const elem = comp.graphic as DisplayObject;
@@ -100,6 +134,17 @@ export class PixiEnhancer implements AbstractEnhancer {
                 closure.dragPoint.y -= comp.graphic.y;
                 closure.dragging = true;
                 closure.initial = { x: comp.graphic.x, y: comp.graphic.y };
+            });
+
+            elem.on('pointerupoutside', (event: interaction.InteractionEvent) => {
+                event.stopPropagation();
+                closure.dragging = false;
+                closure.hasMoved = false;
+                closure.dragPoint = null;
+
+                if (comp.props.onScrollEnd) {
+                    comp.props.onScrollEnd(comp);
+                }
             });
 
             elem.on('pointerup', (event: interaction.InteractionEvent) => {
@@ -124,8 +169,7 @@ export class PixiEnhancer implements AbstractEnhancer {
                             x: newPos.x - closure.dragPoint.x,
                             y: newPos.y - closure.dragPoint.y
                         },
-                        xThreshold,
-                        yThreshold
+                        comp.props.scrollable, comp
                     )
 
                     if (xThreshold && isValid.x) {

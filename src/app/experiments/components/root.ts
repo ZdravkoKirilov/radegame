@@ -71,12 +71,15 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         return createElement<ScrollableProps>(
             Scrollable,
             {
-                width: 1000,
-                height: 600,
-                x: 0,
-                y: 0,
+                width: 1100,
+                height: 650,
+                x: 10,
+                y: 10,
                 vertical: true,
                 horizontal: false,
+                borderSize: 2,
+                borderColor: 0x161616,
+                padding: '50 50'
             },
             createElement('collection', {
                 styles: {
