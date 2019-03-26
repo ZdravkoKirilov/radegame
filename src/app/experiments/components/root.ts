@@ -77,7 +77,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 y: 10,
                 vertical: true,
                 horizontal: false,
-                borderSize: 2,
+                borderSize: 1,
                 borderColor: 0x161616,
                 padding: '50 50'
             },

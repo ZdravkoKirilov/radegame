@@ -26,7 +26,7 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
         const { xScroll, yScroll } = this.state;
         const [paddingX, paddingY] = (padding || '0 0')
             .split(' ')
-            .map(elem => Number(elem))
+            .map(elem => Number(elem) + (borderSize || 0))
             .filter(elem => !isNaN(elem));
         return createElement(
             'container',
