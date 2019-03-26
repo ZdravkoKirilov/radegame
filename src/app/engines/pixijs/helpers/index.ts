@@ -47,7 +47,11 @@ export const applyMask = (comp: Component, value: number[]) => {
     if (props.styles.mask) {
         if (value.length === 4) {
             const [x, y, width, height] = value;
-            graphic.mask = new Graphics().drawRect(x, y, width, height);
+            const mask = new Graphics();
+            mask.beginFill(0x99ff99, 0);
+            mask.drawRect(x, y, width, height);
+            mask.endFill();
+            graphic.mask = mask;
         }
         if (value.length === 3) {
             let [x, y, radius] = value;

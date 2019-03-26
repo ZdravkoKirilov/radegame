@@ -1,7 +1,7 @@
 import {
     StatefulComponent, createElement,
     Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation,
-    createUpliftAnimation, composeGrid, gridItems
+    createUpliftAnimation, composeGrid, gridItems, Scrollable, ScrollableProps
 } from "@app/rendering";
 
 export type Props = {
@@ -58,45 +58,56 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     //         ));
     // }
 
-    // render() {
-    //     const asGrid = composeGrid(gridItems, 1000, '20 20');
-
-    //     const items = asGrid.map((elem, index) => {
-    //         return createElement<RecProps>('rectangle', {
-    //             styles: { ...elem },
-    //             key: index,
-    //         });
-    //     });
-    //     return createElement('collection', {
-    //         styles: {
-    //             // mask: [350, 350, 250]
-    //         },
-    //         name: 'rectangles'
-    //     }, items);
-
-    // }
-
     render() {
-        const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+        const asGrid = composeGrid(gridItems, 1000, '20 20');
 
-        return createElement<SpriteProps>(
-            DynamicSprite, {
-                image,
+        const items = asGrid.map((elem, index) => {
+            return createElement<RecProps>('rectangle', {
+                styles: { ...elem },
+                key: index,
+            });
+        });
+
+        return createElement<ScrollableProps>(
+            Scrollable,
+            {
+                width: 1000,
+                height: 600,
+                x: 0,
+                y: 0,
+                vertical: true,
+                horizontal: false,
+            },
+            createElement('collection', {
                 styles: {
-                    // width: 300,
-                    // height: 300,
-                    x: 1200,
-                    y: 300,
-                    alpha: 1,
-                    // anchor: 0.5,
-                    // skew: '0.1 0',
-                    // rotation: 120 * 0.0174532925
+                    // mask: [350, 350, 250]
                 },
-                ref: this.onRef,
-                animations: [bounceAnimation, upliftAnimation, fadeAnimation]
-            }
+                name: 'rectangles'
+            }, items)
         );
     }
+
+    // render() {
+    //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
+
+    //     return createElement<SpriteProps>(
+    //         DynamicSprite, {
+    //             image,
+    //             styles: {
+    //                 // width: 300,
+    //                 // height: 300,
+    //                 x: 1200,
+    //                 y: 300,
+    //                 alpha: 1,
+    //                 // anchor: 0.5,
+    //                 // skew: '0.1 0',
+    //                 // rotation: 120 * 0.0174532925
+    //             },
+    //             ref: this.onRef,
+    //             animations: [bounceAnimation, upliftAnimation, fadeAnimation]
+    //         }
+    //     );
+    // }
 
     // render2() {
     //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
