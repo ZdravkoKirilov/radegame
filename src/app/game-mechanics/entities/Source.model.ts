@@ -1,4 +1,4 @@
-import { BaseModel, WithPermissions, WithCost, WithSetups } from "./Base.model";
+import { BaseModel } from "./Base.model";
 
 export type Source = BaseModel & Partial<{
 
@@ -6,22 +6,7 @@ export type Source = BaseModel & Partial<{
     pick: SourcePickMode;
     quota: SourceQuotaMode;
 
-    items: SourceItem[];
-}>
-
-export type SourceItem = WithPermissions & WithCost & WithSetups & Partial<{
-    id: number;
-    owner: number;
-
-    action: number; //GameAction;
-    condition: number; //Condition;
-    choice: number; //Choice;
-    token: number; //Token;
-    source: number; // Source;
-
-    amount: number; // for token attributes / Number of available instance for drawing
-
-    relation: SourceRelation;
+    group: number; // Group
 }>
 
 export const SOURCE_MODES = {
@@ -42,13 +27,6 @@ export const SOURCE_QUOTA = {
     ON_ROUND: 'ON_ROUND',
 };
 
-export const SOURCE_RELATION = {
-    NONE: 'NONE',
-    AND: 'AND',
-    OR: 'OR',
-};
-
 export type SourceMode = keyof typeof SOURCE_MODES;
 export type SourcePickMode = keyof typeof SOURCE_PICK;
 export type SourceQuotaMode = keyof typeof SOURCE_QUOTA;
-export type SourceRelation = keyof typeof SOURCE_RELATION;

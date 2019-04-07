@@ -2,7 +2,7 @@ import { Choice, CHOICE_MODE } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
     composeFromObject, composeEntityOptions, baseTemplate, revealTemplate,
-    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate, composeBooleanOptions, settingsTemplate
+    costTemplate, permissionsTemplate, stakesTemplate, composeBooleanOptions, settingsTemplate
 } from '../helpers';
 
 export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
@@ -15,6 +15,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
     const reveal_cost = data.reveal_cost || [];
     const done = data.done || [];
     const undone = data.undone || [];
+    const keywords = data.keywords || [];
 
     const template = `
     <Form>
@@ -45,7 +46,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
         
                 <ImagePicker name='image' label='image' required='{true}' asBase64='{true}'>{@item.image}</ImagePicker>
         
-                <TagsInput name='keywords' label='Keywords'>{@item.keywords}</TagsInput>
+                <ButtonGroup name='keywords' label='Keywords' options='{keyword_options}' multiple='{true}'>{@item.keywords}</ButtonGroup>
 
                 <ButtonGroup name='effect' label='Effect' options='{sources}' multiple='{true}'>{@item.effect}</ButtonGroup>
 
@@ -67,7 +68,8 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
     const result = parse({
         source: template,
         context: {
-            data, options, cost, settings, disable, enable, reveal_cost, done, undone,
+            data, options, cost, settings, disable, enable, reveal_cost, done, undone, keywords,
+            keyword_options: composeEntityOptions(ent, 'keywords'),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             modes: composeFromObject(CHOICE_MODE),

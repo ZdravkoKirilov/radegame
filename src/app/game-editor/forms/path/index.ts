@@ -12,6 +12,7 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
     const cost = data.cost || [];
     const done = data.done || [];
     const undone = data.undone || [];
+    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -40,13 +41,14 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
     const result = parse({
         source: template,
         context: {
-            data, risk, enable, disable, cost, done, undone,
+            data, risk, enable, disable, cost, done, undone, keywords,
             stages: composeEntityOptions(ent, 'stages'),
             slots: composeEntityOptions(ent, 'slots'),
             conditions: composeEntityOptions(ent, 'conditions'),
             sources: composeEntityOptions(ent, 'sources'),
             setup_options: composeEntityOptions(ent, 'setups'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         },
     }, true);
 

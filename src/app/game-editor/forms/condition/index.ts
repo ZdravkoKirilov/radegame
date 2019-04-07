@@ -15,6 +15,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
     const enable = data.enable || [];
     const cost = data.cost || [];
     const reveal_cost = data.reveal_cost || [];
+    const keywords = data.keywords || [];
 
     const template = `
     <Form>
@@ -63,7 +64,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
 
                 <Dropdown name='path' label='Path' options='{paths}'>{@item.path}</Dropdown>
 
-                <TextInput name='keywords' label='Keyword'>{@item.keywords}</TextInput>
+                <ButtonGroup name='keywords' label='Keywords' options='{keyword_options}' multiple='{true}'>{@item.keywords}</ButtonGroup>
 
                 <NumberInput name='amount' label='Amount'>{@item.amount}</NumberInput>
 
@@ -77,7 +78,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
     const result = parse({
         source: template,
         context: {
-            data, items, done, undone, disable, enable, reveal_cost, cost,
+            data, items, done, undone, disable, enable, reveal_cost, cost, keywords,
             modes: composeFromObject(CONDITION_MODES),
             relations: composeFromObject(CLAUSE_RELATIONS),
             clauses: composeFromObject(CLAUSE),
@@ -95,6 +96,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
             slots: composeEntityOptions(ent, 'slots'),
             paths: composeEntityOptions(ent, 'paths'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         },
     }, true);
 

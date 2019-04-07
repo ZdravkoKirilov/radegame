@@ -5,6 +5,7 @@ export type BaseModel = Partial<{
     game: number;
 
     name: string;
+    display_name: string;
     description: string;
     keywords: string;
     image: number;

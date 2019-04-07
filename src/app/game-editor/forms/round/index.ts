@@ -12,6 +12,7 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
     const settings = data.settings || [];
     const done = data.done || [];
     const undone = data.undone || [];
+    const keywords = data.keywords || [];
 
     const template = `
     <Form>
@@ -42,13 +43,14 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            data, settings, done, undone, phases, setups, bools: composeBooleanOptions(),
+            data, settings, done, undone, phases, setups, keywords, bools: composeBooleanOptions(),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             phase_options: composeEntityOptions(ent, 'phases'),
             stages: composeEntityOptions(ent, 'stages'),
             setup_options: composeEntityOptions(ent, 'setups'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         },
     }, true);
 

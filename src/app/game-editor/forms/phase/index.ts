@@ -9,6 +9,7 @@ export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEnt
     data = data || {} as Phase;
     const settings = data.settings || [];
     const setups = data.setups || [];
+    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -26,10 +27,11 @@ export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEnt
     const result = parse({
         source: template,
         context: {
-            data, settings, setups,
+            data, settings, setups, keywords,
             conditions: composeEntityOptions(ent, 'conditions'),
             setup_options: composeEntityOptions(ent, 'setups'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         },
     }, true);
 

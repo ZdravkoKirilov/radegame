@@ -15,6 +15,8 @@ export * from './Setup.model';
 export * from './Source.model';
 export * from './ImageAsset.model';
 export * from './Base.model';
+export * from './Keyword.model';
+export * from './Group.model';
 
 import { GameAction } from './Action.model';
 import { Condition } from './Condition.model';
@@ -33,10 +35,12 @@ import { Dictionary } from '@app/shared';
 import { Source } from './Source.model';
 import { ImageAsset } from './ImageAsset.model';
 import { Game } from '../models';
+import { Keyword } from './Keyword.model';
+import { Group } from './Group.model';
 
 export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
     Round | Choice | Stage | Field | Faction | Token | Team | Phase |
-    Setup | Source | ImageAsset;
+    Setup | Source | ImageAsset | Keyword | Group;
 
 export type GameEntityList = Dictionary<GameEntity>;
 

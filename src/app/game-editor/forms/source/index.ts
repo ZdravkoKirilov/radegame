@@ -1,11 +1,11 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Source, SOURCE_RELATION, SOURCE_MODES, SOURCE_PICK, SOURCE_QUOTA } from "@app/game-mechanics";
+import { Source, SOURCE_MODES, SOURCE_PICK, SOURCE_QUOTA } from "@app/game-mechanics";
 import { composeEntityOptions, composeFromObject, baseTemplate } from "../helpers";
 
 export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedEntities) => {
 
     data = data || {};
-    const items = data.items || [];
+    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -16,6 +16,8 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
             <Dropdown name='pick' label='Pick' options='{pick}'>{data.pick}</Dropdown>
 
             <Dropdown name='quota' label='Quota' options='{quota}'>{data.quota}</Dropdown>
+
+            <Dropdown name='group' label='Group' options='{groups}'>{data.group}</Dropdown>
 
             <Group name='items' label='Source items' children='{items}' item='@item' addButtonText='Add'>
                 <Form>
@@ -63,8 +65,7 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
     const result = parse({
         source: template,
         context: {
-            data, items,
-            relations: composeFromObject(SOURCE_RELATION),
+            data, keywords,
             mode: composeFromObject(SOURCE_MODES),
             pick: composeFromObject(SOURCE_PICK),
             quota: composeFromObject(SOURCE_QUOTA),
@@ -75,6 +76,8 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
             actions: composeEntityOptions(ent, 'actions'),
             choices: composeEntityOptions(ent, 'choices'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            groups: composeEntityOptions(ent, 'groups'),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         },
     }, true);
 

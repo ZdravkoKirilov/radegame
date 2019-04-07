@@ -14,6 +14,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const enable = data.enable || [];
     const risk = data.risk || [];
     const settings = data.settings || [];
+    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -59,7 +60,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const result = parse({
         source: template,
         context: {
-            data, setups, enable, disable, risk, settings,
+            data, setups, enable, disable, risk, settings, keywords,
             shapes: composeFromObject(SLOT_SHAPES),
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
@@ -68,6 +69,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             tokens: composeEntityOptions(ent, 'tokens'),
             stages: composeEntityOptions(ent, 'stages'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         },
     }, true);
 

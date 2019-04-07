@@ -10,6 +10,7 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
     const cost = data.cost || [];
     const reveal_cost = data.reveal_cost || [];
     const settings = data.settings || [];
+    const keywords = data.keywords || [];
 
     const template = `
     <Form>
@@ -32,12 +33,13 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
     const result = parse({
         source: template,
         context: {
-            data, cost, disable, enable, reveal_cost, settings,
+            data, cost, disable, enable, reveal_cost, settings, keywords,
             setup_options: composeEntityOptions(ent, 'setups'),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             stages: composeEntityOptions(ent, 'stages'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         }
     }, true) as BaseControl[];
 

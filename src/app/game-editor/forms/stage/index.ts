@@ -4,6 +4,7 @@ import { baseTemplate, composeEntityOptions } from '../helpers';
 
 export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
+    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -19,8 +20,9 @@ export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            data,
+            data, keywords,
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         },
     }, true);
 

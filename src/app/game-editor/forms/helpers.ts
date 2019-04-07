@@ -56,9 +56,10 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
 
 export const baseTemplate = `
     <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+    <TextInput name='display_name' label='Displayed name'>{data.display_name}</TextInput>
     <TextInput name='description' label='Description'>{data.description}</TextInput>
     <Dropdown name='image' label='Image' options='{images}' showImage='{true}'>{data.image}</Dropdown>
-    <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+    <ButtonGroup name='keywords' label='Keywords' options='{keyword_options}' multiple='{true}'>{keywords}</ButtonGroup>
 `;
 
 export const permissionsTemplate = `

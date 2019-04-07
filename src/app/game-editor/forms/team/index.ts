@@ -6,6 +6,7 @@ export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntiti
     data = data || {};
     const setups = data.setups || [];
     const settings = data.settings || [];
+    const keywords = data.keywords || [];
 
     const template = `
     <Form>
@@ -24,11 +25,12 @@ export const composeTeamForm: FormDefinition = (data: Team, ent: ConnectedEntiti
     const result = parse({
         source: template,
         context: {
-            data, setups, settings,
+            data, setups, settings, keywords,
             stages: composeEntityOptions(ent, 'stages'),
             setup_options: composeEntityOptions(ent, 'setups'),
             conditions: composeEntityOptions(ent, 'conditions'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         }
     }, true) as BaseControl[];
 

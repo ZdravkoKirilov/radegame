@@ -9,6 +9,7 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
     const risk = data.risk || [];
     const done = data.done || [];
     const undone = data.undone || [];
+    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -32,6 +33,7 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
             stages: composeEntityOptions(ent, 'stages'),
             sources: composeEntityOptions(ent, 'sources'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         },
     }, true);
 

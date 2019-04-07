@@ -8,7 +8,7 @@ import {
 } from '@app/game-mechanics';
 import {
     composeFromObject, composeEntityOptions, composeBooleanOptions, baseTemplate, revealTemplate,
-    costTemplate, permissionsTemplate, conditionTemplate, stakesTemplate, settingsTemplate
+    costTemplate, permissionsTemplate, stakesTemplate, settingsTemplate
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
@@ -21,6 +21,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const reveal_cost = data.reveal_cost || [];
     const done = data.done || [];
     const undone = data.undone || [];
+    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -72,7 +73,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='choice' label='Choice' options='{choices}' showImage='{true}'>{@item.choice}</Dropdown>
 
-                    <TextInput name='keywords' label='Keyword'>{@item.keywords}</TextInput>
+                    <ButtonGroup name='keywords' label='Keywords' options='{keywords}' multiple='{true}'>{@item.keywords}</ButtonGroup>
 
                     <TextInput name='value' label='Value'>{@item.value}</TextInput>
 
@@ -101,7 +102,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const result = parse({
         source: template,
         context: {
-            data, configs, cost, disable, enable, settings, reveal_cost, done, undone,
+            data, configs, cost, disable, enable, settings, reveal_cost, done, undone, keywords,
             types: composeFromObject(types),
             modes: composeFromObject(ACTION_MODE),
             targets: composeFromObject(ACTION_TARGET),
@@ -114,6 +115,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
             tokens: composeEntityOptions(ent, 'tokens'),
             actions: composeEntityOptions(ent, 'actions'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
             random: composeBooleanOptions(),
         },
     }, true);
