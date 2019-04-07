@@ -19,46 +19,6 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
 
             <Dropdown name='group' label='Group' options='{groups}'>{data.group}</Dropdown>
 
-            <Group name='items' label='Source items' children='{items}' item='@item' addButtonText='Add'>
-                <Form>
-
-                    <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
-
-                    <NumberInput name='owner' hidden='{true}'>{@item.owner}</NumberInput>
-
-                    <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>
-                        {@item.cost}
-                    </ButtonGroup>
-
-                    <ButtonGroup name='enable' label='Enable' options='{conditions}' multiple='{true}'>
-                        {@item.enable}
-                    </ButtonGroup>
-
-                    <ButtonGroup name='disable' label='Disable' options='{conditions}' multiple='{true}'>
-                        {@item.disable}
-                    </ButtonGroup>
-
-                    <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>
-                        {@item.setups}
-                    </ButtonGroup>
-
-                    <Dropdown name='action' label='Action' options='{actions}'>{@item.action}</Dropdown>
-
-                    <Dropdown name='condition' label='Condition' options='{@item.condition}'>{data.condition}</Dropdown>
-        
-                    <Dropdown name='choice' label='Choice' options='{choices}'>{@item.choice}</Dropdown>
-        
-                    <Dropdown name='token' label='Token' options='{tokens}'>{@item.token}</Dropdown>
-        
-                    <Dropdown name='source' label='Source' options='{sources}'>{@item.source}</Dropdown>
-
-                    <NumberInput name='amount' label='Amount'>{@item.amount}</NumberInput>
-        
-                    <Dropdown name='relation' label='Relation' options='{relations}'>{@item.relation}</Dropdown>
-
-                </Form>
-            </Group>
-
         </Form>
     `;
 
@@ -69,12 +29,7 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
             mode: composeFromObject(SOURCE_MODES),
             pick: composeFromObject(SOURCE_PICK),
             quota: composeFromObject(SOURCE_QUOTA),
-            conditions: composeEntityOptions(ent, 'conditions'),
             setup_options: composeEntityOptions(ent, 'setups'),
-            sources: composeEntityOptions(ent, 'sources'),
-            tokens: composeEntityOptions(ent, 'tokens'),
-            actions: composeEntityOptions(ent, 'actions'),
-            choices: composeEntityOptions(ent, 'choices'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
             groups: composeEntityOptions(ent, 'groups'),
             keyword_options: composeEntityOptions(ent, 'keywords'),

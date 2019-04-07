@@ -9,6 +9,8 @@ import {
     TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent,
     BoardContainerComponent, SourcesContainerComponent, ImageAssetContainerComponent,
 } from './containers';
+import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
+import { GroupsContainerComponent } from './containers/groups/groups-container.component';
 
 export const routes: Routes = [
     {
@@ -80,7 +82,16 @@ export const routes: Routes = [
             {
                 path: 'sources',
                 component: SourcesContainerComponent
-            }, {
+            }, 
+            {
+                path: 'keywords',
+                component: KeywordsContainerComponent
+            },
+            {
+                path: 'groups',
+                component: GroupsContainerComponent
+            },
+            {
                 path: '**',
                 redirectTo: 'actions'
             }

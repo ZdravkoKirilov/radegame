@@ -31,6 +31,8 @@ import { SourcesContainerComponent } from './containers/sources/sources-containe
 import { ImageAssetContainerComponent } from './containers/images/image-asset-container.component';
 import { EditorLayoutComponent, EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent, EditSidebarLinkComponent } from './layouts';
 import { EditHeaderComponent } from './components/header/edit-header.component';
+import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
+import { GroupsContainerComponent } from './containers/groups/groups-container.component';
 
 @NgModule({
     imports: [
@@ -78,6 +80,8 @@ import { EditHeaderComponent } from './components/header/edit-header.component';
         EditSidebarNavComponent,
         EditSidebarHeaderComponent,
         EditSidebarLinkComponent,
+        KeywordsContainerComponent,
+        GroupsContainerComponent,
     ]
 })
 export class GameEditorModule {

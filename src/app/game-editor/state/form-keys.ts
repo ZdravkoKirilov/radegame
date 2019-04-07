@@ -14,10 +14,13 @@ export const formKeys = {
     SOURCES: 'sources',
     GAMES: 'games',
     IMAGES: 'images',
+    KEYWORDS: 'keywords',
+    GROUPS: 'groups',
 }
 
 export type FormKey = typeof formKeys.CHOICES | typeof formKeys.ROUNDS |
     typeof formKeys.CONDITIONS | typeof formKeys.STAGES | typeof formKeys.FIELDS |
     typeof formKeys.ACTIONS | typeof formKeys.FACTIONS | typeof formKeys.SLOTS |
     typeof formKeys.PATHS | typeof formKeys.TOKENS |
-    typeof formKeys.PHASES | typeof formKeys.TEAMS | typeof formKeys.IMAGES;
+    typeof formKeys.PHASES | typeof formKeys.TEAMS | typeof formKeys.IMAGES | typeof formKeys.KEYWORDS |
+    typeof formKeys.GROUPS;

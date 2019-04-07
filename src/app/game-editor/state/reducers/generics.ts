@@ -88,6 +88,8 @@ export const formReducer: ActionReducer<any> = combineReducers({
     games: createEntityReducer(formKeys.GAMES),
     teams: createEntityReducer(formKeys.TEAMS),
     images: createEntityReducer(formKeys.IMAGES),
+    keywords: createEntityReducer(formKeys.KEYWORDS),
+    groups: createEntityReducer(formKeys.GROUPS),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>) {

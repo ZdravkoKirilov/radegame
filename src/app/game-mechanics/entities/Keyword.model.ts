@@ -1,4 +1,4 @@
-export type Keyword = {
+export type Keyword = Partial<{
     id: number;
     game: number;
 
@@ -6,4 +6,4 @@ export type Keyword = {
     display_name: string;
     description: string;
     image: number;
-}
+}>
