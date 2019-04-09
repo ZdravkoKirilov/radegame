@@ -40,3 +40,7 @@ export const genericTrackByFn = <T>(prop: keyof T) => (index: number, item: T) =
 export const extractLobbyPlayerName = (compositeName: string) => {
     return compositeName.split(':')[2];
 };
+
+export type WithKeysAs<T, P> = {
+    [K in keyof T]: P;
+};

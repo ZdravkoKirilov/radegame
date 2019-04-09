@@ -21,9 +21,9 @@ export const getItemById = (key: FormKey, id: number) => createSelector(
     form => form[key].items[id],
 );
 
-export const getItems = <T = GameEntity>(key: FormKey) => createSelector(
+export const getItems = <T = GameEntity>(key: FormKey | string) => createSelector(
     selectForm,
-    form => form[key] && form[key].items ? values(form[key].items as Dictionary<T>) : null,
+    form => form[key] && form[key].items ? values(form[key].items as Dictionary<GameEntity>) : null,
 );
 
 export const selectStageId = createSelector(
@@ -35,7 +35,7 @@ export const selectStageId = createSelector(
 
 export const getActiveStage = createSelector(
     selectStageId,
-    getItems<Stage>(formKeys.STAGES),
+    getItems<Stage>(formKeys.stages),
     (stageId, stages) => {
         return stages && stages.find(elem => elem.id === stageId) as Stage;
     }

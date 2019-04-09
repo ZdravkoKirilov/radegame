@@ -1,4 +1,4 @@
-export type EntityState = Partial<{
+export type Style = Partial<{
     frame: number;
     rotation: number;
 }>;

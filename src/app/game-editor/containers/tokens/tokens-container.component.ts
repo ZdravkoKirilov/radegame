@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { SmartBase } from '../../mixins';
 import { composeTokenForm } from '../../forms';
-import { formKeys } from '../../state';
+import { formKeys, FormKey } from '../../state';
 
 @Component({
   selector: 'rg-tokens-container',
@@ -27,7 +27,7 @@ import { formKeys } from '../../state';
 export class TokensContainerComponent extends SmartBase {
 
   formDefinition = composeTokenForm;
-  readonly key = formKeys.TOKENS;
+  readonly key = formKeys.tokens as FormKey;
 
   constructor(public store: Store<AppState>) { super(store) }
 

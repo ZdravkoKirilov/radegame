@@ -16,7 +16,7 @@ export class ImageAssetContainerComponent extends SmartBase {
 
   formDefinition: FormDefinition = composeImageForm;
 
-  public readonly key: FormKey = formKeys.IMAGES;
+  public readonly key: FormKey = formKeys.images as FormKey;
 
   constructor(public store: Store<AppState>) { super(store); }
 

@@ -1,5 +1,5 @@
 import { DisplayObject, Sprite, Graphics } from "pixi.js";
-import { Component, Styles } from "@app/rendering";
+import { Component, RzStyles } from "@app/rendering";
 
 export const bringToFront = (obj: DisplayObject) => {
     const parent = obj.parent;
@@ -9,11 +9,11 @@ export const bringToFront = (obj: DisplayObject) => {
     }
 };
 
-export const getValue = (value: any, prop: keyof Styles, comp: Component): any => {
+export const getValue = (value: any, prop: keyof RzStyles, comp: Component): any => {
     return value;
 }
 
-export const setProp = (comp: Component, prop: keyof Styles, value: string | number | number[]) => {
+export const setProp = (comp: Component, prop: keyof RzStyles, value: string | number | number[]) => {
     const graphic: DisplayObject = comp.graphic;
     let result = getValue(value, prop, comp);
 

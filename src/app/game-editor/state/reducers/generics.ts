@@ -27,7 +27,7 @@ const entityFeatureState: EntityFeature = {
     selectedEntity: null,
 }
 
-export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFeature> => {
+export const createEntityReducer = (allowedKey: FormKey | string): ActionReducer<EntityFeature> => {
     const entityReducer = (
         state: EntityFeature = { ...entityFeatureState },
         action: EditorGenericAction): EntityFeature => {
@@ -73,23 +73,23 @@ export const createEntityReducer = (allowedKey: FormKey): ActionReducer<EntityFe
 }
 
 export const formReducer: ActionReducer<any> = combineReducers({
-    factions: createEntityReducer(formKeys.FACTIONS),
-    tokens: createEntityReducer(formKeys.TOKENS),
-    fields: createEntityReducer(formKeys.FIELDS),
-    slots: createEntityReducer(formKeys.SLOTS),
-    paths: createEntityReducer(formKeys.PATHS),
-    actions: createEntityReducer(formKeys.ACTIONS),
-    conditions: createEntityReducer(formKeys.CONDITIONS),
-    sources: createEntityReducer(formKeys.SOURCES),
-    rounds: createEntityReducer(formKeys.ROUNDS),
-    phases: createEntityReducer(formKeys.PHASES),
-    choices: createEntityReducer(formKeys.CHOICES),
-    stages: createEntityReducer(formKeys.STAGES),
-    games: createEntityReducer(formKeys.GAMES),
-    teams: createEntityReducer(formKeys.TEAMS),
-    images: createEntityReducer(formKeys.IMAGES),
-    keywords: createEntityReducer(formKeys.KEYWORDS),
-    groups: createEntityReducer(formKeys.GROUPS),
+    factions: createEntityReducer(formKeys.factions),
+    tokens: createEntityReducer(formKeys.tokens),
+    fields: createEntityReducer(formKeys.fields),
+    slots: createEntityReducer(formKeys.slots),
+    paths: createEntityReducer(formKeys.paths),
+    actions: createEntityReducer(formKeys.actions),
+    conditions: createEntityReducer(formKeys.conditions),
+    sources: createEntityReducer(formKeys.sources),
+    rounds: createEntityReducer(formKeys.rounds),
+    phases: createEntityReducer(formKeys.phases),
+    choices: createEntityReducer(formKeys.choices),
+    stages: createEntityReducer(formKeys.stages),
+    games: createEntityReducer(formKeys.games),
+    teams: createEntityReducer(formKeys.teams),
+    images: createEntityReducer(formKeys.images),
+    keywords: createEntityReducer(formKeys.keywords),
+    groups: createEntityReducer(formKeys.groups),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>) {

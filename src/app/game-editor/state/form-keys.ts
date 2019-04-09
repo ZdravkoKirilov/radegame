@@ -1,26 +1,22 @@
 export const formKeys = {
-    CHOICES: 'choices',
-    ROUNDS: 'rounds',
-    PHASES: 'phases',
-    CONDITIONS: 'conditions',
-    STAGES: 'stages',
-    FIELDS: 'fields',
-    ACTIONS: 'actions',
-    FACTIONS: 'factions',
-    TOKENS: 'tokens',
-    SLOTS: 'slots',
-    PATHS: 'paths',
-    TEAMS: 'teams',
-    SOURCES: 'sources',
-    GAMES: 'games',
-    IMAGES: 'images',
-    KEYWORDS: 'keywords',
-    GROUPS: 'groups',
+    choices: 'choices',
+    rounds: 'rounds',
+    phases: 'phases',
+    conditions: 'conditions',
+    stages: 'stages',
+    fields: 'fields',
+    actions: 'actions',
+    factions: 'factions',
+    tokens: 'tokens',
+    slots: 'slots',
+    paths: 'paths',
+    teams: 'teams',
+    sources: 'sources',
+    games: 'games',
+    images: 'images',
+    keywords: 'keywords',
+    groups: 'groups',
+    styles: 'styles',
 }
 
-export type FormKey = typeof formKeys.CHOICES | typeof formKeys.ROUNDS |
-    typeof formKeys.CONDITIONS | typeof formKeys.STAGES | typeof formKeys.FIELDS |
-    typeof formKeys.ACTIONS | typeof formKeys.FACTIONS | typeof formKeys.SLOTS |
-    typeof formKeys.PATHS | typeof formKeys.TOKENS |
-    typeof formKeys.PHASES | typeof formKeys.TEAMS | typeof formKeys.IMAGES | typeof formKeys.KEYWORDS |
-    typeof formKeys.GROUPS;
+export type FormKey = keyof typeof formKeys;

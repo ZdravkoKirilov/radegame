@@ -7,7 +7,7 @@ import { AppState } from '@app/core';
 import { selectUser } from '@app/profile';
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeGameForm } from '../../forms';
-import { formKeys, FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities } from '../../state';
+import { formKeys, FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities, FormKey } from '../../state';
 import { SmartBase } from '../../mixins';
 import { AutoUnsubscribe } from '@app/shared';
 
@@ -19,7 +19,7 @@ import { AutoUnsubscribe } from '@app/shared';
 @AutoUnsubscribe()
 export class GamesContainerComponent extends SmartBase implements OnInit {
 
-    readonly key = formKeys.GAMES;
+    readonly key = formKeys.games as FormKey;
     private user$: Subscription;
 
     showEditor$: Observable<boolean>;
@@ -50,11 +50,11 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
                 if (!this.hasLoadedDependencies) {
                     games.forEach(elem => {
                         this.store.dispatch(new FetchItemsAction({
-                            key: formKeys.CONDITIONS,
+                            key: formKeys.conditions as FormKey,
                             data: elem.id
                         }));
                         this.store.dispatch(new FetchItemsAction({
-                            key: formKeys.IMAGES,
+                            key: formKeys.images as FormKey,
                             data: elem.id
                         }));
                     });

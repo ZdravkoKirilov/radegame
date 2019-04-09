@@ -17,7 +17,7 @@ export class ActionsContainerComponent extends SmartBase {
     @HostBinding('class.block') hostClass = true;
 
     formDefinition: FormDefinition = composeActivityForm;
-    key: FormKey = formKeys.ACTIONS;
+    key: FormKey = formKeys.actions as FormKey;
 
     constructor(public store: Store<AppState>) {
         super(store);

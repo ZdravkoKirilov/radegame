@@ -49,7 +49,7 @@ export class BoardEditService {
 
 		DOMElem.appendChild(this.renderer.view);
 
-		const assets = this.extractAssets(data.slots, data.images);
+		const assets = this.extractAssets(data.slots as GameEntity[], data.images);
 
 		this.render(stage, data, assets);
 		this.startRenderLoop(stage);

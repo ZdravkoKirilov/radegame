@@ -15,7 +15,7 @@ import { formKeys, FormKey } from '../../state';
 export class StagesContainerComponent extends SmartBase {
 
     public formDefinition: FormDefinition = composeStageForm;
-    public readonly key: FormKey = formKeys.STAGES;
+    public readonly key: FormKey = formKeys.stages as FormKey;
 
     constructor(public store: Store<AppState>) {
         super(store);

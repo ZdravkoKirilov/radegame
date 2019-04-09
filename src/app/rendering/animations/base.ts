@@ -1,6 +1,6 @@
 import { Tween } from "@tweenjs/tween.js";
 
-import { Component, Styles, DidUpdatePayload } from "../models";
+import { Component, RzStyles, DidUpdatePayload } from "../models";
 import { parseValue, shouldTransition, extractTransitionValues } from "./helpers";
 
 export const createOrchestrator = (type: 'parallel' | 'exclusive', groups: AnimationGroup[]) => {
@@ -97,7 +97,7 @@ export class AnimationGroup {
     }
 }
 
-export class AnimationBase<T = Partial<Styles>> {
+export class AnimationBase<T = Partial<RzStyles>> {
 
     private components: Set<Component> = new Set();
     private active: Array<{
@@ -172,7 +172,7 @@ export class AnimationBase<T = Partial<Styles>> {
         });
     }
 
-    parseValues(from: Partial<Styles>, comp: Component) {
+    parseValues(from: Partial<RzStyles>, comp: Component) {
         const transformed = Object.keys(from).reduce((acc, key) => {
             const value = parseValue(from[key], key, comp);
             acc[key] = value;

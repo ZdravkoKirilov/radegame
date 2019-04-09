@@ -14,7 +14,7 @@ export type RzElementChild = RzElement | Function | RzElement[];
 export type RzElementKey = number | string;
 
 export type RzElementProps = DefaultEvents & Partial<{
-    styles: Partial<Styles>;
+    styles: Partial<RzStyles>;
     key: RzElementKey;
     id: string | number;
     name: string;
@@ -52,7 +52,7 @@ export type RenderFunction<T = any> = (props?: T) => RzElement;
 
 export type RzElementType<T = any> = PrimitiveType | ComponentConstructor<T> | RenderFunction;
 
-export type Styles = {
+export type RzStyles = {
     width: number;
     height: number;
     x: number;

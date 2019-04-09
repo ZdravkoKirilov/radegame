@@ -35,13 +35,13 @@ export class GenericEffectsService {
                         mergeMap(res => {
                             const payload = Object.keys(res).reduce((acc, key) => {
                                 if (key === 'images') {
-                                    const images = res[key];
+                                    const images: ImageAsset[] = res[key] as any;
                                     images.forEach(img => {
                                         img.thumbnail = BASE_URL + img.thumbnail
                                         img.image = BASE_URL + img.image
                                     });
                                 }
-                                acc[key] = toDictionary(res[key]);
+                                acc[key] = toDictionary<GameEntity>(res[key]);
                                 return acc;
                             }, {}) as GameTemplate;
 
@@ -127,38 +127,38 @@ export class GenericEffectsService {
         })
     );
 
-    fetchRequest(key: FormKey, data: number): Observable<GameEntity[]> {
+    fetchRequest(key: FormKey, data: number): Observable<any[]> {
         switch (key) {
 
-            case formKeys.ACTIONS:
+            case formKeys.actions:
                 return this.fetcher.getActions(data);
-            case formKeys.FACTIONS:
+            case formKeys.factions:
                 return this.fetcher.getFactions(data);
-            case formKeys.FIELDS:
+            case formKeys.fields:
                 return this.fetcher.getFields(data);
-            case formKeys.CONDITIONS:
+            case formKeys.conditions:
                 return this.fetcher.getConditions(data);
-            case formKeys.ROUNDS:
+            case formKeys.rounds:
                 return this.fetcher.getRounds(data);
-            case formKeys.STAGES:
+            case formKeys.stages:
                 return this.fetcher.getStages(data);
-            case formKeys.CHOICES:
+            case formKeys.choices:
                 return this.fetcher.getChoices(data);
-            case formKeys.SLOTS:
+            case formKeys.slots:
                 return this.fetcher.getSlots(data);
-            case formKeys.PATHS:
+            case formKeys.paths:
                 return this.fetcher.getPaths(data);
-            case formKeys.TOKENS:
+            case formKeys.tokens:
                 return this.fetcher.getTokens(data);
-            case formKeys.PHASES:
+            case formKeys.phases:
                 return this.fetcher.getPhases(data);
-            case formKeys.TEAMS:
+            case formKeys.teams:
                 return this.fetcher.getTeams(data);
-            case formKeys.SOURCES:
+            case formKeys.sources:
                 return this.fetcher.getSources(data);
-            case formKeys.IMAGES:
+            case formKeys.images:
                 return this.fetcher.getImages(data);
-            case formKeys.GAMES:
+            case formKeys.games:
                 return this.fetcher.getGames();
             default:
                 return of(null);
@@ -167,35 +167,35 @@ export class GenericEffectsService {
 
     saveRequest(key: FormKey, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
-            case formKeys.ACTIONS:
+            case formKeys.actions:
                 return this.api.saveAction(<GameAction>entity);
-            case formKeys.FACTIONS:
+            case formKeys.factions:
                 return this.api.saveFaction(<Faction>entity);
-            case formKeys.FIELDS:
+            case formKeys.fields:
                 return this.api.saveField(<Field>entity);
-            case formKeys.CONDITIONS:
+            case formKeys.conditions:
                 return this.api.saveCondition(<Condition>entity);
-            case formKeys.ROUNDS:
+            case formKeys.rounds:
                 return this.api.saveRound(<Round>entity);
-            case formKeys.STAGES:
+            case formKeys.stages:
                 return this.api.saveStage(<Stage>entity);
-            case formKeys.CHOICES:
+            case formKeys.choices:
                 return this.api.saveChoice(<Choice>entity);
-            case formKeys.SLOTS:
+            case formKeys.slots:
                 return this.api.saveSlot(<Slot>entity);
-            case formKeys.PATHS:
+            case formKeys.paths:
                 return this.api.saveMapPath(<PathEntity>entity);
-            case formKeys.TOKENS:
+            case formKeys.tokens:
                 return this.api.saveToken(<Token>entity);
-            case formKeys.PHASES:
+            case formKeys.phases:
                 return this.api.savePhase(<Phase>entity);
-            case formKeys.TEAMS:
+            case formKeys.teams:
                 return this.api.saveTeam(<Team>entity);
-            case formKeys.SOURCES:
+            case formKeys.sources:
                 return this.api.saveSource(<Source>entity);
-            case formKeys.IMAGES:
+            case formKeys.images:
                 return this.api.saveImage(<ImageAsset>entity);
-            case formKeys.GAMES:
+            case formKeys.games:
                 if (entity.image && (entity as Game).image.includes('http')) {
                     delete entity.image
                 }
@@ -207,33 +207,33 @@ export class GenericEffectsService {
 
     deleteRequest(key: FormKey, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
-            case formKeys.ACTIONS:
+            case formKeys.actions:
                 return this.api.deleteAction(<GameAction>entity);
-            case formKeys.FACTIONS:
+            case formKeys.factions:
                 return this.api.deleteFaction(<Faction>entity);
-            case formKeys.FIELDS:
+            case formKeys.fields:
                 return this.api.deleteField(<Field>entity);
-            case formKeys.CONDITIONS:
+            case formKeys.conditions:
                 return this.api.deleteCondition(<Condition>entity);
-            case formKeys.ROUNDS:
+            case formKeys.rounds:
                 return this.api.deleteRound(<Round>entity);
-            case formKeys.STAGES:
+            case formKeys.stages:
                 return this.api.deleteStage(<Stage>entity);
-            case formKeys.CHOICES:
+            case formKeys.choices:
                 return this.api.deleteChoice(<Choice>entity);
-            case formKeys.PATHS:
+            case formKeys.paths:
                 return this.api.deleteMapPath(<PathEntity>entity);
-            case formKeys.TOKENS:
+            case formKeys.tokens:
                 return this.api.deleteToken(<Token>entity);
-            case formKeys.PHASES:
+            case formKeys.phases:
                 return this.api.deletePhase(<Phase>entity);
-            case formKeys.TEAMS:
+            case formKeys.teams:
                 return this.api.deleteTeam(<Team>entity);
-            case formKeys.SLOTS:
+            case formKeys.slots:
                 return this.api.deleteSlot(<Slot>entity);
-            case formKeys.SOURCES:
+            case formKeys.sources:
                 return this.api.deleteSource(<Source>entity);
-            case formKeys.IMAGES:
+            case formKeys.images:
                 return this.api.deleteImage(<ImageAsset>entity);
             default:
                 return of(null);

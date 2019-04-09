@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { SmartBase } from '../../mixins';
 import { AppState } from '@app/core';
 import { composePhaseForm } from '../../forms/phase';
-import { formKeys } from '../../state';
+import { formKeys, FormKey } from '../../state';
 
 @Component({
   selector: 'rg-phases-container',
@@ -27,7 +27,7 @@ import { formKeys } from '../../state';
 })
 export class PhasesContainerComponent extends SmartBase {
   formDefinition = composePhaseForm;
-  readonly key = formKeys.PHASES;
+  readonly key = formKeys.phases as FormKey;
 
   constructor(public store: Store<AppState>) { super(store) }
 

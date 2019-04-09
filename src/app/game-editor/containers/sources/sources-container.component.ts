@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { SmartBase } from '../../mixins';
 import { composeSourceForm } from '../../forms';
-import { formKeys } from '../../state';
+import { formKeys, FormKey } from '../../state';
 
 @Component({
   selector: 'rg-sources-container',
@@ -27,7 +27,7 @@ import { formKeys } from '../../state';
 export class SourcesContainerComponent extends SmartBase {
 
   formDefinition = composeSourceForm;
-  readonly key = formKeys.SOURCES;
+  readonly key = formKeys.sources as FormKey;
 
   constructor(public store: Store<AppState>) { super(store) }
 

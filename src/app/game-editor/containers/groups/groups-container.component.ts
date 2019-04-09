@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { SmartBase } from '../../mixins';
 import { AppState } from '@app/core';
-import { formKeys } from '../../state';
+import { formKeys, FormKey } from '../../state';
 import { composeKeywordForm } from 'app/game-editor/forms';
 import { composeGroupForm } from 'app/game-editor/forms/group';
 
@@ -29,7 +29,7 @@ import { composeGroupForm } from 'app/game-editor/forms/group';
 export class GroupsContainerComponent extends SmartBase {
 
   formDefinition = composeGroupForm;
-  readonly key = formKeys.GROUPS;
+  readonly key = formKeys.groups as FormKey;
 
   constructor(public store: Store<AppState>) { super(store) }
 

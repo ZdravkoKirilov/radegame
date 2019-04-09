@@ -2,7 +2,7 @@ import {
     AbstractMutator, Component, isComposite,
     RzElementProps, PRIMS, Points, updateComposite,
     updateCollection, updateContainer, unmountComposite, BasicComponent,
-    PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, Styles,
+    PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
     PrimitiveEllipse,
     PrimitiveShadow,
 } from "@app/rendering";
@@ -133,7 +133,7 @@ const updateGeneric = (comp: Component) => {
         graphic.name = props.name;
     }
     if (graphic && styles) {
-        Object.keys(styles).forEach((key: keyof Styles) => {
+        Object.keys(styles).forEach((key: keyof RzStyles) => {
             setProp(comp, key, props.styles[key]);
         });
     }

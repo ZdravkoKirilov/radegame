@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 
 import { SmartBase } from '../../mixins';
 import { AppState } from '@app/core';
-import { formKeys } from '../../state';
+import { formKeys, FormKey } from '../../state';
 import { composeKeywordForm } from 'app/game-editor/forms';
 
 @Component({
@@ -28,7 +28,7 @@ import { composeKeywordForm } from 'app/game-editor/forms';
 export class KeywordsContainerComponent extends SmartBase {
 
   formDefinition = composeKeywordForm;
-  readonly key = formKeys.KEYWORDS;
+  readonly key = formKeys.keywords as FormKey;
 
   constructor(public store: Store<AppState>) { super(store) }
 
