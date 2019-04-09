@@ -17,6 +17,7 @@ export * from './ImageAsset.model';
 export * from './Base.model';
 export * from './Keyword.model';
 export * from './Group.model';
+export * from './EntityState.model';
 
 import { GameAction } from './Action.model';
 import { Condition } from './Condition.model';
@@ -37,10 +38,11 @@ import { ImageAsset } from './ImageAsset.model';
 import { Game } from '../models';
 import { Keyword } from './Keyword.model';
 import { Group } from './Group.model';
+import { EntityState } from './EntityState.model';
 
 export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
     Round | Choice | Stage | Field | Faction | Token | Team | Phase |
-    Setup | Source | ImageAsset | Keyword | Group;
+    Setup | Source | ImageAsset | Keyword | Group | EntityState;
 
 export type GameEntityList = Dictionary<GameEntity>;
 

@@ -37,7 +37,7 @@ export type DraggableConfig = Partial<{
     minX: number;
     maxY: number;
     minY: number;
-}>
+}>;
 
 export type ScrollableConfig = Partial<{
     xThreshold: number;
