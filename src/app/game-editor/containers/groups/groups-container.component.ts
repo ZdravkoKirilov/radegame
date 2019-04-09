@@ -4,8 +4,7 @@ import { Store } from '@ngrx/store';
 import { SmartBase } from '../../mixins';
 import { AppState } from '@app/core';
 import { formKeys, FormKey } from '../../state';
-import { composeKeywordForm } from 'app/game-editor/forms';
-import { composeGroupForm } from 'app/game-editor/forms/group';
+import { composeGroupForm } from '../../forms';
 
 @Component({
   selector: 'rg-groups-container',

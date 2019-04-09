@@ -11,6 +11,7 @@ import {
 } from './containers';
 import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
 import { GroupsContainerComponent } from './containers/groups/groups-container.component';
+import { StylesContainerComponent } from './containers/styles/styles-container.component';
 
 export const routes: Routes = [
     {
@@ -90,6 +91,10 @@ export const routes: Routes = [
             {
                 path: 'groups',
                 component: GroupsContainerComponent
+            },
+            {
+                path: 'styles',
+                component: StylesContainerComponent
             },
             {
                 path: '**',

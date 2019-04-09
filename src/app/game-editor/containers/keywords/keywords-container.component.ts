@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { SmartBase } from '../../mixins';
 import { AppState } from '@app/core';
 import { formKeys, FormKey } from '../../state';
-import { composeKeywordForm } from 'app/game-editor/forms';
+import { composeKeywordForm } from '../../forms';
 
 @Component({
   selector: 'rg-keywords-container',

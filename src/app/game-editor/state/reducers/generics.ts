@@ -90,6 +90,7 @@ export const formReducer: ActionReducer<any> = combineReducers({
     images: createEntityReducer(formKeys.images),
     keywords: createEntityReducer(formKeys.keywords),
     groups: createEntityReducer(formKeys.groups),
+    styles: createEntityReducer(formKeys.styles),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>) {

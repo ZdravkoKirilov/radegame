@@ -33,6 +33,7 @@ import { EditorLayoutComponent, EditSidebarComponent, EditSidebarNavComponent, E
 import { EditHeaderComponent } from './components/header/edit-header.component';
 import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
 import { GroupsContainerComponent } from './containers/groups/groups-container.component';
+import { StylesContainerComponent } from './containers/styles/styles-container.component';
 
 @NgModule({
     imports: [
@@ -82,6 +83,7 @@ import { GroupsContainerComponent } from './containers/groups/groups-container.c
         EditSidebarLinkComponent,
         KeywordsContainerComponent,
         GroupsContainerComponent,
+        StylesContainerComponent,
     ]
 })
 export class GameEditorModule {

@@ -16,7 +16,7 @@ import {
     Stage,
     Token,
     Phase,
-    Source, Team, ImageAsset
+    Source, Team, ImageAsset, Group, Keyword, Style,
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../../config';
@@ -205,6 +205,45 @@ export class GameEditService {
 
     deleteField(data: Field): Observable<any> {
         return this.http.delete(API_URLS.FIELDS(data.game, data.id));
+    }
+
+    saveKeyword(data: Keyword): Observable<any> {
+
+        if (data.id) {
+            return this.http.patch(API_URLS.KEYWORDS(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.KEYWORDS(data.game), data);
+        }
+    }
+
+    deleteKeyword(data: Keyword): Observable<any> {
+        return this.http.delete(API_URLS.KEYWORDS(data.game, data.id));
+    }
+
+    saveGroup(data: Group): Observable<any> {
+
+        if (data.id) {
+            return this.http.patch(API_URLS.GROUPS(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.GROUPS(data.game), data);
+        }
+    }
+
+    deleteGroup(data: Group): Observable<any> {
+        return this.http.delete(API_URLS.GROUPS(data.game, data.id));
+    }
+
+    saveStyle(data: Style): Observable<any> {
+
+        if (data.id) {
+            return this.http.patch(API_URLS.STYLES(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.STYLES(data.game), data);
+        }
+    }
+
+    deleteStyle(data: Style): Observable<any> {
+        return this.http.delete(API_URLS.STYLES(data.game, data.id));
     }
 
     saveGame(data: Game): Observable<any> {

@@ -85,6 +85,18 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/imageassets/`;
         return itemId ? `${base}${itemId}/` : base;
     },
+    GROUPS: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/groups/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
+    KEYWORDS: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/keywords/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
+    STYLES: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/styles/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
 };
 
 export const AUTH_URLS = {
