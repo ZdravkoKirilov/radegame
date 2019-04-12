@@ -1,11 +1,6 @@
-export type Style = Partial<{
-    id: number;
-    game: number;
-    
-    name: string;
-    description: string;
-    image: string;
+import { BaseModel } from "./Base.model";
 
+export type Style = BaseModel & Partial<{
     frame: number;
     rotation: number;
 }>;

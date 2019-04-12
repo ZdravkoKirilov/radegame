@@ -1,9 +1,4 @@
-export type Keyword = Partial<{
-    id: number;
-    game: number;
+import { BaseModel } from "./Base.model";
 
-    name: string;
-    display_name: string;
-    description: string;
-    image: number;
+export type Keyword = BaseModel & Partial<{
 }>

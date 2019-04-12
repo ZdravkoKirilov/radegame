@@ -1,17 +1,15 @@
 import { Keyword } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeEntityOptions } from '../helpers';
+import { composeEntityOptions, baseTemplate } from '../helpers';
 
 export function composeKeywordForm(data: Keyword, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
+    const keywords = data.keywords || [];
 
     const template = `
     <Form>
 
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-        <TextInput name='display_name' label='Displayed name'>{data.display_name}</TextInput>
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
-        <Dropdown name='image' label='Image' options='{images}' showImage='{true}'>{data.image}</Dropdown>
+        ${baseTemplate}
 
     </Form>
     `;
@@ -19,8 +17,9 @@ export function composeKeywordForm(data: Keyword, ent: ConnectedEntities): BaseC
     const result = parse({
         source: template,
         context: {
-            data,
+            data, keywords,
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+            keyword_options: composeEntityOptions(ent, 'keywords'),
         }
     }, true) as BaseControl[];
 
