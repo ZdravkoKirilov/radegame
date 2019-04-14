@@ -195,6 +195,12 @@ export class GenericEffectsService {
                 return this.api.saveSource(<Source>entity);
             case formKeys.images:
                 return this.api.saveImage(<ImageAsset>entity);
+            case formKeys.keywords:
+                return this.api.saveKeyword(entity);
+            case formKeys.styles:
+                return this.api.saveStyle(entity);
+            case formKeys.groups:
+                return this.api.saveGroup(entity);
             case formKeys.games:
                 if (entity.image && (entity as Game).image.includes('http')) {
                     delete entity.image
@@ -235,6 +241,12 @@ export class GenericEffectsService {
                 return this.api.deleteSource(<Source>entity);
             case formKeys.images:
                 return this.api.deleteImage(<ImageAsset>entity);
+            case formKeys.keywords:
+                return this.api.deleteKeyword(entity);
+            case formKeys.styles:
+                return this.api.deleteStyle(entity);
+            case formKeys.groups:
+                return this.api.deleteGroup(entity);
             default:
                 return of(null);
         }

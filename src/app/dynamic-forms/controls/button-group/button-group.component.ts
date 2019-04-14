@@ -52,7 +52,6 @@ export class ButtonGroupComponent implements OnInit {
     handleChange(value) {
         const field = this.data.valueField;
         let currentValue = this.value;
-
         if (this.data.multiple) {
             const asIntArr = currentValue.map(elem => field ? elem[field] : elem);
             const index = asIntArr.indexOf(value);
