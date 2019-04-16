@@ -8,4 +8,12 @@ export type Style = BaseModel & Partial<{
     fill: number | string;
     strokeColor: number | string;
     strokeTickness: number | string;
+    interpolation: string; // 89,555,244,999 etc.
+    easing: EasingConfig;
 }>;
+
+export const EASING_CONFIG = {
+    LINEAR: 'LINEAR',
+};
+
+export type EasingConfig = keyof typeof EASING_CONFIG;

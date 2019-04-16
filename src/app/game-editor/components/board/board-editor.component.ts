@@ -8,7 +8,7 @@ import { Slot, PathEntity, Stage, ImageAsset } from '@app/game-mechanics';
 	template: `
 		<rg-editor-layout>
 		
-			<rg-edit-header title="Edit board" [showButtons]="false"></rg-edit-header>
+			<rg-edit-header title="Edit board" [showButtons]="visibleEditor" [showEditor]="visibleEditor"></rg-edit-header>
 
 			<rg-board-toolbar
 				[class.hidden]="visibleEditor"
