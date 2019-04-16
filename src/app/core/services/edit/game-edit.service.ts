@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
-
 import {
     Field,
     Faction,
@@ -16,7 +15,7 @@ import {
     Stage,
     Token,
     Phase,
-    Source, Team, ImageAsset, Group, Keyword, Style,
+    Source, Team, ImageAsset, Group, Keyword, Style, Sound,
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../../config';
@@ -244,6 +243,19 @@ export class GameEditService {
 
     deleteStyle(data: Style): Observable<any> {
         return this.http.delete(API_URLS.STYLES(data.game, data.id));
+    }
+
+    saveSound(data: Sound): Observable<any> {
+
+        if (data.id) {
+            return this.http.patch(API_URLS.SOUNDS(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.SOUNDS(data.game), data);
+        }
+    }
+
+    deleteSound(data: Sound): Observable<any> {
+        return this.http.delete(API_URLS.SOUNDS(data.game, data.id));
     }
 
     saveGame(data: Game): Observable<any> {

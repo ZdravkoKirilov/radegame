@@ -97,6 +97,10 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/styles/`;
         return itemId ? `${base}${itemId}/` : base;
     },
+    SOUNDS: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/sounds/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
 };
 
 export const AUTH_URLS = {

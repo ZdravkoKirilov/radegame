@@ -18,6 +18,8 @@ export * from './Base.model';
 export * from './Keyword.model';
 export * from './Group.model';
 export * from './Style.model';
+export * from './State.model';
+export * from './Sound.model';
 
 import { GameAction } from './Action.model';
 import { Condition } from './Condition.model';
@@ -39,11 +41,14 @@ import { Game } from '../models';
 import { Keyword } from './Keyword.model';
 import { Group } from './Group.model';
 import { Style } from './Style.model';
+import { Sound } from './Sound.model';
 
 export type GameEntity = Game & GameAction & Slot & PathEntity & Condition &
     Round & Choice & Stage & Field & Faction & Token & Team & Phase &
-    Setup & Source & ImageAsset & Keyword & Group & Style;
+    Setup & Source & ImageAsset & Keyword & Group & Style & Sound;
 
 export type GameEntityList = Dictionary<GameEntity>;
 
 export * from './types';
+
+export type InteractiveEntity = GameAction & Slot & PathEntity & Condition & Choice & Field & Token;

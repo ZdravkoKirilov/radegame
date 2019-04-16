@@ -1,5 +1,3 @@
-import { ImageAsset } from "./ImageAsset.model";
-
 export type BaseModel = Partial<{
     id: number;
     game: number;
@@ -44,4 +42,12 @@ export type WithSettings = Partial<{
 
 export type WithSetups = Partial<{
     setups: number[]; // Setup[]
+}>
+
+export type WithStyle = Partial<{
+    style: number; // Style
+}>
+
+export type WithStates = Partial<{
+    states: number[];
 }>

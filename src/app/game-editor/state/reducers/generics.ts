@@ -91,6 +91,7 @@ export const formReducer: ActionReducer<any> = combineReducers({
     keywords: createEntityReducer(formKeys.keywords),
     groups: createEntityReducer(formKeys.groups),
     styles: createEntityReducer(formKeys.styles),
+    sounds: createEntityReducer(formKeys.sounds),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>) {

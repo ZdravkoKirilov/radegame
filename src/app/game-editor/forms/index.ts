@@ -16,3 +16,4 @@ export * from './image';
 export * from './keyword';
 export * from './style';
 export * from './group';
+export * from './sounds';
