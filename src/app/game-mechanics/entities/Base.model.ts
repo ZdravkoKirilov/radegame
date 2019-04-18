@@ -3,10 +3,16 @@ export type BaseModel = Partial<{
     game: number;
 
     name: string;
-    display_name: string;
     description: string;
-    keywords: string;
     image: number;
+}>;
+
+export type WithDisplayName = Partial<{
+    display_name: string;
+}>;
+
+export type WithKeywords = Partial<{
+    keywords: number[];
 }>;
 
 export type WithPermissions = Partial<{
