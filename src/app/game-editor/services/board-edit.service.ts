@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, NgZone } from '@angular/core';
 
 import { WindowRefService } from '@app/shared';
 import { WebGLRenderer, Container } from 'pixi.js';
@@ -22,7 +22,7 @@ export class BoardEditService {
 	public slotSelected$ = new Subject<Slot>();
 	public dragEnded$ = new Subject<Slot>();
 
-	constructor(private windowRef: WindowRefService) {
+	constructor(private windowRef: WindowRefService, private zone: NgZone) {
 	}
 
 	update(data: Partial<BoardData>) {
@@ -40,19 +40,22 @@ export class BoardEditService {
 	}
 
 	initialize(DOMElem: HTMLDivElement, data?: Partial<BoardData>) {
-		const width = this.windowRef.nativeWindow.innerWidth;
-		const height = this.windowRef.nativeWindow.innerHeight;
-		const stage = new Container();
 
-		this.renderer = new WebGLRenderer(width, height, { transparent: true, antialias: true, resolution: 1 });
-		this.renderer.autoResize = true;
+		this.zone.runOutsideAngular(() => {
+			const width = this.windowRef.nativeWindow.innerWidth;
+			const height = this.windowRef.nativeWindow.innerHeight;
+			const stage = new Container();
 
-		DOMElem.appendChild(this.renderer.view);
+			this.renderer = new WebGLRenderer(width, height, { transparent: true, antialias: true, resolution: 1 });
+			this.renderer.autoResize = true;
 
-		const assets = this.extractAssets(data.slots as GameEntity[], data.images);
+			DOMElem.appendChild(this.renderer.view);
 
-		this.render(stage, data, assets);
-		this.startRenderLoop(stage);
+			const assets = this.extractAssets(data.slots as GameEntity[], data.images);
+
+			this.render(stage, data, assets);
+			this.startRenderLoop(stage);
+		});
 	}
 
 	async render(stage: Container, data: Partial<BoardData> = {}, assets?: Set<string>) {
@@ -71,11 +74,12 @@ export class BoardEditService {
 		component.update();
 	};
 
-
 	startRenderLoop(stage: Container) {
-		setInterval(() => {
-			requestAnimationFrame(() => {
-				this.renderer.render(stage);
+		this.zone.runOutsideAngular(() => {
+			setInterval(() => {
+				requestAnimationFrame(() => {
+					this.renderer.render(stage);
+				});
 			});
 		});
 	}

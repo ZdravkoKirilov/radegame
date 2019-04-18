@@ -1,14 +1,15 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild, ComponentRef } from '@angular/core';
 import { composeSlotForm, composePathForm } from '../../forms';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { Slot, PathEntity, Stage, ImageAsset } from '@app/game-mechanics';
+import { EntityEditorComponent } from '../entity-editor/entity-editor.component';
 
 @Component({
 	selector: 'rg-board-editor',
 	template: `
 		<rg-editor-layout>
-		
-			<rg-edit-header title="Edit board" [showButtons]="visibleEditor" [showEditor]="visibleEditor"></rg-edit-header>
+
+			<rg-edit-header title="Edit board" [saveEnabled]="saveEnabled()" [showButtons]="visibleEditor" [showEditor]="visibleEditor" (cancel)="closeEditors()" (save)="saveEntity()"></rg-edit-header>
 
 			<rg-board-toolbar
 				[class.hidden]="visibleEditor"
@@ -20,35 +21,40 @@ import { Slot, PathEntity, Stage, ImageAsset } from '@app/game-mechanics';
 				(deleteSlot)="handleDeleteSlot()"
 			></rg-board-toolbar>
 
-			<rg-entity-editor 
-				*ngIf="showSlotEditor" 
-				[formDefinition]="slotForm"
-				[selectedItem]="selectedSlot"
-				[connectedEntities]="entities"
-				(cancel)="toggleSlotEditor(false)"
-				(save)="handleSaveSlot($event)"
-			></rg-entity-editor>
+			<ng-scrollbar>
+				<rg-entity-editor 
+					*ngIf="showSlotEditor" 
+					[formDefinition]="slotForm"
+					[selectedItem]="selectedSlot"
+					[connectedEntities]="entities"
+					(cancel)="toggleSlotEditor(false)"
+					(save)="handleSaveSlot($event)"
+					#slots
+				></rg-entity-editor>
 
-			<rg-entity-editor 
-				*ngIf="showPathEditor" 
-				[formDefinition]="pathForm"
-				[selectedItem]="selectedPath"
-				[connectedEntities]="entities"
-				(cancel)="togglePathEditor(false)"
-				(save)="handleSavePath($event)"
-			></rg-entity-editor>
+				<rg-entity-editor 
+					*ngIf="showPathEditor" 
+					[formDefinition]="pathForm"
+					[selectedItem]="selectedPath"
+					[connectedEntities]="entities"
+					(cancel)="togglePathEditor(false)"
+					(save)="handleSavePath($event)"
+					#paths
+				></rg-entity-editor>
 
-			<rg-board-main 
-				[stage]="stage"
-				[slots]="slots"
-				[selectedSlot]="selectedSlot"
-				[paths]="paths"
-				[selectedPath]="selectedPath"
-				[images]="images"
-				(selectSlot)="selectSlot($event)"
-				(dragEnd)="handleSaveSlot($event)"
-				(selectPath)="selectPath($event)"
-			></rg-board-main>
+				<rg-board-main
+					*ngIf="!visibleEditor" 
+					[stage]="stage"
+					[slots]="slots"
+					[selectedSlot]="selectedSlot"
+					[paths]="paths"
+					[selectedPath]="selectedPath"
+					[images]="images"
+					(selectSlot)="selectSlot($event)"
+					(dragEnd)="handleSaveSlot($event)"
+					(selectPath)="selectPath($event)"
+				></rg-board-main>
+			</ng-scrollbar>
 
     </rg-editor-layout>
   `,
@@ -68,6 +74,9 @@ export class BoardEditorComponent {
 
 	@Output() deleteSlot = new EventEmitter<Slot>();
 	@Output() deletePath = new EventEmitter<PathEntity>();
+
+	@ViewChild('slots') slotEditor: any;
+	@ViewChild('paths') pathEditor: any;
 
 	showSlotEditor = false;
 	showPathEditor = false;
@@ -91,12 +100,32 @@ export class BoardEditorComponent {
 		this.showPathEditor = isVisible;
 	}
 
+	saveEnabled() {
+		const { slotEditor, pathEditor } = this;
+
+		return slotEditor && slotEditor.form.valid || (pathEditor && pathEditor.form.valid);
+	}
+
+	closeEditors() {
+		this.toggleSlotEditor(false);
+		this.togglePathEditor(false);
+	}
+
 	selectSlot(payload: Slot) {
 		this.selectedSlot = payload;
 	}
 
 	selectPath(payload: PathEntity) {
 		this.selectedPath = payload;
+	}
+
+	saveEntity() {
+		if (this.slotEditor) {
+			return this.handleSaveSlot(this.slotEditor.form.value);
+		}
+		if (this.pathEditor) {
+			return this.handleSavePath(this.slotEditor.form.value);
+		}
 	}
 
 	handleSavePath(payload: PathEntity) {
