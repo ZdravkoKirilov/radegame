@@ -1,4 +1,4 @@
-import { BaseModel, WithBoard, WithSettings, WithSetups } from "./Base.model";
+import { BaseModel, WithBoard, WithSettings, WithSetups, WithKeywords } from "./Base.model";
 
-export type Faction = BaseModel & WithBoard & WithSettings & WithSetups;
+export type Faction = BaseModel & WithBoard & WithSettings & WithSetups & WithKeywords;
 

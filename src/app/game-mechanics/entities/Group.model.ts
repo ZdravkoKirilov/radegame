@@ -1,6 +1,6 @@
-import { BaseModel, WithPermissions, WithCost, WithSetups } from "./Base.model";
+import { BaseModel, WithPermissions, WithCost, WithSetups, WithKeywords } from "./Base.model";
 
-export type Group = BaseModel & Partial<{
+export type Group = BaseModel & WithKeywords & Partial<{
     items: GroupItem[];
 }>
 

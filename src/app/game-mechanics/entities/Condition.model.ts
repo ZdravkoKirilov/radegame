@@ -1,7 +1,7 @@
-import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal } from './Base.model';
+import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal, WithKeywords } from './Base.model';
 
 export type Condition = BaseModel & WithPermissions & WithBoard &
-    WithCost & WithStakes & WithReveal & Partial<{
+    WithCost & WithStakes & WithReveal & WithKeywords & Partial<{
 
         mode: ConditionMode;
         clauses: number[]; // Clause[];

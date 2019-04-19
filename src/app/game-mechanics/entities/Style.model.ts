@@ -1,6 +1,6 @@
-import { BaseModel } from "./Base.model";
+import { BaseModel, WithKeywords } from "./Base.model";
 
-export type Style = BaseModel & Partial<{
+export type Style = BaseModel & WithKeywords & Partial<{
     frame: number;
     rotation: number | string;
     width: number | string;

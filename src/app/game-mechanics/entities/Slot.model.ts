@@ -1,6 +1,6 @@
-import { BaseModel, WithPermissions, WithBoard, WithRisk, WithSettings, WithSetups } from "./Base.model";
+import { BaseModel, WithPermissions, WithBoard, WithRisk, WithSettings, WithSetups, WithKeywords } from "./Base.model";
 
-export type Slot = BaseModel & WithPermissions & WithBoard & WithRisk & WithSettings & WithSetups & Partial<{
+export type Slot = BaseModel & WithPermissions & WithBoard & WithRisk & WithSettings & WithSetups & WithKeywords & Partial<{
     owner: number; // Stage;
 
     field: number; // Field. Static field for the location

@@ -1,6 +1,6 @@
-import { BaseModel, WithBoard, WithStakes, WithSetups, WithSettings } from './Base.model';
+import { BaseModel, WithBoard, WithStakes, WithSetups, WithSettings, WithKeywords } from './Base.model';
 
-export type Round = BaseModel & WithBoard & WithSettings & WithStakes & WithSetups & Partial<{
+export type Round = BaseModel & WithBoard & WithSettings & WithStakes & WithSetups & WithKeywords & Partial<{
     stage: number; // Stage
 
     replay_limit: number; // how many tries to pass condition

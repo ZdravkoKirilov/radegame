@@ -1,6 +1,6 @@
-import { BaseModel } from "./Base.model";
+import { BaseModel, WithKeywords } from "./Base.model";
 
-export type Source = BaseModel & Partial<{
+export type Source = BaseModel & WithKeywords & Partial<{
 
     mode: SourceMode;
     pick: SourcePickMode;

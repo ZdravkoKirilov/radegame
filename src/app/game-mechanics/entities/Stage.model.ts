@@ -1,6 +1,6 @@
-import { BaseModel } from "./Base.model";
+import { BaseModel, WithKeywords } from "./Base.model";
 
-export type Stage = BaseModel & Partial<{
+export type Stage = BaseModel & WithKeywords & Partial<{
     width: number;
     height: number;
 }>;
