@@ -1,6 +1,6 @@
 import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 import { toDictionary } from '@app/shared';
-import { ImageAsset } from '@app/game-mechanics';
+import { ImageAsset, GameEntity } from '@app/game-mechanics';
 
 
 export function composeEntityOptions(
@@ -57,12 +57,21 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
 export const baseTemplate = `
     <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
     <TextInput name='description' label='Description'>{data.description}</TextInput>
-    <Dropdown name='image' label='Image' options='{images}' showImage='{true}'>{data.image}</Dropdown>
-    <ButtonGroup name='keywords' label='Keywords' options='{keyword_options}' multiple='{true}'>{keywords}</ButtonGroup>
+    <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{data.image}</Dropdown>
+`;
+
+export const keywordsTemplate = `
+    <ButtonGroup 
+        name='keywords' 
+        label='Keywords' 
+        options='{keyword_options}' 
+        multiple='{true}'>
+        {keywords}
+    </ButtonGroup>
 `;
 
 export const statesTemplate = `
-    <ButtonGroup name='states' label='States' options='{states}' multiple='{true}'>{states}</ButtonGroup>
+    <ButtonGroup name='states' label='States' options='{state_options}' multiple='{true}'>{states}</ButtonGroup>
 `;
 
 export const displayNameTemplate = `
@@ -70,33 +79,33 @@ export const displayNameTemplate = `
 `;
 
 export const styleTemplate = `
-    <Dropdown name='style' label='Style' options='{styles}' showImage='{true}'>{data.style}</Dropdown>
+    <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
 `;
 
 export const permissionsTemplate = `
-    <ButtonGroup name='enable' label='Allow' options='{conditions}' multiple='{true}'>{enable}</ButtonGroup>
-    <ButtonGroup name='disable' label='Restrict' options='{conditions}' multiple='{true}'>{disable}</ButtonGroup>
+    <ButtonGroup name='enable' label='Allow' options='{condition_options}' multiple='{true}'>{enable}</ButtonGroup>
+    <ButtonGroup name='disable' label='Restrict' options='{condition_options}' multiple='{true}'>{disable}</ButtonGroup>
 `;
 
 export const stakesTemplate = `
-    <ButtonGroup name='done' label='Done' options='{sources}' multiple='{true}'>{done}</ButtonGroup>
-    <ButtonGroup name='undone' label='Undone' options='{sources}' multiple='{true}'>{undone}</ButtonGroup>
+    <ButtonGroup name='done' label='Done' options='{group_options}' multiple='{true}'>{done}</ButtonGroup>
+    <ButtonGroup name='undone' label='Undone' options='{group_options}' multiple='{true}'>{undone}</ButtonGroup>
 `;
 
 export const riskTemplate = `
-    <ButtonGroup name='risk' label='Risk' options='{sources}' multiple='{true}'>{risk}</ButtonGroup>
+    <ButtonGroup name='risk' label='Risk' options='{group_options}' multiple='{true}'>{risk}</ButtonGroup>
 `;
 
 export const boardTemplate = `
-    <Dropdown name='board' label='Board' options='{stages}' showImage='{true}'>{data.board}</Dropdown>
+    <Dropdown name='board' label='Board' options='{stage_options}' showImage='{true}'>{data.board}</Dropdown>
 `;
 
 export const settingsTemplate = `
-    <ButtonGroup name='settings' label='Settings' options='{conditions}' multiple='{true}'>{settings}</ButtonGroup>
+    <ButtonGroup name='settings' label='Settings' options='{condition_options}' multiple='{true}'>{settings}</ButtonGroup>
 `;
 
 export const conditionTemplate = `
-    <ButtonGroup name='condition' label='Condition' options='{conditions}' multiple='{true}'>{condition}</ButtonGroup>
+    <ButtonGroup name='condition' label='Condition' options='{condition_options}' multiple='{true}'>{condition}</ButtonGroup>
 `;
 
 export const revealTemplate = `
@@ -108,9 +117,31 @@ export const revealTemplate = `
 `;
 
 export const costTemplate = `
-    <ButtonGroup name='cost' label='Cost' options='{sources}' multiple='{true}'>{cost}</ButtonGroup>
+    <ButtonGroup name='cost' label='Cost' options='{group_options}' multiple='{true}'>{cost}</ButtonGroup>
 `;
 
 export const setupsTemplate = `
     <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
 `;
+
+export const fieldTemplate = `
+    <Dropdown name='field' label='Field' options='{field_options}'>{data.field}</Dropdown>
+`;
+
+export const composeCommonFormContext = (ent: ConnectedEntities, data: any) => ({
+    keyword_options: composeEntityOptions(ent, 'keywords'),
+    setup_options: composeEntityOptions(ent, 'setups'),
+    condition_options: composeEntityOptions(ent, 'conditions'),
+    source_options: composeEntityOptions(ent, 'sources'),
+    field_options: composeEntityOptions(ent, 'fields'),
+    token_options: composeEntityOptions(ent, 'tokens'),
+    stage_options: composeEntityOptions(ent, 'stages'),
+    image_options: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+    action_options: composeEntityOptions(ent, 'actions'),
+    group_options: composeEntityOptions(ent, 'groups'),
+    style_options: composeEntityOptions(ent, 'styles'),
+
+    disable: data.disable || [],
+    enable: data.enable || [],
+    keywords: data.keywords || [],
+});

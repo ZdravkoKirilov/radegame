@@ -68,7 +68,7 @@ export class BoardEditService {
 			onDragEnd: this.handleDragEnd
 		} as BoardData;
 
-		const component = await render(createElement<BoardData>(RootComponent, props), stage);
+		const component = await render(createElement<BoardData>(RootComponent, props as any), stage);
 		console.log(component);
 		this.rootComponent = component;
 		component.update();
@@ -85,14 +85,20 @@ export class BoardEditService {
 	}
 
 	handleSlotSelect = (item: Slot) => {
-		this.slotSelected$.next(item);
+		this.zone.run(() => {
+			this.slotSelected$.next(item);
+		});
 	}
 
 	handlePathSelect = (item: PathEntity) => {
-		this.pathSelected$.next(item);
+		this.zone.run(() => {
+			this.pathSelected$.next(item);
+		});
 	}
 
 	handleDragEnd = (item: Slot) => {
-		this.dragEnded$.next(item);
+		this.zone.run(() => {
+			this.dragEnded$.next(item);
+		});
 	}
 }

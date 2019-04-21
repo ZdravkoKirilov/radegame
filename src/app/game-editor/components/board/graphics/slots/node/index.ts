@@ -1,9 +1,10 @@
 import { createElement, PrimitiveContainer, Points, RenderFunction, DynamicSprite } from "@app/rendering";
-import { Slot } from "@app/game-mechanics";
+import { Slot, Style } from "@app/game-mechanics";
 import { composePoints } from "@app/rendering";
 
 export type Props = {
     data: Slot;
+    style: Style,
     image: string;
     selected: boolean;
     onDragMove: (comp: PrimitiveContainer) => void;
@@ -12,9 +13,7 @@ export type Props = {
 };
 
 export const Node: RenderFunction<Props> = (props) => {
-
-
-    const { data, onDragMove, onDragEnd, onSelect, selected, image } = props;
+    const { data, style, onDragMove, onDragEnd, onSelect, selected, image } = props;
 
     return (
         createElement('container', {
@@ -22,27 +21,27 @@ export const Node: RenderFunction<Props> = (props) => {
             id: data.id, draggable: { xAxis: true, yAxis: true }, onDragMove, onDragEnd,
             onPointerDown: () => onSelect(data),
         },
-            createElement(data.shape || 'rectangle', {
+            createElement(style.shape || 'rectangle', {
                 container: true,
                 button: true,
-                points: composePoints(data.points),
+                points: composePoints(style.points),
                 styles: {
                     strokeThickness: selected ? 5 : 1,
                     strokeColor: 0x00ff00,
                     x: 0,
                     y: 0,
-                    width: data.width + 10,
-                    height: data.height + 35,
+                    width: Number(style.width) + 10,
+                    height: Number(style.height) + 35,
                     borderRadius: 5,
-                    radius: data.width
+                    radius: Number(style.width)
                 }
             }),
             image ? createElement(DynamicSprite, {
                 image: image, styles: {
                     x: 5,
                     y: 30,
-                    width: data.width,
-                    height: data.height,
+                    width: Number(style.width),
+                    height: Number(style.height),
                 }
             }) : null,
             createElement('text', {

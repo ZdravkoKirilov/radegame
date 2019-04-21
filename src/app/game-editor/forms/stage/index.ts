@@ -1,10 +1,9 @@
 import { Stage } from '@app/game-mechanics';
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
-import { baseTemplate, composeEntityOptions } from '../helpers';
+import { baseTemplate, composeCommonFormContext } from '../helpers';
 
 export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
-    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -20,9 +19,8 @@ export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            data, keywords,
-            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
-            keyword_options: composeEntityOptions(ent, 'keywords'),
+            ...composeCommonFormContext(ent, data),
+            data,
         },
     }, true);
 

@@ -1,8 +1,7 @@
-import { Component, Input, Output, EventEmitter, ViewChild, ComponentRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { composeSlotForm, composePathForm } from '../../forms';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { Slot, PathEntity, Stage, ImageAsset } from '@app/game-mechanics';
-import { EntityEditorComponent } from '../entity-editor/entity-editor.component';
 
 @Component({
 	selector: 'rg-board-editor',
@@ -50,6 +49,7 @@ import { EntityEditorComponent } from '../entity-editor/entity-editor.component'
 					[paths]="paths"
 					[selectedPath]="selectedPath"
 					[images]="images"
+					[styles]="entities.styles"
 					(selectSlot)="selectSlot($event)"
 					(dragEnd)="handleSaveSlot($event)"
 					(selectPath)="selectPath($event)"
@@ -112,7 +112,7 @@ export class BoardEditorComponent {
 	}
 
 	selectSlot(payload: Slot) {
-		this.selectedSlot = payload;
+		this.selectedSlot = { ...payload };
 	}
 
 	selectPath(payload: PathEntity) {

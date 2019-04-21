@@ -1,10 +1,9 @@
-import { Style } from '@app/game-mechanics';
+import { Style, ENTITY_SHAPE } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeEntityOptions, baseTemplate } from '../helpers';
+import { baseTemplate, composeCommonFormContext, composeFromObject } from '../helpers';
 
 export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
-    const keywords = data.keywords || [];
 
     const template = `
     <Form>
@@ -17,8 +16,14 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
         <TextInput name='strokeColor' label='Stroke color'>{data.strokeColor}</TextInput>
         <TextInput name='strokeTickness' label='Stroke thickness'>{data.strokeTickness}</TextInput>
 
-        <NumberInput name='frame' label='Frame'>{data.frame}</NumberInput>
-        <NumberInput name='rotation' label='Rotate'>{data.rotation}</NumberInput>
+        <NumberInput name='frame' label='Frame' defaultValue='{0}'>{data.frame}</NumberInput>
+        <NumberInput name='rotation' label='Rotate' defaultValue='{0}'>{data.rotation}</NumberInput>
+
+        <Dropdown name='shape' label='Shape' defaultValue='rectangle' options='{shapes}' required='true'>
+            {data.shape}
+        </Dropdown>
+
+        <TextInput name='points' label='Points'>{data.points}</TextInput>
 
     </Form>
     `;
@@ -26,9 +31,9 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            data, keywords,
-            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
-            keyword_options: composeEntityOptions(ent, 'keywords'),
+            ...composeCommonFormContext(ent, data),
+            shapes: composeFromObject(ENTITY_SHAPE),
+            data,
         }
     }, true) as BaseControl[];
 

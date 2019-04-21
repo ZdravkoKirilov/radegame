@@ -1,5 +1,5 @@
 import { RenderFunction, createElement, Points } from "@app/rendering";
-import { PathEntity, Slot } from "@app/game-mechanics";
+import { PathEntity, Slot, Style } from "@app/game-mechanics";
 import { toDictionary } from "@app/shared";
 
 import Path, { Props as PathProps } from './node';
@@ -7,6 +7,7 @@ import Path, { Props as PathProps } from './node';
 export type Props = {
     paths: PathEntity[];
     slots: Slot[];
+    styles: Style[];
     selected: PathEntity;
     selectPath: (item: PathEntity) => void;
 }
@@ -15,22 +16,23 @@ export const PathsList: RenderFunction<Props> = (props) => {
     const nodesList = toDictionary(props.slots);
 
     const lines = props.slots.length ? props.paths.map(elem => {
-
+        const fromStyle = props.styles.find(style => style.id === nodesList[elem.from_slot].style);
+        const toStyle = props.styles.find(style => style.id === nodesList[elem.to_slot]);
         const from = {
             left: nodesList[elem.from_slot].x,
             top: nodesList[elem.from_slot].y,
-            width: nodesList[elem.from_slot].width,
-            height: nodesList[elem.from_slot].height
-        }
+            width: fromStyle.width,
+            height: fromStyle.height,
+        };
         const to = {
             left: nodesList[elem.to_slot].x,
             top: nodesList[elem.to_slot].y,
-            width: nodesList[elem.to_slot].width,
-            height: nodesList[elem.to_slot].height
-        }
+            width: toStyle.width,
+            height: toStyle.height,
+        };
 
-        const points = computeLinePoints(from, to);
-        const polygon = computePolygon(from, to);
+        const points = computeLinePoints({...from, ...fromStyle}, {...to, ...toStyle});
+        const polygon = computePolygon({...from, ...fromStyle}, {...to, ...toStyle});
 
         return createElement<PathProps>(Path, {
             points, polygon, key: elem.id,

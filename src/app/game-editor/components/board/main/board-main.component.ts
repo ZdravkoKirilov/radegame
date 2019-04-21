@@ -5,7 +5,7 @@ import {
 import { Subscription } from 'rxjs';
 
 import { BoardEditService } from '../../../services';
-import { Slot, PathEntity, Stage, ImageAsset } from '@app/game-mechanics';
+import { Slot, PathEntity, Stage, ImageAsset, Style } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-main',
@@ -31,6 +31,7 @@ export class BoardMainComponent implements OnInit, OnChanges, OnDestroy {
 
 	@Input() stage: Stage;
 	@Input() images: ImageAsset[];
+	@Input() styles: Style[];
 
 	subs: Subscription[];
 
@@ -38,10 +39,10 @@ export class BoardMainComponent implements OnInit, OnChanges, OnDestroy {
 
 	ngOnInit() {
 		const { slots, selectedSlot, paths, selectedPath, stage,
-			selectSlot, dragEnd, boardEditService, selectPath, images } = this;
+			selectSlot, dragEnd, boardEditService, selectPath, images, styles } = this;
 
 		boardEditService.initialize(this.canvasWrapper.nativeElement, {
-			slots, selectedSlot, paths, selectedPath, stage, images
+			slots, selectedSlot, paths, selectedPath, stage, images, styles
 		});
 
 		this.subs = [

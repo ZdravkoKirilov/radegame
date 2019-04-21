@@ -5,7 +5,7 @@ import {
 
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
-import { Slot, PathEntity, Stage, ImageAsset } from "@app/game-mechanics";
+import { Slot, PathEntity, Stage, ImageAsset, Style } from "@app/game-mechanics";
 
 export type Props = {
     slots: Array<Slot>;
@@ -14,6 +14,7 @@ export type Props = {
     selectedPath: PathEntity;
     stage: Stage;
     images: Array<ImageAsset>;
+    styles: Style[];
     selectPath: (item: PathEntity) => void;
     selectSlot: (item: Slot) => void;
     onDragEnd: (item: Slot) => void;
@@ -29,7 +30,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     }
 
     render() {
-        const { paths, selectedPath, selectPath, selectedSlot, selectSlot, stage, images } = this.props;
+        const { paths, selectedPath, selectPath, selectedSlot, selectSlot, stage, images, styles } = this.props;
         const { slots } = this.state;
         const { handleDragMove, handleDragEnd } = this;
         const background = images.find(img => img.id === stage.image);
@@ -55,7 +56,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
             ),
 
             createElement<PathProps>(Paths, {
-                paths, slots,
+                paths, slots, styles,
                 selectPath,
                 selected: selectedPath
             }),
@@ -64,7 +65,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 slots, onDragMove: handleDragMove,
                 selectSlot,
                 selected: selectedSlot,
-                images,
+                images, styles,
                 onDragEnd: handleDragEnd
             }),
 

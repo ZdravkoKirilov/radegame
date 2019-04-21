@@ -1,6 +1,6 @@
-import { BaseModel, WithPermissions, WithBoard, WithRisk, WithSettings, WithSetups, WithKeywords } from "./Base.model";
+import { BaseModel, WithPermissions, WithBoard, WithKeywords, WithStyle } from "./Base.model";
 
-export type Slot = BaseModel & WithPermissions & WithBoard & WithRisk & WithSettings & WithSetups & WithKeywords & Partial<{
+export type Slot = BaseModel & WithPermissions & WithBoard & WithKeywords & WithStyle & Partial<{
     owner: number; // Stage;
 
     field: number; // Field. Static field for the location
@@ -9,20 +9,4 @@ export type Slot = BaseModel & WithPermissions & WithBoard & WithRisk & WithSett
 
     y: number;
     x: number;
-    width: number;
-    height: number;
-
-    shape: SlotShape;
-    points: string; // comma separated list of numbers
-    style: number; // Style id
 }>
-
-export const SLOT_SHAPES = {
-    circle: 'circle',
-    rectangle: 'rectangle',
-    ellipse: 'ellipse',
-    polygon: 'polygon',
-};
-
-type SlotShape = keyof typeof SLOT_SHAPES;
-// max revealed cards: via settings
