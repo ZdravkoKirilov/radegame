@@ -13,6 +13,7 @@ import { KeywordsContainerComponent } from './containers/keywords/keywords-conta
 import { GroupsContainerComponent } from './containers/groups/groups-container.component';
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
+import { StatesContainerComponent } from './containers/states/states-container.component';
 
 export const routes: Routes = [
     {
@@ -100,6 +101,10 @@ export const routes: Routes = [
             {
                 path: 'sounds',
                 component: SoundsContainerComponent
+            },
+            {
+                path: 'states',
+                component: StatesContainerComponent
             },
             {
                 path: '**',

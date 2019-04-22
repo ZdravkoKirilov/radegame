@@ -42,10 +42,11 @@ import { Keyword } from './Keyword.model';
 import { Group } from './Group.model';
 import { Style } from './Style.model';
 import { Sound } from './Sound.model';
+import { EntityState } from './State.model';
 
 export type GameEntity = Game & GameAction & Slot & PathEntity & Condition &
     Round & Choice & Stage & Field & Faction & Token & Team & Phase &
-    Setup & Source & ImageAsset & Keyword & Group & Style & Sound;
+    Setup & Source & ImageAsset & Keyword & Group & Style & Sound & EntityState;
 
 export type GameEntityList = Dictionary<GameEntity>;
 

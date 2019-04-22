@@ -18,6 +18,7 @@ export const formKeys = {
     groups: 'groups',
     styles: 'styles',
     sounds: 'sounds',
+    states: 'states',
 }
 
 export type FormKey = keyof typeof formKeys;

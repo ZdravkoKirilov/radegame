@@ -26,7 +26,7 @@
 				<input type="email" matInput placeholder="Email" formControlName="email" />
 			</mat-form-field>
 
-			<mat-form-field>
+			<mat-form-field *ngIf="!isLogin">
 				<input type="text" matInput placeholder="Alias" formControlName="alias" />
 			</mat-form-field>
 

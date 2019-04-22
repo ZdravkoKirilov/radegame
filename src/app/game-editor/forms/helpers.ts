@@ -141,6 +141,7 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
     group_options: composeEntityOptions(ent, 'groups'),
     style_options: composeEntityOptions(ent, 'styles'),
     choice_options: composeEntityOptions(ent, 'choices'),
+    sound_options: composeEntityOptions(ent, 'sounds'),
 
     disable: data.disable || [],
     enable: data.enable || [],

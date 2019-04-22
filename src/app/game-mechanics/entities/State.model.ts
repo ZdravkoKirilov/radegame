@@ -1,7 +1,10 @@
-export type EntityState = {
-    owner: number; // InteractiveEntity
+import { BaseModel } from "./Base.model";
+
+export type EntityState = BaseModel & {
+
     keyword: number; // Keyword
     style: number; // Style
     sound: number; // Sound
 }
-// here on the front end will be reused for different entities. On the backend must be unique for each entity ( separate table)
+
+// could be reused with a keyword - e.g. "undead" - can play similar themed music for different types of entities

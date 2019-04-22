@@ -15,7 +15,7 @@ import {
     Stage,
     Token,
     Phase,
-    Source, Team, ImageAsset, Group, Keyword, Style, Sound,
+    Source, Team, ImageAsset, Group, Keyword, Style, Sound, EntityState,
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../../config';
@@ -217,6 +217,19 @@ export class GameEditService {
 
     deleteKeyword(data: Keyword): Observable<any> {
         return this.http.delete(API_URLS.KEYWORDS(data.game, data.id));
+    }
+
+    saveEntityState(data: EntityState): Observable<any> {
+
+        if (data.id) {
+            return this.http.patch(API_URLS.STATES(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.STATES(data.game), data);
+        }
+    }
+
+    deleteEntityState(data: EntityState): Observable<any> {
+        return this.http.delete(API_URLS.STATES(data.game, data.id));
     }
 
     saveGroup(data: Group): Observable<any> {

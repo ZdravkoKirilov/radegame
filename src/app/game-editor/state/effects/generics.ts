@@ -203,6 +203,8 @@ export class GenericEffectsService {
                 return this.api.saveGroup(entity);
             case formKeys.sounds:
                 return this.api.saveSound(entity);
+            case formKeys.states:
+                return this.api.saveEntityState(entity);
             case formKeys.games:
                 if (entity.image && (entity as Game).image.includes('http')) {
                     delete entity.image
@@ -251,6 +253,8 @@ export class GenericEffectsService {
                 return this.api.deleteGroup(entity);
             case formKeys.sounds:
                 return this.api.deleteSound(entity);
+            case formKeys.states:
+                return this.api.deleteEntityState(entity);
             default:
                 return of(null);
         }

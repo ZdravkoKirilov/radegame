@@ -18,7 +18,6 @@ export const composeSoundForm: FormDefinition = (data: PathEntity, ent?: Connect
         source: template,
         context: {
             data,
-
         },
     }, true);
 
