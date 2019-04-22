@@ -10,7 +10,7 @@ export const composeSoundForm: FormDefinition = (data: Sound, ent?: ConnectedEnt
         <Form>
 
             <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-            <FilePicker name='image' label='Sound file' required='{true}'>{data.sound}</FilePicker>
+            <FilePicker name='file' label='Sound file' required='{true}'>{data.file}</FilePicker>
 
         </Form>
     `;

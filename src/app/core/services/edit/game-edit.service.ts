@@ -193,6 +193,17 @@ export class GameEditService {
         return this.http.delete(API_URLS.IMAGES(data.game, data.id));
     }
 
+    saveSound(data: Sound): Observable<any> {
+        const formData = toMultipartFormData(data);
+        const options = { headers: new HttpHeaders({}) };
+
+        if (data.id) {
+            return this.http.patch(API_URLS.SOUNDS(data.game, data.id), formData, options);
+        } else {
+            return this.http.post(API_URLS.SOUNDS(data.game), formData, options);
+        }
+    }
+
     saveField(data: Field): Observable<any> {
 
         if (data.id) {
@@ -256,15 +267,6 @@ export class GameEditService {
 
     deleteStyle(data: Style): Observable<any> {
         return this.http.delete(API_URLS.STYLES(data.game, data.id));
-    }
-
-    saveSound(data: Sound): Observable<any> {
-
-        if (data.id) {
-            return this.http.patch(API_URLS.SOUNDS(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.SOUNDS(data.game), data);
-        }
     }
 
     deleteSound(data: Sound): Observable<any> {

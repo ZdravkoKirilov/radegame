@@ -6,7 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Field, Condition, Round, Team,
-    Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset, Stage, Slot, GameTemplate,
+    Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset, Stage, Slot, GameTemplate, Sound,
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
 import {
@@ -39,6 +39,12 @@ export class GenericEffectsService {
                                     images.forEach(img => {
                                         img.thumbnail = BASE_URL + img.thumbnail
                                         img.image = BASE_URL + img.image
+                                    });
+                                }
+                                if (key === 'sounds') {
+                                    const sounds: Sound[] = res[key] as any;
+                                    sounds.forEach(sound => {
+                                        sound.file = BASE_URL + sound.file;
                                     });
                                 }
                                 acc[key] = toDictionary<GameEntity>(res[key]);
