@@ -1,7 +1,7 @@
 import {
     StatefulComponent, createElement,
     Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation,
-    createUpliftAnimation, composeGrid, gridItems, Scrollable, ScrollableProps
+    createUpliftAnimation, composeGrid, gridItems, Scrollable, ScrollableProps, LineProps
 } from "@app/rendering";
 
 export type Props = {
@@ -33,6 +33,24 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     state = { show: 'pesho', move: false }
     ref: any;
 
+    render() {
+        return createElement<LineProps>('line', {
+            styles: {
+                strokeColor: 0xf45342,
+                strokeThickness: 5,
+            },
+            points: [
+                [100, 100],
+                [150, 150],
+                [200, 200],
+                [250, 250],
+                [300, 300],
+                [350, 350],
+                [400, 400],
+            ],
+        });
+    }
+
     // render() {
     //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
 
@@ -58,37 +76,37 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     //         ));
     // }
 
-    render() {
-        const asGrid = composeGrid(gridItems, 960, '20 20');
+    // render() {
+    //     const asGrid = composeGrid(gridItems, 960, '20 20');
 
-        const items = asGrid.map((elem, index) => {
-            return createElement<RecProps>('rectangle', {
-                styles: { ...elem },
-                key: index,
-            });
-        });
+    //     const items = asGrid.map((elem, index) => {
+    //         return createElement<RecProps>('rectangle', {
+    //             styles: { ...elem },
+    //             key: index,
+    //         });
+    //     });
 
-        return createElement<ScrollableProps>(
-            Scrollable,
-            {
-                width: 1100,
-                height: 650,
-                x: 10,
-                y: 10,
-                vertical: true,
-                horizontal: false,
-                borderSize: 1,
-                borderColor: 0x161616,
-                padding: '20 20'
-            },
-            createElement('collection', {
-                styles: {
-                    // mask: [350, 350, 250]
-                },
-                name: 'rectangles'
-            }, items)
-        );
-    }
+    //     return createElement<ScrollableProps>(
+    //         Scrollable,
+    //         {
+    //             width: 1100,
+    //             height: 650,
+    //             x: 10,
+    //             y: 10,
+    //             vertical: true,
+    //             horizontal: false,
+    //             borderSize: 1,
+    //             borderColor: 0x161616,
+    //             padding: '20 20'
+    //         },
+    //         createElement('collection', {
+    //             styles: {
+    //                 // mask: [350, 350, 250]
+    //             },
+    //             name: 'rectangles'
+    //         }, items)
+    //     );
+    // }
 
     // render() {
     //     const image = 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/79/2010-brown-bear.jpg/200px-2010-brown-bear.jpg';
@@ -183,7 +201,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     didMount() {
 
         setTimeout(() => {
-            const sprite = this.children[0].children[0].children[0];
+            // const sprite = this.children[0].children[0].children[0];
             // const fade = createFadeInAnimation('pesho');
 
             this.setState({ show: 'gosho' });

@@ -1,12 +1,13 @@
 import { BasicComponent } from '../../mixins';
 import { RzElementProps, MetaProps, Points } from '../../models';
 
-type Props = RzElementProps & {
+export type LineProps = RzElementProps & {
     points: Points;
+    dashGap?: number;
 }
-export class PrimitiveLine extends BasicComponent<Props> {
+export class PrimitiveLine extends BasicComponent<LineProps> {
 
-    constructor(props: Props, graphic: any, meta: MetaProps) {
+    constructor(props: LineProps, graphic: any, meta: MetaProps) {
         super(props, graphic, meta);
     }
 

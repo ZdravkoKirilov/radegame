@@ -5,6 +5,7 @@ import {
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
     PrimitiveEllipse,
     PrimitiveShadow,
+    LineProps,
 } from "@app/rendering";
 import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, DisplayObject } from "pixi.js";
 import { DropShadowFilter } from 'pixi-filters';
@@ -79,7 +80,7 @@ const updatePrimitive = (component: BasicComponent) => {
 
     switch (type) {
         case PRIMS.line:
-            updateLine(props, graphic as Graphics);
+            updateLine(props as LineProps, graphic as Graphics);
             break;
         case PRIMS.polygon:
             updatePolygon(props, graphic as Graphics);
@@ -213,10 +214,11 @@ const updateText = (comp: PrimitiveText) => {
     });
 };
 
-const updateLine = (props: RzElementProps, line: Graphics) => {
+const updateLine = (props: LineProps, line: Graphics) => {
     const points = [...props.points] as Points;
     const { styles, hitArea } = props;
     const start = points.shift();
+    const dash = props.dashGap || 0;
 
     line.clear();
     line.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
@@ -224,7 +226,11 @@ const updateLine = (props: RzElementProps, line: Graphics) => {
     line.moveTo(start[0], start[1]);
 
     points.forEach((coord) => {
-        line.lineTo(coord[0], coord[1]);
+        const x = coord[0];
+        const y = coord[1];
+        line.lineTo(x, y);
+
+        line.moveTo(x + dash, y + dash);
     });
 
     if (hitArea) {
