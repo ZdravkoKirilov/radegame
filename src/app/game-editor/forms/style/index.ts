@@ -1,4 +1,4 @@
-import { Style, ENTITY_SHAPE } from '@app/game-mechanics';
+import { Style, ENTITY_SHAPE, GameEntity } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import { baseTemplate, composeCommonFormContext, composeFromObject } from '../helpers';
 
@@ -31,7 +31,7 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(ent, data),
+            ...composeCommonFormContext(data as GameEntity, ent),
             shapes: composeFromObject(ENTITY_SHAPE),
             data,
         }

@@ -1,4 +1,4 @@
-import { Stage } from '@app/game-mechanics';
+import { Stage, GameEntity } from '@app/game-mechanics';
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
 import { baseTemplate, composeCommonFormContext } from '../helpers';
 
@@ -19,7 +19,7 @@ export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(ent, data),
+            ...composeCommonFormContext(data as GameEntity, ent),
             data,
         },
     }, true);

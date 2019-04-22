@@ -1,5 +1,5 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Slot } from "@app/game-mechanics";
+import { Slot, GameEntity } from "@app/game-mechanics";
 import {
     baseTemplate,
     boardTemplate, permissionsTemplate, styleTemplate,
@@ -40,7 +40,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(ent, data),
+            ...composeCommonFormContext(data as GameEntity, ent),
             data,
         },
     }, true);

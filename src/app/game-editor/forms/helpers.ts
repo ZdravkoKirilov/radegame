@@ -128,7 +128,7 @@ export const fieldTemplate = `
     <Dropdown name='field' label='Field' options='{field_options}'>{data.field}</Dropdown>
 `;
 
-export const composeCommonFormContext = (ent: ConnectedEntities, data: any) => ({
+export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => ({
     keyword_options: composeEntityOptions(ent, 'keywords'),
     setup_options: composeEntityOptions(ent, 'setups'),
     condition_options: composeEntityOptions(ent, 'conditions'),
@@ -140,8 +140,10 @@ export const composeCommonFormContext = (ent: ConnectedEntities, data: any) => (
     action_options: composeEntityOptions(ent, 'actions'),
     group_options: composeEntityOptions(ent, 'groups'),
     style_options: composeEntityOptions(ent, 'styles'),
+    choice_options: composeEntityOptions(ent, 'choices'),
 
     disable: data.disable || [],
     enable: data.enable || [],
     keywords: data.keywords || [],
+    setups: data.setups || [],
 });

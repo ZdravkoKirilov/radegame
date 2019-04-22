@@ -29,7 +29,7 @@ export type WithCost = Partial<{
 }>
 
 export type WithRisk = Partial<{
-    risk: number[]; // Source
+    risk: number[]; // Choice ( random )
 }>
 
 export type WithStakes = Partial<{

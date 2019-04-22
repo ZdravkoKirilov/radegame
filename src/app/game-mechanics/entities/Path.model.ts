@@ -1,6 +1,6 @@
-import { BaseModel, WithPermissions, WithBoard, WithRisk, WithStakes, WithCost, WithSetups, WithKeywords } from "./Base.model";
+import { BaseModel, WithPermissions, WithSetups } from "./Base.model";
 
-export type PathEntity = BaseModel & WithPermissions & WithBoard & WithRisk & WithStakes & WithCost & WithKeywords & WithSetups & Partial<{
+export type PathEntity = BaseModel & WithPermissions & WithSetups & Partial<{
     owner: number; // Stage
 
     from_slot: number;
