@@ -6,6 +6,7 @@ export const controlTypes = {
     DROPDOWN: 'Dropdown',
 
     IMAGE_PICKER: 'ImagePicker',
+    FILE_PICKER: 'FilePicker',
 
     FORM: 'Form',
     GROUP: 'Group',

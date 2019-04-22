@@ -1,4 +1,4 @@
-export type Sound = {
+export type Sound = Partial<{
     id: number;
     game: number;
 
@@ -6,4 +6,4 @@ export type Sound = {
     description: string;
 
     file: string;
-}
+}>

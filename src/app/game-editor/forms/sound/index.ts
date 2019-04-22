@@ -1,7 +1,8 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { PathEntity } from "@app/game-mechanics";
+import { Sound, GameEntity } from "@app/game-mechanics";
+import { composeCommonFormContext } from "../helpers";
 
-export const composeSoundForm: FormDefinition = (data: PathEntity, ent?: ConnectedEntities) => {
+export const composeSoundForm: FormDefinition = (data: Sound, ent?: ConnectedEntities) => {
 
     data = data || {};
 
@@ -9,7 +10,7 @@ export const composeSoundForm: FormDefinition = (data: PathEntity, ent?: Connect
         <Form>
 
             <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-            <ImagePicker name='image' label='Add image' required='{true}'>{data.image}</ImagePicker>
+            <FilePicker name='image' label='Sound file' required='{true}'>{data.sound}</FilePicker>
 
         </Form>
     `;
@@ -17,6 +18,7 @@ export const composeSoundForm: FormDefinition = (data: PathEntity, ent?: Connect
     const result = parse({
         source: template,
         context: {
+            ...composeCommonFormContext(data as GameEntity, ent),
             data,
         },
     }, true);

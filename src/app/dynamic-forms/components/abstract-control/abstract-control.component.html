@@ -30,6 +30,10 @@
             <rg-tags-input [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-tags-input>
         </ng-container>
 
+        <ng-container *ngSwitchCase="types.FILE_PICKER">
+            <rg-file-picker [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-file-picker>
+        </ng-container>
+
         <ng-container *ngSwitchDefault>
             Unknown element! ' {{data.type}} '
         </ng-container>

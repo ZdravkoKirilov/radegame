@@ -5,6 +5,7 @@ import { SharedModule } from '@app/shared';
 import { DynamicFormComponent, AbstractControlComponent, FormArrayComponent, NestedFormComponent } from './components';
 import { ControlsService } from './services/controls.service';
 import { TextInputComponent, ButtonGroupComponent, ImagePickerComponent, NumberInputComponent, DropdownComponent, TagsInputComponent } from './controls';
+import { FilePickerComponent } from './controls/file-picker/file-picker.component';
 
 @NgModule({
     imports: [
@@ -24,6 +25,7 @@ import { TextInputComponent, ButtonGroupComponent, ImagePickerComponent, NumberI
         FormArrayComponent,
         DropdownComponent,
         TagsInputComponent,
+        FilePickerComponent,
     ],
     providers: [
         ControlsService

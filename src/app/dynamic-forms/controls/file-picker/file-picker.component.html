@@ -1,0 +1,26 @@
+<div tabindex="0" class="file-picker" (keyup)="handleKeyPress($event)">
+
+  <div *ngIf="existingFile && !data.hideThumbnail" class="thumbnail">
+    <div class="file-preview" title="Click to change" (click)="browseFile()">
+      <h2 class="filename" *ngIf="file">{{file.name}}</h2>
+      <audio controls *ngIf="existingFile">
+        <source [src]="existingFile">
+      </audio>
+    </div>
+    <div>
+      <button mat-button color="warn" (click)=removeFile()>Remove</button>
+    </div>
+  </div>
+
+  <div *ngIf="!existingFile && !data.hideThumbnail">
+    <button mat-button color="primary" (click)="browseFile()">{{label}}</button>
+  </div>
+
+  <button mat-button [color]="data?.buttonColor" (click)="browseFile()">
+    <ng-content></ng-content>
+  </button>
+
+  <form class="hidden" #ownForm>
+    <input type="file" #filePicker (change)="handleFile($event)" />
+  </form>
+</div>
