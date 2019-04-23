@@ -6,6 +6,7 @@ import { DynamicFormComponent, AbstractControlComponent, FormArrayComponent, Nes
 import { ControlsService } from './services/controls.service';
 import { TextInputComponent, ButtonGroupComponent, ImagePickerComponent, NumberInputComponent, DropdownComponent, TagsInputComponent } from './controls';
 import { FilePickerComponent } from './controls/file-picker/file-picker.component';
+import { ColorPickerComponent } from './controls/color-picker/color-picker.component';
 
 @NgModule({
     imports: [
@@ -26,6 +27,7 @@ import { FilePickerComponent } from './controls/file-picker/file-picker.componen
         DropdownComponent,
         TagsInputComponent,
         FilePickerComponent,
+        ColorPickerComponent,
     ],
     providers: [
         ControlsService

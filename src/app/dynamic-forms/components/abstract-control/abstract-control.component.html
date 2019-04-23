@@ -34,6 +34,10 @@
             <rg-file-picker [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-file-picker>
         </ng-container>
 
+        <ng-container *ngSwitchCase="types.COLOR_PICKER">
+            <rg-color-picker [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-color-picker>
+        </ng-container>
+
         <ng-container *ngSwitchDefault>
             Unknown element! ' {{data.type}} '
         </ng-container>

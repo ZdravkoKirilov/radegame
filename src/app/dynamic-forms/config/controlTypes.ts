@@ -12,4 +12,6 @@ export const controlTypes = {
     GROUP: 'Group',
 
     TAGS_INPUT: 'TagsInput',
+
+    COLOR_PICKER: 'ColorPicker',
 };

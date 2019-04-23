@@ -5,6 +5,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { NgScrollbarModule } from 'ngx-scrollbar';
 import { RouterModule } from '@angular/router';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 import { NgMaterialModule } from '../ng-material/ng-material.module';
 import { DividerComponent, MainMenuComponent, SocialButtonComponent } from './components';
@@ -16,7 +17,7 @@ import { NotificationComponent } from './components/notification/notification.co
 @NgModule({
     imports: [
         CommonModule, NgMaterialModule, FormsModule, ReactiveFormsModule, HttpClientModule,
-        NgScrollbarModule, RouterModule,
+        NgScrollbarModule, RouterModule, ColorPickerModule,
     ],
     exports: [
         CommonModule,
@@ -27,7 +28,8 @@ import { NotificationComponent } from './components/notification/notification.co
         NgScrollbarModule,
         ServeImagePipe,
         OverlayComponent,
-        NotificationComponent
+        NotificationComponent,
+        ColorPickerModule,
     ],
     declarations: [
         DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe, OverlayComponent, NotificationComponent
