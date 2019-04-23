@@ -26,7 +26,7 @@ export const Node: RenderFunction<Props> = (props) => {
                 button: true,
                 points: composePoints(style.points),
                 styles: {
-                    strokeThickness: selected ? 5 : Number(style.strokeTickness),
+                    strokeThickness: selected ? 5 : Number(style.strokeThickness),
                     strokeColor: Number(style.strokeColor),
                     x: 0,
                     y: 0,

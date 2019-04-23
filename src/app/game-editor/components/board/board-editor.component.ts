@@ -124,7 +124,7 @@ export class BoardEditorComponent {
 			return this.handleSaveSlot(this.slotEditor.form.value);
 		}
 		if (this.pathEditor) {
-			return this.handleSavePath(this.slotEditor.form.value);
+			return this.handleSavePath(this.pathEditor.form.value);
 		}
 	}
 

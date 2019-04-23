@@ -14,7 +14,7 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
         <TextInput name='height' label='Height'>{data.height}</TextInput>
         <TextInput name='fill' label='Fill'>{data.fill}</TextInput>
         <TextInput name='strokeColor' label='Stroke color'>{data.strokeColor}</TextInput>
-        <TextInput name='strokeTickness' label='Stroke thickness'>{data.strokeTickness}</TextInput>
+        <TextInput name='strokeThickness' label='Stroke thickness'>{data.strokeThickness}</TextInput>
 
         <NumberInput name='frame' label='Frame' defaultValue='{0}'>{data.frame}</NumberInput>
         <NumberInput name='rotation' label='Rotate' defaultValue='{0}'>{data.rotation}</NumberInput>

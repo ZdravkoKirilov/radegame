@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core';
+import { Injectable, NgZone, OnDestroy } from '@angular/core';
 
 import { WindowRefService } from '@app/shared';
 import { WebGLRenderer, Container } from 'pixi.js';
@@ -13,7 +13,7 @@ import { createPixiEngine } from '@app/engines/pixi';
 @Injectable({
 	providedIn: 'root'
 })
-export class BoardEditService {
+export class BoardEditService implements OnDestroy {
 
 	private renderer: WebGLRenderer;
 	private rootComponent: Component;
@@ -21,6 +21,8 @@ export class BoardEditService {
 	public pathSelected$ = new Subject<PathEntity>();
 	public slotSelected$ = new Subject<Slot>();
 	public dragEnded$ = new Subject<Slot>();
+
+	private renderLoop: number;
 
 	constructor(private windowRef: WindowRefService, private zone: NgZone) {
 	}
@@ -76,7 +78,7 @@ export class BoardEditService {
 
 	startRenderLoop(stage: Container) {
 		this.zone.runOutsideAngular(() => {
-			const request = requestAnimationFrame(() => this.startRenderLoop(stage));
+			this.renderLoop = requestAnimationFrame(() => this.startRenderLoop(stage));
 			this.renderer.render(stage);
 		});
 	}
@@ -97,5 +99,9 @@ export class BoardEditService {
 		this.zone.run(() => {
 			this.dragEnded$.next(item);
 		});
+	}
+
+	ngOnDestroy() {
+		cancelAnimationFrame(this.renderLoop);
 	}
 }

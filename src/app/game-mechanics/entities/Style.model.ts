@@ -7,7 +7,7 @@ export type Style = BaseModel & Partial<{
     height: number | string;
     fill: number | string;
     strokeColor: number | string;
-    strokeTickness: number | string;
+    strokeThickness: number | string;
     interpolation: string; // 89,555,244,999 etc.
     easing: EasingConfig;
     shape: EntityShape;

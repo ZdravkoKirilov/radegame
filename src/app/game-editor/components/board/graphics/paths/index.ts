@@ -15,9 +15,11 @@ export type Props = {
 export const PathsList: RenderFunction<Props> = (props) => {
     const nodesList = toDictionary(props.slots);
 
-    const lines = props.slots.length ? props.paths.map(elem => {
+    const lines = props.slots && props.slots.length ? props.paths.map(elem => {
         const fromStyle = props.styles.find(style => style.id === nodesList[elem.from_slot].style);
-        const toStyle = props.styles.find(style => style.id === nodesList[elem.to_slot]);
+        const toStyle = props.styles.find(style => style.id === nodesList[elem.to_slot].style);
+        const style = props.styles.find(style => style.id === elem.style);
+       
         const from = {
             left: nodesList[elem.from_slot].x,
             top: nodesList[elem.from_slot].y,
@@ -35,7 +37,7 @@ export const PathsList: RenderFunction<Props> = (props) => {
         const polygon = computePolygon({...from, ...fromStyle}, {...to, ...toStyle});
 
         return createElement<PathProps>(Path, {
-            points, polygon, key: elem.id,
+            points, polygon, key: elem.id, style,
             selected: props.selected && props.selected.id === elem.id,
             selectPath: () => props.selectPath(elem)
         });
