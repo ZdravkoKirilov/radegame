@@ -88,8 +88,8 @@ export const unmountComposite = async (component: CompositeComponent) => {
         // await Promise.all(leaveAnimations.map(animation => animation.playAll()));
     }
 
-    if ('willUnmount' in this) {
-        (this as Lifecycles).willUnmount();
+    if ('willUnmount' in component) {
+        (component as Lifecycles).willUnmount();
     }
 
     component.children.forEach(child => {

@@ -76,11 +76,8 @@ export class BoardEditService {
 
 	startRenderLoop(stage: Container) {
 		this.zone.runOutsideAngular(() => {
-			setInterval(() => {
-				requestAnimationFrame(() => {
-					this.renderer.render(stage);
-				});
-			});
+			const request = requestAnimationFrame(() => this.startRenderLoop(stage));
+			this.renderer.render(stage);
 		});
 	}
 
