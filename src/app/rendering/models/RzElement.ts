@@ -27,6 +27,7 @@ export type RzElementProps = DefaultEvents & Partial<{
     animations: AnimationBase[];
     draggable: DraggableConfig;
     scrollable: ScrollableConfig;
+    sorted: boolean;
     // [key: string]: any;
 }>;
 
@@ -48,7 +49,7 @@ export type ScrollableConfig = Partial<{
     minY: string;
 }>;
 
-export type RenderFunction<T = any> = (props?: T) => RzElement;
+export type RenderFunction<T = any> = (props?: T & RzElementProps) => RzElement;
 
 export type RzElementType<T = any> = PrimitiveType | ComponentConstructor<T> | RenderFunction;
 

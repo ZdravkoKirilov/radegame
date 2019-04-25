@@ -13,7 +13,7 @@ export type Props = {
     selectSlot: (item: Slot) => void;
 }
 
-export const SlotsList: RenderFunction<Props> = ({ slots, images, styles, selected, onDragMove, onDragEnd, selectSlot }) => {
+export const SlotsList: RenderFunction<Props> = ({ slots, images, styles, selected, onDragMove, onDragEnd, selectSlot, key }) => {
 
     const items = slots.map(elem => {
         const image = images.find(img => elem.image === img.id);
@@ -29,7 +29,7 @@ export const SlotsList: RenderFunction<Props> = ({ slots, images, styles, select
         });
     });
 
-    return createElement('collection', null, items);
+    return createElement('collection', { key }, items);
 
 }
 

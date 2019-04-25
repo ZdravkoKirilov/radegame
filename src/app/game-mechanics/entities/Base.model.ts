@@ -1,3 +1,5 @@
+import { ImageFrame } from "./ImageAsset.model";
+
 export type BaseModel = Partial<{
     id: number;
     game: number;
@@ -5,6 +7,10 @@ export type BaseModel = Partial<{
     name: string;
     description: string;
     image: number;
+}>;
+
+export type WithFrames = Partial<{
+    frames: ImageFrame[];
 }>;
 
 export type WithDisplayName = Partial<{

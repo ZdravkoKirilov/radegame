@@ -31,6 +31,9 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
             component.parent = parent;
             component.children = createPrimitiveChildren(element, factory, meta, component);
             createRefs(component);
+            if (component.graphic) {
+                component.graphic.component = component;
+            }
             return component;
         } else {
             let realType = factory.customResolvers.reduce((accumulator, resolver) => {

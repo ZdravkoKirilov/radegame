@@ -4,4 +4,5 @@ export interface AbstractContainer {
     getChildIndex(child: any): number;
     setChildIndex(child: any, newIndex: number): void;
     addChildAt(child: any, newIndex: number): void;
+    children: any[];
 }

@@ -128,6 +128,21 @@ export const fieldTemplate = `
     <Dropdown name='field' label='Field' options='{field_options}'>{data.field}</Dropdown>
 `;
 
+export const framesTemplate = `
+    <Group name='frames' label='Frames' children='{frames}' item='@item' addButtonText='Add'>
+
+        <Form>
+            <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+
+            <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{@item.image}</Dropdown>
+
+            <NumberInput name='order' required='{true}'>{@item.order}</NumberInput>
+            
+        </Form>
+
+    </Group>
+`;
+
 export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => ({
     keyword_options: composeEntityOptions(ent, 'keywords'),
     setup_options: composeEntityOptions(ent, 'setups'),
@@ -148,4 +163,5 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
     enable: data.enable || [],
     keywords: data.keywords || [],
     setups: data.setups || [],
+    frames: data.frames || [],
 });

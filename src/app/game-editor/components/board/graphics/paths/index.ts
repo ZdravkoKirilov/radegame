@@ -19,7 +19,7 @@ export const PathsList: RenderFunction<Props> = (props) => {
         const fromStyle = props.styles.find(style => style.id === nodesList[elem.from_slot].style);
         const toStyle = props.styles.find(style => style.id === nodesList[elem.to_slot].style);
         const style = props.styles.find(style => style.id === elem.style);
-       
+
         const from = {
             left: nodesList[elem.from_slot].x,
             top: nodesList[elem.from_slot].y,
@@ -33,8 +33,8 @@ export const PathsList: RenderFunction<Props> = (props) => {
             height: toStyle.height,
         };
 
-        const points = computeLinePoints({...from, ...fromStyle}, {...to, ...toStyle});
-        const polygon = computePolygon({...from, ...fromStyle}, {...to, ...toStyle});
+        const points = computeLinePoints({ ...from, ...fromStyle }, { ...to, ...toStyle });
+        const polygon = computePolygon({ ...from, ...fromStyle }, { ...to, ...toStyle });
 
         return createElement<PathProps>(Path, {
             points, polygon, key: elem.id, style,
@@ -44,7 +44,7 @@ export const PathsList: RenderFunction<Props> = (props) => {
 
     }) : [];
 
-    return createElement('collection', null, lines);
+    return createElement('collection', { key: props.key }, lines);
 }
 
 const computePolygon = (from: any, to: any): Points => {

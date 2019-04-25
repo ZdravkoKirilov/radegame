@@ -34,31 +34,33 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         const { slots } = this.state;
         const { handleDragMove, handleDragEnd } = this;
         const background = images.find(img => img.id === stage.image);
-        const stageImage = background ? background.thumbnail || background.svg: '';
+        const stageImage = background ? background.thumbnail || background.svg : '';
         return createElement('fragment', {},
 
-            createElement<WithAssetProps>(WithAsset, { url: stageImage },
-                createElement('container', {
-                    onClick: () => {
-                        this.props.selectSlot(null);
-                        this.props.selectPath(null);
-                    },
-                },
-                    createElement<SpriteProps>('sprite', {
-                        image: stageImage,
-                        styles: {
-                            x: 0,
-                            y: 0,
-                            width: stage.width,
-                            height: stage.height,
+            createElement('container', null,
+                createElement<WithAssetProps>(WithAsset, { url: stageImage },
+                    createElement('container', {
+                        onClick: () => {
+                            this.props.selectSlot(null);
+                            this.props.selectPath(null);
                         },
-                    }))
+                    },
+                        createElement<SpriteProps>('sprite', {
+                            image: stageImage,
+                            styles: {
+                                x: 0,
+                                y: 0,
+                                width: stage.width,
+                                height: stage.height,
+                            },
+                        }))
+                ),
             ),
 
             createElement<PathProps>(Paths, {
                 paths, slots, styles,
                 selectPath,
-                selected: selectedPath
+                selected: selectedPath,
             }),
 
             createElement<SlotProps>(Slots, {
@@ -66,7 +68,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 selectSlot,
                 selected: selectedSlot,
                 images, styles,
-                onDragEnd: handleDragEnd
+                onDragEnd: handleDragEnd,
             }),
 
             // createElement('ellipse', {

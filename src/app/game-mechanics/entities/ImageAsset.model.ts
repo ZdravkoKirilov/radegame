@@ -7,3 +7,11 @@ export type ImageAsset = Partial<{
     thumbnail: string;
     svg: string;
 }>
+
+export type ImageFrame = Partial<{
+    id: number;
+    owner: number;
+
+    image: number;
+    order: number;
+}>

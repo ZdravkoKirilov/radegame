@@ -72,8 +72,10 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
         case PRIMS.fragment:
             component.container = container;
             component.children.forEach(child => mountComponent(child, container));
+            break;
         case PRIMS.shadow:
             component.container = container;
+            break;
         default:
             break;
     }

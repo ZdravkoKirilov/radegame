@@ -92,10 +92,12 @@ const updatePrimitive = (component: BasicComponent) => {
         case PRIMS.container:
             updateGeneric(component);
             updateContainer(props, component, component.graphic);
+            sortChildren(component);
             break;
         case PRIMS.collection:
             updateGeneric(component);
             updateCollection(props, component);
+            sortChildren(component);
             break;
         case PRIMS.rectangle:
             updateRectangle(props, component.graphic);
@@ -126,6 +128,26 @@ const updatePrimitive = (component: BasicComponent) => {
 
     }
 }
+
+const sortChildren = (comp: Component) => {
+    const { graphic } = comp;
+    const graphicChildren: any[] = [...graphic.children];
+    if (comp.props.sorted && graphicChildren[0] && graphicChildren[0].component) {
+        const compChildren = graphicChildren[0].component.parent.children;
+        graphicChildren.sort((a, b) => {
+            const index1 = compChildren.indexOf(a.component);
+            const index2 = compChildren.indexOf(b.component);
+            if (index1 > index2) {
+                return 1;
+            }
+            if (index2 > index1) {
+                return -1;
+            }
+            return 0;
+        });
+        graphic.children = graphicChildren;
+    }
+};
 
 const updateGeneric = (comp: Component) => {
     const { props, graphic } = comp;

@@ -5,7 +5,8 @@ import {
     boardTemplate, permissionsTemplate, styleTemplate,
     keywordsTemplate,
     composeCommonFormContext,
-    fieldTemplate
+    fieldTemplate,
+    framesTemplate
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
@@ -24,11 +25,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             ${boardTemplate}
 
-            ${permissionsTemplate}
-
             ${styleTemplate}
-
-            ${keywordsTemplate}
 
             <Dropdown name='draw' label='Draw' options='{source_options}'>
                 {data.draw}
