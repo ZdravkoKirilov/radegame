@@ -10,9 +10,6 @@ export class BasicComponent<T extends object = RzElementProps> {
     container: AbstractContainer;
     parent: Component;
     children: Array<Component | null>;
-    cachedSelectors: {
-        [key: string]: Component;
-    }
 
     constructor(props: T, graphic: any, meta: MetaProps) {
         this.graphic = graphic;

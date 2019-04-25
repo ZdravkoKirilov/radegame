@@ -7,7 +7,9 @@ export function composeEntityOptions(
     ent: ConnectedEntities,
     key: keyof ConnectedEntities,
     imageProp = ['image'],
-    exclude = []): Option[] {
+    exclude = [],
+    withEmptyOption = true,
+): Option[] {
     const images = toDictionary<ImageAsset>(ent.images);
 
     const result: Option[] = ent[key as string].map(elem => {
@@ -27,7 +29,12 @@ export function composeEntityOptions(
             image
         };
     });
-
+    if (withEmptyOption) {
+        result.unshift({
+            label: 'None',
+            value: null,
+        });
+    }
     return exclude.length > 0 ? result.filter(elem => !exclude.includes(elem.value)) : result;
 }
 

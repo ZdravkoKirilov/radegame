@@ -1,6 +1,6 @@
 import {
     StatefulComponent, createElement, PrimitiveContainer,
-    Lifecycles, WithAsset, WithAssetProps, SpriteProps
+    Lifecycles, WithAsset, WithAssetProps, SpriteProps, Scrollable, ScrollableProps
 } from "@app/rendering";
 
 import Slots, { Props as SlotProps } from './slots';
@@ -34,11 +34,20 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         const { slots } = this.state;
         const { handleDragMove, handleDragEnd } = this;
         const background = images.find(img => img.id === stage.image);
-        const stageImage = background ? background.thumbnail || background.svg : '';
-        return createElement('fragment', {},
+        return createElement<ScrollableProps>(Scrollable, {
+            width: 1100,
+            height: 650,
+            x: 10,
+            y: 10,
+            vertical: true,
+            horizontal: true,
+            borderSize: 1,
+            borderColor: 0x161616,
+            padding: '0 0'
+        },
 
             createElement('container', null,
-                createElement<WithAssetProps>(WithAsset, { url: stageImage },
+                createElement<WithAssetProps>(WithAsset, { url: background.image },
                     createElement('container', {
                         onClick: () => {
                             this.props.selectSlot(null);
@@ -46,7 +55,7 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                         },
                     },
                         createElement<SpriteProps>('sprite', {
-                            image: stageImage,
+                            image: background.image,
                             styles: {
                                 x: 0,
                                 y: 0,

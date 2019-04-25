@@ -31,7 +31,6 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
             .map(elem => Number(elem) + borderSize)
             .filter(elem => !isNaN(elem));
 
-
         return createElement(
             'container',
             { styles: { x, y, mask: [x, y, width, height] } },
@@ -50,16 +49,19 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
                         yThreshold: 50,
                         xThreshold: 50,
                         maxY: `0 + ${paddingY}`,
-                        minY: `(height - ${height} + (${paddingY} * 2)) * -1`
+                        minY: `(height - ${height} + (${paddingY} * 2)) * -1`,
+                        minX: `width * -1`,
+                        maxX: `0`,
                     },
                     onScroll: this.onChildScroll
                 },
-                children
+                children,
             )
         );
     }
 
     onChildScroll = (newValue: { x?: number, y?: number }) => {
+        debugger;
         if (this.props.vertical && this.props.horizontal &&
             newValue.y !== undefined && newValue.x !== undefined) {
             return this.setState({

@@ -80,9 +80,10 @@ export class PixiEnhancer implements AbstractEnhancer {
                 closure.dragPoint = event.data.getLocalPosition(comp.graphic.parent);
                 closure.dragPoint.x -= comp.graphic.x;
                 closure.dragPoint.y -= comp.graphic.y;
-                closure.dragging = true;
+                closure.dragging = !comp['scrolling'];
                 closure.initial = { x: comp.graphic.x, y: comp.graphic.y };
                 bringToFront(elem);
+                comp['dragging'] = true;
             });
 
             elem.on('pointerup', (event: interaction.InteractionEvent) => {
@@ -90,6 +91,7 @@ export class PixiEnhancer implements AbstractEnhancer {
                 closure.dragging = false;
                 closure.hasMoved = false;
                 closure.dragPoint = null;
+                delete comp['dragging'];
                 const { x, y } = comp.props.styles;
 
                 if (dragWasReal(closure.initial, { x, y })) {
@@ -98,7 +100,7 @@ export class PixiEnhancer implements AbstractEnhancer {
             });
 
             elem.on('pointermove', (event: interaction.InteractionEvent) => {
-                event.stopPropagation();
+                // event.stopPropagation();
                 if (closure.dragging) {
                     const newPos = event.data.getLocalPosition(comp.graphic.parent);
                     const props: RzElementProps = {
@@ -117,7 +119,6 @@ export class PixiEnhancer implements AbstractEnhancer {
     }
 
     makeScrollable(comp: Component) {
-
         if (comp.props.scrollable) {
             const closure: Draggable = {};
             const elem = comp.graphic as DisplayObject;
@@ -132,8 +133,9 @@ export class PixiEnhancer implements AbstractEnhancer {
 
                 closure.dragPoint.x -= comp.graphic.x;
                 closure.dragPoint.y -= comp.graphic.y;
-                closure.dragging = true;
+                closure.dragging = !comp['dragging'];
                 closure.initial = { x: comp.graphic.x, y: comp.graphic.y };
+                comp['scrolling'] = true;
             });
 
             elem.on('pointerupoutside', (event: interaction.InteractionEvent) => {
@@ -141,6 +143,7 @@ export class PixiEnhancer implements AbstractEnhancer {
                 closure.dragging = false;
                 closure.hasMoved = false;
                 closure.dragPoint = null;
+                delete comp['scrolling'];
 
                 if (comp.props.onScrollEnd) {
                     comp.props.onScrollEnd(comp);
@@ -152,6 +155,7 @@ export class PixiEnhancer implements AbstractEnhancer {
                 closure.dragging = false;
                 closure.hasMoved = false;
                 closure.dragPoint = null;
+                delete comp['scrolling'];
 
                 if (comp.props.onScrollEnd) {
                     comp.props.onScrollEnd(comp);
@@ -159,7 +163,7 @@ export class PixiEnhancer implements AbstractEnhancer {
             });
 
             elem.on('pointermove', (event: interaction.InteractionEvent) => {
-                event.stopPropagation();
+                // event.stopPropagation();
                 if (closure.dragging) {
                     const newPos = event.data.getLocalPosition(comp.graphic.parent);
                     const passedPos = {} as any;
