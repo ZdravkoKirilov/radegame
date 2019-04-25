@@ -61,7 +61,7 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
     }
 
     onChildScroll = (newValue: { x?: number, y?: number }) => {
-        debugger;
+
         if (this.props.vertical && this.props.horizontal &&
             newValue.y !== undefined && newValue.x !== undefined) {
             return this.setState({

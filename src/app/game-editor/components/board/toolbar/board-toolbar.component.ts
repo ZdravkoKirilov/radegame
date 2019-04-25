@@ -4,7 +4,6 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
   selector: 'rg-board-toolbar',
   template: `
 
-    <rg-image-picker [data]="{hideThumbnail: true}">{{backgroundText}}</rg-image-picker>
     <button mat-button color="primary" (click)="showSlotEditor.emit()">Add slot</button>
     <button *ngIf="selectedSlot" mat-button color="primary" (click)="showSlotEditor.emit()">Edit slot</button>
     <button *ngIf="selectedSlot" mat-button color="warn" (click)="deleteSlot.emit()">Delete slot</button>
@@ -31,10 +30,6 @@ export class BoardToolbarComponent {
 
   @Input() selectedSlot: boolean;
   @Input() selectedPath: boolean;
-
-  get backgroundText() {
-    return 'Add background';
-  }
 
   get pathCreationText() {
     return 'Enter path creation mode';
