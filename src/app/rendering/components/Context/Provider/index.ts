@@ -11,7 +11,7 @@ export class ContextProvider extends StatefulComponent<Props, any> implements Li
 
     constructor(props: Props, meta: MetaProps) {
         if (meta.context.get(props.key)) {
-            throw new Error(`Context already exists: "${props.key}"`);
+            console.warn(`Context already exists: "${props.key}"`);
         }
         super(props, meta);
     }
