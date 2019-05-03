@@ -1,7 +1,7 @@
 import { Injectable, NgZone, OnDestroy } from '@angular/core';
 
 import { WindowRefService } from '@app/shared';
-import { WebGLRenderer, Container } from 'pixi.js';
+import { WebGLRenderer, Container, Application } from 'pixi.js';
 import { createRenderer, createElement, Component } from '@app/rendering';
 import { Subject } from 'rxjs';
 
@@ -23,6 +23,8 @@ export class BoardEditService implements OnDestroy {
 	public dragEnded$ = new Subject<Slot>();
 
 	private renderLoop: number;
+
+	private app: Application;
 
 	constructor(private windowRef: WindowRefService, private zone: NgZone) {
 	}
@@ -48,10 +50,15 @@ export class BoardEditService implements OnDestroy {
 			const height = this.windowRef.nativeWindow.innerHeight;
 			const stage = new Container();
 
-			this.renderer = new WebGLRenderer(width, height, { transparent: true, antialias: true, resolution: 1 });
-			this.renderer.autoResize = true;
+			this.app = new Application({
+				width, height, transparent: true, antialias: true, resolution: 1, autoResize: true,
+				backgroundColor: 0xffffff
+			})
 
-			DOMElem.appendChild(this.renderer.view);
+			// this.renderer = new WebGLRenderer(width, height, { transparent: true, antialias: true, resolution: 1 });
+			// this.renderer.autoResize = true;
+
+			DOMElem.appendChild(this.app.renderer.view);
 
 			const assets = this.extractAssets(data.slots as GameEntity[], data.images);
 
@@ -61,7 +68,7 @@ export class BoardEditService implements OnDestroy {
 	}
 
 	async render(stage: Container, data: Partial<BoardData> = {}, assets?: Set<string>) {
-		const PixiEngine = createPixiEngine();
+		const PixiEngine = createPixiEngine(this.app);
 		const render = createRenderer(PixiEngine, assets || new Set());
 		const props = {
 			...data,
@@ -79,7 +86,7 @@ export class BoardEditService implements OnDestroy {
 	startRenderLoop(stage: Container) {
 		this.zone.runOutsideAngular(() => {
 			this.renderLoop = requestAnimationFrame(() => this.startRenderLoop(stage));
-			this.renderer.render(stage);
+			this.app.renderer.render(stage);
 		});
 	}
 

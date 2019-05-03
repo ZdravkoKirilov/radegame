@@ -45,7 +45,7 @@ export class RenderService {
     }
 
     async render(stage: Container, assets?: Set<string>) {
-        const PixiEngine = createPixiEngine();
+        const PixiEngine = createPixiEngine(this.app);
         const render = createRenderer(PixiEngine, assets || new Set());
 
         const component = await render(createElement(RootComponent, null), stage);

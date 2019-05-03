@@ -11,12 +11,13 @@ const ticker = Pixi.ticker.shared;
 ticker.autoStart = false;
 ticker.stop();
 
-export const createPixiEngine = (): AbstractRenderEngine => {
+export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine => {
     return {
         factory: new PixiFactory(),
         mutator: new PixiMutator(),
         enhancer: new PixiEnhancer(),
         event: new PixiEventsManager(),
         loader: new PixiLoader(),
+        app
     };
 }

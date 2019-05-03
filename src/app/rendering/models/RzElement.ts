@@ -117,4 +117,5 @@ export type DefaultEvents = Partial<{
     onDragMove: EventHandler;
     onScroll: EventHandler;
     onScrollEnd: EventHandler;
+    onWheel: EventHandler;
 }>;
