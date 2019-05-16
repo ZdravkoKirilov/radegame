@@ -16,7 +16,7 @@ export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine =>
         factory: new PixiFactory(),
         mutator: new PixiMutator(),
         enhancer: new PixiEnhancer(),
-        event: new PixiEventsManager(),
+        event: new PixiEventsManager(app.renderer.plugins.interaction),
         loader: new PixiLoader(),
         app
     };

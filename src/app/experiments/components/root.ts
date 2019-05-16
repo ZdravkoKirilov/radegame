@@ -83,6 +83,8 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
             return createElement<RecProps>('rectangle', {
                 styles: { ...elem },
                 key: index,
+                onFocus: event => console.log('focus'),
+                onBlur: () => console.log('blur')
             });
         });
 

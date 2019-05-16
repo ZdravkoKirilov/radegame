@@ -118,4 +118,7 @@ export type DefaultEvents = Partial<{
     onScroll: EventHandler;
     onScrollEnd: EventHandler;
     onWheel: EventHandler;
+    onKeypress: (event: KeyboardEvent) => void;
+    onFocus: EventHandler;
+    onBlur: EventHandler;
 }>;
