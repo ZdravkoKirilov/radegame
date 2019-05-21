@@ -24,14 +24,6 @@ export const Path = (props: Props) => {
             onPointerDown: props.selectPath,
             button: true,
         }),
-        // createElement('polygon', {
-        //     points: props.polygon,
-        //     styles: {
-        //         strokeThickness: 5,
-        //         strokeColor: 0x0000cc,
-        //         alpha: props.selected ? 1 : 0
-        //     },
-        // }),
     );
     return markup;
 }

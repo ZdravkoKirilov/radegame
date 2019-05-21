@@ -56,12 +56,6 @@ export const applyMask = (comp: Component, value: number[]) => {
         if (value.length === 3) {
             let [x, y, radius] = value;
 
-            if (!x || !y) {
-                setTimeout(() => {
-                    applyMask(comp, value);
-                }, 0)
-            }
-
             if (!x) {
                 x = graphic.x + (graphic.width / 2);
             }
@@ -71,7 +65,7 @@ export const applyMask = (comp: Component, value: number[]) => {
 
             const circle = new Graphics();
             circle.beginFill(0x99ff99, 0);
-            circle.drawCircle(x, y, radius);
+            circle.drawCircle(50, 50, 100);
             circle.endFill();
             graphic.mask = circle;
         }
