@@ -5,7 +5,6 @@ export type Style = BaseModel & Partial<{
     rotation: number;
     width: number;
     height: number;
-    radius: number;
     fill: number;
     strokeColor: number;
     strokeThickness: number;

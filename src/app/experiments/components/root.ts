@@ -83,29 +83,41 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
             return createElement<RecProps>('rectangle', {
                 styles: { ...elem },
                 key: index,
+                onFocus: event => console.log('focus'),
+                onBlur: () => console.log('blur')
             });
         });
 
-        return createElement<ScrollableProps>(
-            Scrollable,
-            {
-                width: 1100,
-                height: 650,
-                x: 10,
-                y: 10,
-                vertical: true,
-                horizontal: false,
-                borderSize: 1,
-                borderColor: 0x161616,
-                padding: '20 20'
-            },
-            createElement('collection', {
-                styles: {
-                    // mask: [350, 350, 250]
-                },
-                name: 'rectangles'
-            }, items)
-        );
+        return createElement(DynamicSprite, {
+            image: 'https://images.vexels.com/media/users/3/144816/isolated/preview/dc02049ca1ce9e02b04a9737e81aee0e-bear-illustration-by-vexels.png',
+            styles: {
+                x: 50,
+                y: 50,
+                width: 200,
+                height: 200,
+            }
+        });
+
+        // return createElement<ScrollableProps>(
+        //     Scrollable,
+        //     {
+        //         width: 1100,
+        //         height: 650,
+        //         x: 10,
+        //         y: 10,
+        //         vertical: true,
+        //         horizontal: false,
+        //         borderSize: 1,
+        //         borderColor: 0x161616,
+        //         padding: '20 20'
+        //     },
+        //     createElement('collection', {
+        //         styles: {
+        //             // mask: [350, 350, 250]
+        //         },
+        //         name: 'rectangles'
+        //     }, items)
+        // );
     }
 
     // render() {

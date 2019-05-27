@@ -1,34 +1,29 @@
 export class ContextManager {
 
-    private handlers: {
-        [key: string]: Set<Function>;
-    } = {}
+    private handlers: Map<any, Set<Function>> = new Map();
 
-    private data: {
-        [key: string]: any;
-    } = {}
+    private data: Map<any, any> = new Map();
 
-    set(key: string, value: any) {
-        this.data[key] = value;
-        const callbacks = this.handlers[key];
+    set(key: any, value: any) {
+        this.data.set(key, value);
+        const callbacks = this.handlers.get(key);
         if (callbacks) {
             callbacks.forEach(cb => cb(value));
         }
     }
 
-    get(key: string) {
-        return this.data[key];
+    get(key: any) {
+        return this.data.get(key);
     }
 
-    subscribe = (key: string, callback: Function) => {
+    subscribe = (key: any, callback: Function) => {
         const self = this;
-        this.handlers[key] = this.handlers[key] || new Set();
-        this.handlers[key].add(callback);
-        callback(this.data[key]);
+        this.handlers.get(key).add(callback);
+        callback(this.data.get(key));
 
         return {
             unsubscribe() {
-                self.handlers[key].delete(callback);
+                self.handlers.get(key).delete(callback);
             }
         }
     }

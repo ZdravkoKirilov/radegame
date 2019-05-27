@@ -10,4 +10,5 @@ export interface AbstractRenderEngine {
     enhancer: AbstractEnhancer;
     event: AbstractEvent;
     loader: AbstractLoader;
+    app: any;
 };
