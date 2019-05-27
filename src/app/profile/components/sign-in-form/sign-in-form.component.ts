@@ -18,7 +18,7 @@ export class SignInFormComponent {
 	constructor() {
 		this.form = new FormGroup({
 			email: new FormControl('', vd.compose([vd.required, emailValidator])),
-			alias: new FormControl('', vd.required),
+			alias: new FormControl(''),
 			password: new FormControl('', vd.required),
 		});
 	}

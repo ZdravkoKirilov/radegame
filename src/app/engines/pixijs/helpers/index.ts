@@ -56,21 +56,22 @@ export const applyMask = (comp: Component, value: number[]) => {
         if (value.length === 3) {
             let [x, y, radius] = value;
 
-            if (!x || !y) {
+            if (isNaN(Number(x)) || isNaN(Number(y))) {
                 setTimeout(() => {
                     applyMask(comp, value);
                 }, 0)
             }
 
-            if (!x) {
+            if (isNaN(Number(x))) {
                 x = graphic.x + (graphic.width / 2);
             }
-            if (!y) {
+            if (isNaN(Number(y)) {
                 y = graphic.y + (graphic.height / 2);
             }
 
             const circle = new Graphics();
             circle.beginFill(0x99ff99, 0);
+            graphic.pivot.set((radius) * -1, (radius) * -1);
             circle.drawCircle(x, y, radius);
             circle.endFill();
             graphic.mask = circle;

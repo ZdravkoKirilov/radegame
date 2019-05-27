@@ -12,6 +12,7 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
 
         <TextInput name='width' label='Width'>{data.width}</TextInput>
         <TextInput name='height' label='Height'>{data.height}</TextInput>
+        <TextInput name='radius' label='Radius'>{data.radius}</TextInput>
         <TextInput name='fill' label='Fill'>{data.fill}</TextInput>
         <ColorPicker name='strokeColor' label='Stroke color'>{data.strokeColor}</ColorPicker>
         <TextInput name='strokeThickness' label='Stroke thickness'>{data.strokeThickness}</TextInput>

@@ -288,7 +288,7 @@ const updateCircle = (comp: PrimitiveCircle) => {
     if (styles) {
         graphic.clear();
         graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
-        graphic.pivot.set((styles.radius / 2) * -1, (styles.radius / 2) * -1);
+        graphic.pivot.set((styles.radius) * -1, (styles.radius) * -1);
         graphic.drawCircle(styles.x, styles.y, styles.radius);
 
         if (comp.props.button) {
