@@ -59,7 +59,7 @@ export const applyMask = (comp: Component, value: number[]) => {
             if (!x) {
                 x = graphic.x + (graphic.width / 2);
             }
-            if (isNaN(Number(y)) {
+            if (isNaN(Number(y))) {
                 y = graphic.y + (graphic.height / 2);
             }
 

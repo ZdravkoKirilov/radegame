@@ -14,7 +14,6 @@ export type Props = {
 
 export const Node: RenderFunction<Props> = (props) => {
     const { data, style, onDragMove, onDragEnd, onSelect, selected, image } = props;
-    const isCircle = style.shape === 'circle';
     return (
         createElement('container', {
             styles: { x: data.x, y: data.y },
@@ -22,7 +21,7 @@ export const Node: RenderFunction<Props> = (props) => {
             onPointerDown: () => onSelect(data),
 
         },
-            createElement(style.shape || 'rectangle', {
+            createElement('rectangle', {
                 button: true,
                 points: composePoints(style.points),
                 styles: {
@@ -39,7 +38,7 @@ export const Node: RenderFunction<Props> = (props) => {
             image ? createElement(DynamicSprite, {
                 image: image, styles: {
                     x: 5,
-                    y: isCircle ? (style.height / 4) * -1 : 5,
+                    y: 5,
                     width: style.width,
                     height: style.height,
                 }
@@ -53,8 +52,7 @@ export const Node: RenderFunction<Props> = (props) => {
                     stroke: '#141619',
                     fill: '#141619'
                 }
-            })
-
+            }),
         )
     );
 };

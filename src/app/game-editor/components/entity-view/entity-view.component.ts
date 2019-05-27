@@ -6,6 +6,7 @@ import { FormGroup } from '@angular/forms';
 
 import { GameEntity } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
+import { WithTimeout } from '@app/shared';
 
 @Component({
 	selector: 'rg-entity-view',
@@ -29,10 +30,15 @@ export class EntityViewComponent {
 	draft: GameEntity;
 	form: FormGroup;
 
+	get saveEnabled() {
+		return this.form ? Boolean(this.form.valid) : false;
+	}
+
 	handleSave() {
 		this.saveItem.emit(this.draft);
 	}
 
+	@WithTimeout()
 	handleDraftUpdate(form: FormGroup) {
 		this.form = form;
 		this.draft = form.value;

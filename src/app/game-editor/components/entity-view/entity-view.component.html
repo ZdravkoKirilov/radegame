@@ -1,4 +1,4 @@
-<rg-edit-header title="Entities" [showEditor]="showEditor" [saveEnabled]="form?.valid" (add)="showItemEditor()" (cancel)="hideItemEditor()" (save)="handleSave()">
+<rg-edit-header title="Entities" [showEditor]="showEditor" [saveEnabled]="saveEnabled" (add)="showItemEditor()" (cancel)="hideItemEditor()" (save)="handleSave()">
 </rg-edit-header>
 
 <ng-scrollbar [ngClass]="{'hidden': showEditor}">

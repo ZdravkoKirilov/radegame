@@ -1,11 +1,10 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Group, GROUP_RELATION } from "@app/game-mechanics";
-import { composeEntityOptions, baseTemplate, composeFromObject } from "../helpers";
+import { Group, GROUP_RELATION, GameEntity } from "@app/game-mechanics";
+import { composeEntityOptions, baseTemplate, composeFromObject, composeCommonFormContext } from "../helpers";
 
 export const composeGroupForm: FormDefinition = (data: Group, ent?: ConnectedEntities) => {
 
     data = data || {};
-    const keywords = data.keywords || [];
     const items = data.items || [];
 
     const template = `
@@ -58,16 +57,9 @@ export const composeGroupForm: FormDefinition = (data: Group, ent?: ConnectedEnt
     const result = parse({
         source: template,
         context: {
-            data, keywords, items,
-            conditions: composeEntityOptions(ent, 'conditions'),
-            setup_options: composeEntityOptions(ent, 'setups'),
-            tokens: composeEntityOptions(ent, 'tokens'),
-            actions: composeEntityOptions(ent, 'actions'),
-            choices: composeEntityOptions(ent, 'choices'),
-            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
-            groups: composeEntityOptions(ent, 'groups'),
-            keyword_options: composeEntityOptions(ent, 'keywords'),
+            data, items,
             relations: composeFromObject(GROUP_RELATION),
+            ...composeCommonFormContext(data as GameEntity, ent),
         },
     }, true);
 

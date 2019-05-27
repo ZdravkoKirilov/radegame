@@ -53,10 +53,7 @@ export class BoardEditService implements OnDestroy {
 			this.app = new Application({
 				width, height, transparent: true, antialias: true, resolution: 1, autoResize: true,
 				backgroundColor: 0xffffff
-			})
-
-			// this.renderer = new WebGLRenderer(width, height, { transparent: true, antialias: true, resolution: 1 });
-			// this.renderer.autoResize = true;
+			});
 
 			DOMElem.appendChild(this.app.renderer.view);
 
