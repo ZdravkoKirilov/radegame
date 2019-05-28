@@ -1,29 +1,25 @@
 import { StatefulComponent } from "../../../mixins";
-import { RzElement, Lifecycles, MetaProps } from "../../../models";
+import { RzElement, Lifecycles } from "../../../models";
 
 type Props = {
     value: any;
-    key: string;
     children: RzElement;
 };
 
 export class ContextProvider extends StatefulComponent<Props, any> implements Lifecycles {
 
-    constructor(props: Props, meta: MetaProps) {
-        if (meta.context.get(props.key)) {
-            console.warn(`Context already exists: "${props.key}"`);
-        }
-        super(props, meta);
-    }
-
     shouldUpdate(nextProps: Props) {
-        return nextProps.value !== this.props.value || nextProps.children !== this.props.children;
+        return true;
     }
 
     willReceiveProps(nextProps: Props) {
         if (nextProps.value !== this.props.value) {
-            this.meta.context.set(this.props.key, nextProps.value);
+            this.updateContext(nextProps.value);
         }
+    }
+
+    updateContext(value: any) {
+        this.meta.context.set(this.constructor, value);
     }
 
     render() {

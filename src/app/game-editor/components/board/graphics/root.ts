@@ -6,6 +6,7 @@ import {
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
 import { Slot, PathEntity, Stage, ImageAsset, Style, Source } from "@app/game-mechanics";
+import { MainContext } from "./context";
 
 export type Props = {
     slots: Array<Slot>;
@@ -35,7 +36,8 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         const { slots } = this.state;
         const { handleDragMove, handleDragEnd } = this;
         const background = images.find(img => img.id === stage.image);
-        return createElement<ScrollableProps>(Scrollable, {
+
+        return createElement<any>(MainContext.Provider, { value: slots }, createElement<ScrollableProps>(Scrollable, {
             width: 1100,
             height: 650,
             x: 10,
@@ -79,7 +81,8 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 selected: selectedSlot,
                 images, styles, sources,
                 onDragEnd: handleDragEnd,
-            }),
+            })
+        ),
         );
     }
 

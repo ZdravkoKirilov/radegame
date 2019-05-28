@@ -18,6 +18,9 @@ export class ContextManager {
 
     subscribe = (key: any, callback: Function) => {
         const self = this;
+        if (!this.handlers.get(key)) {
+            this.handlers.set(key, new Set());
+        }
         this.handlers.get(key).add(callback);
         callback(this.data.get(key));
 
