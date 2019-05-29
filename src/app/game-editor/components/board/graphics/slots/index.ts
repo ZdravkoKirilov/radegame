@@ -29,11 +29,8 @@ export const SlotsList: RenderFunction<Props> = ({ slots, images, sources = [], 
             selected: selected && selected.id === elem.id,
         });
     });
-    return createElement<any>(MainContext.Consumer, {
-        render: (slots: Slot[]) => {
-            return createElement('collection', { key }, items);
-        }
-    });
+
+    return createElement('collection', { key }, items);
 }
 
 export default SlotsList;

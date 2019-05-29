@@ -4,7 +4,7 @@ import { SpriteProps } from '../../primitives';
 import { WithAsset, WithAssetProps } from '../WithAsset';
 
 export const DynamicSprite: RenderFunction<SpriteProps> = props => {
-
+    console.log(props.image);
     return props.image ? createElement<WithAssetProps>(
         WithAsset, { url: props.image },
         createElement<SpriteProps>(

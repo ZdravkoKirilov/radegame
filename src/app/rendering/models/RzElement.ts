@@ -101,7 +101,7 @@ export const PRIMS = {
 export type PrimitiveType = keyof typeof PRIMS;
 
 export const isValidRzElement = (elem: any): elem is RzElement => {
-    return 'type' in elem && 'props' in elem && 'children' in elem;
+    return elem === null || ('type' in elem && 'props' in elem && 'children' in elem);
 }
 
 type EventHandler = (...args: any) => any;

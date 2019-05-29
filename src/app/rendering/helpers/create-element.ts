@@ -1,4 +1,4 @@
-import { RzElementProps, RzElementChild, RzElement, isValidRzElement, RzElementType } from "../models";
+import { RzElementProps, RzElementChild, RzElement, isValidRzElement, RzElementType, RenderFunction } from "../models";
 
 export const createElement = <T = {} & RzElementProps>(
     type: RzElementType<T>,
@@ -15,7 +15,7 @@ export const createElement = <T = {} & RzElementProps>(
         if (typeof elem === 'function') {
             const result = elem();
             if (isValidRzElement(result)) {
-                computedChildren[index] = result;
+                computedChildren[index] = elem;
                 return;
             }
             throw new Error('Invalid RzElement returned from a RenderFunction');

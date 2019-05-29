@@ -3,7 +3,7 @@ import { Lifecycles, RenderFunction, MetaProps } from "../../../models";
 import { ContextSubscription } from "../../../services";
 
 type Props = {
-    render: RenderFunction<any>;
+    
 };
 
 type State = {
@@ -18,18 +18,17 @@ export class ContextConsumer extends StatefulComponent<Props, State> implements 
 
     constructor(props: Props, meta: MetaProps) {
         super(props, meta);
-
         this.sub = this.meta.context.subscribe(this.key, value => {
             this.setState({ value });
         });
     }
 
     shouldUpdate(nextProps: Props, nextState: State) {
-        return nextState.value !== this.state.value || nextProps.render !== this.props.render;
+        return nextState.value !== this.state.value;
     }
 
     render() {
-        return this.props.render(this.state.value);
+        return this.props.children[0](this.state.value);
     }
 
     willUnmount() {

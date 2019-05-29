@@ -2,6 +2,7 @@ import { values } from 'lodash';
 import { RzElement, MetaProps, Component, PRIMS, RenderFunction, PrimitiveType } from "../models";
 import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent, FunctionalComponent } from "../mixins";
+import { ContextConsumer } from '../components/Context/Consumer';
 
 export const createComponent = (element: RzElement | RzElement[], factory: AbstractFactory, meta?: MetaProps, parent?: Component): Component | null => {
     let component: Component = null;

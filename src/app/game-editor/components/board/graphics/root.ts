@@ -1,10 +1,11 @@
 import {
     StatefulComponent, createElement, PrimitiveContainer,
-    Lifecycles, WithAsset, WithAssetProps, SpriteProps, Scrollable, ScrollableProps
+    Lifecycles, Scrollable, ScrollableProps
 } from "@app/rendering";
 
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
+import Background, { Props as BGProps } from './background';
 import { Slot, PathEntity, Stage, ImageAsset, Style, Source } from "@app/game-mechanics";
 import { MainContext } from "./context";
 
@@ -32,57 +33,45 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
     }
 
     render() {
-        const { paths, selectedPath, selectPath, selectedSlot, selectSlot, stage, images, styles, sources } = this.props;
+        const { paths, selectedPath, selectPath, selectedSlot,
+            selectSlot, stage, images, styles, sources } = this.props;
         const { slots } = this.state;
         const { handleDragMove, handleDragEnd } = this;
         const background = images.find(img => img.id === stage.image);
 
-        return createElement<any>(MainContext.Provider, { value: slots }, createElement<ScrollableProps>(Scrollable, {
-            width: 1100,
-            height: 650,
-            x: 10,
-            y: 10,
-            vertical: true,
-            horizontal: true,
-            borderSize: 1,
-            borderColor: 0x161616,
-            padding: '0 0'
-        },
+        return createElement<any>(MainContext.Provider, { value: { slots, paths, images, styles } },
+            createElement<ScrollableProps>(Scrollable, {
+                width: window.innerWidth - 200,
+                height: window.innerHeight,
+                x: 10,
+                y: 10,
+                vertical: true,
+                horizontal: true,
+                borderSize: 1,
+                borderColor: 0x161616,
+                padding: '0 0'
+            },
+                createElement<BGProps>(Background, {
+                    background, stage,
+                    selectSlot: this.props.selectSlot,
+                    selectPath: this.props.selectPath,
+                }),
 
-            createElement('container', null,
-                createElement<WithAssetProps>(WithAsset, { url: background.image },
-                    createElement('container', {
-                        onClick: () => {
-                            this.props.selectSlot(null);
-                            this.props.selectPath(null);
-                        },
-                    },
-                        createElement<SpriteProps>('sprite', {
-                            image: background.image,
-                            styles: {
-                                x: 0,
-                                y: 0,
-                                width: stage.width,
-                                height: stage.height,
-                            },
-                        }))
-                ),
+                createElement<PathProps>(Paths, {
+                    paths, slots, styles,
+                    selectPath,
+                    selected: selectedPath,
+                }),
+
+                createElement<SlotProps>(Slots, {
+                    slots: slots.filter(slot => slot.owner === stage.id),
+                    onDragMove: handleDragMove,
+                    selectSlot,
+                    selected: selectedSlot,
+                    images, styles, sources,
+                    onDragEnd: handleDragEnd,
+                })
             ),
-
-            createElement<PathProps>(Paths, {
-                paths, slots, styles,
-                selectPath,
-                selected: selectedPath,
-            }),
-
-            createElement<SlotProps>(Slots, {
-                slots, onDragMove: handleDragMove,
-                selectSlot,
-                selected: selectedSlot,
-                images, styles, sources,
-                onDragEnd: handleDragEnd,
-            })
-        ),
         );
     }
 

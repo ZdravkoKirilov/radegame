@@ -1,6 +1,8 @@
-import { createElement, PrimitiveContainer, Points, RenderFunction, DynamicSprite } from "@app/rendering";
+import { createElement, PrimitiveContainer, Points, RenderFunction } from "@app/rendering";
 import { Slot, Style } from "@app/game-mechanics";
-import { composePoints } from "@app/rendering";
+import EmptySlot, { Props as EmptySlotProps } from './empty-slot';
+import EmbeddedStage, { Props as EmbeddedProps } from './embedded-stage';
+import { MainContext } from "../../context";
 
 export type Props = {
     data: Slot;
@@ -14,45 +16,21 @@ export type Props = {
 
 export const Node: RenderFunction<Props> = (props) => {
     const { data, style, onDragMove, onDragEnd, onSelect, selected, image } = props;
-    return (
-        createElement('container', {
-            styles: { x: data.x, y: data.y },
-            id: data.id, draggable: { xAxis: true, yAxis: true }, onDragMove, onDragEnd,
-            onPointerDown: () => onSelect(data),
+    const emptySlot = !data.board && !data.field && !data.draw;
+    const embeddedStage = !!data.board;
 
-        },
-            createElement('rectangle', {
-                button: true,
-                points: composePoints(style.points),
-                styles: {
-                    strokeThickness: selected ? 5 : style.strokeThickness,
-                    strokeColor: style.strokeColor,
-                    x: 0,
-                    y: 0,
-                    width: style.width + 10,
-                    height: style.height + 35,
-                    borderRadius: 5,
-                    radius: style.width
-                }
-            }),
-            image ? createElement(DynamicSprite, {
-                image: image, styles: {
-                    x: 5,
-                    y: 5,
-                    width: style.width,
-                    height: style.height,
-                }
-            }) : null,
-            createElement('text', {
-                value: data.name, styles: {
-                    x: 0,
-                    y: -25,
-                }, textStyle: {
-                    fontSize: 18,
-                    stroke: '#141619',
-                    fill: '#141619'
-                }
-            }),
+    return (
+        createElement(MainContext.Consumer, {},
+            (whaat: any) => createElement(
+                'container',
+                {
+                    styles: { x: data.x, y: data.y },
+                    id: data.id, draggable: { xAxis: true, yAxis: true }, onDragMove, onDragEnd,
+                    onPointerDown: () => onSelect(data),
+                },
+                embeddedStage ? createElement<EmbeddedProps>(EmbeddedStage, { style, selected, image, data }) : null,
+                emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, selected, image, data }) : null,
+            )
         )
     );
 };

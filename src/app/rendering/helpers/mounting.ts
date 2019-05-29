@@ -17,7 +17,7 @@ export const mountComponent = (component: Component, container: AbstractContaine
     if (component instanceof BasicComponent) {
         mountPrimitiveComponent(component, container);
     }
-
+    (component as any).__mounted = true;
     component.update();
 };
 
@@ -27,7 +27,6 @@ const mountStatefulComponent = (component: StatefulComponent<any, any>, containe
     if ('willMount' in component) {
         (component as any).willMount.call(component);
     }
-
     component.children.forEach(child => mountComponent(child, container));
 
     if ('didMount' in component) {

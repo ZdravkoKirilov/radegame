@@ -10,7 +10,7 @@ import { mountComponent } from "./mounting";
 import { AbstractContainer } from "../interfaces";
 
 export const updateComposite = (element: RzElement | RzElement[], component: CompositeComponent) => {
-    const current = component.children[0];
+    const current = (component.children || [])[0];
     const incoming = Array.isArray(element) ? element[0] : element;
 
     if (current && incoming) {
@@ -32,7 +32,9 @@ export const updateComposite = (element: RzElement | RzElement[], component: Com
 
     if (!current && incoming) {
         component.children = [createComponent(element, component.meta.engine.factory, component.meta, component)];
-        mountComponent(component.children[0], component.container);
+        setTimeout(() => {
+            mountComponent(component.children[0], component.container);
+        }, 0);
     }
 };
 
