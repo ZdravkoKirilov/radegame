@@ -13,6 +13,10 @@ export const updateComposite = (element: RzElement | RzElement[], component: Com
     const current = (component.children || [])[0];
     const incoming = Array.isArray(element) ? element[0] : element;
 
+    if (!component.__mounted) {
+        return;
+    }
+
     if (current && incoming) {
 
         const sameType = current.type === incoming.type;
@@ -32,9 +36,7 @@ export const updateComposite = (element: RzElement | RzElement[], component: Com
 
     if (!current && incoming) {
         component.children = [createComponent(element, component.meta.engine.factory, component.meta, component)];
-        setTimeout(() => {
-            mountComponent(component.children[0], component.container);
-        }, 0);
+        mountComponent(component.children[0], component.container);
     }
 };
 

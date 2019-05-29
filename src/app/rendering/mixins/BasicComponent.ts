@@ -10,6 +10,7 @@ export class BasicComponent<T extends object = RzElementProps> {
     container: AbstractContainer;
     parent: Component;
     children: Array<Component | null>;
+    __mounted: boolean;
 
     constructor(props: T, graphic: any, meta: MetaProps) {
         this.graphic = graphic;

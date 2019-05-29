@@ -15,10 +15,6 @@ export const createComponent = (element: RzElement | RzElement[], factory: Abstr
         return null;
     }
 
-    if (!element.props) {
-        debugger;
-    }
-
     element.props.children = element.children; // ?
 
     if (typeof element.type === 'string') {

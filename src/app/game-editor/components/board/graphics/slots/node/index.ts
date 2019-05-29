@@ -21,7 +21,7 @@ export const Node: RenderFunction<Props> = (props) => {
 
     return (
         createElement(MainContext.Consumer, {},
-            (whaat: any) => createElement(
+            (ctx: any) => createElement(
                 'container',
                 {
                     styles: { x: data.x, y: data.y },
@@ -29,7 +29,7 @@ export const Node: RenderFunction<Props> = (props) => {
                     onPointerDown: () => onSelect(data),
                 },
                 embeddedStage ? createElement<EmbeddedProps>(EmbeddedStage, { style, selected, image, data }) : null,
-                emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, selected, image, data }) : null,
+                emptySlot ? createElement<EmptySlotProps>(EmptySlot, { id: 55, style, selected, image, data }) : null,
             )
         )
     );

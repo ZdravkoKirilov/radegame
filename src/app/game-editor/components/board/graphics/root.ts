@@ -38,7 +38,6 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
         const { slots } = this.state;
         const { handleDragMove, handleDragEnd } = this;
         const background = images.find(img => img.id === stage.image);
-
         return createElement<any>(MainContext.Provider, { value: { slots, paths, images, styles } },
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
@@ -52,14 +51,11 @@ export class RootComponent extends StatefulComponent<Props, State> implements Li
                 padding: '0 0'
             },
                 createElement<BGProps>(Background, {
-                    background, stage,
-                    selectSlot: this.props.selectSlot,
-                    selectPath: this.props.selectPath,
+                    background, stage, selectSlot, selectPath,
                 }),
 
                 createElement<PathProps>(Paths, {
-                    paths, slots, styles,
-                    selectPath,
+                    paths, slots, styles, selectPath,
                     selected: selectedPath,
                 }),
 
