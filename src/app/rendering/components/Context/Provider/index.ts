@@ -9,7 +9,7 @@ type Props = {
 export class ContextProvider extends StatefulComponent<Props, any> implements Lifecycles {
 
     shouldUpdate(nextProps: Props) {
-        return true;
+        return nextProps.value !== this.props.value;
     }
 
     willReceiveProps(nextProps: Props) {
