@@ -1,6 +1,6 @@
 import { Tween } from "@tweenjs/tween.js";
 
-import { Component, RzStyles, DidUpdatePayload } from "../models";
+import { ClassComponent, RzStyles, DidUpdatePayload } from "../models";
 import { parseValue, shouldTransition, extractTransitionValues } from "./helpers";
 
 export const createOrchestrator = (type: 'parallel' | 'exclusive', groups: AnimationGroup[]) => {
@@ -99,23 +99,23 @@ export class AnimationGroup {
 
 export class AnimationBase<T = Partial<RzStyles>> {
 
-    private components: Set<Component> = new Set();
+    private components: Set<ClassComponent> = new Set();
     private active: Array<{
         tween: Tween;
-        component: Component;
+        component: ClassComponent;
     }> = [];
 
     constructor(private config: AnimationConfig) { }
 
-    addComponent(component: Component) {
+    addComponent(component: ClassComponent) {
         this.components.add(component);
     }
 
-    removeComponent(component: Component) {
+    removeComponent(component: ClassComponent) {
         this.components.delete(component);
     }
 
-    isAnimating(component: Component) {
+    isAnimating(component: ClassComponent) {
         return this.active.some(elem => elem.component === component);
     }
 
@@ -127,7 +127,7 @@ export class AnimationBase<T = Partial<RzStyles>> {
         }
     }
 
-    playStagger(components: Component[]) {
+    playStagger(components: ClassComponent[]) {
         let delay = 0;
         const promises = components.map(comp => {
             const promise = this.play(comp, delay);
@@ -138,7 +138,7 @@ export class AnimationBase<T = Partial<RzStyles>> {
         return Promise.all(promises);
     }
 
-    play(target: Component, enforcedDelay = 0, data?: any[]) {
+    play(target: ClassComponent, enforcedDelay = 0, data?: any[]) {
         let { expected, initial, timing, easing,
             repeat = 0, delay = 0, yoyo = false,
             dynamic = false, dynamicProp = '' } = this.config;
@@ -172,7 +172,7 @@ export class AnimationBase<T = Partial<RzStyles>> {
         });
     }
 
-    parseValues(from: Partial<RzStyles>, comp: Component) {
+    parseValues(from: Partial<RzStyles>, comp: ClassComponent) {
         const transformed = Object.keys(from).reduce((acc, key) => {
             const value = parseValue(from[key], key, comp);
             acc[key] = value;
@@ -183,10 +183,10 @@ export class AnimationBase<T = Partial<RzStyles>> {
         return transformed;
     }
 
-    update(target: Component, data: T) {
+    update(target: ClassComponent, data: T) {
         const keys = Object.keys(data);
         keys.forEach(key => {
-            target.setProps({
+            (target as any).updateProps({
                 styles: {
                     ...target.props.styles,
                     [key]: data[key]

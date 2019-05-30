@@ -1,5 +1,5 @@
-import { StatefulComponent } from "../../../mixins";
-import { Lifecycles, RenderFunction, MetaProps } from "../../../models";
+import { StatefulComponent } from "../../../bases";
+import { MetaProps } from "../../../models";
 import { ContextSubscription } from "../../../services";
 
 type Props = {
@@ -10,7 +10,7 @@ type State = {
     value?: any;
 }
 
-export class ContextConsumer extends StatefulComponent<Props, State> implements Lifecycles {
+export class ContextConsumer extends StatefulComponent<Props, State> {
 
     sub: ContextSubscription;
     state: State = {};

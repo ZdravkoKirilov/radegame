@@ -1,4 +1,4 @@
-import { StatefulComponent } from "../../mixins";
+import { StatefulComponent } from "../../bases";
 import { createElement } from "../../helpers";
 
 export type ScrollableProps = Partial<{

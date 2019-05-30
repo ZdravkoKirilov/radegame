@@ -7,7 +7,7 @@ export class PrimitiveContainer extends BasicComponent<RzElementProps> {
         super(props, graphic, meta);
     }
 
-    shouldUpdate(nextProps: RzElementProps) {
+    shouldRerender(nextProps: RzElementProps) {
         return nextProps.styles !== this.props.styles || nextProps.children !== this.props.children;
     }
 

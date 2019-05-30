@@ -1,12 +1,12 @@
-import { StatefulComponent } from "../../../mixins";
-import { RzElement, Lifecycles } from "../../../models";
+import { StatefulComponent } from "../../../bases";
+import { RzElement } from "../../../models";
 
 type Props = {
     value: any;
     children: RzElement;
 };
 
-export class ContextProvider extends StatefulComponent<Props, any> implements Lifecycles {
+export class ContextProvider extends StatefulComponent<Props, any> {
 
     shouldUpdate(nextProps: Props) {
         return nextProps.value !== this.props.value;

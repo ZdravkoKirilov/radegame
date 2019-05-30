@@ -1,11 +1,12 @@
 import { BasicComponent } from "./BasicComponent";
 import { RzElementProps, RzElement, MetaProps, DidUpdatePayload } from "../models";
 import { AnimationOrchestrator } from "../animations";
+import { updateComposite } from "../helpers";
 
-export abstract class StatefulComponent<P extends RzElementProps = {}, S = {}> extends BasicComponent<P> {
-    static stateful = true;
+export abstract class StatefulComponent<P = {}, S = {}> extends BasicComponent<P> {
+    stateful = true;
     state: S;
-    props: P;
+    props: P & Partial<RzElementProps>;
 
     get animations(): AnimationOrchestrator[] { return (this.type as any).animations || []; }
 
@@ -16,13 +17,12 @@ export abstract class StatefulComponent<P extends RzElementProps = {}, S = {}> e
     setState(state: Partial<S>) {
         const current = this.state as any || {} as any;
         const next = { ...current, ...(state as any) || {} } as S;
-        if (this.shouldUpdate(this.props, next)) {
+        if (this.shouldRerender(this.props, next)) {
             this.state = next as S;
-
+            updateComposite(this.render(), this);
             if ('didUpdate' in this) {
                 this.didUpdate({ state: { prev: current, next } });
             }
-            this.meta.engine.mutator.updateComponent(this);
         } else {
             this.state = next as S;
         }
@@ -30,9 +30,9 @@ export abstract class StatefulComponent<P extends RzElementProps = {}, S = {}> e
 
     updateProps(props: Partial<P>) {
         const current = this.props || {} as P;
-        const next = { ...current, ...props } as P;
+        const next = { ...(current as any), ...(props as any) } as P;
 
-        if (this.shouldUpdate(next, this.state)) {
+        if (this.shouldRerender(next, this.state)) {
             if ('willReceiveProps' in this) {
                 this.willReceiveProps(next);
             }
@@ -45,15 +45,15 @@ export abstract class StatefulComponent<P extends RzElementProps = {}, S = {}> e
         }
     }
 
-    shouldUpdate(nextProps: P, nextState: S) {
+    shouldRerender(nextProps: P, nextState: S) {
         return nextProps !== this.props || nextState !== this.state;
     }
 
     abstract render(): RzElement;
 
-    willReceiveProps?: (nextProps: P) => void;
-    willMount?: () => void;
-    didMount?: () => void;
-    willUnmount?: () => void;
-    didUpdate?: (payload: DidUpdatePayload<P, S>) => void;
+    willReceiveProps?(nextProps: P): void;
+    willMount?(): void;
+    didMount?(): void;
+    willUnmount?(): void;
+    didUpdate?(payload: DidUpdatePayload<P, S>): void;
 }

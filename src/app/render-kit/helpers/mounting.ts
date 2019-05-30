@@ -2,6 +2,7 @@ import { CompositeComponent, Component } from "../models";
 import { AbstractContainer } from "../interfaces";
 import { StatefulComponent, BasicComponent } from "../bases";
 import { PRIMS } from "../primitives";
+import { RenderFunction } from "../models/Component";
 
 export const mountComponent = (component: Component, container: AbstractContainer): Component => {
     if (!component) {
@@ -16,7 +17,7 @@ export const mountComponent = (component: Component, container: AbstractContaine
     return mountFunctionalComponent(component, container);
 };
 
-const mountStatefulComponent = (component: Component, container: AbstractContainer) => {
+const mountStatefulComponent = (component: StatefulComponent, container: AbstractContainer) => {
     component.container = container;
 
     if ('willMount' in component) {
@@ -38,20 +39,19 @@ const mountStatefulComponent = (component: Component, container: AbstractContain
     return component;
 };
 
-const mountFunctionalComponent = (node: TrackNode, container: AbstractContainer) => {
-    node.container = container;
-    node.children = node.children.map(child => mountComponent(child, container));
-    return node;
+const mountFunctionalComponent = (component: RenderFunction, container: AbstractContainer) => {
+    component.container = container;
+    component.children = component.children.map(child => mountComponent(child, container));
+    return component;
 };
 
-const mountPrimitiveComponent = (node: TrackNode, container: AbstractContainer) => {
-    const component = node.component as BasicComponent;
-    node.container = container;
+const mountPrimitiveComponent = (component: BasicComponent, container: AbstractContainer) => {
+    component.container = container;
     switch (component.type) {
         case PRIMS.container:
         case PRIMS.collection:
             container.addChild(component.graphic);
-            node.children = node.children.map(child => mountComponent(child, component.graphic));
+            component.children = component.children.map(child => mountComponent(child, component.graphic));
             break;
         case PRIMS.rectangle:
         case PRIMS.circle:
@@ -59,20 +59,20 @@ const mountPrimitiveComponent = (node: TrackNode, container: AbstractContainer) 
         case PRIMS.polygon:
         case PRIMS.sprite:
             container.addChild(component.graphic);
-            node.children = node.children.map(child => mountComponent(child, container));
+            component.children = component.children.map(child => mountComponent(child, container));
             break;
         case PRIMS.text:
         case PRIMS.line:
             container.addChild(component.graphic);
             break;
         case PRIMS.fragment:
-            node.children = node.children.map(child => mountComponent(child, container));
+            component.children = component.children.map(child => mountComponent(child, container));
             break;
         default:
             break;
     }
 
-    return node;
+    return component;
 };
 
 export const unmountComposite = async (component: CompositeComponent) => {

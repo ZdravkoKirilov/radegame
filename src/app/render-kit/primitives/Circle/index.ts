@@ -10,7 +10,7 @@ export class PrimitiveCircle extends BasicComponent<CircleProps> {
         super(props, graphic, meta);
     }
 
-    shouldUpdate(nextProps: CircleProps) {
+    shouldRerender(nextProps: CircleProps) {
         return nextProps.styles !== this.props.styles;
     }
 }

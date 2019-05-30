@@ -1,10 +1,10 @@
 import { AbstractRenderEngine } from "../interfaces";
-import { ComponentConstructor } from "./Component";
+import { ComponentConstructor, RenderFunction } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 import { AnimationBase } from "../animations";
 import { PRIMS } from "../primitives";
 
-export type RzElement<T = any> = {
+export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
     props: RzElementProps & T,
     children: RzElement[];
@@ -49,8 +49,6 @@ export type ScrollableConfig = Partial<{
     maxY: string;
     minY: string;
 }>;
-
-export type RenderFunction<T extends RzElementProps = {}> = (props?: T) => RzElement;
 
 export type RzElementType<T extends RzElementProps = {}> = PrimitiveType | ComponentConstructor<T> | RenderFunction;
 

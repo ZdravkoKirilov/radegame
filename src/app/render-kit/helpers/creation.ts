@@ -50,6 +50,7 @@ export const createComponent = (
         const children = [createComponent(asFunc(element.props), factory, meta)];
         component.props = element.props;
         component.children = children;
+        component.type = asFunc;
         return component;
     }
 

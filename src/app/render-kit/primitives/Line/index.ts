@@ -11,7 +11,7 @@ export class PrimitiveLine extends BasicComponent<LineProps> {
         super(props, graphic, meta);
     }
 
-    shouldUpdate(nextProps) {
+    shouldRerender(nextProps) {
         return nextProps.styles !== this.props.styles || nextProps.points !== this.props.points;
     }
 }

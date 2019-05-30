@@ -1,5 +1,5 @@
 import { RzElementProps, MetaProps, RzElementType, Component, } from "../models";
-import { AbstractContainer } from "@app/rendering";
+import { AbstractContainer } from "../interfaces";
 
 export abstract class BasicComponent<T extends RzElementProps = {}> {
     static defaultProps = {};
@@ -7,8 +7,8 @@ export abstract class BasicComponent<T extends RzElementProps = {}> {
     container: AbstractContainer;
     children: Component[];
 
-    constructor(public props: T, public graphic: any, public meta: MetaProps) {
-        this.props = { ...BasicComponent.defaultProps, ...props };
+    constructor(public props: T & Partial<RzElementProps>, public graphic: any, public meta: MetaProps) {
+        this.props = { ...BasicComponent.defaultProps, ...(props as any) };
         this.meta.engine.enhancer.assignEnhancers(this);
         this.meta.engine.event.assignEvents(this);
     }
@@ -17,14 +17,14 @@ export abstract class BasicComponent<T extends RzElementProps = {}> {
         return null;
     };
 
-    updateProps(newProps: T | any) {
+    updateProps(newProps: T & RzElementProps) {
         const current = this.props || {};
-        const next = { ...current, ...newProps } as T;
+        const next = { ...current, ...(newProps as any) } as T;
         this.props = next;
     }
 
-    shouldUpdate(nextProps: T, nextState?: any): boolean;
-    shouldUpdate(nextProps: T): boolean {
+    shouldRerender(nextProps: T, nextState?: any): boolean;
+    shouldRerender(nextProps: T): boolean {
         return nextProps !== this.props;
     }
 }

@@ -1,11 +1,12 @@
 import { BasicComponent, StatefulComponent } from "../bases";
-import { RzElementProps } from "./RzElement";
+import { RzElementProps, MetaProps, RzElement } from "./RzElement";
 import { AbstractContainer } from "../interfaces";
-import { RzElement } from "@app/rendering";
 
 export type CompositeComponent = StatefulComponent | RenderFunction;
 
-export type Component = BasicComponent | StatefulComponent | RenderFunction;
+export type Component<T extends RzElementProps = {}> = BasicComponent<T> | StatefulComponent<T> | RenderFunction<T>;
+
+export type ClassComponent<T extends RzElementProps = {}> = BasicComponent<T> | StatefulComponent<T>;
 
 export type DidUpdatePayload<T = any, S = any> = {
     props?: {
@@ -26,8 +27,10 @@ export type ShouldUpdateCheck<T extends RzElementProps = {}> = (prevProps: T, ne
 
 type Render<T> = (props?: T) => RzElement;
 
-export type RenderFunction<T extends RzElementProps = {}> = Render<T> & {
+export type RenderFunction<T = {}> = Render<T & RzElementProps> & Partial<{
     container: AbstractContainer;
     children: any[];
-    props: T;
-}
+    props: T & RzElementProps;
+    meta: MetaProps;
+    type: RenderFunction<T>;
+}>

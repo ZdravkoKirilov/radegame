@@ -10,7 +10,7 @@ export class PrimitiveRectangle extends BasicComponent<RecProps> {
         super(props, graphic, meta);
     }
 
-    shouldUpdate(nextProps: RecProps) {
+    shouldRerender(nextProps: RecProps) {
         return nextProps.styles !== this.props.styles;
     }
 }

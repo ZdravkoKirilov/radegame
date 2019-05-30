@@ -1,5 +1,5 @@
-import { Lifecycles, RzElement } from "../../models";
-import { StatefulComponent } from "../../mixins";
+import { RzElement } from "../../models";
+import { StatefulComponent } from "../../bases";
 import { AssetManagerSubscription } from "../../services";
 
 export type WithAssetProps = {
@@ -10,7 +10,7 @@ type State = {
     canLoad: boolean;
 }
 
-export class WithAsset extends StatefulComponent<WithAssetProps, State> implements Lifecycles<WithAssetProps> {
+export class WithAsset extends StatefulComponent<WithAssetProps, State> {
     state: State = { canLoad: true };
 
     sub: AssetManagerSubscription;

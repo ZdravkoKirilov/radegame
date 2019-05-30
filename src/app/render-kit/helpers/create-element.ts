@@ -1,8 +1,8 @@
 import { RzElementProps, RzElementChild, RzElement, isValidRzElement, RzElementType, RenderFunction } from "../models";
 
-export const createElement = <T = {} & RzElementProps>(
+export const createElement = <T = {} & Partial<RzElementProps>>(
     type: RzElementType<T>,
-    props: T & {} & Partial<RzElementProps>,
+    props: T,
     ...children: RzElementChild[]
 ): RzElement | null => {
     children = children || [];
@@ -14,7 +14,7 @@ export const createElement = <T = {} & RzElementProps>(
 
     children.forEach((elem, index) => {
         if (Array.isArray(elem)) {
-            elem.forEach((child: any) => computedChildren.push(child));
+            (elem as any).forEach((child: any) => computedChildren.push(child));
             return;
         }
         computedChildren[index] = elem;

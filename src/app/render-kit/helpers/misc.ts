@@ -1,7 +1,8 @@
 import { chunk, values } from 'lodash';
-import { Points, Component } from '../models';
+import { Points, Component, RenderFunction, CompositeComponent } from '../models';
 import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
+import { StatefulComponent, BasicComponent } from '../bases';
 
 export const composePoints = (source: string): Points => {
     if (source) {
@@ -24,3 +25,11 @@ export const getRealType = (factory: AbstractFactory, type: string) => {
     );
     return realType as Component;
 }
+
+export const isComposite = (component: Component): component is CompositeComponent => {
+    return typeof component.type !== 'string';
+};
+
+export const isFunctional = (component: Component): component is RenderFunction => isComposite(component) && !(component instanceof StatefulComponent);
+
+export const isPrimitive = (component: Component): component is BasicComponent => !isComposite(component);

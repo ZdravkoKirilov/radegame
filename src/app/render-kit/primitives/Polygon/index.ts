@@ -10,7 +10,7 @@ export class PrimitivePolygon extends BasicComponent<Props> {
         super(props, graphic, meta);
     }
 
-    shouldUpdate(nextProps: Props) {
+    shouldRerender(nextProps: Props) {
         return nextProps.styles !== this.props.styles || nextProps.points !== this.props.points;
     }
 }

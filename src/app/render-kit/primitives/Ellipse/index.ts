@@ -10,7 +10,7 @@ export class PrimitiveEllipse extends BasicComponent<EllipseProps> {
         super(props, graphic, meta);
     }
 
-    shouldUpdate(nextProps: EllipseProps) {
+    shouldRerender(nextProps: EllipseProps) {
         return nextProps.styles !== this.props.styles;
     }
 }
