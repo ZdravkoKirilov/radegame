@@ -13,7 +13,6 @@ import { setProp, getValue } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
     updateComponent(component: Component) {
-        console.debug('Update cycle triggered for: ', component);
         if (isComposite(component)) {
             const newProps = component.render();
             updateComposite(newProps, component);
