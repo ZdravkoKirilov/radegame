@@ -33,7 +33,7 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
 
         return createElement(
             'container',
-            { styles: { x, y, mask: [x, y, width, height] } },
+            { styles: { x, y, mask: [x, y, width, height] }, name: 'OuterScroller' },
             createElement('rectangle', {
                 styles: {
                     width, height, x: 0, y: 0,
@@ -53,7 +53,8 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
                         minX: `width * -1`,
                         maxX: `0`,
                     },
-                    onScroll: this.onChildScroll
+                    onScroll: this.onChildScroll,
+                    name: 'InnerScroller'
                 },
                 children,
             )

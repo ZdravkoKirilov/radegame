@@ -45,7 +45,7 @@ export const PathsList = Memo<Props>(
 
         }) : [];
 
-        return createElement('collection', { key: props.key }, lines);
+        return createElement('collection', { key: props.key, name: 'paths' }, lines);
     },
     ['paths', 'slots', 'selected']
 );

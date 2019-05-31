@@ -6,9 +6,7 @@ import { RenderFunction } from "../models/Component";
 import { isStateful, isPrimitive, isFunctional } from "./misc";
 
 export const unmountComponent = (component: Component) => {
-    console.warn('unmount component: ');
-    console.dir(component);
-
+    console.debug('unmount component: ', component);
     if (isStateful(component)) {
         unmountStatefulComponent(component);
     }
@@ -37,11 +35,14 @@ export const mountComponent = (component: Component, container: AbstractContaine
         return;
     }
     if (isStateful(component)) {
+        (component as any).__mounted__ = true;
         return mountStatefulComponent(component, container);
     }
     if (isPrimitive(component)) {
+        (component as any).__mounted__ = true;
         return mountPrimitiveComponent(component, container);
     }
+    (component as any).__mounted__ = true;
     return mountFunctionalComponent(component, container);
 };
 
@@ -104,7 +105,6 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
 };
 
 export const unmountComposite = async (component: CompositeComponent) => {
-
     if (component instanceof StatefulComponent) {
         // const leaveAnimations: AnimationGroup[] = [];
         // await Promise.all(leaveAnimations.map(animation => animation.playAll()));

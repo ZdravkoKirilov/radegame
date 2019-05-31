@@ -10,8 +10,8 @@ export type Props = {
 
 const StageBackground = Memo<Props>(
     ({ background, stage, selectSlot, selectPath }) => {
-        return createElement('container', null,
-            createElement<WithAssetProps>(WithAsset, { url: background.image },
+        return createElement('container', { name: 'background' },
+            createElement<WithAssetProps>(WithAsset, { url: background.image, key: 'gosho' },
                 createElement('container', {
                     onClick: () => {
                         selectSlot(null);

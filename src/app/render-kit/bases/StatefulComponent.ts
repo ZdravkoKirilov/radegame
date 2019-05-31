@@ -4,7 +4,7 @@ import { updateComposite } from "../helpers";
 import { AbstractContainer } from "../interfaces";
 
 export class StatefulComponent<P = {}, S = {}> {
-    static defaultProps = {};
+    static defaultProps: Partial<RzElementProps>;
     meta: MetaProps;
     static stateful = true;
     state: S;
@@ -16,7 +16,7 @@ export class StatefulComponent<P = {}, S = {}> {
     get animations(): AnimationOrchestrator[] { return (this.type as any).animations || []; }
 
     constructor(props: P, meta: MetaProps) {
-        this.props = props;
+        this.props = { ...((this.constructor as any).defaultProps || {}) as any, ...props as any };
         this.meta = meta;
     }
 

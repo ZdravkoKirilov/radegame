@@ -19,7 +19,6 @@ export const Node = Memo<Props>(
         const { data, style, onDragMove, onDragEnd, onSelect, selected, image } = props;
         const emptySlot = !data.board && !data.field && !data.draw;
         const embeddedStage = !!data.board;
-
         return (
             createElement(MainContext.Consumer, {},
                 (ctx: any) => createElement(
@@ -28,6 +27,7 @@ export const Node = Memo<Props>(
                         styles: { x: data.x, y: data.y },
                         id: data.id, draggable: { xAxis: true, yAxis: true }, onDragMove, onDragEnd,
                         onPointerDown: () => onSelect(data),
+                        name: `node_${data.id}`
                     },
                     embeddedStage ? createElement<EmbeddedProps>(EmbeddedStage, { style, selected, image, data }) : null,
                     emptySlot ? createElement<EmptySlotProps>(EmptySlot, { id: 55, style, selected, image, data }) : null,

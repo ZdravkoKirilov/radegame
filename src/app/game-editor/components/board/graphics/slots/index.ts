@@ -30,7 +30,7 @@ export const SlotsList = Memo<Props>(
             });
         });
 
-        return createElement('collection', { key }, items);
+        return createElement('collection', { key, name: 'slots' }, items);
     },
     ['slots', 'selected']
 )

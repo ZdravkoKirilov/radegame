@@ -7,24 +7,27 @@ import {
 } from "../primitives";
 import { mountComponent, unmountComponent } from "./mounting";
 import { isFunctional, isPrimitive, isStateful, isMemo } from "./misc";
+import { AbstractContainer } from "../interfaces";
 
 export const updateComposite = (element: RzElement, component: CompositeComponent) => {
     const currentChild: Component = (component.children || [])[0];
     const incomingChild = Array.isArray(element) ? element[0] : element;
-    component.children = reconcileChildSlot(currentChild, incomingChild, component);
+    component.children = reconcileChildSlot(currentChild, incomingChild, component, component.container);
 };
 
-export const reconcileChildSlot = (currentChild: Component, incomingChild: RzElement, component: Component) => {
-    let newChildren = [];
+export const reconcileChildSlot = (currentChild: Component, incomingChild: RzElement, component: Component, container: AbstractContainer) => {
+    let newChildren = [null];
 
     if (currentChild && incomingChild) {
 
         const sameType = currentChild.type === incomingChild.type;
         if (sameType) {
             updateChild(currentChild, incomingChild);
+            newChildren = [currentChild];
         } else {
-            newChildren = [createComponent(incomingChild, component.meta.engine.factory, component.meta)];
-            mountComponent(component.children[0], component.container);
+            const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
+            newChildren = [newInstance];
+            mountComponent(newInstance, container);
             unmountComponent(currentChild);
         }
     }
@@ -37,7 +40,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
     if (!currentChild && incomingChild) {
         const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
         newChildren = [newInstance];
-        mountComponent(newInstance, component.container);
+        mountComponent(newInstance, container);
     }
     return newChildren;
 }
@@ -83,12 +86,12 @@ export const updateContainer = (newProps: RzElementProps, component: PrimitiveCo
     if (Array.isArray(newPropsChildren)) {
         newChildren = newPropsChildren.reduce((acc, item, index) => {
             const existing = current[index];
-            acc = [...acc, ...reconcileChildSlot(existing, item, component)];
+            acc = [...acc, ...reconcileChildSlot(existing, item, component, component.graphic || component.container)];
             return acc;
         }, []);
     } else {
         const existing = current[0];
-        newChildren = [reconcileChildSlot(existing, newPropsChildren, component)];
+        newChildren = reconcileChildSlot(existing, newPropsChildren, component, component.graphic || component.container);
     }
 
     component.children = newChildren;

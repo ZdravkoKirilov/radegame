@@ -1,5 +1,5 @@
 import {
-    AbstractMutator, Component, isComposite,
+    AbstractMutator, isComposite,
     RzElementProps, PRIMS, Points,
     updateCollection, updateContainer, unmountComposite, BasicComponent,
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
@@ -7,8 +7,7 @@ import {
     LineProps,
     unmountComponent,
 } from "@app/render-kit";
-import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, DisplayObject } from "pixi.js";
-import { DropShadowFilter } from 'pixi-filters';
+import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse } from "pixi.js";
 import { setProp, getValue } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
@@ -17,11 +16,7 @@ export class PixiMutator implements AbstractMutator {
     }
 
     removeComponent(component: BasicComponent) {
-        if (isComposite(component)) {
-            unmountComposite(component);
-        } else {
-            unmountPrimitive(component);
-        }
+        unmountPrimitive(component);
     }
 
     getProp(component: BasicComponent, prop: string) {
@@ -32,7 +27,6 @@ export class PixiMutator implements AbstractMutator {
 
 const unmountPrimitive = (component: BasicComponent) => {
     const { type } = component;
-
     switch (type) {
         case PRIMS.fragment:
             unmountChildren(component);

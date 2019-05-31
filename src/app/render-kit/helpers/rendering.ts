@@ -16,7 +16,6 @@ export const createRenderer = (engine: AbstractRenderEngine, resources: Set<stri
             const node = createComponent(elem, engine.factory, meta);
             mountComponent(node, container);
             resolve(node);
-
         });
     }
     return renderFunc;
