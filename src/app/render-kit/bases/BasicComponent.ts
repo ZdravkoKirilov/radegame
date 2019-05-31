@@ -1,7 +1,7 @@
 import { RzElementProps, MetaProps, RzElementType, Component, } from "../models";
 import { AbstractContainer } from "../interfaces";
 
-export abstract class BasicComponent<T extends RzElementProps = {}> {
+export class BasicComponent<T extends RzElementProps = {}> {
     static defaultProps = {};
     type: RzElementType;
     container: AbstractContainer;
@@ -23,7 +23,14 @@ export abstract class BasicComponent<T extends RzElementProps = {}> {
         this.props = next;
     }
 
-    shouldRerender(nextProps: T, nextState?: any): boolean;
+    update() {
+        this.meta.engine.mutator.updateComponent(this);
+    }
+
+    remove() {
+        this.meta.engine.mutator.removeComponent(this);
+    }
+
     shouldRerender(nextProps: T): boolean {
         return nextProps !== this.props;
     }

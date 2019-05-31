@@ -5,14 +5,17 @@ import { toDictionary } from "@app/shared";
 import {
     PrimitiveContainer, PrimitiveCollection,
 } from "../primitives";
-import { mountComponent } from "./mounting";
-import { AbstractContainer } from "../interfaces";
-import { isComposite, isFunctional, isPrimitive } from "./misc";
-import { BasicComponent, MemoRenderFunction, StatefulComponent } from "../bases";
+import { mountComponent, unmountComponent } from "./mounting";
+import { isFunctional, isPrimitive, isStateful, isMemo } from "./misc";
 
 export const updateComposite = (element: RzElement, component: CompositeComponent) => {
-    const currentChild: Component<RzElementProps> = (component.children || [])[0];
-    const incomingChild: RzElement = Array.isArray(element) ? element[0] : element;
+    const currentChild: Component = (component.children || [])[0];
+    const incomingChild = Array.isArray(element) ? element[0] : element;
+    component.children = reconcileChildSlot(currentChild, incomingChild, component);
+};
+
+export const reconcileChildSlot = (currentChild: Component, incomingChild: RzElement, component: Component) => {
+    let newChildren = [];
 
     if (currentChild && incomingChild) {
 
@@ -20,62 +23,73 @@ export const updateComposite = (element: RzElement, component: CompositeComponen
         if (sameType) {
             updateChild(currentChild, incomingChild);
         } else {
-            component.children = [createComponent(incomingChild, component.meta.engine.factory, component.meta)];
+            newChildren = [createComponent(incomingChild, component.meta.engine.factory, component.meta)];
             mountComponent(component.children[0], component.container);
+            unmountComponent(currentChild);
         }
     }
 
     if (currentChild && !incomingChild) {
-        component.children = [null];
-        component.meta.engine.mutator.removeComponent(currentChild);
+        newChildren = [null];
+        unmountComponent(currentChild);
     }
 
     if (!currentChild && incomingChild) {
-        component.children = [createComponent(element, component.meta.engine.factory, component.meta)];
-        mountComponent(component.children[0], component.container);
+        const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
+        newChildren = [newInstance];
+        mountComponent(newInstance, component.container);
     }
-};
+    return newChildren;
+}
 
 export const updateChild = (currentChild: Component<RzElementProps>, updated: RzElement) => {
-    currentChild.props.children = updated.children;
     currentChild.props = updated.props;
 
     if (isFunctional(currentChild)) {
-        const isMemo = (currentChild as MemoRenderFunction).memo;
-        if (isMemo) {
-            const shouldUpdate = (currentChild as MemoRenderFunction).shouldUpdate;
-            if (shouldUpdate && shouldUpdate(currentChild.props, updated)) {
-                updateComposite(currentChild(updated.props), currentChild as CompositeComponent);
+        if (isMemo(currentChild)) {
+            const shouldUpdate = currentChild.shouldUpdate;
+            if (typeof shouldUpdate === typeof Function && (shouldUpdate as Function)(currentChild.props, updated)) {
+                updateComposite(currentChild(updated.props), currentChild);
+            } else if (Array.isArray(shouldUpdate)) {
+                if (shouldUpdate.some(propName => currentChild.props[propName] !== updated[propName])) {
+                    updateComposite(currentChild(updated.props), currentChild);
+                }
             } else if (currentChild.props !== updated) {
-                updateComposite(currentChild(updated.props), currentChild as CompositeComponent);
+                updateComposite(currentChild(updated.props), currentChild);
             }
         } else {
-            updateComposite(currentChild(updated.props), currentChild as CompositeComponent);
+            updateComposite(currentChild(updated.props), currentChild);
         }
     }
 
-    if (isComposite(currentChild)) {
-        if ((currentChild as StatefulComponent).shouldRerender(updated, (currentChild as StatefulComponent).state)) {
-            updateComposite((currentChild as StatefulComponent).render(), currentChild);
+    if (isStateful(currentChild)) {
+        if (currentChild.shouldRerender(updated, currentChild.state)) {
+            updateComposite(currentChild.render(), currentChild);
         }
     }
 
     if (isPrimitive(currentChild)) {
-        if ((currentChild as BasicComponent).shouldRerender(updated)) {
-            currentChild.meta.engine.mutator.updateComponent(currentChild);
+        if (currentChild.shouldRerender(updated)) {
+            currentChild.update();
         }
     }
 };
 
-export const updateContainer = (newProps: RzElementProps, component: PrimitiveContainer, container: AbstractContainer) => {
+export const updateContainer = (newProps: RzElementProps, component: PrimitiveContainer) => {
     const current = component.children;
-    const newPropsChildren = newProps.children as RzElement[];
-    const newChildren = [];
+    const newPropsChildren = newProps.children as RzElement[] | RzElement;
+    let newChildren = [];
 
-    newPropsChildren.forEach((child, index) => {
-        const existing = current[index];
-        updateChild(existing, child);
-    });
+    if (Array.isArray(newPropsChildren)) {
+        newChildren = newPropsChildren.reduce((acc, item, index) => {
+            const existing = current[index];
+            acc = [...acc, ...reconcileChildSlot(existing, item, component)];
+            return acc;
+        }, []);
+    } else {
+        const existing = current[0];
+        newChildren = [reconcileChildSlot(existing, newPropsChildren, component)];
+    }
 
     component.children = newChildren;
 };
@@ -83,7 +97,7 @@ export const updateContainer = (newProps: RzElementProps, component: PrimitiveCo
 export const updateCollection = (newProps: RzElementProps, component: PrimitiveCollection) => {
 
     const current = toDictionary(component.children, 'props.key');
-    const keysForDeletion: Set<RzElementKey> = new Set(component.children.map(elem => (elem.props as any).key));
+    const keysForDeletion: Set<RzElementKey> = new Set(component.children.map(elem => elem.props.key));
     const newPropsChildren = newProps.children as RzElement[];
 
     const newChildren = newPropsChildren.reduce((acc, child: RzElement) => {
@@ -109,7 +123,7 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
 
     keysForDeletion.forEach(key => {
         const toBeRemoved = current[key];
-        component.meta.engine.mutator.removeComponent(toBeRemoved);
+        unmountComponent(toBeRemoved);
     });
 
     component.children = Object.values(newChildren);//sort here if needed

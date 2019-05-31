@@ -1,17 +1,23 @@
-import { BasicComponent } from "./BasicComponent";
-import { RzElementProps, RzElement, MetaProps, DidUpdatePayload } from "../models";
+import { RzElementProps, RzElement, MetaProps, DidUpdatePayload, RzElementType, Component } from "../models";
 import { AnimationOrchestrator } from "../animations";
 import { updateComposite } from "../helpers";
+import { AbstractContainer } from "../interfaces";
 
-export abstract class StatefulComponent<P = {}, S = {}> extends BasicComponent<P> {
-    stateful = true;
+export class StatefulComponent<P = {}, S = {}> {
+    static defaultProps = {};
+    meta: MetaProps;
+    static stateful = true;
     state: S;
     props: P & Partial<RzElementProps>;
+    type: RzElementType;
+    container: AbstractContainer;
+    children: Component[];
 
     get animations(): AnimationOrchestrator[] { return (this.type as any).animations || []; }
 
     constructor(props: P, meta: MetaProps) {
-        super(props, null, meta);
+        this.props = props;
+        this.meta = meta;
     }
 
     setState(state: Partial<S>) {
@@ -49,7 +55,9 @@ export abstract class StatefulComponent<P = {}, S = {}> extends BasicComponent<P
         return nextProps !== this.props || nextState !== this.state;
     }
 
-    abstract render(): RzElement;
+    render(): RzElement {
+        return null;
+    };
 
     willReceiveProps?(nextProps: P): void;
     willMount?(): void;

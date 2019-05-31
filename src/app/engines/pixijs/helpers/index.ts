@@ -1,5 +1,6 @@
 import { DisplayObject, Sprite, Graphics } from "pixi.js";
-import { Component, RzStyles } from "@app/rendering";
+import { Component, RzStyles } from "@app/render-kit";
+import { BasicComponent } from "@app/render-kit";
 
 export const bringToFront = (obj: DisplayObject) => {
     const parent = obj.parent;
@@ -13,7 +14,7 @@ export const getValue = (value: any, prop: keyof RzStyles, comp: Component): any
     return value;
 }
 
-export const setProp = (comp: Component, prop: keyof RzStyles, value: string | number | number[]) => {
+export const setProp = (comp: BasicComponent, prop: keyof RzStyles, value: string | number | number[]) => {
     const graphic: DisplayObject = comp.graphic;
     let result = getValue(value, prop, comp);
 
@@ -42,7 +43,7 @@ export const setProp = (comp: Component, prop: keyof RzStyles, value: string | n
     return result;
 };
 
-export const applyMask = (comp: Component, value: number[]) => {
+export const applyMask = (comp: BasicComponent, value: number[]) => {
     const { graphic, props } = comp;
     if (props.styles.mask) {
         if (value.length === 4) {

@@ -1,8 +1,8 @@
 import { Injectable, NgZone } from '@angular/core';
 
 import { WindowRefService } from '@app/shared';
-import { WebGLRenderer, Container, Application } from 'pixi.js';
-import { createRenderer, createElement } from '@app/rendering';
+import { Container, Application } from 'pixi.js';
+import { createRenderer, createElement } from '@app/render-kit';
 
 import { createPixiEngine } from '@app/engines/pixi';
 import { RootComponent } from '../components/root';
@@ -50,7 +50,7 @@ export class RenderService {
 
         const component = await render(createElement(RootComponent, null), stage);
         console.log(component);
-        component && component.update();
+        //component && component.update();
     };
 
 

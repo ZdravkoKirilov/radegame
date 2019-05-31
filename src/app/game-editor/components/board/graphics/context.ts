@@ -1,3 +1,3 @@
-import { createContext } from "@app/rendering";
+import { createContext } from "@app/render-kit";
 
 export const MainContext = createContext();

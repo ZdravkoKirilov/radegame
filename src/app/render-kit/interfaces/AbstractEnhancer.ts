@@ -1,7 +1,7 @@
-import { Component } from "../models/Component";
+import { BasicComponent } from "../bases";
 
 export abstract class AbstractEnhancer {
-    abstract assignEnhancers(component: Component): void;
-    abstract makeDraggable(component: Component): void;
-    abstract makeScrollable(component: Component): void;
+    abstract assignEnhancers(component: BasicComponent): void;
+    abstract makeDraggable(component: BasicComponent): void;
+    abstract makeScrollable(component: BasicComponent): void;
 }

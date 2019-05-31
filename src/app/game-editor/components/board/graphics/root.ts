@@ -1,7 +1,7 @@
 import {
     StatefulComponent, createElement, PrimitiveContainer,
-    Lifecycles, Scrollable, ScrollableProps
-} from "@app/rendering";
+    Scrollable, ScrollableProps
+} from "@app/render-kit";
 
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
@@ -27,7 +27,7 @@ type State = {
     slots: Array<Slot>;
 }
 
-export class RootComponent extends StatefulComponent<Props, State> implements Lifecycles {
+export class RootComponent extends StatefulComponent<Props, State> {
     state = {
         slots: []
     }

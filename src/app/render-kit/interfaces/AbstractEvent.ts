@@ -1,6 +1,6 @@
-import { Component } from "../models/Component";
+import { BasicComponent } from "../bases";
 
 export abstract class AbstractEvent {
     abstract supported: Set<string>;
-    abstract assignEvents(comp: Component): void;
+    abstract assignEvents(comp: BasicComponent): void;
 };

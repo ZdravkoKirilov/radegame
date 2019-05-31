@@ -1,7 +1,7 @@
 import { RzElementProps, MetaProps } from "../../models";
 import { BasicComponent } from "../../bases";
 
-export class PrimitiveFragment extends BasicComponent<RzElementProps> {
+export class PrimitiveFragment extends BasicComponent {
 
     constructor(props: RzElementProps, graphic: any, meta: MetaProps) {
         super(props, graphic, meta);

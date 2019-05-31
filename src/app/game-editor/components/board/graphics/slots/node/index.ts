@@ -1,4 +1,4 @@
-import { createElement, PrimitiveContainer, Points, RenderFunction } from "@app/rendering";
+import { createElement, PrimitiveContainer, Points, Memo } from "@app/render-kit";
 import { Slot, Style } from "@app/game-mechanics";
 import EmptySlot, { Props as EmptySlotProps } from './empty-slot';
 import EmbeddedStage, { Props as EmbeddedProps } from './embedded-stage';
@@ -14,26 +14,29 @@ export type Props = {
     onSelect: (item: Slot) => void;
 };
 
-export const Node: RenderFunction<Props> = (props) => {
-    const { data, style, onDragMove, onDragEnd, onSelect, selected, image } = props;
-    const emptySlot = !data.board && !data.field && !data.draw;
-    const embeddedStage = !!data.board;
+export const Node = Memo<Props>(
+    (props) => {
+        const { data, style, onDragMove, onDragEnd, onSelect, selected, image } = props;
+        const emptySlot = !data.board && !data.field && !data.draw;
+        const embeddedStage = !!data.board;
 
-    return (
-        createElement(MainContext.Consumer, {},
-            (ctx: any) => createElement(
-                'container',
-                {
-                    styles: { x: data.x, y: data.y },
-                    id: data.id, draggable: { xAxis: true, yAxis: true }, onDragMove, onDragEnd,
-                    onPointerDown: () => onSelect(data),
-                },
-                embeddedStage ? createElement<EmbeddedProps>(EmbeddedStage, { style, selected, image, data }) : null,
-                emptySlot ? createElement<EmptySlotProps>(EmptySlot, { id: 55, style, selected, image, data }) : null,
+        return (
+            createElement(MainContext.Consumer, {},
+                (ctx: any) => createElement(
+                    'container',
+                    {
+                        styles: { x: data.x, y: data.y },
+                        id: data.id, draggable: { xAxis: true, yAxis: true }, onDragMove, onDragEnd,
+                        onPointerDown: () => onSelect(data),
+                    },
+                    embeddedStage ? createElement<EmbeddedProps>(EmbeddedStage, { style, selected, image, data }) : null,
+                    emptySlot ? createElement<EmptySlotProps>(EmptySlot, { id: 55, style, selected, image, data }) : null,
+                )
             )
-        )
-    );
-};
+        );
+    },
+    ['data', 'style', 'image', 'selected'],
+);
 
 export default Node;
 

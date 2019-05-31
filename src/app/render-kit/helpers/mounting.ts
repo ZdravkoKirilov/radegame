@@ -3,15 +3,43 @@ import { AbstractContainer } from "../interfaces";
 import { StatefulComponent, BasicComponent } from "../bases";
 import { PRIMS } from "../primitives";
 import { RenderFunction } from "../models/Component";
+import { isStateful, isPrimitive, isFunctional } from "./misc";
+
+export const unmountComponent = (component: Component) => {
+    console.warn('unmount component: ');
+    console.dir(component);
+
+    if (isStateful(component)) {
+        unmountStatefulComponent(component);
+    }
+    if (isPrimitive(component)) {
+        unmountPrimitiveComponent(component);
+    }
+    if (isFunctional(component)) {
+        unmountFunctionalComponent(component);
+    }
+};
+
+export const unmountStatefulComponent = (component: StatefulComponent) => {
+    unmountComposite(component);
+};
+
+export const unmountFunctionalComponent = (component: RenderFunction) => {
+    unmountComposite(component);
+};
+
+export const unmountPrimitiveComponent = (component: BasicComponent) => {
+    component.remove();
+};
 
 export const mountComponent = (component: Component, container: AbstractContainer): Component => {
     if (!component) {
         return;
     }
-    if (component instanceof StatefulComponent) {
+    if (isStateful(component)) {
         return mountStatefulComponent(component, container);
     }
-    if (component instanceof BasicComponent) {
+    if (isPrimitive(component)) {
         return mountPrimitiveComponent(component, container);
     }
     return mountFunctionalComponent(component, container);
@@ -76,8 +104,6 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
 };
 
 export const unmountComposite = async (component: CompositeComponent) => {
-    console.warn('unmount composite: ');
-    console.dir(component);
 
     if (component instanceof StatefulComponent) {
         // const leaveAnimations: AnimationGroup[] = [];
@@ -88,9 +114,9 @@ export const unmountComposite = async (component: CompositeComponent) => {
         component.willUnmount();
     }
 
-    // component.children.forEach(child => {
-    //     if (child) {
-    //         child.remove();
-    //     }
-    // });
+    (component.children as any).forEach(child => {
+        if (child) {
+            unmountComponent(child);
+        }
+    });
 };

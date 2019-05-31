@@ -23,8 +23,7 @@ export interface ComponentConstructor<T extends RzElementProps = {}> {
     new(props: T, graphic: any, container: AbstractContainer): StatefulComponent;
 }
 
-export type ShouldUpdateCheck<T extends RzElementProps = {}> = (prevProps: T, nextProps: T) => boolean;
-
+export type ShouldUpdateCheck<T extends RzElementProps = {}> = ((prevProps: T, nextProps: T) => boolean) | Array<keyof T>;
 type Render<T> = (props?: T) => RzElement;
 
 export type RenderFunction<T = {}> = Render<T & RzElementProps> & Partial<{

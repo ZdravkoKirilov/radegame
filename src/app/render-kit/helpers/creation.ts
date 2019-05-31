@@ -46,11 +46,11 @@ export const createComponent = (
     }
 
     if (typeof element.type === typeof Function) {
-        const asFunc = element.type as RenderFunction;
-        const children = [createComponent(asFunc(element.props), factory, meta)];
+        component = element.type as RenderFunction;
+        const children = [createComponent(component(element.props), factory, meta)];
         component.props = element.props;
         component.children = children;
-        component.type = asFunc;
+        component.type = component;
         return component;
     }
 

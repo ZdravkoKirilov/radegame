@@ -2,7 +2,7 @@ import { Injectable, NgZone, OnDestroy } from '@angular/core';
 
 import { WindowRefService } from '@app/shared';
 import { WebGLRenderer, Container, Application } from 'pixi.js';
-import { createRenderer, createElement, Component } from '@app/rendering';
+import { createRenderer, createElement, StatefulComponent } from '@app/render-kit';
 import { Subject } from 'rxjs';
 
 import { RootComponent, Props as BoardData } from '../components/board/graphics';
@@ -16,7 +16,7 @@ import { createPixiEngine } from '@app/engines/pixi';
 export class BoardEditService implements OnDestroy {
 
 	private renderer: WebGLRenderer;
-	private rootComponent: Component;
+	private rootComponent: StatefulComponent;
 
 	public pathSelected$ = new Subject<PathEntity>();
 	public slotSelected$ = new Subject<Slot>();
@@ -30,7 +30,7 @@ export class BoardEditService implements OnDestroy {
 	}
 
 	update(data: Partial<BoardData>) {
-		this.rootComponent && this.rootComponent.setProps(data);
+		this.rootComponent && this.rootComponent.updateProps(data);
 	}
 
 	extractAssets(slots: GameEntity[], images: ImageAsset[]): Set<string> {
@@ -76,8 +76,8 @@ export class BoardEditService implements OnDestroy {
 
 		const component = await render(createElement<BoardData>(RootComponent, props as any), stage);
 		console.log(component);
-		this.rootComponent = component;
-		component.update();
+		this.rootComponent = component as any;
+		//component.update();
 	};
 
 	startRenderLoop(stage: Container) {

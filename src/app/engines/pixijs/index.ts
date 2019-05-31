@@ -1,6 +1,6 @@
 import * as Pixi from 'pixi.js';
 
-import { AbstractRenderEngine } from "@app/rendering";
+import { AbstractRenderEngine } from "@app/render-kit";
 import { PixiFactory } from "./factory";
 import { PixiEnhancer } from "./enhancers";
 import { PixiEventsManager } from "./events";

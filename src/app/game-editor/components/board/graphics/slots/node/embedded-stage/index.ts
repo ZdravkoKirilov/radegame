@@ -1,4 +1,4 @@
-import { RenderFunction, createElement, composePoints, DynamicSprite } from "@app/rendering";
+import { RenderFunction, createElement, composePoints, DynamicSprite } from "@app/render-kit";
 import { Style, Slot } from "@app/game-mechanics";
 
 export type Props = {

@@ -1,4 +1,4 @@
-import { Points, createElement } from '@app/rendering';
+import { Points, createElement } from '@app/render-kit';
 import { Style } from '@app/game-mechanics';
 
 export type Props = {

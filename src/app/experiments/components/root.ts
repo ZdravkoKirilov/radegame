@@ -1,8 +1,8 @@
 import {
     StatefulComponent, createElement,
-    Lifecycles, SpriteProps, DynamicSprite, ShadowProps, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation,
+    SpriteProps, DynamicSprite, RecProps, createFadeInAnimation, WithAnimations, createOrchestrator, createAnimationGroup, createBounceAnimation,
     createUpliftAnimation, composeGrid, gridItems, Scrollable, ScrollableProps, LineProps
-} from "@app/rendering";
+} from "@app/render-kit";
 
 export type Props = {
 
@@ -29,7 +29,7 @@ const upliftAnimation = createUpliftAnimation();
         ]
     )
 ])
-export class RootComponent extends StatefulComponent<Props, State> implements Lifecycles {
+export class RootComponent extends StatefulComponent<Props, State> {
     state = { show: 'pesho', move: false }
     ref: any;
 

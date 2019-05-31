@@ -3,7 +3,7 @@ import { MetaProps } from "../../../models";
 import { ContextSubscription } from "../../../services";
 
 type Props = {
-    
+    children?: any;
 };
 
 type State = {
@@ -18,9 +18,6 @@ export class ContextConsumer extends StatefulComponent<Props, State> {
 
     constructor(props: Props, meta: MetaProps) {
         super(props, meta);
-        this.sub = this.meta.context.subscribe(this.key, value => {
-            this.setState({ value });
-        });
     }
 
     shouldUpdate(nextProps: Props, nextState: State) {
@@ -28,7 +25,13 @@ export class ContextConsumer extends StatefulComponent<Props, State> {
     }
 
     render() {
-        return this.props.children[0](this.state.value);
+        return this.props.children(this.state.value);
+    }
+
+    didMount() {
+        this.sub = this.meta.context.subscribe(this.key, value => {
+            this.setState({ value });
+        });
     }
 
     willUnmount() {

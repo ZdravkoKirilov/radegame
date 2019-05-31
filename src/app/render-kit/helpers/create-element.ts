@@ -1,11 +1,12 @@
-import { RzElementProps, RzElementChild, RzElement, isValidRzElement, RzElementType, RenderFunction } from "../models";
+import { RzElementProps, RzElementChild, RzElement, RzElementType } from "../models";
 
 export const createElement = <T = {} & Partial<RzElementProps>>(
     type: RzElementType<T>,
-    props: T,
+    props: T & RzElementProps,
     ...children: RzElementChild[]
 ): RzElement | null => {
     children = children || [];
+    props = props || {} as T;
     let computedChildren = [];
 
     if (type === null) {
@@ -14,11 +15,13 @@ export const createElement = <T = {} & Partial<RzElementProps>>(
 
     children.forEach((elem, index) => {
         if (Array.isArray(elem)) {
-            (elem as any).forEach((child: any) => computedChildren.push(child));
+            elem.forEach((child: any) => computedChildren.push(child));
             return;
         }
         computedChildren[index] = elem;
     });
 
-    return { type, props: props || {} as T, children: computedChildren as RzElement[] };
+    props.children = children.length === 1 ? children[0] as any : children;
+
+    return { type, props, children: computedChildren as RzElement[] };
 };

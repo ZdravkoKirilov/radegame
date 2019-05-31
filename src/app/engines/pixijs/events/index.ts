@@ -1,4 +1,4 @@
-import { AbstractEvent, Component } from "@app/rendering";
+import { AbstractEvent, BasicComponent } from "@app/render-kit";
 import { DisplayObject, interaction } from "pixi.js";
 
 type TrackData = { handler: Function, graphic: DisplayObject };
@@ -54,9 +54,9 @@ export class PixiEventsManager implements AbstractEvent {
 
     elementWithWheel: TrackData;
     elementWithKeyboard: TrackData;
-    focused: Component;
+    focused: BasicComponent;
 
-    assignEvents(comp: Component) {
+    assignEvents(comp: BasicComponent) {
         Object.keys(comp.props).forEach((key: string) => {
             if (key.startsWith('on') && typeof comp.props[key] === 'function') {
                 const handler: Function = comp.props[key];
@@ -119,7 +119,7 @@ export class PixiEventsManager implements AbstractEvent {
     }
 
     onGraphicClick = (event: interaction.InteractionEvent) => {
-        const target = event.currentTarget as DisplayObject & { component: Component };
+        const target = event.currentTarget as DisplayObject & { component: BasicComponent };
         const comp = target ? target.component : null;
         const withWheel = this.elementWithWheel ? this.elementWithWheel.graphic : null;
         const withKeyboard = this.elementWithKeyboard ? this.elementWithKeyboard.graphic : null;

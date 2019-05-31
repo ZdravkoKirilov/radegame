@@ -10,7 +10,7 @@ export type RzElement<T extends RzElementProps = {}> = {
     children: RzElement[];
 };
 
-export type RzElementChild = RzElement | RenderFunction | RenderFunction[] | RzElement[];
+export type RzElementChild = RzElement | RenderFunction | RzElement[];
 
 export type RzElementKey = number | string;
 
@@ -24,12 +24,9 @@ export type RzElementProps = DefaultEvents & Partial<{
     textStyle: { [key: string]: any };
     points: Points;
     children: RzElementChild;
-    ref: Function;
     animations: AnimationBase[];
     draggable: DraggableConfig;
     scrollable: ScrollableConfig;
-    sorted: boolean;
-    // [key: string]: any;
 }>;
 
 export type DraggableConfig = Partial<{
@@ -84,10 +81,6 @@ export type MetaProps = {
 };
 
 export type PrimitiveType = keyof typeof PRIMS;
-
-export const isValidRzElement = (elem: any): elem is RzElement => {
-    return elem === null || ('type' in elem && 'props' in elem && 'children' in elem);
-}
 
 type EventHandler = (...args: any) => any;
 

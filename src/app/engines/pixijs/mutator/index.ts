@@ -1,22 +1,22 @@
 import {
     AbstractMutator, Component, isComposite,
-    RzElementProps, PRIMS, Points, updateComposite,
+    RzElementProps, PRIMS, Points,
     updateCollection, updateContainer, unmountComposite, BasicComponent,
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
     PrimitiveEllipse,
-    PrimitiveShadow,
     LineProps,
-} from "@app/rendering";
+    unmountComponent,
+} from "@app/render-kit";
 import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, DisplayObject } from "pixi.js";
 import { DropShadowFilter } from 'pixi-filters';
 import { setProp, getValue } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
-    updateComponent(component: Component) {
+    updateComponent(component: BasicComponent) {
         updatePrimitive(component);
     }
 
-    removeComponent(component: Component) {
+    removeComponent(component: BasicComponent) {
         if (isComposite(component)) {
             unmountComposite(component);
         } else {
@@ -24,7 +24,7 @@ export class PixiMutator implements AbstractMutator {
         }
     }
 
-    getProp(component: Component, prop: string) {
+    getProp(component: BasicComponent, prop: string) {
         const { graphic } = component;
         return graphic[prop];
     }
@@ -37,24 +37,11 @@ const unmountPrimitive = (component: BasicComponent) => {
         case PRIMS.fragment:
             unmountChildren(component);
             break;
-        case PRIMS.shadow:
-            unmountShadow(component as PrimitiveShadow);
-            break;
         default:
             unmountGeneric(component);
             unmountChildren(component);
             break;
 
-    }
-};
-
-const unmountShadow = (comp: PrimitiveShadow) => {
-    if (comp.parent && comp.parent.graphic) {
-        const target: DisplayObject = comp.parent.graphic;
-        const shadow = comp.graphic;
-        if (target.filters && target.filters.length) {
-            target.filters = target.filters.filter(elem => elem !== shadow);
-        }
     }
 };
 
@@ -67,7 +54,7 @@ const unmountGeneric = (component: BasicComponent) => {
 };
 
 const unmountChildren = (component: PrimitiveFragment): void => {
-    component.children.forEach(child => child.remove());
+    component.children.forEach(child => unmountComponent(child));
 };
 
 const updatePrimitive = (component: BasicComponent) => {
@@ -82,21 +69,19 @@ const updatePrimitive = (component: BasicComponent) => {
             break;
         case PRIMS.fragment:
             updateGeneric(component);
-            updateContainer(props, component, component.container);
+            updateContainer(props, component);
             break;
         case PRIMS.container:
             updateGeneric(component);
-            updateContainer(props, component, component.graphic);
-            sortChildren(component);
+            updateContainer(props, component);
             break;
         case PRIMS.collection:
             updateGeneric(component);
             updateCollection(props, component);
-            sortChildren(component);
             break;
         case PRIMS.rectangle:
             updateRectangle(props, component.graphic);
-            updateContainer(props, component, component.container);
+            updateContainer(props, component);
             break;
         case PRIMS.text:
             updateGeneric(component);
@@ -108,14 +93,11 @@ const updatePrimitive = (component: BasicComponent) => {
             break;
         case PRIMS.circle:
             updateCircle(component);
-            updateContainer(props, component, component.container);
+            updateContainer(props, component);
             break;
         case PRIMS.ellipse:
             updateEllipse(component);
-            updateContainer(props, component, component.container);
-            break;
-        case PRIMS.shadow:
-            updateShadow(component as PrimitiveShadow);
+            updateContainer(props, component);
             break;
         default:
             updateGeneric(component);
@@ -124,27 +106,7 @@ const updatePrimitive = (component: BasicComponent) => {
     }
 }
 
-const sortChildren = (comp: Component) => {
-    const { graphic } = comp;
-    const graphicChildren: any[] = [...graphic.children];
-    if (comp.props.sorted && graphicChildren[0] && graphicChildren[0].component) {
-        const compChildren = graphicChildren[0].component.parent.children;
-        graphicChildren.sort((a, b) => {
-            const index1 = compChildren.indexOf(a.component);
-            const index2 = compChildren.indexOf(b.component);
-            if (index1 > index2) {
-                return 1;
-            }
-            if (index2 > index1) {
-                return -1;
-            }
-            return 0;
-        });
-        graphic.children = graphicChildren;
-    }
-};
-
-const updateGeneric = (comp: Component) => {
+const updateGeneric = (comp: BasicComponent) => {
     const { props, graphic } = comp;
     const styles = props.styles;
     if (graphic && props.name) {
@@ -154,27 +116,6 @@ const updateGeneric = (comp: Component) => {
         Object.keys(styles).forEach((key: keyof RzStyles) => {
             setProp(comp, key, props.styles[key]);
         });
-    }
-};
-
-const updateShadow = (comp: PrimitiveShadow) => {
-
-    if (comp.parent && comp.parent.graphic) {
-        const target: DisplayObject = comp.parent.graphic;
-        const filters = target.filters || [];
-        const filter: DropShadowFilter = comp.graphic;
-        const styles = comp.props.styles;
-
-        filter.alpha = styles.alpha;
-        filter.blur = styles.blur;
-        filter.distance = styles.distance;
-        filter.color = styles.color;
-
-        const notAdded = !filters.find(elem => elem === filter);
-        if (notAdded) {
-            target.filters = target.filters || [];
-            target.filters.push(filter);
-        }
     }
 };
 

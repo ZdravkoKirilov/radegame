@@ -1,9 +1,10 @@
 import { Component } from "../models";
+import { BasicComponent } from "../bases";
 
 export abstract class AbstractMutator {
-    abstract updateComponent(component: Component): void;
+    abstract updateComponent(component: BasicComponent): void;
 
-    abstract removeComponent(component: Component): void;
+    abstract removeComponent(component: BasicComponent): void;
 
     abstract getProp: PropGetter;
 };

@@ -1,5 +1,5 @@
 import { interaction, DisplayObject } from 'pixi.js';
-import { AbstractEnhancer, Component, RzElementProps, ScrollableConfig } from "@app/rendering";
+import { AbstractEnhancer, RzElementProps, ScrollableConfig, BasicComponent } from "@app/render-kit";
 import { bringToFront } from '../helpers';
 import { evaluate } from '@app/dynamic-forms';
 
@@ -22,7 +22,7 @@ const getThresholdState = (
     initial: Coords,
     result: Coords,
     config: ScrollableConfig,
-    comp: Component,
+    comp: BasicComponent,
 ) => {
     const { xThreshold, yThreshold, minX, maxX, minY, maxY } = config;
     let validDragX = Math.abs(initial.x - result.x) > xThreshold;
@@ -63,11 +63,11 @@ const getThresholdState = (
 };
 
 export class PixiEnhancer implements AbstractEnhancer {
-    assignEnhancers(comp: Component) {
+    assignEnhancers(comp: BasicComponent) {
         this.makeDraggable(comp);
         this.makeScrollable(comp);
     }
-    makeDraggable(comp: Component) {
+    makeDraggable(comp: BasicComponent) {
         if (comp.props.draggable) {
             const closure: Draggable = {};
             const elem = comp.graphic as DisplayObject;
@@ -109,7 +109,8 @@ export class PixiEnhancer implements AbstractEnhancer {
                             y: newPos.y - closure.dragPoint.y
                         }
                     };
-                    comp.setProps(props);
+                    comp.updateProps(props);
+                    comp.update();
                     closure.hasMoved = true;
                     comp.props.onDragMove && comp.props.onDragMove(comp);
                 }
@@ -118,7 +119,7 @@ export class PixiEnhancer implements AbstractEnhancer {
         }
     }
 
-    makeScrollable(comp: Component) {
+    makeScrollable(comp: BasicComponent) {
         if (comp.props.scrollable) {
             const closure: Draggable = {};
             const elem = comp.graphic as DisplayObject;
