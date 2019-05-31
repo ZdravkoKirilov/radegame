@@ -2,7 +2,7 @@ import { Injectable, NgZone, OnDestroy } from '@angular/core';
 
 import { WindowRefService } from '@app/shared';
 import { WebGLRenderer, Container, Application } from 'pixi.js';
-import { createRenderer, createElement, StatefulComponent } from '@app/render-kit';
+import { createRenderer, createElement, StatefulComponent, updateComposite } from '@app/render-kit';
 import { Subject } from 'rxjs';
 
 import { RootComponent, Props as BoardData } from '../components/board/graphics';
@@ -31,6 +31,7 @@ export class BoardEditService implements OnDestroy {
 
 	update(data: Partial<BoardData>) {
 		this.rootComponent && this.rootComponent.updateProps(data);
+		this.rootComponent && updateComposite(this.rootComponent.render(), this.rootComponent);
 	}
 
 	extractAssets(slots: GameEntity[], images: ImageAsset[]): Set<string> {

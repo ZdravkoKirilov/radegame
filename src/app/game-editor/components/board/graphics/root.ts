@@ -71,7 +71,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
         );
     }
 
-    willReceiveProps({ slots }: Props) {
+    willReceiveProps(props: Props) {
+        const { slots } = props;
         if (slots !== this.props.slots) {
             this.setState({ slots });
         }

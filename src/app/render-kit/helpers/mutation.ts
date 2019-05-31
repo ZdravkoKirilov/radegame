@@ -15,6 +15,12 @@ export const updateComposite = (element: RzElement, component: CompositeComponen
     component.children = reconcileChildSlot(currentChild, incomingChild, component, component.container);
 };
 
+export const updateComponent = (component: Component) => {
+    if (isPrimitive(component)) {
+        component.update();
+    }
+};
+
 export const reconcileChildSlot = (currentChild: Component, incomingChild: RzElement, component: Component, container: AbstractContainer) => {
     let newChildren = [null];
 
@@ -28,6 +34,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
             const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
             newChildren = [newInstance];
             mountComponent(newInstance, container);
+            updateComponent(newInstance);
             unmountComponent(currentChild);
         }
     }
@@ -41,6 +48,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
         const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
         newChildren = [newInstance];
         mountComponent(newInstance, container);
+        updateComponent(newInstance);
     }
     return newChildren;
 }
@@ -53,7 +61,7 @@ export const updateChild = (currentChild: Component<RzElementProps>, updated: Rz
             const shouldUpdate = currentChild.shouldUpdate;
             if (typeof shouldUpdate === typeof Function && (shouldUpdate as Function)(currentChild.props, updated)) {
                 updateComposite(currentChild(updated.props), currentChild);
-            } else if (Array.isArray(shouldUpdate)) {
+            } else if (Array.isArray(shouldUpdate) && shouldUpdate.length > 0) {
                 if (shouldUpdate.some(propName => currentChild.props[propName] !== updated[propName])) {
                     updateComposite(currentChild(updated.props), currentChild);
                 }
@@ -118,6 +126,7 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
         } else {
             acc[key] = createComponent(child, component.meta.engine.factory, component.meta);
             mountComponent(acc[key], component.graphic);
+            updateComponent(acc[key]);
         }
 
         keysForDeletion.delete(key);
