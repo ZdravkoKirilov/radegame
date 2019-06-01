@@ -1,3 +1,3 @@
 import { createContext } from "@app/render-kit";
 
-export const MainContext = createContext();
+export const MainContext = createContext<any>();

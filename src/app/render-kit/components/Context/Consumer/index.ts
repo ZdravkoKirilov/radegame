@@ -1,35 +1,29 @@
 import { StatefulComponent } from "../../../bases";
-import { MetaProps } from "../../../models";
+import { MetaProps, RzElement } from "../../../models";
 import { ContextSubscription } from "../../../services";
 
-type Props = {
-    children?: any;
-};
+type RenderCallback <T> =(data: T) => RzElement;
 
-type State = {
-    value?: any;
-}
-
-export class ContextConsumer extends StatefulComponent<Props, State> {
+export class ContextConsumer<T> extends StatefulComponent<{ value?: T, render?: RenderCallback<T> }> {
 
     sub: ContextSubscription;
-    state: State = {};
+    state: { value: T } = {} as any;
     key: Function;
 
-    constructor(props: Props, meta: MetaProps) {
+    constructor(props: { value?: T, render?: RenderCallback<T> }, meta: MetaProps) {
         super(props, meta);
     }
 
-    shouldUpdate(nextProps: Props, nextState: State) {
+    shouldUpdate(nextProps: { value?: T, render?: RenderCallback<T> }, nextState: { value: T }) {
         return nextState.value !== this.state.value;
     }
 
     render() {
-        return this.props.children(this.state.value);
+        return this.props.render(this.state.value);
     }
 
     didMount() {
-        this.sub = this.meta.context.subscribe(this.key, value => {
+        this.sub = this.meta.context.subscribe(this.key, (value: T) => {
             this.setState({ value });
         });
     }

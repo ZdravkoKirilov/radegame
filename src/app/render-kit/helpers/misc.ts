@@ -1,5 +1,5 @@
 import { chunk, values } from 'lodash';
-import { Points, Component, RenderFunction, CompositeComponent } from '../models';
+import { Points, Component, RenderFunction, CompositeComponent, RzElement } from '../models';
 import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
@@ -37,5 +37,26 @@ export const isStateful = (component: Component): component is StatefulComponent
 }
 
 export const isMemo = (component: Component): component is MemoRenderFunction => {
-    return isFunctional(component) && 'memo' in component;
+    return isFunctional(component) && 'memo' in component.type;
+}
+
+export const flatRender = (source: any): RzElement => {
+    let result = source;
+    while (Array.isArray(result) && result.length > 0) {
+        result = result[0];
+    }
+
+    return result;
+}
+
+export const cloneRenderFunction = (component: RenderFunction, originalType: RenderFunction) => {
+    component = originalType.bind({}) as RenderFunction;
+    for (let key in Object.getOwnPropertyNames(originalType)) {
+        let value = originalType[key];
+        if (typeof value === typeof Function) {
+            value = value.bind({});
+        }
+        component[key] = value;
+    }
+    return component;
 }

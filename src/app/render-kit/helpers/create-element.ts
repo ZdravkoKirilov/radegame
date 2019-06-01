@@ -21,7 +21,7 @@ export const createElement = <T = {} & Partial<RzElementProps>>(
         computedChildren[index] = elem;
     });
 
-    props.children = children.length === 1 ? children[0] as any : children;
+    props.children = computedChildren;
 
-    return { type, props, children: computedChildren as RzElement[] };
+    return { type, props, children: computedChildren };
 };

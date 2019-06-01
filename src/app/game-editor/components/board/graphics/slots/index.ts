@@ -29,7 +29,6 @@ export const SlotsList = Memo<Props>(
                 selected: selected && selected.id === elem.id,
             });
         });
-
         return createElement('collection', { key, name: 'slots' }, items);
     },
     ['slots', 'selected']

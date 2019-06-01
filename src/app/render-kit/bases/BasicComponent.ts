@@ -1,5 +1,6 @@
 import { RzElementProps, MetaProps, RzElementType, Component, } from "../models";
 import { AbstractContainer } from "../interfaces";
+import { updateComponent } from "../helpers";
 
 export class BasicComponent<T extends RzElementProps = {}> {
     static defaultProps = {};
@@ -20,7 +21,13 @@ export class BasicComponent<T extends RzElementProps = {}> {
     updateProps(newProps: T & RzElementProps) {
         const current = this.props || {};
         const next = { ...current, ...(newProps as any) } as T;
-        this.props = next;
+
+        if (this.shouldRerender(newProps)) {
+            this.props = next;
+            updateComponent(this, this.render());
+        } else {
+            this.props = next;
+        }
     }
 
     update() {

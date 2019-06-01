@@ -20,8 +20,8 @@ export const Node = Memo<Props>(
         const emptySlot = !data.board && !data.field && !data.draw;
         const embeddedStage = !!data.board;
         return (
-            createElement(MainContext.Consumer, {},
-                (ctx: any) => createElement(
+            createElement(MainContext.Consumer, {
+                render: ctx => createElement(
                     'container',
                     {
                         styles: { x: data.x, y: data.y },
@@ -32,7 +32,7 @@ export const Node = Memo<Props>(
                     embeddedStage ? createElement<EmbeddedProps>(EmbeddedStage, { style, selected, image, data }) : null,
                     emptySlot ? createElement<EmptySlotProps>(EmptySlot, { id: 55, style, selected, image, data }) : null,
                 )
-            )
+            })
         );
     },
     ['data', 'style', 'image', 'selected'],

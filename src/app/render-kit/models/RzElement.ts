@@ -10,7 +10,7 @@ export type RzElement<T extends RzElementProps = {}> = {
     children: RzElement[];
 };
 
-export type RzElementChild = RzElement | RenderFunction | RzElement[];
+export type RzElementChild = RzElement | RzElement[];
 
 export type RzElementKey = number | string;
 
@@ -23,7 +23,7 @@ export type RzElementProps = DefaultEvents & Partial<{
     hitArea: any;
     textStyle: { [key: string]: any };
     points: Points;
-    children: RzElementChild;
+    children: RzElement[];
     animations: AnimationBase[];
     draggable: DraggableConfig;
     scrollable: ScrollableConfig;

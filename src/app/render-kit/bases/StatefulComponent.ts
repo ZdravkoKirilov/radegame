@@ -1,6 +1,6 @@
-import { RzElementProps, RzElement, MetaProps, DidUpdatePayload, RzElementType, Component } from "../models";
+import { RzElementProps, RzElement, MetaProps, DidUpdatePayload, RzElementType, Component, RzElementChild } from "../models";
 import { AnimationOrchestrator } from "../animations";
-import { updateComposite } from "../helpers";
+import { updateComposite, updateComponent } from "../helpers";
 import { AbstractContainer } from "../interfaces";
 
 export class StatefulComponent<P = {}, S = {}> {
@@ -8,7 +8,7 @@ export class StatefulComponent<P = {}, S = {}> {
     meta: MetaProps;
     static stateful = true;
     state: S;
-    props: P & Partial<RzElementProps>;
+    props: P & Partial<RzElementProps> & { children?: RzElement };
     type: RzElementType;
     container: AbstractContainer;
     children: Component[];
@@ -25,7 +25,7 @@ export class StatefulComponent<P = {}, S = {}> {
         const next = { ...current, ...(state as any) || {} } as S;
         if (this.shouldRerender(this.props, next)) {
             this.state = next as S;
-            updateComposite(this.render(), this);
+            updateComponent(this, this.render());
             if ('didUpdate' in this) {
                 this.didUpdate({ state: { prev: current, next } });
             }
@@ -43,6 +43,7 @@ export class StatefulComponent<P = {}, S = {}> {
                 this.willReceiveProps(next);
             }
             this.props = next;
+            updateComponent(this, this.render());
             if ('didUpdate' in this) {
                 this.didUpdate({ props: { prev: current, next } });
             }

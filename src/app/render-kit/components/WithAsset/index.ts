@@ -17,7 +17,7 @@ export class WithAsset extends StatefulComponent<WithAssetProps, State> {
 
     render() {
         const shouldRender = !!this.meta.assets.getTexture(this.props.url) && this.state.loaded;
-        return shouldRender ? this.props.children as RzElement : null;
+        return shouldRender ? this.props.children : null;
     }
 
     shouldUpdate(nextProps: WithAssetProps, nextState: State) {
