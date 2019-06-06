@@ -1,7 +1,7 @@
 import * as Pixi from 'pixi.js';
 import { Container, Application } from 'pixi.js';
 
-import { AbstractRenderEngine, AbstractMountManager, MountConfig, createRenderer, createElement, RzElementType } from "@app/render-kit";
+import { AbstractRenderEngine, AbstractMountManager, MountConfig, createRenderer, createElement, RzElementType, unmountComponent } from "@app/render-kit";
 import { PixiFactory } from "./factory";
 import { PixiEnhancer } from "./enhancers";
 import { PixiEventsManager } from "./events";
@@ -50,5 +50,12 @@ export const mountPixi: AbstractMountManager = async (
     }
 
     startRenderLoop();
-    return renderedComponent;
+
+    return {
+        component: renderedComponent,
+        destroy: () => {
+            cancelAnimationFrame(renderLoop);
+            unmountComponent(renderedComponent);
+        }
+    };
 };

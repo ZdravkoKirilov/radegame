@@ -7,8 +7,13 @@ export type MountConfig = {
     assets?: Set<string>;
 }
 
+export type MountRef = {
+    component: Component;
+    destroy: () => void;
+}
+
 export type AbstractMountManager = (
     rootComponent: RzElementType,
     DOMHost: HTMLElement,
     config: MountConfig
-) => Promise<Component>;
+) => Promise<MountRef>;

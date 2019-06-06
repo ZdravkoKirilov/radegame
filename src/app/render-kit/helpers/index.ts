@@ -6,3 +6,4 @@ export * from './creation';
 export * from './misc';
 export * from './layout';
 export * from './hooks';
+export * from './cleaner';
