@@ -1,7 +1,7 @@
 import { RzElement, MetaProps, Component, RenderFunction } from "../models";
 import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent } from "../bases";
-import { hasPrimitiveType, getRealType, flatRender } from './misc';
+import { hasPrimitiveType, getRealType, flatRender, cloneRenderFunction } from './misc';
 
 export const createComponent = (
     element: RzElement,
@@ -38,7 +38,6 @@ export const createComponent = (
                 return createComponent({ ...element, type: realType as any }, factory, meta);
             }
         }
-
     }
 
     if ((element.type as any).stateful) {
@@ -52,10 +51,7 @@ export const createComponent = (
 
     if (typeof element.type === typeof Function) {
         const originalType = element.type as RenderFunction;
-        component = originalType.bind({}) as RenderFunction;
-        for (let key in originalType) {
-            component[key] = originalType[key];
-        }
+        component = cloneRenderFunction(originalType, meta);
         const rendered = flatRender(component(element.props));
         const children = [createComponent(rendered, factory, meta)];
         component.props = element.props;

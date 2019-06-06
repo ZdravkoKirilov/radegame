@@ -1,5 +1,5 @@
 import { chunk, values } from 'lodash';
-import { Points, Component, RenderFunction, CompositeComponent, RzElement } from '../models';
+import { Points, Component, RenderFunction, CompositeComponent, RzElement, MetaProps } from '../models';
 import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
@@ -49,14 +49,14 @@ export const flatRender = (source: any): RzElement => {
     return result;
 }
 
-export const cloneRenderFunction = (component: RenderFunction, originalType: RenderFunction) => {
-    component = originalType.bind({}) as RenderFunction;
-    for (let key in Object.getOwnPropertyNames(originalType)) {
-        let value = originalType[key];
-        if (typeof value === typeof Function) {
-            value = value.bind({});
-        }
-        component[key] = value;
+export const cloneRenderFunction = (originalType: RenderFunction, meta: MetaProps) => {
+    const component = originalType.bind({
+        ...originalType,
+        meta
+    }) as RenderFunction;
+    for (let key in originalType) {
+        component[key] = originalType[key];
     }
+    component.meta = meta;
     return component;
 }
