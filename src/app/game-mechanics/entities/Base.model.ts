@@ -63,3 +63,7 @@ export type WithStyle = Partial<{
 export type WithStates = Partial<{
     states: number[];
 }>
+
+export type CanTrigger = {
+    canTrigger: number; // Condition
+};

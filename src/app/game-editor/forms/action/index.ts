@@ -4,7 +4,7 @@ import {
 } from '@app/dynamic-forms';
 import {
     GameAction, ACTION_TYPE as types,
-    ACTION_TARGET, ACTION_MODE, ACTION_TARGET_FILTER, COMPUTED_VALUES
+    ACTION_TARGET, ACTION_MODE, ACTION_SCOPE
 } from '@app/game-mechanics';
 import {
     composeFromObject, composeEntityOptions, composeBooleanOptions, baseTemplate, revealTemplate,
@@ -14,14 +14,6 @@ import {
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
     data = data || {};
     const configs = data.configs || [];
-    const cost = data.cost || [];
-    const disable = data.disable || [];
-    const enable = data.enable || [];
-    const settings = data.settings || [];
-    const reveal_cost = data.reveal_cost || [];
-    const done = data.done || [];
-    const undone = data.undone || [];
-    const keywords = data.keywords || [];
 
     const template = `
         <Form>
@@ -102,12 +94,11 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const result = parse({
         source: template,
         context: {
-            data, configs, cost, disable, enable, settings, reveal_cost, done, undone, keywords,
+            data, configs,
             types: composeFromObject(types),
             modes: composeFromObject(ACTION_MODE),
             targets: composeFromObject(ACTION_TARGET),
-            target_types: composeFromObject(ACTION_TARGET_FILTER),
-            computed_values: composeFromObject(COMPUTED_VALUES),
+            target_types: composeFromObject(ACTION_SCOPE),
             sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             choices: composeEntityOptions(ent, 'choices'),

@@ -1,11 +1,9 @@
 import { BaseModel, WithPermissions, WithBoard, WithCost, WithStakes, WithReveal, WithKeywords } from './Base.model';
 
-export type Condition = BaseModel & WithPermissions & WithBoard &
-    WithCost & WithStakes & WithReveal & WithKeywords & Partial<{
-
-        mode: ConditionMode;
-        clauses: number[]; // Clause[];
-    }>
+export type Condition = BaseModel & Partial<{
+    mode: ConditionMode;
+    clauses: number[]; // Clause[];
+}>
 
 export type ClauseItem = Partial<{
     id: number;
@@ -70,65 +68,6 @@ export const CONDITION_MODES = {
 export type ConditionMode = keyof typeof CONDITION_MODES;
 export type ClauseRelation = keyof typeof CLAUSE_RELATIONS;
 export type Clause = keyof typeof CLAUSE;
-
-
-// BID + WIN + keyword/token ( the type that was bidded) = Done effect => GOT like outcomes for different challenges. Military,
-// Intrigue, Power etc
-
-// export const PRIMARY_CLAUSE = {
-
-//     INTERSECT: 'INTERSECT', // meet / avoid
-
-//     COMPLETE: 'COMPLETE', // other condition(quest)
-
-//     HAVE: 'HAVE', // resources, cards
-//     IS: 'IS', // "NOT" is achieved via relation: NOT. Phase, 
-
-//     HAND_SIZE: 'HAND_SIZE', // enforcing rules
-
-//     REVEAL_SIZE: 'REVEAL_SIZE', // enforcing rules
-
-//     GAIN: 'GAIN', // slot, field, KEYWORD?
-//     REACH: 'REACH', // slot, resources
-
-//     TRIGGER: 'TRIGGER', // action
-//     REVEAL: 'REVEAL', // when a card gets revealed
-
-//     BID: 'BID', // with WIN LOSE TIE
-
-//     DISTANCE: 'DISTANCE', // rule for enabling certaion actions. E.g. attacking only at 2 slots distance
-
-//     IN: 'IN', // Get bonus in X rounds
-
-//     PLAY_WHEN: 'PLAY_AT', // your turn, 
-
-//     DROP: 'DROP', // DROP item AT location
-// }
-
-// export const SECONDARY_CLAUSE = {
-//     MORE: 'MORE', // resources
-//     LESS: 'LESS', // resource
-
-//     MAX: 'MAX', // hand size
-//     MIN: 'MIN', // hand size
-
-//     BEFORE: 'BEFORE', // round, phase
-//     AFTER: 'AFTER', // round, phase
-//     AT: 'AT', // round, phase
-
-//     TRUE: 'TRUE', // for choices
-//     FALSE: 'FALSE', // for choices
-
-//     WIN: 'WIN', // BID, GAMBLE
-//     LOSE: 'LOSE', // BID, GAMBLE
-//     TIE: 'TIE',  // BID, GAMBLE
-
-//     YOUR_TURN: 'YOUR_TURN', // when a spell can be played
-//     ENEMY_TURN: 'ENEMY_TURN', // when a spell can be played
-//     ALL_TURNS: 'ALL_TURNS', // when a spell can be played
-
-//     RESPONSE_TO: 'RESPONSE_TO', // response to: spell with keyword, specific spell
-// }
 
 
 

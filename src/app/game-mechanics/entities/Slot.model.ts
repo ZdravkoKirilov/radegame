@@ -5,7 +5,6 @@ export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
 
     field: number; // Field. Static field for the location
     draw: number; // Source. This is the draw deck.
-    // tokens are entirely runtime situated on the field
 
     y: number;
     x: number;

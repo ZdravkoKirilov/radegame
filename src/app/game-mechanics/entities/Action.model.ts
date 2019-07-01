@@ -1,34 +1,20 @@
-import { BaseModel, WithPermissions, WithCost, WithReveal, WithStakes, WithSettings, WithKeywords } from "./Base.model";
+import { BaseModel, CanTrigger, WithKeywords } from "./Base.model";
 
-export type GameAction = BaseModel & WithPermissions & WithCost & WithSettings & WithStakes & WithReveal & WithKeywords & Partial<{
-    mode: ActionMode;
+export type GameAction = BaseModel & CanTrigger & WithKeywords & Partial<{
     configs: ActionConfig[];
 }>
 
 export type ActionConfig = Partial<{
     id: number;
-    owner: number | GameAction;
+    owner: number; // GameAction;
 
     type: ActionType;
+    target: number; // Expression
+    subject: number; // Expression
 
-    target: ActionTarget;
-    target_filter: ActionTargetFilter;
+    auto_apply: boolean;
 
     value: string;
-    computed_value: ActionComputedValue;
-
-    amount: number; // polymorphed label: Amount/Size/Range
-    max_amount: number;
-    min_amount: number;
-    random_amount: boolean;
-    dice_amount: number; // Choice
-
-    condition: number; // Condition;
-    choice: number; //Choice;
-    faction: number; //Faction;
-    token: number; //Token;
-    action: number; //GameAction;
-    keywords: string;
 }>
 
 export const ACTION_TYPE = {
@@ -36,78 +22,34 @@ export const ACTION_TYPE = {
     WIN_GAME: 'WIN_GAME',
     LOSE_GAME: 'LOSE_GAME',
 
-    MOVE: 'MOVE',
-    HOP: 'HOP', // teleport
+    DRAW: 'DRAW', // source determined by TARGET AND SCOPE, amount by value, subject: which stage to populate, subject_scope - whose
 
-    DRAW: 'DRAW',
-    REVEAL: 'REVEAL',
-    RETURN: 'RETURN',
-    DISCARD: 'DISCARD',
-    DROP: 'DROP',
+    ALTER: 'ALTER', // which card - determined by TARGET and SCOPE; which keyword - determined by SUBJECT. Whether add or remove: amount -1 / +1
 
-    ALTER: 'ALTER', // resource. Others: target: token -> way to boost units' power. Also keywords with +/- notation
-    // or just remove their ability (attribute) to fight
-
-    GAIN: 'GAIN', // field / slot
-    CLOSE: 'CLOSE', // slot, path
-
-    GAMBLE: 'GAMBLE', // may require more fields?
-
-    START_BID: 'START_BID',  // used for fighting.
+    PUT: 'PUT', // which field - determind by TARGET AND SCOPE, on what entity ( slot or path ) - determined by subject + subject_scope
 };
-
-export const ACTION_MODE = {
-    TRIGGER: 'TRIGGER',
-    AUTO: 'AUTO', // onstep @ revealed, onstep @ hidden when field/loc. Revealed when on faction
-};
-
-export const ACTION_TARGET = {
-    PLAYER: 'PLAYER',
-    FACTION: 'FACTION',
-    KEYWORD: 'KEYWORD',
-    TEAM: 'TEAM',
-    TOKEN: 'TOKEN',
-    SLOT: 'SLOT',
-    PATH: 'PATH',
-};
-
-export const ACTION_TARGET_FILTER = {
-    SELF: 'SELF',
-    ACTIVE: 'ACTIVE',
-    OTHER_TARGET: 'OTHER_TARGET',
-    TARGET: 'TARGET',
-    INVOLVED: 'INVOLVED',
-    OTHER_INVOLVED: 'OTHER_INVOLVED',
-    OPPONENT: 'OPPONENT',
-    TEAMMATE: 'TEAMMATE',
-
-    ALL_FRIENDLY: 'ALL_FRIENDLY',
-    TARGET_FRIENDLY: 'TARGET_FRIENDLY',
-    ALL_ENEMY: 'ALL_ENEMY',
-    TARGET_ENEMY: 'TARGET_ENEMY',
-}
-
-export const COMPUTED_VALUES = {
-    BID_DIFFERENCE: 'BID_DIFFERENCE', // "trample"
-    HOP_RANGE: 'HOP_RANGE', // drawback/cost for hopping
-}
-
-export type ActionTarget = keyof typeof ACTION_TARGET;
-
-export type ActionTargetFilter = keyof typeof ACTION_TARGET_FILTER;
-
-export type ActionMode = keyof typeof ACTION_MODE;
 
 export type ActionType = keyof typeof ACTION_TYPE;
 
-export type ActionComputedValue = keyof typeof COMPUTED_VALUES;
 
-// increase power => ALTER TOKEN ALL_FRIENDLY AMOUNT #power
+// draw from source and populate own stage
+// target: `self.sources.find(source => source.id === 'deck')`;
+// subject: self.stages.find(stage => stage.id === 'hand');
+// value = amount of cards to draw
 
-// increase cost => ALTER TOKEN/CONDITION/ACTION ALL_ENEMY AMOUNT #resource
 
-// Happens either with providing the required resource directly or via token with attributes.
-// Type: Action, Target: OtherPlayer. Currency: either certain token type or keywords. Picking what to use: runtime based UI.
-// Condition of type BID: compose results. Could be placed by 'settings' prop @ Faction or the Action itself
+// alter keyword of field
+// target: self.stages.find(stage => stage.id === 'base').fields
+// subject: self.keywords.find(keyword => keyword.id ==='face-up')
+// value = +1
+
+
+// put fields on stage
+// target: self.stages.find(stage => stage.id === 'hand').fields
+// subject: self.stages.find(stage => stage.id === 'base').slots
+
+
+// TODO - add 'id' to basic entity
+// TODO - Stage mode: stacked hand ( to display it as a stacked hand of cards )
 
 
