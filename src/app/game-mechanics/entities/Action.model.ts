@@ -31,13 +31,6 @@ export const ACTION_TYPE = {
 
 export type ActionType = keyof typeof ACTION_TYPE;
 
-
-// draw from source and populate own stage
-// target: `self.sources.find(source => source.id === 'deck')`;
-// subject: self.stages.find(stage => stage.id === 'hand');
-// value = amount of cards to draw
-
-
 // alter keyword of field
 // target: self.stages.find(stage => stage.id === 'base').fields
 // subject: self.keywords.find(keyword => keyword.id ==='face-up')
