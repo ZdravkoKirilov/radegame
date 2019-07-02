@@ -13,13 +13,22 @@ ticker.autoStart = false;
 ticker.stop();
 
 export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine => {
+    const factory = new PixiFactory();
+    const mutator = new PixiMutator();
+    const enhancer = new PixiEnhancer();
+    const event = new PixiEventsManager(app.renderer.plugins.interaction);
+    const loader = new PixiLoader();
+
     return {
-        factory: new PixiFactory(),
-        mutator: new PixiMutator(),
-        enhancer: new PixiEnhancer(),
-        event: new PixiEventsManager(app.renderer.plugins.interaction),
-        loader: new PixiLoader(),
-        app
+        factory,
+        mutator,
+        enhancer,
+        event,
+        loader,
+        app,
+        destroy: () => {
+            // unsubscribe
+        },
     };
 }
 
@@ -42,12 +51,12 @@ export const mountPixi: AbstractMountManager = async (
 
     const PixiEngine = createPixiEngine(app);
     const render = createRenderer(PixiEngine, config.assets || new Set());
-    const renderedComponent = await render(createElement(component, {}), stage);
+    const renderedComponent = await render(createElement(component, config.props), stage);
 
     const startRenderLoop = () => {
         renderLoop = requestAnimationFrame(() => startRenderLoop());
         app.renderer.render(stage);
-    }
+    };
 
     startRenderLoop();
 
@@ -56,6 +65,7 @@ export const mountPixi: AbstractMountManager = async (
         destroy: () => {
             cancelAnimationFrame(renderLoop);
             unmountComponent(renderedComponent);
+            PixiEngine.destroy();
         }
     };
 };

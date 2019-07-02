@@ -5,6 +5,7 @@ export type MountConfig = {
     height?: number;
     backgroundColor?: number;
     assets?: Set<string>;
+    props?: object;
 }
 
 export type MountRef = {

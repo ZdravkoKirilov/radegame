@@ -22,10 +22,10 @@ export const composeSourceForm: FormDefinition = (data: Source, ent?: ConnectedE
     const result = parse({
         source: template,
         context: {
+            ...composeCommonFormContext(data as GameEntity, ent),
             data,
             pick: composeFromObject(SOURCE_PICK),
             quota: composeFromObject(SOURCE_QUOTA),
-            ...composeCommonFormContext(data as GameEntity, ent),
         },
     }, true);
 

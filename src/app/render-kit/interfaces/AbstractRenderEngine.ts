@@ -11,4 +11,5 @@ export interface AbstractRenderEngine {
     event: AbstractEvent;
     loader: AbstractLoader;
     app: any;
+    destroy(): void;
 };

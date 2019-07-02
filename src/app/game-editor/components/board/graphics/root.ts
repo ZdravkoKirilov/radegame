@@ -1,6 +1,9 @@
+import { Subscription } from "rxjs";
+import { Store, select } from "@ngrx/store";
+
 import {
     StatefulComponent, createElement, PrimitiveContainer,
-    Scrollable, ScrollableProps
+    Scrollable, ScrollableProps, AutoClean
 } from "@app/render-kit";
 
 import Slots, { Props as SlotProps } from './slots';
@@ -8,6 +11,8 @@ import Paths, { Props as PathProps } from './paths';
 import Background, { Props as BGProps } from './background';
 import { Slot, PathEntity, Stage, ImageAsset, Style, Source } from "@app/game-mechanics";
 import { MainContext } from "./context";
+import { AppState } from "@app/core";
+import { getItems, formKeys } from "../../../state";
 
 export type Props = {
     slots: Array<Slot>;
@@ -21,15 +26,21 @@ export type Props = {
     selectPath: (item: PathEntity) => void;
     selectSlot: (item: Slot) => void;
     onDragEnd: (item: Slot) => void;
+    store: Store<AppState>;
 }
 
 type State = {
-    slots: Array<Slot>;
+    slots: Slot[];
+    paths: PathEntity[];
 }
 
+@AutoClean()
 export class RootComponent extends StatefulComponent<Props, State> {
+    paths$: Subscription;
+
     state = {
-        slots: []
+        slots: [],
+        paths: [],
     }
 
     render() {
@@ -79,8 +90,10 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     didMount() {
-        const { slots } = this.props;
+        const { slots, store } = this.props;
         this.setState({ slots });
+
+        this.paths$ = store.pipe(select(getItems<PathEntity>(formKeys.paths))).subscribe();
     }
 
     handleDragEnd = (slotId: number) => {

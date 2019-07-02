@@ -41,8 +41,6 @@ export type ActionType = keyof typeof ACTION_TYPE;
 // target: self.stages.find(stage => stage.id === 'hand').fields
 // subject: self.stages.find(stage => stage.id === 'base').slots
 
-
-// TODO - add 'id' to basic entity
 // TODO - Stage mode: stacked hand ( to display it as a stacked hand of cards )
 
 
