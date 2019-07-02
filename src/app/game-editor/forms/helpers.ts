@@ -112,7 +112,7 @@ export const settingsTemplate = `
 `;
 
 export const conditionTemplate = `
-    <ButtonGroup name='condition' label='Condition' options='{condition_options}' multiple='{true}'>{condition}</ButtonGroup>
+    <Dropdown name='condition' label='Condition' options='{expression_options}' multiple='{true}'>{data.condition}</Dropdown>
 `;
 
 export const revealTemplate = `
@@ -165,6 +165,9 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
     choice_options: composeEntityOptions(ent, 'choices'),
     sound_options: composeEntityOptions(ent, 'sounds'),
     slot_options: composeEntityOptions(ent, 'slots'),
+    expression_options: [],
+
+    boolean_options: composeBooleanOptions(),
 
     disable: data.disable || [],
     enable: data.enable || [],

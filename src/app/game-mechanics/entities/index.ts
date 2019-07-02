@@ -20,6 +20,7 @@ export * from './Group.model';
 export * from './Style.model';
 export * from './State.model';
 export * from './Sound.model';
+export * from './Expression.model';
 
 import { GameAction } from './Action.model';
 import { Condition } from './Condition.model';
@@ -43,10 +44,11 @@ import { Group } from './Group.model';
 import { Style } from './Style.model';
 import { Sound } from './Sound.model';
 import { EntityState } from './State.model';
+import { Expression } from './Expression.model';
 
 export type GameEntity = Game & GameAction & Slot & PathEntity & Condition &
     Round & Choice & Stage & Field & Faction & Token & Team & Phase &
-    Setup & Source & ImageAsset & Keyword & Group & Style & Sound & EntityState;
+    Setup & Source & ImageAsset & Keyword & Group & Style & Sound & EntityState & Expression;
 
 export type GameEntityList = Dictionary<GameEntity>;
 

@@ -1,8 +1,11 @@
 import { ImageFrame } from "./ImageAsset.model";
+import { EntityType } from "./types";
 
 export type BaseModel = Partial<{
     id: number;
     game: number;
+
+    type: EntityType;
 
     name: string;
     description: string;
@@ -64,6 +67,6 @@ export type WithStates = Partial<{
     states: number[];
 }>
 
-export type CanTrigger = {
-    canTrigger: number; // Condition
-};
+export type WithCondition = Partial<{
+    condition: number; // Condition
+}>;

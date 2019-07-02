@@ -1,6 +1,6 @@
-import { BaseModel, CanTrigger, WithKeywords } from "./Base.model";
+import { BaseModel, WithCondition, WithKeywords } from "./Base.model";
 
-export type GameAction = BaseModel & CanTrigger & WithKeywords & Partial<{
+export type GameAction = BaseModel & Partial<{
     configs: ActionConfig[];
 }>
 

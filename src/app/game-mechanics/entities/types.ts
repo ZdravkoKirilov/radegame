@@ -13,5 +13,6 @@ export const ENTITY = {
     'TEAM': 'TEAM',
     'SLOT': 'SLOT',
     'SOURCE': 'SOURCE',
-    'KEYWORD': 'KEYWORD'
+    'KEYWORD': 'KEYWORD',
+    'EXPRESSION': 'EXPRESSION'
 }

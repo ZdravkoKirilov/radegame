@@ -3,12 +3,10 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import {
-    GameAction, ACTION_TYPE as types,
-    ACTION_TARGET, ACTION_MODE, ACTION_SCOPE
+    GameAction, ACTION_TYPE as types, GameEntity,
 } from '@app/game-mechanics';
 import {
-    composeFromObject, composeEntityOptions, composeBooleanOptions, baseTemplate, revealTemplate,
-    costTemplate, permissionsTemplate, stakesTemplate, settingsTemplate
+    composeFromObject, baseTemplate, composeCommonFormContext
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
@@ -19,18 +17,6 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
         <Form>
             ${baseTemplate}
 
-            <Dropdown name="mode" label="Mode" options='{modes}'>{data.mode}</Dropdown>
-
-            ${revealTemplate}
-
-            ${costTemplate}
-
-            ${permissionsTemplate}
-
-            ${settingsTemplate}
-
-            ${stakesTemplate}
-
             <Group name='configs' label='Action configs' children='{configs}' item='@item' addButtonText='Add'>
 
                 <Form>
@@ -38,52 +24,14 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='type' label='Type' options='{types}' required='{true}'>{@item.type}</Dropdown>
 
-                    <ButtonGroup 
-                        name='target' 
-                        label='Target' 
-                        options='{targets}' 
-                        multiple='{true}' 
-                        asString='{true}' 
-                        required='true'
-                    >
-                        {@item.target}
-                    </ButtonGroup>
+                    <Dropdown name='target' label='Target' options='{expression_options}' required='{true}'>{@item.target}</Dropdown>
 
-                    <Dropdown name='target_filter' label='Target type' options='{target_types}'>
-                        {@item.target_filter}
-                    </Dropdown>
+                    <Dropdown name='subject' label='Subject' options='{expression_options}' required='{true}'>{@item.subject}</Dropdown>
 
-                    <Dropdown name='action' label='Action' options='{actions}' showImage='{true}'>{@item.action}</Dropdown>
-
-                    <Dropdown name='condition' label='Condition' options='{conditions}' showImage='{true}'>
-                        {@item.condition}
-                    </Dropdown>
-
-                    <Dropdown name='faction' label='Faction' options='{factions}' showImage='{true}'>{@item.faction}</Dropdown>
-
-                    <Dropdown name='token' label='Token' options='{tokens}' showImage='{true}'>{@item.token}</Dropdown>
-
-                    <Dropdown name='choice' label='Choice' options='{choices}' showImage='{true}'>{@item.choice}</Dropdown>
-
-                    <ButtonGroup name='keywords' label='Keywords' options='{keywords}' multiple='{true}'>{@item.keywords}</ButtonGroup>
+                    <ButtonGroup name='auto_apply' label='Auto apply' options='{boolean_options}'>{@item.auto_apply}</ButtonGroup>
 
                     <TextInput name='value' label='Value'>{@item.value}</TextInput>
 
-                    <Dropdown name='computed_value' label='Computed value' options='{computedValues}'>
-                        {@item.computed_value}
-                    </Dropdown>
-
-                    <NumberInput name='amount' label='Amount'>{@item.amount}</NumberInput>
-
-                    <ButtonGroup name='random_amount' label='Randomize amount' options='{random}'>
-                        {@item.random_amount}
-                    </ButtonGroup>
-
-                    <Dropdown name='dice_amount' label='Use dice' options='{choices}' showImage='{true}'>{@item.dice_amount}</Dropdown>
-
-                    <NumberInput name='max_amount' label='Max amount'>{@item.max_amount}</NumberInput>
-
-                    <NumberInput name='min_amount' label='Min amount'>{@item.min_amount}</NumberInput>
                 </Form>
 
             </Group>
@@ -94,20 +42,9 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const result = parse({
         source: template,
         context: {
+            ...composeCommonFormContext(data as GameEntity, ent),
             data, configs,
             types: composeFromObject(types),
-            modes: composeFromObject(ACTION_MODE),
-            targets: composeFromObject(ACTION_TARGET),
-            target_types: composeFromObject(ACTION_SCOPE),
-            sources: composeEntityOptions(ent, 'sources'),
-            conditions: composeEntityOptions(ent, 'conditions'),
-            choices: composeEntityOptions(ent, 'choices'),
-            factions: composeEntityOptions(ent, 'factions'),
-            tokens: composeEntityOptions(ent, 'tokens'),
-            actions: composeEntityOptions(ent, 'actions'),
-            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
-            keyword_options: composeEntityOptions(ent, 'keywords'),
-            random: composeBooleanOptions(),
         },
     }, true);
 
