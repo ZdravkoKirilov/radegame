@@ -41,20 +41,7 @@ import { Slot, PathEntity, Stage, ImageAsset, Source } from '@app/game-mechanics
 					#paths
 				></rg-entity-editor>
 
-				<rg-board-main
-					*ngIf="!visibleEditor" 
-					[stage]="stage"
-					[slots]="slots"
-					[selectedSlot]="selectedSlot"
-					[paths]="paths"
-					[selectedPath]="selectedPath"
-					[images]="images"
-					[styles]="entities.styles"
-					[sources]="sources"
-					(selectSlot)="selectSlot($event)"
-					(dragEnd)="handleSaveSlot($event)"
-					(selectPath)="selectPath($event)"
-				></rg-board-main>
+				<rg-board-main *ngIf="!visibleEditor" ></rg-board-main>
 			</ng-scrollbar>
 
     </rg-editor-layout>

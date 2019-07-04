@@ -1,11 +1,14 @@
 import {
-	Component, OnInit, OnChanges, Input, ViewChild, ElementRef,
-	ChangeDetectionStrategy, Output, EventEmitter, OnDestroy
+	Component, OnInit, ViewChild, ElementRef,
+	ChangeDetectionStrategy,
+	OnDestroy
 } from '@angular/core';
-import { Subscription } from 'rxjs';
-
-import { BoardEditService } from '../../../services';
-import { Slot, PathEntity, Stage, ImageAsset, Style, Source } from '@app/game-mechanics';
+import { Store } from '@ngrx/store';
+import { AppState } from '@app/core';
+import { RootComponent } from '../graphics';
+import { mountPixi } from '@app/engines/pixi';
+import { WindowRefService } from '@app/shared';
+import { MountRef } from '@app/render-kit';
 
 @Component({
 	selector: 'rg-board-main',
@@ -15,53 +18,29 @@ import { Slot, PathEntity, Stage, ImageAsset, Style, Source } from '@app/game-me
 	styles: [],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class BoardMainComponent implements OnInit, OnChanges, OnDestroy {
+export class BoardMainComponent implements OnInit, OnDestroy {
 
 	@ViewChild('canvasWrapper') canvasWrapper: ElementRef<HTMLDivElement>;
 
-	@Output() selectSlot = new EventEmitter<Slot>();
-	@Output() selectPath = new EventEmitter<PathEntity>();
-	@Output() dragEnd = new EventEmitter<Slot>();
+	mount: MountRef;
 
-	@Input() slots: Slot[];
-	@Input() selectedSlot: Slot;
+	constructor(
+		private store: Store<AppState>,
+		private windowRef: WindowRefService
+	) { }
 
-	@Input() paths: PathEntity[];
-	@Input() selectedPath: PathEntity;
-
-	@Input() stage: Stage;
-	@Input() images: ImageAsset[];
-	@Input() styles: Style[];
-	@Input() sources: Source[];
-
-	subs: Subscription[];
-
-	constructor(private boardEditService: BoardEditService) { }
-
-	ngOnInit() {
-		const { slots, selectedSlot, paths, selectedPath, stage,
-			selectSlot, dragEnd, boardEditService, selectPath, images, styles, sources } = this;
-
-		boardEditService.initialize(this.canvasWrapper.nativeElement, {
-			slots, selectedSlot, paths, selectedPath, stage, images, styles, sources
-		});
-
-		this.subs = [
-			boardEditService.slotSelected$.subscribe(slot => selectSlot.emit(slot)),
-			boardEditService.dragEnded$.subscribe(slot => dragEnd.emit(slot)),
-			boardEditService.pathSelected$.subscribe(path => selectPath.emit(path)),
-		]
-	}
-
-	ngOnChanges() {
-		const { slots, selectedSlot, paths, selectedPath, stage } = this;
-		this.boardEditService.update({
-			slots, selectedSlot, paths, selectedPath, stage
+	async ngOnInit() {
+		const domHost = this.canvasWrapper.nativeElement;
+		this.mount = await mountPixi(RootComponent, domHost, {
+			width: this.windowRef.nativeWindow.innerWidth,
+			height: this.windowRef.nativeWindow.innerHeight,
+			props: {
+				store: this.store
+			},
 		});
 	}
 
 	ngOnDestroy() {
-		this.subs.forEach(sub => sub.unsubscribe);
+		this.mount.destroy();
 	}
-
 }
