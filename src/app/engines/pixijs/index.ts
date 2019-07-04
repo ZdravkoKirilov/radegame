@@ -27,7 +27,7 @@ export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine =>
         loader,
         app,
         destroy: () => {
-            // unsubscribe
+            event.onDestroy();
         },
     };
 }

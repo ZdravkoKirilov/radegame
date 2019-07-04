@@ -10,10 +10,10 @@ import {
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
 import Background, { Props as BGProps } from './background';
-import { Slot, PathEntity, Stage, ImageAsset, Style, Source } from "@app/game-mechanics";
+import { Slot, PathEntity, Stage, ImageAsset, Style, Source, GameEntity } from "@app/game-mechanics";
 import { MainContext } from "./context";
 import { AppState } from "@app/core";
-import { getItems, formKeys, getActiveStage } from "../../../state";
+import { getItems, formKeys, getActiveStage, SaveItemAction, FormKey } from "../../../state";
 import { selectGameId } from "@app/shared";
 
 export type Props = {
@@ -107,16 +107,6 @@ export class RootComponent extends StatefulComponent<Props, State> {
         this.setState({ selectedPath: path });
     }
 
-    handleSaveSlot = (payload: Slot) => {
-        const { gameId, selectedSlot, stage } = this.state;
-        const slot = <Slot>{ ...payload, game: gameId, owner: stage.id };
-        if (selectedSlot) {
-            slot.id = selectedSlot.id;
-        }
-        this.setState({ selectedSlot: null });
-        // dispatch
-    }
-
     handleDragEnd = (slotId: number) => {
         let slot = this.state.slots.find(elem => elem.id === slotId);
         slot = <Slot>{ ...slot, game: this.state.gameId, owner: this.state.stage.id };
@@ -124,7 +114,11 @@ export class RootComponent extends StatefulComponent<Props, State> {
             slot.id = this.state.selectedSlot.id;
         }
         this.setState({ selectedSlot: null });
-        // dispatch
+        
+        this.props.store.dispatch(new SaveItemAction({
+            key: formKeys.slots as FormKey,
+            data: slot as GameEntity,
+        }));
     }
 
     handleDragMove = (comp: PrimitiveContainer) => {
