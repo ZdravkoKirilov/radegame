@@ -1,4 +1,4 @@
-import { combineLatest } from "rxjs";
+import { combineLatest, Subscription } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { filter, map } from "rxjs/operators";
 
@@ -18,6 +18,8 @@ import { selectGameId } from "@app/shared";
 
 export type Props = {
     store: Store<AppState>;
+    selectSlot: (slot: Slot) => void;
+    selectPath: (path: PathEntity) => void;
 }
 
 type State = Partial<{
@@ -30,6 +32,8 @@ type State = Partial<{
     selectedSlot: Slot;
     selectedPath: PathEntity;
     gameId: number;
+    loaded: boolean;
+    stages: Stage[];
 }>
 
 @AutoClean()
@@ -40,33 +44,40 @@ export class RootComponent extends StatefulComponent<Props, State> {
         images: [],
         sources: [],
         styles: [],
+        stages: [],
         stage: null,
         selectedSlot: null,
         selectedPath: null,
     } as State
 
-    data$ = combineLatest<any>(
-        this.props.store.pipe(select(getActiveStage)),
-        this.props.store.pipe(select(getItems<Slot>(formKeys.slots))),
-        this.props.store.pipe(select(getItems<PathEntity>(formKeys.paths))),
-        this.props.store.pipe(select(getItems<ImageAsset>(formKeys.images))),
-        this.props.store.pipe(select(getItems<Source>(formKeys.sources))),
-        this.props.store.pipe(select(getItems<Style>(formKeys.styles))),
-        this.props.store.pipe(select(selectGameId)),
-    ).pipe(
-        filter(data => data.every(elem => !!elem)),
-        map(([stage, slots, paths, images, sources, styles, gameId]) => {
-            this.setState({
-                slots, paths, images, sources, stage, styles, gameId
-            });
-        }),
-    ).subscribe();
+    data$: Subscription;
+
+    didMount() {
+        this.data$ = combineLatest<any>(
+            this.props.store.pipe(select(getActiveStage)),
+            this.props.store.pipe(select(getItems<Slot>(formKeys.slots))),
+            this.props.store.pipe(select(getItems<PathEntity>(formKeys.paths))),
+            this.props.store.pipe(select(getItems<ImageAsset>(formKeys.images))),
+            this.props.store.pipe(select(getItems<Source>(formKeys.sources))),
+            this.props.store.pipe(select(getItems<Style>(formKeys.styles))),
+            this.props.store.pipe(select(selectGameId)),
+            this.props.store.pipe(select(getItems<Style>(formKeys.stages))),
+        ).pipe(
+            filter(data => data.every(elem => !!elem)),
+            map(([stage, slots, paths, images, sources, styles, gameId, stages]) => {
+                this.setState({
+                    slots, paths, images, sources, stage, styles, gameId, stages, loaded: true
+                });
+            }),
+        ).subscribe();
+    }
 
     render() {
-        const { slots, images, stage, styles, sources, paths, selectedSlot, selectedPath } = this.state;
+        const { slots, images, stage, styles, sources, paths, selectedSlot, selectedPath, loaded, stages } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot, selectPath } = this;
         const background = images.find(img => img.id === stage.image);
-        return createElement(MainContext.Provider, { value: { slots, paths, images, styles } },
+
+        return loaded ? createElement(MainContext.Provider, { value: { stages, images, styles, slots } },
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
                 height: window.innerHeight,
@@ -96,15 +107,17 @@ export class RootComponent extends StatefulComponent<Props, State> {
                     onDragEnd: handleDragEnd,
                 })
             ),
-        );
+        ) : null;
     }
 
     selectSlot = (slot: Slot) => {
         this.setState({ selectedSlot: slot });
+        this.props.selectSlot(slot);
     }
 
     selectPath = (path: PathEntity) => {
         this.setState({ selectedPath: path });
+        this.props.selectPath(path);
     }
 
     handleDragEnd = (slotId: number) => {
@@ -114,7 +127,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
             slot.id = this.state.selectedSlot.id;
         }
         this.setState({ selectedSlot: null });
-        
+        this.props.selectSlot(null);
+
         this.props.store.dispatch(new SaveItemAction({
             key: formKeys.slots as FormKey,
             data: slot as GameEntity,

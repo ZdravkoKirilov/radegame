@@ -41,11 +41,15 @@ import { Slot, PathEntity, Stage, ImageAsset, Source } from '@app/game-mechanics
 					#paths
 				></rg-entity-editor>
 
-				<rg-board-main *ngIf="!visibleEditor" ></rg-board-main>
+				<rg-board-main 
+					[ngClass]="{'hidden': visibleEditor}" 
+					(selectSlot)="selectSlot($event)" 
+					(selectPath)="selectPath($event)"
+				></rg-board-main>
 			</ng-scrollbar>
 
     </rg-editor-layout>
-  `,
+`,
 	styles: []
 })
 export class BoardEditorComponent {
@@ -91,8 +95,8 @@ export class BoardEditorComponent {
 
 	saveEnabled() {
 		const { slotEditor, pathEditor } = this;
-
-		return slotEditor && slotEditor.form.valid || (pathEditor && pathEditor.form.valid);
+		return true;
+		// return slotEditor && slotEditor.form.valid || (pathEditor && pathEditor.form.valid);
 	}
 
 	closeEditors() {
@@ -100,12 +104,12 @@ export class BoardEditorComponent {
 		this.togglePathEditor(false);
 	}
 
-	selectSlot(payload: Slot) {
-		this.selectedSlot = { ...payload };
+	selectSlot = (slot: Slot) => {
+		this.selectedSlot = slot;
 	}
 
-	selectPath(payload: PathEntity) {
-		this.selectedPath = payload;
+	selectPath(path: PathEntity) {
+		this.selectedPath = path;
 	}
 
 	saveEntity() {
