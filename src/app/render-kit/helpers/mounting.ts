@@ -81,6 +81,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
         case PRIMS.collection:
             container.addChild(component.graphic);
             component.children = component.children.map(child => mountComponent(child, component.graphic));
+            component.update();
             break;
         case PRIMS.rectangle:
         case PRIMS.circle:
@@ -89,13 +90,16 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
         case PRIMS.sprite:
             container.addChild(component.graphic);
             component.children = component.children.map(child => mountComponent(child, container));
+            component.update();
             break;
         case PRIMS.text:
         case PRIMS.line:
             container.addChild(component.graphic);
+            component.update();
             break;
         case PRIMS.fragment:
             component.children = component.children.map(child => mountComponent(child, container));
+            component.update();
             break;
         default:
             break;

@@ -77,7 +77,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
         const { handleDragMove, handleDragEnd, selectSlot, selectPath } = this;
         const background = images.find(img => img.id === stage.image);
 
-        return loaded ? createElement(MainContext.Provider, { value: { stages, images, styles, slots } },
+        return loaded ? createElement(MainContext.Provider, { name: 'gosho', value: { stages, images, styles, slots } },
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
                 height: window.innerHeight,

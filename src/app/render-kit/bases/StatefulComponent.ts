@@ -1,6 +1,6 @@
 import { RzElementProps, RzElement, MetaProps, DidUpdatePayload, RzElementType, Component, RzElementChild } from "../models";
 import { AnimationOrchestrator } from "../animations";
-import { updateComposite, updateComponent } from "../helpers";
+import { updateComponent } from "../helpers";
 import { AbstractContainer } from "../interfaces";
 
 export class StatefulComponent<P = {}, S = {}> {

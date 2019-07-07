@@ -16,7 +16,7 @@ export const updateComposite = (element: RzElement, component: CompositeComponen
     component.children = reconcileChildSlot(currentChild, incomingChild, component, component.container);
 };
 
-export const updateComponent = (component: Component, rendered?: RzElementChild) => {
+export const updateComponent = (component: Component, rendered: RzElementChild) => {
     if (isPrimitive(component)) {
         component.update();
     } else {
@@ -64,7 +64,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
             const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
             newChildren = [newInstance];
             mountComponent(newInstance, container);
-            updateComponent(newInstance);
+            //updateComponent(newInstance, { ...incomingChild });
             unmountComponent(currentChild);
         }
     }
@@ -78,7 +78,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
         const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
         newChildren = [newInstance];
         mountComponent(newInstance, container);
-        updateComponent(newInstance);
+        //updateComponent(newInstance, { ...incomingChild });
     }
     return newChildren;
 }
