@@ -7,7 +7,7 @@ import {
     LineProps,
     unmountComponent,
 } from "@app/render-kit";
-import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse } from "pixi.js";
+import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text } from "pixi.js";
 import { setProp, getValue } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
@@ -158,12 +158,15 @@ const updateSprite = (comp: PrimitiveSprite) => {
 
 const updateText = (comp: PrimitiveText) => {
     const { props } = comp;
+    const styleObject = comp.style as TextStyle;
+    const graphic = comp.graphic as Text;
     const textStyle = props.textStyle || {};
     Object.keys(textStyle || {}).forEach(key => {
         const value = textStyle[key];
         const result = getValue(value as string, key as any, comp);
-        comp.style[key] = result;
+        styleObject[key] = result;
     });
+    graphic.text = props.value;
 };
 
 const updateLine = (props: LineProps, line: Graphics) => {

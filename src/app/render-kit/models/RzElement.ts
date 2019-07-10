@@ -3,6 +3,7 @@ import { ComponentConstructor, RenderFunction } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 import { AnimationBase } from "../animations";
 import { PRIMS } from "../primitives";
+import { Dictionary } from "@app/shared";
 
 export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
@@ -78,6 +79,7 @@ export type MetaProps = {
     engine?: AbstractRenderEngine;
     context?: ContextManager;
     assets?: AssetManager;
+    hooks?: Map<RenderFunction, any[]>;
 };
 
 export type PrimitiveType = keyof typeof PRIMS;

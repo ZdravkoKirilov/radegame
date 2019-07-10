@@ -1,4 +1,4 @@
-import { AbstractLoader, LoaderResources, LoaderResource } from "@app/rendering";
+import { AbstractLoader, LoaderResources, LoaderResource } from "@app/render-kit";
 import { loaders } from "pixi.js";
 
 export class PixiLoader implements AbstractLoader {

@@ -1,7 +1,8 @@
 import { RzElementProps, MetaProps } from "../../models";
 import { BasicComponent } from "../../bases";
 
-export class PrimitiveText extends BasicComponent<RzElementProps> {
+export type PrimitiveTextProps = { value: any } & RzElementProps;
+export class PrimitiveText extends BasicComponent<PrimitiveTextProps> {
 
     static defaultTextStyle = {
         fontFamily: 'Arial', fontSize: 24, stroke: '#ffffff', fill: ['#ffffff'], align: 'center', strokeThickness: 1,
@@ -9,7 +10,7 @@ export class PrimitiveText extends BasicComponent<RzElementProps> {
 
     style: any;
 
-    constructor(props: RzElementProps, graphic: any, meta: MetaProps) {
+    constructor(props: PrimitiveTextProps, graphic: any, meta: MetaProps) {
         super(props, graphic, meta);
     }
 }

@@ -13,6 +13,7 @@ export const createRenderer = (engine: AbstractRenderEngine, resources: Set<stri
             meta.engine = engine;
             meta.context = new ContextManager();
             meta.assets = assetManager;
+            meta.hooks = new Map();
             const node = createComponent(elem, engine.factory, meta);
             mountComponent(node, container);
             resolve(node);

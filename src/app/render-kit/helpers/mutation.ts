@@ -9,6 +9,7 @@ import { mountComponent, unmountComponent } from "./mounting";
 import { isFunctional, isPrimitive, isStateful, isMemo, flatRender } from "./misc";
 import { AbstractContainer } from "../interfaces";
 import { MemoRenderFunction } from "../bases";
+import { prepareExtras } from "./hooks";
 
 export const updateComposite = (element: RzElement, component: CompositeComponent) => {
     const currentChild: Component = (component.children || [])[0];
@@ -28,16 +29,17 @@ export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => 
     const shouldUpdate = memoComp.shouldUpdate;
     const shouldUpdateIsFunction = typeof shouldUpdate === typeof Function;
     const shouldUpdateIsArray = Array.isArray(shouldUpdate);
+    const extras = prepareExtras(memoComp, memoComp.meta);
 
     if (shouldUpdateIsFunction && (shouldUpdate as Function)(memoComp.props, updated.props)) {
         memoComp.props = updated.props;
-        return updateComponent(memoComp, memoComp(updated.props));
+        return updateComponent(memoComp, memoComp(updated.props, extras));
     }
 
     if (shouldUpdateIsArray && shouldUpdate.length > 0) {
         if ((shouldUpdate as []).some(propName => memoComp.props[propName] !== updated.props[propName])) {
             memoComp.props = updated.props;
-            return updateComponent(memoComp, memoComp(updated.props));
+            return updateComponent(memoComp, memoComp(updated.props, extras));
         }
         memoComp.props = updated.props;
         return;
@@ -45,7 +47,7 @@ export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => 
 
     if (memoComp.props !== updated) {
         memoComp.props = updated.props;
-        return updateComponent(memoComp, memoComp(updated.props));
+        return updateComponent(memoComp, memoComp(updated.props, extras));
     }
 
     memoComp.props = updated.props;
@@ -64,7 +66,6 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
             const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
             newChildren = [newInstance];
             mountComponent(newInstance, container);
-            //updateComponent(newInstance, { ...incomingChild });
             unmountComponent(currentChild);
         }
     }
@@ -78,7 +79,6 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
         const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
         newChildren = [newInstance];
         mountComponent(newInstance, container);
-        //updateComponent(newInstance, { ...incomingChild });
     }
     return newChildren;
 }
@@ -90,7 +90,8 @@ export const updateByType = (target: Component<RzElementProps>, updated: RzEleme
             return updateMemo(target, updated);
         } else {
             target.props = updated.props;
-            updateComponent(target, target(updated.props));
+            const extras = prepareExtras(target, target.meta);
+            updateComponent(target, target(updated.props, extras));
         }
     }
 

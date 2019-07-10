@@ -24,7 +24,7 @@ export interface ComponentConstructor<T extends RzElementProps = {}> {
 }
 
 export type ShouldUpdateCheck<T extends RzElementProps = {}> = ((prevProps: T, nextProps: T) => boolean) | Array<keyof T>;
-type Render<T> = (props?: T) => RzElement;
+type Render<T> = (props?: T, extras?: RenderFunctionExtras) => RzElement;
 
 export type RenderFunction<T = {}> = Render<T & RzElementProps> & Partial<{
     container: AbstractContainer;
@@ -33,3 +33,9 @@ export type RenderFunction<T = {}> = Render<T & RzElementProps> & Partial<{
     meta: MetaProps;
     type: RenderFunction<T>;
 }>
+
+export type StateHook = <T = any>(initialValue?: T) => [T, (value: T) => void];
+
+export type RenderFunctionExtras = {
+    useState: StateHook;
+}

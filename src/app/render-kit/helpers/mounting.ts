@@ -23,6 +23,7 @@ export const unmountStatefulComponent = (component: StatefulComponent) => {
 };
 
 export const unmountFunctionalComponent = (component: RenderFunction) => {
+    component.meta.hooks.delete(component);
     unmountComposite(component);
 };
 
@@ -42,8 +43,10 @@ export const mountComponent = (component: Component, container: AbstractContaine
         (component as any).__mounted__ = true;
         return mountPrimitiveComponent(component, container);
     }
-    (component as any).__mounted__ = true;
-    return mountFunctionalComponent(component, container);
+    if (isFunctional(component)) {
+        (component as any).__mounted__ = true;
+        return mountFunctionalComponent(component, container);
+    }
 };
 
 const mountStatefulComponent = (component: StatefulComponent, container: AbstractContainer) => {

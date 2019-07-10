@@ -5,10 +5,11 @@ export type Props = {
     style: Style;
     selected: boolean;
     image: string;
+    pesho: number;
     data: Slot;
 }
 
-const EmptySlot: RenderFunction<Props> = ({ style, selected, image, data }) => {
+const EmptySlot: RenderFunction<Props> = ({ style, selected, image, data, pesho }) => {
 
     return createElement('fragment', {},
         createElement('rectangle', {
@@ -34,7 +35,7 @@ const EmptySlot: RenderFunction<Props> = ({ style, selected, image, data }) => {
             }
         }),
         createElement('text', {
-            value: data.name, styles: {
+            value: pesho.toString() || data.name, styles: {
                 x: 0,
                 y: -25,
             }, textStyle: {
