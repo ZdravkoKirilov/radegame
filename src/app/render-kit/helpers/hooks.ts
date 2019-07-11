@@ -17,6 +17,5 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
         index += 1;
         return data;
     };
-
     return { useState };
 };

@@ -17,7 +17,7 @@ const StageBackground = Memo<Props>(
                         selectSlot(null);
                         selectPath(null);
                     },
-                    
+
                 },
                     createElement<SpriteProps>('sprite', {
                         image: background.image,

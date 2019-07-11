@@ -15,11 +15,10 @@ export type Props = {
 };
 
 export const Node = Memo<Props>(
-    (props, { useState }) => {
+    (props) => {
         const { data, style, onDragMove, onDragEnd, onSelect, selected, image } = props;
         const emptySlot = !data.board && !data.field && !data.draw;
-        const [pesho, setPesho] = useState(1);
-        debugger;
+
         return (
             createElement(MainContext.Consumer, {
                 render: ctx => {
@@ -28,19 +27,15 @@ export const Node = Memo<Props>(
                     return createElement('container', {
                         styles: { x: data.x, y: data.y },
                         id: data.id, onDragMove, onDragEnd,
-                        // draggable: { xAxis: true, yAxis: true },
-                        // onPointerDown: () => onSelect(data),
-                        onPointerDown: () => {
-                            debugger;
-                            setPesho(pesho + 1);
-                        },
+                        draggable: { xAxis: true, yAxis: true },
+                        onPointerDown: () => onSelect(data),
                         name: `node_${data.id}`
                     },
                         stage ? createElement<EmbeddedStageProps>(EmbeddedStage, {
                             stage,
                             slots: ctx.slots.filter(slot => slot.owner === stage.id),
                         }) : null,
-                        emptySlot ? createElement<EmptySlotProps>(EmptySlot, { pesho, id: 55, style, selected, image, data }) : null,
+                        emptySlot ? createElement<EmptySlotProps>(EmptySlot, { id: 55, style, selected, image, data }) : null,
                     )
                 }
             })
