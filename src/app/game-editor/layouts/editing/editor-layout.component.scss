@@ -8,7 +8,7 @@
     .main {
         height: 100%;
     }
-    /deep/ {
+    ::ng-deep {
         mat-sidenav-content {
             overflow: hidden;
         }

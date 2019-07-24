@@ -4,7 +4,7 @@
     display: none;
 }
 
-/deep/ {
+::ng-deep {
     .error-snackbar {
         background: $warn;
         color: $text-alternate;
