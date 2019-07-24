@@ -3,7 +3,7 @@ import { Store } from '@ngrx/store';
 import { Actions, Effect } from '@ngrx/effects';
 import { Observable ,  of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { GameEditService, GameFetchService } from '../../services';
 import { AppState } from '../reducers';
