@@ -23,6 +23,7 @@ export const SlotsList = Memo<Props>(
             return createElement<NodeProps>(Node, {
                 data: elem, key: elem.id, onDragMove,
                 style,
+                images,
                 image: image ? image.thumbnail || image.svg : '',
                 onDragEnd: () => onDragEnd(elem.id),
                 onSelect: selectSlot,

@@ -15,7 +15,7 @@ export class ContextConsumer<T> extends StatefulComponent<{ value?: T, render?: 
     }
 
     shouldUpdate(nextProps: { value?: T, render?: RenderCallback<T> }, nextState: { value: T }) {
-        return true;
+        return this.state.value;
         // return nextState.value !== this.state.value;
     }
 

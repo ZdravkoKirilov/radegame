@@ -1,15 +1,48 @@
-import { RenderFunction, createElement } from "@app/render-kit";
-import { Stage, Slot } from "@app/game-mechanics";
+import { RenderFunction, createElement, composePoints, DynamicSprite } from "@app/render-kit";
+import { Stage, Slot, Style, ImageAsset } from "@app/game-mechanics";
 
 export type Props = {
+    style: Style;
+    selected: boolean;
     stage: Stage;
     slots: Slot[];
+    image: ImageAsset;
 }
 
-const EmbeddedStage: RenderFunction<Props> = ({ stage }) => {
-
+const EmbeddedStage: RenderFunction<Props> = ({ stage, style, selected, image }) => {
     return createElement('fragment', {},
-
+        createElement('rectangle', {
+            button: true,
+            points: composePoints(style.points),
+            styles: {
+                strokeThickness: selected ? 5 : style.strokeThickness,
+                strokeColor: style.strokeColor,
+                x: 0,
+                y: 0,
+                width: style.width + 10,
+                height: style.height + 35,
+                borderRadius: 5,
+                radius: style.width
+            }
+        }),
+        createElement(DynamicSprite, {
+            image: image.image, styles: {
+                x: 5,
+                y: 5,
+                width: style.width,
+                height: style.height,
+            }
+        }),
+        createElement('text', {
+            value: stage.name, styles: {
+                x: 0,
+                y: -25,
+            }, textStyle: {
+                fontSize: 18,
+                stroke: '#141619',
+                fill: '#141619'
+            }
+        }),
     );
 };
 
