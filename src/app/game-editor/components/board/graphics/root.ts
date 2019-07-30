@@ -1,6 +1,6 @@
 import { combineLatest, Subscription } from "rxjs";
 import { Store, select } from "@ngrx/store";
-import { filter, map } from "rxjs/operators";
+import { map, filter } from "rxjs/operators";
 
 import {
     StatefulComponent, createElement, PrimitiveContainer,
@@ -10,10 +10,10 @@ import {
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
 import Background, { Props as BGProps } from './background';
-import { Slot, PathEntity, Stage, ImageAsset, Style, Source, GameEntity } from "@app/game-mechanics";
+import { Slot, PathEntity, Stage, GameEntity, GameEntitiesDict } from "@app/game-mechanics";
 import { MainContext } from "./context";
 import { AppState } from "@app/core";
-import { getItems, formKeys, getActiveStage, SaveItemAction, FormKey } from "../../../state";
+import { formKeys, getActiveStage, SaveItemAction, FormKey, getEntitiesDict, getItems } from "../../../state";
 import { selectGameId } from "@app/shared";
 
 export type Props = {
@@ -23,28 +23,20 @@ export type Props = {
 }
 
 type State = Partial<{
+    entities: GameEntitiesDict;
     slots: Slot[];
     paths: PathEntity[];
-    images: ImageAsset[];
-    sources: Source[];
     stage: Stage;
-    styles: Style[];
     selectedSlot: Slot;
     selectedPath: PathEntity;
     gameId: number;
     loaded: boolean;
-    stages: Stage[];
 }>
 
 @AutoClean()
 export class RootComponent extends StatefulComponent<Props, State> {
     state = {
-        slots: [],
-        paths: [],
-        images: [],
-        sources: [],
-        styles: [],
-        stages: [],
+        entities: {},
         stage: null,
         selectedSlot: null,
         selectedPath: null,
@@ -53,31 +45,29 @@ export class RootComponent extends StatefulComponent<Props, State> {
     data$: Subscription;
 
     didMount() {
-        this.data$ = combineLatest<any>(
+        this.data$ = combineLatest(
             this.props.store.pipe(select(getActiveStage)),
+            this.props.store.pipe(select(selectGameId)),
+            this.props.store.pipe(select(getEntitiesDict)),
             this.props.store.pipe(select(getItems<Slot>(formKeys.slots))),
             this.props.store.pipe(select(getItems<PathEntity>(formKeys.paths))),
-            this.props.store.pipe(select(getItems<ImageAsset>(formKeys.images))),
-            this.props.store.pipe(select(getItems<Source>(formKeys.sources))),
-            this.props.store.pipe(select(getItems<Style>(formKeys.styles))),
-            this.props.store.pipe(select(selectGameId)),
-            this.props.store.pipe(select(getItems<Style>(formKeys.stages))),
         ).pipe(
-            filter(data => data.every(elem => !!elem)),
-            map(([stage, slots, paths, images, sources, styles, gameId, stages]) => {
+            map(([stage, gameId, entities, slots, paths]) => {
                 this.setState({
-                    slots, paths, images, sources, stage, styles, gameId, stages, loaded: true
+                    entities, stage, gameId, loaded: true,
+                    slots: slots.filter(slot => slot.owner === stage.id),
+                    paths: paths.filter(path => path.owner === stage.id),
                 });
             }),
         ).subscribe();
     }
 
     render() {
-        const { slots, images, stage, styles, sources, paths, selectedSlot, selectedPath, loaded, stages } = this.state;
+        const { stage, selectedSlot, selectedPath, loaded, entities, slots, paths } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot, selectPath } = this;
-        const background = images.find(img => img.id === stage.image);
+        const background = loaded ? entities.images[stage.id] : null;
 
-        return loaded ? createElement(MainContext.Provider, { name: 'gosho', value: { stages, images, styles, slots } },
+        return loaded ? createElement(MainContext.Provider, { value: { entities } },
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
                 height: window.innerHeight,
@@ -94,7 +84,10 @@ export class RootComponent extends StatefulComponent<Props, State> {
                 }),
 
                 createElement<PathProps>(Paths, {
-                    paths, slots, styles: styles as any, selectPath,
+                    paths,
+                    slots: entities.slots,
+                    styles: entities.styles,
+                    selectPath,
                     selected: selectedPath,
                 }),
 
@@ -103,7 +96,6 @@ export class RootComponent extends StatefulComponent<Props, State> {
                     onDragMove: handleDragMove,
                     selectSlot,
                     selected: selectedSlot,
-                    images, styles: styles as any, sources,
                     onDragEnd: handleDragEnd,
                 })
             ),
@@ -121,7 +113,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     handleDragEnd = (slotId: number) => {
-        let slot = this.state.slots.find(elem => elem.id === slotId);
+        let slot = this.state.entities.slots[slotId];
         slot = <Slot>{ ...slot, game: this.state.gameId, owner: this.state.stage.id };
         if (this.state.selectedSlot) {
             slot.id = this.state.selectedSlot.id;

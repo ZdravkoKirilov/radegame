@@ -25,14 +25,14 @@ const EmbeddedStage: RenderFunction<Props> = ({ stage, style, selected, image })
                 radius: style.width
             }
         }),
-        createElement(DynamicSprite, {
+        image ? createElement(DynamicSprite, {
             image: image.image, styles: {
                 x: 5,
                 y: 5,
                 width: style.width,
                 height: style.height,
             }
-        }),
+        }) : null,
         createElement('text', {
             value: stage.name, styles: {
                 x: 0,

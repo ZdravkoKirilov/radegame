@@ -5,9 +5,8 @@ import { FEATURE_NAME } from '../utils/config';
 import { GameEditorFeature } from './reducers';
 import { FormKey, formKeys } from './form-keys';
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Stage, Game, GameEntity } from '@app/game-mechanics';
-import { ROUTER_PARAMS, selectRouterFeature, selectGameId } from '@app/shared';
-import { Dictionary } from '@ngrx/entity';
+import { Stage, Game, GameEntity, GameEntityList, GameEntitiesDict } from '@app/game-mechanics';
+import { ROUTER_PARAMS, selectRouterFeature, selectGameId, Dictionary } from '@app/shared';
 
 const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
 
@@ -62,6 +61,19 @@ export const getEntities = createSelector(
         }
         result.setups = game ? game.setups || [] : [];
         return result;
+    }
+);
+
+export const getEntitiesDict = createSelector(
+    selectForm,
+    form => {
+        if (form) {
+            const result: GameEntitiesDict = {};
+            for (let key in form) {
+                result[key] = form[key].items;
+            }
+            return result;
+        }
     }
 );
 

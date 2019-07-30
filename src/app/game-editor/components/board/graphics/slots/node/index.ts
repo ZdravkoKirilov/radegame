@@ -1,15 +1,14 @@
+import { values } from 'lodash';
+
 import { createElement, PrimitiveContainer, Points, Memo } from "@app/render-kit";
-import { Slot, Style, ImageAsset } from "@app/game-mechanics";
+import { Slot } from "@app/game-mechanics";
 import EmptySlot, { Props as EmptySlotProps } from './empty-slot';
 import EmbeddedStage, { Props as EmbeddedStageProps } from './embedded-stage';
 import { MainContext } from "../../context";
 
 export type Props = {
     data: Slot;
-    style: Style,
-    image: string;
     selected: boolean;
-    images: ImageAsset[];
     onDragMove: (comp: PrimitiveContainer) => void;
     onDragEnd: (slot: Slot) => void;
     onSelect: (item: Slot) => void;
@@ -17,13 +16,15 @@ export type Props = {
 
 export const Node = Memo<Props>(
     (props) => {
-        const { data, style, onDragMove, onDragEnd, onSelect, selected, image, images } = props;
+        const { data, onDragMove, onDragEnd, onSelect, selected } = props;
         const emptySlot = !data.board && !data.field && !data.draw;
 
         return (
             createElement(MainContext.Consumer, {
                 render: ctx => {
-                    const stage = data.board && ctx && ctx.stages ? ctx.stages.find(elem => elem.id === data.board) : null;
+                    const stage = data.board && ctx && ctx.entities.stages ? ctx.entities.stages[data.board] : null;
+                    const style = ctx.entities.styles[data.style];
+                    const image = data.image ? ctx.entities.images[data.image].image : '';
 
                     return createElement('container', {
                         styles: { x: data.x, y: data.y },
@@ -34,18 +35,18 @@ export const Node = Memo<Props>(
                     },
                         stage ? createElement<EmbeddedStageProps>(EmbeddedStage, {
                             stage,
-                            slots: ctx.slots.filter(slot => slot.owner === stage.id),
+                            slots: values(ctx.entities.slots).filter(slot => slot.owner === stage.id),
                             style,
                             selected,
-                            image: images.find(img => stage.image === img.id)
+                            image: ctx.entities.images[stage.image]
                         }) : null,
                         emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, selected, image, data }) : null,
-                    )
+                    );
                 }
             })
         );
     },
-    ['data', 'style', 'image', 'selected'],
+    ['data', 'selected'],
 );
 
 export default Node;

@@ -1,25 +1,25 @@
 import { createElement, Points, Memo } from "@app/render-kit";
 import { PathEntity, Slot, Style } from "@app/game-mechanics";
-import { toDictionary } from "@app/shared";
+import { Dictionary } from "@app/shared";
 
 import Path, { Props as PathProps } from './node';
 
 export type Props = {
     paths: PathEntity[];
-    slots: Slot[];
-    styles: Style[];
+    slots: Dictionary<Slot>;
+    styles: Dictionary<Style>;
     selected: PathEntity;
     selectPath: (item: PathEntity) => void;
 }
 
 export const PathsList = Memo<Props>(
     (props) => {
-        const nodesList = toDictionary(props.slots);
+        const nodesList = props.slots;
 
         const lines = props.slots && props.slots.length ? props.paths.map(elem => {
-            const fromStyle = props.styles.find(style => style.id === nodesList[elem.from_slot].style);
-            const toStyle = props.styles.find(style => style.id === nodesList[elem.to_slot].style);
-            const style = props.styles.find(style => style.id === elem.style);
+            const fromStyle = props.styles[nodesList[elem.from_slot].style];
+            const toStyle = props.styles[nodesList[elem.to_slot].style];
+            const style = props.styles[elem.style];
 
             const from = {
                 left: nodesList[elem.from_slot].x,

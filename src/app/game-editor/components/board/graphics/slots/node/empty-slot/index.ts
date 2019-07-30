@@ -24,14 +24,14 @@ const EmptySlot: RenderFunction<Props> = ({ style, selected, image, data }) => {
                 radius: style.width
             }
         }),
-        createElement(DynamicSprite, {
+        image ? createElement(DynamicSprite, {
             image, styles: {
                 x: 5,
                 y: 5,
                 width: style.width,
                 height: style.height,
             }
-        }),
+        }) : null,
         createElement('text', {
             value: data.name, styles: {
                 x: 0,

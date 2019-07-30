@@ -55,3 +55,11 @@ export type GameEntityList = Dictionary<GameEntity>;
 export * from './types';
 
 export type InteractiveEntity = GameAction & Slot & PathEntity & Condition & Choice & Field & Token;
+
+export type GameEntitiesDict = {
+    images: Dictionary<ImageAsset>;
+    slots: Dictionary<Slot>;
+    paths: Dictionary<PathEntity>;
+    styles: Dictionary<Style>;
+    stages: Dictionary<Stage>;
+}

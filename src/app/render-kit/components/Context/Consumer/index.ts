@@ -20,7 +20,7 @@ export class ContextConsumer<T> extends StatefulComponent<{ value?: T, render?: 
     }
 
     render() {
-        return this.props.render(this.state.value);
+        return this.state.value ? this.props.render(this.state.value) : null;
     }
 
     didMount() {
