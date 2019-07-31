@@ -8,7 +8,7 @@ import { RenderService } from './services/render-service';
 })
 export class ExperimentsContainerComponent implements OnInit {
 
-  @ViewChild('canvasWrapper') canvasWrapper: ElementRef<HTMLDivElement>;
+  @ViewChild('canvasWrapper', { static: false}) canvasWrapper: ElementRef<HTMLDivElement>;
 
   constructor(private renderService: RenderService) { }
   

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable ,  of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -25,14 +25,16 @@ export class CoreEffectsService {
     }
 
     @Effect({ dispatch: false }) showSnackbar: Observable<any> = this.actions$
-        .ofType(actionTypes.OPERATION_SUCCESS, actionTypes.OPERATION_FAIL).pipe(
+        .pipe(
+            ofType(actionTypes.OPERATION_SUCCESS, actionTypes.OPERATION_FAIL),
             map((action: CoreAction) => {
                 const message = action.payload.toString();
                 this.snackbar.open(message, '', { duration: 3000 });
             })
         );
 
-    @Effect() getGames: Observable<any> = this.actions$.ofType(actionTypes.GET_GAMES).pipe(
+    @Effect() getGames: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.GET_GAMES),
         mergeMap(() => {
             return this.api.getGames().pipe(
                 mergeMap((res: Game[]) => {

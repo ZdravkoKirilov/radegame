@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 
@@ -27,8 +27,8 @@ export class GenericEffectsService {
     }
 
     @Effect() fetchGameData: Observable<any> = this.actions$
-        .ofType(actionTypes.FETCH_GAME_DATA)
         .pipe(
+            ofType(actionTypes.FETCH_GAME_DATA),
             mergeMap((action: FetchGameDataAction) => {
                 return this.fetcher.getGameData(action.payload)
                     .pipe(
@@ -63,7 +63,8 @@ export class GenericEffectsService {
             })
         )
 
-    @Effect() fetchItems: Observable<any> = this.actions$.ofType(actionTypes.FETCH_ITEMS).pipe(
+    @Effect() fetchItems: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.FETCH_ITEMS),
         map((action: FetchItemsAction) => {
             const payload = <GenericActionPayload>{ ...action.payload };
             return payload;
@@ -89,7 +90,8 @@ export class GenericEffectsService {
         })
     )
 
-    @Effect() saveItem: Observable<any> = this.actions$.ofType(actionTypes.SAVE_ITEM).pipe(
+    @Effect() saveItem: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.SAVE_ITEM),
         map((action: SaveItemAction) => {
             const payload = <GenericActionPayload>{ ...action.payload };
             return payload;
@@ -114,7 +116,8 @@ export class GenericEffectsService {
         }),
     );
 
-    @Effect() deleteItem: Observable<any> = this.actions$.ofType(actionTypes.DELETE_ITEM).pipe(
+    @Effect() deleteItem: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.DELETE_ITEM),
         map((action: DeleteItemAction) => action.payload),
         mergeMap((payload: GenericActionPayload) => {
             const data = <GameEntity>payload.data;

@@ -21,7 +21,7 @@ export class OverlayComponent implements OnInit, OnDestroy {
 	})
 	@Input() data = {};
 
-	@ContentChild('content') component: any;
+	@ContentChild('content', { static: false }) component: any;
 	overlayRef: AppOverlayRef;
 	componentRef: { data: any };
 

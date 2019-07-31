@@ -18,8 +18,8 @@ export class ImagePickerComponent implements OnInit {
     @Input() form: FormGroup;
     @Input() data: BaseControl = {};
     @Output() change: EventEmitter<BaseControl> = new EventEmitter();
-    @ViewChild('filePicker') filePicker: ElementRef;
-    @ViewChild('ownForm') ownForm: ElementRef;
+    @ViewChild('filePicker', { static: false }) filePicker: ElementRef;
+    @ViewChild('ownForm', { static: false }) ownForm: ElementRef;
 
     get label() {
         const label = this.data.label || 'Add image';

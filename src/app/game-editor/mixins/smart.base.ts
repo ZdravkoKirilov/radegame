@@ -13,7 +13,7 @@ import { AutoUnsubscribe, selectGameId } from '@app/shared';
 @AutoUnsubscribe()
 export abstract class SmartBase implements OnInit {
 
-    @ViewChild('template') template: TemplateRef<any>;
+    @ViewChild('template', { static: false }) template: TemplateRef<any>;
 
     abstract key: FormKey;
 

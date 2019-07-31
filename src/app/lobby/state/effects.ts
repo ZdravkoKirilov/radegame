@@ -1,4 +1,4 @@
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
@@ -80,7 +80,8 @@ export class LobbyEffects {
     );
 
     @Effect()
-    fetchGame = this.actions$.ofType<FetchGame>(FETCH_GAME).pipe(
+    fetchGame = this.actions$.pipe(
+        ofType<FetchGame>(FETCH_GAME),
         mergeMap(action => {
             return this.fetcher.getGame(action.payload).pipe(
                 map(response => {
@@ -94,7 +95,8 @@ export class LobbyEffects {
     )
 
     @Effect()
-    fetchLobbies = this.actions$.ofType<FetchLobbies>(FETCH_LOBBIES).pipe(
+    fetchLobbies = this.actions$.pipe(
+        ofType<FetchLobbies>(FETCH_LOBBIES),
         mergeMap(action => {
             return this.api.fetchLobbies().pipe(
                 map(response => {
@@ -108,7 +110,8 @@ export class LobbyEffects {
     );
 
     @Effect()
-    fetchLobby = this.actions$.ofType<FetchLobby>(FETCH_LOBBY).pipe(
+    fetchLobby = this.actions$.pipe(
+        ofType<FetchLobby>(FETCH_LOBBY),
         mergeMap(action => {
             return this.api.fetchLobby(action.payload).pipe(
                 map(response => {
@@ -122,7 +125,8 @@ export class LobbyEffects {
     )
 
     @Effect()
-    fetchPlayers = this.actions$.ofType<FetchPlayers>(FETCH_PLAYERS).pipe(
+    fetchPlayers = this.actions$.pipe(
+        ofType<FetchPlayers>(FETCH_PLAYERS),
         mergeMap(action => {
             return this.api.fetchPlayers(action.payload).pipe(
                 map(response => {
@@ -136,7 +140,8 @@ export class LobbyEffects {
     )
 
     @Effect()
-    fetchAllPlayers = this.actions$.ofType<FetchAllPlayers>(FETCH_ALL_PLAYERS).pipe(
+    fetchAllPlayers = this.actions$.pipe(
+        ofType<FetchAllPlayers>(FETCH_ALL_PLAYERS),
         mergeMap(action => {
             return this.api.fetchAllPlayers().pipe(
                 map(response => {
@@ -150,7 +155,8 @@ export class LobbyEffects {
     )
 
     @Effect()
-    saveLobby = this.actions$.ofType<CreateLobby>(CREATE_LOBBY).pipe(
+    saveLobby = this.actions$.pipe(
+        ofType<CreateLobby>(CREATE_LOBBY),
         mergeMap(action => this.api.createLobby(action.payload).pipe(
             mergeMap(response => {
 
@@ -167,7 +173,8 @@ export class LobbyEffects {
     )
 
     @Effect()
-    deleteLobby = this.actions$.ofType<DeleteLobby>(DELETE_LOBBY).pipe(
+    deleteLobby = this.actions$.pipe(
+        ofType<DeleteLobby>(DELETE_LOBBY),
         mergeMap(action => this.api.deleteLobby(action.payload).pipe(
             map(() => {
                 return new RemoveLobby(action.payload);
@@ -180,22 +187,26 @@ export class LobbyEffects {
 
 
     @Effect({ dispatch: false })
-    savePlayer = this.actions$.ofType<CreatePlayer | UpdatePlayer>(CREATE_PLAYER, UPDATE_PLAYER).pipe(
+    savePlayer = this.actions$.pipe(
+        ofType<CreatePlayer | UpdatePlayer>(CREATE_PLAYER, UPDATE_PLAYER),
         map(action => this.sockets.savePlayer(action))
     )
 
     @Effect({ dispatch: false })
-    deletePlayer = this.actions$.ofType<DeletePlayer>(DELETE_PLAYER).pipe(
+    deletePlayer = this.actions$.pipe(
+        ofType<DeletePlayer>(DELETE_PLAYER),
         map(action => this.sockets.removePlayer(action))
     )
 
     @Effect({ dispatch: false })
-    sendMessage = this.actions$.ofType<SendMessage>(SEND_MESSAGE).pipe(
+    sendMessage = this.actions$.pipe(
+        ofType<SendMessage>(SEND_MESSAGE),
         map(action => this.sockets.sendMessage(action))
     )
 
     @Effect()
-    fetchTeams = this.actions$.ofType<FetchTeams>(FETCH_TEAMS).pipe(
+    fetchTeams = this.actions$.pipe(
+        ofType<FetchTeams>(FETCH_TEAMS),
         mergeMap(action => {
             return this.fetcher.getTeams(action.payload).pipe(
                 map(response => {
@@ -209,7 +220,8 @@ export class LobbyEffects {
     );
 
     @Effect()
-    fetchFactions = this.actions$.ofType<FetchFactions>(FETCH_FACTIONS).pipe(
+    fetchFactions = this.actions$.pipe(
+        ofType<FetchFactions>(FETCH_FACTIONS),
         mergeMap(action => {
             return this.fetcher.getFactions(action.payload).pipe(
                 map(response => {
@@ -223,7 +235,8 @@ export class LobbyEffects {
     );
 
     @Effect()
-    fetchImages = this.actions$.ofType<FetchImages>(FETCH_IMAGES).pipe(
+    fetchImages = this.actions$.pipe(
+        ofType<FetchImages>(FETCH_IMAGES),
         mergeMap(action => {
             return this.fetcher.getImages(action.payload).pipe(
                 map(response => {

@@ -1,4 +1,4 @@
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError } from 'rxjs/operators';
@@ -17,7 +17,8 @@ export class CatalogEffects {
     constructor(private actions$: Actions, private fetcher: GameFetchService) { }
 
     @Effect()
-    fetchGames = this.actions$.ofType<FetchGames>(FETCH_GAMES).pipe(
+    fetchGames = this.actions$.pipe(
+        ofType<FetchGames>(FETCH_GAMES),
         mergeMap(action => {
             return this.fetcher.getGames().pipe(
                 map(response => {
@@ -32,7 +33,8 @@ export class CatalogEffects {
     )
 
     @Effect()
-    fetchGame = this.actions$.ofType<FetchGame>(FETCH_GAME).pipe(
+    fetchGame = this.actions$.pipe(
+        ofType<FetchGame>(FETCH_GAME),
         mergeMap(action => {
             return this.fetcher.getGame(action.payload).pipe(
                 map(response => {
@@ -47,7 +49,8 @@ export class CatalogEffects {
     )
 
     @Effect()
-    fetchImages = this.actions$.ofType<FetchImages>(FETCH_IMAGES).pipe(
+    fetchImages = this.actions$.pipe(
+        ofType<FetchImages>(FETCH_IMAGES),
         mergeMap(action => {
             return this.fetcher.getImages(action.payload).pipe(
                 map(response => {

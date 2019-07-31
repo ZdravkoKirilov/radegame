@@ -69,8 +69,8 @@ export class BoardEditorComponent {
 	@Output() deleteSlot = new EventEmitter<Slot>();
 	@Output() deletePath = new EventEmitter<PathEntity>();
 
-	@ViewChild('slots') slotEditor: any;
-	@ViewChild('paths') pathEditor: any;
+	@ViewChild('slots', { static: false }) slotEditor: any;
+	@ViewChild('paths', { static: false }) pathEditor: any;
 
 	showSlotEditor = false;
 	showPathEditor = false;

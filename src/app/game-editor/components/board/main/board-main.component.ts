@@ -24,7 +24,7 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 
 	@Input() images: ImageAsset[] = [];
 
-	@ViewChild('canvasWrapper') canvasWrapper: ElementRef<HTMLDivElement>;
+	@ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
 	@Output() selectSlot = new EventEmitter<Slot>();
 	@Output() selectPath = new EventEmitter<PathEntity>();
 

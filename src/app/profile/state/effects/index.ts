@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect } from '@ngrx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable ,  of } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
@@ -18,7 +18,8 @@ export class AuthEffectsService {
     constructor(private actions$: Actions, private api: AuthService, private storage: AppLocalStorageService) { }
 
     @Effect()
-    emailRegister: Observable<any> = this.actions$.ofType(actionTypes.EMAIL_REGISTER).pipe(
+    emailRegister: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.EMAIL_REGISTER),
         mergeMap((action: EmailRegisterAction) => {
             return this.api.registerWithEmail(action.payload).pipe(
                 mergeMap((res: AuthResponse) => {
@@ -32,7 +33,8 @@ export class AuthEffectsService {
     );
 
     @Effect()
-    emailLogin: Observable<any> = this.actions$.ofType(actionTypes.EMAIL_LOGIN).pipe(
+    emailLogin: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.EMAIL_LOGIN),
         mergeMap((action: EmailLoginAction) => {
             return this.api.loginWithEmail(action.payload).pipe(
                 mergeMap((res: AuthResponse) => {
@@ -46,7 +48,8 @@ export class AuthEffectsService {
     );
 
     @Effect()
-    saveToken: Observable<any> = this.actions$.ofType(actionTypes.SAVE_AUTH_TOKEN).pipe(
+    saveToken: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.SAVE_AUTH_TOKEN),
         map((action: SaveAuthTokenAction) => {
             this.storage.save('token', action.payload);
             return new GetCurrentUserAction();
@@ -54,7 +57,8 @@ export class AuthEffectsService {
     );
 
     @Effect()
-    getCurrentUser: Observable<any> = this.actions$.ofType(actionTypes.GET_CURRENT_USER).pipe(
+    getCurrentUser: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.GET_CURRENT_USER),
         mergeMap(() => {
             return this.api.getCurrentUser().pipe(
                 mergeMap((user: User) => {

@@ -36,7 +36,7 @@ import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.mo
         EffectsModule.forRoot([
             CoreEffectsService
         ]),
-        StoreRouterConnectingModule,
+        StoreRouterConnectingModule.forRoot(),
         HomeModule,
         GameEditorModule,
         ProfileModule,
