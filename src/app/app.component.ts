@@ -16,7 +16,7 @@ import { GetCurrentUserAction } from '@app/profile';
     ]
 })
 export class AppComponent implements OnInit {
-    @ViewChild('canvasWrapper') DOMElem: ElementRef;
+    @ViewChild('canvasWrapper', { static: false }) DOMElem: ElementRef;
     constructor(private store: Store<AppState>, private titleService: Title) {
         this.store.select('router').pipe(
             map(data => data && data.state ? data.state.data : null),
