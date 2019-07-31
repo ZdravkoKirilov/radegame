@@ -68,7 +68,7 @@ export const getEntitiesDict = createSelector(
     selectForm,
     form => {
         if (form) {
-            const result: GameEntitiesDict = {};
+            const result = {} as GameEntitiesDict;
             for (let key in form) {
                 result[key] = form[key].items;
             }

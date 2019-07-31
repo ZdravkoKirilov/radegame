@@ -2,7 +2,7 @@ import { StatefulComponent } from "../../../bases";
 import { MetaProps, RzElement } from "../../../models";
 import { ContextSubscription } from "../../../services";
 
-type RenderCallback <T> =(data: T) => RzElement;
+type RenderCallback<T> = (data: T) => RzElement;
 
 export class ContextConsumer<T> extends StatefulComponent<{ value?: T, render?: RenderCallback<T> }> {
 
@@ -14,9 +14,8 @@ export class ContextConsumer<T> extends StatefulComponent<{ value?: T, render?: 
         super(props, meta);
     }
 
-    shouldUpdate(nextProps: { value?: T, render?: RenderCallback<T> }, nextState: { value: T }) {
-        return this.state.value;
-        // return nextState.value !== this.state.value;
+    shouldRerender(nextProps: { value?: T, render?: RenderCallback<T> }, nextState: { value: T }) {
+        return true;
     }
 
     render() {

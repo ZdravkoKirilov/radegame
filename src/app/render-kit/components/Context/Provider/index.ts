@@ -17,6 +17,10 @@ export class ContextProvider<T = {}> extends StatefulComponent<Props & { value: 
         }
     }
 
+    didMount() {
+        this.updateContext(this.props.value);
+    }
+
     updateContext(value: T) {
         this.meta.context.set(this.constructor, value);
     }

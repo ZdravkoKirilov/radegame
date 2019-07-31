@@ -1,8 +1,7 @@
 import {
 	Component, OnInit, ViewChild, ElementRef,
-	ChangeDetectionStrategy,
 	OnDestroy,
-	Output,
+	Output, Input,
 	EventEmitter
 } from '@angular/core';
 import { Store } from '@ngrx/store';
@@ -11,7 +10,7 @@ import { RootComponent } from '../graphics';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
 import { MountRef } from '@app/render-kit';
-import { Slot, PathEntity } from '@app/game-mechanics';
+import { Slot, PathEntity, ImageAsset } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-main',
@@ -22,6 +21,8 @@ import { Slot, PathEntity } from '@app/game-mechanics';
 	// changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BoardMainComponent implements OnInit, OnDestroy {
+
+	@Input() images: ImageAsset[] = [];
 
 	@ViewChild('canvasWrapper') canvasWrapper: ElementRef<HTMLDivElement>;
 	@Output() selectSlot = new EventEmitter<Slot>();
@@ -43,6 +44,7 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 			props: {
 				store: this.store, selectSlot: _selectSlot, selectPath: _selectPath
 			},
+			assets: new Set(this.images.map(img => img.image))
 		});
 	}
 

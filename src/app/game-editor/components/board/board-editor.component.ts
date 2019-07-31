@@ -42,7 +42,8 @@ import { Slot, PathEntity, Stage, ImageAsset, Source } from '@app/game-mechanics
 				></rg-entity-editor>
 
 				<rg-board-main 
-					[ngClass]="{'hidden': visibleEditor}" 
+					[ngClass]="{'hidden': visibleEditor}"
+					[images]="images" 
 					(selectSlot)="selectSlot($event)" 
 					(selectPath)="selectPath($event)"
 				></rg-board-main>

@@ -113,7 +113,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     handleDragEnd = (slotId: number) => {
-        let slot = this.state.entities.slots[slotId];
+        let slot = this.state.slots.find(slot => slot.id === slotId);
         slot = <Slot>{ ...slot, game: this.state.gameId, owner: this.state.stage.id };
         if (this.state.selectedSlot) {
             slot.id = this.state.selectedSlot.id;

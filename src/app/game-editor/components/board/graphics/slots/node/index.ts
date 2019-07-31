@@ -25,7 +25,6 @@ export const Node = Memo<Props>(
                     const stage = data.board && ctx && ctx.entities.stages ? ctx.entities.stages[data.board] : null;
                     const style = ctx.entities.styles[data.style];
                     const image = data.image ? ctx.entities.images[data.image].image : '';
-
                     return createElement('container', {
                         styles: { x: data.x, y: data.y },
                         id: data.id, onDragMove, onDragEnd,
