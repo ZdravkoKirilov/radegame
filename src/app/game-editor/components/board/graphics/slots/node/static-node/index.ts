@@ -35,16 +35,17 @@ const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
                         radius: style.width
                     }
                 }),
-                createElement('container', {
-                    styles: { width: style.width, height: style.height }
+                stage ? createElement('container', {
+                    styles: {}
                 },
-                    stage ? createElement<EmbeddedStageProps>(EmbeddedStage, {
+                    createElement<EmbeddedStageProps>(EmbeddedStage, {
                         stage,
                         slots: values(ctx.entities.slots).filter(slot => slot.owner === stage.id),
                         image: ctx.entities.images[stage.image]
-                    }) : null,
-                    emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, image, data }) : null,
-                ),
+                    }),
+
+                ) : null,
+                emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, image, data }) : null,
             );
         }
     });

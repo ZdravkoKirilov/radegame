@@ -15,7 +15,7 @@ const EmbeddedStage: RenderFunction<Props> = ({ stage, image, slots }) => {
         );
     });
 
-    return createElement('container', {},
+    return createElement('fragment', {},
         image ? createElement(DynamicSprite, {
             image: image.image, styles: {
                 x: 5,
