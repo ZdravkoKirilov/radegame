@@ -1,10 +1,6 @@
-import { values } from 'lodash';
-
 import { createElement, PrimitiveContainer, Points, Memo } from "@app/render-kit";
 import { Slot } from "@app/game-mechanics";
-import EmptySlot, { Props as EmptySlotProps } from './empty-slot';
-import EmbeddedStage, { Props as EmbeddedStageProps } from './embedded-stage';
-import { MainContext } from "../../context";
+import StaticNode, { Props as StaticNodeProps } from './static-node';
 
 export type Props = {
     data: Slot;
@@ -17,32 +13,17 @@ export type Props = {
 export const Node = Memo<Props>(
     (props) => {
         const { data, onDragMove, onDragEnd, onSelect, selected } = props;
-        const emptySlot = !data.board && !data.field && !data.draw;
 
-        return (
-            createElement(MainContext.Consumer, {
-                render: ctx => {
-                    const stage = data.board && ctx && ctx.entities.stages ? ctx.entities.stages[data.board] : null;
-                    const style = ctx.entities.styles[data.style];
-                    const image = data.image ? ctx.entities.images[data.image].image : '';
-                    return createElement('container', {
-                        styles: { x: data.x, y: data.y },
-                        id: data.id, onDragMove, onDragEnd,
-                        draggable: { xAxis: true, yAxis: true },
-                        onPointerDown: () => onSelect(data),
-                        name: `node_${data.id}`
-                    },
-                        stage ? createElement<EmbeddedStageProps>(EmbeddedStage, {
-                            stage,
-                            slots: values(ctx.entities.slots).filter(slot => slot.owner === stage.id),
-                            style,
-                            selected,
-                            image: ctx.entities.images[stage.image]
-                        }) : null,
-                        emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, selected, image, data }) : null,
-                    );
-                }
-            })
+        return createElement(
+            'container',
+            {
+                styles: { x: data.x, y: data.y },
+                id: data.id, onDragMove, onDragEnd,
+                draggable: { xAxis: true, yAxis: true },
+                onPointerDown: () => onSelect(data),
+                name: `node_${data.id}`
+            },
+            createElement<StaticNodeProps>(StaticNode, { data, selected })
         );
     },
     ['data', 'selected'],
