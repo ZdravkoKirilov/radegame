@@ -24,16 +24,6 @@ const EmbeddedStage: RenderFunction<Props> = ({ stage, image, slots }) => {
                 height: stage.height,
             }
         }) : null,
-        createElement('text', {
-            value: stage.name, styles: {
-                x: 0,
-                y: -25,
-            }, textStyle: {
-                fontSize: 18,
-                stroke: '#141619',
-                fill: '#141619'
-            }
-        }),
         createElement('collection', {}, nodes),
     );
 };

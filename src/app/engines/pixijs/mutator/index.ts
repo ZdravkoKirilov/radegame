@@ -1,11 +1,12 @@
 import {
-    AbstractMutator, isComposite,
+    AbstractMutator,
     RzElementProps, PRIMS, Points,
-    updateCollection, updateContainer, unmountComposite, BasicComponent,
+    updateCollection, updateContainer, BasicComponent,
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
     PrimitiveEllipse,
     LineProps,
     unmountComponent,
+    applyTransformations,
 } from "@app/render-kit";
 import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text } from "pixi.js";
 import { setProp, getValue } from "../helpers";
@@ -52,7 +53,10 @@ const unmountChildren = (component: PrimitiveFragment): void => {
 };
 
 const updatePrimitive = (component: BasicComponent) => {
-    const { props, graphic, type } = component;
+    const { graphic, type } = component;
+    let { props } = component;
+    const styles = applyTransformations(props.styles);
+    props = { ...props, styles };
 
     switch (type) {
         case PRIMS.line:
@@ -101,8 +105,11 @@ const updatePrimitive = (component: BasicComponent) => {
 }
 
 const updateGeneric = (comp: BasicComponent) => {
-    const { props, graphic } = comp;
-    const styles = props.styles;
+    const { graphic } = comp;
+    let { props } = comp;
+    const styles = applyTransformations(props.styles);
+    props = { ...props, styles };
+    
     if (graphic && props.name) {
         graphic.name = props.name;
     }

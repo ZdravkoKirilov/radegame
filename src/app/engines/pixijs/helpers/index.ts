@@ -19,11 +19,15 @@ export const setProp = (comp: BasicComponent, prop: keyof RzStyles, value: strin
     let result = getValue(value, prop, comp);
 
     if (prop === 'anchor') {
-        return (graphic as Sprite).anchor.set(result);
+        const [x, y] = result.split(' ').map(elem => Number(elem));
+        return (graphic as Sprite).anchor.set(x, y);
     }
 
     if (prop === 'pivot') {
-        return (graphic as Sprite).pivot.set(result);
+        const [x, y] = result.split(' ').map(elem => Number(elem));
+        graphic.pivot.x = x;
+        graphic.pivot.y = y;
+        return;
     }
 
     if (prop === 'skew') {
@@ -32,7 +36,10 @@ export const setProp = (comp: BasicComponent, prop: keyof RzStyles, value: strin
     }
 
     if (prop === 'scale') {
-        return (graphic as Sprite).scale.set(result);
+        const [x, y] = result.split(' ').map(elem => Number(elem));
+        graphic.scale.x = x;
+        graphic.scale.y = y;
+        return;
     }
 
     if (prop === 'mask') {

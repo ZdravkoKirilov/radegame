@@ -1,5 +1,5 @@
 import { chunk, values } from 'lodash';
-import { Points, Component, RenderFunction, CompositeComponent, RzElement, MetaProps } from '../models';
+import { Points, Component, RenderFunction, CompositeComponent, RzElement, MetaProps, RzStyles } from '../models';
 import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
@@ -59,4 +59,26 @@ export const cloneRenderFunction = (originalType: RenderFunction, meta: MetaProp
     }
     component.meta = meta;
     return component;
-}
+};
+
+export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyles> => {
+    styles = styles || {};
+    let copy = { ...styles };
+    if (styles.rotation) {
+        copy.rotation = copy.rotation * Math.PI / 180;
+        copy = { ...copy, ...centeredRotation(styles) };
+        return copy;
+    }
+    return styles;
+};
+
+const centeredRotation = (style: Partial<RzStyles>): Partial<RzStyles> => {
+    if (!style.width || !style.height) {
+        return {};
+    }
+    return {
+        pivot: `${style.width / 2} ${style.height / 2}`,
+        x: style.width / 2,
+        y: style.height / 2,
+    }
+};

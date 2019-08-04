@@ -3,7 +3,7 @@ import { values } from 'lodash';
 import { RenderFunction, createElement, Memo, composePoints } from "@app/render-kit";
 import EmbeddedStage, { Props as EmbeddedStageProps } from "../embedded-stage";
 import EmptySlot, { Props as EmptySlotProps } from "../empty-slot";
-import { Slot } from '@app/game-mechanics';
+import { Slot, Style, Stage } from '@app/game-mechanics';
 import { MainContext } from '../../../context';
 
 export type Props = {
@@ -35,20 +35,54 @@ const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
                         radius: style.width
                     }
                 }),
-                stage ? createElement('container', {
-                    styles: {}
-                },
-                    createElement<EmbeddedStageProps>(EmbeddedStage, {
-                        stage,
-                        slots: values(ctx.entities.slots).filter(slot => slot.owner === stage.id),
-                        image: ctx.entities.images[stage.image]
+                stage ? createElement('container', {},
+                    createElement('text', {
+                        value: stage.name, styles: {
+                            x: 0,
+                            y: -25,
+                        }, textStyle: {
+                            fontSize: 18,
+                            stroke: '#141619',
+                            fill: '#141619'
+                        }
                     }),
-
+                    createElement('container', {
+                        styles: {
+                            rotation: 270,
+                            width: style.width,
+                            height: style.height,
+                        }
+                    },
+                        createElement('container', {
+                            styles: { ...adjustScaling(style, stage), }
+                        },
+                            createElement<EmbeddedStageProps>(EmbeddedStage, {
+                                stage,
+                                slots: values(ctx.entities.slots).filter(slot => slot.owner === stage.id),
+                                image: ctx.entities.images[stage.image]
+                            }),
+                        ),
+                    ),
                 ) : null,
                 emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, image, data }) : null,
             );
         }
     });
+};
+
+const adjustScaling = (slotStyle: Style, stage: Stage) => {
+    let scaleX = 1;
+    let scaleY = 1;
+    if (stage.width > slotStyle.width) {
+        scaleX = slotStyle.width / stage.width;
+    }
+    if (stage.height > slotStyle.height) {
+        scaleY = slotStyle.height / stage.height;
+    }
+    const scale = {
+        scale: `${scaleX} ${scaleY}`
+    };
+    return scale;
 };
 
 export default Memo(StaticNode);

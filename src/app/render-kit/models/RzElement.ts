@@ -55,18 +55,19 @@ export type RzStyles = {
     height: number;
     x: number;
     y: number;
-    rotation: number;  // radians
+    rotation: number;  // degrees
+
     skew: string; // "xValue yValue"
     angle: number; // degrees
-    pivot: number;  // exact pixels
-    anchor: number; // 0 - 1
+    pivot: string;  // "xValue yValue"
+    anchor: string; // "xValue yValue"
     alpha: number;
     fill: number;
     radius: number;
     borderRadius: number;
     strokeThickness: number;
     strokeColor: number;
-    scale: number;
+    scale: string; // "xValue yValue"
     color: number;
     blur: number;
     distance: number;
