@@ -10,7 +10,7 @@ export type Props = {
 
 const EmbeddedStage: RenderFunction<Props> = ({ stage, image, slots }) => {
     const nodes = slots.map(slot => {
-        return createElement('container', { styles: { x: slot.x, y: slot.y } },
+        return createElement('container', { styles: { x: slot.x, y: slot.y }, key: slot.id },
             createElement<StaticNodeProps>(StaticNode, { data: slot }),
         );
     });

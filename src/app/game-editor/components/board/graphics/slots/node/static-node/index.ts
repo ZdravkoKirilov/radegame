@@ -48,7 +48,7 @@ const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
                     }),
                     createElement('container', {
                         styles: {
-                            rotation: 270,
+                            rotation: style.rotation,
                             width: style.width,
                             height: style.height,
                         }
