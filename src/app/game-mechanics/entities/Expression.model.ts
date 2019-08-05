@@ -3,5 +3,7 @@ export type Expression = Partial<{
     game: number;
 
     name: string;
+    description: string;
+
     code: string;
 }>

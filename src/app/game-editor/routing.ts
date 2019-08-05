@@ -14,6 +14,7 @@ import { GroupsContainerComponent } from './containers/groups/groups-container.c
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
 import { StatesContainerComponent } from './containers/states/states-container.component';
+import { ExpressionsContainerComponent } from './containers/expressions/expressions-container.component';
 
 export const routes: Routes = [
     {
@@ -59,6 +60,10 @@ export const routes: Routes = [
                 component: RoundsContainerComponent
             },
             {
+                path: 'expressions',
+                component: ExpressionsContainerComponent
+            },
+            {
                 path: 'actions',
                 component: ActionsContainerComponent
             },
@@ -85,7 +90,7 @@ export const routes: Routes = [
             {
                 path: 'sources',
                 component: SourcesContainerComponent
-            }, 
+            },
             {
                 path: 'keywords',
                 component: KeywordsContainerComponent

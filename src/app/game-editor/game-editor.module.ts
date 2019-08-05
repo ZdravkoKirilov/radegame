@@ -36,6 +36,7 @@ import { GroupsContainerComponent } from './containers/groups/groups-container.c
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
 import { StatesContainerComponent } from './containers/states/states-container.component';
+import { ExpressionsContainerComponent } from './containers/expressions/expressions-container.component';
 
 @NgModule({
     imports: [
@@ -87,6 +88,7 @@ import { StatesContainerComponent } from './containers/states/states-container.c
         StylesContainerComponent,
         SoundsContainerComponent,
         StatesContainerComponent,
+        ExpressionsContainerComponent,
     ]
 })
 export class GameEditorModule {

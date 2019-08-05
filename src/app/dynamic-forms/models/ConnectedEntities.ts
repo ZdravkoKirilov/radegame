@@ -1,7 +1,7 @@
 import {
- Field, Faction, Condition, ImageAsset,
+    Field, Faction, Condition, ImageAsset,
     GameAction, Round, Stage, Choice, Slot, PathEntity, Token, Phase, Setup, Source, Team,
-     Group, Keyword, Style, Sound, EntityState,
+    Group, Keyword, Style, Sound, EntityState, Expression,
 } from '@app/game-mechanics';
 
 export type ConnectedEntities = Partial<{
@@ -25,4 +25,5 @@ export type ConnectedEntities = Partial<{
     styles: Style[];
     sounds: Sound[];
     states: EntityState[];
+    expressions: Expression[];
 }>

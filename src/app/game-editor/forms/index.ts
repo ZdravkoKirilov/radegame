@@ -18,3 +18,4 @@ export * from './style';
 export * from './group';
 export * from './sound';
 export * from './state';
+export * from './expression';
