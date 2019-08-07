@@ -5,7 +5,7 @@ import { API_URLS } from 'app/core/config';
 import {
 	PathEntity, GameAction, Stage, Condition, Round,
 	Token, Phase, Team, Choice, Slot, Source, ImageAsset,
-	Game, Field, Faction, GameData
+	Game, Field, Faction, GameData, EntityState, Expression
 } from '@app/game-mechanics';
 
 
@@ -87,5 +87,13 @@ export class GameFetchService {
 
 	getFactions(gameId: number) {
 		return this.http.get<Faction[]>(API_URLS.FACTIONS(gameId));
+	}
+
+	getStates(gameId: number) {
+		return this.http.get<EntityState[]>(API_URLS.STATES(gameId));
+	}
+
+	getExpressions(gameId: number) {
+		return this.http.get<Expression[]>(API_URLS.EXPRESSIONS(gameId));
 	}
 }
