@@ -8,17 +8,11 @@ export type Style = BaseModel & Partial<{
     fill: number;
     strokeColor: number;
     strokeThickness: number;
-    interpolation: string; // 89,555,244,999 etc.
-    easing: EasingConfig;
     shape: EntityShape;
     points: string; // comma separated list of numbers
+
+    disabled: boolean;
 }>;
-
-export const EASING_CONFIG = {
-    LINEAR: 'LINEAR',
-};
-
-export type EasingConfig = keyof typeof EASING_CONFIG;
 
 export const ENTITY_SHAPE = {
     circle: 'circle',

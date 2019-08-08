@@ -10,7 +10,7 @@ export * from './Token.model';
 export * from './Phase.model';
 export * from './Slot.model';
 export * from './Path.model';
-export * from './types';
+
 export * from './Setup.model';
 export * from './Source.model';
 export * from './ImageAsset.model';
@@ -21,6 +21,10 @@ export * from './Style.model';
 export * from './State.model';
 export * from './Sound.model';
 export * from './Expression.model';
+export * from './Animation.model';
+export * from './Handler.model';
+
+export * from './types';
 
 import { GameAction } from './Action.model';
 import { Condition } from './Condition.model';
@@ -45,16 +49,17 @@ import { Style } from './Style.model';
 import { Sound } from './Sound.model';
 import { EntityState } from './State.model';
 import { Expression } from './Expression.model';
+import { Handler } from './Handler.model';
+import { Animation } from './Animation.model';
 
 export type GameEntity = Game & GameAction & Slot & PathEntity & Condition &
     Round & Choice & Stage & Field & Faction & Token & Team & Phase &
-    Setup & Source & ImageAsset & Keyword & Group & Style & Sound & EntityState & Expression;
+    Setup & Source & ImageAsset & Keyword & Group & Style & Sound & EntityState & Expression
+    & Handler & Animation;
 
 export type GameEntityList = Dictionary<GameEntity>;
 
 export * from './types';
-
-export type InteractiveEntity = GameAction & Slot & PathEntity & Condition & Choice & Field & Token;
 
 export type GameEntitiesDict = {
     images: Dictionary<ImageAsset>;
