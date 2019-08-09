@@ -10,7 +10,7 @@ export function composeExpressionForm(data: Expression, ent: ConnectedEntities):
         <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
         <TextInput name='description' label='Description'>{data.description}</TextInput>
 
-        <TextInput name='code' label='Code'>{data.code}</TextInput>
+        <CodeEditor name='code' label='Code'>{data.code}</CodeEditor>
 
     </Form>
     `;

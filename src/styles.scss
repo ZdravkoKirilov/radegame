@@ -4,6 +4,7 @@
 @import './app//styles/state.style.scss';
 @import './app/styles/theme.scss';
 @import './app/styles/breakpoints';
+@import '~monaco-editor/min/vs/editor/editor.main';
 html,
 body {
     height: 100%;

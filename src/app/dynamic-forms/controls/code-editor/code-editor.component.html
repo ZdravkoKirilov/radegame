@@ -1,0 +1,5 @@
+<div class="editor-wrapper">
+    <label>{{data.label}}</label>
+    <div [ngClass]='{"hidden": !loading}'>Loading editor...</div>
+    <div #editor_host class="monaco-host"></div>
+</div>

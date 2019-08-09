@@ -5,6 +5,7 @@
     "sourceMap": true,
     "declaration": false,
     "moduleResolution": "node",
+    "module": "esNext",
     "strict": false,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,

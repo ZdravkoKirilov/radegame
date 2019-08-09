@@ -7,6 +7,7 @@ import { ControlsService } from './services/controls.service';
 import { TextInputComponent, ButtonGroupComponent, ImagePickerComponent, NumberInputComponent, DropdownComponent, TagsInputComponent } from './controls';
 import { FilePickerComponent } from './controls/file-picker/file-picker.component';
 import { ColorPickerComponent } from './controls/color-picker/color-picker.component';
+import { CodeEditorComponent } from './controls/code-editor/code-editor.component';
 
 @NgModule({
     imports: [
@@ -28,6 +29,7 @@ import { ColorPickerComponent } from './controls/color-picker/color-picker.compo
         TagsInputComponent,
         FilePickerComponent,
         ColorPickerComponent,
+        CodeEditorComponent,
     ],
     providers: [
         ControlsService

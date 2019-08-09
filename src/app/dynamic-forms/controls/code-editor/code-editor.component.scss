@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  text-align: left;
+
+  .editor-wrapper {
+
+    min-height: 500px;
+    min-width: 800px;
+
+    .monaco-host {
+        min-height: 500px;
+        min-width: 800px;
+    }
+  }
+}

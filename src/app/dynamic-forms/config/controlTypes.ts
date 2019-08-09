@@ -14,4 +14,6 @@ export const controlTypes = {
     TAGS_INPUT: 'TagsInput',
 
     COLOR_PICKER: 'ColorPicker',
+
+    CODE_EDITOR: 'CodeEditor',
 };

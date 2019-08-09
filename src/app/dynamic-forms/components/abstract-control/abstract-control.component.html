@@ -38,6 +38,10 @@
             <rg-color-picker [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-color-picker>
         </ng-container>
 
+        <ng-container *ngSwitchCase="types.CODE_EDITOR">
+            <rg-code-editor [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-code-editor>
+        </ng-container>
+
         <ng-container *ngSwitchDefault>
             Unknown element! ' {{data.type}} '
         </ng-container>

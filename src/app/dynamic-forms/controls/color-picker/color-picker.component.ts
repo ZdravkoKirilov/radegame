@@ -11,12 +11,9 @@ import { BaseControl } from '../../models';
 })
 export class ColorPickerComponent implements OnInit {
 
-	constructor() { }
-
 	@Input() data: BaseControl;
 	@Input() form: FormGroup;
 	@Output() change: EventEmitter<any> = new EventEmitter();
-
 
 	color: any;
 
