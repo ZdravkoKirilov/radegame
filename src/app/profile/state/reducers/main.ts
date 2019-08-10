@@ -1,8 +1,5 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
-
 import { actionTypes, ProfileAction } from '../actions';
 import { User } from '../../models';
-import { AppState } from '@app/core';
 
 export interface ProfileFeature {
     user?: User;

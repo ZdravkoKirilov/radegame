@@ -1,8 +1,14 @@
 <main>
   <rg-main-menu>
-      <a routerLink="games/list">Edit games</a>
-      <a routerLink="catalog/games">Browse games</a>
-      <a routerLink="signin">SignIn</a>
+    <h1>Radegast gaming</h1>
+
+    <a routerLink="signin" *ngIf="!user" class="sign-in-btn"> <button mat-button>Sign In</button></a>
+
   </rg-main-menu>
 
+  <p>
+    <a routerLink="games/list">Edit games</a>
+    <a routerLink="catalog/games">Browse games</a>
+
+  </p>
 </main>

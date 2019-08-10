@@ -1,11 +1,11 @@
 import { Routes } from '@angular/router';
 
-import { SignInComponent } from './containers/sign-in/sign-in.component';
+import { AuthContainerComponent } from './containers/auth/auth-container.component';
 
 export const routes: Routes = [
     {
         path: 'signin',
-        component: SignInComponent,
+        component: AuthContainerComponent,
         pathMatch: 'full'
     },
 ];

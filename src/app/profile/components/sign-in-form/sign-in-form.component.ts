@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators as vd } from '@angular/forms';
 
 import { LOGIN_MODES, LoginMode, SignInPayload, AuthPayload } from '../../models';
@@ -9,18 +9,20 @@ import { emailValidator } from '@app/dynamic-forms';
 	templateUrl: './sign-in-form.component.html',
 	styleUrls: ['./sign-in-form.component.scss']
 })
-export class SignInFormComponent {
+export class SignInFormComponent implements OnInit {
 
 	@Input() isLogin: boolean;
-
 	@Output() signIn: EventEmitter<SignInPayload> = new EventEmitter();
 
-	constructor() {
+	ngOnInit() {
+		const { isLogin } = this;
 		this.form = new FormGroup({
 			email: new FormControl('', vd.compose([vd.required, emailValidator])),
-			alias: new FormControl(''),
 			password: new FormControl('', vd.required),
 		});
+		if (!isLogin) {
+			this.form.addControl('alias', new FormControl('', vd.required));
+		}
 	}
 
 	get buttonText() {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
 import { AuthService } from '@app/core';
@@ -38,7 +38,7 @@ export class AuthEffectsService {
         mergeMap((action: EmailLoginAction) => {
             return this.api.loginWithEmail(action.payload).pipe(
                 mergeMap((res: AuthResponse) => {
-                    return [new EmailLoginSuccessAction(res), new SaveAuthTokenAction(res.token)];
+                    return [new EmailLoginSuccessAction(res), new SaveAuthTokenAction(res.token), new GetCurrentUserAction()];
                 }),
                 catchError((res: AuthResponse) => {
                     return of(new EmailLoginFailAction(res));

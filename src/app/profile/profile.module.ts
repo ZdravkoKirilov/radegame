@@ -11,8 +11,9 @@ import { routes } from './routing';
 import { FEATURE_NAME } from './config';
 import { profileReducer } from './state';
 
-import { SignInComponent } from './containers';
-import { SignInFormComponent, SignInViewComponent } from './components';
+import { SignInFormComponent } from './components/sign-in-form/sign-in-form.component';
+import { AuthContainerComponent } from './containers/auth/auth-container.component';
+import { AuthViewComponent } from './components/auth-view/auth-view.component';
 
 @NgModule({
   imports: [
@@ -24,6 +25,6 @@ import { SignInFormComponent, SignInViewComponent } from './components';
   exports: [
     RouterModule
   ],
-  declarations: [SignInFormComponent, SignInViewComponent, SignInComponent]
+  declarations: [SignInFormComponent, AuthContainerComponent, AuthViewComponent]
 })
 export class ProfileModule { }

@@ -1,13 +1,12 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-
 import { SignInPayload } from '../../models';
 
 @Component({
-  selector: 'rg-sign-in-view',
-  templateUrl: './sign-in-view.component.html',
-  styleUrls: ['./sign-in-view.component.scss']
+  selector: 'rg-auth-view',
+  templateUrl: './auth-view.component.html',
+  styleUrls: ['./auth-view.component.scss']
 })
-export class SignInViewComponent {
+export class AuthViewComponent {
 
   @Output() signIn: EventEmitter<SignInPayload> = new EventEmitter();
 
