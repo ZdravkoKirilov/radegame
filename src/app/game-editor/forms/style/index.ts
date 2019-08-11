@@ -10,12 +10,12 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
 
         ${baseTemplate}
 
-        <TextInput name='width' label='Width'>{data.width}</TextInput>
-        <TextInput name='height' label='Height'>{data.height}</TextInput>
+        <NumberInput name='width' label='Width'>{data.width}</NumberInput>
+        <NumberInput name='height' label='Height'>{data.height}</NumberInput>
         <NumberInput name='radius' label='Radius' defaultValue="{0}">{data.radius}</NumberInput>
         <TextInput name='fill' label='Fill'>{data.fill}</TextInput>
         <ColorPicker name='strokeColor' label='Stroke color'>{data.strokeColor}</ColorPicker>
-        <TextInput name='strokeThickness' label='Stroke thickness'>{data.strokeThickness}</TextInput>
+        <NumberInput name='strokeThickness' label='Stroke thickness'>{data.strokeThickness}</NumberInput>
 
         <NumberInput name='frame' label='Frame' defaultValue='{0}'>{data.frame}</NumberInput>
         <NumberInput name='rotation' label='Rotate' defaultValue='{0}'>{data.rotation}</NumberInput>
