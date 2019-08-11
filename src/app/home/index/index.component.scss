@@ -2,4 +2,31 @@
     .sign-in-btn {
         float: right;
     }
+
+    .heading {
+        color: white;
+    }
+
+    ::ng-deep rg-main-menu mat-toolbar {
+        justify-content: space-between;
+    }
+
+    .options {
+        display: flex;
+        justify-content: center;
+        padding: 50px;
+
+        mat-card {
+            margin-right: 20px;
+
+            mat-icon {
+                display: block;
+                margin: 0 auto;
+                width: 40px;
+                height: 40px;
+                font-size: 40px;
+                margin-bottom: 10px;
+            }
+        }
+    }
 }

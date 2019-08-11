@@ -12,6 +12,10 @@ export class AppLocalStorageService {
     localStorage.setItem(key, data);
   }
 
+  remove(key: string) {
+    localStorage.removeItem(key);
+  }
+
   get(key: string, parse = false): any {
     let data = localStorage.getItem(key);
 

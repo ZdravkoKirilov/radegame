@@ -12,8 +12,15 @@ export const actionTypes = {
     GET_CURRENT_USER: 'GET_CURRENT_USER',
     SET_CURRENT_USER: 'SET_CURRENT_USER',
     GET_CURRENT_USER_SUCCESS: 'GET_CURRENT_USER_SUCCESS',
-    GET_CURRENT_USER_FAIL: 'GET_CURRENT_USER_FAIL'
+    GET_CURRENT_USER_FAIL: 'GET_CURRENT_USER_FAIL',
+
+    LOGOUT: 'LOGOUT',
 };
+
+export class LogoutAction implements Action {
+    readonly type = actionTypes.LOGOUT;
+    readonly payload = null;
+}
 
 export class GetCurrentUserAction implements Action {
     readonly type = actionTypes.GET_CURRENT_USER;
@@ -73,5 +80,5 @@ export class SaveAuthTokenAction implements Action {
 export type ProfileAction = EmailLoginAction | EmailLoginSuccessAction | EmailLoginFailAction |
     EmailRegisterAction | EmailRegisterSuccessAction | EmailRegisterFailAction |
     GetCurrentUserAction | GetCurrentUserSuccessAction | GetCurrentUserFailAction |
-    SetCurrentUserAction;
+    SetCurrentUserAction | LogoutAction;
 

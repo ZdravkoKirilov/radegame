@@ -1,0 +1,21 @@
+@import "../../../styles/_colors.scss";
+
+:host {
+    display: flex;
+
+    * {
+        color: $text-alternate;
+    }
+
+    mat-divider {
+        border-right-color: $text-alternate;
+    }
+
+    .logged-as {
+        margin-right: 15px;
+    }
+
+    .alias {
+        font-style: italic;
+    }
+}

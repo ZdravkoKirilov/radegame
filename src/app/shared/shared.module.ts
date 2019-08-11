@@ -12,6 +12,7 @@ import { DividerComponent, MainMenuComponent, SocialButtonComponent } from './co
 import { ServeImagePipe } from './pipes';
 import { OverlayComponent } from './components/overlay/overlay.component';
 import { NotificationComponent } from './components/notification/notification.component';
+import { ProfileMenuComponent } from './components/profile-menu/profile-menu.component';
 
 
 @NgModule({
@@ -30,9 +31,11 @@ import { NotificationComponent } from './components/notification/notification.co
         OverlayComponent,
         NotificationComponent,
         ColorPickerModule,
+        ProfileMenuComponent,
     ],
     declarations: [
-        DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe, OverlayComponent, NotificationComponent
+        DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe, OverlayComponent, NotificationComponent,
+        ProfileMenuComponent
     ],
     entryComponents: [
         OverlayComponent

@@ -49,6 +49,11 @@ export const profileReducer = (state: ProfileFeature = initialState, action: Pro
                 ...state,
                 registerError: true
             };
+        case actionTypes.LOGOUT:
+            return {
+                ...state,
+                user: null,
+            };
         default:
             return state;
     }

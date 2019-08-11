@@ -1,0 +1,3 @@
+<span class="logged-as">Logged in as: <span class="alias">{{user?.alias}}</span></span>
+<mat-divider [vertical]="true" class="separator"></mat-divider>
+<button mat-button class="logout" *ngIf="user" (click)="handleLogout()">Logout</button>

@@ -38,7 +38,7 @@ export class AuthEffectsService {
         mergeMap((action: EmailLoginAction) => {
             return this.api.loginWithEmail(action.payload).pipe(
                 mergeMap((res: AuthResponse) => {
-                    return [new EmailLoginSuccessAction(res), new SaveAuthTokenAction(res.token), new GetCurrentUserAction()];
+                    return [new EmailLoginSuccessAction(res), new SaveAuthTokenAction(res.token)];
                 }),
                 catchError((res: AuthResponse) => {
                     return of(new EmailLoginFailAction(res));
@@ -71,6 +71,14 @@ export class AuthEffectsService {
                     return of(new GetCurrentUserFailAction());
                 })
             )
+        })
+    );
+
+    @Effect({ dispatch: false })
+    logout: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.LOGOUT),
+        map(() => {
+            this.storage.remove('token');
         })
     );
 }

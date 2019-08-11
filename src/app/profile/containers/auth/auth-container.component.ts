@@ -26,7 +26,6 @@ export class AuthContainerComponent implements OnInit {
     this.user$ = this.store.pipe(
       select(selectUser),
       map(user => {
-        debugger;
         if (user) {
           this.router.navigate(['']);
         }
@@ -35,7 +34,6 @@ export class AuthContainerComponent implements OnInit {
   }
 
   signIn(data: SignInPayload) {
-    debugger;
     if (data.type === LOGIN_MODES.GOOGLE) {
       this.signInWithGoogle();
     }

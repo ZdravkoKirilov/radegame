@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { AutoUnsubscribe } from '@app/shared';
 import { selectUser, User } from '@app/profile';
-import { map } from 'rxjs/operators';
-
 
 @Component({
     selector: 'rg-index',
