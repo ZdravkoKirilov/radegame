@@ -15,6 +15,6 @@ export class LobbyListItemComponent {
 	@Input() lobby: Lobby;
 
 	get setup(): Setup {
-		return this.game.setups.find(setup => setup.id == this.lobby.setup);
+		return {} as any; //this.game.setups.find(setup => setup.id == this.lobby.setup);
 	}
 }

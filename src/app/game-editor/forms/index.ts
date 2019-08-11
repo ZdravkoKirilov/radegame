@@ -21,3 +21,4 @@ export * from './state';
 export * from './expression';
 export * from './animation';
 export * from './handler';
+export * from './setup';

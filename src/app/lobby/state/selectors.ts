@@ -109,7 +109,7 @@ export const getSetup = createSelector(
     getSelectedLobby,
     (game, lobby) => {
         if (game && lobby) {
-            return game.setups.find(setup => setup.id == lobby.setup);
+            return {}; //game.setups.find(setup => setup.id == lobby.setup);
         }
     }
 );

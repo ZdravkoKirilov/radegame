@@ -11,8 +11,6 @@ export type Game = WithBoard & WithSettings & Partial<{
     title: string;
     description: string;
     image: string;
-
-    setups: Setup[];
 }>
 
 type Stats = Partial<{

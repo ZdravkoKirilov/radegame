@@ -117,6 +117,10 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/handlers/`;
         return itemId ? `${base}${itemId}/` : base;
     },
+    SETUPS: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/setups/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
 };
 
 export const AUTH_URLS = {

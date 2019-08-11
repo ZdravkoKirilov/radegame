@@ -96,6 +96,7 @@ export const formReducer: ActionReducer<any> = combineReducers({
     expressions: createEntityReducer(formKeys.expressions),
     animations: createEntityReducer(formKeys.animations),
     handlers: createEntityReducer(formKeys.handlers),
+    setups: createEntityReducer(formKeys.setups),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>) {
@@ -120,25 +121,5 @@ export function editorMetaReducer(anyReducer: ActionReducer<any>) {
             default:
                 return anyReducer(state, action) as GameEditorFeature;
         }
-        // if (action.type === actionTypes.SET_ALL_ITEMS) {
-        //     const payload = <GameTemplate>action.payload.data;
-        //     const form = {};
-        //     Object.keys(payload).forEach((key: FormKey) => {
-        //         form[key] = {
-        //             ...state.form[key],
-        //             items: {
-        //                 ...state.form[key].items,
-        //                 ...payload[key]
-        //             }
-        //         }
-        //     });
-        //     return {
-        //         ...state,
-        //         form: {
-        //             ...state.form,
-        //             ...form
-        //         }
-        //     }
-        // }
     };
 }
