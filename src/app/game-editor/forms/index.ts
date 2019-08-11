@@ -19,3 +19,5 @@ export * from './group';
 export * from './sound';
 export * from './state';
 export * from './expression';
+export * from './animation';
+export * from './handler';

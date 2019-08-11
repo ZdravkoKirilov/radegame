@@ -7,11 +7,6 @@ export type Animation = Partial<{
 
     from_style: number; // Style
     to_style: number; // Style
-
-    for_props: string; // comma separated names, e.g.: width, x, color
-
-    easing: EasingConfig;
-    interpolation: string; // 89,555,244,999 etc.
 }>
 
 

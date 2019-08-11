@@ -109,6 +109,14 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/expressions/`;
         return itemId ? `${base}${itemId}/` : base;
     },
+    ANIMATIONS: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/animations/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
+    HANDLERS: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/handlers/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
 };
 
 export const AUTH_URLS = {

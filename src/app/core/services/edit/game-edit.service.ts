@@ -14,7 +14,7 @@ import {
     Choice,
     Stage,
     Token,
-    Phase,
+    Phase, Animation, Handler,
     Source, Team, ImageAsset, Group, Keyword, Style, Sound, EntityState, Expression,
 } from '@app/game-mechanics';
 
@@ -164,6 +164,30 @@ export class GameEditService {
 
     deleteSlot(data: Slot): Observable<any> {
         return this.http.delete(API_URLS.SLOTS(data.game, data.id));
+    }
+
+    saveAnimation(data: Animation): Observable<any> {
+        if (data.id) {
+            return this.http.patch(API_URLS.ANIMATIONS(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.ANIMATIONS(data.game), data);
+        }
+    }
+
+    deleteAnimation(data: Animation): Observable<any> {
+        return this.http.delete(API_URLS.ANIMATIONS(data.game, data.id));
+    }
+
+    saveHandler(data: Handler): Observable<any> {
+        if (data.id) {
+            return this.http.patch(API_URLS.HANDLERS(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.HANDLERS(data.game), data);
+        }
+    }
+
+    deleteHandler(data: Handler): Observable<any> {
+        return this.http.delete(API_URLS.HANDLERS(data.game, data.id));
     }
 
     saveSource(data: Source): Observable<any> {

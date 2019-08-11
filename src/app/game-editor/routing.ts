@@ -15,6 +15,8 @@ import { StylesContainerComponent } from './containers/styles/styles-container.c
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
 import { StatesContainerComponent } from './containers/states/states-container.component';
 import { ExpressionsContainerComponent } from './containers/expressions/expressions-container.component';
+import { AnimationsContainerComponent } from './containers/animations/animations-container.component';
+import { HandlersContainerComponent } from './containers/handlers/handlers-container.component';
 
 export const routes: Routes = [
     {
@@ -110,6 +112,14 @@ export const routes: Routes = [
             {
                 path: 'states',
                 component: StatesContainerComponent
+            },
+            {
+                path: 'animations',
+                component: AnimationsContainerComponent
+            },
+            {
+                path: 'handlers',
+                component: HandlersContainerComponent
             },
             {
                 path: '**',

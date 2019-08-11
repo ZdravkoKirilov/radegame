@@ -20,6 +20,8 @@ export const formKeys = {
     sounds: 'sounds',
     states: 'states',
     expressions: 'expressions',
+    animations: 'animations',
+    handlers: 'handlers',
 }
 
 export type FormKey = keyof typeof formKeys;

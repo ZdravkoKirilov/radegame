@@ -5,7 +5,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
-    GameEntity, GameAction, Field, Condition, Round, Team,
+    GameEntity, GameAction, Field, Condition, Round, Team, Animation, Handler,
     Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset, Stage, Slot, GameTemplate, Sound,
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
@@ -216,6 +216,10 @@ export class GenericEffectsService {
                 return this.api.saveEntityState(entity);
             case formKeys.expressions:
                 return this.api.saveExpression(entity);
+            case formKeys.animations:
+                return this.api.saveAnimation(entity);
+            case formKeys.handlers:
+                return this.api.saveHandler(entity);
             case formKeys.games:
                 if (entity.image && (entity as Game).image.includes('http')) {
                     delete entity.image
@@ -268,6 +272,10 @@ export class GenericEffectsService {
                 return this.api.deleteEntityState(entity);
             case formKeys.expressions:
                 return this.api.deleteExpression(entity);
+            case formKeys.animations:
+                return this.api.deleteAnimation(entity);
+            case formKeys.handlers:
+                return this.api.deleteHandler(entity);
             default:
                 return of(null);
         }
