@@ -3,14 +3,14 @@ import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AppState } from '@app/core';
+import { AppState, selectUser } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
 import {
 	FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers, getLobbiesWithPlayers, getFormState, ToggleForm
 } from '../../state';
 import { Game } from '@app/game-mechanics';
 import { Lobby } from '../../models';
-import { User, selectUser } from '@app/profile';
+import { User } from '@app/core';
 
 @Component({
 	selector: 'rg-lobbies-page',

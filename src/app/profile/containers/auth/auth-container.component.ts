@@ -5,8 +5,8 @@ import { map } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 import { SignInPayload, LOGIN_MODES } from '../../models';
-import { EmailLoginAction, EmailRegisterAction, selectUser } from '../../state';
-import { AppState } from '@app/core';
+import { EmailLoginAction, EmailRegisterAction } from '../../state';
+import { AppState, selectUser } from '@app/core';
 import { AutoUnsubscribe } from '@app/shared';
 
 

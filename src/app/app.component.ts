@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { fadeAnimation } from '@app/animations';
-import { GetCurrentUserAction } from '@app/profile';
+import { GetCurrentUserAction } from '@app/core';
 
 @Component({
     selector: 'rg-root',

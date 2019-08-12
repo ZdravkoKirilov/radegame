@@ -1,18 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { Observable ,  of } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { GameEditService, GameFetchService } from '../../services';
-import { AppState } from '../reducers';
-import { Game } from '@app/game-mechanics';
-import { toDictionary } from '@app/shared';
+import { AuthService } from '../../services';
 import {
-    actionTypes, CoreAction, SetGamesAction,
-    GetGamesSuccessAction, GetGamesFailAction
+    actionTypes, CoreAction, GetCurrentUserSuccessAction, SetCurrentUserAction, GetCurrentUserFailAction
 } from '../actions';
+import { AppLocalStorageService } from '@app/shared';
+import { User } from '@app/core';
 
 @Injectable()
 export class CoreEffectsService {
@@ -20,8 +17,9 @@ export class CoreEffectsService {
     constructor(
         private actions$: Actions,
         private snackbar: MatSnackBar,
-        private api: GameFetchService,
-        private store: Store<AppState>) {
+        private auth: AuthService,
+        private storage: AppLocalStorageService
+    ) {
     }
 
     @Effect({ dispatch: false }) showSnackbar: Observable<any> = this.actions$
@@ -33,19 +31,29 @@ export class CoreEffectsService {
             })
         );
 
-    @Effect() getGames: Observable<any> = this.actions$.pipe(
-        ofType(actionTypes.GET_GAMES),
+    @Effect()
+    getCurrentUser: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.GET_CURRENT_USER),
         mergeMap(() => {
-            return this.api.getGames().pipe(
-                mergeMap((res: Game[]) => {
-                    const items = toDictionary(res);
-                    return [new SetGamesAction(items), new GetGamesSuccessAction()];
+            return this.auth.getCurrentUser().pipe(
+                mergeMap((user: User) => {
+                    return [
+                        new GetCurrentUserSuccessAction(user),
+                        new SetCurrentUserAction(user)
+                    ]
                 }),
                 catchError(() => {
-                    this.store.dispatch(new SetGamesAction({}));
-                    return of(new GetGamesFailAction());
+                    return of(new GetCurrentUserFailAction());
                 })
-            );
+            )
+        })
+    );
+
+    @Effect({ dispatch: false })
+    logout: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.LOGOUT),
+        map(() => {
+            this.storage.remove('token');
         })
     );
 }

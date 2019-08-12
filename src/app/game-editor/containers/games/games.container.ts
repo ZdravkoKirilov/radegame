@@ -4,7 +4,7 @@ import { Subscription, Observable } from 'rxjs';
 import { map, filter, take } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
-import { selectUser } from '@app/profile';
+import { selectUser } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeGameForm } from '../../forms';
 import { formKeys, FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities, FormKey } from '../../state';

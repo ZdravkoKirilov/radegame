@@ -4,8 +4,8 @@ import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
-import { selectUser, LogoutAction } from '../../../profile/state';
-import { User } from '../../../profile/models';
+import { selectUser, LogoutAction } from '../../../core/state';
+import { User } from '../../../core/models';
 import { AutoUnsubscribe } from '../../mixins';
 
 @Component({

@@ -3,9 +3,9 @@ import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { AppState } from '@app/core';
+import { AppState, selectUser } from '@app/core';
 import { AutoUnsubscribe } from '@app/shared';
-import { selectUser, User } from '@app/profile';
+import { User } from '@app/core';
 
 @Component({
     selector: 'rg-index',

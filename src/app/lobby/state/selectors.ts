@@ -5,7 +5,7 @@ import { FEATURE_NAME } from "../config";
 import { LobbyFeatureState, gameAdapter, lobbyAdapter, playerAdapter, teamAdapter, factionAdapter, imageAdapter, LobbyMetaState, messageAdapter } from "./shape";
 import { selectGameId, selectLobbyName } from "@app/shared";
 import { Lobby } from "../models";
-import { selectUser } from "@app/profile";
+import { selectUser } from "@app/core";
 
 const selectFeature = createFeatureSelector<LobbyFeatureState>(FEATURE_NAME);
 

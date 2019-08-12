@@ -1,7 +1,7 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Lobby, Player, ChatMessage } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
-import { User } from '@app/profile';
+import { User } from '@app/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
 @Component({

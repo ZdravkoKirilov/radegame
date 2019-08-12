@@ -16,7 +16,6 @@ import {
     AuthService, GameEditService,
 } from './services';
 import { AuthInterceptor } from './http';
-import { GameDataGuard, GameListGuard } from './guards';
 import { HomeModule } from '../home';
 import { NotFoundComponent } from './components';
 import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.module';
@@ -42,7 +41,6 @@ import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.mo
     providers: [
         Title,
         GameEditService, AuthService,
-        GameDataGuard, GameListGuard,
         { provide: RouterStateSerializer, useClass: CustomRouterSerializer },
         { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }
     ]

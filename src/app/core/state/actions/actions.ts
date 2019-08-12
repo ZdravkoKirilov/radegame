@@ -1,8 +1,32 @@
 import { Action } from '@ngrx/store';
 
 import { actionTypes } from './actionTypes';
-import { GameTemplate, Game } from '@app/game-mechanics';
-import { Dictionary } from '@app/shared';
+import { User } from '@app/core';
+
+export class LogoutAction implements Action {
+    readonly type = actionTypes.LOGOUT;
+    readonly payload = null;
+}
+
+export class GetCurrentUserAction implements Action {
+    readonly type = actionTypes.GET_CURRENT_USER;
+    readonly payload = null;
+}
+
+export class SetCurrentUserAction implements Action {
+    readonly type = actionTypes.SET_CURRENT_USER;
+    constructor(public payload: User) { }
+}
+
+export class GetCurrentUserSuccessAction implements Action {
+    readonly type = actionTypes.GET_CURRENT_USER_SUCCESS;
+    constructor(public payload: User) { }
+}
+
+export class GetCurrentUserFailAction implements Action {
+    readonly type = actionTypes.GET_CURRENT_USER_FAIL;
+    readonly payload = null;
+}
 
 export class OperationSuccessAction implements Action {
     readonly type = actionTypes.OPERATION_SUCCESS;
@@ -14,36 +38,5 @@ export class OperationFailAction implements Action {
     constructor(public payload: string) { }
 }
 
-export class AddGameAssetsAction implements Action {
-    readonly type = actionTypes.ADD_GAME_ASSETS;
-    constructor(public payload: {
-        game: number;
-        data: GameTemplate;
-    }) { }
-}
-
-export class GetGamesAction implements Action {
-    readonly payload = null;
-    readonly type = actionTypes.GET_GAMES;
-}
-
-export class GetGamesSuccessAction implements Action {
-    readonly payload = null;
-    readonly type = actionTypes.GET_GAMES_SUCCESS;
-}
-
-export class SetGamesAction implements Action {
-    constructor(public payload: Dictionary<Game>) {
-
-    }
-
-    readonly type = actionTypes.SET_GAMES;
-}
-
-export class GetGamesFailAction implements Action {
-    readonly payload = null;
-    readonly type = actionTypes.GET_GAMES_FAIL;
-}
-
-export type CoreAction = OperationSuccessAction | OperationFailAction | AddGameAssetsAction |
-    GetGamesAction | SetGamesAction | GetGamesSuccessAction | GetGamesFailAction;
+export type CoreAction = OperationSuccessAction | OperationFailAction | LogoutAction | GetCurrentUserAction |
+    GetCurrentUserSuccessAction | GetCurrentUserFailAction | SetCurrentUserAction;

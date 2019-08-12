@@ -5,7 +5,7 @@ import { tap } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { formKeys, FetchItemsAction, FetchGameDataAction, FormKey } from '../../state';
-import { selectUser } from '@app/profile';
+import { selectUser } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
 
 @Component({

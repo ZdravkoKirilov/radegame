@@ -1,2 +1,2 @@
 export * from './main';
-export * from './cache.reducer';
+export * from './selectors';

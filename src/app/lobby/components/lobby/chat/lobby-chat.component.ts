@@ -2,7 +2,7 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { ENTER } from '@angular/cdk/keycodes';
 
 import { ChatMessage } from '../../../models';
-import { User } from '@app/profile';
+import { User } from '@app/core';
 
 
 @Component({

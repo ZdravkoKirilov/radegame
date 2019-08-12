@@ -3,13 +3,11 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 
-import { AuthService } from '@app/core';
-import { AuthResponse, User } from '../../models';
+import { AuthService, GetCurrentUserAction } from '@app/core';
+import { AuthResponse } from '../../models';
 import {
     EmailRegisterAction, EmailRegisterSuccessAction, EmailRegisterFailAction,
-    EmailLoginAction, EmailLoginSuccessAction, EmailLoginFailAction, SaveAuthTokenAction,
-    SetCurrentUserAction, GetCurrentUserAction, GetCurrentUserFailAction,
-    GetCurrentUserSuccessAction, actionTypes
+    EmailLoginAction, EmailLoginSuccessAction, EmailLoginFailAction, SaveAuthTokenAction,  actionTypes
 } from '../actions';
 import { AppLocalStorageService } from '@app/shared';
 
@@ -53,32 +51,6 @@ export class AuthEffectsService {
         map((action: SaveAuthTokenAction) => {
             this.storage.save('token', action.payload);
             return new GetCurrentUserAction();
-        })
-    );
-
-    @Effect()
-    getCurrentUser: Observable<any> = this.actions$.pipe(
-        ofType(actionTypes.GET_CURRENT_USER),
-        mergeMap(() => {
-            return this.api.getCurrentUser().pipe(
-                mergeMap((user: User) => {
-                    return [
-                        new GetCurrentUserSuccessAction(user),
-                        new SetCurrentUserAction(user)
-                    ]
-                }),
-                catchError(() => {
-                    return of(new GetCurrentUserFailAction());
-                })
-            )
-        })
-    );
-
-    @Effect({ dispatch: false })
-    logout: Observable<any> = this.actions$.pipe(
-        ofType(actionTypes.LOGOUT),
-        map(() => {
-            this.storage.remove('token');
         })
     );
 }

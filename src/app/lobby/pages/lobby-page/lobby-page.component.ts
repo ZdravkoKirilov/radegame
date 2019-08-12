@@ -4,7 +4,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { AppState } from '@app/core';
+import { AppState, selectUser } from '@app/core';
 import { AutoUnsubscribe, selectLobbyName, selectGameId, OnChange } from '@app/shared';
 import {
 	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
@@ -13,7 +13,7 @@ import {
 } from '../../state';
 import { Lobby, Player, ChatMessage } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
-import { User, selectUser } from '@app/profile';
+import { User } from '@app/core';
 import { composePlayerName } from '../../utils';
 import { LiveLobbyService } from '../../services/live-lobbies.service';
 
