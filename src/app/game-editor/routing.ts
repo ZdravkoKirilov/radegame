@@ -7,10 +7,9 @@ import {
     GamesContainerComponent, ConditionsContainerComponent,
     RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent,
     TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent,
-    BoardContainerComponent, SourcesContainerComponent, ImageAssetContainerComponent,
+    BoardContainerComponent, ImageAssetContainerComponent,
 } from './containers';
 import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
-import { GroupsContainerComponent } from './containers/groups/groups-container.component';
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
 import { StatesContainerComponent } from './containers/states/states-container.component';
@@ -91,16 +90,8 @@ export const routes: Routes = [
                 component: TeamsContainerComponent
             },
             {
-                path: 'sources',
-                component: SourcesContainerComponent
-            },
-            {
                 path: 'keywords',
                 component: KeywordsContainerComponent
-            },
-            {
-                path: 'groups',
-                component: GroupsContainerComponent
             },
             {
                 path: 'styles',

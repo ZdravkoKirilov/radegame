@@ -12,11 +12,9 @@ export * from './Slot.model';
 export * from './Path.model';
 
 export * from './Setup.model';
-export * from './Source.model';
 export * from './ImageAsset.model';
 export * from './Base.model';
 export * from './Keyword.model';
-export * from './Group.model';
 export * from './Style.model';
 export * from './State.model';
 export * from './Sound.model';
@@ -40,11 +38,9 @@ import { PathEntity } from './Path.model';
 import { Slot } from './Slot.model';
 import { Setup } from './Setup.model';
 import { Dictionary } from '@app/shared';
-import { Source } from './Source.model';
 import { ImageAsset } from './ImageAsset.model';
 import { Game } from '../models';
 import { Keyword } from './Keyword.model';
-import { Group } from './Group.model';
 import { Style } from './Style.model';
 import { Sound } from './Sound.model';
 import { EntityState } from './State.model';
@@ -54,7 +50,7 @@ import { Animation } from './Animation.model';
 
 export type GameEntity = Game & GameAction & Slot & PathEntity & Condition &
     Round & Choice & Stage & Field & Faction & Token & Team & Phase &
-    Setup & Source & ImageAsset & Keyword & Group & Style & Sound & EntityState & Expression
+    Setup & ImageAsset & Keyword & Style & Sound & EntityState & Expression
     & Handler & Animation;
 
 export type GameEntityList = Dictionary<GameEntity>;

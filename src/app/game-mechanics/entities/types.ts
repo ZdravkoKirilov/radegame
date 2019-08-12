@@ -12,7 +12,6 @@ export const ENTITY = {
     'STAGE': 'STAGE',
     'TEAM': 'TEAM',
     'SLOT': 'SLOT',
-    'SOURCE': 'SOURCE',
     'KEYWORD': 'KEYWORD',
     'EXPRESSION': 'EXPRESSION'
 }

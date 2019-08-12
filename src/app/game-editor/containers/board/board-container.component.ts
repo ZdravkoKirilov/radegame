@@ -9,7 +9,7 @@ import {
 	DeleteItemAction,
 	FormKey
 } from '../../state';
-import { Stage, Slot, PathEntity, ImageAsset, GameEntity, Source } from '@app/game-mechanics';
+import { Stage, Slot, PathEntity, ImageAsset, GameEntity } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId } from '@app/shared';
 
@@ -44,7 +44,6 @@ export class BoardContainerComponent {
 		entities: ConnectedEntities,
 		gameId: number,
 		images: ImageAsset[],
-		sources: Source[],
 	}> = combineLatest<any>(
 		this.store.pipe(select(getActiveStage)),
 		this.store.pipe(select(getItems<Slot>(formKeys.slots))),
@@ -52,11 +51,10 @@ export class BoardContainerComponent {
 		this.store.pipe(select(getEntities)),
 		this.store.pipe(select(selectGameId)),
 		this.store.pipe(select(getItems<ImageAsset>(formKeys.images))),
-		this.store.pipe(select(getItems<Source>(formKeys.sources))),
 	).pipe(
 		filter(data => data.every(elem => !!elem)),
-		map(([stage, slots, paths, entities, gameId, images, sources]) => {
-			return { stage, slots, paths, entities, gameId, images, sources };
+		map(([stage, slots, paths, entities, gameId, images]) => {
+			return { stage, slots, paths, entities, gameId, images };
 		}),
 	)
 

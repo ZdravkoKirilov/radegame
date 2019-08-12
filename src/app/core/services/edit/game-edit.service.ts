@@ -14,8 +14,7 @@ import {
     Choice,
     Stage,
     Token,
-    Phase, Animation, Handler,
-    Source, Team, ImageAsset, Group, Keyword, Style, Sound, EntityState, Expression, Setup,
+    Phase, Animation, Handler, Team, ImageAsset, Keyword, Style, Sound, EntityState, Expression, Setup,
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../../config';
@@ -190,18 +189,6 @@ export class GameEditService {
         return this.http.delete(API_URLS.HANDLERS(data.game, data.id));
     }
 
-    saveSource(data: Source): Observable<any> {
-        if (data.id) {
-            return this.http.patch(API_URLS.SOURCES(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.SOURCES(data.game), data);
-        }
-    }
-
-    deleteSource(data: Source): Observable<any> {
-        return this.http.delete(API_URLS.SOURCES(data.game, data.id));
-    }
-
     saveImage(data: ImageAsset): Observable<any> {
         const formData = toMultipartFormData(data);
         const options = { headers: new HttpHeaders({}) };
@@ -265,19 +252,6 @@ export class GameEditService {
 
     deleteEntityState(data: EntityState): Observable<any> {
         return this.http.delete(API_URLS.STATES(data.game, data.id));
-    }
-
-    saveGroup(data: Group): Observable<any> {
-
-        if (data.id) {
-            return this.http.patch(API_URLS.GROUPS(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.GROUPS(data.game), data);
-        }
-    }
-
-    deleteGroup(data: Group): Observable<any> {
-        return this.http.delete(API_URLS.GROUPS(data.game, data.id));
     }
 
     saveStyle(data: Style): Observable<any> {

@@ -44,7 +44,6 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
         source: template,
         context: {
             data, settings, done, undone, phases, setups, keywords, bools: composeBooleanOptions(),
-            sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             phase_options: composeEntityOptions(ent, 'phases'),
             stages: composeEntityOptions(ent, 'stages'),

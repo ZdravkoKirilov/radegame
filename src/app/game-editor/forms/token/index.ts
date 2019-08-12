@@ -35,7 +35,6 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
         context: {
             data, cost, disable, enable, reveal_cost, settings, keywords,
             setup_options: composeEntityOptions(ent, 'setups'),
-            sources: composeEntityOptions(ent, 'sources'),
             conditions: composeEntityOptions(ent, 'conditions'),
             stages: composeEntityOptions(ent, 'stages'),
             images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),

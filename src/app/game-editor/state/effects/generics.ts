@@ -6,7 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Field, Condition, Round, Team, Animation, Handler,
-    Faction, Token, Phase, Choice, PathEntity, Source, Game, ImageAsset, Stage, Slot, GameTemplate, Sound,
+    Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, GameTemplate, Sound,
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
 import {
@@ -163,8 +163,6 @@ export class GenericEffectsService {
                 return this.fetcher.getPhases(data);
             case formKeys.teams:
                 return this.fetcher.getTeams(data);
-            case formKeys.sources:
-                return this.fetcher.getSources(data);
             case formKeys.images:
                 return this.fetcher.getImages(data);
             case formKeys.games:
@@ -200,16 +198,12 @@ export class GenericEffectsService {
                 return this.api.savePhase(<Phase>entity);
             case formKeys.teams:
                 return this.api.saveTeam(<Team>entity);
-            case formKeys.sources:
-                return this.api.saveSource(<Source>entity);
             case formKeys.images:
                 return this.api.saveImage(<ImageAsset>entity);
             case formKeys.keywords:
                 return this.api.saveKeyword(entity);
             case formKeys.styles:
                 return this.api.saveStyle(entity);
-            case formKeys.groups:
-                return this.api.saveGroup(entity);
             case formKeys.sounds:
                 return this.api.saveSound(entity);
             case formKeys.states:
@@ -256,16 +250,12 @@ export class GenericEffectsService {
                 return this.api.deleteTeam(<Team>entity);
             case formKeys.slots:
                 return this.api.deleteSlot(<Slot>entity);
-            case formKeys.sources:
-                return this.api.deleteSource(<Source>entity);
             case formKeys.images:
                 return this.api.deleteImage(<ImageAsset>entity);
             case formKeys.keywords:
                 return this.api.deleteKeyword(entity);
             case formKeys.styles:
                 return this.api.deleteStyle(entity);
-            case formKeys.groups:
-                return this.api.deleteGroup(entity);
             case formKeys.sounds:
                 return this.api.deleteSound(entity);
             case formKeys.states:

@@ -27,12 +27,10 @@ import {
 import { BoardEditorComponent } from './components/board/board-editor.component';
 import { BoardToolbarComponent } from './components/board/toolbar/board-toolbar.component';
 import { BoardMainComponent } from './components/board/main/board-main.component';
-import { SourcesContainerComponent } from './containers/sources/sources-container.component';
 import { ImageAssetContainerComponent } from './containers/images/image-asset-container.component';
 import { EditorLayoutComponent, EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent, EditSidebarLinkComponent } from './layouts';
 import { EditHeaderComponent } from './components/header/edit-header.component';
 import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
-import { GroupsContainerComponent } from './containers/groups/groups-container.component';
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
 import { StatesContainerComponent } from './containers/states/states-container.component';
@@ -78,7 +76,6 @@ import { SetupsContainerComponent } from './containers/setups/setups-container.c
         BoardContainerComponent,
         BoardToolbarComponent,
         BoardMainComponent,
-        SourcesContainerComponent,
         ImageAssetContainerComponent,
         EditorLayoutComponent,
         EditHeaderComponent,
@@ -87,7 +84,6 @@ import { SetupsContainerComponent } from './containers/setups/setups-container.c
         EditSidebarHeaderComponent,
         EditSidebarLinkComponent,
         KeywordsContainerComponent,
-        GroupsContainerComponent,
         StylesContainerComponent,
         SoundsContainerComponent,
         StatesContainerComponent,

@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_URLS } from 'app/core/config';
 import {
 	PathEntity, GameAction, Stage, Condition, Round,
-	Token, Phase, Team, Choice, Slot, Source, ImageAsset,
+	Token, Phase, Team, Choice, Slot, ImageAsset,
 	Game, Field, Faction, GameData, EntityState, Expression, Animation, Handler, Setup
 } from '@app/game-mechanics';
 
@@ -63,10 +63,6 @@ export class GameFetchService {
 
 	getSlots(gameId: number) {
 		return this.http.get<Slot[]>(API_URLS.SLOTS(gameId));
-	}
-
-	getSources(gameId: number) {
-		return this.http.get<Source[]>(API_URLS.SOURCES(gameId));
 	}
 
 	getImages(gameId: number) {
