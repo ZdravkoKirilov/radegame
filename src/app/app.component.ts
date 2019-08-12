@@ -3,9 +3,8 @@ import { Title } from '@angular/platform-browser';
 import { Store } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
-import { AppState } from '@app/core';
-import { fadeAnimation } from '@app/animations';
-import { GetCurrentUserAction } from '@app/core';
+import { AppState, GetCurrentUserAction } from '@app/core';
+import { fadeAnimation } from '@app/shared';
 
 @Component({
     selector: 'rg-root',

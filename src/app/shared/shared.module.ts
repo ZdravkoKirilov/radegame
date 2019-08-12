@@ -7,7 +7,7 @@ import { NgScrollbarModule } from 'ngx-scrollbar';
 import { RouterModule } from '@angular/router';
 import { ColorPickerModule } from 'ngx-color-picker';
 
-import { NgMaterialModule } from '../ng-material/ng-material.module';
+import { NgMaterialModule } from './ng-material/ng-material.module';
 import { DividerComponent, MainMenuComponent, SocialButtonComponent } from './components';
 import { ServeImagePipe } from './pipes';
 import { OverlayComponent } from './components/overlay/overlay.component';
