@@ -27,7 +27,7 @@ import { formKeys, FormKey } from '../../state';
 })
 export class PhasesContainerComponent extends SmartBase {
   formDefinition = composePhaseForm;
-  readonly key = formKeys.phases as FormKey;
+  readonly key = formKeys.phases ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

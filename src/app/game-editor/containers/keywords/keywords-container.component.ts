@@ -28,7 +28,7 @@ import { composeKeywordForm } from '../../forms';
 export class KeywordsContainerComponent extends SmartBase {
 
   formDefinition = composeKeywordForm;
-  readonly key = formKeys.keywords as FormKey;
+  readonly key = formKeys.keywords ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

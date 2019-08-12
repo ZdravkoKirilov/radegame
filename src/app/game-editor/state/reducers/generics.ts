@@ -31,7 +31,7 @@ export const createEntityReducer = (allowedKey: FormKey | string): ActionReducer
     const entityReducer = (
         state: EntityFeature = { ...entityFeatureState },
         action: EditorGenericAction): EntityFeature => {
-        const key = action.payload ? action.payload.key : '' as FormKey;
+        const key = action.payload ? action.payload.key : '' ;
         let data;
         if (key === allowedKey) {
             switch (action.type) {

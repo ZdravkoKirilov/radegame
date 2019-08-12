@@ -27,7 +27,7 @@ import { AppState } from '@app/core';
 export class AnimationsContainerComponent extends SmartBase {
 
   formDefinition = composeAnimationForm;
-  readonly key = formKeys.animations as FormKey;
+  readonly key = formKeys.animations ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

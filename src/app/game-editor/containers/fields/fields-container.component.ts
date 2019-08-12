@@ -27,7 +27,7 @@ import { formKeys, FormKey } from '../../state';
 export class FieldsContainerComponent extends SmartBase {
 
   formDefinition = composeFieldForm;
-  readonly key = formKeys.fields as FormKey;
+  readonly key = formKeys.fields ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

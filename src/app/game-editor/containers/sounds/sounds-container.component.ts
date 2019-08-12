@@ -27,7 +27,7 @@ import { formKeys, FormKey } from '../../state';
 export class SoundsContainerComponent extends SmartBase {
 
   formDefinition = composeSoundForm;
-  readonly key = formKeys.sounds as FormKey;
+  readonly key = formKeys.sounds ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

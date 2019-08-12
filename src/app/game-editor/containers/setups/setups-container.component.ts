@@ -27,7 +27,7 @@ import { AppState } from '@app/core';
 export class SetupsContainerComponent extends SmartBase {
 
   formDefinition = composeSetupForm;
-  readonly key = formKeys.setups as FormKey;
+  readonly key = formKeys.setups ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

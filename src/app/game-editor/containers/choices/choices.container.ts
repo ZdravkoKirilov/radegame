@@ -15,7 +15,7 @@ import { formKeys, FormKey } from '../../state';
 export class ChoicesContainerComponent extends SmartBase {
 
     public formDefinition: FormDefinition = composeChoiceForm;
-    public readonly key: FormKey = formKeys.choices as FormKey;
+    public readonly key: FormKey = formKeys.choices;
 
     constructor(public store: Store<AppState>) {
         super(store);

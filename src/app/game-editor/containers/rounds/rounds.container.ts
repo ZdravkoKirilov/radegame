@@ -15,7 +15,7 @@ import { formKeys, FormKey } from '../../state';
 export class RoundsContainerComponent extends SmartBase {
 
     public formDefinition: FormDefinition = composeRoundForm;
-    public readonly key: FormKey = formKeys.rounds as FormKey;
+    public readonly key: FormKey = formKeys.rounds ;
 
 
     constructor(public store: Store<AppState>) {

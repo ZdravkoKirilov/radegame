@@ -28,7 +28,7 @@ import { formKeys, FormKey } from '../../state';
 export class TeamsContainerComponent extends SmartBase {
 
   formDefinition = composeTeamForm;
-  readonly key = formKeys.teams as FormKey;
+  readonly key = formKeys.teams ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

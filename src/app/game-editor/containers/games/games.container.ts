@@ -19,7 +19,7 @@ import { AutoUnsubscribe } from '@app/shared';
 @AutoUnsubscribe()
 export class GamesContainerComponent extends SmartBase implements OnInit {
 
-    readonly key = formKeys.games as FormKey;
+    readonly key = formKeys.games ;
     private user$: Subscription;
 
     showEditor$: Observable<boolean>;

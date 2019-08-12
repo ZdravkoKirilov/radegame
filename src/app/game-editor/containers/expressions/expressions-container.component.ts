@@ -28,7 +28,7 @@ import { composeExpressionForm } from '../../forms';
 export class ExpressionsContainerComponent extends SmartBase {
 
   formDefinition = composeExpressionForm;
-  readonly key = formKeys.expressions as FormKey;
+  readonly key = formKeys.expressions ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

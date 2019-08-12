@@ -21,6 +21,6 @@ export const formKeys = {
     animations: 'animations',
     handlers: 'handlers',
     setups: 'setups',
-}
+} as const;
 
 export type FormKey = keyof typeof formKeys;

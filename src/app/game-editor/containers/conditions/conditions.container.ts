@@ -15,7 +15,7 @@ import { formKeys, FormKey } from '../../state';
 export class ConditionsContainerComponent extends SmartBase {
 
     public formDefinition: FormDefinition = composeConditionForm;
-    public readonly key: FormKey = formKeys.conditions as FormKey;
+    public readonly key: FormKey = formKeys.conditions ;
 
     constructor(public store: Store<AppState> ) {
         super(store);
