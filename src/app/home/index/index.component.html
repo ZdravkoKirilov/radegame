@@ -2,7 +2,7 @@
   <rg-main-menu>
     <h1 class="heading">Radegast gaming</h1>
 
-    <a routerLink="signin" *ngIf="!user" class="sign-in-btn"> <button mat-button>Sign In</button></a>
+    <a routerLink="profile/signin" *ngIf="!user" class="sign-in-btn"> <button mat-button>Sign In</button></a>
 
     <rg-profile-menu *ngIf="user"></rg-profile-menu>
 

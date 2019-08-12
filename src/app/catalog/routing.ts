@@ -8,7 +8,7 @@ import { SetupDetailsPageComponent } from './pages/setup-details/setup-details-p
 
 export const routes: Routes = [
     {
-        path: 'catalog/games',
+        path: 'games',
         component: GamesListPage,
         pathMatch: 'full',
         data: {
@@ -16,14 +16,14 @@ export const routes: Routes = [
         },
     },
     {
-        path: `catalog/games/:${ROUTER_PARAMS.GAME_ID}/setups/:${ROUTER_PARAMS.SETUP_ID}`,
+        path: `games/:${ROUTER_PARAMS.GAME_ID}/setups/:${ROUTER_PARAMS.SETUP_ID}`,
         component: SetupDetailsPageComponent,
         data: {
             title: 'Radegast: review setup details'
         },
     },
     {
-        path: `catalog/games/:${ROUTER_PARAMS.GAME_ID}`,
+        path: `games/:${ROUTER_PARAMS.GAME_ID}`,
         component: GameDetailsPage,
         data: {
             title: 'Radegast: review game details'

@@ -8,9 +8,7 @@ import { environment } from 'environments/environment';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SharedModule } from '@app/shared';
-import { ProfileModule } from '@app/profile';
 import { AppRoutingModule } from '../app-routing.module';
-import { CatalogModule } from '@app/catalog';
 
 import { CoreEffectsService, reducers } from './state';
 import { CustomRouterSerializer } from './router-custom.serializer';
@@ -21,7 +19,6 @@ import { AuthInterceptor } from './http';
 import { GameDataGuard, GameListGuard } from './guards';
 import { HomeModule } from '../home';
 import { NotFoundComponent } from './components';
-import { GameLobbyModule } from '@app/lobby';
 import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.module';
 
 @NgModule({
@@ -37,9 +34,6 @@ import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.mo
         ]),
         StoreRouterConnectingModule.forRoot(),
         HomeModule,
-        ProfileModule,
-        CatalogModule,
-        GameLobbyModule,
         ExperimentsRoutingModule,
         AppRoutingModule,
     ],
