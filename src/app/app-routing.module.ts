@@ -4,6 +4,9 @@ import { NotFoundComponent } from './core/components/not-found/not-found.compone
 
 const routes: Routes = [
     {
+        path: 'editor', loadChildren: () => import('./game-editor').then(m => m.GameEditorModule)
+    },
+    {
         path: 'signin/social',
         loadChildren: 'app/social-auth/social-auth.module#SocialAuthModule'
     }, {

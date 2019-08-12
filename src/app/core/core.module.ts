@@ -8,7 +8,6 @@ import { environment } from 'environments/environment';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { SharedModule } from '@app/shared';
-import { GameEditorModule } from '@app/game-editor';
 import { ProfileModule } from '@app/profile';
 import { AppRoutingModule } from '../app-routing.module';
 import { CatalogModule } from '@app/catalog';
@@ -38,7 +37,6 @@ import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.mo
         ]),
         StoreRouterConnectingModule.forRoot(),
         HomeModule,
-        GameEditorModule,
         ProfileModule,
         CatalogModule,
         GameLobbyModule,
