@@ -22,7 +22,7 @@ export const getItemById = (key: FormKey, id: number) => createSelector(
 
 export const getItems = <T = GameEntity>(key: FormKey | string) => createSelector(
     selectForm,
-    form => form[key] && form[key].items ? values(form[key].items as Dictionary<GameEntity>) : null,
+    form => form[key] && form[key].items ? values(form[key].items as Dictionary<T>) : null,
 );
 
 export const selectStageId = createSelector(

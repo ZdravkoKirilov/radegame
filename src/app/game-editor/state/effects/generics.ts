@@ -6,7 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Field, Condition, Round, Team, Animation, Handler,
-    Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, GameTemplate, Sound,
+    Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, GameTemplate, Sound, EntityState, Style, Keyword, Setup,
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
 import {
@@ -201,22 +201,24 @@ export class GenericEffectsService {
             case formKeys.images:
                 return this.api.saveImage(<ImageAsset>entity);
             case formKeys.keywords:
-                return this.api.saveKeyword(entity);
+                return this.api.saveKeyword(<Keyword>entity);
             case formKeys.styles:
-                return this.api.saveStyle(entity);
+                return this.api.saveStyle(<Style>entity);
             case formKeys.sounds:
                 return this.api.saveSound(entity);
             case formKeys.states:
-                return this.api.saveEntityState(entity);
+                return this.api.saveEntityState(<EntityState>entity);
             case formKeys.expressions:
                 return this.api.saveExpression(entity);
             case formKeys.animations:
                 return this.api.saveAnimation(entity);
             case formKeys.handlers:
-                return this.api.saveHandler(entity);
+                return this.api.saveHandler(<Handler>entity);
+            case formKeys.setups:
+                return this.api.saveSetup(<Setup>entity);
             case formKeys.games:
-                if (entity.image && (entity as Game).image.includes('http')) {
-                    delete entity.image
+                if ((entity as Game).image && (entity as Game).image.includes('http')) {
+                    delete (entity as Game).image
                 }
                 return this.api.saveGame(<Game>entity);
             default:
@@ -253,19 +255,21 @@ export class GenericEffectsService {
             case formKeys.images:
                 return this.api.deleteImage(<ImageAsset>entity);
             case formKeys.keywords:
-                return this.api.deleteKeyword(entity);
+                return this.api.deleteKeyword(<Keyword>entity);
             case formKeys.styles:
-                return this.api.deleteStyle(entity);
+                return this.api.deleteStyle(<Style>entity);
             case formKeys.sounds:
                 return this.api.deleteSound(entity);
             case formKeys.states:
-                return this.api.deleteEntityState(entity);
+                return this.api.deleteEntityState(<EntityState>entity);
             case formKeys.expressions:
                 return this.api.deleteExpression(entity);
             case formKeys.animations:
                 return this.api.deleteAnimation(entity);
             case formKeys.handlers:
-                return this.api.deleteHandler(entity);
+                return this.api.deleteHandler(<Handler>entity);
+            case formKeys.setups:
+                return this.api.deleteSetup(<Setup>entity)
             default:
                 return of(null);
         }

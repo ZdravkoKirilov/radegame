@@ -27,7 +27,7 @@ export const routes: Routes = [
             title: 'Radegast: create a new game'
         },
     }, {
-        path: `games/:${ROUTER_PARAMS.GAME_ID}/editor`,
+        path: `games/:${ROUTER_PARAMS.GAME_ID}`,
         component: EditorContainerComponent,
         data: {
             title: 'Radegast: setup a new game'

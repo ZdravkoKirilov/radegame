@@ -4,17 +4,31 @@ import { composeCommonFormContext, baseTemplate } from '../helpers';
 
 export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
+    const rounds = data.rounds || [];
 
     const template = `
     <Form>
 
         ${baseTemplate}
 
-        <NumberInput name='min_players' label='Min players'>{@item.min_players}</NumberInput>
+        <NumberInput name='min_players' label='Min players'>{data.min_players}</NumberInput>
 
-        <NumberInput name='max_players' label='Max players'>{@item.max_players}</NumberInput>
+        <NumberInput name='max_players' label='Max players'>{data.max_players}</NumberInput>
 
-        <TextInput name='recommended_age' label='Recommended age'>{@item.recommended_age}</TextInput>
+        <TextInput name='recommended_age' label='Recommended age'>{data.recommended_age}</TextInput>
+
+        <Group name='rounds' label='Rounds' children='{rounds}' item='@item' addButtonText='Add'>
+            <Form>
+                <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+
+                <Dropdown name='round' label='Round' options='{round_options}' required='{true}'>{@item.round}</Dropdown>
+
+                <Dropdown name='done' label='Done if' options='{expression_options}' required='{true}'>
+                    {@item.done}
+                </Dropdown>
+
+            </Form>
+        </Group>
 
     </Form>
     `;
@@ -22,8 +36,8 @@ export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
-            data,
+            ...composeCommonFormContext(data, ent),
+            data, rounds,
         }
     }, true) as BaseControl[];
 

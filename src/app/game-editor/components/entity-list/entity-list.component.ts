@@ -19,8 +19,8 @@ export class EntityListComponent {
 	@Output() removeItem: EventEmitter<GameEntity> = new EventEmitter();
 
 	getImage(item: GameEntity) {
-		const image = this.connectedEntities ? this.connectedEntities.images.find(elem => elem.id === item.image) : null;
-		return image ?  image.thumbnail || image.svg : null;
+		const image = this.connectedEntities && 'image' in item ? this.connectedEntities.images.find(elem => elem.id === item.image) : null;
+		return image ? image.thumbnail || image.svg : null;
 	}
 
 }

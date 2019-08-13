@@ -48,10 +48,10 @@ import { Expression } from './Expression.model';
 import { Handler } from './Handler.model';
 import { Animation } from './Animation.model';
 
-export type GameEntity = Game & GameAction & Slot & PathEntity & Condition &
-    Round & Choice & Stage & Field & Faction & Token & Team & Phase &
-    Setup & ImageAsset & Keyword & Style & Sound & EntityState & Expression
-    & Handler & Animation;
+export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
+    Round | Choice | Stage | Field | Faction | Token | Team | Phase |
+    Setup | ImageAsset | Keyword | Style | Sound | EntityState | Expression
+    | Handler | Animation;
 
 export type GameEntityList = Dictionary<GameEntity>;
 

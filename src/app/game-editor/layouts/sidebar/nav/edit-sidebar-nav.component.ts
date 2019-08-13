@@ -1,9 +1,11 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { AppState } from '@app/core';
 import { Subscription } from 'rxjs';
-import { selectGameId } from '@app/shared';
 import { map } from 'rxjs/operators';
+
+import { AppState } from '@app/core';
+import { selectGameId } from '@app/shared';
+
 
 @Component({
 	selector: 'rg-edit-sidebar-nav',
@@ -21,7 +23,7 @@ export class EditSidebarNavComponent {
 	}
 
 	composeLink(link: string) {
-		return `/games/${this.gameId}/editor/${link}`;
+		return `/editor/games/${this.gameId}/${link}`;
 	}
 
 }

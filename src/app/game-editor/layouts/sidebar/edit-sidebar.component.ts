@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { Observable } from 'rxjs';
 import { Game } from '@app/game-mechanics';
-import { selectGame } from '../../../state';
+import { selectGame } from '../../state';
 
 @Component({
 	selector: 'rg-edit-sidebar',
@@ -15,7 +15,7 @@ export class EditSidebarComponent implements OnInit {
 
 	game$: Observable<Game>;
 
-	constructor(private store: Store<AppState>) {}
+	constructor(private store: Store<AppState>) { }
 
 	ngOnInit() {
 		this.game$ = this.store.pipe(
