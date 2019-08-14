@@ -1,6 +1,6 @@
-import { BaseModel } from "./Base.model";
+import { BaseModel, WithDisplayName } from "./Base.model";
 
-export type Setup = BaseModel & Partial<{
+export type Setup = BaseModel & WithDisplayName & Partial<{
     min_players: number;
     max_players: number;
     recommended_age: number;
@@ -11,5 +11,4 @@ export type Setup = BaseModel & Partial<{
 export type RoundSlot = Partial<{
     owner: number;
     round: number;
-    done: number; // Expression
 }>;

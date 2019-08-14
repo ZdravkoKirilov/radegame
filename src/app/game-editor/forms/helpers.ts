@@ -67,6 +67,12 @@ export const baseTemplate = `
     <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{data.image}</Dropdown>
 `;
 
+export const doneTemplate = `
+    <Dropdown name='done' label='Done if' options='{expression_options}'>
+        {@item.done}
+    </Dropdown>
+`;
+
 export const keywordsTemplate = `
     <ButtonGroup 
         name='keywords' 
@@ -167,6 +173,7 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
     animation_options: composeEntityOptions(ent, 'animations'),
     handler_options: composeEntityOptions(ent, 'handlers'),
     round_options: composeEntityOptions(ent, 'rounds'),
+    phase_options: composeEntityOptions(ent, 'phases'),
 
     boolean_options: composeBooleanOptions(),
 });

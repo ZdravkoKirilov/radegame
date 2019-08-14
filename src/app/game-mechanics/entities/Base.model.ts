@@ -5,19 +5,25 @@ export type BaseModel = Partial<{
     id: number;
     game: number;
 
-    type: EntityType;
-
     name: string;
     description: string;
     image: number;
 }>;
 
-export type WithFrames = Partial<{
-    frames: ImageFrame[];
-}>;
+export type WithType = Partial<{
+    entity_type: EntityType;
+}>
 
 export type WithDisplayName = Partial<{
     display_name: string;
+}>;
+
+export type WithDone = Partial<{
+    done: number; // Expression
+}>;
+
+export type WithFrames = Partial<{
+    frames: ImageFrame[];
 }>;
 
 export type WithKeywords = Partial<{

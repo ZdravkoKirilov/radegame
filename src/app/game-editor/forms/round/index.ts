@@ -1,7 +1,7 @@
 import { Round } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    baseTemplate, boardTemplate, composeCommonFormContext
+    baseTemplate, boardTemplate, composeCommonFormContext, doneTemplate, displayNameTemplate
 } from '../helpers';
 
 export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseControl[] {
@@ -11,7 +11,9 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
     const template = `
     <Form>
         ${baseTemplate}
+        ${displayNameTemplate}
         ${boardTemplate}
+        ${doneTemplate}
 
         <Group name='phases' label='Phases' children='{phases}' item='@item' addButtonText='Add'>
             <Form>
@@ -19,13 +21,8 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
 
                 <Dropdown name='phase' label='Phase' options='{phase_options}' required='{true}'>{@item.phase}</Dropdown>
 
-                <Dropdown name='done' label='Done if' options='{expression_options}' required='{true}'>
-                    {@item.done}
-                </Dropdown>
-
             </Form>
         </Group>
-
 
     </Form>
 `;

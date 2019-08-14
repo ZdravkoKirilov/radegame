@@ -3,35 +3,24 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import { Phase } from '@app/game-mechanics';
-import { composeEntityOptions, baseTemplate, setupsTemplate, settingsTemplate } from '../helpers';
+import { baseTemplate, composeCommonFormContext, doneTemplate, displayNameTemplate } from '../helpers';
 
 export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEntities) => {
-    data = data || {} as Phase;
-    const settings = data.settings || [];
-    const setups = data.setups || [];
-    const keywords = data.keywords || [];
+    data = data || {};
 
     const template = `
         <Form>
             ${baseTemplate}
-
-            ${setupsTemplate}
-
-            <NumberInput name='turn_cycles' label='Turn cycles'>{data.turn_cycles}</NumberInput>
-
-            ${settingsTemplate}
-
+            ${displayNameTemplate}
+            ${doneTemplate}
         </Form>
     `;
 
     const result = parse({
         source: template,
         context: {
-            data, settings, setups, keywords,
-            conditions: composeEntityOptions(ent, 'conditions'),
-            setup_options: composeEntityOptions(ent, 'setups'),
-            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
-            keyword_options: composeEntityOptions(ent, 'keywords'),
+            ...composeCommonFormContext(data, ent),
+            data,
         },
     }, true);
 
