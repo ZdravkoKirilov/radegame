@@ -12,7 +12,7 @@ export type Props = {
 };
 
 const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
-    const emptySlot = !data.board && !data.field && !data.draw;
+    const emptySlot = !data.board;
 
     return createElement(MainContext.Consumer, {
         render: ctx => {

@@ -1,6 +1,6 @@
-export type EntityType = keyof typeof ENTITY;
+export type InteractiveEntity = keyof typeof INTERACTIVE_ENTITY;
 
-export const ENTITY = {
+export const INTERACTIVE_ENTITY = {
     'TOKEN': 'TOKEN',
     'CONDITION': 'CONDITION',
     'ACTION': 'ACTION',

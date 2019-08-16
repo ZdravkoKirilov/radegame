@@ -9,9 +9,13 @@ export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseContr
         <Form>
             ${baseTemplate}
 
-            <NumberInput name='width' label='Width' defaultValue='{100}'>{data.width}</NumberInput>
+            <NumberInput name='width' label='Width' required='{true}'>{data.width}</NumberInput>
 
-            <NumberInput name='height' label='Height' defaultValue='{100}'>{data.height}</NumberInput>
+            <NumberInput name='height' label='Height' required='{true}'>{data.height}</NumberInput>
+
+            <Dropdown name='populate_by' label='Populate by using' options='{expression_options}'>
+                {data.populate_by}
+            </Dropdown>
 
         </Form>
     `;

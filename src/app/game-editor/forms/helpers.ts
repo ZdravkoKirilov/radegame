@@ -1,6 +1,6 @@
 import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 import { toDictionary } from '@app/shared';
-import { ImageAsset, GameEntity } from '@app/game-mechanics';
+import { ImageAsset, GameEntity, INTERACTIVE_ENTITY } from '@app/game-mechanics';
 
 
 export function composeEntityOptions(
@@ -176,4 +176,5 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
     phase_options: composeEntityOptions(ent, 'phases'),
 
     boolean_options: composeBooleanOptions(),
+    entity_types: composeFromObject(INTERACTIVE_ENTITY),
 });

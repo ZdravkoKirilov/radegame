@@ -1,17 +1,15 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Slot, GameEntity } from "@app/game-mechanics";
+import { Slot } from "@app/game-mechanics";
 import {
     baseTemplate,
-    boardTemplate, permissionsTemplate, styleTemplate,
-    keywordsTemplate,
+    boardTemplate, styleTemplate,
     composeCommonFormContext,
-    fieldTemplate,
-    framesTemplate
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
-
     data = data || {};
+    const handlers = data.handlers || [];
+    const items = data.items || [];
 
     const template = `
         <Form>
@@ -21,15 +19,47 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             <NumberInput name='y' label='Top' defaultValue='{100}'>{data.y}</NumberInput>
 
-            ${fieldTemplate}
-
             ${boardTemplate}
 
             ${styleTemplate}
 
-            <Dropdown name='draw' label='Draw' options='{source_options}'>
-                {data.draw}
-            </Dropdown>
+            <Group name='items' label='Items' children='{items}' item='@item' addButtonText='Add'>
+                <Form>
+                    <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+                    <Dropdown name='entity_type' label='Type' options='{entity_types}' required='{true}'>
+                        {@item.entity_type}
+                    </Dropdown>
+
+                    <Dropdown name='action' label='Action' options='{action_options}'>
+                        {@item.action}
+                    </Dropdown>
+
+                    <Dropdown name='condition' label='Condition' options='{condition_options}'>
+                        {@item.condition}
+                    </Dropdown>
+
+                    <Dropdown name='choice' label='Choice' options='{choice_options}'>
+                        {@item.choice}
+                    </Dropdown>
+
+                    <Dropdown name='token' label='Token' options='{token_options}'>
+                        {@item.token}
+                    </Dropdown>
+
+                    <Dropdown name='field' label='Field' options='{field_options}'>
+                        {@item.field}
+                    </Dropdown>
+                </Form>
+            </Group>
+
+            <Group name='handlers' label='Handlers' children='{handlers}' item='@handlerSlot' addButtonText='Add'>
+                <Form>
+                    <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+                    <Dropdown name='handler' label='Handler' options='{handler_options}' required='{true}'>
+                        {@handlerSlot.handler}
+                    </Dropdown>
+                </Form>
+            </Group>
 
         </Form>
     `;
@@ -37,8 +67,8 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
-            data,
+            ...composeCommonFormContext(data, ent),
+            data, items, handlers,
         },
     }, true);
 
