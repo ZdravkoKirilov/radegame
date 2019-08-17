@@ -65,7 +65,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
     render() {
         const { stage, selectedSlot, selectedPath, loaded, entities, slots, paths } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot, selectPath } = this;
-        const background = loaded ? entities.images[stage.id] : null;
+        const background = loaded && stage ? entities.images[stage.image] : null;
 
         return loaded ? createElement(MainContext.Provider, { value: { entities } },
             createElement<ScrollableProps>(Scrollable, {
