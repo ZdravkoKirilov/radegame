@@ -3,7 +3,7 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import { Handler, GameEntity, HANDLER_TYPES } from '@app/game-mechanics';
-import { composeCommonFormContext, composeFromObject } from '../helpers';
+import { composeCommonFormContext, composeFromObject, stateTemplate } from '../helpers';
 
 export const composeHandlerForm: FormDefinition = (data: Handler, ent?: ConnectedEntities) => {
     data = data || {};
@@ -15,7 +15,8 @@ export const composeHandlerForm: FormDefinition = (data: Handler, ent?: Connecte
 
         <Dropdown name='type' label='Type' options='{types}'>{data.type}</Dropdown>
 
-        <Dropdown name='state' label='State' options='{expression_options}'>{data.state}</Dropdown>
+        ${stateTemplate}
+        
         <Dropdown name='effect' label='Effect' options='{expression_options}'>{data.effect}</Dropdown>
 
     </Form>

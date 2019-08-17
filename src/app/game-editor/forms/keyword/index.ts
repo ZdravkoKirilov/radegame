@@ -1,4 +1,4 @@
-import { Keyword, GameEntity } from '@app/game-mechanics';
+import { Keyword } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import { baseTemplate, composeCommonFormContext, displayNameTemplate } from '../helpers';
 
@@ -16,7 +16,7 @@ export function composeKeywordForm(data: Keyword, ent: ConnectedEntities): BaseC
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
+            ...composeCommonFormContext(data, ent),
             data,
         }
     }, true) as BaseControl[];

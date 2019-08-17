@@ -69,7 +69,13 @@ export const baseTemplate = `
 
 export const doneTemplate = `
     <Dropdown name='done' label='Done if' options='{expression_options}'>
-        {@item.done}
+        {data.done}
+    </Dropdown>
+`;
+
+export const stateTemplate = `
+    <Dropdown name='state' label='Get state from' options='{expression_options}'>
+        {data.state}
     </Dropdown>
 `;
 

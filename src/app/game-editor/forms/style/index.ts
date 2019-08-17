@@ -1,6 +1,6 @@
-import { Style, ENTITY_SHAPE, GameEntity } from '@app/game-mechanics';
+import { Style } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { baseTemplate, composeCommonFormContext, composeFromObject } from '../helpers';
+import { baseTemplate, composeCommonFormContext } from '../helpers';
 
 export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -12,19 +12,11 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
 
         <NumberInput name='width' label='Width'>{data.width}</NumberInput>
         <NumberInput name='height' label='Height'>{data.height}</NumberInput>
-        <NumberInput name='radius' label='Radius' defaultValue="{0}">{data.radius}</NumberInput>
-        <TextInput name='fill' label='Fill'>{data.fill}</TextInput>
         <ColorPicker name='strokeColor' label='Stroke color'>{data.strokeColor}</ColorPicker>
         <NumberInput name='strokeThickness' label='Stroke thickness'>{data.strokeThickness}</NumberInput>
 
         <NumberInput name='frame' label='Frame' defaultValue='{0}'>{data.frame}</NumberInput>
         <NumberInput name='rotation' label='Rotate' defaultValue='{0}'>{data.rotation}</NumberInput>
-
-        <Dropdown name='shape' label='Shape' defaultValue='rectangle' options='{shapes}' required='true'>
-            {data.shape}
-        </Dropdown>
-
-        <TextInput name='points' label='Points'>{data.points}</TextInput>
 
     </Form>
     `;
@@ -32,8 +24,7 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
-            shapes: composeFromObject(ENTITY_SHAPE),
+            ...composeCommonFormContext(data, ent),
             data,
         }
     }, true) as BaseControl[];

@@ -76,3 +76,7 @@ export type WithStates = Partial<{
 export type WithCondition = Partial<{
     condition: number; // Condition
 }>;
+
+export type WithState = Partial<{
+    state: number; // Expression 
+}>;

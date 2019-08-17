@@ -1,4 +1,6 @@
-export type Handler = Partial<{
+import { WithState } from "./Base.model";
+
+export type Handler = WithState & Partial<{
     id: number;
     game: number;
 
@@ -7,7 +9,6 @@ export type Handler = Partial<{
 
     type: HandlerType;
 
-    state: number; // Expression. Will return an action to put the entity into a given state, e.g.: disabled/enabled
     effect: number; // Expression -> to filter out actions in runtime
 }>
 

@@ -1,10 +1,12 @@
-import { BaseModel, WithBoard, WithStyle, WithType } from "./Base.model";
+import { BaseModel, WithBoard, WithStyle, WithType, WithState } from "./Base.model";
 
-export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
+export type Slot = BaseModel & WithBoard & WithStyle & WithState & Partial<{
     owner: number; // Stage;
 
     y: number;
     x: number;
+
+    display_text: number; // Expression
 
     items: number[]; // could be anything
     handlers: number[]; // Handler[]

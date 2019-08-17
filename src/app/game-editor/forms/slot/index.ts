@@ -4,6 +4,7 @@ import {
     baseTemplate,
     boardTemplate, styleTemplate,
     composeCommonFormContext,
+    stateTemplate,
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
@@ -22,6 +23,12 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             ${boardTemplate}
 
             ${styleTemplate}
+
+            ${stateTemplate}
+
+            <Dropdown name='display_text' label='Displayed text' options='{expression_options}'>
+                {data.display_text}
+            </Dropdown>
 
             <Group name='items' label='Items' children='{items}' item='@item' addButtonText='Add'>
                 <Form>

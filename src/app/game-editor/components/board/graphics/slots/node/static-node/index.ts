@@ -23,7 +23,6 @@ const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
             return createElement('container', {},
                 createElement('rectangle', {
                     button: true,
-                    points: composePoints(style.points),
                     styles: {
                         strokeThickness: selected ? 5 : style.strokeThickness,
                         strokeColor: style.strokeColor,

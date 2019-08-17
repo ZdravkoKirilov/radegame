@@ -1,15 +1,10 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Token } from "@app/game-mechanics";
-import { composeEntityOptions, baseTemplate, revealTemplate, permissionsTemplate, costTemplate, conditionTemplate, settingsTemplate } from "../helpers";
+import { composeEntityOptions, baseTemplate, revealTemplate, permissionsTemplate, costTemplate, conditionTemplate, settingsTemplate, keywordsTemplate, composeCommonFormContext } from "../helpers";
 
 export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
 
-    const disable = data.disable || [];
-    const enable = data.enable || [];
-    const cost = data.cost || [];
-    const reveal_cost = data.reveal_cost || [];
-    const settings = data.settings || [];
     const keywords = data.keywords || [];
 
     const template = `
@@ -17,28 +12,19 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
 
         ${baseTemplate}
 
-        ${revealTemplate}
+        <Dropdown name='value' label='Value' options='{expression_options}'>{data.value}</Dropdown>
 
-        ${permissionsTemplate}
-
-        ${costTemplate}
-
-        ${settingsTemplate}
-
-        <Dropdown name='value' label='Value' options='{sources}'>{data.value}</Dropdown>
+        ${keywordsTemplate}
 
     </Form>
-   `;
+    `;
 
     const result = parse({
         source: template,
         context: {
-            data, cost, disable, enable, reveal_cost, settings, keywords,
-            setup_options: composeEntityOptions(ent, 'setups'),
-            conditions: composeEntityOptions(ent, 'conditions'),
-            stages: composeEntityOptions(ent, 'stages'),
-            images: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
-            keyword_options: composeEntityOptions(ent, 'keywords'),
+            ...composeCommonFormContext(data, ent),
+            keywords,
+            data,
         }
     }, true) as BaseControl[];
 
