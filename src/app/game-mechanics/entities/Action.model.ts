@@ -9,24 +9,25 @@ export type ActionConfig = Partial<{
     owner: number; // GameAction;
 
     type: ActionType;
+
     target: number; // Expression
     subject: number; // Expression
-
-    auto_apply: boolean;
-
-    value: string;
+    value: number; // Expression
 }>
 
 export const ACTION_TYPE = {
 
     WIN_GAME: 'WIN_GAME',
-    LOSE_GAME: 'LOSE_GAME',
 
-    DRAW: 'DRAW', // source determined by TARGET AND SCOPE, amount by value, subject: which stage to populate, subject_scope - whose
+    ACTIVATE_CHOICE: 'ACTIVATE_CHOICE',
+    SHOW_CHOICE_UI: 'SHOW_CHOICE_UI',
 
-    ALTER: 'ALTER', // which card - determined by TARGET and SCOPE; which keyword - determined by SUBJECT. Whether add or remove: amount -1 / +1
+    ACTIVATE_CONDITION: 'ACTIVATE_CONDITION',
+    CLOSE_CONDITION: 'CLOSE_CONDITION',
 
-    PUT: 'PUT', // which field - determind by TARGET AND SCOPE, on what entity ( slot or path ) - determined by subject + subject_scope
+    TAKE_FROM_SLOT: 'TAKE_FROM_SLOT',
+    PUT_ON_SLOT: 'PUT_ON_SLOT',
+
 };
 
 export type ActionType = keyof typeof ACTION_TYPE;

@@ -24,13 +24,11 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='type' label='Type' options='{types}' required='{true}'>{@item.type}</Dropdown>
 
-                    <Dropdown name='target' label='Target' options='{expression_options}' required='{true}'>{@item.target}</Dropdown>
+                    <Dropdown name='target' label='Target' options='{expression_options}'>{@item.target}</Dropdown>
 
-                    <Dropdown name='subject' label='Subject' options='{expression_options}' required='{true}'>{@item.subject}</Dropdown>
+                    <Dropdown name='subject' label='Subject' options='{expression_options}'>{@item.subject}</Dropdown>
 
-                    <ButtonGroup name='auto_apply' label='Auto apply' options='{boolean_options}'>{@item.auto_apply}</ButtonGroup>
-
-                    <TextInput name='value' label='Value'>{@item.value}</TextInput>
+                    <Dropdown name='value' label='Value' options='{expression_options}'>{@item.value}</Dropdown>
 
                 </Form>
 
@@ -42,7 +40,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
+            ...composeCommonFormContext(data, ent),
             data, configs,
             types: composeFromObject(types),
         },

@@ -7,4 +7,6 @@ export type Style = BaseModel & Partial<{
     height: number;
     strokeColor: number;
     strokeThickness: number;
+
+    hidden: boolean;
 }>;

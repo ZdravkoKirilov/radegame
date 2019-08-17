@@ -107,8 +107,8 @@ export const permissionsTemplate = `
 `;
 
 export const stakesTemplate = `
-    <ButtonGroup name='done' label='Done' options='{group_options}' multiple='{true}'>{done}</ButtonGroup>
-    <ButtonGroup name='undone' label='Undone' options='{group_options}' multiple='{true}'>{undone}</ButtonGroup>
+    <Dropdown name='passes' label='Done' options='{expression_options}'>{passes}</Dropdown>
+    <Dropdown name='fails' label='Undone' options='{expression_options}'>{fails}</Dropdown>
 `;
 
 export const riskTemplate = `

@@ -18,6 +18,8 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
         <NumberInput name='frame' label='Frame' defaultValue='{0}'>{data.frame}</NumberInput>
         <NumberInput name='rotation' label='Rotate' defaultValue='{0}'>{data.rotation}</NumberInput>
 
+        <Dropdown name='hidden' label='Hidden' options='{boolean_options}'>{data.hidden}</Dropdown>
+
     </Form>
     `;
 

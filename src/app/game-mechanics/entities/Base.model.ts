@@ -48,8 +48,8 @@ export type WithRisk = Partial<{
 }>
 
 export type WithStakes = Partial<{
-    done: number[]; // Source
-    undone: number[]; // Source
+    passes: number; // Expression
+    fails: number; // Expression
 }>
 
 export type WithReveal = Partial<{

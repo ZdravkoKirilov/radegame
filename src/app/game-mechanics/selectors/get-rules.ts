@@ -1,6 +1,6 @@
 import memoizeWith from 'ramda/src/memoizeWith';
 import { GameConfig } from "../models";
-import { CONDITION_MODES, Condition } from "../entities";
+import { Condition } from "../entities";
 import { FormKey } from "@app/game-editor";
 
 const getCond = (conf: GameConfig) => (total: Condition[], id: number) => {
