@@ -64,6 +64,9 @@ export function combineContexts(base: ToggleContext, contexts: ToggleContext[] =
 export const baseTemplate = `
     <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
     <TextInput name='description' label='Description'>{data.description}</TextInput>
+`;
+
+export const imageTemplate = `
     <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{data.image}</Dropdown>
 `;
 
@@ -89,10 +92,6 @@ export const keywordsTemplate = `
     </ButtonGroup>
 `;
 
-export const statesTemplate = `
-    <ButtonGroup name='states' label='States' options='{state_options}' multiple='{true}'>{states}</ButtonGroup>
-`;
-
 export const displayNameTemplate = `
     <TextInput name='display_name' label='Displayed name'>{data.display_name}</TextInput>
 `;
@@ -101,61 +100,24 @@ export const styleTemplate = `
     <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
 `;
 
-export const permissionsTemplate = `
-    <ButtonGroup name='enable' label='Allow' options='{condition_options}' multiple='{true}'>{enable}</ButtonGroup>
-    <ButtonGroup name='disable' label='Restrict' options='{condition_options}' multiple='{true}'>{disable}</ButtonGroup>
-`;
-
 export const stakesTemplate = `
     <Dropdown name='passes' label='Done' options='{expression_options}'>{passes}</Dropdown>
     <Dropdown name='fails' label='Undone' options='{expression_options}'>{fails}</Dropdown>
-`;
-
-export const riskTemplate = `
-    <ButtonGroup name='risk' label='Risk' options='{group_options}' multiple='{true}'>{risk}</ButtonGroup>
 `;
 
 export const boardTemplate = `
     <Dropdown name='board' label='Board' options='{stage_options}' showImage='{true}'>{data.board}</Dropdown>
 `;
 
-export const settingsTemplate = `
-    <ButtonGroup name='settings' label='Settings' options='{condition_options}' multiple='{true}'>{settings}</ButtonGroup>
-`;
-
-export const conditionTemplate = `
-    <Dropdown name='condition' label='Condition' options='{expression_options}' multiple='{true}'>{data.condition}</Dropdown>
-`;
-
-export const revealTemplate = `
-    <NumberInput name='reveal_slots' label='Reveal slots'>{data.reveal_slots}</NumberInput>
-
-    <ButtonGroup name='reveal_cost' label='Reveal cost' options='{sources}' multiple='{true}'>
-        {reveal_cost}
-    </ButtonGroup>
-`;
-
-export const costTemplate = `
-    <ButtonGroup name='cost' label='Cost' options='{group_options}' multiple='{true}'>{cost}</ButtonGroup>
-`;
-
-export const setupsTemplate = `
-    <ButtonGroup name='setups' label='Setups' options='{setup_options}' multiple='{true}'>{setups}</ButtonGroup>
-`;
-
-export const fieldTemplate = `
-    <Dropdown name='field' label='Field' options='{field_options}'>{data.field}</Dropdown>
-`;
-
 export const framesTemplate = `
-    <Group name='frames' label='Frames' children='{frames}' item='@item' addButtonText='Add'>
+    <Group name='frames' label='Frames' children='{frames}' item='@frame' addButtonText='Add'>
 
         <Form>
-            <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+            <NumberInput name='id' hidden='{true}'>{@frame.id}</NumberInput>
 
-            <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{@item.image}</Dropdown>
-
-            <NumberInput name='order' required='{true}'>{@item.order}</NumberInput>
+            <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}' required='{true}'>
+                {@frame.image}
+            </Dropdown>
             
         </Form>
 

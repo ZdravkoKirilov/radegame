@@ -1,11 +1,8 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { PathEntity } from "@app/game-mechanics";
-import {
-    composeEntityOptions, baseTemplate, permissionsTemplate, stakesTemplate,
-    riskTemplate, boardTemplate, costTemplate, setupsTemplate
-} from "../helpers";
+import { ImageAsset } from "@app/game-mechanics";
 
-export const composeImageForm: FormDefinition = (data: PathEntity, ent?: ConnectedEntities) => {
+
+export const composeImageForm: FormDefinition = (data: ImageAsset, ent?: ConnectedEntities) => {
 
     data = data || {};
 
@@ -22,11 +19,8 @@ export const composeImageForm: FormDefinition = (data: PathEntity, ent?: Connect
         source: template,
         context: {
             data,
-
         },
     }, true);
 
     return result as BaseControl[];
-
-
 };

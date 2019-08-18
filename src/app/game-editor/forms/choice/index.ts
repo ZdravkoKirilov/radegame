@@ -1,7 +1,7 @@
 import { Choice } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    baseTemplate, composeCommonFormContext, keywordsTemplate
+    baseTemplate, composeCommonFormContext, keywordsTemplate, framesTemplate, imageTemplate, displayNameTemplate
 } from '../helpers';
 
 export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
@@ -9,10 +9,15 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
     const options = data.options || [];
     const tips = data.tips || [];
     const keywords = data.keywords || [];
+    const frames = data.frames || [];
 
     const template = `
     <Form>
         ${baseTemplate}
+
+        ${imageTemplate}
+
+        ${displayNameTemplate}
 
         <Dropdown name='chances' label='Chances' options='{expression_options}'>
             {data.chances}
@@ -62,6 +67,8 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
             </Form>
         </Group>
 
+        ${framesTemplate}
+
     </Form>
     `;
 
@@ -69,7 +76,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, options, keywords, tips,
+            data, options, keywords, tips, frames,
         },
     }, true);
 

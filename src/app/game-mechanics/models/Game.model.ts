@@ -2,10 +2,10 @@ import { Setup, Team, Faction } from '../entities';
 import { Dictionary } from '@app/shared';
 import { Player } from './Player.model';
 import { CommandAction } from './GameAction.model';
-import { WithBoard, WithSettings } from '../entities';
+import { WithBoard } from '../entities';
 import { GameTemplate } from './GameTemplate.model';
 
-export type Game = WithBoard & WithSettings & Partial<{
+export type Game = WithBoard & Partial<{
     id: number;
 
     title: string;

@@ -7,8 +7,11 @@ export type BaseModel = Partial<{
 
     name: string;
     description: string;
-    image: number;
 }>;
+
+export type WithImage = Partial<{
+    image: number;
+}>
 
 export type WithType = Partial<{
     entity_type: InteractiveEntity;
@@ -30,21 +33,8 @@ export type WithKeywords = Partial<{
     keywords: number[];
 }>;
 
-export type WithPermissions = Partial<{
-    enable: number[]; // Condition;
-    disable: number[]; // Condition;
-}>
-
 export type WithBoard = Partial<{
     board: number; // Stage
-}>
-
-export type WithCost = Partial<{
-    cost: number[]; // Source
-}>
-
-export type WithRisk = Partial<{
-    risk: number[]; // Choice ( random )
 }>
 
 export type WithStakes = Partial<{
@@ -52,30 +42,9 @@ export type WithStakes = Partial<{
     fails: number; // Expression
 }>
 
-export type WithReveal = Partial<{
-    reveal_cost: number; // Source
-    reveal_slots: number;
-}>
-
-export type WithSettings = Partial<{
-    settings: number[]; // Condition
-}>
-
-export type WithSetups = Partial<{
-    setups: number[]; // Setup[]
-}>
-
 export type WithStyle = Partial<{
     style: number; // Style
 }>
-
-export type WithStates = Partial<{
-    states: number[];
-}>
-
-export type WithCondition = Partial<{
-    condition: number; // Condition
-}>;
 
 export type WithState = Partial<{
     state: number; // Expression 

@@ -1,6 +1,6 @@
-import { BaseModel, WithStakes } from './Base.model';
+import { BaseModel, WithStakes, WithFrames, WithDisplayName } from './Base.model';
 
-export type Condition = BaseModel & WithStakes & Partial<{
+export type Condition = BaseModel & WithStakes & WithDisplayName & WithFrames & Partial<{
     clause: number; // Expression
 }>;
 

@@ -1,6 +1,6 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { PathEntity, GameEntity } from "@app/game-mechanics";
-import { baseTemplate, permissionsTemplate, setupsTemplate, composeCommonFormContext, fieldTemplate, styleTemplate } from "../helpers";
+import { baseTemplate, composeCommonFormContext, styleTemplate } from "../helpers";
 
 export const composePathForm: FormDefinition = (data: PathEntity, ent?: ConnectedEntities) => {
 
@@ -16,12 +16,6 @@ export const composePathForm: FormDefinition = (data: PathEntity, ent?: Connecte
             <Dropdown name='to_slot' label='To' options='{slot_options}' showImage='{true}'>{data.to_slot}</Dropdown>
 
             ${styleTemplate}
-
-            ${fieldTemplate}
-
-            ${permissionsTemplate}
-
-            ${setupsTemplate}
 
         </Form>
     `;

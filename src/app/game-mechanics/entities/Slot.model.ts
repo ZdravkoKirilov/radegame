@@ -1,6 +1,6 @@
-import { BaseModel, WithBoard, WithStyle, WithType, WithState } from "./Base.model";
+import { BaseModel, WithBoard, WithStyle, WithType, WithState, WithImage } from "./Base.model";
 
-export type Slot = BaseModel & WithBoard & WithStyle & WithState & Partial<{
+export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & Partial<{
     owner: number; // Stage;
 
     y: number;

@@ -1,7 +1,7 @@
-import { BaseModel, WithKeywords, } from "./Base.model";
+import { BaseModel, WithKeywords, WithFrames, WithImage, WithDisplayName, } from "./Base.model";
 import { Omit } from "@app/shared";
 
-export type Choice = BaseModel & WithKeywords & Partial<{
+export type Choice = BaseModel & WithKeywords & WithFrames & WithImage & WithDisplayName & Partial<{
     chances: number; // retries. Expression
     time: number; // Expression
 

@@ -5,6 +5,7 @@ import {
     boardTemplate, styleTemplate,
     composeCommonFormContext,
     stateTemplate,
+    imageTemplate,
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
@@ -15,6 +16,8 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const template = `
         <Form>
             ${baseTemplate}
+
+            ${imageTemplate}
 
             <NumberInput name='x' label='Left' defaultValue='{100}'>{data.x}</NumberInput>
 

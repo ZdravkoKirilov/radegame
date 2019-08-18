@@ -1,6 +1,6 @@
-import { Field, GameEntity } from '@app/game-mechanics';
+import { Field } from '@app/game-mechanics';
 import { ConnectedEntities, FormDefinition, parse, BaseControl } from '@app/dynamic-forms';
-import { baseTemplate, costTemplate, riskTemplate, boardTemplate, stakesTemplate, composeCommonFormContext, statesTemplate } from '../helpers';
+import { baseTemplate, boardTemplate, stakesTemplate, composeCommonFormContext } from '../helpers';
 
 export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEntities) => {
     data = data || {};
@@ -11,13 +11,7 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
 
             ${boardTemplate}
 
-            ${costTemplate}
-
-            ${riskTemplate}
-
             ${stakesTemplate}
-
-            ${statesTemplate}
 
         </Form>
     `;
@@ -25,7 +19,7 @@ export const composeFieldForm: FormDefinition = (data: Field, ent: ConnectedEnti
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
+            ...composeCommonFormContext(data, ent),
             data,
         },
     }, true);

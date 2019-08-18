@@ -3,19 +3,22 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import {
-    GameAction, ACTION_TYPE as types, GameEntity,
+    GameAction, ACTION_TYPE as types,
 } from '@app/game-mechanics';
 import {
-    composeFromObject, baseTemplate, composeCommonFormContext
+    composeFromObject, baseTemplate, composeCommonFormContext, framesTemplate, displayNameTemplate
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
     data = data || {};
     const configs = data.configs || [];
+    const frames = data.frames || [];
 
     const template = `
         <Form>
             ${baseTemplate}
+
+            ${displayNameTemplate}
 
             <Group name='configs' label='Action configs' children='{configs}' item='@item' addButtonText='Add'>
 
@@ -34,6 +37,8 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
             </Group>
 
+            ${framesTemplate}
+
         </Form>
     `;
 
@@ -41,7 +46,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, configs,
+            data, configs, frames,
             types: composeFromObject(types),
         },
     }, true);

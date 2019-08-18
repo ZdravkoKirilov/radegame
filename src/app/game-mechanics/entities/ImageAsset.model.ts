@@ -13,5 +13,4 @@ export type ImageFrame = Partial<{
     owner: number;
 
     image: number;
-    order: number;
 }>

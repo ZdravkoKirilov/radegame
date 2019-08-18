@@ -1,6 +1,6 @@
-import { BaseModel, WithCondition, WithKeywords } from "./Base.model";
+import { BaseModel, WithFrames, WithDisplayName } from "./Base.model";
 
-export type GameAction = BaseModel & Partial<{
+export type GameAction = BaseModel & WithFrames & WithDisplayName & Partial<{
     configs: ActionConfig[];
 }>
 
@@ -27,6 +27,9 @@ export const ACTION_TYPE = {
 
     TAKE_FROM_SLOT: 'TAKE_FROM_SLOT',
     PUT_ON_SLOT: 'PUT_ON_SLOT',
+
+    ADD_KEYWORD: 'ADD_KEYWORD',
+    REMOVE_KEYWORD: 'REMOVE_KEYWORD',
 
 };
 
