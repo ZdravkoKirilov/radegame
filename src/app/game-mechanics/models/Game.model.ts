@@ -1,6 +1,6 @@
-import { Setup, Team, Faction } from '../entities';
+import { Team, Faction } from '../entities';
 import { Dictionary } from '@app/shared';
-import { Player } from './Player.model';
+
 import { CommandAction } from './GameAction.model';
 import { WithBoard } from '../entities';
 import { GameTemplate } from './GameTemplate.model';
@@ -22,7 +22,7 @@ type Stats = Partial<{
 
 export type GameState = {
     conf: GameConfig;
-    players: Dictionary<Player>;
+    players: Dictionary<any>;
     teams?: Dictionary<Team>;
     factions?: Dictionary<Faction>;
     index: {

@@ -1,5 +1,5 @@
-import { BaseModel, WithKeywords } from "./Base.model";
+import { BaseModel, WithKeywords, WithDisplayName, WithFrames } from "./Base.model";
 
-export type Token = BaseModel & WithKeywords & Partial<{
+export type Token = BaseModel & WithKeywords & WithDisplayName & WithFrames & Partial<{
     value: number; // Expression
 }>;
