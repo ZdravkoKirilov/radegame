@@ -1,7 +1,6 @@
 import { Team, Faction } from '../entities';
 import { Dictionary } from '@app/shared';
 
-import { CommandAction } from './GameAction.model';
 import { WithBoard } from '../entities';
 import { GameTemplate } from './GameTemplate.model';
 
@@ -13,28 +12,19 @@ export type Game = WithBoard & Partial<{
     image: string;
 }>
 
-type Stats = Partial<{
-    hand: any;
-    slots: any;
-    tokens: any;
-    boards: any;
-}>
-
 export type GameState = {
     conf: GameConfig;
-    players: Dictionary<any>;
-    teams?: Dictionary<Team>;
-    factions?: Dictionary<Faction>;
-    index: {
-        round: number; // Round id
-        phase: number; // Phase id
-        activePlayer: number; // Player id
-        lastAction: CommandAction;
-    };
-    playerStats: Dictionary<Stats>; // by playerid
-    teamStats?: Dictionary<Stats>;
+
+    players: Dictionary<any>; // each player has stages: Stage[]
+
+    turn_order: number[]; //
+
+    setup: number; //
+    round: number; //
+    phase: number ; //
+    turn: number; //
+
+    state: any; // runtime, dynamicly schemed state, different for each game
 };
 
-export type GameConfig = GameTemplate & {
-    game: Game;
-}
+export type GameConfig = GameTemplate & { game: Game }
