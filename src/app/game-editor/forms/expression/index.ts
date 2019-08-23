@@ -10,6 +10,8 @@ export function composeExpressionForm(data: Expression, ent: ConnectedEntities):
         <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
         <TextInput name='description' label='Description'>{data.description}</TextInput>
 
+        <TextInput name='preload_as' label='Preload as'>{data.preload_as}</TextInput>
+
         <CodeEditor name='code' label='Code'>{data.code}</CodeEditor>
 
     </Form>

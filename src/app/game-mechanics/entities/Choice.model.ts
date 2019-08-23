@@ -6,6 +6,7 @@ export type Choice = BaseModel & WithKeywords & WithFrames & WithImage & WithDis
     time: number; // Expression
 
     options_filter: number; // Expression
+    scope: number; // Expression
 
     options: number[]; //ChoiceOption[];
     tips: number[]; // ChoiceTip[];

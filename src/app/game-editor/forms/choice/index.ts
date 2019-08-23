@@ -31,6 +31,10 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
             {data.options_filter}
         </Dropdown>
 
+        <Dropdown name='scope' label='Show to' options='{expression_options}'>
+            {data.scope}
+        </Dropdown>
+
         ${keywordsTemplate}
 
         <Group name='options' label='Options' children='{options}' item='@item' addButtonText='Add'>

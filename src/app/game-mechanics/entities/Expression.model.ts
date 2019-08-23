@@ -5,5 +5,6 @@ export type Expression = Partial<{
     name: string;
     description: string;
 
+    preload_as: string;
     code: string;
 }>
