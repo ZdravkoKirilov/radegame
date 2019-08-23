@@ -9,6 +9,8 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & P
     display_text: number; // Expression
 
     items: number[]; // could be anything
+    use_layout: number; // Expression // Determines how to stack items[] visually
+
     handlers: number[]; // Handler[]
 }>;
 
