@@ -10,6 +10,7 @@ type CreateExpressionParams = {
 type CreateStateParams = {
     setup: number;
     self: number;
+    conf: GameConfig;
 };
 
 export type ExpressionContext = {
@@ -21,7 +22,7 @@ export type ExpressionContext = {
     $self: () => any
 };
 
-export const createGameState = ({ setup, self }: CreateStateParams): GameState => {
+export const createGameState = ({ setup, self, conf }: CreateStateParams): GameState => {
     return {
         global_overrides: {},
         player_overrides: {},
