@@ -13,18 +13,18 @@ export type Game = WithBoard & Partial<{
 }>
 
 export type GameState = {
-    conf: GameConfig;
+    global_overrides: Partial<GameConfig>;
+    player_overrides: Dictionary<Partial<GameConfig>>;
 
     players: Dictionary<any>; // each player has stages: Stage[]
 
-    turn_order: number[]; //
+    turn_order: number[]; // player ids determining turn order
 
-    setup: number; //
+    self: number;
+    setup: number;
     round: number; //
-    phase: number ; //
+    phase: number; //
     turn: number; //
-
-    state: any; // runtime, dynamicly schemed state, different for each game
 };
 
 export type GameConfig = GameTemplate & { game: Game }

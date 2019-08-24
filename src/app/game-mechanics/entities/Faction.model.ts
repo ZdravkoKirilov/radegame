@@ -1,4 +1,6 @@
-import { BaseModel, WithBoard, WithKeywords } from "./Base.model";
+import { BaseModel } from "./Base.model";
 
-export type Faction = BaseModel & WithBoard & WithKeywords;
+export type Faction = BaseModel & Partial<{
+    stages: number[];
+}>;
 
