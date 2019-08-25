@@ -29,7 +29,7 @@ export type WithKeys<T> = {
     readonly [P in keyof T]: P;
 };
 
-export type Dictionary<T> = {
+export type Dictionary<T = any> = {
     [key: string]: T;
 }
 

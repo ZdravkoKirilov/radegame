@@ -8,10 +8,10 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & P
 
     display_text: number; // Expression
 
-    items: number[]; // could be anything
+    items: SlotItem[];
     use_layout: number; // Expression // Determines how to stack items[] visually
 
-    handlers: number[]; // Handler[]
+    handlers: SlotHandler[];
 }>;
 
 export type SlotHandler = {

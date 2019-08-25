@@ -5,14 +5,14 @@ import { baseTemplate, composeCommonFormContext } from '../helpers';
 export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
 
-    const stages = data.stages || [];
+    const slots = data.slots || [];
 
     const template = `
     <Form>
 
         ${baseTemplate}
 
-        <ButtonGroup name='stages' label='Stages' options='{stage_options}' multiple='{true}'>{data.stages}</ButtonGroup>
+        <ButtonGroup name='slots' label='Slots' options='{slot_options}' multiple='{true}'>{data.slots}</ButtonGroup>
 
     </Form>
    `;
@@ -21,7 +21,7 @@ export function composeFactionForm(data: Faction, ent: ConnectedEntities): BaseC
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, stages,
+            data, stages: slots,
         }
     }, true) as BaseControl[];
 

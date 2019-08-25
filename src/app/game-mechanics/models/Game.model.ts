@@ -1,4 +1,4 @@
-import { Team, Faction } from '../entities';
+import { Team, Faction, Slot } from '../entities';
 import { Dictionary } from '@app/shared';
 
 import { WithBoard } from '../entities';
@@ -14,7 +14,11 @@ export type Game = WithBoard & Partial<{
 
 export type GameState = {
     global_overrides: Partial<GameConfig>;
-    player_overrides: Dictionary<Partial<GameConfig>>;
+    player_overrides: Dictionary<{
+        [key: string]: {
+            slots: Dictionary<Slot>
+        }
+    }>;
 
     players: Dictionary<any>; // each player has stages: Stage[]
 
