@@ -1,7 +1,9 @@
-import { compose } from 'lodash/fp';
+import { get } from 'lodash';
+
 import { GameState, GameConfig, Player } from "../models";
 import { Expression, Faction, Slot } from "../entities";
 import { Dictionary } from "@app/shared";
+import { evaluate } from './helpers';
 
 type CreateExpressionParams = {
     state: GameState;
@@ -23,8 +25,10 @@ export type ExpressionContext = {
     players: Dictionary<Player>;
     helpers: {
         [key: string]: any;
+        compute: typeof evaluate
     },
-    $self: () => any
+    $self: () => any,
+    $playerOverrides: (player: Player, path: string) => any;
 };
 
 export const createGameState = ({ setup, self, conf, players }: CreateStateParams): GameState => {
@@ -48,15 +52,22 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
         helpers: composeHelpers(helpers),
         $self() {
             return state.players.find(player => player.id === self);
+        },
+        $playerOverrides(player: Player, path: string) {
+            const overrides = state.player_overrides[player.id];
+            return get(overrides, path, {});
         }
     };
 };
 
-const composeHelpers = (expressions: Expression[]): {} => {
+const composeHelpers = (expressions: Expression[]) => {
     return expressions.reduce((result, item) => {
         result[item.preload_as] = item.code;
         return result;
-    }, {});
+    }, {
+            compute: evaluate
+        }
+    );
 };
 
 const createSlotOverrides = (players: Player[], conf: GameConfig) => (base: Dictionary) => {

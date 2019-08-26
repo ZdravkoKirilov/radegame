@@ -1,4 +1,5 @@
 import { BaseModel, WithBoard, WithStyle, WithType, WithState, WithImage } from "./Base.model";
+import { Dictionary } from "@app/shared";
 
 export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & Partial<{
     owner: number; // Stage;
@@ -10,6 +11,7 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & P
 
     items: SlotItem[];
     use_layout: number; // Expression // Determines how to stack items[] visually
+    populate_by: number;
 
     handlers: SlotHandler[];
 }>;
@@ -21,5 +23,13 @@ export type SlotHandler = {
 
 export type SlotItem = WithType & {
     owner: number; // Slot
-    item: number; // foreign key
+    action: number; // foreign key
+    condition: number; // foreign key
+    choice: number; // foreign key
+    field: number; // foreign key
+    token: number; // foreign key
 };
+
+export type RuntimeSlot = Slot & Partial<{
+    runtime_data: Dictionary;
+}>;
