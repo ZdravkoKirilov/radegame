@@ -2,6 +2,7 @@ import { Action } from '@ngrx/store';
 
 import { actionTypes } from './actionTypes';
 import { User } from '@app/core';
+import { ActiveGame } from '../../models';
 
 export class LogoutAction implements Action {
     readonly type = actionTypes.LOGOUT;
@@ -38,5 +39,26 @@ export class OperationFailAction implements Action {
     constructor(public payload: string) { }
 }
 
+export class FetchActiveGames {
+    readonly type = actionTypes.FETCH_ACTIVE_GAMES;
+    constructor(public payload: number) { }
+}
+
+export class FetchActiveGamesSuccess {
+    readonly type = actionTypes.FETCH_ACTIVE_GAMES_SUCCESS;
+    constructor(public payload: ActiveGame[]) { }
+}
+
+export class FetchActiveGamesFail {
+    readonly type = actionTypes.FETCH_ACTIVE_GAMES_FAIL;
+    readonly payload = null;
+}
+
+export class AddActiveGame {
+    readonly type = actionTypes.ADD_ACTIVE_GAME;
+    constructor(public payload: ActiveGame) { }
+}
+
 export type CoreAction = OperationSuccessAction | OperationFailAction | LogoutAction | GetCurrentUserAction |
-    GetCurrentUserSuccessAction | GetCurrentUserFailAction | SetCurrentUserAction;
+    GetCurrentUserSuccessAction | GetCurrentUserFailAction | SetCurrentUserAction | FetchActiveGames |
+    FetchActiveGamesSuccess | FetchActiveGamesFail | AddActiveGame;

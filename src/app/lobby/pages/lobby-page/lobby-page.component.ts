@@ -169,7 +169,6 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 	startGame() {
 		const gameId = this.data.game.id;
 		const players = this.data.lobby.players;
-		debugger;
 		this.store.dispatch(new CreateGame({ gameId, players }));
 	}
 

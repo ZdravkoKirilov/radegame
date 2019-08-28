@@ -19,6 +19,10 @@ import { AuthInterceptor } from './http';
 import { HomeModule } from '../home';
 import { NotFoundComponent } from './components';
 import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.module';
+import { OrchestratorComponent } from './components/orchestrator/orchestrator.component';
+import { PageTitleProviderComponent } from './components/page-title/page-title-provider.component';
+import { ActiveGamesProviderComponent } from './components/active-games/active-games-provider.component';
+import { CurrentUserProviderComponent } from './components/current-user/current-user-provider.component';
 
 @NgModule({
     imports: [
@@ -36,8 +40,8 @@ import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.mo
         ExperimentsRoutingModule,
         AppRoutingModule,
     ],
-    exports: [AppRoutingModule],
-    declarations: [NotFoundComponent],
+    exports: [AppRoutingModule, OrchestratorComponent],
+    declarations: [NotFoundComponent, OrchestratorComponent, PageTitleProviderComponent, ActiveGamesProviderComponent, CurrentUserProviderComponent],
     providers: [
         Title,
         GameEditService, AuthService,

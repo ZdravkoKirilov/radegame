@@ -19,7 +19,7 @@ import {
     UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, CREATE_GAME
 } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
-import { GameFetchService, AppState } from '@app/core';
+import { GameFetchService, AppState, AddActiveGame } from '@app/core';
 import { LiveLobbyService } from '../services/live-lobbies.service';
 import { getPlayers } from './selectors';
 import { GameArenaService } from 'app/core/services/arena/game-arena.service';
@@ -241,8 +241,8 @@ export class LobbyEffects {
         ofType<CreateGame>(CREATE_GAME),
         mergeMap(action => {
             return this.arenaApi.createGame(action.payload).pipe(
-                map(response => {
-                    return new CreateGameSuccess(response);
+                mergeMap(response => {
+                    return [new CreateGameSuccess(response), new AddActiveGame(response)];
                 }),
                 catchError(() => {
                     return of(new CreateGameFail());

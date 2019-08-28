@@ -9,6 +9,7 @@ import {
 } from "./actionTypes";
 import { Lobby, LobbyPlayer, ChatMessage } from "../models";
 import { Game, Team, Faction, ImageAsset, Setup, CreateGamePayload } from "@app/game-mechanics";
+import { ActiveGame } from "@app/core";
 
 export class ToggleForm {
     readonly type = TOGGLE_FORM;
@@ -218,7 +219,7 @@ export class CreateGame {
 
 export class CreateGameSuccess {
     readonly type = CREATE_GAME_SUCCESS;
-    constructor(public payload: string) { }
+    constructor(public payload: ActiveGame) { }
 }
 
 export class CreateGameFail {

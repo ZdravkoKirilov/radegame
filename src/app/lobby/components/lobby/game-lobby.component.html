@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar color="primary" *ngIf="data?.game">
 	<a [routerLink]="['/lobbies', 'games', data?.game.id]">
 		<button mat-button>
 			Back to games

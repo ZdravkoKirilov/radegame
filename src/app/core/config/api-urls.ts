@@ -125,4 +125,7 @@ export const ARENA_URLS = {
     CREATE_GAME: () => {
         return API_BASE_URL + `/arena`;
     },
+    GET_ACTIVE_GAMES: (userId: number) => {
+        return API_BASE_URL + `/arena/active/${userId}`;
+    },
 };

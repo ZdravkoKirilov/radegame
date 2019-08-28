@@ -6,10 +6,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { AuthService } from '../../services';
 import {
-    actionTypes, CoreAction, GetCurrentUserSuccessAction, SetCurrentUserAction, GetCurrentUserFailAction
+    actionTypes, CoreAction, GetCurrentUserSuccessAction, SetCurrentUserAction, GetCurrentUserFailAction, FetchActiveGames, FetchActiveGamesFail, FetchActiveGamesSuccess
 } from '../actions';
 import { AppLocalStorageService } from '@app/shared';
 import { User } from '@app/core';
+import { GameArenaService } from 'app/core/services/arena/game-arena.service';
 
 @Injectable()
 export class CoreEffectsService {
@@ -18,7 +19,8 @@ export class CoreEffectsService {
         private actions$: Actions,
         private snackbar: MatSnackBar,
         private auth: AuthService,
-        private storage: AppLocalStorageService
+        private storage: AppLocalStorageService,
+        private arenaApi: GameArenaService
     ) {
     }
 
@@ -56,4 +58,19 @@ export class CoreEffectsService {
             this.storage.remove('token');
         })
     );
+
+    @Effect()
+    getActiveGames = this.actions$.pipe(
+        ofType<FetchActiveGames>(actionTypes.FETCH_ACTIVE_GAMES),
+        mergeMap(action => {
+            return this.arenaApi.fetchActiveGames(action.payload).pipe(
+                map(games => {
+                    return new FetchActiveGamesSuccess(games);
+                }),
+                catchError(() => {
+                    return of(new FetchActiveGamesFail());
+                })
+            )
+        })
+    )
 }
