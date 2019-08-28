@@ -3,7 +3,7 @@ import { CatalogFeatureState, initialState } from './shape';
 import { CatalogAction } from './actions';
 import {
     FETCH_GAMES_SUCCESS, FETCH_GAMES_FAIL, FETCH_GAMES,
-    FETCH_GAME, FETCH_IMAGES_SUCCESS
+    FETCH_GAME, FETCH_IMAGES_SUCCESS, FETCH_SETUPS_SUCCESS
 } from './actionTypes';
 
 export const mainReducer = (
@@ -33,6 +33,10 @@ export const mainReducer = (
         case FETCH_IMAGES_SUCCESS:
             return produce(state, draft => {
                 draft.images = action.payload;
+            });
+        case FETCH_SETUPS_SUCCESS:
+            return produce(state, draft => {
+                draft.setups = action.payload;
             });
         default:
             return state;

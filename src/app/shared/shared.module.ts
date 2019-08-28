@@ -13,6 +13,7 @@ import { ServeImagePipe } from './pipes';
 import { OverlayComponent } from './components/overlay/overlay.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { ProfileMenuComponent } from './components/profile-menu/profile-menu.component';
+import { AppOverlayService } from './services/overlay/app-overlay.service';
 
 
 @NgModule({
@@ -38,9 +39,11 @@ import { ProfileMenuComponent } from './components/profile-menu/profile-menu.com
         ProfileMenuComponent
     ],
     entryComponents: [
-        OverlayComponent
+        OverlayComponent,
     ],
-    providers: []
+    providers: [
+        AppOverlayService
+    ]
 })
 export class SharedModule {
 }

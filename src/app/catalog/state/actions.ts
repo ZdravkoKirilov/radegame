@@ -1,9 +1,9 @@
 import {
     FETCH_GAMES, FETCH_GAMES_SUCCESS, FETCH_GAMES_FAIL, FETCH_GAME, FETCH_IMAGES,
-    FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL,
+    FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL, FETCH_SETUPS, FETCH_SETUPS_SUCCESS, FETCH_SETUPS_FAIL,
 } from "./actionTypes";
 import { Dictionary } from "@app/shared";
-import { Game, ImageAsset } from "@app/game-mechanics";
+import { Game, ImageAsset, Setup } from "@app/game-mechanics";
 import { Lobby } from "../../lobby/models";
 
 export class FetchGames {
@@ -37,5 +37,20 @@ export class FetchImagesFail {
     readonly type = FETCH_IMAGES_FAIL;
 }
 
+export class FetchSetups {
+    readonly type = FETCH_SETUPS;
+    constructor(public payload: number) { }
+}
+
+export class FetchSetupsSuccess {
+    readonly type = FETCH_SETUPS_SUCCESS;
+    constructor(public payload: Dictionary<Setup>) { }
+}
+
+export class FetchSetupsFail {
+    readonly type = FETCH_SETUPS_FAIL;
+}
+
 export type CatalogAction = FetchGames | FetchGamesSuccess | FetchGamesFail | FetchGame |
-    FetchImages | FetchImagesSuccess | FetchImagesFail;
+    FetchImages | FetchImagesSuccess | FetchImagesFail | FetchSetups | FetchSetupsSuccess
+    | FetchSetupsFail;

@@ -22,3 +22,8 @@ export const getImages = createSelector(
     selectFeature,
     feature => feature.images,
 );
+
+export const getSetups = createSelector(
+    selectFeature,
+    feature => Object.values(feature.setups)
+);

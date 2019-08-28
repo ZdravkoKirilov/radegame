@@ -5,12 +5,12 @@ import { mergeMap, map, catchError } from 'rxjs/operators';
 
 import {
     FetchGamesSuccess, FetchGamesFail, FetchGame, FetchGames,
-    FetchImages, FetchImagesSuccess, FetchImagesFail
+    FetchImages, FetchImagesSuccess, FetchImagesFail, FetchSetups, FetchSetupsSuccess, FetchSetupsFail
 } from './actions';
 import { GameFetchService } from '@app/core';
-import { FETCH_GAMES, FETCH_GAME, FETCH_IMAGES } from './actionTypes';
+import { FETCH_GAMES, FETCH_GAME, FETCH_IMAGES, FETCH_SETUPS } from './actionTypes';
 import { toDictionary } from '@app/shared';
-import { Game, ImageAsset } from '@app/game-mechanics';
+import { Game, ImageAsset, Setup } from '@app/game-mechanics';
 
 @Injectable()
 export class CatalogEffects {
@@ -59,6 +59,23 @@ export class CatalogEffects {
                 }),
                 catchError(() => {
                     return of(new FetchImagesFail());
+                })
+            )
+        }),
+    )
+
+    @Effect()
+    fetchSetups = this.actions$.pipe(
+        ofType<FetchSetups>(FETCH_SETUPS),
+        mergeMap(action => {
+            return this.fetcher.getSetups(action.payload).pipe(
+                map(response => {
+                    const asDict = toDictionary<Setup>(response);
+                    return new FetchSetupsSuccess(asDict);
+                    
+                }),
+                catchError(() => {
+                    return of(new FetchSetupsFail());
                 })
             )
         }),

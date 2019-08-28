@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input } from '@angular/core';
-import { Game, ImageAsset } from '@app/game-mechanics';
+import { Game, ImageAsset, Setup } from '@app/game-mechanics';
 import { Dictionary } from '@app/shared';
 
 @Component({
@@ -11,6 +11,7 @@ import { Dictionary } from '@app/shared';
 export class GameDetailsComponent {
 
 	@Input() game: Game;
+	@Input() setups: Setup;
 	@Input() images: Dictionary<ImageAsset>;
 
 }

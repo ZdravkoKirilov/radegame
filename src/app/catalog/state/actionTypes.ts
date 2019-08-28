@@ -6,3 +6,7 @@ export const FETCH_GAME = '[Catalog] FETCH_GAME';
 export const FETCH_IMAGES = '[Catalog] FETCH_IMAGES';
 export const FETCH_IMAGES_SUCCESS = '[Catalog] FETCH_IMAGES_SUCCESS';
 export const FETCH_IMAGES_FAIL = '[Catalog] FETCH_IMAGES_FAIL';
+
+export const FETCH_SETUPS = '[Catalog] FETCH_SETUPS';
+export const FETCH_SETUPS_SUCCESS = '[Catalog] FETCH_SETUPS_SUCCESS';
+export const FETCH_SETUPS_FAIL = '[Catalog] FETCH_SETUPS_FAIL';

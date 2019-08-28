@@ -24,9 +24,7 @@ const DEFAULT_CONFIG: AppOverlayData = {
     data: null,
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class AppOverlayService {
 
     constructor(

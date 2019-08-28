@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Input, ContentChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, ChangeDetectionStrategy, Input, ContentChild, ViewContainerRef } from '@angular/core';
 
 import { AppOverlayService } from '../../services/overlay/app-overlay.service';
 import { AppOverlayRef } from '../../services/overlay/app-overlay-ref';

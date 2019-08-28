@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
@@ -30,7 +29,6 @@ import { LobbyChatComponent } from './components/lobby/chat/lobby-chat.component
 		LobbyChatComponent
 	],
 	imports: [
-		CommonModule,
 		SharedModule,
 		RouterModule.forChild(routes),
 		StoreModule.forFeature(FEATURE_NAME, mainReducer),
@@ -39,7 +37,7 @@ import { LobbyChatComponent } from './components/lobby/chat/lobby-chat.component
 	entryComponents: [
 		LobbyFormComponent
 	],
-	exports: [RouterModule],
+	exports: [RouterModule, LobbyFormComponent],
 	providers: [LiveLobbyService]
 })
 export class GameLobbyModule { }

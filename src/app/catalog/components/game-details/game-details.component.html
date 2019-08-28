@@ -8,7 +8,7 @@
 			<div class="setups">
 				<img class="image" [src]="game.image" />
 				<div class="links">
-					<ng-container *ngFor="let item of game.setups">
+					<ng-container *ngFor="let item of setups">
 						<rg-setup-link [data]="item" [images]="images">
 						</rg-setup-link>
 					</ng-container>
@@ -17,7 +17,7 @@
 			</div>
 
 			<div class="actions">
-				<a [routerLink]="['/lobbies', 'games', game.id]">
+				<a [routerLink]="['/lobby', 'games', game.id]">
 					<button mat-raised-button color="primary">
 						<span>Play</span>
 						<mat-icon class="icon">open_in_new</mat-icon>

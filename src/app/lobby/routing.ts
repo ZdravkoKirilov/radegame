@@ -6,13 +6,13 @@ import { LobbyPageComponent } from './pages/lobby-page/lobby-page.component';
 
 export const routes: Routes = [
     {
-        path: `/games/:${ROUTER_PARAMS.GAME_ID}`,
+        path: `games/:${ROUTER_PARAMS.GAME_ID}`,
         component: LobbiesPageComponent,
         data: {
             title: 'Radegast: game lobbies'
         },
     }, {
-        path: `/games/:${ROUTER_PARAMS.GAME_ID}/:${ROUTER_PARAMS.LOBBY_NAME}`,
+        path: `games/:${ROUTER_PARAMS.GAME_ID}/:${ROUTER_PARAMS.LOBBY_NAME}`,
         component: LobbyPageComponent,
         data: {
             title: 'Radegast: game lobby'
