@@ -41,6 +41,10 @@ export const FETCH_IMAGES = '[Lobby] FETCH_IMAGES';
 export const FETCH_IMAGES_SUCCESS = '[Lobby] FETCH_IMAGES_SUCCESS';
 export const FETCH_IMAGES_FAIL = '[Lobby] FETCH_IMAGES_FAIL';
 
+export const FETCH_SETUPS = '[Lobby] FETCH_SETUPS';
+export const FETCH_SETUPS_SUCCESS = '[Lobby] FETCH_SETUPS_SUCCESS';
+export const FETCH_SETUPS_FAIL = '[Lobby] FETCH_SETUPS_FAIL';
+
 export const UPDATE_PLAYER = '[Lobby] UPDATE_PLAYER';
 export const SAVE_PLAYER = '[Lobby] SAVE_PLAYER';
 export const REMOVE_PLAYER = '[Lobby] REMOVE_PLAYER';

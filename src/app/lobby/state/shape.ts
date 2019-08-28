@@ -1,6 +1,6 @@
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
-import { Game, Team, Faction, ImageAsset } from '@app/game-mechanics';
+import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { Lobby, Player, ChatMessage } from '../models';
 
 export type LobbyFeatureState = {
@@ -12,6 +12,7 @@ export type LobbyFeatureState = {
     factions: FactionEntityState;
     images: ImageEntityState;
     messages: MessageEntityState;
+    setups: SetupEntityState;
 };
 
 export type LobbyFeatureEntity = Game | Lobby | Player | Team | Faction | ImageAsset | ChatMessage;
@@ -27,6 +28,7 @@ export type TeamEntityState = EntityState<Team>;
 export type FactionEntityState = EntityState<Faction>;
 export type ImageEntityState = EntityState<ImageAsset>;
 export type MessageEntityState = EntityState<ChatMessage>;
+export type SetupEntityState = EntityState<Setup>;
 
 const selectBy = (prop: 'name' | 'title' | 'id' | 'timestamp') => (elem: LobbyFeatureEntity): string => {
     return String(elem[prop]);
@@ -66,6 +68,11 @@ export const imageAdapter = createEntityAdapter<ImageAsset>({
     sortComparer: sortBy('id'),
 });
 
+export const setupAdapter = createEntityAdapter<Setup>({
+    selectId: selectBy('id'),
+    sortComparer: sortBy('id'),
+});
+
 export const messageAdapter = createEntityAdapter<ChatMessage>({
     selectId: selectBy('timestamp'),
     sortComparer: sortBy('timestamp')
@@ -82,4 +89,5 @@ export const initialState: LobbyFeatureState = {
     factions: factionAdapter.getInitialState(),
     images: imageAdapter.getInitialState(),
     messages: messageAdapter.getInitialState(),
+    setups: setupAdapter.getInitialState(),
 };

@@ -5,10 +5,10 @@ import {
     FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS,
     FETCH_PLAYERS_ALL_FAIL, REMOVE_PLAYER, REMOVE_LOBBY, FETCH_TEAMS, FETCH_TEAMS_SUCCESS, FETCH_TEAMS_FAIL,
     FETCH_FACTIONS, FETCH_FACTIONS_SUCCESS, FETCH_FACTIONS_FAIL, FETCH_IMAGES, FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL,
-    CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE,
+    CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, FETCH_SETUPS_SUCCESS, FETCH_SETUPS_FAIL,
 } from "./actionTypes";
 import { Lobby, Player, ChatMessage } from "../models";
-import { Game, Team, Faction, ImageAsset } from "@app/game-mechanics";
+import { Game, Team, Faction, ImageAsset, Setup } from "@app/game-mechanics";
 
 export class ToggleForm {
     readonly type = TOGGLE_FORM;
@@ -197,6 +197,20 @@ export class SaveMessage {
     constructor(public payload: ChatMessage) { }
 }
 
+export class FetchSetups {
+    readonly type = FETCH_SETUPS;
+    constructor(public payload: number) { }
+}
+
+export class FetchSetupsSuccess {
+    readonly type = FETCH_SETUPS_SUCCESS;
+    constructor(public payload: Setup[]) { }
+}
+
+export class FetchSetupsFail {
+    readonly type = FETCH_SETUPS_FAIL;
+}
+
 export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
     RemoveLobby | FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
     FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess |
@@ -204,4 +218,4 @@ export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLob
     RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess | DeleteLobby
     | FetchTeams | FetchTeamsSuccess | FetchTeamsFail | FetchFactions | FetchFactionsSuccess |
     FetchFactionsFail | FetchImages | FetchImagesFail | FetchImagesSuccess | RemovePlayers |
-    SendMessage | SaveMessage;
+    SendMessage | SaveMessage | FetchSetups | FetchSetupsSuccess | FetchSetupsFail;

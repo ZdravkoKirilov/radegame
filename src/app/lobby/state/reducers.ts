@@ -1,8 +1,11 @@
 import produce from 'immer';
-import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter, TeamEntityState, FactionEntityState, ImageEntityState, teamAdapter, factionAdapter, imageAdapter, MessageEntityState, messageAdapter } from './shape';
+import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter, TeamEntityState, FactionEntityState, ImageEntityState, teamAdapter, factionAdapter, imageAdapter, MessageEntityState, messageAdapter, SetupEntityState, setupAdapter } from './shape';
 import { LobbyAction } from './actions';
 import { ActionReducerMap } from '@ngrx/store';
-import { FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM, ADD_LOBBY, REMOVE_LOBBY, SAVE_PLAYER, REMOVE_PLAYER, FETCH_LOBBY_SUCCESS, FETCH_PLAYERS_SUCCESS, FETCH_TEAMS_SUCCESS, FETCH_FACTIONS_SUCCESS, FETCH_IMAGES_SUCCESS, REMOVE_PLAYERS, SAVE_MESSAGE } from './actionTypes';
+import {
+    FETCH_GAME_SUCCESS, FETCH_LOBBIES_SUCCESS, FETCH_ALL_PLAYERS_SUCCESS, TOGGLE_FORM,
+    ADD_LOBBY, REMOVE_LOBBY, SAVE_PLAYER, REMOVE_PLAYER, FETCH_LOBBY_SUCCESS, FETCH_PLAYERS_SUCCESS, FETCH_TEAMS_SUCCESS, FETCH_FACTIONS_SUCCESS, FETCH_IMAGES_SUCCESS, REMOVE_PLAYERS, SAVE_MESSAGE, FETCH_SETUPS_SUCCESS
+} from './actionTypes';
 
 const gamesReducer = (
     state: GameEntityState = initialState.games,
@@ -87,6 +90,18 @@ const factionReducer = (
     }
 };
 
+const setupReducer = (
+    state: SetupEntityState = initialState.setups,
+    action: LobbyAction
+): SetupEntityState => {
+    switch (action.type) {
+        case FETCH_SETUPS_SUCCESS:
+            return setupAdapter.addAll(action.payload, state);
+        default:
+            return state;
+    }
+};
+
 const imageReducer = (
     state: ImageEntityState = initialState.images,
     action: LobbyAction
@@ -120,4 +135,5 @@ export const mainReducer: ActionReducerMap<LobbyFeatureState> = {
     factions: factionReducer,
     images: imageReducer,
     messages: messageReducer,
+    setups: setupReducer,
 };

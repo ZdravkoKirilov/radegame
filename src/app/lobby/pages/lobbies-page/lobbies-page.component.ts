@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 import { AppState, selectUser } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
 import {
-	FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers, getLobbiesWithPlayers, getFormState, ToggleForm
+	FetchGame, getSelectedGame, FetchLobbies, FetchAllPlayers, getLobbiesWithPlayers, getFormState, ToggleForm, FetchSetups
 } from '../../state';
 import { Game } from '@app/game-mechanics';
 import { Lobby } from '../../models';
@@ -43,14 +43,18 @@ export class LobbiesPageComponent implements OnInit {
 	game: Game;
 	user: User;
 
-	constructor(private store: Store<AppState>) { 
-		
+	constructor(private store: Store<AppState>) {
+
 	}
 
 	ngOnInit() {
 		this.game$ = this.store.pipe(
 			select(getSelectedGame),
-			map(game => this.game = game)
+			filter<Game>(Boolean),
+			map(game => {
+				this.game = game;
+				this.store.dispatch(new FetchSetups(game.id));
+			})
 		).subscribe();
 		this.user$ = this.store.pipe(
 			select(selectUser),

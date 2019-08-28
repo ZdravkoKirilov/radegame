@@ -9,7 +9,7 @@ import { AutoUnsubscribe, selectLobbyName, selectGameId, OnChange } from '@app/s
 import {
 	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
 	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup, CreatePlayer, playerJoined, isOwner,
-	DeletePlayer, DeleteLobby, getSelf, UpdatePlayer, SendMessage, getMessages,
+	DeletePlayer, DeleteLobby, getSelf, UpdatePlayer, SendMessage, getMessages, FetchSetups,
 } from '../../state';
 import { Lobby, Player, ChatMessage } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
@@ -91,6 +91,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 					this.store.dispatch(new FetchTeams(gameId));
 					this.store.dispatch(new FetchFactions(gameId));
 					this.store.dispatch(new FetchImages(gameId));
+					this.store.dispatch(new FetchSetups(gameId));
 				}
 			})
 		).subscribe();

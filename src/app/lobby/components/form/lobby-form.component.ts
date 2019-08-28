@@ -1,6 +1,6 @@
 import { Component, OnInit, HostBinding } from '@angular/core';
 import { FormGroup, Validators, FormBuilder } from '@angular/forms';
-import { Subscription } from 'rxjs';
+import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 import { Router } from '@angular/router';
@@ -8,9 +8,9 @@ import { Router } from '@angular/router';
 import { AppState, selectUser } from '@app/core';
 import { LobbyService } from '../../services/lobby.service';
 import { createNameValidator } from './validators/lobby-name-available';
-import { ToggleForm, getSelectedGame, CreateLobby, getLobbiesWithPlayers } from '../../state';
+import { ToggleForm, getSelectedGame, CreateLobby, getLobbiesWithPlayers, getSetups } from '../../state';
 import { AutoUnsubscribe } from '@app/shared';
-import { Game } from '@app/game-mechanics';
+import { Game, Setup } from '@app/game-mechanics';
 import { User } from '@app/core';
 import { Player, Lobby } from '../../models';
 import { composePlayerName } from '../../utils';
@@ -29,6 +29,8 @@ export class LobbyFormComponent implements OnInit {
 	game$: Subscription;
 	user$: Subscription;
 	lobbies$: Subscription;
+
+	setups$: Observable<Setup[]>
 
 	game: Game;
 	user: User;
@@ -55,6 +57,10 @@ export class LobbyFormComponent implements OnInit {
 	}
 
 	ngOnInit() {
+		this.setups$ = this.store.pipe(
+			select(getSetups)
+		);
+
 		this.game$ = this.store.pipe(
 			select(getSelectedGame),
 			map(game => this.game = game),

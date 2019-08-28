@@ -11,12 +11,12 @@ import {
     CreateLobbySuccess, AddLobby, CreatePlayer, SavePlayer, FetchLobby, FetchLobbyFail, FetchLobbySuccess,
     FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail,
     FetchImages, FetchImagesSuccess, FetchImagesFail, RemoveLobby, RemovePlayers, RemovePlayer, UpdatePlayer,
-    DeletePlayer, DeleteLobby, SendMessage, SaveMessage
+    DeletePlayer, DeleteLobby, SendMessage, SaveMessage, FetchSetups, FetchSetupsSuccess, FetchSetupsFail
 } from './actions';
 import {
     FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY,
     CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES, REMOVE_LOBBY, REMOVE_PLAYER, SAVE_PLAYER,
-    UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE
+    UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS
 } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
 import { GameFetchService, AppState } from '@app/core';
@@ -214,6 +214,21 @@ export class LobbyEffects {
                 }),
                 catchError(() => {
                     return of(new FetchTeamsFail());
+                })
+            )
+        }),
+    );
+
+    @Effect()
+    fetchSetups = this.actions$.pipe(
+        ofType<FetchSetups>(FETCH_SETUPS),
+        mergeMap(action => {
+            return this.fetcher.getSetups(action.payload).pipe(
+                map(response => {
+                    return new FetchSetupsSuccess(response);
+                }),
+                catchError(() => {
+                    return of(new FetchSetupsFail());
                 })
             )
         }),
