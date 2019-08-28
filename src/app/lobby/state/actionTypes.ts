@@ -55,3 +55,7 @@ export const DELETE_PLAYER = '[Lobby] DELETE_PLAYER';
 
 export const SEND_MESSAGE = '[Lobby] SEND_MESSAGE';
 export const SAVE_MESSAGE = '[Lobby] SAVE_MESSAGE';
+
+export const CREATE_GAME = '[Lobby] CREATE_GAME';
+export const CREATE_GAME_SUCCESS = '[Lobby] CREATE_GAME_SUCCESS';
+export const CREATE_GAME_FAIL = '[Lobby] CREATE_GAME_FAIL';

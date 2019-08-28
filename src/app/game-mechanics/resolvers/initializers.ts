@@ -4,6 +4,7 @@ import { GameState, GameConfig, Player } from "../models";
 import { Expression, Faction, Slot } from "../entities";
 import { Dictionary } from "@app/shared";
 import { evaluate } from './helpers';
+import { LobbyPlayer } from '@app/lobby';
 
 type CreateExpressionParams = {
     state: GameState;
@@ -17,6 +18,7 @@ type CreateStateParams = {
     self: number;
     players: Player[];
     conf: GameConfig;
+    gameId: number;
 };
 
 export type ExpressionContext = {
@@ -31,9 +33,15 @@ export type ExpressionContext = {
     $playerOverrides: (player: Player, path: string) => any;
 };
 
-export const createGameState = ({ setup, self, conf, players }: CreateStateParams): GameState => {
+export type CreateGamePayload = {
+    gameId: number;
+    players: LobbyPlayer[];
+};
+
+export const createGameState = ({ setup, self, conf, players, gameId }: CreateStateParams): GameState => {
 
     return {
+        gameId,
         global_overrides: {},
         player_overrides: createPlayerOverrides(players, conf),
         players: {},
@@ -42,6 +50,13 @@ export const createGameState = ({ setup, self, conf, players }: CreateStateParam
         round: null,
         phase: null,
         turn: null,
+    };
+};
+
+export const createInitialGameState = ({gameId, players}: CreateGamePayload) => {
+    return {
+        gameId,
+        players,
     };
 };
 

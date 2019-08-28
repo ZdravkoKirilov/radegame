@@ -1,4 +1,4 @@
-import { Player } from "./Player";
+import { LobbyPlayer } from "./Player";
 
 
 export type Lobby = {
@@ -10,5 +10,5 @@ export type Lobby = {
     setup: number;
     owner: number;
 
-    players?: Player[];
+    players?: LobbyPlayer[];
 }

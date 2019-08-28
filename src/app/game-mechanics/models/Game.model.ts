@@ -13,6 +13,8 @@ export type Game = WithBoard & Partial<{
 }>
 
 export type GameState = {
+    gameId: number;
+    
     global_overrides: Partial<GameConfig>;
     player_overrides: Dictionary<{
         [key: string]: {

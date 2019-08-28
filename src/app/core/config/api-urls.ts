@@ -119,4 +119,10 @@ export const AUTH_URLS = {
     EMAIL_REGISTER: BASE_URL + '/auth/local/register',
     EMAIL_LOGIN: BASE_URL + '/auth/local/login',
     CURRENT_USER: BASE_URL + '/auth/users/current'
-}
+};
+
+export const ARENA_URLS = {
+    CREATE_GAME: () => {
+        return API_BASE_URL + `/arena`;
+    },
+};

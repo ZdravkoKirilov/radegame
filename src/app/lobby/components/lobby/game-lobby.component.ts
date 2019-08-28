@@ -1,5 +1,5 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
-import { Lobby, Player, ChatMessage } from '../../models';
+import { Lobby, LobbyPlayer, ChatMessage } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User } from '@app/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
@@ -12,9 +12,10 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 })
 export class GameLobbyComponent {
 
-	@Output() kickPlayer = new EventEmitter<Player>();
-	@Output() updatePlayer = new EventEmitter<Partial<Player>>();
+	@Output() kickPlayer = new EventEmitter<LobbyPlayer>();
+	@Output() updatePlayer = new EventEmitter<Partial<LobbyPlayer>>();
 	@Output() sendMessage = new EventEmitter<ChatMessage>();
+	@Output() startGame = new EventEmitter();
 
 	@Input() data: {
 		lobby: Lobby;
@@ -28,7 +29,7 @@ export class GameLobbyComponent {
 		isOwner: boolean;
 	}
 
-	onPlayerUpdate(player: Player, data: Partial<Player>) {
+	onPlayerUpdate(player: LobbyPlayer, data: Partial<LobbyPlayer>) {
 		this.updatePlayer.emit({
 			...player,
 			...data
@@ -48,5 +49,4 @@ export class GameLobbyComponent {
 			ready: checked
 		});
 	}
-
 }

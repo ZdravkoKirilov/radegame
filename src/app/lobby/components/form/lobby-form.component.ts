@@ -12,7 +12,7 @@ import { ToggleForm, getSelectedGame, CreateLobby, getLobbiesWithPlayers, getSet
 import { AutoUnsubscribe } from '@app/shared';
 import { Game, Setup } from '@app/game-mechanics';
 import { User } from '@app/core';
-import { Player, Lobby } from '../../models';
+import { LobbyPlayer, Lobby } from '../../models';
 import { composePlayerName } from '../../utils';
 
 
@@ -92,7 +92,7 @@ export class LobbyFormComponent implements OnInit {
 
 	create() {
 
-		const owner: Player = {
+		const owner: LobbyPlayer = {
 			name: composePlayerName(this.game.title, this.form.value.name, this.user.alias),
 			lobby: this.form.value.name,
 			user: this.user.id,

@@ -9,9 +9,9 @@ import { AutoUnsubscribe, selectLobbyName, selectGameId, OnChange } from '@app/s
 import {
 	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
 	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup, CreatePlayer, playerJoined, isOwner,
-	DeletePlayer, DeleteLobby, getSelf, UpdatePlayer, SendMessage, getMessages, FetchSetups,
+	DeletePlayer, DeleteLobby, getSelf, UpdatePlayer, SendMessage, getMessages, FetchSetups, CreateGame,
 } from '../../state';
-import { Lobby, Player, ChatMessage } from '../../models';
+import { Lobby, LobbyPlayer, ChatMessage } from '../../models';
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User } from '@app/core';
 import { composePlayerName } from '../../utils';
@@ -25,6 +25,7 @@ import { LiveLobbyService } from '../../services/live-lobbies.service';
 			(kickPlayer)="kickPlayer($event)"
 			(updatePlayer)="updatePlayer($event)"
 			(sendMessage)="sendMessage($event)"
+			(startGame)="startGame($event)"
 		>
 		</rg-game-lobby>
     `,
@@ -51,7 +52,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 			router.navigate(['lobbies', 'games', this.data.game.id]);
 		}
 	})
-	self: Player;
+	self: LobbyPlayer;
 
 	@OnChange(function (data, c) {
 		if (!c.currentValue.lobby && c.previousValue.lobby) {
@@ -140,7 +141,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 	}
 
 	joinLobby(lobby: Lobby) {
-		const player: Player = {
+		const player: LobbyPlayer = {
 			name: composePlayerName(this.data.game.title, lobby.name, this.data.user.alias),
 			game: this.data.game.id,
 			user: this.data.user.id,
@@ -153,16 +154,23 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 		this.store.dispatch(new DeleteLobby(this.data.lobby.name));
 	}
 
-	kickPlayer(player: Player) {
+	kickPlayer(player: LobbyPlayer) {
 		this.store.dispatch(new DeletePlayer(player.name));
 	}
 
-	updatePlayer(player: Partial<Player>) {
+	updatePlayer(player: Partial<LobbyPlayer>) {
 		this.store.dispatch(new UpdatePlayer(player));
 	}
 
 	sendMessage(message: ChatMessage) {
 		this.store.dispatch(new SendMessage(message));
+	}
+
+	startGame() {
+		const gameId = this.data.game.id;
+		const players = this.data.lobby.players;
+		debugger;
+		this.store.dispatch(new CreateGame({ gameId, players }));
 	}
 
 }

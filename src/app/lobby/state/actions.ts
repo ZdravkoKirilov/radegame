@@ -5,10 +5,10 @@ import {
     FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS,
     FETCH_PLAYERS_ALL_FAIL, REMOVE_PLAYER, REMOVE_LOBBY, FETCH_TEAMS, FETCH_TEAMS_SUCCESS, FETCH_TEAMS_FAIL,
     FETCH_FACTIONS, FETCH_FACTIONS_SUCCESS, FETCH_FACTIONS_FAIL, FETCH_IMAGES, FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL,
-    CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, FETCH_SETUPS_SUCCESS, FETCH_SETUPS_FAIL,
+    CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, FETCH_SETUPS_SUCCESS, FETCH_SETUPS_FAIL, CREATE_GAME, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL,
 } from "./actionTypes";
-import { Lobby, Player, ChatMessage } from "../models";
-import { Game, Team, Faction, ImageAsset, Setup } from "@app/game-mechanics";
+import { Lobby, LobbyPlayer, ChatMessage } from "../models";
+import { Game, Team, Faction, ImageAsset, Setup, CreateGamePayload } from "@app/game-mechanics";
 
 export class ToggleForm {
     readonly type = TOGGLE_FORM;
@@ -19,7 +19,7 @@ export class CreateLobby {
     readonly type = CREATE_LOBBY;
     constructor(public payload: {
         lobby: Lobby,
-        owner: Player
+        owner: LobbyPlayer
     }) { }
 }
 
@@ -94,7 +94,7 @@ export class FetchPlayers {
 
 export class FetchPlayersSuccess {
     readonly type = FETCH_PLAYERS_SUCCESS;
-    constructor(public payload: Player[]) { }
+    constructor(public payload: LobbyPlayer[]) { }
 }
 
 export class FetchPlayersFail {
@@ -108,7 +108,7 @@ export class FetchAllPlayers {
 
 export class FetchAllPlayersSuccess {
     readonly type = FETCH_ALL_PLAYERS_SUCCESS;
-    constructor(public payload: Player[]) { }
+    constructor(public payload: LobbyPlayer[]) { }
 }
 
 export class FetchAllPlayersFail {
@@ -117,17 +117,17 @@ export class FetchAllPlayersFail {
 
 export class CreatePlayer {
     readonly type = CREATE_PLAYER;
-    constructor(public payload: Player) { }
+    constructor(public payload: LobbyPlayer) { }
 }
 
 export class SavePlayer {
     readonly type = SAVE_PLAYER;
-    constructor(public payload: Player) { }
+    constructor(public payload: LobbyPlayer) { }
 }
 
 export class UpdatePlayer {
     readonly type = UPDATE_PLAYER;
-    constructor(public payload: Partial<Player>) { }
+    constructor(public payload: Partial<LobbyPlayer>) { }
 }
 
 export class RemovePlayer {
@@ -211,6 +211,21 @@ export class FetchSetupsFail {
     readonly type = FETCH_SETUPS_FAIL;
 }
 
+export class CreateGame {
+    readonly type = CREATE_GAME;
+    constructor(public payload: CreateGamePayload) { }
+}
+
+export class CreateGameSuccess {
+    readonly type = CREATE_GAME_SUCCESS;
+    constructor(public payload: string) { }
+}
+
+export class CreateGameFail {
+    readonly type = CREATE_GAME_FAIL;
+}
+
+
 export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
     RemoveLobby | FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
     FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess |
@@ -218,4 +233,5 @@ export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLob
     RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess | DeleteLobby
     | FetchTeams | FetchTeamsSuccess | FetchTeamsFail | FetchFactions | FetchFactionsSuccess |
     FetchFactionsFail | FetchImages | FetchImagesFail | FetchImagesSuccess | RemovePlayers |
-    SendMessage | SaveMessage | FetchSetups | FetchSetupsSuccess | FetchSetupsFail;
+    SendMessage | SaveMessage | FetchSetups | FetchSetupsSuccess | FetchSetupsFail | CreateGame
+    | CreateGameFail | CreateGameSuccess;

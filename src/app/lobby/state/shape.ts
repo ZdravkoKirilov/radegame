@@ -1,7 +1,7 @@
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
 import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
-import { Lobby, Player, ChatMessage } from '../models';
+import { Lobby, LobbyPlayer, ChatMessage } from '../models';
 
 export type LobbyFeatureState = {
     meta: LobbyMetaState;
@@ -15,14 +15,14 @@ export type LobbyFeatureState = {
     setups: SetupEntityState;
 };
 
-export type LobbyFeatureEntity = Game | Lobby | Player | Team | Faction | ImageAsset | ChatMessage;
+export type LobbyFeatureEntity = Game | Lobby | LobbyPlayer | Team | Faction | ImageAsset | ChatMessage;
 
 export type LobbyMetaState = {
     showForm: boolean;
 };
 
 export type GameEntityState = EntityState<Game>;
-export type PlayerEntityState = EntityState<Player>;
+export type PlayerEntityState = EntityState<LobbyPlayer>;
 export type LobbyEntityState = EntityState<Lobby>;
 export type TeamEntityState = EntityState<Team>;
 export type FactionEntityState = EntityState<Faction>;
@@ -48,7 +48,7 @@ export const lobbyAdapter = createEntityAdapter<Lobby>({
     sortComparer: sortBy('name'),
 });
 
-export const playerAdapter = createEntityAdapter<Player>({
+export const playerAdapter = createEntityAdapter<LobbyPlayer>({
     selectId: selectBy('name'),
     sortComparer: sortBy('name'),
 });

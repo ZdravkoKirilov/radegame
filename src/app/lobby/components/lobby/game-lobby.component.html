@@ -28,10 +28,13 @@
 						</a>
 
 						<a *ngIf="data.isOwner">
-							<button mat-stroked-button color="primary">Start</button>
+							<button mat-stroked-button color="primary" (click)="startGame.emit()">
+								Start
+							</button>
 						</a>
 
-						<mat-checkbox *ngIf="!data.isOwner" (change)="onStatusChange($event)" [checked]="self?.ready">Ready</mat-checkbox>
+						<mat-checkbox *ngIf="!data.isOwner" (change)="onStatusChange($event)" [checked]="self?.ready">
+							Ready</mat-checkbox>
 					</div>
 				</section>
 			</header>

@@ -11,17 +11,18 @@ import {
     CreateLobbySuccess, AddLobby, CreatePlayer, SavePlayer, FetchLobby, FetchLobbyFail, FetchLobbySuccess,
     FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail,
     FetchImages, FetchImagesSuccess, FetchImagesFail, RemoveLobby, RemovePlayers, RemovePlayer, UpdatePlayer,
-    DeletePlayer, DeleteLobby, SendMessage, SaveMessage, FetchSetups, FetchSetupsSuccess, FetchSetupsFail
+    DeletePlayer, DeleteLobby, SendMessage, SaveMessage, FetchSetups, FetchSetupsSuccess, FetchSetupsFail, CreateGame, CreateGameSuccess, CreateGameFail
 } from './actions';
 import {
     FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY,
     CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES, REMOVE_LOBBY, REMOVE_PLAYER, SAVE_PLAYER,
-    UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS
+    UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, CREATE_GAME
 } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
 import { GameFetchService, AppState } from '@app/core';
 import { LiveLobbyService } from '../services/live-lobbies.service';
 import { getPlayers } from './selectors';
+import { GameArenaService } from 'app/core/services/arena/game-arena.service';
 
 @Injectable()
 export class LobbyEffects {
@@ -31,6 +32,7 @@ export class LobbyEffects {
         private api: LobbyService,
         private sockets: LiveLobbyService,
         private fetcher: GameFetchService,
+        private arenaApi: GameArenaService
     ) { }
 
 
@@ -229,6 +231,21 @@ export class LobbyEffects {
                 }),
                 catchError(() => {
                     return of(new FetchSetupsFail());
+                })
+            )
+        }),
+    );
+
+    @Effect()
+    createGame = this.actions$.pipe(
+        ofType<CreateGame>(CREATE_GAME),
+        mergeMap(action => {
+            return this.arenaApi.createGame(action.payload).pipe(
+                map(response => {
+                    return new CreateGameSuccess(response);
+                }),
+                catchError(() => {
+                    return of(new CreateGameFail());
                 })
             )
         }),

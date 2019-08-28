@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { LOBBY_URLS } from '@app/core';
-import { Lobby, Player } from '../models';
+import { Lobby, LobbyPlayer } from '../models';
 
 @Injectable({
 	providedIn: 'root'
@@ -21,8 +21,8 @@ export class LobbyService {
 		return this.http.get<Lobby[]>(LOBBY_URLS.LOBBIES());
 	}
 
-	createLobby(data: { lobby: Lobby, owner: Player }) {
-		return this.http.post<{ lobby: Lobby, owner: Player }>(LOBBY_URLS.LOBBIES(), data);
+	createLobby(data: { lobby: Lobby, owner: LobbyPlayer }) {
+		return this.http.post<{ lobby: Lobby, owner: LobbyPlayer }>(LOBBY_URLS.LOBBIES(), data);
 	}
 
 	deleteLobby(name: string) {
@@ -30,15 +30,15 @@ export class LobbyService {
 	}
 
 	fetchPlayers(lobbyName: string) {
-		return this.http.get<Player[]>(LOBBY_URLS.PLAYERS(lobbyName));
+		return this.http.get<LobbyPlayer[]>(LOBBY_URLS.PLAYERS(lobbyName));
 	}
 
 	fetchAllPlayers() {
-		return this.http.get<Player[]>(LOBBY_URLS.ALL_PLAYERS);
+		return this.http.get<LobbyPlayer[]>(LOBBY_URLS.ALL_PLAYERS);
 	}
 
-	savePlayer(player: Player) {
-		return this.http.post<Player>(LOBBY_URLS.PLAYERS(player.lobby), player);
+	savePlayer(player: LobbyPlayer) {
+		return this.http.post<LobbyPlayer>(LOBBY_URLS.PLAYERS(player.lobby), player);
 	}
 
 	deletePlayer(lobbyName: string, playerName: string) {

@@ -1,4 +1,4 @@
-export type Player = {
+export type LobbyPlayer = {
     name: string;
     lobby: string;
     user: number;
