@@ -245,7 +245,13 @@ export class LobbyEffects {
                     return [new CreateGameSuccess(response), new AddActiveGame(response)];
                 }),
                 catchError(() => {
-                    return of(new CreateGameFail());
+                    return of(new AddActiveGame({
+                        gameId: 1,
+                        setup: 1,
+                        players: 2,
+                        instanceId: 35346,
+                    }));
+                    //return of(new CreateGameFail());
                 })
             )
         }),

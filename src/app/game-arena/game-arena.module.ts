@@ -1,10 +1,14 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { SharedModule } from '@app/shared';
+import { RouterModule } from '@angular/router';
+import { routes } from './routing';
+import { GameArenaRootComponent } from './pages/game-arena-root.component';
 
 @NgModule({
-  declarations: [],
+  declarations: [GameArenaRootComponent],
   imports: [
-    CommonModule
+    SharedModule,
+    RouterModule.forChild(routes),
   ]
 })
 export class GameArenaModule { }

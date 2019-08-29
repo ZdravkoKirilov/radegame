@@ -16,6 +16,9 @@ const routes: Routes = [
         path: 'catalog', loadChildren: () => import('./catalog').then(m => m.CatalogModule)
     },
     {
+        path: 'arena', loadChildren: () => import('./game-arena').then(m => m.GameArenaModule)
+    },
+    {
         path: 'signin/social',
         loadChildren: 'app/social-auth/social-auth.module#SocialAuthModule'
     }, {

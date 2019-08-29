@@ -4,7 +4,7 @@ import { Subscription, combineLatest } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
-import { AppState, selectUser } from '@app/core';
+import { AppState, selectUser, getLatestActiveGame, ActiveGame } from '@app/core';
 import { AutoUnsubscribe, selectLobbyName, selectGameId, OnChange } from '@app/shared';
 import {
 	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
@@ -39,26 +39,28 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
 	data$: Subscription;
 	self$: Subscription;
+	activeGame$: Subscription;
 
 	pendingLeave: boolean;
+	activeGame: ActiveGame;
 
 	constructor(private store: Store<AppState>, private router: Router, private lobbyService: LiveLobbyService) {
 	}
 
 	@OnChange(function (value, change) {
-		if (!change.currentValue && change.previousValue) {
+		if (!change.currentValue && change.previousValue && !this.activeGame) {
 			const router: Router = this.router;
 			this.pendingLeave = true;
-			router.navigate(['lobbies', 'games', this.data.game.id]);
+			router.navigate(['lobby', 'games', this.data.game.id]);
 		}
 	})
 	self: LobbyPlayer;
 
 	@OnChange(function (data, c) {
-		if (!c.currentValue.lobby && c.previousValue.lobby) {
+		if (!c.currentValue.lobby && c.previousValue.lobby && !this.activeGame) {
 			const router: Router = this.router;
 			this.pendingLeave = true;
-			router.navigate(['lobbies', 'games', this.data.game.id]);
+			router.navigate(['lobby', 'games', this.data.game.id]);
 		}
 	})
 	data: {
@@ -74,6 +76,16 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 	};
 
 	ngOnInit() {
+
+		this.activeGame$ = this.store.pipe(
+			select(getLatestActiveGame),
+			filter<ActiveGame>(Boolean),
+			map(game => {
+				this.activeGame = game;
+				const router: Router = this.router;
+				router.navigate(['arena', game.instanceId]);
+			})
+		).subscribe();
 
 		this.lobbyName$ = this.store.pipe(
 			select(selectLobbyName),
