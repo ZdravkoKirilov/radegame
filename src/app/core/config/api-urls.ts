@@ -14,7 +14,11 @@ export const LOBBY_URLS = {
     ALL_PLAYERS: API_BASE_URL + '/all_players',
     LIVE_LOBBIES: (lobbyName?: string) => {
         return lobbyName ? `${WS_BROWSE_LOBBIES_BASE_URL}/${lobbyName}/` : WS_BROWSE_LOBBIES_BASE_URL;
-    }
+    },
+    CREATE_GAME: (lobbyName: string) => {
+        const base = `${API_BASE_URL}/lobbies`;
+        return `${base}/${lobbyName}/create`;
+    },
 };
 
 export const API_URLS = {
@@ -122,9 +126,6 @@ export const AUTH_URLS = {
 };
 
 export const ARENA_URLS = {
-    CREATE_GAME: () => {
-        return API_BASE_URL + `/arena`;
-    },
     GET_ACTIVE_GAMES: (userId: number) => {
         return API_BASE_URL + `/arena/active/${userId}`;
     },

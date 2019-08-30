@@ -3,6 +3,7 @@ import { of } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { mergeMap, map, catchError, withLatestFrom } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
+import { Router } from '@angular/router';
 
 import {
     FetchLobbiesFail, FetchLobbies, FetchGame, FetchGameFail,
@@ -11,18 +12,18 @@ import {
     CreateLobbySuccess, AddLobby, CreatePlayer, SavePlayer, FetchLobby, FetchLobbyFail, FetchLobbySuccess,
     FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail,
     FetchImages, FetchImagesSuccess, FetchImagesFail, RemoveLobby, RemovePlayers, RemovePlayer, UpdatePlayer,
-    DeletePlayer, DeleteLobby, SendMessage, SaveMessage, FetchSetups, FetchSetupsSuccess, FetchSetupsFail, CreateGame, CreateGameSuccess, CreateGameFail
+    DeletePlayer, DeleteLobby, SendMessage, SaveMessage, FetchSetups, FetchSetupsSuccess, FetchSetupsFail, CreateGame, CreateGameSuccess, CreateGameFail, GameStarting
 } from './actions';
 import {
     FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY,
     CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES, REMOVE_LOBBY, REMOVE_PLAYER, SAVE_PLAYER,
-    UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, CREATE_GAME
+    UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, CREATE_GAME, GAME_STARTING
 } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
 import { GameFetchService, AppState, AddActiveGame } from '@app/core';
 import { LiveLobbyService } from '../services/live-lobbies.service';
 import { getPlayers } from './selectors';
-import { GameArenaService } from 'app/core/services/arena/game-arena.service';
+import { GameArenaService } from '@app/core';
 
 @Injectable()
 export class LobbyEffects {
@@ -32,16 +33,23 @@ export class LobbyEffects {
         private api: LobbyService,
         private sockets: LiveLobbyService,
         private fetcher: GameFetchService,
-        private arenaApi: GameArenaService
+        private arenaApi: GameArenaService,
+        private router: Router
     ) { }
 
+    @Effect({ dispatch: false })
+    onGameStarting = this.sockets.ofType<GameStarting>(GAME_STARTING).pipe(
+        map(action => {
+            this.router.navigate(['arena', action.payload]);
+        }),
+    );
 
     @Effect()
     onMessageReceive = this.sockets.ofType<SaveMessage>(SAVE_MESSAGE).pipe(
         map(action => {
             return new SaveMessage(action.payload);
         })
-    )
+    );
 
     @Effect()
     onLobbyCreated = this.sockets.ofType<CreateLobby>(CREATE_LOBBY).pipe(
@@ -242,16 +250,16 @@ export class LobbyEffects {
         mergeMap(action => {
             return this.arenaApi.createGame(action.payload).pipe(
                 mergeMap(response => {
-                    return [new CreateGameSuccess(response), new AddActiveGame(response)];
+                    return [new CreateGameSuccess(response)];
                 }),
                 catchError(() => {
-                    return of(new AddActiveGame({
-                        gameId: 1,
-                        setup: 1,
-                        players: 2,
-                        instanceId: 35346,
-                    }));
-                    //return of(new CreateGameFail());
+                    // return of(new AddActiveGame({
+                    //     gameId: 1,
+                    //     setup: 1,
+                    //     players: 2,
+                    //     instanceId: 35346,
+                    // }));
+                    return of(new CreateGameFail());
                 })
             )
         }),

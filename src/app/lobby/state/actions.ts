@@ -5,7 +5,7 @@ import {
     FETCH_PLAYERS_SUCCESS, FETCH_PLAYERS_FAIL, FETCH_ALL_PLAYERS, FETCH_ALL_PLAYERS_SUCCESS,
     FETCH_PLAYERS_ALL_FAIL, REMOVE_PLAYER, REMOVE_LOBBY, FETCH_TEAMS, FETCH_TEAMS_SUCCESS, FETCH_TEAMS_FAIL,
     FETCH_FACTIONS, FETCH_FACTIONS_SUCCESS, FETCH_FACTIONS_FAIL, FETCH_IMAGES, FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL,
-    CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, FETCH_SETUPS_SUCCESS, FETCH_SETUPS_FAIL, CREATE_GAME, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL,
+    CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, FETCH_SETUPS_SUCCESS, FETCH_SETUPS_FAIL, CREATE_GAME, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, GAME_STARTING,
 } from "./actionTypes";
 import { Lobby, LobbyPlayer, ChatMessage } from "../models";
 import { Game, Team, Faction, ImageAsset, Setup, CreateGamePayload } from "@app/game-mechanics";
@@ -226,6 +226,11 @@ export class CreateGameFail {
     readonly type = CREATE_GAME_FAIL;
 }
 
+export class GameStarting {
+    readonly type = GAME_STARTING;
+    constructor(public payload: number) { }
+}
+
 
 export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLobbySuccess | AddLobby |
     RemoveLobby | FetchLobbies | FetchLobbiesSuccess | FetchLobbiesFail | FetchGame |
@@ -235,4 +240,4 @@ export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLob
     | FetchTeams | FetchTeamsSuccess | FetchTeamsFail | FetchFactions | FetchFactionsSuccess |
     FetchFactionsFail | FetchImages | FetchImagesFail | FetchImagesSuccess | RemovePlayers |
     SendMessage | SaveMessage | FetchSetups | FetchSetupsSuccess | FetchSetupsFail | CreateGame
-    | CreateGameFail | CreateGameSuccess;
+    | CreateGameFail | CreateGameSuccess | GameStarting;

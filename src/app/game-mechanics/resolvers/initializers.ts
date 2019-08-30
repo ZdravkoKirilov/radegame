@@ -34,8 +34,9 @@ export type ExpressionContext = {
 };
 
 export type CreateGamePayload = {
-    gameId: number;
+    game_id: number;
     players: LobbyPlayer[];
+    lobbyName: string;
 };
 
 export const createGameState = ({ setup, self, conf, players, gameId }: CreateStateParams): GameState => {
@@ -53,7 +54,7 @@ export const createGameState = ({ setup, self, conf, players, gameId }: CreateSt
     };
 };
 
-export const createInitialGameState = ({gameId, players}: CreateGamePayload) => {
+export const createInitialGameState = ({game_id: gameId, players}: CreateGamePayload) => {
     return {
         gameId,
         players,

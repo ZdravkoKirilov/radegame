@@ -59,3 +59,5 @@ export const SAVE_MESSAGE = '[Lobby] SAVE_MESSAGE';
 export const CREATE_GAME = '[Lobby] CREATE_GAME';
 export const CREATE_GAME_SUCCESS = '[Lobby] CREATE_GAME_SUCCESS';
 export const CREATE_GAME_FAIL = '[Lobby] CREATE_GAME_FAIL';
+
+export const GAME_STARTING = '[Lobby] GAME_STARTING';

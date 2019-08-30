@@ -89,6 +89,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
 		this.lobbyName$ = this.store.pipe(
 			select(selectLobbyName),
+			filter<string>(Boolean),
 			map(lobbyName => {
 				this.lobbyService.initLobby(lobbyName);
 				this.store.dispatch(new FetchPlayers(lobbyName));
@@ -179,9 +180,17 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 	}
 
 	startGame() {
-		const gameId = this.data.game.id;
-		const players = this.data.lobby.players;
-		this.store.dispatch(new CreateGame({ gameId, players }));
+		const game_id = this.data.game.id;
+		const players = this.data.lobby.players.map(player => {
+			return {
+				...player,
+				team: player.team || null,
+				color: player.color || null,
+				faction: player.faction || null,
+			};
+		});
+		const lobbyName = this.data.lobby.name;
+		this.store.dispatch(new CreateGame({ game_id, players, lobbyName }));
 	}
 
 }
