@@ -127,6 +127,9 @@ export const AUTH_URLS = {
 
 export const ARENA_URLS = {
     GET_ACTIVE_GAMES: (userId: number) => {
-        return API_BASE_URL + `/arena/active/${userId}`;
+        return API_BASE_URL + `/arena/active-games/${userId}`;
+    },
+    ACTIVE_GAME: (publicGameId: number) => {
+        return API_BASE_URL + `/arena/active-game/${publicGameId}`;
     },
 };
