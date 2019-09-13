@@ -83,7 +83,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 			map(game => {
 				this.activeGame = game;
 				const router: Router = this.router;
-				router.navigate(['arena', game.instanceId]);
+				router.navigate(['arena', game.public_id]);
 			})
 		).subscribe();
 

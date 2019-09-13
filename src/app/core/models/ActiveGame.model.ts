@@ -1,6 +1,6 @@
 export type ActiveGame = {
-    gameId: number;
+    game_id: number;
     setup: number;
     players: number;
-    instanceId: number;
+    public_id: number;
 };

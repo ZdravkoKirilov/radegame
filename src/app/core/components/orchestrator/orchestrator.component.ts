@@ -9,6 +9,12 @@ import { Component } from '@angular/core';
     
     <router-outlet></router-outlet>
   `,
-  styles: []
+  styles: [`
+    :host {
+      display: block;
+      height: 100%;
+      position: relative;
+    }
+  `]
 })
-export class OrchestratorComponent {}
+export class OrchestratorComponent { }
