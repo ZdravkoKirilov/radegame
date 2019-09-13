@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { ARENA_URLS, LOBBY_URLS } from '../../config';
 import { CreateGamePayload } from '@app/game-mechanics';
 import { ActiveGame } from '../../models';
+import { GameInstance } from '@app/game-arena';
 
 @Injectable({
   providedIn: 'root'
@@ -17,5 +18,9 @@ export class GameArenaService {
 
   fetchActiveGames(userId: number) {
     return this.http.get<ActiveGame[]>(ARENA_URLS.GET_ACTIVE_GAMES(userId));
+  }
+
+  fetchActiveGame(game_id: number) {
+    return this.http.get<GameInstance>(ARENA_URLS.ACTIVE_GAME(game_id));
   }
 }

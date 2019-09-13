@@ -39,15 +39,13 @@ export type CreateGamePayload = {
     lobbyName: string;
 };
 
-export const createGameState = ({ setup, self, conf, players, gameId }: CreateStateParams): GameState => {
+export const createGameState = ({ setup, conf, players }: CreateStateParams): GameState => {
 
     return {
-        gameId,
         global_overrides: {},
         player_overrides: createPlayerOverrides(players, conf),
-        players: {},
         turn_order: [],
-        setup, self,
+        setup,
         round: null,
         phase: null,
         turn: null,
@@ -67,7 +65,7 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
         state, conf, players,
         helpers: composeHelpers(helpers),
         $self() {
-            return state.players.find(player => player.id === self);
+            return Object.values(players).find(player => player.id === self);
         },
         $playerOverrides(player: Player, path: string) {
             const overrides = state.player_overrides[player.id];
