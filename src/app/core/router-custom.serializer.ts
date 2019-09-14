@@ -5,8 +5,13 @@ export interface RouterStateUrl {
   url: string;
   params: Params;
   queryParams: Params;
-  data: any;
+  data: CustomRouteData;
 }
+
+export type CustomRouteData = Partial<{
+  title: string;
+  hide_game_warning: boolean;
+}>;
 
 export class CustomRouterSerializer implements RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
