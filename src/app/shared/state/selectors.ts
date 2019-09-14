@@ -13,4 +13,9 @@ export const selectGameId = createSelector<AppState, any, number>(
 export const selectLobbyName = createSelector(
     selectRouterFeature,
     feature => feature.state.params[ROUTER_PARAMS.LOBBY_NAME],
-)
+);
+
+export const selectGameInstanceId = createSelector(
+    selectRouterFeature,
+    feature => feature.state.params[ROUTER_PARAMS.GAME_INSTANCE_ID],
+);
