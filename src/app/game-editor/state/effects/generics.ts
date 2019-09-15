@@ -5,8 +5,8 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
-    GameEntity, GameAction, Field, Condition, Round, Team, Animation, Handler,
-    Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, GameTemplate, Sound, EntityState, Style, Keyword, Setup,
+    GameEntity, GameAction, Field, Condition, Round, Team, Handler,
+    Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, EntityState, Style, Keyword, Setup,
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
 import {
@@ -15,10 +15,7 @@ import {
     DeleteItemSuccessAction, DeleteItemFailAction, RemoveItemAction, FetchItemsAction
 } from '../actions';
 import { FormKey, formKeys } from '../form-keys';
-import { toDictionary } from '@app/shared';
-import { environment } from '../../../../environments/environment';
-
-const { BASE_URL } = environment;
+import { toDictionary, formatGameConfigData } from '@app/shared';
 
 @Injectable()
 export class GenericEffectsService {
@@ -33,23 +30,7 @@ export class GenericEffectsService {
                 return this.fetcher.getGameData(action.payload)
                     .pipe(
                         mergeMap(res => {
-                            const payload = Object.keys(res).reduce((acc, key) => {
-                                if (key === 'images') {
-                                    const images: ImageAsset[] = res[key] as any;
-                                    images.forEach(img => {
-                                        img.thumbnail = BASE_URL + img.thumbnail
-                                        img.image = BASE_URL + img.image
-                                    });
-                                }
-                                if (key === 'sounds') {
-                                    const sounds: Sound[] = res[key] as any;
-                                    sounds.forEach(sound => {
-                                        sound.file = BASE_URL + sound.file;
-                                    });
-                                }
-                                acc[key] = toDictionary<GameEntity>(res[key]);
-                                return acc;
-                            }, {}) as GameTemplate;
+                            const payload = formatGameConfigData(res);
 
                             return [
                                 new FetchGameDataSuccess(),

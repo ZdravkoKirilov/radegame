@@ -1,4 +1,8 @@
 import { deepProp } from './dot-prop';
+import { GameTemplate, ImageAsset, GameEntity, Sound } from '@app/game-mechanics';
+import { environment } from 'environments/environment';
+
+const { BASE_URL } = environment;
 
 interface ObjectWithId {
     id?: number;
@@ -43,4 +47,24 @@ export const extractLobbyPlayerName = (compositeName: string) => {
 
 export type WithKeysAs<T, P> = {
     [K in keyof T]: P;
+};
+
+export const formatGameConfigData = (data: GameTemplate): GameTemplate => {
+    return Object.keys(data).reduce((acc, key) => {
+        if (key === 'images') {
+            const images: ImageAsset[] = data[key] as any;
+            images.forEach(img => {
+                img.thumbnail = BASE_URL + img.thumbnail
+                img.image = BASE_URL + img.image
+            });
+        }
+        if (key === 'sounds') {
+            const sounds: Sound[] = data[key] as any;
+            sounds.forEach(sound => {
+                sound.file = BASE_URL + sound.file;
+            });
+        }
+        acc[key] = toDictionary<GameEntity>(data[key]);
+        return acc;
+    }, {}) as GameTemplate;
 };
