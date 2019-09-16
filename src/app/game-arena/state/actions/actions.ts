@@ -1,19 +1,34 @@
 import { actionTypes } from "./actionTypes";
 import { GameInstance } from "../../models";
-import { GameTemplate } from "@app/game-mechanics";
+import { GameTemplate, Game } from "@app/game-mechanics";
 
-export class FetchActiveGame {
-    readonly type = actionTypes.FETCH_ACTIVE_GAME;
+export class FetchGameInstance {
+    readonly type = actionTypes.FETCH_GAME_INSTANCE;
     constructor(public payload: number) { }
 }
 
-export class FetchActiveGameSuccess {
-    readonly type = actionTypes.FETCH_ACTIVE_GAME_SUCCESS;
+export class FetchGameInstanceSuccess {
+    readonly type = actionTypes.FETCH_GAME_INSTANCE_SUCCESS;
     constructor(public payload: GameInstance) { }
 }
 
-export class FetchActiveGameFail {
-    readonly type = actionTypes.FETCH_ACTIVE_GAME_FAIL;
+export class FetchGameInstanceFail {
+    readonly type = actionTypes.FETCH_GAME_INSTANCE_FAIL;
+    readonly payload = null;
+}
+
+export class FetchGame {
+    readonly type = actionTypes.FETCH_GAME;
+    constructor(public payload: number) { }
+}
+
+export class FetchGameSuccess {
+    readonly type = actionTypes.FETCH_GAME_SUCCESS;
+    constructor(public payload: Game) { }
+}
+
+export class FetchGameFail {
+    readonly type = actionTypes.FETCH_GAME_FAIL;
     readonly payload = null;
 }
 
@@ -32,5 +47,5 @@ export class FetchGameConfigFail {
     readonly payload = null;
 }
 
-export type GameArenaAction = FetchActiveGame | FetchActiveGameSuccess | FetchActiveGameFail | FetchGameConfig |
-    FetchGameConfigSuccess | FetchGameConfigFail;
+export type GameArenaAction = FetchGameInstance | FetchGameInstanceSuccess | FetchGameInstanceFail | FetchGameConfig |
+    FetchGameConfigSuccess | FetchGameConfigFail | FetchGame | FetchGameSuccess | FetchGameFail;
