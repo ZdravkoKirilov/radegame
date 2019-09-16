@@ -13,7 +13,7 @@ export class GameArenaService {
   constructor(private http: HttpClient) { }
 
   createGame(initialState: CreateGamePayload) {
-    return this.http.post<ActiveGame>(LOBBY_URLS.CREATE_GAME(initialState.lobbyName), initialState);
+    return this.http.post<ActiveGame>(LOBBY_URLS.CREATE_GAME(initialState.lobby_name), initialState);
   }
 
   fetchActiveGames(userId: number) {

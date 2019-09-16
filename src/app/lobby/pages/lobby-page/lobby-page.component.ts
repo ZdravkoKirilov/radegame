@@ -190,7 +190,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 			};
 		});
 		const lobbyName = this.data.lobby.name;
-		this.store.dispatch(new CreateGame({ game_id, players, lobbyName }));
+		this.store.dispatch(new CreateGame({ game_id, players, lobby_name: lobbyName }));
 	}
 
 }

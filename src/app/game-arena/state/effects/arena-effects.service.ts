@@ -6,9 +6,10 @@ import { of } from 'rxjs';
 import { GameArenaService, GameFetchService } from '@app/core';
 import {
   actionTypes, FetchGameInstance, FetchGameInstanceSuccess,
-  FetchGameInstanceFail, FetchGameConfig, FetchGameConfigFail, FetchGameConfigSuccess, FetchGame, FetchGameSuccess, FetchGameFail
+  FetchGameInstanceFail, FetchGameConfig, FetchGameConfigFail, FetchGameConfigSuccess, FetchGame, FetchGameSuccess, FetchGameFail, CreateGameState, SetGameState
 } from '../actions';
 import { formatGameConfigData } from '@app/shared';
+import { createGameState } from '@app/game-mechanics';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,18 @@ export class ArenaEffectsService {
     private arenaApi: GameArenaService,
     private fetchApi: GameFetchService
   ) { }
+
+  @Effect()
+  initializeGameState = this.actions$.pipe(
+    ofType<CreateGameState>(actionTypes.INITIALIZE_GAME_STATE),
+    map(action => {
+      const { instance, conf, players } = action.payload;
+      const state = instance.state || createGameState({
+        setup: instance.setup, conf, players,
+      });
+      return new SetGameState(state);
+    }),
+  );
 
   @Effect()
   getGame = this.actions$.pipe(
