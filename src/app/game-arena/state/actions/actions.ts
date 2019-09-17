@@ -1,6 +1,6 @@
 import { actionTypes } from "./actionTypes";
 import { GameInstance } from "../../models";
-import { GameTemplate, Game, GameConfig, GameState, Player } from "@app/game-mechanics";
+import { GameTemplate, Game, GameState } from "@app/game-mechanics";
 
 export class FetchGameInstance {
     readonly type = actionTypes.FETCH_GAME_INSTANCE;
@@ -49,7 +49,7 @@ export class FetchGameConfigFail {
 
 export class CreateGameState {
     readonly type = actionTypes.INITIALIZE_GAME_STATE;
-    constructor(public payload: { conf: GameConfig; instance: GameInstance; players: Player[] }) { }
+    constructor(public payload: { conf: GameTemplate; instance: GameInstance }) { }
 }
 
 export class SetGameState {

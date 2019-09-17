@@ -1,14 +1,14 @@
 import { get } from 'lodash';
 
-import { GameState, GameConfig, Player } from "../models";
-import { Expression, Faction, Slot } from "../entities";
+import { GameState, Player, GameTemplate } from "../models";
+import { Expression, Slot } from "../entities";
 import { Dictionary } from "@app/shared";
 import { evaluate } from './helpers';
 import { LobbyPlayer } from '@app/lobby';
 
 type CreateExpressionParams = {
     state: GameState;
-    conf: GameConfig;
+    conf: GameTemplate;
     players: Dictionary<Player>;
     self: number;
 }
@@ -16,12 +16,12 @@ type CreateExpressionParams = {
 export type CreateStateParams = {
     setup: number;
     players: Player[];
-    conf: GameConfig;
+    conf: GameTemplate;
 };
 
 export type ExpressionContext = {
     state: GameState;
-    conf: GameConfig;
+    conf: GameTemplate;
     players: Dictionary<Player>;
     helpers: {
         [key: string]: any;
@@ -75,12 +75,12 @@ const composeHelpers = (expressions: Expression[]) => {
     );
 };
 
-const createSlotOverrides = (players: Player[], conf: GameConfig) => (base: Dictionary) => {
+const createSlotOverrides = (players: Player[], conf: GameTemplate) => (base: Dictionary) => {
     return players.reduce((acc, player) => {
-        const faction: Faction = conf.factions[player.faction];
-        if (faction.slots.length) {
+        const slots: number[] = get(conf, `factions[${player.faction}].slots`, null);
+        if (slots) {
             const current = base[player.id] || {};
-            current.slots = faction.slots.reduce((acc, slotId) => {
+            current.slots = slots.reduce((acc, slotId) => {
                 const targetSlot = conf.slots[slotId] as Slot;
                 acc[slotId] = {
                     items: [...targetSlot.items]
@@ -92,6 +92,6 @@ const createSlotOverrides = (players: Player[], conf: GameConfig) => (base: Dict
     }, {});
 };
 
-const createPlayerOverrides = (players: Player[], conf: GameConfig) => {
+const createPlayerOverrides = (players: Player[], conf: GameTemplate) => {
     return createSlotOverrides(players, conf)({});
 };
