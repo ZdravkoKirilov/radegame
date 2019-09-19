@@ -8,7 +8,6 @@ type Props = {
 }
 
 const gameText: RenderFunction<Props> = (props) => {
-
     return createElement('text', {
         value: 'This is the visual root', styles: {
             x: 100,
