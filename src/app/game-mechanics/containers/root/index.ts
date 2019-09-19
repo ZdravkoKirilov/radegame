@@ -1,16 +1,19 @@
-import { StatefulComponent, createElement } from "@app/render-kit";
+import { Store } from "@ngrx/store";
 
-export class GameArenaRoot extends StatefulComponent {
+import { StatefulComponent, createElement, MetaProps } from "@app/render-kit";
+import { AppState } from "@app/core";
+import { GameText } from "../text";
+
+type Props = {
+    store: Store<AppState>
+}
+export class GameArenaRoot extends StatefulComponent<Props> {
+    constructor(props: Props, meta: MetaProps) {
+        super(props, meta);
+        this.meta.context.set('store', this.props.store);
+    }
+
     render() {
-        return createElement('text', {
-            value: 'This is the visual root', styles: {
-                x: 100,
-                y: 125,
-            }, textStyle: {
-                fontSize: 18,
-                stroke: '#141619',
-                fill: '#141619'
-            }
-        });
+        return createElement(GameText);
     }
 }

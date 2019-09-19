@@ -5,6 +5,7 @@ import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
 import { mountPixi } from '@app/engines/pixi';
 import { GameArenaRoot } from '@app/game-mechanics';
+import { WindowRefService } from '@app/shared';
 
 @Component({
   selector: 'rg-game-engine-loader',
@@ -17,7 +18,7 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
 
   mount: MountRef;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, private windowRef: WindowRefService) { }
 
   ngOnInit() {
     this.initializeGame();
@@ -31,8 +32,9 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
     const domHost = this.canvasWrapper.nativeElement;
 
     this.mount = await mountPixi(GameArenaRoot, domHost, {
-      width: 1000,
-      height: 1000,
+      width: this.windowRef.nativeWindow.innerWidth,
+      height: this.windowRef.nativeWindow.innerHeight,
+      props: { store: this.store }
     });
   }
 

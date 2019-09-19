@@ -9,7 +9,7 @@ function _window(): any {
     providedIn: 'root'
 })
 export class WindowRefService {
-    get nativeWindow(): any {
+    get nativeWindow(): Window {
         return _window();
     }
 

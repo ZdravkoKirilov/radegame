@@ -2,7 +2,7 @@ import { RzElementProps, RzElementChild, RzElement, RzElementType } from "../mod
 
 export const createElement = <T = {} & Partial<RzElementProps>>(
     type: RzElementType<T>,
-    props: T & RzElementProps,
+    props?: T & RzElementProps,
     ...children: RzElementChild[]
 ): RzElement | null => {
     children = children || [];
