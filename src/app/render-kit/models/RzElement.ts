@@ -4,6 +4,7 @@ import { ContextManager, AssetManager } from "../services";
 import { AnimationBase } from "../animations";
 import { PRIMS } from "../primitives";
 import { Dictionary } from "@app/shared";
+import { StateHooks, EffectHooks } from "../helpers";
 
 export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
@@ -80,7 +81,10 @@ export type MetaProps = {
     engine?: AbstractRenderEngine;
     context?: ContextManager;
     assets?: AssetManager;
-    hooks?: Map<RenderFunction, any[]>;
+    hooks?: {
+        state: StateHooks;
+        effect: EffectHooks;
+    }
 };
 
 export type PrimitiveType = keyof typeof PRIMS;

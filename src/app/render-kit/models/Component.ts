@@ -1,6 +1,7 @@
 import { BasicComponent, StatefulComponent } from "../bases";
 import { RzElementProps, MetaProps, RzElement } from "./RzElement";
 import { AbstractContainer } from "../interfaces";
+import { StateHook, EffectHook } from '../helpers/hooks';
 
 export type CompositeComponent = StatefulComponent | RenderFunction;
 
@@ -34,8 +35,7 @@ export type RenderFunction<T = {}> = Render<T & RzElementProps> & Partial<{
     type: RenderFunction<T>;
 }>
 
-export type StateHook = <T = any>(initialValue?: T) => [T, (value: T) => void];
-
 export type RenderFunctionExtras = {
     useState: StateHook;
+    useEffect: EffectHook;
 }

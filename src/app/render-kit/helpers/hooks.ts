@@ -1,21 +1,86 @@
-import { RenderFunctionExtras, RenderFunction, MetaProps, StateHook } from "../models";
+import { isEqual } from 'lodash';
+import { RenderFunctionExtras, RenderFunction, MetaProps } from "../models";
 import { updateComponent } from "./mutation";
 
+export type StateHook = <T = any>(initialValue?: T) => [T, (value: T) => void];
+export type EffectHook = (callback: () => FuncOrVoid, dependencies?: any[]) => void;
+
+type FuncOrVoid = Function | void;
+
+type StateHookParams = {
+    callback: () => FuncOrVoid;
+    dependencies: any[];
+    cleaner?: Function | void;
+};
+
+export type StateHooks = Map<RenderFunction, any[]>;
+export type EffectHooks = Map<RenderFunction, StateHookParams[]>;
+
 export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFunctionExtras => {
-    let index = 0;
+    let stateHookIndex = 0;
+    let effectHookIndex = 0;
 
     const useState: StateHook = <T = any>(initialState?: T) => {
-        const state = meta.hooks.get(target) || [];
-        meta.hooks.set(target, state);
-        const currentValue = state[index] || initialState;
+        const state = meta.hooks.state.get(target) || [];
+        meta.hooks.state.set(target, state);
+        const currentValue = state[stateHookIndex] || initialState;
         const mutator = (order: number) => (value: T) => {
             state[order] = value;
             const rendered = target(target.props, prepareExtras(target, meta));
             updateComponent(target, rendered);
         };
-        const data: [T, (value: T) => void] = [currentValue, mutator(index)];
-        index += 1;
+        const data: [T, (value: T) => void] = [currentValue, mutator(stateHookIndex)];
+        stateHookIndex += 1;
         return data;
     };
-    return { useState };
+
+    const useEffect: EffectHook = (callback, dependencies) => {
+        const effects = meta.hooks.effect;
+        const state = effects.get(target) || [];
+        const currentTarget = state[effectHookIndex];
+
+        if (currentTarget) {
+            const oldDeps = currentTarget.dependencies;
+            if (!dependencies) {
+                setTimeout(() => {
+                    state[effectHookIndex] = {
+                        callback,
+                        dependencies,
+                        cleaner: callback(),
+                    };
+                });
+            } else if (dependencies.length > 0 && !isEqual(oldDeps, dependencies)) {
+                setTimeout(() => {
+                    state[effectHookIndex] = {
+                        callback,
+                        dependencies,
+                        cleaner: callback(),
+                    };
+                });
+            }
+        } else {
+            setTimeout(() => {
+                state[effectHookIndex] = {
+                    callback,
+                    dependencies,
+                    cleaner: callback(),
+                };
+            });
+        }
+        effectHookIndex += 1;
+    };
+
+    return { useState, useEffect };
+};
+
+export const cleanEffectHooks = (component: RenderFunction) => {
+    const effects = component.meta.hooks.effect.get(component);
+    if (effects) {
+        effects.forEach(params => {
+            if (typeof params.cleaner === 'function') {
+                params.cleaner();
+            }
+        });
+        component.meta.hooks.effect.delete(component);
+    }
 };

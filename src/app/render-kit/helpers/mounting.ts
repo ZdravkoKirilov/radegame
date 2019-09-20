@@ -4,6 +4,7 @@ import { StatefulComponent, BasicComponent } from "../bases";
 import { PRIMS } from "../primitives";
 import { RenderFunction } from "../models/Component";
 import { isStateful, isPrimitive, isFunctional } from "./misc";
+import { cleanEffectHooks } from "./hooks";
 
 export const unmountComponent = (component: Component) => {
     console.debug('unmount component: ', component);
@@ -23,7 +24,8 @@ export const unmountStatefulComponent = (component: StatefulComponent) => {
 };
 
 export const unmountFunctionalComponent = (component: RenderFunction) => {
-    component.meta.hooks.delete(component);
+    component.meta.hooks.state.delete(component);
+    cleanEffectHooks(component);
     unmountComposite(component);
 };
 
