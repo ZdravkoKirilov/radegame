@@ -19,14 +19,13 @@ export type EffectHooks = Map<RenderFunction, StateHookParams[]>;
 export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFunctionExtras => {
     let stateHookIndex = 0;
     let effectHookIndex = 0;
-    debugger;
+
     const useState: StateHook = <T = any>(initialState?: T) => {
         const state = meta.hooks.state.get(target) || [];
         meta.hooks.state.set(target, state);
         const currentValue = state[stateHookIndex] || initialState;
         const mutator = (order: number) => (value: T) => {
             state[order] = value;
-            debugger;
             const rendered = target(target.props, prepareExtras(target, meta));
             updateComponent(target, rendered);
         };
@@ -40,6 +39,7 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
         const state = effects.get(target) || [];
         effects.set(target, state);
         const currentTarget = state[effectHookIndex];
+
         if (currentTarget) {
             const oldDeps = currentTarget.dependencies;
             if (!dependencies) {
@@ -77,14 +77,14 @@ const executeEffectAsync = (
     dependencies: any[],
     clean?: Function | void
 ) => {
-
-    if (typeof clean === 'function') {
-        clean();
-    }
-    state[effectHookIndex] = {
-        callback,
-        dependencies,
-        cleaner: callback(),
-    };
-
+    setTimeout(() => {
+        if (typeof clean === 'function') {
+            clean();
+        }
+        state[effectHookIndex] = {
+            callback,
+            dependencies,
+            cleaner: callback(),
+        };
+    });
 };

@@ -3,8 +3,9 @@ import { Store, select } from "@ngrx/store";
 import { AppState } from "@app/core";
 import { withStore } from "../store";
 import { selectSetupData } from "app/game-arena/state";
-import { map } from "rxjs/operators";
+import { map, filter } from "rxjs/operators";
 import { Setup } from "app/game-mechanics/entities";
+import { selectGameInstanceId } from "@app/shared";
 
 type Props = {
     store: Store<AppState>;
@@ -15,21 +16,20 @@ const gameText: RenderFunction<Props> = (props, { useEffect, useState }) => {
 
     useEffect(() => {
         const sub = props.store.pipe(
-            select(selectSetupData),
+            select(selectGameInstanceId),
             map(data => {
-                debugger;
+                console.log(data);
                 setSetup(data);
             })
         ).subscribe();
 
         return () => {
-            debugger;
             sub.unsubscribe();
         }
     }, []);
 
     return createElement('text', {
-        value: 'This is the visual root', styles: {
+        value: setup || 'Placeholder', styles: {
             x: 100,
             y: 125,
         }, textStyle: {
