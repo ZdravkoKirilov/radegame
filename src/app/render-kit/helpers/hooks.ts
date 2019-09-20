@@ -42,30 +42,20 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
         if (currentTarget) {
             const oldDeps = currentTarget.dependencies;
             if (!dependencies) {
-                setTimeout(() => {
-                    state[effectHookIndex] = {
-                        callback,
-                        dependencies,
-                        cleaner: callback(),
-                    };
-                });
+                if (typeof currentTarget.cleaner === 'function') {
+                    currentTarget.cleaner();
+                }
+                activateEffectAsync(state, effectHookIndex, callback, dependencies);
             } else if (dependencies.length > 0 && !isEqual(oldDeps, dependencies)) {
-                setTimeout(() => {
-                    state[effectHookIndex] = {
-                        callback,
-                        dependencies,
-                        cleaner: callback(),
-                    };
-                });
+                if (typeof currentTarget.cleaner === 'function') {
+                    currentTarget.cleaner();
+                }
+                activateEffectAsync(state, effectHookIndex, callback, dependencies);
+            } else {
+                // ignore the case when dependencies are empty or haven't changed
             }
-        } else {
-            setTimeout(() => {
-                state[effectHookIndex] = {
-                    callback,
-                    dependencies,
-                    cleaner: callback(),
-                };
-            });
+        } else { // first fire is free
+            activateEffectAsync(state, effectHookIndex, callback, dependencies);
         }
         effectHookIndex += 1;
     };
@@ -83,4 +73,19 @@ export const cleanEffectHooks = (component: RenderFunction) => {
         });
         component.meta.hooks.effect.delete(component);
     }
+};
+
+const activateEffectAsync = (
+    state: StateHookParams[],
+    effectHookIndex: number,
+    callback: () => FuncOrVoid,
+    dependencies: any[]
+) => {
+    setTimeout(() => {
+        state[effectHookIndex] = {
+            callback,
+            dependencies,
+            cleaner: callback(),
+        };
+    });
 };
