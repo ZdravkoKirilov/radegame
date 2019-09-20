@@ -2,6 +2,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
+import { selectState } from "./game-state";
 
 const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
 
@@ -24,5 +25,5 @@ export const isDownloadingGameData = createSelector(
     selectGameInstance,
     selectGameConfig,
     selectGame,
-    (instance, config, game) => !instance || !config || !game,
+    (instance, config, game) => !instance || !config || !game
 );

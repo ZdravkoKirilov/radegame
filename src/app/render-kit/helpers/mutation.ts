@@ -84,7 +84,6 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
 }
 
 export const updateByType = (target: Component<RzElementProps>, updated: RzElement) => {
-
     if (isFunctional(target)) {
         if (isMemo(target)) {
             return updateMemo(target, updated);

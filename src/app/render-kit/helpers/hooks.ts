@@ -19,13 +19,14 @@ export type EffectHooks = Map<RenderFunction, StateHookParams[]>;
 export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFunctionExtras => {
     let stateHookIndex = 0;
     let effectHookIndex = 0;
-
+    debugger;
     const useState: StateHook = <T = any>(initialState?: T) => {
         const state = meta.hooks.state.get(target) || [];
         meta.hooks.state.set(target, state);
         const currentValue = state[stateHookIndex] || initialState;
         const mutator = (order: number) => (value: T) => {
             state[order] = value;
+            debugger;
             const rendered = target(target.props, prepareExtras(target, meta));
             updateComponent(target, rendered);
         };
@@ -37,25 +38,19 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
     const useEffect: EffectHook = (callback, dependencies) => {
         const effects = meta.hooks.effect;
         const state = effects.get(target) || [];
+        effects.set(target, state);
         const currentTarget = state[effectHookIndex];
-
         if (currentTarget) {
             const oldDeps = currentTarget.dependencies;
             if (!dependencies) {
-                if (typeof currentTarget.cleaner === 'function') {
-                    currentTarget.cleaner();
-                }
-                activateEffectAsync(state, effectHookIndex, callback, dependencies);
+                executeEffectAsync(state, effectHookIndex, callback, dependencies, currentTarget.cleaner);
             } else if (dependencies.length > 0 && !isEqual(oldDeps, dependencies)) {
-                if (typeof currentTarget.cleaner === 'function') {
-                    currentTarget.cleaner();
-                }
-                activateEffectAsync(state, effectHookIndex, callback, dependencies);
+                executeEffectAsync(state, effectHookIndex, callback, dependencies, currentTarget.cleaner);
             } else {
                 // ignore the case when dependencies are empty or haven't changed
             }
         } else { // first fire is free
-            activateEffectAsync(state, effectHookIndex, callback, dependencies);
+            executeEffectAsync(state, effectHookIndex, callback, dependencies);
         }
         effectHookIndex += 1;
     };
@@ -75,17 +70,21 @@ export const cleanEffectHooks = (component: RenderFunction) => {
     }
 };
 
-const activateEffectAsync = (
+const executeEffectAsync = (
     state: StateHookParams[],
     effectHookIndex: number,
     callback: () => FuncOrVoid,
-    dependencies: any[]
+    dependencies: any[],
+    clean?: Function | void
 ) => {
-    setTimeout(() => {
-        state[effectHookIndex] = {
-            callback,
-            dependencies,
-            cleaner: callback(),
-        };
-    });
+
+    if (typeof clean === 'function') {
+        clean();
+    }
+    state[effectHookIndex] = {
+        callback,
+        dependencies,
+        cleaner: callback(),
+    };
+
 };

@@ -9,7 +9,7 @@ const selectConfig = createSelector(
     selectFeature,
     feature => feature.config,
 );
-const selectState = createSelector(
+export const selectState = createSelector(
     selectFeature,
     feature => feature.state,
 );
@@ -24,7 +24,7 @@ const selectPhase = createSelector(
 );
 const selectSetup = createSelector(
     selectState,
-    state => state.setup,
+    state => state ? state.setup : null,
 );
 
 export const selectRoundData = createSelector(
@@ -42,5 +42,5 @@ export const selectPhaseData = createSelector(
 export const selectSetupData = createSelector(
     selectSetup,
     selectConfig,
-    (setup, config) => config.setups[setup] as Setup,
+    (setup, config) => config && setup ? config.setups[setup] as Setup : null,
 );
