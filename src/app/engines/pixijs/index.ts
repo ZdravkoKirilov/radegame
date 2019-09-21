@@ -42,7 +42,7 @@ export const mountPixi: AbstractMountManager = async (
         height: config.height,
         transparent: true,
         antialias: true,
-        resolution: 1.5,
+        resolution: 1,
         autoResize: true,
         backgroundColor: config.backgroundColor || 0xffffff
     });

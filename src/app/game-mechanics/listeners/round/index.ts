@@ -1,5 +1,5 @@
 import { StatefulComponent } from "@app/render-kit";
-import { withStore } from "../../containers/store";
+import { withStore } from "../../hocs";
 
 class RoundListener extends StatefulComponent {
     render() {

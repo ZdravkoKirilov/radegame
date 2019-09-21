@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
-import { selectState } from "./game-state";
+import { selectGameState } from "./game-state";
 
 const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
 

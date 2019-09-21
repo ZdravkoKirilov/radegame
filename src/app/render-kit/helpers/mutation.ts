@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 import { RzElement, RzElementKey, RzElementProps, RzElementChild } from "../models";
 import { CompositeComponent, Component } from "../models";
 import { createComponent } from "./creation";
@@ -26,6 +28,7 @@ export const updateComponent = (component: Component, rendered: RzElementChild) 
 };
 
 export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => {
+    
     const shouldUpdate = memoComp.shouldUpdate;
     const shouldUpdateIsFunction = typeof shouldUpdate === typeof Function;
     const shouldUpdateIsArray = Array.isArray(shouldUpdate);
@@ -37,7 +40,7 @@ export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => 
     }
 
     if (shouldUpdateIsArray && shouldUpdate.length > 0) {
-        if ((shouldUpdate as []).some(propName => memoComp.props[propName] !== updated.props[propName])) {
+        if ((shouldUpdate as []).some(propName => get(memoComp.props, propName) !== get(updated.props, propName))) {
             memoComp.props = updated.props;
             return updateComponent(memoComp, memoComp(updated.props, extras));
         }
@@ -45,7 +48,7 @@ export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => 
         return;
     }
 
-    if (memoComp.props !== updated) {
+    if (memoComp.props !== updated && !shouldUpdate) {
         memoComp.props = updated.props;
         return updateComponent(memoComp, memoComp(updated.props, extras));
     }

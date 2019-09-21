@@ -1,7 +1,7 @@
 import { RenderFunction, createElement } from "@app/render-kit";
 import { Store, select } from "@ngrx/store";
 import { AppState } from "@app/core";
-import { withStore } from "../store";
+import { withStore } from "../../hocs";
 import { selectSetupData } from "app/game-arena/state";
 import { map, filter } from "rxjs/operators";
 import { Setup } from "app/game-mechanics/entities";

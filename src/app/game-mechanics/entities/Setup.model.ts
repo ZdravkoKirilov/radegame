@@ -5,10 +5,11 @@ export type Setup = BaseModel & WithDisplayName & Partial<{
     max_players: number;
     recommended_age: number;
 
-    rounds: number[]; // RoundSlot[]
+    rounds: RoundSlot[]; // RoundSlot[]
 }>;
 
 export type RoundSlot = Partial<{
+    id: number;
     owner: number;
     round: number;
 }>;

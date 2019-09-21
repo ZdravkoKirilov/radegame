@@ -181,6 +181,7 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 
 	startGame() {
 		const game_id = this.data.game.id;
+		const setup = this.data.setup.id;
 		const players = this.data.lobby.players.map(player => {
 			return {
 				...player,
@@ -189,8 +190,8 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 				faction: player.faction || null,
 			};
 		});
-		const lobbyName = this.data.lobby.name;
-		this.store.dispatch(new CreateGame({ game_id, players, lobby_name: lobbyName }));
+		const lobby_name = this.data.lobby.name;
+		this.store.dispatch(new CreateGame({ game_id, players, lobby_name, setup }));
 	}
 
 }

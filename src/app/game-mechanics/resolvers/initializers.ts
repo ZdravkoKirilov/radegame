@@ -1,7 +1,7 @@
 import { get } from 'lodash';
 
 import { GameState, Player, GameTemplate } from "../models";
-import { Expression, Slot } from "../entities";
+import { Expression, Slot, Setup } from "../entities";
 import { Dictionary } from "@app/shared";
 import { evaluate } from './helpers';
 import { LobbyPlayer } from '@app/lobby';
@@ -35,16 +35,18 @@ export type CreateGamePayload = {
     game_id: number;
     players: LobbyPlayer[];
     lobby_name: string;
+    setup: number;
 };
 
 export const createGameState = ({ setup, conf, players }: CreateStateParams): GameState => {
-
+    const setup_data: Setup = conf.setups[setup];
+    const first_round = setup_data.rounds[0];
     return {
         global_overrides: {},
         player_overrides: createPlayerOverrides(players, conf),
         turn_order: [],
         setup,
-        round: null,
+        round: first_round.id,
         phase: null,
         turn: null,
     };
