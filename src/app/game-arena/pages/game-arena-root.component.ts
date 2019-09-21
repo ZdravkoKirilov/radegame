@@ -4,7 +4,6 @@ import { Component, OnInit } from '@angular/core';
   selector: 'rg-game-arena-root',
   template: `
   <rg-game-loader>
-    <rg-game-engine-loader></rg-game-engine-loader>
   </rg-game-loader>`,
   styles: []
 })

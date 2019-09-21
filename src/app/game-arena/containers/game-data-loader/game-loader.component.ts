@@ -8,7 +8,7 @@ import { selectGameInstanceId, AutoUnsubscribe } from '@app/shared';
 
 import {
   FetchGameInstance, selectGameInstance, FetchGameConfig,
-  isDownloadingGameData, FetchGame, selectGameConfig, CreateGameState
+  isDownloadingGameData, FetchGame, selectGameConfig, CreateGameState, selectImageAssets
 } from '../../state';
 import { GameInstance } from '../../models';
 import { GameTemplate } from '@app/game-mechanics';
@@ -27,7 +27,9 @@ export class GameLoaderComponent implements OnInit {
   game_id$: Subscription;
   game_instance$: Subscription;
   game_config$: Subscription;
+
   isDownloading$: Observable<boolean>;
+  imageAssets$: Observable<Set<string>>;
 
   game_instance: GameInstance;
   game_config: GameTemplate;
@@ -68,5 +70,7 @@ export class GameLoaderComponent implements OnInit {
         }
       }),
     );
+
+    this.imageAssets$ = this.store.pipe(select(selectImageAssets));
   }
 }

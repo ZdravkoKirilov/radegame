@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets } from "@app/game-mechanics";
 
 const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
 const selectConfig = createSelector(
@@ -69,5 +69,14 @@ export const selectCurrentRoundStageSlots = createSelector(
     selectConfig,
     (stage, config) => {
         return Object.values(config.slots).filter((slot: Slot) => slot.owner === stage.id) as Slot[];
+    }
+);
+
+export const selectImageAssets = createSelector(
+    selectSetup,
+    selectConfig,
+    (setup_id, config) => {
+        const result = getAllImageAssets(setup_id, config);
+        return new Set(result);
     }
 );

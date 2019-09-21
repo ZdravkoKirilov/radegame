@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, OnDestroy, Input } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { MountRef } from '@app/render-kit';
@@ -15,6 +15,7 @@ import { WindowRefService } from '@app/shared';
 export class GameEngineLoaderComponent implements OnInit, OnDestroy {
 
   @ViewChild('canvas', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
+  @Input() imageAssets: Set<string>;
 
   mount: MountRef;
 
@@ -30,11 +31,12 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
 
   async initializeGame() {
     const domHost = this.canvasWrapper.nativeElement;
-
+  
     this.mount = await mountPixi(GameArenaRoot, domHost, {
       width: this.windowRef.nativeWindow.innerWidth,
       height: this.windowRef.nativeWindow.innerHeight,
-      props: { store: this.store }
+      props: { store: this.store },
+      assets: this.imageAssets
     });
   }
 

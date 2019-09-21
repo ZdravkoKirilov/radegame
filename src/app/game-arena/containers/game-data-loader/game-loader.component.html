@@ -3,5 +3,5 @@
 </h2>
 
 <ng-template #game>
-    <ng-content></ng-content>
+    <rg-game-engine-loader [imageAssets]="imageAssets$ | async"></rg-game-engine-loader>
 </ng-template>
