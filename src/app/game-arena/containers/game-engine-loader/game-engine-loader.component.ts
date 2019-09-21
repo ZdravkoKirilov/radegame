@@ -31,7 +31,7 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
 
   async initializeGame() {
     const domHost = this.canvasWrapper.nativeElement;
-  
+    
     this.mount = await mountPixi(GameArenaRoot, domHost, {
       width: this.windowRef.nativeWindow.innerWidth,
       height: this.windowRef.nativeWindow.innerHeight,

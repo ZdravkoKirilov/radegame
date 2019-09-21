@@ -1,5 +1,6 @@
 import { Stage, Slot, ImageAsset } from "../../entities";
 import { Memo, createElement, SpriteProps } from "@app/render-kit";
+import { SlotsList, Props as SlotsListProps } from "../slots";
 
 export type RoundStageProps = {
     stage: Stage;
@@ -23,20 +24,9 @@ export const RoundStage = Memo<RoundStageProps>(({ stage, image, slots }) => {
                 },
             }
         ),
-        createElement(
-            'text',
-            {
-                value: stage.name,
-                styles: {
-                    x: 100,
-                    y: 125,
-                },
-                textStyle: {
-                    fontSize: 18,
-                    stroke: '#141619',
-                    fill: '#141619'
-                }
-            }
+        createElement<SlotsListProps>(
+            SlotsList,
+            { slots }
         ),
     );
 }, ['stage']);

@@ -44,11 +44,11 @@ export const createGameState = ({ setup, conf, players }: CreateStateParams): Ga
     return {
         global_overrides: {},
         player_overrides: createPlayerOverrides(players, conf),
-        turn_order: [],
+        turn_order: players.map(player => player.id),
         setup,
         round: first_round.id,
         phase: null,
-        turn: null,
+        active_player: null,
     };
 };
 

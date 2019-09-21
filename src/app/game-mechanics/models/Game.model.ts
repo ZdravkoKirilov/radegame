@@ -26,7 +26,7 @@ export type GameState = {
     setup: number;
     round: number; //
     phase: number; //
-    turn: number; //
+    active_player: number; //
 };
 
 export type GameConfig = GameTemplate & { game: Game }
