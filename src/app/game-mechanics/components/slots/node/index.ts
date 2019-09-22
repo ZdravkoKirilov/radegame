@@ -20,7 +20,7 @@ export const Node = Memo<Props>(
             createElement<StaticNodeProps>(StaticNode, { data })
         );
     },
-    ['data', 'selected'],
+    ['data'],
 );
 
 export default Node;

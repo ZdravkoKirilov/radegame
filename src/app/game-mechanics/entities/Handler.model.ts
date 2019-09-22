@@ -13,8 +13,10 @@ export type Handler = WithState & Partial<{
 }>
 
 export const HANDLER_TYPES = {
-    CLICK: 'CLICK',
-    HOVER: 'HOVER',
+    POINTERDOWN: 'POINTERDOWN',
+    POINTERUP: 'POINTERUP',
+    HOVERIN: 'HOVERIN',
+    HOVEROUT: 'HOVEROUT',
 };
 
 export type HandlerType = keyof typeof HANDLER_TYPES;

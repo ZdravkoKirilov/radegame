@@ -1,8 +1,11 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { keyBy } from 'lodash';
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext } from "@app/game-mechanics";
+import { selectUser } from "@app/core";
+import { selectPlayers } from "./general";
 
 const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
 const selectConfig = createSelector(
@@ -96,5 +99,18 @@ export const selectSlotImage = (slot_id: number) => createSelector(
         const slot_data = config.slots[slot_id] as Slot;
         const image_data = config.images[slot_data.image] as ImageAsset;
         return image_data;
+    }
+);
+
+export const selectExpressionContext = createSelector(
+    selectUser,
+    selectConfig,
+    selectGameState,
+    selectPlayers,
+    (user, conf, state, players) => {
+        return createExpressionContext({
+            self: user.id,
+            conf, state, players: keyBy(players, 'id'),
+        });
     }
 );

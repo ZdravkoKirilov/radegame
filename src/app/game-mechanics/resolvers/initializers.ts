@@ -27,7 +27,7 @@ export type ExpressionContext = {
         [key: string]: any;
         compute: typeof evaluate
     },
-    $self: () => any,
+    $self: Player,
     $playerOverrides: (player: Player, path: string) => any;
 };
 
@@ -57,7 +57,7 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
     return {
         state, conf, players,
         helpers: composeHelpers(helpers),
-        $self() {
+        get $self() {
             return Object.values(players).find(player => player.id === self);
         },
         $playerOverrides(player: Player, path: string) {
@@ -69,7 +69,7 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
 
 const composeHelpers = (expressions: Expression[]) => {
     return expressions.reduce((result, item) => {
-        result[item.preload_as] = item.code;
+        result[item.preload_as] = evaluate(item.code, {});
         return result;
     }, {
             compute: evaluate
