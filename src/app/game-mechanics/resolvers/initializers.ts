@@ -28,7 +28,8 @@ export type ExpressionContext = {
         compute: typeof evaluate
     },
     $self: Player,
-    $playerOverrides: (player: Player, path: string) => any;
+    $own_turn: boolean,
+    $player_overrides: (player: Player, path: string) => any;
 };
 
 export type CreateGamePayload = {
@@ -54,17 +55,21 @@ export const createGameState = ({ setup, conf, players }: CreateStateParams): Ga
 
 export const createExpressionContext = ({ state, conf, self, players }: CreateExpressionParams): ExpressionContext => {
     const helpers = Object.values<Expression>(conf.expressions).filter(elem => elem.preload_as);
-    return {
+    const ctx = {
         state, conf, players,
         helpers: composeHelpers(helpers),
-        get $self() {
+        get $self(): Player {
             return Object.values(players).find(player => player.id === self);
         },
-        $playerOverrides(player: Player, path: string) {
+        get $own_turn() {
+            return ctx.$self.id === state.active_player;
+        },
+        $player_overrides(player: Player, path: string) {
             const overrides = state.player_overrides[player.id];
             return get(overrides, path, {});
         }
     };
+    return ctx;
 };
 
 const composeHelpers = (expressions: Expression[]) => {

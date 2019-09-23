@@ -1,6 +1,6 @@
 import { environment } from '../../../environments/environment';
 
-const { API_BASE_URL, BASE_URL, WS_BROWSE_LOBBIES_BASE_URL } = environment;
+const { API_BASE_URL, BASE_URL, WS_BROWSE_LOBBIES_BASE_URL, WS_ARENA_BASE_URL } = environment;
 
 export const LOBBY_URLS = {
     LOBBIES: (lobbyName?: string) => {
@@ -20,6 +20,7 @@ export const LOBBY_URLS = {
         return `${base}/${lobbyName}/create`;
     },
 };
+
 
 export const API_URLS = {
     GAMES: (gameId?: number) => {
@@ -131,5 +132,8 @@ export const ARENA_URLS = {
     },
     ACTIVE_GAME: (publicGameId: number) => {
         return API_BASE_URL + `/arena/active-game/${publicGameId}`;
+    },
+    LIVE_ARENA: (game_name: string) => {
+        return WS_ARENA_BASE_URL + '/' + game_name;
     },
 };

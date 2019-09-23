@@ -4,3 +4,4 @@ export * from './game-mechanics.module';
 export * from './resolvers';
 
 export * from './containers';
+export * from './services';

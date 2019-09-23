@@ -8,9 +8,11 @@ import { MainStage } from "../main-stage";
 import { GameState } from "../../models";
 import { selectGameState } from "@app/game-arena";
 import { map } from "rxjs/operators";
+import { GameBroadcastService } from "../../services";
 
 type Props = {
-    store: Store<AppState>
+    store: Store<AppState>;
+    dispatcher: GameBroadcastService;
 }
 
 type State = {
@@ -21,6 +23,7 @@ export class GameArenaRoot extends StatefulComponent<Props, State> {
     constructor(props: Props, meta: MetaProps) {
         super(props, meta);
         this.meta.context.set('store', this.props.store);
+        this.meta.context.set('dispatcher', this.props.dispatcher);
     }
     state = {} as State;
 

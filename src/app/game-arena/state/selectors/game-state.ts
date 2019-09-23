@@ -1,11 +1,11 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
-import { keyBy } from 'lodash';
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
 import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext } from "@app/game-mechanics";
 import { selectUser } from "@app/core";
 import { selectPlayers } from "./general";
+import { toDictionary } from "@app/shared";
 
 const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
 const selectConfig = createSelector(
@@ -110,7 +110,7 @@ export const selectExpressionContext = createSelector(
     (user, conf, state, players) => {
         return createExpressionContext({
             self: user.id,
-            conf, state, players: keyBy(players, 'id'),
+            conf, state, players: toDictionary(players, 'id'),
         });
     }
 );
