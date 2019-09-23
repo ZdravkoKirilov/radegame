@@ -26,20 +26,23 @@ export class GameBroadcastService {
     this.socket = new WebSocket(url);
 
     this.socket.onopen = () => {
-
+      
     };
 
     this.socket.onmessage = (e: MessageEvent) => {
       const data = JSON.parse(e.data);
       this.stream$.next(data);
+
+      const actions = this.processor.toMutators(data);
+      actions.filter(Boolean).forEach(action => this.store.dispatch(action));
     };
 
     this.socket.onclose = (e: CloseEvent) => {
-
+      debugger;
     };
 
     this.socket.onerror = (e: ErrorEvent) => {
-
+      debugger;
     }
   }
 
@@ -49,13 +52,13 @@ export class GameBroadcastService {
 
   dispatch = (data: GameAction[]) => {
     const actions = this.processor.toMutators(data);
-    actions.filter(Boolean).forEach(action => this.store.dispatch(action));
+    // actions.filter(Boolean).forEach(action => this.store.dispatch(action));
     this.sendActions(data);
   }
 
   private sendActions(actions: GameAction[]) {
     if (this.socket) {
-      // this.socket.send(JSON.stringify(actions));
+      this.socket.send(JSON.stringify(actions));
     }
   }
 }
