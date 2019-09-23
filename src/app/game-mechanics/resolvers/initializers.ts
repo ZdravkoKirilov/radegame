@@ -42,14 +42,15 @@ export type CreateGamePayload = {
 export const createGameState = ({ setup, conf, players }: CreateStateParams): GameState => {
     const setup_data: Setup = conf.setups[setup];
     const first_round = setup_data.rounds[0];
+    const turn_order = players.map(player => player.id);
     return {
         global_overrides: {},
         player_overrides: createPlayerOverrides(players, conf),
-        turn_order: players.map(player => player.id),
+        turn_order,
         setup,
         round: first_round.id,
         phase: null,
-        active_player: null,
+        active_player: turn_order[0],
     };
 };
 

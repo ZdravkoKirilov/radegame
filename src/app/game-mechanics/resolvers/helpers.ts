@@ -4,6 +4,7 @@ import {
     ParamedExpressionFunc, SlotHandler, Handler
 } from "../entities";
 import { ExpressionContext } from "./initializers";
+import { GameBroadcastService } from "../services";
 
 export const evaluate = (src: string, context: any): any => {
     try {
@@ -40,7 +41,7 @@ export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
 type HandlerParams<T> = {
     payload: T,
     conf: GameTemplate,
-    dispatcher: any,
+    dispatcher: GameBroadcastService,
     handlers: SlotHandler[],
     context: ExpressionContext,
 }
@@ -53,10 +54,8 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
             const expression: Expression = conf.expressions[handler.effect];
             const innerCallback: ParamedExpressionFunc<Slot> = evaluate(expression.code, context);
             acc[eventName] = () => {
-                debugger;
                 const actions: GameAction[] = innerCallback.call(context, payload);
-                debugger;
-                // dispatcher.dispatch(actions);
+                dispatcher.dispatch(actions);
             };
             return acc;
         },

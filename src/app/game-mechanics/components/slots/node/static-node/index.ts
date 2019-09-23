@@ -5,21 +5,23 @@ import { map } from 'rxjs/operators';
 import { RenderFunction, createElement, Memo } from "@app/render-kit";
 import EmptySlot, { Props as EmptySlotProps } from "../empty-slot";
 import { Slot, Style, ImageAsset } from '../../../../entities';
-import { withStore } from '../../../../hocs';
+import { withStore, withDispatcher } from '../../../../hocs';
 import { AppState } from '@app/core';
 import { selectSlotStyle, selectSlotImage, selectGameConfig, selectExpressionContext } from '@app/game-arena';
 import { assignHandlers, ExpressionContext } from '../../../../resolvers';
 import { GameTemplate } from '../../../../models';
+import { GameBroadcastService } from '../../../../services';
 
-type StoreProps = {
+type HOCProps = {
     store: Store<AppState>;
+    dispatcher: GameBroadcastService;
 }
 
-export type Props = Partial<StoreProps> & {
+export type Props = Partial<HOCProps> & {
     data: Slot;
 };
 
-const StaticNode: RenderFunction<Props> = ({ data, store }, { useState, useEffect }) => {
+const StaticNode: RenderFunction<Props> = ({ data, store, dispatcher }, { useState, useEffect }) => {
     const emptySlot = !data.board;
     const [style, setStyle] = useState<Style>(null);
     const [image, setImage] = useState<ImageAsset>(null);
@@ -39,7 +41,7 @@ const StaticNode: RenderFunction<Props> = ({ data, store }, { useState, useEffec
     return style && conf ? createElement('container', {
         ...assignHandlers({
             context: exprContext,
-            dispatcher: null,
+            dispatcher,
             payload: data,
             handlers: data.handlers,
             conf,
@@ -62,4 +64,4 @@ const StaticNode: RenderFunction<Props> = ({ data, store }, { useState, useEffec
     ) : null;
 };
 
-export default compose(withStore, Memo)(StaticNode);
+export default compose(withStore, withDispatcher, Memo)(StaticNode);

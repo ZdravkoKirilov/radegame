@@ -145,7 +145,6 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
 };
 
 const updateSprite = (comp: PrimitiveSprite) => {
-
     const { props, graphic, container, meta } = comp;
     const assetManager = meta.assets;
     const image = assetManager.getTexture(props.image);

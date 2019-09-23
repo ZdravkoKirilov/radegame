@@ -9,7 +9,6 @@ export type RoundStageProps = {
 }
 
 export const RoundStage = Memo<RoundStageProps>(({ stage, image, slots }) => {
-
     return createElement(
         'fragment',
         null,
@@ -29,4 +28,4 @@ export const RoundStage = Memo<RoundStageProps>(({ stage, image, slots }) => {
             { slots }
         ),
     );
-}, ['stage']);
+}, ['stage', 'image', 'slots']);

@@ -17,7 +17,7 @@ export const selectGameState = createSelector(
     feature => feature.state,
 );
 
-const selectRound = createSelector(
+export const selectRound = createSelector(
     selectGameState,
     state => state.round,
 );
@@ -113,4 +113,19 @@ export const selectExpressionContext = createSelector(
             conf, state, players: toDictionary(players, 'id'),
         });
     }
+);
+
+export const selectTurnOrder = createSelector(
+    selectGameState,
+    state => state.turn_order,
+);
+
+export const selectActivePlayer = createSelector(
+    selectGameState,
+    state => state.active_player,
+);
+
+export const selectRounds = createSelector(
+    selectSetupData,
+    setup => setup.rounds.map(round => round.id),
 );

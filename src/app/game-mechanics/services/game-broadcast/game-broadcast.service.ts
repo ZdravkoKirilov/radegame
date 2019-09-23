@@ -1,11 +1,16 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
-import { ARENA_URLS } from '@app/core';
+import { ARENA_URLS, AppState } from '@app/core';
+import { GameAction } from '../../entities';
+import { ActionProcessorService } from '../action-processor/action-processor.service';
 
 @Injectable()
 export class GameBroadcastService {
+
+  constructor(private store: Store<AppState>, private processor: ActionProcessorService) { }
 
   private stream$ = new Subject<any>();
   private socket: WebSocket;
@@ -18,7 +23,6 @@ export class GameBroadcastService {
 
   initConnection(game_name: string) {
     const url = ARENA_URLS.LIVE_ARENA(game_name);
-    debugger;
     this.socket = new WebSocket(url);
 
     this.socket.onopen = () => {
@@ -43,9 +47,15 @@ export class GameBroadcastService {
     this.socket.close();
   }
 
-  sendActions(actions: any[]) {
+  dispatch = (data: GameAction[]) => {
+    const actions = this.processor.toMutators(data);
+    actions.filter(Boolean).forEach(action => this.store.dispatch(action));
+    this.sendActions(data);
+  }
+
+  private sendActions(actions: GameAction[]) {
     if (this.socket) {
-      this.socket.send(JSON.stringify(actions));
+      // this.socket.send(JSON.stringify(actions));
     }
   }
 }

@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
 import { mountPixi } from '@app/engines/pixi';
-import { GameArenaRoot } from '@app/game-mechanics';
+import { GameArenaRoot, ActionProcessorService } from '@app/game-mechanics';
 import { WindowRefService } from '@app/shared';
 import { GameBroadcastService } from '@app/game-mechanics';
 
@@ -12,7 +12,7 @@ import { GameBroadcastService } from '@app/game-mechanics';
   selector: 'rg-game-engine-loader',
   templateUrl: './game-engine-loader.component.html',
   styleUrls: ['./game-engine-loader.component.scss'],
-  providers: [GameBroadcastService],
+  providers: [GameBroadcastService, ActionProcessorService],
 
 })
 export class GameEngineLoaderComponent implements OnInit, OnDestroy {

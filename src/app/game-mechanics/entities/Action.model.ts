@@ -2,6 +2,9 @@ import { BaseModel, WithFrames, WithDisplayName } from "./Base.model";
 
 export type GameAction = BaseModel & WithFrames & WithDisplayName & Partial<{
     configs: ActionConfig[];
+    payload: {
+        [key: string]: any;
+    }
 }>
 
 export type ActionConfig = Partial<{
@@ -16,6 +19,8 @@ export type ActionConfig = Partial<{
 }>
 
 export const ACTION_TYPE = {
+
+    END_TURN: 'END_TURN',
 
     WIN_GAME: 'WIN_GAME',
 
@@ -35,16 +40,5 @@ export const ACTION_TYPE = {
 
 export type ActionType = keyof typeof ACTION_TYPE;
 
-// alter keyword of field
-// target: self.stages.find(stage => stage.id === 'base').fields
-// subject: self.keywords.find(keyword => keyword.id ==='face-up')
-// value = +1
-
-
-// put fields on stage
-// target: self.stages.find(stage => stage.id === 'hand').fields
-// subject: self.stages.find(stage => stage.id === 'base').slots
-
-// TODO - Stage mode: stacked hand ( to display it as a stacked hand of cards )
 
 
