@@ -10,7 +10,7 @@ import { AppState } from '@app/core';
 import { selectSlotStyle, selectSlotImage, selectGameConfig, selectExpressionContext } from '@app/game-arena';
 import { assignHandlers, ExpressionContext } from '../../../../resolvers';
 import { GameTemplate } from '../../../../models';
-import { GameBroadcastService } from '../../../../services';
+import { GameBroadcastService } from '../../../../services/game-broadcast/game-broadcast.service';
 
 type HOCProps = {
     store: Store<AppState>;

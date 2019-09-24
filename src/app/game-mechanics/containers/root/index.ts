@@ -7,7 +7,7 @@ import { AppState } from "@app/core";
 import { MainStage } from "../main-stage";
 import { GameState } from "../../models";
 import { selectGameState } from "@app/game-arena";
-import { GameBroadcastService } from "../../services";
+import { GameBroadcastService } from "../../services/game-broadcast/game-broadcast.service";
 
 type Props = {
     store: Store<AppState>;

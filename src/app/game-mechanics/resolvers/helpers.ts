@@ -4,7 +4,7 @@ import {
     ParamedExpressionFunc, SlotHandler, Handler
 } from "../entities";
 import { ExpressionContext } from "./initializers";
-import { GameBroadcastService } from "../services";
+import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
 
 export const evaluate = (src: string, context: any): any => {
     try {
