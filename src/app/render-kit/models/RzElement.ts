@@ -66,8 +66,8 @@ export type RzStyles = {
     fill: number;
     radius: number;
     borderRadius: number;
-    strokeThickness: number;
-    strokeColor: number;
+    stroke_thickness: number;
+    stroke_color: number;
     scale: string; // "xValue yValue"
     color: number;
     blur: number;

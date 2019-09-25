@@ -37,7 +37,7 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
             createElement('rectangle', {
                 styles: {
                     width, height, x: 0, y: 0,
-                    strokeColor: borderColor, strokeThickness: borderSize,
+                    stroke_color: borderColor, stroke_thickness: borderSize,
                     fill: background
                 }
             }),

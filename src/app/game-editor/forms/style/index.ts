@@ -12,11 +12,13 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
 
         <NumberInput name='width' label='Width'>{data.width}</NumberInput>
         <NumberInput name='height' label='Height'>{data.height}</NumberInput>
-        <ColorPicker name='strokeColor' label='Stroke color'>{data.strokeColor}</ColorPicker>
-        <NumberInput name='strokeThickness' label='Stroke thickness'>{data.strokeThickness}</NumberInput>
+        <ColorPicker name='stroke_color' label='Stroke color'>{data.stroke_color}</ColorPicker>
+        <NumberInput name='stroke_thickness' label='Stroke thickness'>{data.stroke_thickness}</NumberInput>
 
-        <NumberInput name='frame' label='Frame' defaultValue='{0}'>{data.frame}</NumberInput>
-        <NumberInput name='rotation' label='Rotate' defaultValue='{0}'>{data.rotation}</NumberInput>
+        <NumberInput name='frame' label='Frame'>{data.frame}</NumberInput>
+        <NumberInput name='rotation' label='Rotate'>{data.rotation}</NumberInput>
+
+        <NumberInput name='opacity' label='Opacity'>{data.opacity}</NumberInput>
 
         <Dropdown name='hidden' label='Hidden' options='{boolean_options}'>{data.hidden}</Dropdown>
 

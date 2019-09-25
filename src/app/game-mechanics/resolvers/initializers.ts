@@ -60,7 +60,7 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
         state, conf, players,
         helpers: composeHelpers(helpers),
         get $self(): Player {
-            return Object.values(players).find(player => player.id === self);
+            return Object.values(players).find(player => player.user === self);
         },
         get $own_turn() {
             return ctx.$self.id === state.active_player;

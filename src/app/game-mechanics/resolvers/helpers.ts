@@ -26,7 +26,7 @@ export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
             (acc, item: Slot) => {
                 if (item.owner === stage.id) {
                     const slot_image: ImageAsset = conf.images[item.image];
-                    acc.push(slot_image.image);
+                    slot_image ? acc.push(slot_image.image) : null;
                 }
                 return acc;
             },
@@ -55,7 +55,16 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
             const innerCallback: ParamedExpressionFunc<Slot> = evaluate(expression.code, context);
             acc[eventName] = () => {
                 const actions: GameAction[] = innerCallback.call(context, payload);
-                dispatcher.dispatch(actions);
+                const enabled = handler.enabled;
+                if (enabled) {
+                    const enabledExpression: Expression = conf.expressions[enabled];
+                    const enabledCallback: ParamedExpressionFunc<Slot> = evaluate(enabledExpression.code, context);
+                    if (enabledCallback.call(context, payload)) {
+                        dispatcher.dispatch(actions);
+                    }
+                } else {
+                    dispatcher.dispatch(actions);
+                }
             };
             return acc;
         },

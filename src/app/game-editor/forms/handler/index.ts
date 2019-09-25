@@ -19,6 +19,8 @@ export const composeHandlerForm: FormDefinition = (data: Handler, ent?: Connecte
         
         <Dropdown name='effect' label='Effect' options='{expression_options}'>{data.effect}</Dropdown>
 
+        <Dropdown name='enabled' label='Enabled' options='{expression_options}'>{data.enabled}</Dropdown>
+
     </Form>
     `;
 

@@ -68,3 +68,15 @@ export const formatGameConfigData = (data: GameTemplate): GameTemplate => {
         return acc;
     }, {}) as GameTemplate;
 };
+
+export const removeEmptyProps = (source: {}) => {
+    const copy = {...source};
+
+    for (let key in source) {
+        const value = source[key];
+        if (value === null || value === '') {
+            delete copy[key];
+        }
+    }
+    return copy;
+};

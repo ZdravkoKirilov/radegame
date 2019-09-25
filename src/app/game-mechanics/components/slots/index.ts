@@ -6,15 +6,16 @@ export type Props = {
     slots: Slot[];
 }
 
-export const SlotsList: RenderFunction<Props> = Memo(({slots}) => {
+export const SlotsList: RenderFunction<Props> = Memo(({ slots }) => {
     const items = slots.map(elem => {
         return createElement<NodeProps>(Node, {
             data: elem, key: elem.id,
         });
     });
+
     return (
         createElement(
-            'container',
+            'collection',
             null,
             items
         )

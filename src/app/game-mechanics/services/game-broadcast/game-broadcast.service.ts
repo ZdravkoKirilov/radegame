@@ -38,7 +38,6 @@ export class GameBroadcastService {
     };
 
     this.socket.onclose = (e: CloseEvent) => {
-      debugger;
     };
 
     this.socket.onerror = (e: ErrorEvent) => {

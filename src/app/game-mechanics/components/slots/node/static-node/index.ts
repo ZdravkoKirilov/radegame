@@ -48,10 +48,9 @@ const StaticNode: RenderFunction<Props> = ({ data, store, dispatcher }, { useSta
         }),
     },
         createElement('rectangle', {
-            button: true,
             styles: {
-                strokeThickness: style.strokeThickness,
-                strokeColor: style.strokeColor,
+                stroke_thickness: style.stroke_thickness,
+                stroke_color: Number(style.stroke_color),
                 x: 0,
                 y: 0,
                 width: style.width + 10,
@@ -60,7 +59,7 @@ const StaticNode: RenderFunction<Props> = ({ data, store, dispatcher }, { useSta
                 radius: style.width
             }
         }),
-        emptySlot && image ? createElement<EmptySlotProps>(EmptySlot, { style, image: image.image, data }) : null,
+        emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, image: image.image, data }) : null,
     ) : null;
 };
 

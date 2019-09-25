@@ -8,6 +8,7 @@ export type Props = {
 }
 
 const EmptySlot: RenderFunction<Props> = ({ style, image, data }) => {
+ 
     return createElement('container', {},
         image ? createElement(DynamicSprite, {
             image, styles: {

@@ -130,7 +130,7 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
         graphic.beginFill(props.styles.fill);
     }
 
-    graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
+    graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
 
     if (styles && !isNaN(Number(styles.borderRadius))) {
         graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.borderRadius);
@@ -182,7 +182,7 @@ const updateLine = (props: LineProps, line: Graphics) => {
     const dash = props.dashGap || 0;
 
     line.clear();
-    line.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
+    line.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha);
 
     line.moveTo(start[0], start[1]);
 
@@ -205,7 +205,7 @@ const updatePolygon = (props: RzElementProps, graphic: Graphics) => {
     const { styles } = props;
 
     graphic.clear();
-    graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha);
+    graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha);
 
     const polygon = points.map(point => {
         return new Point(point[0], point[1]);
@@ -226,7 +226,7 @@ const updateCircle = (comp: PrimitiveCircle) => {
 
     if (styles) {
         graphic.clear();
-        graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
+        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
         graphic.pivot.set((styles.radius) * -1, (styles.radius) * -1);
         graphic.drawCircle(styles.x, styles.y, styles.radius);
 
@@ -244,7 +244,7 @@ const updateEllipse = (comp: PrimitiveEllipse) => {
 
     if (styles) {
         graphic.clear();
-        graphic.lineStyle(styles.strokeThickness, styles.strokeColor, styles.alpha || 1);
+        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
         graphic.pivot.set(-1 * styles.width / 2, -1 * styles.height / 2);
         graphic.drawEllipse(styles.x, styles.y, styles.width, styles.height);
 

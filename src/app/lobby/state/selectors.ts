@@ -105,16 +105,6 @@ export const getFactions = createSelector(
     fromFactionAdapter.selectAll
 );
 
-export const getSetup = createSelector(
-    getSelectedGame,
-    getSelectedLobby,
-    (game, lobby) => {
-        if (game && lobby) {
-            return {}; //game.setups.find(setup => setup.id == lobby.setup);
-        }
-    }
-);
-
 export const playerJoined = createSelector(
     getSelectedLobbyWithPlayers,
     selectUser,
@@ -150,4 +140,14 @@ export const getSelf = createSelector(
 export const getSetups = createSelector(
     selectSubfeature('setups'),
     fromSetupAdapter.selectAll
+);
+
+export const getSetup = createSelector(
+    getSetups,
+    getSelectedLobby,
+    (setups, lobby) => {
+        if (setups && lobby) {
+            return setups.find(setup => setup.id == lobby.setup);
+        }
+    }
 );

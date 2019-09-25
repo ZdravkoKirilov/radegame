@@ -10,6 +10,7 @@ export type Handler = WithState & Partial<{
     type: HandlerType;
 
     effect: number; // Expression -> to filter out actions in runtime
+    enabled: number; // Expression
 }>
 
 export const HANDLER_TYPES = {

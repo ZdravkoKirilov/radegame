@@ -29,7 +29,3 @@ export type SlotItem = WithType & {
     field: number; // foreign key
     token: number; // foreign key
 };
-
-export type RuntimeSlot = Slot & Partial<{
-    runtime_data: Dictionary;
-}>;

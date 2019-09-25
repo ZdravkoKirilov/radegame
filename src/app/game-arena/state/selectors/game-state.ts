@@ -2,10 +2,10 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, evaluate, EntityState } from "@app/game-mechanics";
 import { selectUser } from "@app/core";
 import { selectPlayers } from "./general";
-import { toDictionary } from "@app/shared";
+import { toDictionary, removeEmptyProps } from "@app/shared";
 
 const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
 const selectConfig = createSelector(
@@ -86,19 +86,29 @@ export const selectImageAssets = createSelector(
 
 export const selectSlotStyle = (slot_id: number) => createSelector(
     selectConfig,
-    (config) => {
+    selectExpressionContext,
+    (config, context) => {
         const slot_data = config.slots[slot_id] as Slot;
-        const style = config.styles[slot_data.style] as Style;
+        let style = config.styles[slot_data.style] as Style;
+        if (slot_data.state) {
+            const expression = config.expressions[slot_data.state] as Expression;
+            const callback = evaluate(expression.code, context);
+            const state: EntityState = callback(slot_data);
+            if (state && state.style) {
+                const stateStyle = removeEmptyProps(config.styles[state.style]);
+                style = { ...style, ...stateStyle };
+            }
+        }
         return style;
     }
 );
 
 export const selectSlotImage = (slot_id: number) => createSelector(
     selectConfig,
-    config => {
+    (config) => {
         const slot_data = config.slots[slot_id] as Slot;
-        const image_data = config.images[slot_data.image] as ImageAsset;
-        return image_data;
+        const image_data = config.images[slot_data.image] || {};
+        return image_data as ImageAsset;
     }
 );
 

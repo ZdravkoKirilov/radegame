@@ -11,8 +11,8 @@ export type Props = {
 
 export const Path = (props: Props) => {
     const styles = {
-        strokeThickness: props.selected ? 8 : Number(props.style.strokeThickness),
-        strokeColor: Number(props.style.strokeColor),
+        strokeThickness: props.selected ? 8 : Number(props.style.stroke_thickness),
+        strokeColor: Number(props.style.stroke_color),
         alpha: 1,
     }
 

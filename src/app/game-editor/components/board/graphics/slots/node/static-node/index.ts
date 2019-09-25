@@ -24,8 +24,8 @@ const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
                 createElement('rectangle', {
                     button: true,
                     styles: {
-                        strokeThickness: selected ? 5 : style.strokeThickness,
-                        strokeColor: style.strokeColor,
+                        stroke_thickness: selected ? 5 : style.stroke_thickness,
+                        stroke_color: style.stroke_color,
                         x: 0,
                         y: 0,
                         width: style.width + 10,
