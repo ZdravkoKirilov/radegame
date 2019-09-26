@@ -29,4 +29,4 @@ export type GameState = {
     active_player: number; //
 };
 
-export type GameConfig = GameTemplate & { game: Game }
+export type GameConfig = GameTemplate;

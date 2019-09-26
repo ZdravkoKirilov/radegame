@@ -135,6 +135,12 @@ export const selectActivePlayer = createSelector(
     state => state.active_player,
 );
 
+export const selectActivePlayerData = createSelector(
+    selectPlayers,
+    selectActivePlayer,
+    (players, playerId) => players.find(player => player.id === playerId),
+);
+
 export const selectRounds = createSelector(
     selectSetupData,
     setup => setup.rounds.map(round => round.id),
