@@ -1,10 +1,8 @@
-import { cond } from 'lodash';
-
 import { GameAction, Setup, ActionConfig, ACTION_TYPE } from "../entities";
 import { MutatorAction, ChangeTurn, ChangeRound } from "@app/game-arena";
 import { GameState, GameConfig } from "../models";
 
-type ActionsTransformerPayload = {
+type MultiActionsTransformerPayload = {
     actions: GameAction[];
     state: GameState;
     config: GameConfig;
@@ -18,14 +16,14 @@ type SingleActionTransformerPayload = {
     action_config?: ActionConfig;
 };
 
-type ActionsTransformer = (payload: ActionsTransformerPayload) => MutatorAction[];
+type MultiActionsTransformer = (payload: MultiActionsTransformerPayload) => MutatorAction[];
 type SingleActionTransformer = (payload: SingleActionTransformerPayload) => MutatorAction[];
 
-export const transformToMutators: ActionsTransformer = (payload) => {
+export const transformToMutators: MultiActionsTransformer = (payload) => {
     return reduceMutators(payload);
 };
 
-const reduceMutators: ActionsTransformer = ({ actions, state, config }) => {
+const reduceMutators: MultiActionsTransformer = ({ actions, state, config }) => {
     return actions.reduce((total, action) => {
         const nextActions = reduceMutatorsForAction({ action, state, config });
         total = [...total, ...nextActions];
