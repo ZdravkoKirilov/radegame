@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { SmartBase } from '../../mixins';
+import { ALL_ENTITIES} from '@app/game-mechanics';
 import { AppState } from '@app/core';
-import { formKeys, FormKey } from '../../state';
+
 import { composeExpressionForm } from '../../forms';
 
 @Component({
@@ -28,7 +29,7 @@ import { composeExpressionForm } from '../../forms';
 export class ExpressionsContainerComponent extends SmartBase {
 
   formDefinition = composeExpressionForm;
-  readonly key = formKeys.expressions ;
+  readonly key = ALL_ENTITIES.expressions ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

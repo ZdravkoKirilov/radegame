@@ -4,7 +4,8 @@ import { Store } from '@ngrx/store';
 import { SmartBase } from 'app/game-editor/mixins';
 import { AppState } from '@app/core';
 import { composeTeamForm } from '../../forms';
-import { formKeys, FormKey } from '../../state';
+import { ALL_ENTITIES } from '@app/game-mechanics';
+
 
 @Component({
   selector: 'rg-teams-container',
@@ -28,7 +29,7 @@ import { formKeys, FormKey } from '../../state';
 export class TeamsContainerComponent extends SmartBase {
 
   formDefinition = composeTeamForm;
-  readonly key = formKeys.teams ;
+  readonly key = ALL_ENTITIES.teams ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

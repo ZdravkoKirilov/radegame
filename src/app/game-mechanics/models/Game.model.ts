@@ -1,8 +1,7 @@
-import { Team, Faction, Slot } from '../entities';
-import { Dictionary } from '@app/shared';
+import { Slot, GameEntityList, ALL_ENTITIES } from '../entities';
+import { Dictionary, WithKeysAs, Omit } from '@app/shared';
 
 import { WithBoard } from '../entities';
-import { GameTemplate } from './GameTemplate.model';
 
 export type Game = WithBoard & Partial<{
     id: number;
@@ -28,5 +27,7 @@ export type GameState = {
     phase: number; //
     active_player: number; //
 };
+
+export type GameTemplate = Omit<WithKeysAs<typeof ALL_ENTITIES, GameEntityList>, 'games'>;
 
 export type GameConfig = GameTemplate;

@@ -1,10 +1,9 @@
 import { ActionReducer, combineReducers } from '@ngrx/store';
 import produce from 'immer';
 
-import { FormKey, formKeys } from '../form-keys';
 import { actionTypes, FILL_FORM } from '../actions/actionTypes';
 
-import { GameEntity, GameEntityList } from '@app/game-mechanics';
+import { GameEntity, GameEntityList, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
 import { EditorGenericAction, EditorAction, FillFormAction } from '../actions';
 import { Dictionary } from '@app/shared';
 import { GameEditorFeature } from './main.reducer';
@@ -27,7 +26,7 @@ const entityFeatureState: EntityFeature = {
     selectedEntity: null,
 }
 
-export const createEntityReducer = (allowedKey: FormKey | string): ActionReducer<EntityFeature> => {
+export const createEntityReducer = (allowedKey: AllEntity | string): ActionReducer<EntityFeature> => {
     const entityReducer = (
         state: EntityFeature = { ...entityFeatureState },
         action: EditorGenericAction): EntityFeature => {
@@ -73,28 +72,29 @@ export const createEntityReducer = (allowedKey: FormKey | string): ActionReducer
 }
 
 export const formReducer: ActionReducer<any> = combineReducers({
-    factions: createEntityReducer(formKeys.factions),
-    tokens: createEntityReducer(formKeys.tokens),
-    fields: createEntityReducer(formKeys.fields),
-    slots: createEntityReducer(formKeys.slots),
-    paths: createEntityReducer(formKeys.paths),
-    actions: createEntityReducer(formKeys.actions),
-    conditions: createEntityReducer(formKeys.conditions),
-    rounds: createEntityReducer(formKeys.rounds),
-    phases: createEntityReducer(formKeys.phases),
-    choices: createEntityReducer(formKeys.choices),
-    stages: createEntityReducer(formKeys.stages),
-    games: createEntityReducer(formKeys.games),
-    teams: createEntityReducer(formKeys.teams),
-    images: createEntityReducer(formKeys.images),
-    keywords: createEntityReducer(formKeys.keywords),
-    styles: createEntityReducer(formKeys.styles),
-    sounds: createEntityReducer(formKeys.sounds),
-    states: createEntityReducer(formKeys.states),
-    expressions: createEntityReducer(formKeys.expressions),
-    animations: createEntityReducer(formKeys.animations),
-    handlers: createEntityReducer(formKeys.handlers),
-    setups: createEntityReducer(formKeys.setups),
+    factions: createEntityReducer(ALL_ENTITIES.factions),
+    tokens: createEntityReducer(ALL_ENTITIES.tokens),
+    fields: createEntityReducer(ALL_ENTITIES.fields),
+    slots: createEntityReducer(ALL_ENTITIES.slots),
+    paths: createEntityReducer(ALL_ENTITIES.paths),
+    actions: createEntityReducer(ALL_ENTITIES.actions),
+    conditions: createEntityReducer(ALL_ENTITIES.conditions),
+    rounds: createEntityReducer(ALL_ENTITIES.rounds),
+    phases: createEntityReducer(ALL_ENTITIES.phases),
+    choices: createEntityReducer(ALL_ENTITIES.choices),
+    stages: createEntityReducer(ALL_ENTITIES.stages),
+    games: createEntityReducer(ALL_ENTITIES.games),
+    teams: createEntityReducer(ALL_ENTITIES.teams),
+    images: createEntityReducer(ALL_ENTITIES.images),
+    keywords: createEntityReducer(ALL_ENTITIES.keywords),
+    styles: createEntityReducer(ALL_ENTITIES.styles),
+    sounds: createEntityReducer(ALL_ENTITIES.sounds),
+    states: createEntityReducer(ALL_ENTITIES.states),
+    expressions: createEntityReducer(ALL_ENTITIES.expressions),
+    animations: createEntityReducer(ALL_ENTITIES.animations),
+    handlers: createEntityReducer(ALL_ENTITIES.handlers),
+    setups: createEntityReducer(ALL_ENTITIES.setups),
+    transitions: createEntityReducer(ALL_ENTITIES.transitions),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>) {

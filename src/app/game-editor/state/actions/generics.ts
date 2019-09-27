@@ -1,11 +1,10 @@
 import { Action } from '@ngrx/store';
 
-import { GameEntity, GameEntityList, GameTemplate } from '@app/game-mechanics';
+import { GameEntity, GameEntityList, GameTemplate, AllEntity } from '@app/game-mechanics';
 import { actionTypes } from './actionTypes';
-import { FormKey } from '../form-keys';
 
 export interface GenericActionPayload {
-    key: FormKey;
+    key: AllEntity;
     data?: GameEntity | GameEntityList | GameTemplate | boolean | number;
 }
 

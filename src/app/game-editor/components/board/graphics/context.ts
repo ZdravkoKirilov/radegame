@@ -1,5 +1,5 @@
 import { createContext } from "@app/render-kit";
-import { GameEntitiesDict } from "@app/game-mechanics";
+import { GameEntitiesDict } from "../../../state";
 
 export const MainContext = createContext<MainContextProps>();
 

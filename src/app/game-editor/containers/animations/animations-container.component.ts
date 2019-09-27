@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { composeAnimationForm } from '../../forms';
-import { formKeys, FormKey } from '../../state';
+
 import { SmartBase } from '../../mixins';
+import { ALL_ENTITIES} from '@app/game-mechanics';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 
@@ -27,7 +28,7 @@ import { AppState } from '@app/core';
 export class AnimationsContainerComponent extends SmartBase {
 
   formDefinition = composeAnimationForm;
-  readonly key = formKeys.animations ;
+  readonly key = ALL_ENTITIES.animations ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

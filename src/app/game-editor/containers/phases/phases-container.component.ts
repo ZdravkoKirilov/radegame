@@ -2,9 +2,10 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { SmartBase } from '../../mixins';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
 import { AppState } from '@app/core';
 import { composePhaseForm } from '../../forms/phase';
-import { formKeys, FormKey } from '../../state';
+
 
 @Component({
   selector: 'rg-phases-container',
@@ -27,7 +28,7 @@ import { formKeys, FormKey } from '../../state';
 })
 export class PhasesContainerComponent extends SmartBase {
   formDefinition = composePhaseForm;
-  readonly key = formKeys.phases ;
+  readonly key = ALL_ENTITIES.phases ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

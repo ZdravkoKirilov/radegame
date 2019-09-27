@@ -5,7 +5,8 @@ import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeStageForm } from '../../forms';
 import { SmartBase } from '../../mixins';
-import { formKeys, FormKey } from '../../state';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
+
 
 @Component({
     selector: 'rg-stages-container',
@@ -15,7 +16,7 @@ import { formKeys, FormKey } from '../../state';
 export class StagesContainerComponent extends SmartBase {
 
     public formDefinition: FormDefinition = composeStageForm;
-    public readonly key: FormKey = formKeys.stages ;
+    public readonly key: AllEntity = ALL_ENTITIES.stages ;
 
     constructor(public store: Store<AppState>) {
         super(store);

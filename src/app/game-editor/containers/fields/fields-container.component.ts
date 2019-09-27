@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { SmartBase } from '../../mixins';
+import {  ALL_ENTITIES} from '@app/game-mechanics';
 import { composeFieldForm } from '../../forms';
-import { formKeys, FormKey } from '../../state';
+
 
 @Component({
   selector: 'rg-fields-container',
@@ -27,7 +28,7 @@ import { formKeys, FormKey } from '../../state';
 export class FieldsContainerComponent extends SmartBase {
 
   formDefinition = composeFieldForm;
-  readonly key = formKeys.fields ;
+  readonly key = ALL_ENTITIES.fields ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

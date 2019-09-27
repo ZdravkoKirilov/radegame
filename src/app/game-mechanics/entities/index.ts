@@ -21,6 +21,7 @@ export * from './Sound.model';
 export * from './Expression.model';
 export * from './Animation.model';
 export * from './Handler.model';
+export * from './Transition.model';
 
 export * from './types';
 
@@ -47,20 +48,13 @@ import { EntityState } from './State.model';
 import { Expression } from './Expression.model';
 import { Handler } from './Handler.model';
 import { Animation } from './Animation.model';
+import { Transition } from './Transition.model';
 
 export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
     Round | Choice | Stage | Field | Faction | Token | Team | Phase |
     Setup | ImageAsset | Keyword | Style | Sound | EntityState | Expression
-    | Handler | Animation;
+    | Handler | Animation | Transition;
 
 export type GameEntityList = Dictionary<GameEntity>;
 
 export * from './types';
-
-export type GameEntitiesDict = {
-    images: Dictionary<ImageAsset>;
-    slots: Dictionary<Slot>;
-    paths: Dictionary<PathEntity>;
-    styles: Dictionary<Style>;
-    stages: Dictionary<Stage>;
-}

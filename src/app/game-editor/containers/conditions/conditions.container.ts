@@ -5,7 +5,8 @@ import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeConditionForm } from '../../forms';
 import { SmartBase } from '../../mixins';
-import { formKeys, FormKey } from '../../state';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
+
 
 @Component({
     selector: 'rg-conditions-container',
@@ -15,7 +16,7 @@ import { formKeys, FormKey } from '../../state';
 export class ConditionsContainerComponent extends SmartBase {
 
     public formDefinition: FormDefinition = composeConditionForm;
-    public readonly key: FormKey = formKeys.conditions ;
+    public readonly key: AllEntity = ALL_ENTITIES.conditions ;
 
     constructor(public store: Store<AppState> ) {
         super(store);

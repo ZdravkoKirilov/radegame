@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 
 import { SmartBase } from '../../mixins';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
 import { AppState } from '@app/core';
-import { formKeys, FormKey } from '../../state';
+
 import { composeStateForm } from '../../forms';
 
 @Component({
@@ -28,7 +29,7 @@ import { composeStateForm } from '../../forms';
 export class StatesContainerComponent extends SmartBase {
 
   formDefinition = composeStateForm;
-  readonly key = formKeys.states ;
+  readonly key = ALL_ENTITIES.states ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

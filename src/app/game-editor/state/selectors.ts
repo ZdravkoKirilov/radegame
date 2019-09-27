@@ -2,10 +2,9 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { values } from 'lodash';
 
 import { FEATURE_NAME } from '../utils/config';
-import { GameEditorFeature } from './reducers';
-import { FormKey, formKeys } from './form-keys';
+import { GameEditorFeature, GameEntitiesDict } from './reducers';
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Stage, Game, GameEntity, GameEntitiesDict } from '@app/game-mechanics';
+import { Stage, Game, GameEntity, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, selectGameId, Dictionary } from '@app/shared';
 
 const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
@@ -15,12 +14,12 @@ export const selectForm = createSelector(
     feature => feature.form
 );
 
-export const getItemById = (key: FormKey, id: number) => createSelector(
+export const getItemById = (key: AllEntity, id: number) => createSelector(
     selectForm,
     form => form[key].items[id],
 );
 
-export const getItems = <T = GameEntity>(key: FormKey | string) => createSelector(
+export const getItems = <T = GameEntity>(key: AllEntity | string) => createSelector(
     selectForm,
     form => form[key] && form[key].items ? values(form[key].items as Dictionary<T>) : null,
 );
@@ -34,7 +33,7 @@ export const selectStageId = createSelector(
 
 export const getActiveStage = createSelector(
     selectStageId,
-    getItems<Stage>(formKeys.stages),
+    getItems<Stage>(ALL_ENTITIES.stages),
     (stageId, stages) => {
         return stages && stages.find(elem => elem.id === stageId) as Stage;
     }
@@ -75,12 +74,12 @@ export const getEntitiesDict = createSelector(
     }
 );
 
-export const getEditorState = (key: FormKey) => createSelector(
+export const getEditorState = (key: AllEntity) => createSelector(
     selectFeature,
     feature => feature.form[key].showEditor
 );
 
-export const getSelectedEntity = (key: FormKey) => createSelector(
+export const getSelectedEntity = (key: AllEntity) => createSelector(
     selectFeature,
     feature => feature.form[key].selectedEntity
 );

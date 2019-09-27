@@ -5,9 +5,9 @@ import { map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
-import { GameEntity } from '@app/game-mechanics';
+import { GameEntity, AllEntity } from '@app/game-mechanics';
 import {
-    SaveItemAction, DeleteItemAction, FormKey, getItems, getEntities, getEditorState, getSelectedEntity, ChangeSelectedItemAction, ToggleEditorAction
+    SaveItemAction, DeleteItemAction, getItems, getEntities, getEditorState, getSelectedEntity, ChangeSelectedItemAction, ToggleEditorAction
 } from '../state';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
 @AutoUnsubscribe()
@@ -15,7 +15,7 @@ export abstract class SmartBase implements OnInit {
 
     @ViewChild('template', { static: false }) template: TemplateRef<any>;
 
-    abstract key: FormKey;
+    abstract key: AllEntity;
 
     gameId$: Subscription;
     formDefinition: FormDefinition;

@@ -5,7 +5,8 @@ import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeActivityForm } from '../../forms';
 import { SmartBase } from '../../mixins';
-import { formKeys, FormKey } from '../../state';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
+
 
 @Component({
     selector: 'rg-actions-container',
@@ -17,7 +18,7 @@ export class ActionsContainerComponent extends SmartBase {
     @HostBinding('class.block') hostClass = true;
 
     formDefinition: FormDefinition = composeActivityForm;
-    key: FormKey = formKeys.actions ;
+    key: AllEntity = ALL_ENTITIES.actions ;
 
     constructor(public store: Store<AppState>) {
         super(store);

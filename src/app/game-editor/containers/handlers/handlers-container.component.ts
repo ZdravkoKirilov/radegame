@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { composeHandlerForm } from '../../forms';
-import { formKeys, FormKey } from '../../state';
+
 import { SmartBase } from '../../mixins';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 
@@ -27,7 +28,7 @@ import { AppState } from '@app/core';
 export class HandlersContainerComponent extends SmartBase {
 
   formDefinition = composeHandlerForm;
-  readonly key = formKeys.handlers ;
+  readonly key = ALL_ENTITIES.handlers ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

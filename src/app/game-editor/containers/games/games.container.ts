@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
-import { map, filter, take } from 'rxjs/operators';
+import { map, filter } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { selectUser } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeGameForm } from '../../forms';
-import { formKeys, FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities, FormKey } from '../../state';
+import { FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities } from '../../state';
 import { SmartBase } from '../../mixins';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
 import { AutoUnsubscribe } from '@app/shared';
 
 @Component({
@@ -19,7 +20,7 @@ import { AutoUnsubscribe } from '@app/shared';
 @AutoUnsubscribe()
 export class GamesContainerComponent extends SmartBase implements OnInit {
 
-    readonly key = formKeys.games ;
+    readonly key = ALL_ENTITIES.games ;
     private user$: Subscription;
 
     showEditor$: Observable<boolean>;
@@ -50,11 +51,11 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
                 if (!this.hasLoadedDependencies) {
                     games.forEach(elem => {
                         this.store.dispatch(new FetchItemsAction({
-                            key: formKeys.conditions as FormKey,
+                            key: ALL_ENTITIES.conditions as AllEntity,
                             data: elem.id
                         }));
                         this.store.dispatch(new FetchItemsAction({
-                            key: formKeys.images as FormKey,
+                            key: ALL_ENTITIES.images as AllEntity,
                             data: elem.id
                         }));
                     });

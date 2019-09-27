@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { SmartBase } from '../../mixins';
+import { ALL_ENTITIES} from '@app/game-mechanics';
 import { composeTokenForm } from '../../forms';
-import { formKeys, FormKey } from '../../state';
+
 
 @Component({
   selector: 'rg-tokens-container',
@@ -27,7 +28,7 @@ import { formKeys, FormKey } from '../../state';
 export class TokensContainerComponent extends SmartBase {
 
   formDefinition = composeTokenForm;
-  readonly key = formKeys.tokens ;
+  readonly key = ALL_ENTITIES.tokens ;
 
   constructor(public store: Store<AppState>) { super(store) }
 

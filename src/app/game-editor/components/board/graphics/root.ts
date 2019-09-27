@@ -1,6 +1,6 @@
 import { combineLatest, Subscription } from "rxjs";
 import { Store, select } from "@ngrx/store";
-import { map, filter } from "rxjs/operators";
+import { map } from "rxjs/operators";
 
 import {
     StatefulComponent, createElement, PrimitiveContainer,
@@ -10,10 +10,10 @@ import {
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
 import Background, { Props as BGProps } from './background';
-import { Slot, PathEntity, Stage, GameEntity, GameEntitiesDict } from "@app/game-mechanics";
+import { Slot, PathEntity, Stage, GameEntity, ALL_ENTITIES, AllEntity } from "@app/game-mechanics";
 import { MainContext } from "./context";
 import { AppState } from "@app/core";
-import { formKeys, getActiveStage, SaveItemAction, FormKey, getEntitiesDict, getItems } from "../../../state";
+import { getActiveStage, SaveItemAction, getEntitiesDict, getItems, GameEntitiesDict } from "../../../state";
 import { selectGameId } from "@app/shared";
 
 export type Props = {
@@ -49,8 +49,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
             this.props.store.pipe(select(getActiveStage)),
             this.props.store.pipe(select(selectGameId)),
             this.props.store.pipe(select(getEntitiesDict)),
-            this.props.store.pipe(select(getItems<Slot>(formKeys.slots))),
-            this.props.store.pipe(select(getItems<PathEntity>(formKeys.paths))),
+            this.props.store.pipe(select(getItems<Slot>(ALL_ENTITIES.slots))),
+            this.props.store.pipe(select(getItems<PathEntity>(ALL_ENTITIES.paths))),
         ).pipe(
             map(([stage, gameId, entities, slots, paths]) => {
                 this.setState({
@@ -122,7 +122,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
         this.props.selectSlot(null);
 
         this.props.store.dispatch(new SaveItemAction({
-            key: formKeys.slots as FormKey,
+            key: ALL_ENTITIES.slots as AllEntity,
             data: slot as GameEntity,
         }));
     }

@@ -5,11 +5,10 @@ import { combineLatest, Observable } from 'rxjs';
 
 import { AppState } from '@app/core';
 import {
-	getActiveStage, getItems, formKeys, getEntities, SaveItemAction,
+	getActiveStage, getItems, getEntities, SaveItemAction,
 	DeleteItemAction,
-	FormKey
 } from '../../state';
-import { Stage, Slot, PathEntity, ImageAsset, GameEntity } from '@app/game-mechanics';
+import { Stage, Slot, PathEntity, ImageAsset, GameEntity, ALL_ENTITIES, AllEntity } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId } from '@app/shared';
 
@@ -46,11 +45,11 @@ export class BoardContainerComponent {
 		images: ImageAsset[],
 	}> = combineLatest<any>(
 		this.store.pipe(select(getActiveStage)),
-		this.store.pipe(select(getItems<Slot>(formKeys.slots))),
-		this.store.pipe(select(getItems<PathEntity>(formKeys.paths))),
+		this.store.pipe(select(getItems<Slot>(ALL_ENTITIES.slots))),
+		this.store.pipe(select(getItems<PathEntity>(ALL_ENTITIES.paths))),
 		this.store.pipe(select(getEntities)),
 		this.store.pipe(select(selectGameId)),
-		this.store.pipe(select(getItems<ImageAsset>(formKeys.images))),
+		this.store.pipe(select(getItems<ImageAsset>(ALL_ENTITIES.images))),
 	).pipe(
 		filter(data => data.every(elem => !!elem)),
 		map(([stage, slots, paths, entities, gameId, images]) => {
@@ -60,28 +59,28 @@ export class BoardContainerComponent {
 
 	savePath = (path: PathEntity) => {
 		this.store.dispatch(new SaveItemAction({
-			key: formKeys.paths as FormKey,
+			key: ALL_ENTITIES.paths as AllEntity,
 			data: path as GameEntity,
 		}));
 	}
 
 	saveSlot = (slot: Slot) => {
 		this.store.dispatch(new SaveItemAction({
-			key: formKeys.slots as FormKey,
+			key: ALL_ENTITIES.slots as AllEntity,
 			data: slot as GameEntity,
 		}));
 	}
 
 	deletePath = (path: PathEntity) => {
 		this.store.dispatch(new DeleteItemAction({
-			key: formKeys.paths as FormKey,
+			key: ALL_ENTITIES.paths as AllEntity,
 			data: path as GameEntity,
 		}));
 	}
 
 	deleteSlot = (slot: Slot) => {
 		this.store.dispatch(new DeleteItemAction({
-			key: formKeys.slots as FormKey,
+			key: ALL_ENTITIES.slots as AllEntity,
 			data: slot as GameEntity,
 		}));
 	}

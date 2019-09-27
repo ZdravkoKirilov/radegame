@@ -3,8 +3,8 @@ import { Store } from '@ngrx/store';
 
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeImageForm } from '../../forms';
-import { FormKey, formKeys } from '../../state';
 import { SmartBase } from '../../mixins';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
 import { AppState } from '@app/core';
 
 @Component({
@@ -16,7 +16,7 @@ export class ImageAssetContainerComponent extends SmartBase {
 
   formDefinition: FormDefinition = composeImageForm;
 
-  public readonly key: FormKey = formKeys.images ;
+  public readonly key: AllEntity = ALL_ENTITIES.images ;
 
   constructor(public store: Store<AppState>) { super(store); }
 

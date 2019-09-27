@@ -2,8 +2,9 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { SmartBase } from '../../mixins';
+import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
 import { composeSoundForm } from '../../forms';
-import { formKeys, FormKey } from '../../state';
+
 
 @Component({
   selector: 'rg-sounds-container',
@@ -27,7 +28,7 @@ import { formKeys, FormKey } from '../../state';
 export class SoundsContainerComponent extends SmartBase {
 
   formDefinition = composeSoundForm;
-  readonly key = formKeys.sounds ;
+  readonly key = ALL_ENTITIES.sounds ;
 
   constructor(public store: Store<AppState>) { super(store) }
 
