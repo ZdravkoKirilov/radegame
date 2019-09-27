@@ -7,7 +7,7 @@ import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Field, Condition, Round, Team, Handler,
     Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, EntityState, Style, Keyword, Setup,
-    AllEntity, ALL_ENTITIES, Transition,
+    AllEntity, ALL_ENTITIES, Transition, Animation
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
 import {
@@ -192,7 +192,7 @@ export class GenericEffectsService {
             case ALL_ENTITIES.expressions:
                 return this.api.saveExpression(entity);
             case ALL_ENTITIES.animations:
-                return this.api.saveAnimation(entity);
+                return this.api.saveAnimation(<Animation>entity);
             case ALL_ENTITIES.handlers:
                 return this.api.saveHandler(<Handler>entity);
             case ALL_ENTITIES.setups:
@@ -248,7 +248,7 @@ export class GenericEffectsService {
             case ALL_ENTITIES.expressions:
                 return this.api.deleteExpression(entity);
             case ALL_ENTITIES.animations:
-                return this.api.deleteAnimation(entity);
+                return this.api.deleteAnimation(<Animation>entity);
             case ALL_ENTITIES.handlers:
                 return this.api.deleteHandler(<Handler>entity);
             case ALL_ENTITIES.setups:

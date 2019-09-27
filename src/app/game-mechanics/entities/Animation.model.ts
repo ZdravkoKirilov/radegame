@@ -5,14 +5,30 @@ export type Animation = Partial<{
     name: string;
     description: string;
 
-    from_style: number; // Style
-    to_style: number; // Style
+    type: AnimationPlayType;
+    steps: AnimationStep[];
 }>
 
+export type AnimationStep = Partial<{
+    id: number;
+    owner: number;
 
+    from_style: number; // Style
+    to_style: number; // Style
 
-export const EASING_CONFIG = {
+    easing: string;
+    delay: number;
+}>
+
+export const ANIMATION_PLAY_TYPE = {
+    SEQUENCE: 'SEQUENCE',
+    PARALLEL: 'PARALLEL',
+} as const;
+
+export type AnimationPlayType = keyof typeof ANIMATION_PLAY_TYPE;
+
+export const ANIMATION_EASING = {
     LINEAR: 'LINEAR',
 };
 
-export type EasingConfig = keyof typeof EASING_CONFIG;
+export type AnimationEasing = keyof typeof ANIMATION_EASING;

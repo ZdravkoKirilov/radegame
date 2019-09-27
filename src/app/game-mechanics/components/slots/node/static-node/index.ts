@@ -46,6 +46,7 @@ const StaticNode: RenderFunction<Props> = ({ data, store, dispatcher }, { useSta
             handlers: data.handlers,
             conf,
         }),
+        button: true,
     },
         createElement('rectangle', {
             styles: {

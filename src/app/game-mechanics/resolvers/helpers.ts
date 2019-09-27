@@ -49,7 +49,7 @@ type HandlerParams<T> = {
 export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, context }: HandlerParams<T>) => {
     const all_handlers = handlers.reduce(
         (acc, elem) => {
-            const handler: Handler = conf.handlers[elem.handler];
+            const handler = conf.handlers[elem.handler] as Handler;
             const eventName = event_name_map[handler.type];
             const expression: Expression = conf.expressions[handler.effect];
             const innerCallback: ParamedExpressionFunc<Slot> = evaluate(expression.code, context);
