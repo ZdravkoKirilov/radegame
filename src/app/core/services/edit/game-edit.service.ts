@@ -14,7 +14,7 @@ import {
     Choice,
     Stage,
     Token,
-    Phase, Animation, Handler, Team, ImageAsset, Keyword, Style, Sound, EntityState, Expression, Setup,
+    Phase, Animation, Handler, Team, ImageAsset, Keyword, Style, Sound, EntityState, Expression, Setup, Transition,
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../../config';
@@ -36,6 +36,18 @@ export class GameEditService {
 
     deleteMapPath(data: PathEntity): Observable<any> {
         return this.http.delete(API_URLS.PATHS(data.game, data.id));
+    }
+
+    saveTransition(data: Transition): Observable<any> {
+        if (data.id) {
+            return this.http.patch(API_URLS.TRANSITIONS(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.TRANSITIONS(data.game), data);
+        }
+    }
+
+    deleteTransition(data: Transition): Observable<any> {
+        return this.http.delete(API_URLS.TRANSITIONS(data.game, data.id));
     }
 
     saveFaction(data: Faction): Observable<any> {

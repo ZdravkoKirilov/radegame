@@ -102,6 +102,10 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/states/`;
         return itemId ? `${base}${itemId}/` : base;
     },
+    TRANSITIONS: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/transitions/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
     EXPRESSIONS: (gameId: number, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/expressions/`;
         return itemId ? `${base}${itemId}/` : base;

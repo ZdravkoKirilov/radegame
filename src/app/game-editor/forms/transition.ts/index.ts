@@ -2,10 +2,10 @@ import {
     BaseControl,
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
-import { Animation } from '@app/game-mechanics';
+import { Transition } from '@app/game-mechanics';
 import { composeCommonFormContext } from '../helpers';
 
-export const composeAnimationForm: FormDefinition = (data: Animation, ent?: ConnectedEntities) => {
+export const composeTransitionForm: FormDefinition = (data: Transition, ent?: ConnectedEntities) => {
     data = data || {};
 
     const template = `
@@ -13,9 +13,10 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
         <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
         <TextInput name='description' label='Description'>{data.description}</TextInput>
 
-        <Dropdown name='from_style' label='Starting style' options='{style_options}' showImage='{true}'>{data.from_style}</Dropdown>
+        <TextInput name='trigger' label='Trigger' required='{true}'>{data.trigger}</TextInput>
 
-        <Dropdown name='to_style' label='Target style' options='{style_options}' showImage='{true}'>{data.to_style}</Dropdown>
+        <Dropdown name='sound' label='Sound' options='{sound_options}'>{data.sound}</Dropdown>
+        <Dropdown name='animation' label='Animation' options='{animation_options}'>{data.animation}</Dropdown>
 
     </Form>
     `;

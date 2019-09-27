@@ -142,6 +142,7 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
     handler_options: composeEntityOptions(ent, 'handlers'),
     round_options: composeEntityOptions(ent, 'rounds'),
     phase_options: composeEntityOptions(ent, 'phases'),
+    transition_options: composeEntityOptions(ent, 'transitions'),
 
     boolean_options: composeBooleanOptions(),
     entity_types: composeFromObject(INTERACTIVE_ENTITY),

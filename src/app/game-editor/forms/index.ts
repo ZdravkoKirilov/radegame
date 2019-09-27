@@ -20,3 +20,4 @@ export * from './expression';
 export * from './animation';
 export * from './handler';
 export * from './setup';
+export * from './transition.ts';
