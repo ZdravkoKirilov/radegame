@@ -1,5 +1,4 @@
 import { BaseModel, WithBoard, WithStyle, WithType, WithState, WithImage } from "./Base.model";
-import { Dictionary } from "@app/shared";
 
 export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & Partial<{
     owner: number; // Stage;
@@ -14,6 +13,7 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & P
     populate_by: number;
 
     handlers: SlotHandler[];
+    transitions: number;
 }>;
 
 export type SlotHandler = {

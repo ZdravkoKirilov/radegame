@@ -18,6 +18,7 @@ export type AnimationStep = Partial<{
 
     easing: string;
     delay: number;
+    duration: number;
 }>
 
 export const ANIMATION_PLAY_TYPE = {

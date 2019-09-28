@@ -1,4 +1,4 @@
-import { createElement, PrimitiveContainer, Points, Memo } from "@app/render-kit";
+import { createElement, Memo } from "@app/render-kit";
 import { Slot } from "@app/game-mechanics";
 import StaticNode, { Props as StaticNodeProps } from './static-node';
 

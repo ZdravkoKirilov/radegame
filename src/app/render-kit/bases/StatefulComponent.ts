@@ -27,7 +27,10 @@ export class StatefulComponent<P = {}, S = {}> {
             this.state = next as S;
             updateComponent(this, this.render());
             if ('didUpdate' in this) {
-                this.didUpdate({ state: { prev: current, next } });
+                this.didUpdate({
+                    prev: { state: current, props: this.props },
+                    next: { state: next, props: this.props },
+                });
             }
         } else {
             this.state = next as S;
@@ -45,7 +48,10 @@ export class StatefulComponent<P = {}, S = {}> {
             this.props = next;
             updateComponent(this, this.render());
             if ('didUpdate' in this) {
-                this.didUpdate({ props: { prev: current, next } });
+                this.didUpdate({
+                    prev: { state: this.state, props: current },
+                    next: { state: this.state, props: next },
+                });
             }
         } else {
             this.props = next;

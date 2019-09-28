@@ -6,6 +6,7 @@ export type Transition = Partial<{
     description: string;
 
     trigger: string; // DSL style
+    prop: string; // the trigger watches this prop
 
     animation: number; // Animation
     sound: number; // Sound

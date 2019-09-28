@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 import { Component, DidUpdatePayload } from "../models";
 import { evaluate } from "@app/dynamic-forms";
 
@@ -9,42 +11,52 @@ const SPECIALS = {
     BIDIRECTIONAL: '<=>',
 };
 
-export const shouldTransition = (transition: string, prop: string, payload: DidUpdatePayload) => {
-    const props = prop.split('.');
-    const prev = payload[props[0]].prev[props[1]];
-    const next = payload[props[0]].next[props[1]];
+export const shouldTransition = (transition: string, prop: string, payload?: DidUpdatePayload, isEntering = false, isLeaving = false) => {
+    const prev = payload.prev;
+    const next = payload.next;
+    const nextValue = get(next, prop);
+    const prevValue = get(prev, prop);
+
+    if (transition === SPECIALS.ENTER && isEntering) {
+        return true;
+    }
+
+    if (transition === SPECIALS.LEAVE && isLeaving) {
+        return true;
+    }
 
     if (transition === SPECIALS.WILDCARD) {
-        return prev !== next;
-    } else {
-        const asArray = transition.split(' ').filter(elem => !!elem).map(elem => elem.trim());
-        const isForwards = asArray[1] === SPECIALS.FORWARDS;
-        const first = asArray[0];
-        const last = asArray[2];
-        let firstMatches: boolean;
-        let lastMatches: boolean;
-
-        if (isForwards) {
-            firstMatches = first === SPECIALS.WILDCARD || first === prev;
-            lastMatches = last === SPECIALS.WILDCARD || last === next;
-        } else {
-            firstMatches = first === SPECIALS.WILDCARD || first === prev || first === next;
-            lastMatches = last === SPECIALS.WILDCARD || last === next || last === prev;
-        }
-
-        return firstMatches && lastMatches;
+        return get(prev, prop) !== get(next, prop);
     }
+
+    const transitionArguments = transition.split(' ').filter(elem => !!elem).map(elem => elem.trim());
+    const isForwards = transitionArguments[1] === SPECIALS.FORWARDS;
+    const firstArg = transitionArguments[0];
+    const lastArg = transitionArguments[2];
+    let firstMatches: boolean;
+    let lastMatches: boolean;
+
+    if (isForwards) {
+        firstMatches = firstArg === SPECIALS.WILDCARD || firstArg === prevValue;
+        lastMatches = lastArg === SPECIALS.WILDCARD || lastArg === nextValue;
+    } else {
+        firstMatches = firstArg === SPECIALS.WILDCARD || firstArg === prevValue || firstArg === nextValue;
+        lastMatches = lastArg === SPECIALS.WILDCARD || nextValue || prevValue;
+    }
+
+    return firstMatches && lastMatches;
+
 };
 
 export const extractTransitionValues = (
     prop: string,
     payload: DidUpdatePayload
 ) => {
-    const props = prop.split('.');
-    const prev = payload[props[0]].prev[props[1]];
-    const next = payload[props[0]].next[props[1]];
+    // const props = prop.split('.');
+    // const prev = payload[props[0]].prev[props[1]];
+    // const next = payload[props[0]].next[props[1]];
 
-    return [prev, next];
+    return [1, 2];
 };
 
 const isSpecialValue = (value: string | number) => {

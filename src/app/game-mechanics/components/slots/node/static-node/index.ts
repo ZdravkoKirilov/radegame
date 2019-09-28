@@ -2,7 +2,7 @@ import { compose } from 'lodash/fp';
 import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
-import { RenderFunction, createElement, Memo } from "@app/render-kit";
+import { RenderFunction, createElement, Memo, RzStyles } from "@app/render-kit";
 import EmptySlot, { Props as EmptySlotProps } from "../empty-slot";
 import { Slot, Style, ImageAsset } from '../../../../entities';
 import { withStore, withDispatcher } from '../../../../hocs';
@@ -19,6 +19,7 @@ type HOCProps = {
 
 export type Props = Partial<HOCProps> & {
     data: Slot;
+    interpolatedStyle?: Partial<RzStyles>;
 };
 
 const StaticNode: RenderFunction<Props> = ({ data, store, dispatcher }, { useState, useEffect }) => {

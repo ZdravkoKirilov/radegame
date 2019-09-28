@@ -10,13 +10,13 @@ export type Component<T extends RzElementProps = {}> = BasicComponent<T> | State
 export type ClassComponent<T extends RzElementProps = {}> = BasicComponent<T> | StatefulComponent<T>;
 
 export type DidUpdatePayload<T = any, S = any> = {
-    props?: {
-        prev: T,
-        next: T
+    prev: {
+        props: T;
+        state: S;
     },
-    state?: {
-        prev: S,
-        next: S
+    next: {
+        props: T;
+        state: S;
     }
 }
 

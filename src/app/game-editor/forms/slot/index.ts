@@ -12,6 +12,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     data = data || {};
     const handlers = data.handlers || [];
     const items = data.items || [];
+    const transitions = data.transitions || [];
 
     const template = `
         <Form>
@@ -75,6 +76,11 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 </Form>
             </Group>
 
+            
+            <ButtonGroup name='transitions' label='Transitions' options='{transition_options}' multiple='{true}'>
+                {transitions}
+            </ButtonGroup>
+
         </Form>
     `;
 
@@ -82,7 +88,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, items, handlers,
+            data, items, handlers, transitions,
         },
     }, true);
 

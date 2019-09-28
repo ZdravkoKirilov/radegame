@@ -28,6 +28,8 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
                     {@item.to_style}
                 </Dropdown>
 
+                <NumberInput name='duration' label='Duration'>{@item.duration}</NumberInput>
+
                 <NumberInput name='delay' label='Delay'>{@item.delay}</NumberInput>
 
                 <Dropdown name='easing' label='Easing' options='{easings}' defaultValue='{easings[0].value}'>
