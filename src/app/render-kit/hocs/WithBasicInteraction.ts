@@ -38,7 +38,7 @@ export const withBasicInteractions = <T>(component: RzElementType<T>) => {
                 createElement(component, {
                     ...this.props,
                     ...this.state,
-                }),
+                }, this.props.children),
             );
         }
     };

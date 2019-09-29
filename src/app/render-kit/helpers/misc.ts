@@ -1,5 +1,5 @@
 import { chunk, values } from 'lodash';
-import { Points, Component, RenderFunction, CompositeComponent, RzElement, MetaProps, RzStyles } from '../models';
+import { Points, Component, RenderFunction, CompositeComponent, RzElement, MetaProps, RzStyles, RzElementProps } from '../models';
 import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
@@ -81,4 +81,8 @@ const centeredRotation = (style: Partial<RzStyles>): Partial<RzStyles> => {
         x: style.width / 2,
         y: style.height / 2,
     }
+};
+
+export const getChildAsRenderFunc = <T>(props: RzElementProps): RenderFunction<T> => {
+    return props.children[0] as RenderFunction<T>;
 };

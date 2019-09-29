@@ -1,14 +1,15 @@
-import * as TWEEN from "@tweenjs/tween.js";
+import { map } from "rxjs/operators";
 
 import { StatefulComponent } from "../../bases";
 import { Dictionary } from "@app/shared";
-import { ANIMATION_PLAY_TYPE, Animation, AnimationStep } from "@app/game-mechanics";
-import { RenderFunction, DidUpdatePayload } from "../../models";
+import { Animation } from "@app/game-mechanics";
+import { DidUpdatePayload } from "../../models";
+import { AnimationPlayer } from "../../animations/animation";
+import { getChildAsRenderFunc } from "../../helpers";
 
 export type RzAnimationProps = {
     config: Animation;
     active: boolean;
-    onDone?: () => void;
 };
 
 type State = {
@@ -16,112 +17,45 @@ type State = {
 };
 
 export class RzAnimation extends StatefulComponent<RzAnimationProps, State> {
-    tweens: Array<TWEEN.Tween> = [];
-    group: TWEEN.Group = new TWEEN.Group();
-    animationFrame: number;
+    private player: AnimationPlayer;
 
     state: State = {};
 
     didMount() {
-        if (this.props.active) {
-            this.startTweens();
+        this.player = new AnimationPlayer();
+        this.player.updates$.pipe(
+            map(interpolatingStyle => {
+                this.setState({
+                    interpolatingStyle: {
+                        ...this.state.interpolatingStyle,
+                        ...interpolatingStyle
+                    }
+                });
+            })
+        ).subscribe();
+
+        if (this.props.active && this.props.config) {
+            this.player.play(this.props.config);
         }
     }
 
     didUpdate(data: DidUpdatePayload<RzAnimationProps>) {
         if (!data.prev.props.active && data.next.props.active) {
-            this.startTweens();
+            this.player.play(this.props.config);
         }
         if (!data.next.props.active) {
-            this.stopTweens();
+            this.player.stop();
         }
     }
 
     willUnmount() {
-        this.stopTweens();
-    }
-
-    startTweens() {
-        const { type } = this.props.config;
-
-        if (type === ANIMATION_PLAY_TYPE.SEQUENCE) {
-            this.playInSequence();
-        } else {
-            this.playInParallel();
-        }
-    }
-
-    playInParallel = () => {
-        const { steps } = this.props.config;
-        this.group = new TWEEN.Group();
-
-        this.animationFrame = requestAnimationFrame(() => this.group.update());
-
-        this.tweens = steps.map(step => {
-            const tween = this.createTween(step);
-            tween.start();
-            return tween;
-        });
-    }
-
-    playInSequence = () => {
-        const { steps } = this.props.config;
-        this.group = new TWEEN.Group();
-
-        this.tweens = steps.reduce(
-            (total, step, index) => {
-                const prev: TWEEN.Tween = total[index - 1];
-                const current = this.createTween(step);
-                if (prev) {
-                    prev.chain(current);
-                }
-                total.push(current);
-                return total;
-            },
-            []
-        );
-
-        const first = this.tweens[0];
-
-        if (first) {
-            this.startRendering();
-            first.start();
-        }
-    }
-
-    startRendering = () => {
-        this.animationFrame = requestAnimationFrame(time => {
-            this.group.update(time);
-            this.startRendering();
-        });
-    }
-
-    createTween = (data: AnimationStep) => {
-        const { from_style, to_style, easing, duration, delay = 0, repeat, bidirectional } = data;
-
-        const tween = new TWEEN.Tween(from_style, this.group)
-            .to(to_style, duration)
-            .easing(TWEEN.Easing.Linear.None)
-            .delay(delay)
-            .repeat(repeat >= 0 ? repeat : Infinity)
-            .yoyo(bidirectional)
-            .onUpdate((interpolatingStyle: Dictionary<number>) => {
-                this.setState({ interpolatingStyle })
-            });
-
-        return tween;
-    }
-
-    stopTweens() {
-        this.tweens.forEach(tween => tween.stop());
-        this.group.removeAll();
-        cancelAnimationFrame(this.animationFrame);
+        this.player.stop();
     }
 
     render() {
         const { active } = this.props;
         const { interpolatingStyle } = this.state;
-        const renderFunc = this.props.children[0] as RenderFunction<Dictionary<number>>;
+        const renderFunc = getChildAsRenderFunc<Dictionary<number>>(this.props);
         return renderFunc(active ? interpolatingStyle : {});
     }
 };

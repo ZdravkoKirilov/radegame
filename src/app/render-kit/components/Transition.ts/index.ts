@@ -1,69 +1,54 @@
+import { map } from "rxjs/operators";
+
 import { StatefulComponent } from "../../bases";
-import { RzAnimationProps, RzAnimation } from "../Animation";
 import { DidUpdatePayload } from "../../models";
-import { createElement } from "../../helpers";
-import { Dictionary, Omit } from "@app/shared";
-import { shouldTransition } from "../../animations/helpers";
+import { getChildAsRenderFunc } from "../../helpers";
+import { Dictionary } from "@app/shared";
 import { withBasicInteractions, BasicInteractionProps } from "../../hocs";
-import { AnimationEasing } from "@app/game-mechanics";
+import { Transition } from "@app/game-mechanics";
+import { TransitionAnimationsPlayer } from "../../animations/animation";
 
-export type TransitionConfig = {
-    trigger: string;
-    prop: string;
-    initialStyle: Dictionary<number>;
-    targetStyle: Dictionary<number>;
-    config: {
-        easing: AnimationEasing;
-        duration: number;
-    },
-}
-
-export type TransitionProps = BasicInteractionProps & {
-    transitions: TransitionConfig[];
+export type TransitionProps = Partial<BasicInteractionProps> & {
+    transitions: Transition[];
 };
 
-export type State = {
-    active: boolean;
+type State = {
+    interpolatingStyle?: Dictionary<number>;
 };
 
-class TransitionComponent extends StatefulComponent<TransitionProps, State> {
-    // didMount() {
-    //     const { trigger, prop } = this.props;
-    //     if (shouldTransition(trigger, prop, null, true)) {
-    //         this.setState({ active: true });
-    //     }
-    // }
+class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
+    state: State = { interpolatingStyle: {} };
+    players: TransitionAnimationsPlayer[];
 
-    // didUpdate(payload: DidUpdatePayload<TransitionProps>) {
-    //     const { trigger, prop } = this.props;
-    //     if (shouldTransition(trigger, prop, payload)) {
-    //         this.setState({ active: true });
-    //     }
-    // }
+    didMount() {
+        this.players = this.props.transitions.map(elem => {
+            const player = new TransitionAnimationsPlayer(elem);
+            player.updates$.pipe(
+                map(interpolatingStyle => this.setState({
+                    interpolatingStyle: {
+                        ...this.state.interpolatingStyle,
+                        ...interpolatingStyle,
+                    }
+                }))
+            ).subscribe();
 
-    // willUnmount() {
-    //     const { trigger, prop } = this.props;
-    //     if (shouldTransition(trigger, prop, null, false, true)) {
-    //         this.setState({ active: true });
-    //     }
-    // }
+            return player;
+        });
+    }
 
-    // onAnimationComplete = () => {
-    //     this.setState({ active: false });
-    // }
+    didUpdate(payload: DidUpdatePayload<TransitionProps>) {
+        this.players.forEach(player => player.playIfShould(payload));
+    }
 
-    // render() {
-    //     const { initialStyle, targetStyle, config, render } = this.props;
-    //     const { active } = this.state;
+    willUnmount() {
+        this.players.forEach(player => player.stop());
+    }
 
-    //     return createElement<MotionProps>(
-    //         Motion, {
-    //         initialStyle, targetStyle, config,
-    //         onDone: this.onAnimationComplete,
-    //         active: active,
-    //         render: (interpolatedStyle: Dictionary<number>) => render(interpolatedStyle),
-    //     });
-    // }
+    render() {
+        const { interpolatingStyle } = this.state;
+        const renderFunc = getChildAsRenderFunc<Dictionary<number>>(this.props);
+        return renderFunc(interpolatingStyle || {});
+    }
 }
 
-export const RzTransition = withBasicInteractions<TransitionProps>(TransitionComponent);
+export const RzTransition = withBasicInteractions<TransitionProps>(RzTransitionDefinition);

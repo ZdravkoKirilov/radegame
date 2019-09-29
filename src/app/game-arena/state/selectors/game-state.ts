@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, evaluate, EntityState, Animation } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, evaluate, EntityState, Animation, Transition, AnimationStep } from "@app/game-mechanics";
 import { selectUser } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary, removeEmptyProps } from "@app/shared";
@@ -142,6 +142,33 @@ export const selectSlotAnimation = (slot_id: number) => createSelector(
             return animation;
         };
         return null;
+    }
+);
+
+export const selectSlotTransitions = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    (config, data) => {
+        return (data.transitions as number[]).map(id => {
+            const originalTransition = config.transitions[id] as Transition;
+            const originalAnimation = config.animations[originalTransition.animation as number] as Animation;
+
+            const transition = {
+                ...originalTransition,
+                animation: {
+                    ...originalAnimation,
+                    steps: originalAnimation.steps.map(step => {
+                        return {
+                            ...step,
+                            from_style: removeNonAnimatableProps(config.styles[step.from_style as number]),
+                            to_style: removeNonAnimatableProps(config.styles[step.to_style as number]),
+                        } as AnimationStep;
+                    }),
+                }
+            } as Transition;
+
+            return transition;
+        }) as Transition[];
     }
 );
 

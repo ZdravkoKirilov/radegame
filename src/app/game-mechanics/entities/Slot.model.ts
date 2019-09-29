@@ -1,4 +1,5 @@
 import { BaseModel, WithBoard, WithStyle, WithType, WithState, WithImage } from "./Base.model";
+import { Transition } from "./Transition.model";
 
 export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & Partial<{
     owner: number; // Stage;
@@ -13,7 +14,7 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & P
     populate_by: number;
 
     handlers: SlotHandler[];
-    transitions: number;
+    transitions: number[] | Transition[];
 }>;
 
 export type SlotHandler = {

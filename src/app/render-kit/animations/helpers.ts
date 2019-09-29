@@ -33,8 +33,8 @@ export const shouldTransition = (transition: string, prop: string, payload?: Did
 
     const transitionArguments = transition.split(' ').filter(elem => !!elem).map(elem => elem.trim());
     const isForwards = transitionArguments[1] === SPECIALS.FORWARDS;
-    const firstArg = transitionArguments[0];
-    const lastArg = transitionArguments[2];
+    const firstArg = patchBooleanValues(transitionArguments[0]);
+    const lastArg = patchBooleanValues(transitionArguments[2]);
     let firstMatches: boolean;
     let lastMatches: boolean;
 
@@ -48,6 +48,16 @@ export const shouldTransition = (transition: string, prop: string, payload?: Did
 
     return firstMatches && lastMatches;
 
+};
+
+const patchBooleanValues = (value: string) => {
+    if (value === 'true') {
+        return true;
+    }
+    if (value === 'false') {
+        return false;
+    }
+    return value;
 };
 
 export const extractTransitionValues = (
