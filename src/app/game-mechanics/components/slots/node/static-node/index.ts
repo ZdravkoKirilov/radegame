@@ -2,7 +2,7 @@ import { compose } from 'lodash/fp';
 import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
-import { RenderFunction, createElement, Memo, RzStyles } from "@app/render-kit";
+import { RenderFunction, createElement, Memo, RzStyles, MemoRenderFunction } from "@app/render-kit";
 import EmptySlot, { Props as EmptySlotProps } from "../empty-slot";
 import { Slot, Style, ImageAsset } from '../../../../entities';
 import { withStore, withDispatcher } from '../../../../hocs';
@@ -22,12 +22,14 @@ export type Props = Partial<HOCProps> & {
     interpolatedStyle?: Partial<RzStyles>;
 };
 
-const StaticNode: RenderFunction<Props> = ({ data, store, dispatcher }, { useState, useEffect }) => {
+const StaticNode: RenderFunction<Props> = ({ data, interpolatedStyle, store, dispatcher }, { useState, useEffect }) => {
     const emptySlot = !data.board;
     const [style, setStyle] = useState<Style>(null);
     const [image, setImage] = useState<ImageAsset>(null);
     const [conf, setConf] = useState<GameTemplate>(null);
     const [exprContext, setExprContext] = useState<ExpressionContext>(null);
+    const interpolatedWith = interpolatedStyle ? interpolatedStyle.width : null;
+    const interpolatedHeight = interpolatedStyle ? interpolatedStyle.height : null;
 
     useEffect(() => {
         const subs = [
@@ -55,8 +57,8 @@ const StaticNode: RenderFunction<Props> = ({ data, store, dispatcher }, { useSta
                 stroke_color: Number(style.stroke_color),
                 x: 0,
                 y: 0,
-                width: style.width + 10,
-                height: style.height + 35,
+                width: (interpolatedWith || style.width) + 10,
+                height: (interpolatedHeight || style.height) + 35,
                 borderRadius: 5,
                 radius: style.width
             }

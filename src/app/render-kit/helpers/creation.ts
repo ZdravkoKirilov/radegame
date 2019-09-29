@@ -26,7 +26,7 @@ export const createComponent = (
             component = createPrimitiveComponent(element, factory, meta);
             registerAnimations(component);
             component.type = element.type;
-            const children = element.children.map(child => createComponent(child, factory, meta));
+            const children = (element.children as RzElement[]).map(child => createComponent(child, factory, meta));
             if (component.graphic) {
                 component.graphic.component = component;
             }

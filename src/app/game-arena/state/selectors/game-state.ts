@@ -2,10 +2,11 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, evaluate, EntityState } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, evaluate, EntityState, Animation } from "@app/game-mechanics";
 import { selectUser } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary, removeEmptyProps } from "@app/shared";
+import { removeNonAnimatableProps } from "app/render-kit/animations/helpers";
 
 const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
 const selectConfig = createSelector(
@@ -84,29 +85,70 @@ export const selectImageAssets = createSelector(
     }
 );
 
-export const selectSlotStyle = (slot_id: number) => createSelector(
+export const selectSlotData = (slot_id: number) => createSelector(
+    selectConfig,
+    (config) => {
+        const slot_data = config.slots[slot_id] as Slot;
+        return slot_data;
+    }
+);
+
+export const selectSlotState = (slot_id: number) => createSelector(
     selectConfig,
     selectExpressionContext,
-    (config, context) => {
-        const slot_data = config.slots[slot_id] as Slot;
-        let style = config.styles[slot_data.style] as Style;
+    selectSlotData(slot_id),
+    (config, context, slot_data) => {
         if (slot_data.state) {
             const expression = config.expressions[slot_data.state] as Expression;
             const callback = evaluate(expression.code, context);
             const state: EntityState = callback(slot_data);
-            if (state && state.style) {
-                const stateStyle = removeEmptyProps(config.styles[state.style]);
-                style = { ...style, ...stateStyle };
-            }
+            return state;
+        }
+        return null;
+    }
+);
+
+export const selectSlotStyle = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    selectSlotState(slot_id),
+    (config, slot_data, state) => {
+        let style = config.styles[slot_data.style] as Style;
+        if (state && state.style) {
+            const stateStyle = removeEmptyProps(config.styles[state.style]);
+            style = { ...style, ...stateStyle };
         }
         return style;
     }
 );
 
+export const selectSlotAnimation = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotState(slot_id),
+    (config, state) => {
+        if (state && state.animation) {
+            let animation = { ...config.animations[state.animation] } as Animation;
+            animation.steps = animation.steps.map(step => {
+                const from_style = config.styles[step.from_style as number] as Style;
+                const to_style = config.styles[step.to_style as number] as Style;
+
+                step = {
+                    ...step,
+                    from_style: removeNonAnimatableProps(from_style),
+                    to_style: removeNonAnimatableProps(to_style),
+                };
+                return step;
+            });
+            return animation;
+        };
+        return null;
+    }
+);
+
 export const selectSlotImage = (slot_id: number) => createSelector(
     selectConfig,
-    (config) => {
-        const slot_data = config.slots[slot_id] as Slot;
+    selectSlotData(slot_id),
+    (config, slot_data) => {
         const image_data = config.images[slot_data.image] || {};
         return image_data as ImageAsset;
     }

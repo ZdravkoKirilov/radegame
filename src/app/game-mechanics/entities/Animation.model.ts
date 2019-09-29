@@ -1,3 +1,5 @@
+import { Style } from "./Style.model";
+
 export type Animation = Partial<{
     id: number;
     game: number;
@@ -7,18 +9,23 @@ export type Animation = Partial<{
 
     type: AnimationPlayType;
     steps: AnimationStep[];
+    repeat: number;
+    bidirectional: number;
 }>
 
 export type AnimationStep = Partial<{
     id: number;
     owner: number;
 
-    from_style: number; // Style
-    to_style: number; // Style
+    from_style: number | Style;
+    to_style: number | Style;
 
     easing: string;
     delay: number;
     duration: number;
+
+    repeat: number;
+    bidirectional: boolean;
 }>
 
 export const ANIMATION_PLAY_TYPE = {

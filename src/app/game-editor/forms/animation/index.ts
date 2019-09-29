@@ -35,6 +35,13 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
                 <Dropdown name='easing' label='Easing' options='{easings}' defaultValue='{easings[0].value}'>
                     {@item.easing}
                 </Dropdown>
+
+                <NumberInput name='repeat' label='Repeat times' defaultValue='{0}'>{@item.repeat}</NumberInput>
+
+                <ButtonGroup name='bidirectional' label='Bidirectional' options='{boolean_options}' defaultValue='{false}'>
+                    {@item.bidirectional}
+                </ButtonGroup>
+
             </Form>
         </Group>
 

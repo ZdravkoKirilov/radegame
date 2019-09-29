@@ -4,26 +4,26 @@ import { createElement } from "../helpers";
 
 export type BasicInteractionProps = {
     hovered: boolean;
-    blur: boolean;
+    blurred: boolean;
     pressed: boolean;
     released: boolean;
 };
 
 type State = BasicInteractionProps;
 
-export const withBasicInteraction = <T>(component: RzElementType<T>) => {
+export const withBasicInteractions = <T>(component: RzElementType<T>) => {
     return class withBasicInteraction extends StatefulComponent<T, State> {
         handlerHover = () => {
-
+            this.setState({ hovered: true, blurred: false, pressed: false, released: false });
         }
         handlerBlur = () => {
-
+            this.setState({ hovered: false, blurred: true, pressed: false, released: false });
         }
         handlePress = () => {
-
+            this.setState({ hovered: true, blurred: false, pressed: true, released: false });
         }
         handleRelease = () => {
-
+            this.setState({ hovered: false, blurred: false, pressed: false, released: true });
         }
 
         render() {
@@ -36,7 +36,8 @@ export const withBasicInteraction = <T>(component: RzElementType<T>) => {
                     onPointerUp: this.handleRelease,
                 },
                 createElement(component, {
-                    ...this.props
+                    ...this.props,
+                    ...this.state,
                 }),
             );
         }

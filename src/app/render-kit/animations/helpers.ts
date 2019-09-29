@@ -2,6 +2,8 @@ import { get } from 'lodash';
 
 import { Component, DidUpdatePayload } from "../models";
 import { evaluate } from "@app/dynamic-forms";
+import { Style } from '@app/game-mechanics';
+import { removeEmptyProps } from '@app/shared';
 
 const SPECIALS = {
     WILDCARD: '*',
@@ -80,4 +82,16 @@ export const parseValue = (value: string | number, prop: string, comp: Component
         return parseSpecial(value as string, prop, comp);
     }
     return value;
+};
+
+export const removeNonAnimatableProps = (source: Style) => {
+    const copy = removeEmptyProps({...source});
+    const animatable_props = new Set(['width', 'height']);
+
+    for (let key in source) {
+        if (!animatable_props.has(key)) {
+            delete copy[key];
+        }
+    }
+    return copy;
 };

@@ -9,7 +9,7 @@ import { StateHooks, EffectHooks } from "../helpers";
 export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
     props: RzElementProps & T,
-    children: RzElement[];
+    children: RzElement[] | RenderFunction[];
 };
 
 export type RzElementChild = RzElement | RzElement[];
@@ -25,7 +25,7 @@ export type RzElementProps = DefaultEvents & Partial<{
     hitArea: any;
     textStyle: { [key: string]: any };
     points: Points;
-    children: RzElement[];
+    children: RzElement[] | RenderFunction[];
     animations: AnimationBase[];
     draggable: DraggableConfig;
     scrollable: ScrollableConfig;
