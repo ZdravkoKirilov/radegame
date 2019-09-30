@@ -1,9 +1,9 @@
 import { get } from 'lodash';
 
-import { Component, DidUpdatePayload } from "../models";
+import { DidUpdatePayload, ComponentData } from "../models";
 import { evaluate } from "@app/dynamic-forms";
-import { Style } from '@app/game-mechanics';
-import { removeEmptyProps } from '@app/shared';
+import { Style, Animation } from '@app/game-mechanics';
+import { removeEmptyProps, Dictionary } from '@app/shared';
 
 const SPECIALS = {
     WILDCARD: '*',
@@ -46,7 +46,7 @@ export const shouldTransition = (transition: string, prop: string, payload?: Did
         lastMatches = lastArg === SPECIALS.WILDCARD || nextValue || prevValue;
     }
 
-    return firstMatches && lastMatches;
+    return firstMatches && lastMatches && (prevValue !== nextValue);
 
 };
 
@@ -75,27 +75,62 @@ const isSpecialValue = (value: string | number) => {
     return value && typeof value === 'string';
 };
 
-const parseSpecial = (source: string, prop: string, comp: Component) => {
-    var start = source[0];
-    const current = comp.props.styles[prop];
+const parseBinding = (source: string, context: ComponentData) => {
+    const nextBinding = source.indexOf('{');
+    const endBinding = source.indexOf('}');
+    const fullExpression = source.slice(nextBinding, endBinding + 1);
+    const innerExpression = fullExpression.slice(1, -1);
 
-    if (start === SPECIALS.WILDCARD) {
-        return current;
+    const value = evaluate(innerExpression, context);
+
+    return source.replace(fullExpression, value);
+};
+
+const parseSpecial = (source: string, context: ComponentData) => {
+
+    while (source.indexOf('{') !== -1) {
+        source = parseBinding(source, context);
     }
 
-    const result = evaluate(source, comp.props.styles);
+    const result = evaluate(source, context);
     return result;
 };
 
-export const parseValue = (value: string | number, prop: string, comp: Component) => {
+export const parseValue = (value: string, context: ComponentData) => {
     if (isSpecialValue(value)) {
-        return parseSpecial(value as string, prop, comp);
+        return Number(parseSpecial(value, context));
     }
     return value;
 };
 
+const parsePropsData = (source: Dictionary, context: ComponentData) => {
+    const result = {};
+
+    for (let key in source) {
+        let value = source[key];
+        value = parseValue(value, context);
+        result[key] = value;
+    }
+
+    return result;
+};
+
+export const parseAnimationValues = (animation: Animation, context: ComponentData) => {
+    return {
+        ...animation,
+        steps: animation.steps.map(step => {
+            step = {
+                ...step,
+                from_style: parsePropsData(step.from_style as Style, context),
+                to_style: parsePropsData(step.to_style as Style, context),
+            }
+            return step;
+        }),
+    } as Animation;
+};
+
 export const removeNonAnimatableProps = (source: Style) => {
-    const copy = removeEmptyProps({...source});
+    const copy = removeEmptyProps({ ...source });
     const animatable_props = new Set(['width', 'height']);
 
     for (let key in source) {

@@ -10,15 +10,14 @@ export type Component<T extends RzElementProps = {}> = BasicComponent<T> | State
 export type ClassComponent<T extends RzElementProps = {}> = BasicComponent<T> | StatefulComponent<T>;
 
 export type DidUpdatePayload<T = any, S = any> = {
-    prev: {
-        props: T;
-        state: S;
-    },
-    next: {
-        props: T;
-        state: S;
-    }
+    prev: ComponentData<T, S>;
+    next: ComponentData<T, S>;
 }
+
+export type ComponentData<P = any, S = any> = {
+    state: S;
+    props: P;
+};
 
 export interface ComponentConstructor<T extends RzElementProps = {}> {
     new(props: T, graphic: any, container: AbstractContainer): StatefulComponent;

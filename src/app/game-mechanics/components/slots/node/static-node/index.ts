@@ -57,8 +57,8 @@ const StaticNode: RenderFunction<Props> = ({ data, interpolatedStyle, store, dis
                 stroke_color: Number(style.stroke_color),
                 x: 0,
                 y: 0,
-                width: (interpolatedWith || style.width) + 10,
-                height: (interpolatedHeight || style.height) + 35,
+                width: (interpolatedWith || Number(style.width)) + 10,
+                height: (interpolatedHeight || Number(style.height)) + 35,
                 borderRadius: 5,
                 radius: style.width
             }

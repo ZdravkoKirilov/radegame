@@ -10,8 +10,8 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
 
         ${baseTemplate}
 
-        <NumberInput name='width' label='Width'>{data.width}</NumberInput>
-        <NumberInput name='height' label='Height'>{data.height}</NumberInput>
+        <TextInput name='width' label='Width'>{data.width}</TextInput>
+        <TextInput name='height' label='Height'>{data.height}</TextInput>
         <ColorPicker name='stroke_color' label='Stroke color'>{data.stroke_color}</ColorPicker>
         <NumberInput name='stroke_thickness' label='Stroke thickness'>{data.stroke_thickness}</NumberInput>
 

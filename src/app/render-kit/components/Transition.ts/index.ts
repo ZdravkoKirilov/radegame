@@ -10,6 +10,7 @@ import { TransitionAnimationsPlayer } from "../../animations/animation";
 
 export type TransitionProps = Partial<BasicInteractionProps> & {
     transitions: Transition[];
+    context: Dictionary;
 };
 
 type State = {
@@ -37,7 +38,7 @@ class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
     }
 
     didUpdate(payload: DidUpdatePayload<TransitionProps>) {
-        this.players.forEach(player => player.playIfShould(payload));
+        this.players.forEach(player => player.playIfShould(payload, this.props.context));
     }
 
     willUnmount() {

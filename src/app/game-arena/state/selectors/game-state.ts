@@ -72,7 +72,12 @@ export const selectCurrentRoundStageSlots = createSelector(
     selectCurrentRoundStage,
     selectConfig,
     (stage, config) => {
-        return Object.values(config.slots).filter((slot: Slot) => slot.owner === stage.id) as Slot[];
+        return Object.values(config.slots)
+        .filter((slot: Slot) => slot.owner === stage.id)
+        .map((elem: Slot) => {
+            elem = { ...elem, style: config.styles[elem.style as number]} as Slot;
+            return elem;
+        }) as Slot[];
     }
 );
 

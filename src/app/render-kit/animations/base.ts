@@ -174,7 +174,7 @@ export class AnimationBase<T = Partial<RzStyles>> {
 
     parseValues(from: Partial<RzStyles>, comp: ClassComponent) {
         const transformed = Object.keys(from).reduce((acc, key) => {
-            const value = parseValue(from[key], key, comp);
+            const value = parseValue(from[key], key as any);
             acc[key] = value;
             return acc;
         }, {});

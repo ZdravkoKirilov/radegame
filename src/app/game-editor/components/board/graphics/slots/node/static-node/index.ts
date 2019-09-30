@@ -28,8 +28,8 @@ const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
                         stroke_color: style.stroke_color,
                         x: 0,
                         y: 0,
-                        width: style.width + 10,
-                        height: style.height + 35,
+                        width: Number(style.width) + 10,
+                        height: Number(style.height) + 35,
                         borderRadius: 5,
                         radius: style.width
                     }
