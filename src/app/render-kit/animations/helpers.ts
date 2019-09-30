@@ -88,9 +88,9 @@ const parseBinding = (source: string, context: ComponentData) => {
 
 const parseSpecial = (source: string, context: ComponentData) => {
 
-    while (source.indexOf('{') !== -1) {
-        source = parseBinding(source, context);
-    }
+    // while (source.indexOf('{') !== -1) {
+    //     source = parseBinding(source, context);
+    // }
 
     const result = evaluate(source, context);
     return result;
