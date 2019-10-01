@@ -19,6 +19,8 @@ export const composeTransitionForm: FormDefinition = (data: Transition, ent?: Co
         <Dropdown name='sound' label='Sound' options='{sound_options}'>{data.sound}</Dropdown>
         <Dropdown name='animation' label='Animation' options='{animation_options}'>{data.animation}</Dropdown>
 
+        <Dropdown name='enabled' label='Enabled' options='{expression_options}'>{data.enabled}</Dropdown>
+
     </Form>
     `;
 

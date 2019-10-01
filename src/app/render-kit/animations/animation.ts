@@ -2,7 +2,7 @@ import { Subject } from "rxjs";
 import * as TWEEN from "@tweenjs/tween.js";
 
 import { Dictionary } from '@app/shared';
-import { Animation, AnimationStep, ANIMATION_PLAY_TYPE, Transition, Style } from "@app/game-mechanics";
+import { Animation, AnimationStep, ANIMATION_PLAY_TYPE, Transition, Style, Expression } from "@app/game-mechanics";
 import { DidUpdatePayload, ComponentData } from "../models";
 import { shouldTransition, parseAnimationValues } from "./helpers";
 
@@ -15,8 +15,11 @@ export class TransitionAnimationsPlayer {
         this.updates$ = this.player.updates$;
     }
 
-    playIfShould = (data: DidUpdatePayload, injectedProps = {}, additionalChecker = () => true) => {
+    playIfShould = (data: DidUpdatePayload, injectedProps = {}) => {
         const { trigger, prop, animation } = this.config;
+        const enabled = this.config.enabled as Expression;
+        const additionalChecker = enabled.parsed_code || function () { return true };
+   
         const next: ComponentData = {
             ...data.next,
             props: {
@@ -55,7 +58,7 @@ export class AnimationPlayer {
         this.playing = true;
         this.startRendering();
         this.startTweens();
-    } 
+    }
 
     private startTweens() {
         const { type } = this.config;

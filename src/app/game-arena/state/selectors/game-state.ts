@@ -73,11 +73,11 @@ export const selectCurrentRoundStageSlots = createSelector(
     selectConfig,
     (stage, config) => {
         return Object.values(config.slots)
-        .filter((slot: Slot) => slot.owner === stage.id)
-        .map((elem: Slot) => {
-            elem = { ...elem, style: config.styles[elem.style as number]} as Slot;
-            return elem;
-        }) as Slot[];
+            .filter((slot: Slot) => slot.owner === stage.id)
+            .map((elem: Slot) => {
+                elem = { ...elem, style: config.styles[elem.style as number] } as Slot;
+                return elem;
+            }) as Slot[];
     }
 );
 
@@ -153,12 +153,13 @@ export const selectSlotAnimation = (slot_id: number) => createSelector(
 export const selectSlotTransitions = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),
-    (config, data) => {
+    selectExpressionContext,
+    (config, data, context) => {
         return (data.transitions as number[]).map(id => {
             const originalTransition = config.transitions[id] as Transition;
             const originalAnimation = config.animations[originalTransition.animation as number] as Animation;
 
-            const transition = {
+            let transition = {
                 ...originalTransition,
                 animation: {
                     ...originalAnimation,
@@ -172,6 +173,13 @@ export const selectSlotTransitions = (slot_id: number) => createSelector(
                 }
             } as Transition;
 
+            if (transition.enabled) {
+                let expression: Expression = { ...config.expressions[transition.enabled as number] };
+                const callback = evaluate(expression.code, context).bind(context);
+                expression.parsed_code = () => callback(data);
+                transition.enabled = expression;
+            }
+ 
             return transition;
         }) as Transition[];
     }
