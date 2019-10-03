@@ -2,11 +2,11 @@ import { createFeatureSelector, createSelector } from "@ngrx/store";
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, evaluate, EntityState, Animation, Transition, AnimationStep } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, EntityState, Animation, Transition, AnimationStep } from "@app/game-mechanics";
 import { selectUser } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary, removeEmptyProps } from "@app/shared";
-import { removeNonAnimatableProps } from "app/render-kit/animations/helpers";
+import { removeNonAnimatableProps } from "@app/render-kit";
 
 const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
 const selectConfig = createSelector(
@@ -93,7 +93,11 @@ export const selectImageAssets = createSelector(
 export const selectSlotData = (slot_id: number) => createSelector(
     selectConfig,
     (config) => {
-        const slot_data = config.slots[slot_id] as Slot;
+        const slot = config.slots[slot_id] as Slot;
+        const slot_data = {
+            ...slot,
+            enabled: config.expressions[slot.enabled as number]
+        } as Slot;
         return slot_data;
     }
 );
@@ -105,7 +109,7 @@ export const selectSlotState = (slot_id: number) => createSelector(
     (config, context, slot_data) => {
         if (slot_data.state) {
             const expression = config.expressions[slot_data.state] as Expression;
-            const callback = evaluate(expression.code, context);
+            const callback = parseFromString(expression.code, context);
             const state: EntityState = callback(slot_data);
             return state;
         }
@@ -175,13 +179,24 @@ export const selectSlotTransitions = (slot_id: number) => createSelector(
 
             if (transition.enabled) {
                 let expression: Expression = { ...config.expressions[transition.enabled as number] };
-                const callback = evaluate(expression.code, context).bind(context);
-                expression.parsed_code = () => callback(data);
                 transition.enabled = expression;
             }
- 
             return transition;
         }) as Transition[];
+    }
+);
+
+export const isSlotEnabled = (slot_id: number) => createSelector(
+    selectSlotData(slot_id),
+    selectExpressionContext,
+    (slot, context) => {
+        if (slot.enabled) {
+            const enabled = slot.enabled as Expression;
+            const callback: Function = parseFromString(enabled.code, context);
+            const result = callback.call(context, slot);
+            return result as boolean;
+        }
+        return true;
     }
 );
 

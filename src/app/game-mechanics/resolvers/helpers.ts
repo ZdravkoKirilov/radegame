@@ -6,7 +6,7 @@ import {
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
 
-export const evaluate = (src: string, context: any): any => {
+export const parseFromString = (src: string, context: any): any => {
     try {
         const result = (new Function("with(this) {" + src + "}")).call(context);
         return result !== undefined ? result : '';
@@ -52,13 +52,13 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
             const handler = conf.handlers[elem.handler] as Handler;
             const eventName = event_name_map[handler.type];
             const expression: Expression = conf.expressions[handler.effect];
-            const innerCallback: ParamedExpressionFunc<Slot> = evaluate(expression.code, context);
+            const innerCallback: ParamedExpressionFunc<Slot> = parseFromString(expression.code, context);
             acc[eventName] = () => {
                 const actions: GameAction[] = innerCallback.call(context, payload);
                 const enabled = handler.enabled;
                 if (enabled) {
                     const enabledExpression: Expression = conf.expressions[enabled];
-                    const enabledCallback: ParamedExpressionFunc<Slot> = evaluate(enabledExpression.code, context);
+                    const enabledCallback: ParamedExpressionFunc<Slot> = parseFromString(enabledExpression.code, context);
                     if (enabledCallback.call(context, payload)) {
                         dispatcher.dispatch(actions);
                     }

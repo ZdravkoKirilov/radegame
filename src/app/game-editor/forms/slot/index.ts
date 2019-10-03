@@ -38,6 +38,10 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {data.populate_by}
             </Dropdown>
 
+            <Dropdown name='enabled' label='Enabled if' options='{expression_options}'>
+                {data.enabled}
+            </Dropdown>
+
             <Group name='items' label='Items' children='{items}' item='@item' addButtonText='Add'>
                 <Form>
                     <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>

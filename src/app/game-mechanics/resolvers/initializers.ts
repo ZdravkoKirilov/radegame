@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { GameState, Player, GameTemplate } from "../models";
 import { Expression, Slot, Setup } from "../entities";
 import { Dictionary } from "@app/shared";
-import { evaluate } from './helpers';
+import { parseFromString } from './helpers';
 import { LobbyPlayer } from '@app/lobby';
 
 type CreateExpressionParams = {
@@ -25,7 +25,7 @@ export type ExpressionContext = {
     players: Dictionary<Player>;
     helpers: {
         [key: string]: any;
-        compute: typeof evaluate
+        compute: typeof parseFromString
     },
     $self: Player,
     $own_turn: boolean,
@@ -75,10 +75,10 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
 
 const composeHelpers = (expressions: Expression[]) => {
     return expressions.reduce((result, item) => {
-        result[item.preload_as] = evaluate(item.code, {});
+        result[item.preload_as] = parseFromString(item.code, {});
         return result;
     }, {
-            compute: evaluate
+            compute: parseFromString
         }
     );
 };

@@ -11,14 +11,12 @@ export class TransitionAnimationsPlayer {
 
     private player = new AnimationPlayer();
 
-    constructor(private config: Transition) {
+    constructor(public config: Transition) {
         this.updates$ = this.player.updates$;
     }
 
     playIfShould = (data: DidUpdatePayload, injectedProps = {}) => {
         const { trigger, prop, animation } = this.config;
-        const enabled = this.config.enabled as Expression;
-        const additionalChecker = enabled.parsed_code || function () { return true };
    
         const next: ComponentData = {
             ...data.next,
@@ -28,7 +26,7 @@ export class TransitionAnimationsPlayer {
             }
         };
 
-        if (shouldTransition(trigger, prop, data) && !this.player.playing && additionalChecker()) {
+        if (shouldTransition(trigger, prop, data) && !this.player.playing) {
             this.player.play(animation as Animation, next);
         }
     }

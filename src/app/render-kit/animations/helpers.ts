@@ -2,7 +2,7 @@ import { get } from 'lodash';
 
 import { DidUpdatePayload, ComponentData } from "../models";
 import { evaluate } from "@app/dynamic-forms";
-import { Style, Animation } from '@app/game-mechanics';
+import { Style, Animation, Transition, ExpressionContext, Expression, parseFromString } from '@app/game-mechanics';
 import { removeEmptyProps, Dictionary } from '@app/shared';
 
 const SPECIALS = {
@@ -139,4 +139,14 @@ export const removeNonAnimatableProps = (source: Style) => {
         }
     }
     return copy;
+};
+
+export const isTransitionEnabled = (transition: Transition, context: ExpressionContext, data: Dictionary) => {
+    if (transition.enabled && context && data) {
+        const expression = transition.enabled as Expression;
+        const callback = parseFromString(expression.code, context) as Function;
+        const enabled = callback.call(context, data);
+        return enabled;
+    }
+    return true;
 };

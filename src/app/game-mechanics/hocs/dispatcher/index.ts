@@ -4,10 +4,14 @@ import { GameBroadcastService } from "../../services/game-broadcast/game-broadca
 export const withDispatcher = <T>(component: RzElementType<T>) => {
     return class WithDispatcher extends StatefulComponent<T & { dispatcher?: GameBroadcastService }> {
         render() {
-            return createElement(component, {
-                dispatcher: this.meta.context.get('dispatcher'),
-                ...this.props
-            });
+            return createElement(
+                component,
+                {
+                    dispatcher: this.meta.context.get('dispatcher'),
+                    ...this.props
+                },
+                this.props.children
+            );
         }
     };
 };

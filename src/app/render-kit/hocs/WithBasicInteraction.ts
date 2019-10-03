@@ -45,10 +45,14 @@ export const withBasicInteractions = <T>(component: RzElementType<T>) => {
                     onPointerDown: this.handlePress,
                     onPointerUp: this.handleRelease,
                 },
-                createElement(component, {
-                    ...this.props,
-                    ...this.state,
-                }, this.props.children),
+                createElement(
+                    component,
+                    {
+                        ...this.props,
+                        ...this.state,
+                    },
+                    this.props.children
+                ),
             );
         }
     };

@@ -7,7 +7,7 @@ import EmptySlot, { Props as EmptySlotProps } from "../empty-slot";
 import { Slot, Style, ImageAsset } from '../../../../entities';
 import { withStore, withDispatcher } from '../../../../hocs';
 import { AppState } from '@app/core';
-import { selectSlotStyle, selectSlotImage, selectGameConfig, selectExpressionContext } from '@app/game-arena';
+import { selectSlotStyle, selectSlotImage, selectGameConfig, selectExpressionContext, isSlotEnabled } from '@app/game-arena';
 import { assignHandlers, ExpressionContext } from '../../../../resolvers';
 import { GameTemplate } from '../../../../models';
 import { GameBroadcastService } from '../../../../services/game-broadcast/game-broadcast.service';
@@ -28,8 +28,9 @@ const StaticNode: RenderFunction<Props> = ({ data, interpolatedStyle, store, dis
     const [image, setImage] = useState<ImageAsset>(null);
     const [conf, setConf] = useState<GameTemplate>(null);
     const [exprContext, setExprContext] = useState<ExpressionContext>(null);
-    const interpolatedWith = interpolatedStyle ? interpolatedStyle.width : null;
-    const interpolatedHeight = interpolatedStyle ? interpolatedStyle.height : null;
+    const [enabled, setEnabled] = useState<boolean>(false);
+    const interpolatedWith = interpolatedStyle && enabled ? interpolatedStyle.width : null;
+    const interpolatedHeight = interpolatedStyle && enabled ? interpolatedStyle.height : null;
 
     useEffect(() => {
         const subs = [
@@ -37,6 +38,7 @@ const StaticNode: RenderFunction<Props> = ({ data, interpolatedStyle, store, dis
             store.pipe(select(selectSlotImage(data.id)), map(image => setImage(image))).subscribe(),
             store.pipe(select(selectGameConfig), map(config => setConf(config))).subscribe(),
             store.pipe(select(selectExpressionContext), map(ctx => setExprContext(ctx))).subscribe(),
+            store.pipe(select(isSlotEnabled(data.id)), map(enabled => setEnabled(enabled))).subscribe(),
         ];
         return () => subs.forEach(sub => sub.unsubscribe());
     }, []);

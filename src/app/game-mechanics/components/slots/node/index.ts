@@ -5,9 +5,10 @@ import { createElement, Memo, RzAnimation, RzTransition } from "@app/render-kit"
 import StaticNode, { Props as StaticNodeProps } from './static-node';
 import { withStore } from "../../../hocs";
 import { AppState } from "@app/core";
+import { Dictionary } from '@app/shared';
 import { Animation, Slot, Transition } from "../../../entities";
-import { selectSlotAnimation, selectSlotTransitions } from "@app/game-arena";
-import { Dictionary } from "@ngrx/entity";
+import { selectSlotAnimation, selectSlotTransitions, selectExpressionContext } from "@app/game-arena";
+import { ExpressionContext } from "../../../resolvers";
 
 type HOCProps = {
     store: Store<AppState>;
@@ -22,18 +23,20 @@ export const Node = Memo<Props>(
         const { data, store } = props;
         const [animation, setAnimation] = useState<Animation>(null);
         const [transitions, setTransitions] = useState<Transition[]>(null);
+        const [context, setContext] = useState<ExpressionContext>(null);
 
         useEffect(() => {
             const subs = [
                 store.pipe(select(selectSlotAnimation(data.id)), map(animation => setAnimation(animation))).subscribe(),
                 store.pipe(select(selectSlotTransitions(data.id)), map(transitions => setTransitions(transitions))).subscribe(),
+                store.pipe(select(selectExpressionContext), map(ctx => setContext(ctx))).subscribe(),
             ];
             return () => subs.forEach(sub => sub.unsubscribe());
         }, []);
 
         return transitions ? createElement(
             RzTransition,
-            { transitions, context: data },
+            { transitions, data, context, name: 'trans' },
             (interpolatedStyle: Dictionary<number>) => {
                 return createElement(
                     'container',

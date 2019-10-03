@@ -5,12 +5,14 @@ import { DidUpdatePayload } from "../../models";
 import { getChildAsRenderFunc } from "../../helpers";
 import { Dictionary } from "@app/shared";
 import { withBasicInteractions, BasicInteractionProps } from "../../hocs";
-import { Transition } from "@app/game-mechanics";
+import { Transition, ExpressionContext } from "@app/game-mechanics";
 import { TransitionAnimationsPlayer } from "../../animations/animation";
+import { isTransitionEnabled } from "app/render-kit/animations/helpers";
 
 export type TransitionProps = Partial<BasicInteractionProps> & {
     transitions: Transition[];
-    context: Dictionary;
+    data: Dictionary;
+    context: ExpressionContext;
 };
 
 type State = {
@@ -38,7 +40,11 @@ class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
     }
 
     didUpdate(payload: DidUpdatePayload<TransitionProps>) {
-        this.players.forEach(player => player.playIfShould(payload, this.props.context));
+        this.players.forEach(player => {
+            if (isTransitionEnabled(player.config, this.props.context, this.props.data)) {
+                player.playIfShould(payload, this.props.data)
+            }
+        });
     }
 
     willUnmount() {

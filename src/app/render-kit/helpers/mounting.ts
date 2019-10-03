@@ -57,6 +57,7 @@ const mountStatefulComponent = (component: StatefulComponent, container: Abstrac
     if ('willMount' in component) {
         component.willMount.call(component);
     }
+    
     component.children = component.children.map(child => mountComponent(child, container));
 
     if ('didMount' in component) {
@@ -122,7 +123,6 @@ export const unmountComposite = async (component: CompositeComponent) => {
     if ('willUnmount' in component) {
         component.willUnmount();
     }
-
     (component.children as any).forEach(child => {
         if (child) {
             unmountComponent(child);

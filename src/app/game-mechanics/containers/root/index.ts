@@ -30,6 +30,7 @@ export class GameArenaRoot extends StatefulComponent<Props, State> {
 
     didMount() {
         this.gameState$ = this.props.store.pipe(select(selectGameState), map(state => this.setState({ gameState: state }))).subscribe();
+        (window as any).rootComp = this;
     }
 
     render() {
