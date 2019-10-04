@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import { RzElement, RzElementKey, RzElementProps, RzElementChild } from "../models";
+import { RzElement, RzElementKey, RzElementProps, RzElementChild, RenderFunction } from "../models";
 import { CompositeComponent, Component } from "../models";
 import { createComponent } from "./creation";
 import { toDictionary } from "@app/shared";
@@ -28,6 +28,7 @@ export const updateComponent = (component: Component, rendered: RzElementChild) 
 };
 
 export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => {
+    updated = updated || {} as RzElement;
     const shouldUpdate = memoComp.shouldUpdate;
     const shouldUpdateIsFunction = typeof shouldUpdate === typeof Function;
     const shouldUpdateIsArray = Array.isArray(shouldUpdate);
@@ -85,15 +86,19 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
     return newChildren;
 }
 
+export const updateFunctionalComponent = (target: RenderFunction, updated: RzElement) => {
+    if (isMemo(target) && updated) {
+        return updateMemo(target, updated);
+    } else if (updated) {
+        target.props = updated.props;
+        const extras = prepareExtras(target, target.meta);
+        updateComponent(target, target(updated.props, extras));
+    }
+};
+
 export const updateByType = (target: Component<RzElementProps>, updated: RzElement) => {
     if (isFunctional(target)) {
-        if (isMemo(target)) {
-            return updateMemo(target, updated);
-        } else {
-            target.props = updated.props;
-            const extras = prepareExtras(target, target.meta);
-            updateComponent(target, target(updated.props, extras));
-        }
+        updateFunctionalComponent(target, updated);
     }
 
     if (isStateful(target)) {
