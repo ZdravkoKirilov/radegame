@@ -12,6 +12,7 @@ export class StatefulComponent<P = {}, S = {}> {
     type: RzElementType;
     container: AbstractContainer;
     children: Component[];
+    parent: Component;
 
     get animations(): AnimationOrchestrator[] { return (this.type as any).animations || []; }
 
@@ -21,41 +22,45 @@ export class StatefulComponent<P = {}, S = {}> {
     }
 
     setState(state: Partial<S>) {
-        const current = this.state as any || {} as any;
-        const next = { ...current, ...(state as any) || {} } as S;
-        if (this.shouldRerender(this.props, next)) {
-            this.state = next as S;
-            updateComponent(this, this.render());
-            if ('didUpdate' in this) {
-                this.didUpdate({
-                    prev: { state: current, props: this.props },
-                    next: { state: next, props: this.props },
-                });
+        setTimeout(() => {
+            const current = this.state as any || {} as any;
+            const next = { ...current, ...(state as any) || {} } as S;
+            if (this.shouldRerender(this.props, next)) {
+                this.state = next as S;
+                updateComponent(this, this.render());
+                if ('didUpdate' in this) {
+                    this.didUpdate({
+                        prev: { state: current, props: this.props },
+                        next: { state: next, props: this.props },
+                    });
+                }
+            } else {
+                this.state = next as S;
             }
-        } else {
-            this.state = next as S;
-        }
+        });
     }
 
     updateProps(props: Partial<P>) {
-        const current = this.props || {} as P;
-        const next = { ...(current as any), ...(props as any) } as P;
+        setTimeout(() => {
+            const current = this.props || {} as P;
+            const next = { ...(current as any), ...(props as any) } as P;
 
-        if (this.shouldRerender(next, this.state)) {
-            if ('willReceiveProps' in this) {
-                this.willReceiveProps(next);
+            if (this.shouldRerender(next, this.state)) {
+                if ('willReceiveProps' in this) {
+                    this.willReceiveProps(next);
+                }
+                this.props = next;
+                updateComponent(this, this.render());
+                if ('didUpdate' in this) {
+                    this.didUpdate({
+                        prev: { state: this.state, props: current },
+                        next: { state: this.state, props: next },
+                    });
+                }
+            } else {
+                this.props = next;
             }
-            this.props = next;
-            updateComponent(this, this.render());
-            if ('didUpdate' in this) {
-                this.didUpdate({
-                    prev: { state: this.state, props: current },
-                    next: { state: this.state, props: next },
-                });
-            }
-        } else {
-            this.props = next;
-        }
+        });
     }
 
     shouldRerender(nextProps: P, nextState: S) {

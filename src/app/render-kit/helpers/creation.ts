@@ -26,7 +26,13 @@ export const createComponent = (
             component = createPrimitiveComponent(element, factory, meta);
             registerAnimations(component);
             component.type = element.type;
-            const children = (element.children as RzElement[]).map(child => createComponent(child, factory, meta));
+            const children = (element.children as RzElement[]).map(child => {
+                const comp = createComponent(child, factory, meta);
+                if (comp) {
+                    comp.parent = component;
+                }
+                return comp;
+            });
             if (component.graphic) {
                 component.graphic.component = component;
             }
@@ -45,7 +51,11 @@ export const createComponent = (
         component = createStatefulComponent(element, meta);
         component.type = element.type;
         const rendered = flatRender(component.render());
-        const children = [createComponent(rendered, factory, meta)];
+        const child = createComponent(rendered, factory, meta);
+        if (child) {
+            child.parent = component;
+        }
+        const children = [child];
         component.children = children;
         return component;
     }
@@ -55,7 +65,11 @@ export const createComponent = (
         component = cloneRenderFunction(originalType, meta);
         const extras = prepareExtras(component, meta);
         const rendered = flatRender(component(element.props, extras));
-        const children = [createComponent(rendered, factory, meta)];
+        const child = createComponent(rendered, factory, meta);
+        if (child) {
+            child.parent = component;
+        }
+        const children = [child];
         component.props = element.props;
         component.children = children;
         component.type = originalType;

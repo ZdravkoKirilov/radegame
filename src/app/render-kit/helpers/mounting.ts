@@ -37,6 +37,7 @@ export const mountComponent = (component: Component, container: AbstractContaine
     if (!component) {
         return;
     }
+    console.log('Mounting: ', component);
     if (isStateful(component)) {
         (component as any).__mounted__ = true;
         return mountStatefulComponent(component, container);

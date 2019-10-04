@@ -28,7 +28,6 @@ export const updateComponent = (component: Component, rendered: RzElementChild) 
 };
 
 export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => {
-    
     const shouldUpdate = memoComp.shouldUpdate;
     const shouldUpdateIsFunction = typeof shouldUpdate === typeof Function;
     const shouldUpdateIsArray = Array.isArray(shouldUpdate);

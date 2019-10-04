@@ -10,7 +10,7 @@ export const withDispatcher = <T>(component: RzElementType<T>) => {
                     dispatcher: this.meta.context.get('dispatcher'),
                     ...this.props
                 },
-                this.props.children
+                [...(this.props.children || []) as any]
             );
         }
     };

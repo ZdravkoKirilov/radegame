@@ -12,7 +12,7 @@ export const withStore = <T>(component: RzElementType<T>) => {
                     store: this.meta.context.get('store'),
                     ...this.props
                 },
-                this.props.children
+                [...(this.props.children || []) as any]
             );
         }
     };

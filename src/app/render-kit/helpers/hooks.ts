@@ -25,9 +25,11 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
         meta.hooks.state.set(target, state);
         const currentValue = state[stateHookIndex] || initialState;
         const mutator = (order: number) => (value: T) => {
-            state[order] = value;
-            const rendered = target(target.props, prepareExtras(target, meta));
-            updateComponent(target, rendered);
+            setTimeout(() => {
+                state[order] = value;
+                const rendered = target(target.props, prepareExtras(target, meta));
+                updateComponent(target, rendered);
+            });
         };
         const data: [T, (value: T) => void] = [currentValue, mutator(stateHookIndex)];
         stateHookIndex += 1;

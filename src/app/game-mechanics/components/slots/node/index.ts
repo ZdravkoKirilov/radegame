@@ -36,7 +36,7 @@ export const Node = Memo<Props>(
 
         return transitions ? createElement(
             RzTransition,
-            { transitions, data, context, name: 'trans' },
+            { transitions, data, context },
             (interpolatedStyle: Dictionary<number>) => {
                 return createElement(
                     'container',

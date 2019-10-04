@@ -2,7 +2,7 @@ import { compose } from 'lodash/fp';
 import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
-import { RenderFunction, createElement, Memo, RzStyles, MemoRenderFunction } from "@app/render-kit";
+import { RenderFunction, createElement, Memo, RzStyles } from "@app/render-kit";
 import EmptySlot, { Props as EmptySlotProps } from "../empty-slot";
 import { Slot, Style, ImageAsset } from '../../../../entities';
 import { withStore, withDispatcher } from '../../../../hocs';
@@ -69,4 +69,4 @@ const StaticNode: RenderFunction<Props> = ({ data, interpolatedStyle, store, dis
     ) : null;
 };
 
-export default compose(withStore, withDispatcher, Memo)(StaticNode);
+export default compose(withStore, withDispatcher)(Memo(StaticNode, ['data', 'interpolatedStyle']));

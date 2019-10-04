@@ -12,7 +12,7 @@ export type BasicInteractionProps = {
 type State = BasicInteractionProps;
 
 export const withBasicInteractions = <T>(component: RzElementType<T>) => {
-    return class withBasicInteraction extends StatefulComponent<T, State> {
+    return class WithBasicInteraction extends StatefulComponent<T, State> {
         state: State = {} as State;
 
         handlerHover = () => {
@@ -51,7 +51,7 @@ export const withBasicInteractions = <T>(component: RzElementType<T>) => {
                         ...this.props,
                         ...this.state,
                     },
-                    this.props.children
+                    [...(this.props.children || []) as any]
                 ),
             );
         }
