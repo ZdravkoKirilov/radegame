@@ -7,7 +7,7 @@ import { toDictionary } from "@app/shared";
 import {
     PrimitiveContainer, PrimitiveCollection,
 } from "../primitives";
-import { mountComponent, unmountComponent } from "./mounting";
+import { mountComponent, unmountComponent, unmountChildren } from "./mounting";
 import { isFunctional, isPrimitive, isStateful, isMemo, flatRender } from "./misc";
 import { AbstractContainer } from "../interfaces";
 import { MemoRenderFunction } from "../bases";
@@ -16,7 +16,12 @@ import { prepareExtras } from "./hooks";
 export const updateComposite = (element: RzElement, component: CompositeComponent) => {
     const currentChild: Component = (component.children || [])[0];
     const incomingChild = Array.isArray(element) ? element[0] : element;
-    component.children = reconcileChildSlot(currentChild, incomingChild, component, component.container);
+
+    if (element === null) {
+        unmountChildren(component);
+    } else {
+        component.children = reconcileChildSlot(currentChild, incomingChild, component, component.container);
+    }
 };
 
 export const updateComponent = (component: Component, rendered: RzElementChild) => {

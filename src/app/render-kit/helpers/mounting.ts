@@ -7,26 +7,40 @@ import { isStateful, isPrimitive, isFunctional } from "./misc";
 import { cleanEffectHooks } from "./hooks";
 
 export const unmountComponent = (component: Component) => {
-    console.debug('unmount component: ', component);
-    if (isStateful(component)) {
-        unmountStatefulComponent(component);
-    }
-    if (isPrimitive(component)) {
-        unmountPrimitiveComponent(component);
-    }
-    if (isFunctional(component)) {
-        unmountFunctionalComponent(component);
+    if ((component as any).__mounted__ === true) {
+        console.debug('unmount component: ', component);
+        if (isStateful(component)) {
+            unmountStatefulComponent(component);
+            (component as any).__mounted__ = false;
+        }
+        if (isPrimitive(component)) {
+            unmountPrimitiveComponent(component);
+            (component as any).__mounted__ = false;
+        }
+        if (isFunctional(component)) {
+            unmountFunctionalComponent(component);
+            (component as any).__mounted__ = false;
+        }
     }
 };
 
 export const unmountStatefulComponent = (component: StatefulComponent) => {
-    unmountComposite(component);
+    if (component instanceof StatefulComponent) {
+        // const leaveAnimations: AnimationGroup[] = [];
+        // await Promise.all(leaveAnimations.map(animation => animation.playAll()));
+    }
+
+    if ('willUnmount' in component) {
+        component.willUnmount();
+    }
+
+    unmountChildren(component);
 };
 
 export const unmountFunctionalComponent = (component: RenderFunction) => {
     component.meta.hooks.state.delete(component);
     cleanEffectHooks(component);
-    unmountComposite(component);
+    unmountChildren(component);
 };
 
 export const unmountPrimitiveComponent = (component: BasicComponent) => {
@@ -58,7 +72,7 @@ const mountStatefulComponent = (component: StatefulComponent, container: Abstrac
     if ('willMount' in component) {
         component.willMount.call(component);
     }
-    
+
     component.children = component.children.map(child => mountComponent(child, container));
 
     if ('didMount' in component) {
@@ -115,15 +129,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
     return component;
 };
 
-export const unmountComposite = async (component: CompositeComponent) => {
-    if (component instanceof StatefulComponent) {
-        // const leaveAnimations: AnimationGroup[] = [];
-        // await Promise.all(leaveAnimations.map(animation => animation.playAll()));
-    }
-
-    if ('willUnmount' in component) {
-        component.willUnmount();
-    }
+export const unmountChildren = async (component: CompositeComponent) => {
     (component.children as any).forEach(child => {
         if (child) {
             unmountComponent(child);

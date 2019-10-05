@@ -109,7 +109,7 @@ const updateGeneric = (comp: BasicComponent) => {
     let { props } = comp;
     const styles = applyTransformations(props.styles);
     props = { ...props, styles };
-    
+
     if (graphic && props.name) {
         graphic.name = props.name;
     }
@@ -152,7 +152,8 @@ const updateSprite = (comp: PrimitiveSprite) => {
     if (image) {
         const newGraphic = new Sprite(image);
         comp.graphic = newGraphic;
-        if (graphic) {
+        const isMounted = container.children.indexOf(graphic) !== -1;
+        if (graphic && isMounted) {
             const index = container.getChildIndex(graphic);
             container.addChildAt(newGraphic, index);
             container.removeChild(graphic);
