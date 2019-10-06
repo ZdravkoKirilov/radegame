@@ -1,5 +1,10 @@
 import { chunk, values } from 'lodash';
-import { Points, Component, RenderFunction, CompositeComponent, RzElement, MetaProps, RzStyles, RzElementProps } from '../models';
+import * as Color from 'color';
+
+import {
+    Points, Component, RenderFunction, CompositeComponent, RzElement,
+    MetaProps, RzElementProps
+} from '../models';
 import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
@@ -61,28 +66,28 @@ export const cloneRenderFunction = (originalType: RenderFunction, meta: MetaProp
     return component;
 };
 
-export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyles> => {
-    styles = styles || {};
-    let copy = { ...styles };
-    if (styles.rotation) {
-        copy.rotation = copy.rotation * Math.PI / 180;
-        copy = { ...copy, ...centeredRotation(styles) };
-        return copy;
-    }
-    return styles;
-};
-
-const centeredRotation = (style: Partial<RzStyles>): Partial<RzStyles> => {
-    if (!style.width || !style.height) {
-        return {};
-    }
-    return {
-        pivot: `${style.width / 2} ${style.height / 2}`,
-        x: style.width / 2,
-        y: style.height / 2,
-    }
-};
-
 export const getChildAsRenderFunc = <T>(props: RzElementProps): RenderFunction<T> => {
     return props.children[0] as RenderFunction<T>;
+};
+
+export const toNumericColor = (value: string | number) => {
+    const color = Color(value);
+    const asArray = color.rgb().array();
+    return asArray;
+};
+
+export const toHexColor = (value: string | number) => {
+    if (typeof value === 'string') {
+        if (value.startsWith('#')) {
+            const result = value.replace('#', '0x');
+            return Number(result);
+        }
+        // throw new Error('Unrecognized value: ' + value);
+    }
+
+    const color = Array.isArray(value) ? Color.rgb(value) : Color(value);
+    const result = color.hex().replace('#', '0x');
+    return Number(result);
+
+
 };

@@ -3,7 +3,6 @@ import { ComponentConstructor, RenderFunction } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 import { AnimationBase } from "../animations";
 import { PRIMS } from "../primitives";
-import { Dictionary } from "@app/shared";
 import { StateHooks, EffectHooks } from "../helpers";
 
 export type RzElement<T extends RzElementProps = {}> = {

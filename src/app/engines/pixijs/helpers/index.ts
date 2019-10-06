@@ -1,6 +1,6 @@
 import { DisplayObject, Sprite, Graphics } from "pixi.js";
-import { Component, RzStyles } from "@app/render-kit";
-import { BasicComponent } from "@app/render-kit";
+
+import { Component, RzStyles, BasicComponent, toHexColor } from "@app/render-kit";
 
 export const bringToFront = (obj: DisplayObject) => {
     const parent = obj.parent;
@@ -46,6 +46,10 @@ export const setProp = (comp: BasicComponent, prop: keyof RzStyles, value: strin
         return applyMask(comp, value as number[]);
     }
 
+    if (prop === 'stroke_color' || prop === 'fill') {
+        result = toHexColor(result);
+    }
+
     graphic[prop] = result;
     return result;
 };
@@ -79,4 +83,31 @@ export const applyMask = (comp: BasicComponent, value: number[]) => {
         }
 
     }
+};
+
+const centeredRotation = (style: Partial<RzStyles>): Partial<RzStyles> => {
+    if (!style.width || !style.height) {
+        return {};
+    }
+    return {
+        pivot: `${style.width / 2} ${style.height / 2}`,
+        x: style.width / 2,
+        y: style.height / 2,
+    }
+};
+
+export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyles> => {
+    styles = styles || {};
+    let copy = { ...styles };
+    if (styles.rotation) {
+        copy.rotation = copy.rotation * Math.PI / 180;
+        copy = { ...copy, ...centeredRotation(styles) };
+    }
+    if (styles.stroke_color) {
+        copy.stroke_color = toHexColor(styles.stroke_color);
+    }
+    if (styles.fill) {
+        copy.fill = toHexColor(styles.stroke_color);
+    }
+    return copy;
 };

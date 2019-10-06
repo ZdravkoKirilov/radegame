@@ -3,7 +3,8 @@ import { get } from 'lodash';
 import { DidUpdatePayload, ComponentData } from "../models";
 import { evaluate } from "@app/dynamic-forms";
 import { Style, Animation, Transition, ExpressionContext, Expression, parseFromString } from '@app/game-mechanics';
-import { removeEmptyProps, Dictionary } from '@app/shared';
+import { removeEmptyProps, Dictionary, WithKeysAs } from '@app/shared';
+import { toNumericColor } from '../helpers';
 
 const SPECIALS = {
     WILDCARD: '*',
@@ -12,6 +13,16 @@ const SPECIALS = {
     FORWARDS: '=>',
     BIDIRECTIONAL: '<=>',
 };
+
+export const ANIMATABLE_PROPS = {
+    width: 'width',
+    height: 'height',
+    stroke_color: 'stroke_color',
+    stroke_thickness: 'stroke_thickness',
+    fill: 'fill',
+};
+
+export type AnimatableProps = WithKeysAs<typeof ANIMATABLE_PROPS, string | number>;
 
 export const shouldTransition = (transition: string, prop: string, payload?: DidUpdatePayload, isEntering = false, isLeaving = false) => {
     const prev = payload.prev;
@@ -96,7 +107,10 @@ const parseSpecial = (source: string, context: ComponentData) => {
     return result;
 };
 
-export const parseValue = (value: string, context: ComponentData) => {
+export const parseValue = (value: string, context: ComponentData, key: string) => {
+    if (key === ANIMATABLE_PROPS.stroke_color || key === ANIMATABLE_PROPS.fill) {
+        return toNumericColor(value);
+    }
     if (isSpecialValue(value)) {
         return Number(parseSpecial(value, context));
     }
@@ -108,7 +122,7 @@ const parsePropsData = (source: Dictionary, context: ComponentData) => {
 
     for (let key in source) {
         let value = source[key];
-        value = parseValue(value, context);
+        value = parseValue(value, context, key);
         result[key] = value;
     }
 
@@ -131,10 +145,9 @@ export const parseAnimationValues = (animation: Animation, context: ComponentDat
 
 export const removeNonAnimatableProps = (source: Style) => {
     const copy = removeEmptyProps({ ...source });
-    const animatable_props = new Set(['width', 'height']);
 
     for (let key in source) {
-        if (!animatable_props.has(key)) {
+        if (!(key in ANIMATABLE_PROPS)) {
             delete copy[key];
         }
     }

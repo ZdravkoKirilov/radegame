@@ -18,13 +18,12 @@ export class ColorPickerComponent implements OnInit {
 	color: any;
 
 	handleChange(color: string) {
-		color = (color || '').replace('#', '0x');
 		this.change.emit({
 			[this.data.name]: color
 		});
 	}
 
 	ngOnInit() {
-		this.color = (this.data.value).replace('0x', '#');
+		this.color = (this.data.value);
 	}
 }

@@ -31,6 +31,8 @@ const StaticNode: RenderFunction<Props> = ({ data, interpolatedStyle, store, dis
     const [enabled, setEnabled] = useState<boolean>(false);
     const interpolatedWith = interpolatedStyle && enabled ? interpolatedStyle.width : null;
     const interpolatedHeight = interpolatedStyle && enabled ? interpolatedStyle.height : null;
+    const interpolatedStrokeThickness = interpolatedStyle && enabled ? interpolatedStyle.stroke_thickness : null;
+    const interpolatedStrokeColor = interpolatedStyle && enabled ? interpolatedStyle.stroke_color : null;
 
     useEffect(() => {
         const subs = [
@@ -55,14 +57,13 @@ const StaticNode: RenderFunction<Props> = ({ data, interpolatedStyle, store, dis
     },
         createElement('rectangle', {
             styles: {
-                stroke_thickness: style.stroke_thickness,
-                stroke_color: Number(style.stroke_color),
+                stroke_thickness: interpolatedStrokeThickness || style.stroke_thickness,
+                stroke_color: interpolatedStrokeColor || style.stroke_color,
                 x: 0,
                 y: 0,
                 width: (interpolatedWith || Number(style.width)) + 10,
                 height: (interpolatedHeight || Number(style.height)) + 35,
-                borderRadius: 5,
-                radius: style.width
+                borderRadius: 15,
             }
         }),
         emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, image: image.image, data }) : null,

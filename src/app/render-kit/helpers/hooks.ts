@@ -79,10 +79,10 @@ const executeEffectAsync = (
     dependencies: any[],
     clean?: Function | void
 ) => {
+    if (typeof clean === 'function') {
+        clean();
+    }
     setTimeout(() => {
-        if (typeof clean === 'function') {
-            clean();
-        }
         state[effectHookIndex] = {
             callback,
             dependencies,

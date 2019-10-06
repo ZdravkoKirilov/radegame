@@ -1,10 +1,11 @@
 import { Subject } from "rxjs";
 import * as TWEEN from "@tweenjs/tween.js";
+import ColorTween from 'color-tween';
 
 import { Dictionary } from '@app/shared';
 import { Animation, AnimationStep, ANIMATION_PLAY_TYPE, Transition, Style, Expression } from "@app/game-mechanics";
 import { DidUpdatePayload, ComponentData } from "../models";
-import { shouldTransition, parseAnimationValues } from "./helpers";
+import { shouldTransition, parseAnimationValues, ANIMATABLE_PROPS } from "./helpers";
 
 export class TransitionAnimationsPlayer {
     updates$: Subject<Dictionary>;
@@ -96,6 +97,7 @@ export class AnimationPlayer {
     }
 
     onUpdate = (interpolatingStyle: Dictionary) => {
+        console.log(interpolatingStyle);
         this.updates$.next(interpolatingStyle);
     }
 
@@ -108,9 +110,16 @@ export class AnimationPlayer {
 
 export const createTween = (data: AnimationStep, group: TWEEN.Group) => {
     const { from_style, to_style, easing, duration, delay = 0, repeat, bidirectional } = data;
+
+    if (ANIMATABLE_PROPS.fill in (to_style as Style) || ANIMATABLE_PROPS.stroke_color in (to_style as Style)) {
+    
+    }
+    
+    
     const tween = new TWEEN.Tween({ ...from_style as Style }, group)
         .to({ ...to_style as Style }, duration)
         .easing(TWEEN.Easing.Linear.None)
+        .interpolation(TWEEN.Interpolation.Linear)
         .delay(delay)
         .repeat(repeat >= 0 ? repeat : Infinity)
         .yoyo(bidirectional);

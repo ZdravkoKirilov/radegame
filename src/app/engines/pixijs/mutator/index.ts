@@ -6,10 +6,9 @@ import {
     PrimitiveEllipse,
     LineProps,
     unmountComponent,
-    applyTransformations,
 } from "@app/render-kit";
 import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text } from "pixi.js";
-import { setProp, getValue } from "../helpers";
+import { setProp, getValue, applyTransformations } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
     updateComponent(component: BasicComponent) {
@@ -122,7 +121,6 @@ const updateGeneric = (comp: BasicComponent) => {
 
 const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
     const { styles } = props;
-
     graphic.clear();
     graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
 

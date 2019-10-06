@@ -45,7 +45,7 @@ export const extractLobbyPlayerName = (compositeName: string) => {
     return compositeName.split(':')[2];
 };
 
-export type WithKeysAs<T, P> = {
+export type WithKeysAs<T, P = any> = {
     [K in keyof T]: P;
 };
 
