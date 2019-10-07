@@ -6,8 +6,8 @@ import { getChildAsRenderFunc } from "../../helpers";
 import { Dictionary } from "@app/shared";
 import { withBasicInteractions, BasicInteractionProps } from "../../hocs";
 import { Transition, ExpressionContext } from "@app/game-mechanics";
-import { TransitionAnimationsPlayer } from "../../animations/animation";
-import { isTransitionEnabled } from "app/render-kit/animations/helpers";
+import { TransitionAnimationsPlayer } from "../../animations/animation copy";
+import { isTransitionEnabled } from "../../animations/helpers";
 
 export type TransitionProps = Partial<BasicInteractionProps> & {
     transitions: Transition[];
@@ -21,7 +21,7 @@ type State = {
 
 class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
     state: State = { interpolatingStyle: {} };
-    players: TransitionAnimationsPlayer[];
+    players: TransitionAnimationsPlayer[] = [];
 
     didMount() {
         this.players = this.props.transitions.map(elem => {

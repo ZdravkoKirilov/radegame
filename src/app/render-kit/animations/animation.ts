@@ -1,6 +1,5 @@
 import { Subject } from "rxjs";
 import * as TWEEN from "@tweenjs/tween.js";
-import ColorTween from 'color-tween';
 
 import { Dictionary } from '@app/shared';
 import { Animation, AnimationStep, ANIMATION_PLAY_TYPE, Transition, Style, Expression } from "@app/game-mechanics";
@@ -97,7 +96,6 @@ export class AnimationPlayer {
     }
 
     onUpdate = (interpolatingStyle: Dictionary) => {
-        console.log(interpolatingStyle);
         this.updates$.next(interpolatingStyle);
     }
 

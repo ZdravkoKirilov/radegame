@@ -22,7 +22,7 @@ export const ANIMATABLE_PROPS = {
     fill: 'fill',
 };
 
-export type AnimatableProps = WithKeysAs<typeof ANIMATABLE_PROPS, string | number>;
+export type AnimatableProps = Partial<WithKeysAs<typeof ANIMATABLE_PROPS, string | number>>;
 
 export const shouldTransition = (transition: string, prop: string, payload?: DidUpdatePayload, isEntering = false, isLeaving = false) => {
     const prev = payload.prev;
@@ -83,7 +83,7 @@ export const extractTransitionValues = (
 };
 
 const isSpecialValue = (value: string | number) => {
-    return value && typeof value === 'string';
+    return value && typeof value === 'string' && !value.startsWith('#');
 };
 
 const parseBinding = (source: string, context: ComponentData) => {
@@ -108,9 +108,9 @@ const parseSpecial = (source: string, context: ComponentData) => {
 };
 
 export const parseValue = (value: string, context: ComponentData, key: string) => {
-    if (key === ANIMATABLE_PROPS.stroke_color || key === ANIMATABLE_PROPS.fill) {
-        return toNumericColor(value);
-    }
+    // if (key === ANIMATABLE_PROPS.stroke_color || key === ANIMATABLE_PROPS.fill) {
+    //     return toNumericColor(value);
+    // }
     if (isSpecialValue(value)) {
         return Number(parseSpecial(value, context));
     }

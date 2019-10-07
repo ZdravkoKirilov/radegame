@@ -7,7 +7,7 @@ import { isStateful, isPrimitive, isFunctional } from "./misc";
 import { cleanEffectHooks } from "./hooks";
 
 export const unmountComponent = (component: Component) => {
-    if ((component as any).__mounted__ === true) {
+    if (component && (component as any).__mounted__ === true) {
         console.debug('unmount component: ', component);
         if (isStateful(component)) {
             unmountStatefulComponent(component);
