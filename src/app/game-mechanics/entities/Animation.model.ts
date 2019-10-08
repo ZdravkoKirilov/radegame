@@ -9,8 +9,10 @@ export type Animation = Partial<{
 
     type: AnimationPlayType;
     steps: AnimationStep[];
+    
     repeat: number;
-    bidirectional: number;
+    bidirectional: boolean;
+    delay: number;
 }>
 
 export type AnimationStep = Partial<{

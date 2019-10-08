@@ -1,11 +1,11 @@
 import { map } from "rxjs/operators";
 
 import { StatefulComponent } from "../../bases";
-import { Dictionary } from "@app/shared";
 import { Animation } from "@app/game-mechanics";
 import { DidUpdatePayload, ComponentData } from "../../models";
-import { AnimationPlayer } from "../../animations/animation";
+import { AnimationPlayer } from "../../animations/animation copy";
 import { getChildAsRenderFunc } from "../../helpers";
+import { AnimatableProps } from "../../animations";
 
 export type RzAnimationProps = {
     config: Animation;
@@ -14,7 +14,7 @@ export type RzAnimationProps = {
 };
 
 type State = {
-    interpolatingStyle?: Dictionary<number>;
+    interpolatingStyle?: AnimatableProps;
 };
 
 export class RzAnimation extends StatefulComponent<RzAnimationProps, State> {
@@ -56,7 +56,7 @@ export class RzAnimation extends StatefulComponent<RzAnimationProps, State> {
     render() {
         const { active } = this.props;
         const { interpolatingStyle } = this.state;
-        const renderFunc = getChildAsRenderFunc<Dictionary<number>>(this.props);
+        const renderFunc = getChildAsRenderFunc<AnimatableProps>(this.props);
         return renderFunc(active ? interpolatingStyle : {});
     }
 };

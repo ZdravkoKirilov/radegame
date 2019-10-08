@@ -34,28 +34,9 @@ export const Node = Memo<Props>(
             return () => subs.forEach(sub => sub.unsubscribe());
         }, []);
 
-        return transitions ? createElement(
-            RzTransition,
-            { transitions, data, context },
-            (interpolatedStyle: Dictionary<number>) => {
-                return createElement(
-                    'container',
-                    {
-                        styles: { x: data.x, y: data.y },
-                        id: data.id,
-                        name: `node_${data.id}`
-                    },
-                    createElement<StaticNodeProps>(StaticNode, { data, interpolatedStyle })
-                );
-            }
-        ) : null;
-
-        // return createElement(
-        //     RzAnimation,
-        //     {
-        //         config: animation,
-        //         active: !!animation,
-        //     },
+        // return transitions ? createElement(
+        //     RzTransition,
+        //     { transitions, data, context },
         //     (interpolatedStyle: Dictionary<number>) => {
         //         return createElement(
         //             'container',
@@ -67,7 +48,30 @@ export const Node = Memo<Props>(
         //             createElement<StaticNodeProps>(StaticNode, { data, interpolatedStyle })
         //         );
         //     }
-        // );
+        // ) : null;
+
+        return createElement(
+            RzAnimation,
+            {
+                config: animation,
+                active: !!animation,
+                context: {
+                    state: {},
+                    props: {},
+                }
+            },
+            (interpolatedStyle: Dictionary<number>) => {
+                return createElement(
+                    'container',
+                    {
+                        styles: { x: data.x, y: data.y },
+                        id: data.id,
+                        name: `node_${data.id}`
+                    },
+                    createElement<StaticNodeProps>(StaticNode, { data, interpolatedStyle })
+                );
+            }
+        );
     },
     ['data'],
 );
