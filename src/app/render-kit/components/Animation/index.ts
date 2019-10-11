@@ -3,7 +3,7 @@ import { map } from "rxjs/operators";
 import { StatefulComponent } from "../../bases";
 import { Animation } from "@app/game-mechanics";
 import { DidUpdatePayload, ComponentData } from "../../models";
-import { AnimationPlayer } from "../../animations/animation copy";
+import { AnimationPlayer } from "../../animations/animation";
 import { getChildAsRenderFunc } from "../../helpers";
 import { AnimatableProps } from "../../animations";
 

@@ -48,9 +48,9 @@ export function composeBooleanOptions(positive = 'Yes', negative = 'No'): Option
     }];
 }
 
-export function composeFromObject(obj: object): Option[] {
-    return Object.keys(obj).map(key => ({ value: key, label: obj[key] }));
-}
+export function composeFromObject(obj: object, useKeyOnly = false): Option[] {
+    return Object.keys(obj).map(key => ({ value: key, label: useKeyOnly ? key : obj[key] }));
+};
 
 export function combineContexts(base: ToggleContext, contexts: ToggleContext[] = []): ToggleContext {
     const newContext = { ...base, show: { ...base.show } };

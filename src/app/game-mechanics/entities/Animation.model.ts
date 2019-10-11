@@ -1,4 +1,5 @@
 import { Style } from "./Style.model";
+import { AnimationEasing } from "@app/render-kit";
 
 export type Animation = Partial<{
     id: number;
@@ -22,7 +23,7 @@ export type AnimationStep = Partial<{
     from_style: number | Style;
     to_style: number | Style;
 
-    easing: string;
+    easing: AnimationEasing;
     delay: number;
     duration: number;
 
@@ -36,9 +37,3 @@ export const ANIMATION_PLAY_TYPE = {
 } as const;
 
 export type AnimationPlayType = keyof typeof ANIMATION_PLAY_TYPE;
-
-export const ANIMATION_EASING = {
-    LINEAR: 'LINEAR',
-};
-
-export type AnimationEasing = keyof typeof ANIMATION_EASING;
