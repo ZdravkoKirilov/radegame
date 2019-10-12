@@ -22,6 +22,7 @@ export * from './Expression.model';
 export * from './Animation.model';
 export * from './Handler.model';
 export * from './Transition.model';
+export * from './Text.model';
 
 export * from './types';
 
@@ -49,11 +50,12 @@ import { Expression } from './Expression.model';
 import { Handler } from './Handler.model';
 import { Animation } from './Animation.model';
 import { Transition } from './Transition.model';
+import { Text } from './Text.model';
 
 export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
     Round | Choice | Stage | Field | Faction | Token | Team | Phase |
     Setup | ImageAsset | Keyword | Style | Sound | EntityState | Expression
-    | Handler | Animation | Transition;
+    | Handler | Animation | Transition | Text;
 
 export type GameEntityList = Dictionary<GameEntity>;
 

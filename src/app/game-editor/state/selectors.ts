@@ -51,12 +51,16 @@ export const getEntities = createSelector(
     selectFeature,
     (feature) => {
         const form = feature.form || {};
+        const games = values(form.games.items);
+        const game = games[0] as Game;
+
         let result: ConnectedEntities;
 
         for (let key in form) {
             result = result || {};
             result[key] = values(form[key].items);
         }
+        result.languages = game ? game.languages : [];
         return result;
     }
 );

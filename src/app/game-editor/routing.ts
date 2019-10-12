@@ -18,6 +18,7 @@ import { AnimationsContainerComponent } from './containers/animations/animations
 import { HandlersContainerComponent } from './containers/handlers/handlers-container.component';
 import { SetupsContainerComponent } from './containers/setups/setups-container.component';
 import { TransitionsContainerComponent } from './containers/transitions/transitions-container.component';
+import { TextsContainerComponent } from './containers/texts/texts-container.component';
 
 export const routes: Routes = [
     {
@@ -121,6 +122,10 @@ export const routes: Routes = [
             {
                 path: 'transitions',
                 component: TransitionsContainerComponent
+            },
+            {
+                path: 'texts',
+                component: TextsContainerComponent
             },
             {
                 path: '**',

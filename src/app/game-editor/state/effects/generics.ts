@@ -199,6 +199,8 @@ export class GenericEffectsService {
                 return this.api.saveSetup(<Setup>entity);
             case ALL_ENTITIES.transitions:
                 return this.api.saveTransition(<Transition>entity);
+            case ALL_ENTITIES.texts:
+                return this.api.saveText(entity);
             case ALL_ENTITIES.games:
                 if ((entity as Game).image && (entity as Game).image.includes('http')) {
                     delete (entity as Game).image
@@ -255,6 +257,8 @@ export class GenericEffectsService {
                 return this.api.deleteSetup(<Setup>entity);
             case ALL_ENTITIES.transitions:
                 return this.api.deleteTransition(<Setup>entity);
+            case ALL_ENTITIES.texts:
+                return this.api.deleteText(entity);
             default:
                 return of(null);
         }
