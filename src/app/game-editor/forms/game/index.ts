@@ -4,6 +4,7 @@ import { composeEntityOptions, composeCommonFormContext } from '../helpers';
 
 export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl[] {
     data = data || {} as Game;
+    const languages = data.languages || [];
 
     const template = `
         <Form>
@@ -15,14 +16,27 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
 
             <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
 
+            <Group name='languages' label='Languages' children='{languages}' item='@item' addButtonText='Add'>
+                <Form>
+                    <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+
+                    <TextInput name='name' label='Name'>{@item.name}</TextInput>
+
+                    <TextInput name='display_name' label='Display name'>{@item.display_name}</TextInput>
+
+                    <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{@item.image}</Dropdown>
+
+                </Form>
+            </Group>
+
         </Form>
     `;
 
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as any, ent),
-            data,
+            ...composeCommonFormContext(data, ent),
+            data, languages
         },
     }, true);
 

@@ -40,6 +40,7 @@ export const ALL_ENTITIES = {
     transitions: 'transitions',
     handlers: 'handlers',
     setups: 'setups',
+    texts: 'texts',
 } as const;
 
 export type AllEntity = keyof typeof ALL_ENTITIES;
