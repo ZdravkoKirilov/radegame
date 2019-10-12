@@ -1,5 +1,5 @@
 import { ImageFrame } from "./ImageAsset.model";
-import { InteractiveEntity } from "./types";
+import { InteractiveEntityType } from "./types";
 
 export type BaseModel = Partial<{
     id: number;
@@ -14,7 +14,7 @@ export type WithImage = Partial<{
 }>
 
 export type WithType = Partial<{
-    entity_type: InteractiveEntity;
+    entity_type: InteractiveEntityType;
 }>
 
 export type WithDisplayName = Partial<{

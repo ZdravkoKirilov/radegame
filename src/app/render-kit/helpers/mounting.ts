@@ -79,13 +79,6 @@ const mountStatefulComponent = (component: StatefulComponent, container: Abstrac
         component.didMount.call(component);
     }
 
-    component.animations.forEach(animation => {
-        // const enterAnimations: AnimationGroup[] = [];
-        // enterAnimations.forEach(animation => {
-        //     animation.playAll();
-        // });
-    });
-
     return component;
 };
 

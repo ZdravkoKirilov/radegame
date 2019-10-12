@@ -1,5 +1,5 @@
 import { Subject } from "rxjs";
-import { TweenMax, TimelineMax, Power2, TweenConfig } from 'gsap';
+import { TweenMax, TimelineMax, TweenConfig } from 'gsap';
 
 import { Dictionary } from '@app/shared';
 import { Animation, AnimationStep, ANIMATION_PLAY_TYPE, Transition, Style } from "@app/game-mechanics";

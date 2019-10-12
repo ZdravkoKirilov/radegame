@@ -34,10 +34,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {data.display_text}
             </Dropdown>
 
-            <Dropdown name='populate_by' label='Populate by using' options='{expression_options}'>
-                {data.populate_by}
-            </Dropdown>
-
             <Dropdown name='enabled' label='Enabled if' options='{expression_options}'>
                 {data.enabled}
             </Dropdown>

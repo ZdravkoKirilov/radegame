@@ -1,5 +1,7 @@
-import { RzElementProps, RzElement, MetaProps, DidUpdatePayload, RzElementType, Component, RzElementChild } from "../models";
-import { AnimationOrchestrator } from "../animations";
+import {
+    RzElementProps, RzElement, MetaProps,
+    DidUpdatePayload, RzElementType, Component
+} from "../models";
 import { updateComponent } from "../helpers";
 import { AbstractContainer } from "../interfaces";
 
@@ -13,8 +15,6 @@ export class StatefulComponent<P = {}, S = {}> {
     container: AbstractContainer;
     children: Component[];
     parent: Component;
-
-    get animations(): AnimationOrchestrator[] { return (this.type as any).animations || []; }
 
     constructor(props: P, meta: MetaProps) {
         this.props = { ...((this.constructor as any).defaultProps || {}) as any, ...props as any };

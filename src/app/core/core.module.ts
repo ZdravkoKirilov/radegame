@@ -18,7 +18,6 @@ import {
 import { AuthInterceptor } from './http';
 import { HomeModule } from '../home';
 import { NotFoundComponent } from './components';
-import { ExperimentsRoutingModule } from 'app/experiments/experiments-routing.module';
 import { OrchestratorComponent } from './components/orchestrator/orchestrator.component';
 import { PageTitleProviderComponent } from './components/page-title/page-title-provider.component';
 import { ActiveGamesProviderComponent } from './components/active-games/active-games-provider.component';
@@ -37,7 +36,6 @@ import { CurrentUserProviderComponent } from './components/current-user/current-
         ]),
         StoreRouterConnectingModule.forRoot(),
         HomeModule,
-        ExperimentsRoutingModule,
         AppRoutingModule,
     ],
     exports: [AppRoutingModule, OrchestratorComponent],

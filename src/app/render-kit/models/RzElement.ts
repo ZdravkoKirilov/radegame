@@ -1,7 +1,6 @@
 import { AbstractRenderEngine } from "../interfaces";
 import { ComponentConstructor, RenderFunction } from "./Component";
 import { ContextManager, AssetManager } from "../services";
-import { AnimationBase } from "../animations";
 import { PRIMS } from "../primitives";
 import { StateHooks, EffectHooks } from "../helpers";
 
@@ -25,7 +24,6 @@ export type RzElementProps = DefaultEvents & Partial<{
     textStyle: { [key: string]: any };
     points: Points;
     children: RzElement[] | RenderFunction[];
-    animations: AnimationBase[];
     draggable: DraggableConfig;
     scrollable: ScrollableConfig;
 }>;

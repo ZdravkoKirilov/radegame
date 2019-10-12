@@ -1,6 +1,8 @@
 import { BaseModel, WithBoard, WithStyle, WithType, WithState, WithImage } from "./Base.model";
 import { Transition } from "./Transition.model";
 import { Expression } from "./Expression.model";
+import { InteractiveEntity } from "./types";
+import { Handler } from "./Handler.model";
 
 export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & Partial<{
     owner: number; // Stage;
@@ -8,11 +10,9 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & P
     y: number;
     x: number;
 
-    display_text: number; // Expression
+    display_text: number | Expression; // Expression
 
     items: SlotItem[];
-    use_layout: number; // Expression // Determines how to stack items[] visually
-    populate_by: number;
 
     enabled: number | Expression;
 
@@ -21,15 +21,11 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & P
 }>;
 
 export type SlotHandler = {
-    owner: number; // Slot
-    handler: number; // Handler
+    owner: number;
+    handler: number | Handler;
 };
 
 export type SlotItem = WithType & {
     owner: number; // Slot
-    action: number; // foreign key
-    condition: number; // foreign key
-    choice: number; // foreign key
-    field: number; // foreign key
-    token: number; // foreign key
+    entity: number | InteractiveEntity;
 };
