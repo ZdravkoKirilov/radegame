@@ -8,12 +8,14 @@ import { shouldTransition, parseAnimationValues, AnimatableProps } from "./helpe
 import { mapEasing } from "./easings";
 
 export class TransitionAnimationsPlayer {
-    updates$: Subject<Dictionary>;
+    updates$: Subject<AnimatableProps>;
+    done$: Subject<unknown>;
 
     private player = new AnimationPlayer();
 
     constructor(public config: Transition) {
         this.updates$ = this.player.updates$;
+        this.done$ = this.player.done$;
     }
 
     playIfShould = (data: DidUpdatePayload, injectedProps = {}) => {

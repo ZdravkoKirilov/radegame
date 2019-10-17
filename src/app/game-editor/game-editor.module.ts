@@ -40,6 +40,7 @@ import { HandlersContainerComponent } from './containers/handlers/handlers-conta
 import { SetupsContainerComponent } from './containers/setups/setups-container.component';
 import { TransitionsContainerComponent } from './containers/transitions/transitions-container.component';
 import { TextsContainerComponent } from './containers/texts/texts-container.component';
+import { SonatasContainerComponent } from './containers/sonata/sonatas-container.component';
 
 @NgModule({
     imports: [
@@ -95,6 +96,7 @@ import { TextsContainerComponent } from './containers/texts/texts-container.comp
         SetupsContainerComponent,
         TransitionsContainerComponent,
         TextsContainerComponent,
+        SonatasContainerComponent,
     ]
 })
 export class GameEditorModule {

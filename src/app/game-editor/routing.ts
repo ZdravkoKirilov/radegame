@@ -19,6 +19,7 @@ import { HandlersContainerComponent } from './containers/handlers/handlers-conta
 import { SetupsContainerComponent } from './containers/setups/setups-container.component';
 import { TransitionsContainerComponent } from './containers/transitions/transitions-container.component';
 import { TextsContainerComponent } from './containers/texts/texts-container.component';
+import { SonatasContainerComponent } from './containers/sonata/sonatas-container.component';
 
 export const routes: Routes = [
     {
@@ -126,6 +127,10 @@ export const routes: Routes = [
             {
                 path: 'texts',
                 component: TextsContainerComponent
+            },
+            {
+                path: 'sonatas',
+                component: SonatasContainerComponent
             },
             {
                 path: '**',

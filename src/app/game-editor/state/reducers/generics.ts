@@ -96,6 +96,7 @@ export const formReducer: ActionReducer<any> = combineReducers({
     setups: createEntityReducer(ALL_ENTITIES.setups),
     transitions: createEntityReducer(ALL_ENTITIES.transitions),
     texts: createEntityReducer(ALL_ENTITIES.texts),
+    sonatas: createEntityReducer(ALL_ENTITIES.sonatas),
 });
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>) {
