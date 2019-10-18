@@ -7,7 +7,7 @@ import { Dictionary } from "@app/shared";
 import { withBasicInteractions, BasicInteractionProps } from "../../hocs";
 import { Transition, ExpressionContext } from "@app/game-mechanics";
 import { TransitionAnimationsPlayer } from "../../animations/animation";
-import { isTransitionEnabled } from "../../animations/helpers";
+import { isTransitionEnabled, AnimatableProps } from "../../animations/helpers";
 
 export type TransitionProps = Partial<BasicInteractionProps> & {
     transitions: Transition[];
@@ -16,7 +16,7 @@ export type TransitionProps = Partial<BasicInteractionProps> & {
 };
 
 type State = {
-    interpolatingStyle?: Dictionary<number>;
+    interpolatingStyle?: AnimatableProps;
 };
 
 class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
@@ -53,7 +53,7 @@ class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
 
     render() {
         const { interpolatingStyle } = this.state;
-        const renderFunc = getChildAsRenderFunc<Dictionary<number>>(this.props);
+        const renderFunc = getChildAsRenderFunc<AnimatableProps>(this.props);
         return renderFunc(interpolatingStyle || {});
     }
 }

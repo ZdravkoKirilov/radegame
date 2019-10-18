@@ -7,7 +7,7 @@ import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Field, Condition, Round, Team, Handler,
     Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, EntityState, Style, Keyword, Setup,
-    AllEntity, ALL_ENTITIES, Transition, Animation
+    AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
 import {
@@ -200,9 +200,9 @@ export class GenericEffectsService {
             case ALL_ENTITIES.transitions:
                 return this.api.saveTransition(<Transition>entity);
             case ALL_ENTITIES.texts:
-                return this.api.saveText(entity);
+                return this.api.saveText(<Text>entity);
             case ALL_ENTITIES.sonatas:
-                return this.api.saveSonata(entity);
+                return this.api.saveSonata(<Sonata>entity);
             case ALL_ENTITIES.games:
                 if ((entity as Game).image && (entity as Game).image.includes('http')) {
                     delete (entity as Game).image
