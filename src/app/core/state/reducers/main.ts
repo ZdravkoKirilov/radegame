@@ -8,6 +8,7 @@ import { SocialAuthState } from '../../../social-auth';
 import { ProfileFeature } from '@app/profile';
 import { CatalogFeatureState } from '@app/catalog';
 import { CoreFeature, coreReducer } from './core';
+import { ArenaState } from '@app/game-arena';
 
 export const reducers: ActionReducerMap<AppState> = {
     router: routerReducer,
@@ -21,4 +22,5 @@ export interface AppState {
     profile?: ProfileFeature;
     social_auth?: SocialAuthState;
     catalog?: CatalogFeatureState;
+    arena?: ArenaState;
 }
