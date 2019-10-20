@@ -1,10 +1,11 @@
 import { GameTemplate } from "../models";
 import {
     Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, Expression, GameAction,
-    ParamedExpressionFunc, SlotHandler, Handler
+    ParamedExpressionFunc, SlotHandler, Handler, Sonata
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
+import { SoundPlayer } from "@app/render-kit";
 
 export const parseFromString = (src: string, context: any): any => {
     try {
@@ -51,19 +52,25 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
         (acc, elem) => {
             const handler = conf.handlers[elem.handler as number] as Handler;
             const eventName = event_name_map[handler.type];
-            const expression: Expression = conf.expressions[handler.effect];
+            const expression: Expression = conf.expressions[handler.effect as number];
             const innerCallback: ParamedExpressionFunc<Slot> = parseFromString(expression.code, context);
             acc[eventName] = () => {
                 const actions: GameAction[] = innerCallback.call(context, payload);
-                const enabled = handler.enabled;
-                if (enabled) {
-                    const enabledExpression: Expression = conf.expressions[enabled];
+                const enabledRule = handler.enabled;
+                const soundExpression = conf.expressions[handler.sound as number] as Expression;
+                const sound = soundExpression ? parseFromString(soundExpression.code, context) : null;
+                if (enabledRule) {
+                    const enabledExpression: Expression = conf.expressions[enabledRule as number];
                     const enabledCallback: ParamedExpressionFunc<Slot> = parseFromString(enabledExpression.code, context);
                     if (enabledCallback.call(context, payload)) {
                         dispatcher.dispatch(actions);
                     }
                 } else {
                     dispatcher.dispatch(actions);
+                }
+                if (sound) {
+                    const soundPlayer = new SoundPlayer();
+                    soundPlayer.play(sound);
                 }
             };
             return acc;
