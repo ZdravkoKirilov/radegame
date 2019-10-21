@@ -3,7 +3,7 @@ import { Howl } from 'howler';
 import { Sonata, SONATA_PLAY_TYPE, Sound } from "@app/game-mechanics";
 
 export class SoundPlayer {
-    done$: Subject<unknown>;
+    done$: Subject<unknown> = new Subject();
     playing = false;
 
     private sonata: Sonata;
@@ -32,8 +32,8 @@ export class SoundPlayer {
             const howl = new Howl({
                 src: [sound.file],
                 loop: step.loop,
-                volume: step.volume,
-                rate: step.rate,
+                volume: step.volume || 1,
+                rate: step.rate || 1,
             });
             howl.on('end', () => {
                 currentHowl += 1;
@@ -62,9 +62,9 @@ export class SoundPlayer {
             const howl = new Howl({
                 src: [sound.file],
                 loop: step.loop,
-                volume: step.volume,
+                volume: step.volume || 1,
                 autoplay: true,
-                rate: step.rate,
+                rate: step.rate || 1,
             });
 
             howl.on('end', () => {

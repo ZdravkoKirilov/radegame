@@ -1,6 +1,5 @@
 import { WithState } from "./Base.model";
 import { Expression } from "./Expression.model";
-import { Sonata } from "./Sonata.model";
 
 export type Handler = WithState & Partial<{
     id: number;

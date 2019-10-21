@@ -1,4 +1,4 @@
-import { GameTemplate } from "../models";
+import { GameTemplate, GameConfig } from "../models";
 import {
     Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, Expression, GameAction,
     ParamedExpressionFunc, SlotHandler, Handler, Sonata
@@ -57,8 +57,7 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
             acc[eventName] = () => {
                 const actions: GameAction[] = innerCallback.call(context, payload);
                 const enabledRule = handler.enabled;
-                const soundExpression = conf.expressions[handler.sound as number] as Expression;
-                const sound = soundExpression ? parseFromString(soundExpression.code, context) : null;
+                playSoundIfNeeded(handler, conf, context);
                 if (enabledRule) {
                     const enabledExpression: Expression = conf.expressions[enabledRule as number];
                     const enabledCallback: ParamedExpressionFunc<Slot> = parseFromString(enabledExpression.code, context);
@@ -68,16 +67,28 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
                 } else {
                     dispatcher.dispatch(actions);
                 }
-                if (sound) {
-                    const soundPlayer = new SoundPlayer();
-                    soundPlayer.play(sound);
-                }
             };
             return acc;
         },
         {}
     );
     return all_handlers;
+};
+
+const playSoundIfNeeded = (handler: Handler, conf: GameConfig, context: ExpressionContext) => {
+    const soundExpression = conf.expressions[handler.sound as number] as Expression;
+    const getSound = soundExpression ? parseFromString(soundExpression.code, context) : null;
+    let sound: Sonata = getSound ? getSound(handler) : null;
+    if (sound) {
+        sound = { ...sound };
+        sound.steps = sound.steps.map(step => {
+            step = { ...step };
+            step.sound = conf.sounds[step.sound as number];
+            return step;
+        });
+        const soundPlayer = new SoundPlayer();
+        soundPlayer.play(sound);
+    }
 };
 
 const event_name_map = {
