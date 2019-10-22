@@ -30,10 +30,6 @@ export const API_URLS = {
     GAME_DATA: (gameId: number) => {
         return `${API_BASE_URL}/games/${gameId}/data`;
     },
-    FIELDS: (gameId: number, fieldId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/fields/`;
-        return fieldId ? `${base}${fieldId}/` : base;
-    },
     ACTIONS: (gameId: number, actionId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/actions/`;
         return actionId ? `${base}${actionId}/` : base;

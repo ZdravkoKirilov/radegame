@@ -5,7 +5,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
-    GameEntity, GameAction, Field, Condition, Round, Team, Handler,
+    GameEntity, GameAction, Condition, Round, Team, Handler,
     Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, EntityState, Style, Keyword, Setup,
     AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text
 } from '@app/game-mechanics';
@@ -124,8 +124,6 @@ export class GenericEffectsService {
                 return this.fetcher.getActions(data);
             case ALL_ENTITIES.factions:
                 return this.fetcher.getFactions(data);
-            case ALL_ENTITIES.fields:
-                return this.fetcher.getFields(data);
             case ALL_ENTITIES.conditions:
                 return this.fetcher.getConditions(data);
             case ALL_ENTITIES.rounds:
@@ -159,8 +157,6 @@ export class GenericEffectsService {
                 return this.api.saveAction(<GameAction>entity);
             case ALL_ENTITIES.factions:
                 return this.api.saveFaction(<Faction>entity);
-            case ALL_ENTITIES.fields:
-                return this.api.saveField(<Field>entity);
             case ALL_ENTITIES.conditions:
                 return this.api.saveCondition(<Condition>entity);
             case ALL_ENTITIES.rounds:
@@ -219,8 +215,6 @@ export class GenericEffectsService {
                 return this.api.deleteAction(<GameAction>entity);
             case ALL_ENTITIES.factions:
                 return this.api.deleteFaction(<Faction>entity);
-            case ALL_ENTITIES.fields:
-                return this.api.deleteField(<Field>entity);
             case ALL_ENTITIES.conditions:
                 return this.api.deleteCondition(<Condition>entity);
             case ALL_ENTITIES.rounds:

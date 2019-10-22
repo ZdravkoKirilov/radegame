@@ -3,7 +3,6 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
-    Field,
     Faction,
     Game,
     Slot,
@@ -251,19 +250,6 @@ export class GameEditService {
         } else {
             return this.http.post(API_URLS.SOUNDS(data.game), formData, options);
         }
-    }
-
-    saveField(data: Field): Observable<any> {
-
-        if (data.id) {
-            return this.http.patch(API_URLS.FIELDS(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.FIELDS(data.game), data);
-        }
-    }
-
-    deleteField(data: Field): Observable<any> {
-        return this.http.delete(API_URLS.FIELDS(data.game, data.id));
     }
 
     saveKeyword(data: Keyword): Observable<any> {

@@ -1,7 +1,6 @@
 export * from './editor/editor.container';
 export * from './actions/actions.container';
 export * from './factions/factions.container';
-export * from './fields/fields-container.component';
 export * from './games/games.container';
 export * from './conditions/conditions.container';
 export * from './rounds/rounds.container';

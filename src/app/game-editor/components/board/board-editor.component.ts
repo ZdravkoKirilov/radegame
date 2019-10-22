@@ -55,7 +55,7 @@ import { Slot, PathEntity, Stage, ImageAsset } from '@app/game-mechanics';
 })
 export class BoardEditorComponent {
 
-	@Input() entities: ConnectedEntities = { fields: [] };
+	@Input() entities: ConnectedEntities = {};
 	@Input() slots: Slot[];
 	@Input() paths: PathEntity[];
 	@Input() stage: Stage;

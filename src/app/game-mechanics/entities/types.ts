@@ -2,7 +2,6 @@ import { GameAction } from "./Action.model";
 import { Condition } from "./Condition.model";
 import { Choice } from "./Choice.model";
 import { Token } from "./Token.model";
-import { Field } from "./Field.model";
 
 export type InteractiveEntityType = keyof typeof INTERACTIVE_ENTITY;
 
@@ -11,10 +10,9 @@ export const INTERACTIVE_ENTITY = {
     'CONDITION': 'CONDITION',
     'ACTION': 'ACTION',
     'CHOICE': 'CHOICE',
-    'FIELD': 'FIELD',
 } as const;
 
-export type InteractiveEntity = GameAction | Condition | Choice | Token | Field;
+export type InteractiveEntity = GameAction | Condition | Choice | Token;
 
 export const ALL_ENTITIES = {
     choices: 'choices',
@@ -22,7 +20,6 @@ export const ALL_ENTITIES = {
     phases: 'phases',
     conditions: 'conditions',
     stages: 'stages',
-    fields: 'fields',
     actions: 'actions',
     factions: 'factions',
     tokens: 'tokens',

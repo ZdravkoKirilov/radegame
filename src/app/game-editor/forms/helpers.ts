@@ -128,7 +128,6 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
     keyword_options: composeEntityOptions(ent, 'keywords'),
     setup_options: composeEntityOptions(ent, 'setups'),
     condition_options: composeEntityOptions(ent, 'conditions'),
-    field_options: composeEntityOptions(ent, 'fields'),
     token_options: composeEntityOptions(ent, 'tokens'),
     stage_options: composeEntityOptions(ent, 'stages'),
     image_options: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),

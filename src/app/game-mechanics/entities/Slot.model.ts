@@ -10,9 +10,9 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & P
     y: number;
     x: number;
 
-    display_text: number | Expression; // Expression
-
+    display_text: number | Expression; // returns Text
     items: SlotItem[];
+    shape: number; // Shape
 
     enabled: number | Expression;
 

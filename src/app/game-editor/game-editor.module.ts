@@ -18,7 +18,7 @@ import {
 } from './components';
 
 import {
-    EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent, FieldsContainerComponent,
+    EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, RoundsContainerComponent,
     StagesContainerComponent, ChoicesContainerComponent,
     TeamsContainerComponent, TokensContainerComponent, PhasesContainerComponent, BoardContainerComponent
@@ -66,7 +66,6 @@ import { SonatasContainerComponent } from './containers/sonata/sonatas-container
         ActionsContainerComponent,
         FactionsContainerComponent,
         EditorContainerComponent,
-        FieldsContainerComponent,
         GamesContainerComponent,
         ConditionsContainerComponent,
         RoundsContainerComponent,

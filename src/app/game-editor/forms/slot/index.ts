@@ -61,9 +61,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                         {@item.token}
                     </Dropdown>
 
-                    <Dropdown name='field' label='Field' options='{field_options}'>
-                        {@item.field}
-                    </Dropdown>
                 </Form>
             </Group>
 
