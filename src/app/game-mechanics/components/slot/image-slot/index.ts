@@ -1,5 +1,5 @@
 import { RenderFunction, createElement, DynamicSprite } from "@app/render-kit";
-import { Style, Slot } from "../../../../entities";
+import { Style, Slot } from "../../../entities";
 
 export type Props = {
     style: Style;

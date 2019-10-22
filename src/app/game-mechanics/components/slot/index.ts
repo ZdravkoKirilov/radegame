@@ -2,13 +2,13 @@ import { Store, select } from "@ngrx/store";
 import { map } from "rxjs/operators";
 
 import { createElement, Memo, RzAnimation, RzTransition } from "@app/render-kit";
-import StaticNode, { Props as StaticNodeProps } from './static-node';
-import { withStore } from "../../../hocs";
+import OrchestratorSlot, { Props as OrchestratorProps } from './slot-orchestrator';
 import { AppState } from "@app/core";
 import { Dictionary } from '@app/shared';
-import { Animation, Slot, Transition } from "../../../entities";
+import { Animation, Slot, Transition } from "../../entities";
 import { selectSlotAnimation, selectSlotTransitions, selectExpressionContext } from "@app/game-arena";
-import { ExpressionContext } from "../../../resolvers";
+import { ExpressionContext } from "../../resolvers";
+import { withStore } from "../../hocs";
 
 type HOCProps = {
     store: Store<AppState>;
@@ -68,7 +68,7 @@ export const Node = Memo<Props>(
                         id: data.id,
                         name: `node_${data.id}`
                     },
-                    createElement<StaticNodeProps>(StaticNode, { data, interpolatedStyle })
+                    createElement<OrchestratorProps>(OrchestratorSlot, { data, interpolatedStyle })
                 );
             }
         );

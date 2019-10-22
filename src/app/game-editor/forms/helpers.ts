@@ -118,6 +118,8 @@ export const framesTemplate = `
             <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}' required='{true}'>
                 {@frame.image}
             </Dropdown>
+
+            <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{@frame.style}</Dropdown>
             
         </Form>
 

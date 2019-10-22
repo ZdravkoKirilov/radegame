@@ -1,10 +1,10 @@
-import { BaseModel, WithBoard, WithStyle, WithType, WithState, WithImage } from "./Base.model";
+import { BaseModel, WithBoard, WithStyle, WithType, WithState, WithFrames, WithImage } from "./Base.model";
 import { Transition } from "./Transition.model";
 import { Expression } from "./Expression.model";
 import { InteractiveEntity } from "./types";
 import { Handler } from "./Handler.model";
 
-export type Slot = BaseModel & WithBoard & WithStyle & WithState & WithImage & Partial<{
+export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & WithFrames & Partial<{
     owner: number; // Stage;
 
     y: number;

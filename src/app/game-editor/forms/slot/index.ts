@@ -5,7 +5,7 @@ import {
     boardTemplate, styleTemplate,
     composeCommonFormContext,
     stateTemplate,
-    imageTemplate,
+    framesTemplate,
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
@@ -13,12 +13,11 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const handlers = data.handlers || [];
     const items = data.items || [];
     const transitions = data.transitions || [];
+    const frames = data.frames || [];
 
     const template = `
         <Form>
             ${baseTemplate}
-
-            ${imageTemplate}
 
             <NumberInput name='x' label='Left' defaultValue='{100}'>{data.x}</NumberInput>
 
@@ -29,6 +28,8 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             ${styleTemplate}
 
             ${stateTemplate}
+
+            ${framesTemplate}
 
             <Dropdown name='display_text' label='Displayed text' options='{expression_options}'>
                 {data.display_text}
@@ -85,7 +86,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, items, handlers, transitions,
+            data, items, handlers, transitions, frames,
         },
     }, true);
 

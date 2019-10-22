@@ -3,14 +3,14 @@ import { Store, select } from '@ngrx/store';
 import { map } from 'rxjs/operators';
 
 import { RenderFunction, createElement, Memo, RzStyles } from "@app/render-kit";
-import EmptySlot, { Props as EmptySlotProps } from "../empty-slot";
-import { Slot, Style, ImageAsset } from '../../../../entities';
-import { withStore, withDispatcher } from '../../../../hocs';
+import ImageSlot, { Props as ImageSlotProps } from "../image-slot";
+import { Slot, Style, ImageAsset } from '../../../entities';
+import { withStore, withDispatcher } from '../../../hocs';
 import { AppState } from '@app/core';
 import { selectSlotStyle, selectSlotImage, selectGameConfig, selectExpressionContext, isSlotEnabled } from '@app/game-arena';
-import { assignHandlers, ExpressionContext } from '../../../../resolvers';
-import { GameTemplate } from '../../../../models';
-import { GameBroadcastService } from '../../../../services/game-broadcast/game-broadcast.service';
+import { assignHandlers, ExpressionContext } from '../../../resolvers';
+import { GameTemplate } from '../../../models';
+import { GameBroadcastService } from '../../../services/game-broadcast/game-broadcast.service';
 
 type HOCProps = {
     store: Store<AppState>;
@@ -66,7 +66,7 @@ const StaticNode: RenderFunction<Props> = ({ data, interpolatedStyle, store, dis
                 borderRadius: 15,
             }
         }),
-        emptySlot ? createElement<EmptySlotProps>(EmptySlot, { style, image: image.image, data }) : null,
+        emptySlot ? createElement<ImageSlotProps>(ImageSlot, { style, image: image.image, data }) : null,
     ) : null;
 };
 

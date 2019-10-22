@@ -1,6 +1,6 @@
 import { RenderFunction, createElement, DynamicSprite } from "@app/render-kit";
 import { Stage, Slot, ImageAsset } from "@app/game-mechanics";
-import StaticNode, { Props as StaticNodeProps } from "../static-node";
+import SlotOrchestrator, { Props as OrchestratorProps } from "../slot-orchestrator";
 
 export type Props = {
     stage: Stage;
@@ -11,7 +11,7 @@ export type Props = {
 const EmbeddedStage: RenderFunction<Props> = ({ stage, image, slots }) => {
     const nodes = slots.map(slot => {
         return createElement('container', { styles: { x: slot.x, y: slot.y }, key: slot.id },
-            createElement<StaticNodeProps>(StaticNode, { data: slot }),
+            createElement<OrchestratorProps>(SlotOrchestrator, { data: slot }),
         );
     });
 
