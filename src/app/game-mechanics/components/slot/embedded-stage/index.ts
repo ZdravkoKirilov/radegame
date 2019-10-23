@@ -28,7 +28,4 @@ const EmbeddedStage: RenderFunction<Props> = ({ stage, image, slots }) => {
     );
 };
 
-
-
-
 export default EmbeddedStage;

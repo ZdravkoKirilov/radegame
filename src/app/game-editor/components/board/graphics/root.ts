@@ -79,9 +79,9 @@ export class RootComponent extends StatefulComponent<Props, State> {
                 borderColor: 0x161616,
                 padding: '0 0',
             },
-                createElement<BGProps>(Background, {
+                background ? createElement<BGProps>(Background, {
                     background, stage, selectSlot, selectPath,
-                }),
+                }) : null,
 
                 createElement<PathProps>(Paths, {
                     paths,
