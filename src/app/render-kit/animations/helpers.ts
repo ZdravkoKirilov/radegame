@@ -20,7 +20,9 @@ export const ANIMATABLE_PROPS = {
     stroke_color: 'stroke_color',
     stroke_thickness: 'stroke_thickness',
     fill: 'fill',
-};
+    x: 'x',
+    y: 'y'
+} as const;
 
 export type AnimatableProps = Partial<WithKeysAs<typeof ANIMATABLE_PROPS, string | number>>;
 

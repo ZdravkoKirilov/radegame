@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, EntityState, Animation, Transition, AnimationStep } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, EntityState, Animation, Transition, AnimationStep, Text } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary, removeEmptyProps } from "@app/shared";
@@ -129,6 +129,18 @@ export const selectSlotStyle = (slot_id: number) => createSelector(
             style = { ...style, ...stateStyle };
         }
         return style;
+    }
+);
+
+export const selectSlotText = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    (config, slot_data) => {
+        if (slot_data.display_text) {
+            const text = config.texts[slot_data.display_text as number] as Text;
+            return text;
+        }
+        return null;
     }
 );
 

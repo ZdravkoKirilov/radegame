@@ -6,6 +6,6 @@ export type Props = {
     interpolatedStyle?: AnimatableProps;
 };
 
-export const SlotGuard: RenderFunction<Props> = ({ data, interpolatedStyle }) => {
+export const ItemSlot: RenderFunction<Props> = ({ data, interpolatedStyle }) => {
     return createElement('fragment');
 };
