@@ -9,7 +9,7 @@ import { removeNonAnimatableProps } from "@app/render-kit";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
-const selectConfig = createSelector(
+export const selectConfig = createSelector(
     selectFeature,
     feature => feature.config,
 );
@@ -66,7 +66,7 @@ export const selectCurrentRoundStage = createSelector(
 export const selectCurrentRoundStageImage = createSelector(
     selectCurrentRoundStage,
     selectConfig,
-    (stage, config) => config.images[stage.image] as ImageAsset
+    (stage, config) => config.images[stage.image as number] as ImageAsset
 );
 
 export const selectCurrentRoundStageSlots = createSelector(
@@ -219,6 +219,27 @@ export const selectSlotImage = (slot_id: number) => createSelector(
     (config, slot_data) => {
         const image_data = config.images[slot_data.image] || {};
         return image_data as ImageAsset;
+    }
+);
+
+export const selectSlotStage = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    (config, slot_data) => {
+        let stage_data = config.stages[slot_data.board] as Stage || {} as Stage;
+        stage_data = {
+            ...stage_data,
+            image: config.images[stage_data.image as number] as ImageAsset
+        }
+        return stage_data as Stage;
+    }
+);
+
+export const selectSlotStageChildren = (slot_id: number) => createSelector(
+    selectSlotStage(slot_id),
+    selectConfig,
+    (stage, config) => {
+        return Object.values(config.slots).filter((elem: Slot) => elem.owner === stage.id) as Slot[];
     }
 );
 

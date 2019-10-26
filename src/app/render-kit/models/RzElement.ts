@@ -48,6 +48,8 @@ export type ScrollableConfig = Partial<{
 
 export type RzElementType<T extends RzElementProps = {}> = PrimitiveType | ComponentConstructor<T> | RenderFunction;
 
+export type CompositeType<T = any> = ComponentConstructor<T> | RenderFunction;
+
 export type RzStyles = {
     width: number;
     height: number;
@@ -62,7 +64,7 @@ export type RzStyles = {
     alpha: number;
     fill: number;
     radius: number;
-    borderRadius: number;
+    border_radius: number;
     stroke_thickness: number;
     stroke_color: number;
     scale: string; // "xValue yValue"

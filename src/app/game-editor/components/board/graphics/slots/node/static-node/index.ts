@@ -30,7 +30,7 @@ const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
                         y: 0,
                         width: Number(style.width) + 10,
                         height: Number(style.height) + 35,
-                        borderRadius: 5,
+                        border_radius: 5,
                         radius: style.width
                     }
                 }),
@@ -58,7 +58,7 @@ const StaticNode: RenderFunction<Props> = ({ data, selected }) => {
                             createElement<EmbeddedStageProps>(EmbeddedStage, {
                                 stage,
                                 slots: values(ctx.entities.slots).filter(slot => slot.owner === stage.id),
-                                image: ctx.entities.images[stage.image]
+                                image: ctx.entities.images[stage.image as number]
                             }),
                         ),
                     ),

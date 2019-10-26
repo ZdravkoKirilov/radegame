@@ -65,7 +65,7 @@ export const selectCurrentRoundStage = createSelector(
 export const selectCurrentRoundStageImage = createSelector(
     selectCurrentRoundStage,
     selectConfig,
-    (stage, config) => config.images[stage.image] as ImageAsset
+    (stage, config) => config.images[stage.image as number] as ImageAsset
 );
 
 export const selectCurrentRoundStageSlots = createSelector(

@@ -130,8 +130,8 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
 
     graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
 
-    if (styles && !isNaN(Number(styles.borderRadius))) {
-        graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.borderRadius);
+    if (styles && !isNaN(Number(styles.border_radius))) {
+        graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.border_radius);
     } else {
         graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
     }

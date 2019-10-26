@@ -1,4 +1,4 @@
-import { ImageFrame } from "./ImageAsset.model";
+import { ImageFrame, ImageAsset } from "./ImageAsset.model";
 import { InteractiveEntityType } from "./types";
 
 export type BaseModel = Partial<{

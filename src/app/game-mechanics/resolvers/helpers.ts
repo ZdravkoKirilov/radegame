@@ -22,7 +22,7 @@ export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
     setup_data.rounds.forEach(elem => {
         const round_data = conf.rounds[elem.round] as Round;
         const stage = conf.stages[round_data.board] as Stage;
-        const image = conf.images[stage.image] as ImageAsset;
+        const image = conf.images[stage.image as number] as ImageAsset;
         const slot_images = Object.values(conf.slots).reduce(
             (acc, item: Slot) => {
                 if (item.owner === stage.id) {

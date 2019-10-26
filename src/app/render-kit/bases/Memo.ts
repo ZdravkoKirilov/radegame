@@ -8,6 +8,8 @@ export const Memo = <T>(original: RenderFunction<T>, checker?: ShouldUpdateCheck
     return MemoComponent as MemoRenderFunction<T>;
 };
 
+export const CurriedMemo = <T>(checker?: ShouldUpdateCheck<T>) => (original: RenderFunction<T>) => Memo(original, checker);
+
 export type MemoRenderFunction<T extends RzElementProps = {}> = RenderFunction<T> & {
     shouldUpdate: ShouldUpdateCheck;
     memo: true;

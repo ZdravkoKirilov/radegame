@@ -14,6 +14,8 @@ export type Style = BaseModel & Partial<{
 
     opacity: number;
 
+    border_radius: number;
+
     x: number;
     y: number;
 }>;

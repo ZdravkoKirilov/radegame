@@ -9,3 +9,5 @@ export type Props = {
 export const ItemSlot: RenderFunction<Props> = ({ data, interpolatedStyle }) => {
     return createElement('fragment');
 };
+
+export default ItemSlot;
