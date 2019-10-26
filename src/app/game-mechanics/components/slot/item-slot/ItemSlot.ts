@@ -1,12 +1,12 @@
 import { RenderFunction, createElement, AnimatableProps } from "@app/render-kit";
 import { Slot } from '../../../entities';
 
-export type Props = {
+export type ItemSlotProps = {
     data: Slot;
     interpolatedStyle?: AnimatableProps;
 };
 
-export const ItemSlot: RenderFunction<Props> = ({ data, interpolatedStyle }) => {
+export const ItemSlot: RenderFunction<ItemSlotProps> = ({ data, interpolatedStyle }) => {
     return createElement('fragment');
 };
 

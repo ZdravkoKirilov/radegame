@@ -1,8 +1,9 @@
 import { createElement, PrimitiveContainer, Points, Memo } from "@app/render-kit";
-import { Slot } from "@app/game-mechanics";
-import StaticNode, { Props as StaticNodeProps } from './static-node';
+import { Slot, Style } from "@app/game-mechanics";
 
-export type Props = {
+import FacadeSlot, { EnhancedFacadeSlotProps } from './facade-slot';
+
+export type Props = Partial<StoreProps> & {
     data: Slot;
     selected: boolean;
     onDragMove: (comp: PrimitiveContainer) => void;
@@ -10,10 +11,13 @@ export type Props = {
     onSelect: (item: Slot) => void;
 };
 
+type StoreProps = {
+    style: Style;
+}
+
 export const Node = Memo<Props>(
     (props) => {
-        const { data, onDragMove, onDragEnd, onSelect, selected } = props;
-
+        const { data, onDragMove, onDragEnd, onSelect, selected, style } = props;
         return createElement(
             'container',
             {
@@ -23,7 +27,23 @@ export const Node = Memo<Props>(
                 onPointerDown: () => onSelect(data),
                 name: `node_${data.id}`
             },
-            createElement<StaticNodeProps>(StaticNode, { data, selected })
+            selected ? createElement('rectangle', {
+                button: true,
+                styles: {
+                    stroke_thickness: 5,
+                    stroke_color: style.stroke_color,
+                    x: 0,
+                    y: 0,
+                    width: Number(style.width) + 10,
+                    height: Number(style.height) + 35,
+                    border_radius: 5,
+                    radius: style.width
+                }
+            }) : null,
+            createElement<EnhancedFacadeSlotProps>(
+                FacadeSlot,
+                { data }
+            ),
         );
     },
     ['data', 'selected'],

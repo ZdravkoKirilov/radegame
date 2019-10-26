@@ -7,11 +7,11 @@ import { connect } from "../../../hocs";
 import { AppState } from "@app/core";
 import { selectSlotStyle, selectSlotAnimation, selectSlotTransitions } from "app/game-arena/state/selectors/game-state2";
 
-export type Props = {
+export type ShapeSlotProps = {
     style: Style;
 }
 
-export const ShapeSlot: RenderFunction<Props & StoreProps> = ({ style }) => {
+export const ShapeSlot: RenderFunction<ShapeSlotProps & StoreProps> = ({ style }) => {
 
     return createElement('rectangle', {
         styles: {
@@ -37,7 +37,7 @@ type StoreProps = {
     transitions: Transition[];
 };
 
-const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, animation, transitions } ) => {
+const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, animation, transitions = [] } ) => {
     return createElement<RzAnimationProps>(
         RzAnimation,
         {
@@ -54,7 +54,7 @@ const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, an
                 { transitions, data: {}, context: {} as any },
                 (transitionStyle: AnimatableProps | any) => {
                     const composedStyle: Style = { ...style, ...transitionStyle, ...animatedStyle };
-                    return createElement<Props>(ShapeSlot, { style: composedStyle });
+                    return createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle });
                 }
             );
         }

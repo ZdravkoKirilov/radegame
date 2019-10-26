@@ -1,13 +1,13 @@
 import { RenderFunction, createElement, DynamicSprite } from "@app/render-kit";
 import { Style, Slot } from "../../../entities";
 
-export type Props = {
+export type ImageSlotProps = {
     style: Style;
     image: string;
     data: Slot;
 }
 
-const ImageSlot: RenderFunction<Props> = ({ style, image, data }) => {
+export const ImageSlot: RenderFunction<ImageSlotProps> = ({ style, image, data }) => {
 
     return createElement('container', {},
         image ? createElement(DynamicSprite, {
