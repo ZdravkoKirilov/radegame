@@ -3,9 +3,10 @@ import { RenderFunction, createElement } from "@app/render-kit";
 import { Stage, Slot, StageSlot, StageSlotProps } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { connect } from "@app/game-mechanics";
-import { selectSlotStage, selectSlotStageChildren } from 'app/game-arena/state/selectors/game-state2';
+import { selectSlotStage, selectSlotStageChildren } from '../../../../../../state';
 
 import FacadeSlot from '../facade-slot';
+
 
 type OwnProps = {
     data: Slot;

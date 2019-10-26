@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 
 import {
     StatefulComponent, createElement, PrimitiveContainer,
-    Scrollable, ScrollableProps, AutoClean
+    Scrollable, ScrollableProps, AutoClean, MetaProps
 } from "@app/render-kit";
 
 import Slots, { Props as SlotProps } from './slots';
@@ -35,6 +35,11 @@ type State = Partial<{
 
 @AutoClean()
 export class RootComponent extends StatefulComponent<Props, State> {
+    constructor(props: Props, meta: MetaProps) {
+        super(props, meta);
+        this.meta.context.set('store', this.props.store);
+    }
+
     state = {
         entities: {},
         stage: null,
