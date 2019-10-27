@@ -29,6 +29,17 @@ const StageBackground = Memo<Props>(
                         },
                     }))
             ),
+            createElement('rectangle', {
+                button: true,
+                styles: {
+                    stroke_thickness: 1,
+                    stroke_color: 0x49eb34,
+                    x: 0,
+                    y: 0,
+                    width: stage.width,
+                    height: stage.height,
+                }
+            })
         );
     },
     ['background']
