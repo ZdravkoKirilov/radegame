@@ -11,10 +11,13 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & W
     x: number;
 
     display_text: number | Expression; // returns Text
+    display_text_inline: string;
+
     items: SlotItem[];
     shape: number; // Shape
 
     enabled: number | Expression;
+    enabled_inline: string;
 
     handlers: SlotHandler[];
     transitions: number[] | Transition[];

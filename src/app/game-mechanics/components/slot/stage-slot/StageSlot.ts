@@ -13,6 +13,7 @@ export type StageSlotProps = {
 };
 
 export const StageSlot = Memo<StageSlotProps>(({ stage, slots, childType }) => {
+    slots = slots || [];
     const nodes = slots.map(slot => {
         return createElement('container', { styles: { x: slot.x, y: slot.y }, key: slot.id },
             createElement(childType, { data: slot }),

@@ -44,6 +44,7 @@ export type WithStakes = Partial<{
 
 export type WithStyle = Partial<{
     style: number; // Style
+    style_inline: string;
 }>
 
 export type WithState = Partial<{

@@ -35,9 +35,15 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {data.display_text}
             </Dropdown>
 
-            <Dropdown name='enabled' label='Enabled if' options='{expression_options}'>
+            <CodeEditor name='display_text_inline' label='Display text: inline'>
+                {data.display_text_inline}
+            </CodeEditor>
+
+            <Dropdown name='enabled' label='Enabled if:' options='{expression_options}'>
                 {data.enabled}
             </Dropdown>
+
+            <CodeEditor name='enabled_inline' label='Enabled: inline'>{data.enabled_inline}</CodeEditor>
 
             <Group name='items' label='Items' children='{items}' item='@item' addButtonText='Add'>
                 <Form>

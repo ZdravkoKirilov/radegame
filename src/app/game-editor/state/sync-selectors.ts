@@ -1,7 +1,8 @@
 import { createSelector } from "reselect";
 
 import {
-    Stage, ImageAsset, Slot, Style, Text
+    Stage, ImageAsset, Slot, Style, Text, Expression, parseFromString,
+    createExpressionContext, GameTemplate
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -11,6 +12,17 @@ const selectFeature = (state: AppState) => state[FEATURE_NAME];
 const selectForm = createSelector(
     selectFeature,
     feature => feature.form,
+);
+
+const selectExpressionContext = createSelector(
+    selectForm,
+    form => {
+        const conf = Object.entries(form).reduce((total, [key, value]) => {
+            total[key] = value.items;
+            return total;
+        }, {}) as GameTemplate;
+        return createExpressionContext({ conf, self: 1, players: {}, state: {} as any });
+    }
 );
 
 export const selectSlotData = (slot_id: number) => createSelector(
@@ -36,10 +48,13 @@ export const selectSlotStyle = (slot_id: number) => createSelector(
 
 export const selectSlotText = (slot_id: number) => createSelector(
     selectForm,
+    selectExpressionContext,
     selectSlotData(slot_id),
-    (form, slot_data) => {
+    (form, context, slot_data) => {
         if (slot_data.display_text) {
-            const text = form.texts.items[slot_data.display_text as number] as Text;
+            const expression = form.expressions.items[slot_data.display_text as number] as Expression;
+            const callback = parseFromString(expression.code, context);
+            const text = callback.call(context, slot_data) as Text;
             return text;
         }
         return null;
