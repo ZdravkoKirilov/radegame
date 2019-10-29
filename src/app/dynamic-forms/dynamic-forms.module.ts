@@ -8,6 +8,7 @@ import { TextInputComponent, ButtonGroupComponent, ImagePickerComponent, NumberI
 import { FilePickerComponent } from './controls/file-picker/file-picker.component';
 import { ColorPickerComponent } from './controls/color-picker/color-picker.component';
 import { CodeEditorComponent } from './controls/code-editor/code-editor.component';
+import { EmbeddedDataComponent } from './controls/embedded-data/embedded-data.component';
 
 @NgModule({
     imports: [
@@ -30,6 +31,7 @@ import { CodeEditorComponent } from './controls/code-editor/code-editor.componen
         FilePickerComponent,
         ColorPickerComponent,
         CodeEditorComponent,
+        EmbeddedDataComponent,
     ],
     providers: [
         ControlsService

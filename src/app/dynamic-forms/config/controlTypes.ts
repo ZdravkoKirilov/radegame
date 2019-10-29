@@ -16,4 +16,6 @@ export const controlTypes = {
     COLOR_PICKER: 'ColorPicker',
 
     CODE_EDITOR: 'CodeEditor',
-};
+
+    EMBEDDED_DATA: 'EmbeddedData',
+} as const;
