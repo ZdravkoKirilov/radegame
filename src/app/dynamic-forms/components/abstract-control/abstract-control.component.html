@@ -42,6 +42,10 @@
             <rg-code-editor [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-code-editor>
         </ng-container>
 
+        <ng-container *ngSwitchCase="types.EMBEDDED_DATA">
+            <rg-embedded-data [form]="form" [data]="data" (change)="handleFieldChange($event)"></rg-embedded-data>
+        </ng-container>
+
         <ng-container *ngSwitchDefault>
             Unknown element! ' {{data.type}} '
         </ng-container>

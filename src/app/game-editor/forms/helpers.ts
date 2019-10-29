@@ -98,7 +98,6 @@ export const displayNameTemplate = `
 
 export const styleTemplate = `
     <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
-    <CodeEditor name='style_inline' label='Inline style'>{data.style_inline}</CodeEditor>
 `;
 
 export const stakesTemplate = `

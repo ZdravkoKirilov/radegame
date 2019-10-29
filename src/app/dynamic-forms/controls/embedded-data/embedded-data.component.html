@@ -1,1 +1,6 @@
-<rg-nested-form [form]="ownGroup" (change)="handleChange($event)" [data]="data"></rg-nested-form>
+<ng-container *ngIf="ownGroup">
+    <label>{{data.label}}</label>
+    <rg-nested-form [form]="ownGroup" [group]="ownGroup" (change)="handleChange($event)"
+        [data]="composeDataWithChildren()">
+    </rg-nested-form>
+</ng-container>

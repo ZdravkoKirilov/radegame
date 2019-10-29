@@ -2,13 +2,13 @@ import { Style } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import { baseTemplate, composeCommonFormContext } from '../helpers';
 
-export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseControl[] {
+export function composeStyleForm(data: Style, ent: ConnectedEntities, asInlineForm = false): BaseControl[] {
     data = data || {};
 
     const template = `
     <Form>
 
-        ${baseTemplate}
+        ${asInlineForm ? '' : baseTemplate}
 
         <TextInput name='width' label='Width'>{data.width}</TextInput>
         <TextInput name='height' label='Height'>{data.height}</TextInput>
@@ -34,4 +34,4 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities): BaseContr
     }, true) as BaseControl[];
 
     return result;
-}
+};

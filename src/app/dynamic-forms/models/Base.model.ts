@@ -30,6 +30,7 @@ export type BaseControl = Partial<{
     options: Option[];
     children: BaseControl[];
     childTemplate: BaseControl;
+    embeddedChildren: BaseControl[];
     connectedEntities: ConnectedEntities;
     addButtonText: string;
     multiple: boolean;
