@@ -42,6 +42,10 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/texts/`;
         return itemId ? `${base}${itemId}/` : base;
     },
+    SHAPES: (gameId: number, itemId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/shapes/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
     SONATAS: (gameId: number, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/sonatas/`;
         return itemId ? `${base}${itemId}/` : base;

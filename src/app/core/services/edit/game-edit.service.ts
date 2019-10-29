@@ -13,7 +13,7 @@ import {
     Choice,
     Stage,
     Token,
-    Phase, Animation, Handler, Team, ImageAsset, Keyword, Style, Sound, EntityState, Expression, Setup, Transition, Text, Sonata,
+    Phase, Animation, Handler, Team, ImageAsset, Keyword, Style, Sound, EntityState, Expression, Setup, Transition, Text, Sonata, Shape,
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../../config';
@@ -301,6 +301,18 @@ export class GameEditService {
 
     deleteExpression(data: Expression): Observable<any> {
         return this.http.delete(API_URLS.EXPRESSIONS(data.game, data.id));
+    }
+
+    saveShape(data: Shape): Observable<any> {
+        if (data.id) {
+            return this.http.patch(API_URLS.SHAPES(data.game, data.id), data);
+        } else {
+            return this.http.post(API_URLS.SHAPES(data.game), data);
+        }
+    }
+
+    deleteShape(data: Shape): Observable<any> {
+        return this.http.delete(API_URLS.SHAPES(data.game, data.id));
     }
 
     saveSetup(data: Setup): Observable<any> {

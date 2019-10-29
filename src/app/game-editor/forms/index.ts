@@ -22,3 +22,4 @@ export * from './setup';
 export * from './transition.ts';
 export * from './text';
 export * from './sonata';
+export * from './shape';

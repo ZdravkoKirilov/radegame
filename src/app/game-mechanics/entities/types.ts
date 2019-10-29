@@ -39,6 +39,7 @@ export const ALL_ENTITIES = {
     setups: 'setups',
     texts: 'texts',
     sonatas: 'sonatas',
+    shapes: 'shapes',
 } as const;
 
 export type AllEntity = keyof typeof ALL_ENTITIES;

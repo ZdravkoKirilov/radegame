@@ -7,7 +7,7 @@ import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Condition, Round, Team, Handler,
     Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, EntityState, Style, Keyword, Setup,
-    AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text
+    AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
 import {
@@ -199,6 +199,8 @@ export class GenericEffectsService {
                 return this.api.saveText(<Text>entity);
             case ALL_ENTITIES.sonatas:
                 return this.api.saveSonata(<Sonata>entity);
+            case ALL_ENTITIES.shapes:
+                return this.api.saveShape(<Shape>entity);
             case ALL_ENTITIES.games:
                 if ((entity as Game).image && (entity as Game).image.includes('http')) {
                     delete (entity as Game).image
@@ -255,6 +257,8 @@ export class GenericEffectsService {
                 return this.api.deleteTransition(<Setup>entity);
             case ALL_ENTITIES.texts:
                 return this.api.deleteText(entity);
+            case ALL_ENTITIES.shapes:
+                return this.api.deleteShape(<Shape>entity);
             case ALL_ENTITIES.sonatas:
                 return this.api.deleteSonata(entity);
             default:
