@@ -1,4 +1,5 @@
-<rg-edit-header title="Entities" [showEditor]="showEditor" [saveEnabled]="saveEnabled" (add)="showItemEditor()" (cancel)="hideItemEditor()" (save)="handleSave()">
+<rg-edit-header title="Entities" [showEditor]="showEditor" [saveEnabled]="saveEnabled" (add)="showItemEditor()"
+	(cancel)="hideItemEditor()" (save)="handleSave()">
 </rg-edit-header>
 
 <ng-scrollbar [ngClass]="{'hidden': showEditor}">
@@ -8,8 +9,13 @@
 </ng-scrollbar>
 
 <ng-scrollbar *ngIf="showEditor">
-	<rg-entity-editor *ngIf="showEditor" [formDefinition]="formDefinition" [connectedEntities]="connectedEntities"
-		[selectedItem]="selectedItem" (update)="handleDraftUpdate($event)">
-	</rg-entity-editor>
-
+	<ng-container *ngIf="!customEditorTemplate; else editorTemplate">
+		<rg-entity-editor *ngIf="showEditor" [formDefinition]="formDefinition" [connectedEntities]="connectedEntities"
+			[selectedItem]="selectedItem" (update)="handleDraftUpdate($event)">
+		</rg-entity-editor>
+	</ng-container>
 </ng-scrollbar>
+
+<ng-template #editorTemplate>
+	<ng-container *ngTemplateOutlet="customEditorTemplate"></ng-container>
+</ng-template>

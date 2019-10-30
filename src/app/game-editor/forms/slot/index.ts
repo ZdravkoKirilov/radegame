@@ -1,13 +1,13 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Slot, Style } from "@app/game-mechanics";
+import { Slot } from "@app/game-mechanics";
 import {
     baseTemplate,
     boardTemplate, styleTemplate,
     composeCommonFormContext,
     stateTemplate,
     framesTemplate,
+    composeInlineStyleFormContext,
 } from "../helpers";
-import { composeStyleForm } from "../style";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
     data = data || {};
@@ -15,8 +15,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     const items = data.items || [];
     const transitions = data.transitions || [];
     const frames = data.frames || [];
-    const parsedInlineStyle: Style = data.style_inline ? JSON.parse(data.style_inline) : {};
-    const inlineStyleFields = composeStyleForm(parsedInlineStyle, ent, true);
 
     const template = `
         <Form>
@@ -29,15 +27,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             ${boardTemplate}
 
             ${styleTemplate}
-
-            <EmbeddedData 
-                name='style_inline' 
-                label='Inline style' 
-                embeddedChildren='{inlineStyleFields}' 
-                value='{parsedInlineStyle}'
-            >
-                {data.style_inline}
-            </EmbeddedData>
 
             ${stateTemplate}
 
@@ -104,7 +93,8 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, items, handlers, transitions, frames, inlineStyleFields, parsedInlineStyle
+            ...composeInlineStyleFormContext(data, ent),
+            data, items, handlers, transitions, frames
         },
     }, true);
 

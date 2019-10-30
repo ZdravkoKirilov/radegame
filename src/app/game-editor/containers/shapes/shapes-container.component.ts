@@ -7,21 +7,7 @@ import { composeShapeForm } from '../../forms';
 
 @Component({
   selector: 'rg-shapes-container',
-  template: `
-<rg-editor-layout>
-  <rg-entity-view
-      [formDefinition]="formDefinition"
-      [items]="items$ | async"
-      [showEditor]="showEditor$ | async"
-      [selectedItem]="selectedItem$ | async"
-      [connectedEntities]="connectedEntities$ | async"
-      (toggleEditor)="toggleEditor($event)"
-      (saveItem)="saveItem($event)"
-      (editItem)="editItem($event)"
-      (removeItem)="removeItem($event)">
-  </rg-entity-view>
-</rg-editor-layout>
-  `,
+  templateUrl: './shapes.container.html',
   styles: []
 })
 export class ShapesContainerComponent extends SmartBase {

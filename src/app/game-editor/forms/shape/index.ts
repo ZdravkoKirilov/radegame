@@ -1,7 +1,7 @@
 import { Shape, SHAPE_TYPES } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    composeCommonFormContext, composeFromObject, styleTemplate
+    composeCommonFormContext, composeFromObject, styleTemplate, composeInlineStyleFormContext
 } from '../helpers';
 
 export function composeShapeForm(data: Shape, ent: ConnectedEntities): BaseControl[] {
@@ -37,6 +37,7 @@ export function composeShapeForm(data: Shape, ent: ConnectedEntities): BaseContr
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
+            ...composeInlineStyleFormContext(data, ent),
             data, types: composeFromObject(SHAPE_TYPES), points
         },
     }, true);

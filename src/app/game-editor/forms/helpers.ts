@@ -1,6 +1,7 @@
 import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 import { toDictionary } from '@app/shared';
-import { ImageAsset, GameEntity, INTERACTIVE_ENTITY } from '@app/game-mechanics';
+import { ImageAsset, GameEntity, INTERACTIVE_ENTITY, Style, Slot, Shape } from '@app/game-mechanics';
+import { composeStyleForm } from './style';
 
 
 export function composeEntityOptions(
@@ -98,6 +99,15 @@ export const displayNameTemplate = `
 
 export const styleTemplate = `
     <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
+
+    <EmbeddedData 
+        name='style_inline' 
+        label='Inline style' 
+        embeddedChildren='{inlineStyleFields}' 
+        value='{parsedInlineStyle}'
+    >
+        {data.style_inline}
+    </EmbeddedData>
 `;
 
 export const stakesTemplate = `
@@ -126,29 +136,38 @@ export const framesTemplate = `
     </Group>
 `;
 
-export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => ({
-    keyword_options: composeEntityOptions(ent, 'keywords'),
-    setup_options: composeEntityOptions(ent, 'setups'),
-    condition_options: composeEntityOptions(ent, 'conditions'),
-    token_options: composeEntityOptions(ent, 'tokens'),
-    stage_options: composeEntityOptions(ent, 'stages'),
-    image_options: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
-    action_options: composeEntityOptions(ent, 'actions'),
-    style_options: composeEntityOptions(ent, 'styles'),
-    choice_options: composeEntityOptions(ent, 'choices'),
-    sound_options: composeEntityOptions(ent, 'sounds'),
-    slot_options: composeEntityOptions(ent, 'slots'),
-    expression_options: composeEntityOptions(ent, 'expressions'),
-    animation_options: composeEntityOptions(ent, 'animations'),
-    handler_options: composeEntityOptions(ent, 'handlers'),
-    round_options: composeEntityOptions(ent, 'rounds'),
-    phase_options: composeEntityOptions(ent, 'phases'),
-    transition_options: composeEntityOptions(ent, 'transitions'),
-    language_options: composeEntityOptions(ent, 'languages'),
-    text_options: composeEntityOptions(ent, 'texts'),
-    shape_options: composeEntityOptions(ent, 'shapes'),
+export const composeInlineStyleFormContext = (data: Slot | Shape, ent: ConnectedEntities) => {
+    const parsedInlineStyle: Style = data.style_inline ? JSON.parse(data.style_inline) : {};
+    const inlineStyleFields = composeStyleForm(parsedInlineStyle, ent, true);
+    return { parsedInlineStyle, inlineStyleFields };
+}
 
-    boolean_options: composeBooleanOptions(),
+export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => {
 
-    entity_types: composeFromObject(INTERACTIVE_ENTITY),
-});
+    return {
+        keyword_options: composeEntityOptions(ent, 'keywords'),
+        setup_options: composeEntityOptions(ent, 'setups'),
+        condition_options: composeEntityOptions(ent, 'conditions'),
+        token_options: composeEntityOptions(ent, 'tokens'),
+        stage_options: composeEntityOptions(ent, 'stages'),
+        image_options: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
+        action_options: composeEntityOptions(ent, 'actions'),
+        style_options: composeEntityOptions(ent, 'styles'),
+        choice_options: composeEntityOptions(ent, 'choices'),
+        sound_options: composeEntityOptions(ent, 'sounds'),
+        slot_options: composeEntityOptions(ent, 'slots'),
+        expression_options: composeEntityOptions(ent, 'expressions'),
+        animation_options: composeEntityOptions(ent, 'animations'),
+        handler_options: composeEntityOptions(ent, 'handlers'),
+        round_options: composeEntityOptions(ent, 'rounds'),
+        phase_options: composeEntityOptions(ent, 'phases'),
+        transition_options: composeEntityOptions(ent, 'transitions'),
+        language_options: composeEntityOptions(ent, 'languages'),
+        text_options: composeEntityOptions(ent, 'texts'),
+        shape_options: composeEntityOptions(ent, 'shapes'),
+
+        boolean_options: composeBooleanOptions(),
+
+        entity_types: composeFromObject(INTERACTIVE_ENTITY),
+    }
+};
