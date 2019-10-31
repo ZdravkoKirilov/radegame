@@ -42,6 +42,8 @@ import { TransitionsContainerComponent } from './containers/transitions/transiti
 import { TextsContainerComponent } from './containers/texts/texts-container.component';
 import { SonatasContainerComponent } from './containers/sonata/sonatas-container.component';
 import { ShapesContainerComponent } from './containers/shapes/shapes-container.component';
+import { ShapeEditorComponent } from './components/shape/shape-editor.component';
+import { ShapePreviewComponent } from './components/shape/preview/shape-preview.component';
 
 @NgModule({
     imports: [
@@ -98,6 +100,8 @@ import { ShapesContainerComponent } from './containers/shapes/shapes-container.c
         TextsContainerComponent,
         SonatasContainerComponent,
         ShapesContainerComponent,
+        ShapeEditorComponent,
+        ShapePreviewComponent,
     ]
 })
 export class GameEditorModule {

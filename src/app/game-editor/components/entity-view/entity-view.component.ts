@@ -15,7 +15,6 @@ import { WithTimeout } from '@app/shared';
 })
 export class EntityViewComponent {
 	@Input() template: TemplateRef<any>;
-	@Input() customEditorTemplate: TemplateRef<any>;
 
 	@Input() showEditor: boolean = false;
 	@Input() selectedItem: GameEntity;

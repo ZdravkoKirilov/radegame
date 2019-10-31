@@ -1,0 +1,11 @@
+:host {
+  .edit-area {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+
+    rg-shape-preview {
+      margin-left: 30px;
+    }
+  }
+}

@@ -1,11 +1,7 @@
 <rg-editor-layout>
-    <rg-entity-view [formDefinition]="formDefinition" [customEditorTemplate]="editor" [items]="items$ | async"
+    <rg-shape-editor [formDefinition]="formDefinition" [items]="items$ | async"
         [showEditor]="showEditor$ | async" [selectedItem]="selectedItem$ | async"
         [connectedEntities]="connectedEntities$ | async" (toggleEditor)="toggleEditor($event)"
         (saveItem)="saveItem($event)" (editItem)="editItem($event)" (removeItem)="removeItem($event)">
-    </rg-entity-view>
+    </rg-shape-editor>
 </rg-editor-layout>
-
-<ng-template #editor>
-    <div>lol jk</div>
-</ng-template>
