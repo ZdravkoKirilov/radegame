@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild, ElementRef, OnInit, OnChanges, SimpleChanges } from '@angular/core';
-import { Shape } from '@app/game-mechanics';
+import { Component, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Shape, Style } from '@app/game-mechanics';
 import { MountRef, StatefulComponent } from '@app/render-kit';
 import { mountPixi } from '@app/engines/pixi';
 import { OnChange } from '@app/shared';
@@ -20,8 +20,9 @@ export class ShapePreviewComponent implements OnInit {
   @OnChange<Shape>(function (value) {
     const mount: MountRef = this.mount;
     const component = mount ? mount.component as StatefulComponent : null;
+    const inlineStyle: Style = JSON.parse(value ? value.style_inline : '{}');
     if (component) {
-      component.updateProps({ shape: value });
+      component.updateProps({ shape: value, style: inlineStyle });
     }
   })
   @Input() data: Shape;
