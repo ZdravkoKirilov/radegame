@@ -1,9 +1,9 @@
 import { BasicComponent } from '../../bases';
-import { RzElementProps, MetaProps } from '../../models';
+import { RzElementProps, MetaProps, RzStyles } from '../../models';
 
 export type EllipseProps = RzElementProps & {
-
-}
+    styles: Required<Pick<RzStyles, 'stroke_thickness' | 'stroke_color' | 'x' | 'y' | 'width' | 'height'>>;
+};
 export class PrimitiveEllipse extends BasicComponent<EllipseProps> {
 
     constructor(props: EllipseProps, graphic: any, meta: MetaProps) {

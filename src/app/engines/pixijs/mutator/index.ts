@@ -51,10 +51,10 @@ const unmountChildren = (component: PrimitiveFragment): void => {
     component.children.forEach(child => unmountComponent(child));
 };
 
-const updatePrimitive = (component: BasicComponent) => {
+const updatePrimitive = (component: BasicComponent<any>) => {
     const { graphic, type } = component;
     let { props } = component;
-    const styles = applyTransformations(props.styles);
+    const styles = applyTransformations(props.styles) as Required<RzStyles>;
     props = { ...props, styles };
 
     switch (type) {
@@ -89,11 +89,11 @@ const updatePrimitive = (component: BasicComponent) => {
             updateGeneric(component);
             break;
         case PRIMS.circle:
-            updateCircle(component);
+            updateCircle(component, styles);
             updateContainer(props, component);
             break;
         case PRIMS.ellipse:
-            updateEllipse(component);
+            updateEllipse(component, styles);
             updateContainer(props, component);
             break;
         default:
@@ -181,7 +181,7 @@ const updateLine = (props: LineProps, line: Graphics) => {
     const dash = props.dashGap || 0;
 
     line.clear();
-    line.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha);
+    line.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
 
     line.moveTo(start[0], start[1]);
 
@@ -219,32 +219,30 @@ const updatePolygon = (props: RzElementProps, graphic: Graphics) => {
     graphic.drawPolygon(polygon);
 };
 
-const updateCircle = (comp: PrimitiveCircle) => {
+const updateCircle = (comp: PrimitiveCircle, styles: RzStyles) => {
     const graphic: Graphics = comp.graphic;
-    const { styles } = comp.props;
 
     if (styles) {
         graphic.clear();
-        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
-        graphic.pivot.set((styles.radius) * -1, (styles.radius) * -1);
-        graphic.drawCircle(styles.x, styles.y, styles.radius);
+        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color);
+        graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
+        graphic.drawCircle(styles.x, styles.y, styles.width);
 
         if (comp.props.button) {
-            graphic.hitArea = new Circle(styles.x, styles.y, styles.radius);
+            graphic.hitArea = new Circle(styles.x, styles.y, styles.width);
             graphic.buttonMode = true;
             graphic.interactive = true;
         }
     }
 };
 
-const updateEllipse = (comp: PrimitiveEllipse) => {
+const updateEllipse = (comp: PrimitiveEllipse, styles: RzStyles) => {
     const graphic: Graphics = comp.graphic;
-    const { styles } = comp.props;
 
     if (styles) {
         graphic.clear();
         graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
-        graphic.pivot.set(-1 * styles.width / 2, -1 * styles.height / 2);
+        graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
         graphic.drawEllipse(styles.x, styles.y, styles.width, styles.height);
 
         if (comp.props.button) {

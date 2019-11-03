@@ -20,4 +20,4 @@ export const PRIMS = {
     container: 'container',
     fragment: 'fragment',
     polygon: 'polygon',
-};
+} as const;

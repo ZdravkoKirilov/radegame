@@ -63,7 +63,7 @@ const computePolygon = (from: any, to: any): Points => {
         [x2, y2 + padding],
         [x1, y1 + padding],
         [x1, y1 - padding],
-    ];
+    ] as Points;
 
     return polygon;
 };
@@ -77,7 +77,7 @@ const computeLinePoints = (from: any, to: any): Points => {
     const points = [
         [x1, y1],
         [x2, y2],
-    ];
+    ] as Points;
 
     return points;
 };

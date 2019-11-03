@@ -74,7 +74,7 @@ export type RzStyles = {
     mask: number[];
 };
 
-export type Points = Array<Array<number>>;
+export type Points = Array<[number, number]>;
 
 export type MetaProps = {
     engine?: AbstractRenderEngine;

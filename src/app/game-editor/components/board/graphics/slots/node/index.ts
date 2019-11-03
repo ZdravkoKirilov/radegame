@@ -68,5 +68,5 @@ const computePolygon = (sprite, text): Points => {
         [x1 - padding, y1 - padding],
     ];
 
-    return polygon;
+    return polygon as Points;
 };

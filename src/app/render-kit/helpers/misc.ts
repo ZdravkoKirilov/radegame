@@ -1,23 +1,15 @@
-import { chunk, values } from 'lodash';
+import { values } from 'lodash';
 import * as Color from 'color';
 
 import {
-    Points, Component, RenderFunction, CompositeComponent, RzElement,
+    Component, RenderFunction, CompositeComponent, RzElement,
     MetaProps, RzElementProps
 } from '../models';
 import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
 
-export const composePoints = (source: string): Points => {
-    if (source) {
-        const result = chunk(source.split(',').map(coord => Number(coord)), 2);
-        return result;
-    }
-    return [[]];
-};
-
-export const hasPrimitiveType = (type: string) => new Set(values(PRIMS)).has(type);
+export const hasPrimitiveType = (type: string) => new Set(values(PRIMS)).has(type as any);
 
 export const getRealType = (factory: AbstractFactory, type: string) => {
     const realType = factory.customResolvers.reduce(

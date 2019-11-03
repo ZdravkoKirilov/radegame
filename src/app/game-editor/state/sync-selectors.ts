@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import {
     Stage, ImageAsset, Slot, Style, Text, Expression, parseFromString,
-    createExpressionContext, GameTemplate
+    createExpressionContext, GameTemplate, Shape
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -43,6 +43,15 @@ export const selectSlotStyle = (slot_id: number) => createSelector(
     (form, slot_data) => {
         let style = form.styles.items[slot_data.style] as Style;
         return style;
+    }
+);
+
+export const selectSlotShape = (slot_id: number) => createSelector(
+    selectForm,
+    selectSlotData(slot_id),
+    (form, slot_data) => {
+        let shape = form.shapes.items[slot_data.shape] as Shape;
+        return shape;
     }
 );
 

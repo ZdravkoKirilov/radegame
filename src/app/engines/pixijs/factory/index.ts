@@ -67,15 +67,15 @@ export class PixiFactory implements AbstractFactory {
         const polygon = new PrimitivePolygon(elem.props, new Graphics(), meta);
         return polygon;
     }
-    createRectangle(elem: RzElement<{}>, meta: MetaProps): PrimitiveRectangle {
+    createRectangle(elem: RzElement<any>, meta: MetaProps): PrimitiveRectangle {
         const rectangle = new PrimitiveRectangle(elem.props, new Graphics(), meta);
         return rectangle;
     }
-    createCircle(elem: RzElement<{}>, meta: MetaProps): PrimitiveCircle {
+    createCircle(elem: RzElement<any>, meta: MetaProps): PrimitiveCircle {
         const circle = new PrimitiveCircle(elem.props, new Graphics(), meta);
         return circle;
     }
-    createEllipse(elem: RzElement, meta: MetaProps): PrimitiveEllipse {
+    createEllipse(elem: RzElement<any>, meta: MetaProps): PrimitiveEllipse {
         const ellipse = new PrimitiveEllipse(elem.props, new Graphics(), meta);
         return ellipse;
     }

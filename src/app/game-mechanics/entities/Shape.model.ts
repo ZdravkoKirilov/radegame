@@ -28,7 +28,6 @@ export const SHAPE_TYPES = {
     polygon: 'polygon',
     ellipse: 'ellipse',
     line: 'line',
-    star: 'star',
 } as const;
 
 export type ShapeType = keyof typeof SHAPE_TYPES;
