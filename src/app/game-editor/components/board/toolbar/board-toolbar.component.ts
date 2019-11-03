@@ -12,11 +12,20 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
     <button *ngIf="selectedPath" mat-button color="primary" (click)="showPathEditor.emit()">Edit path</button>
     <button *ngIf="selectedPath" mat-button color="warn" (click)="deletePath.emit()">Delete path</button>
     <button mat-button>{{pathCreationText}}</button>
+
+    <div class="view-mode">
+      <button mat-button color="primary" (click)="changeView.emit('board')">Board</button>
+      <button mat-button color="primary" (click)="changeView.emit('list')">List</button>
+    </div>
     
   `,
   styles: [`
   :host {
     display: flex;
+  }
+  .view-mode {
+    align-self: flex-end;
+    justify-self: flex-end;
   }
   `]
 })
@@ -28,8 +37,11 @@ export class BoardToolbarComponent {
   @Output() deletePath = new EventEmitter();
   @Output() deleteSlot = new EventEmitter();
 
+  @Output() changeView = new EventEmitter<'list' | 'board'>();
+
   @Input() selectedSlot: boolean;
   @Input() selectedPath: boolean;
+
 
   get pathCreationText() {
     return 'Enter path creation mode';
