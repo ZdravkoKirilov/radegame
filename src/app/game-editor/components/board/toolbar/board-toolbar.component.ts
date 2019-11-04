@@ -24,8 +24,8 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
     display: flex;
   }
   .view-mode {
-    align-self: flex-end;
-    justify-self: flex-end;
+    flex-grow: 1;
+    text-align: right;
   }
   `]
 })

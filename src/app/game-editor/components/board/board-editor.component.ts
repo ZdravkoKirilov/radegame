@@ -5,59 +5,7 @@ import { Slot, PathEntity, Stage, ImageAsset } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-editor',
-	template: `
-		<rg-editor-layout>
-
-			<rg-edit-header 
-				title="Edit board" 
-				[saveEnabled]="saveEnabled()" 
-				[showButtons]="visibleEditor" 
-				[showEditor]="visibleEditor" 
-				(cancel)="closeEditors()" 
-				(save)="saveEntity()">
-			</rg-edit-header>
-
-			<rg-board-toolbar
-				[class.hidden]="visibleEditor"
-				[selectedSlot]="!!selectedSlot"
-				[selectedPath]="!!selectedPath"
-				(showSlotEditor)="toggleSlotEditor(true)"
-				(showPathEditor)="togglePathEditor(true)"
-				(deletePath)="handleDeletePath()"
-				(deleteSlot)="handleDeleteSlot()"
-			></rg-board-toolbar>
-
-			<ng-scrollbar>
-				<rg-entity-editor 
-					*ngIf="showSlotEditor" 
-					[formDefinition]="slotForm"
-					[selectedItem]="selectedSlot"
-					[connectedEntities]="entities"
-					(cancel)="toggleSlotEditor(false)"
-					(save)="handleSaveSlot($event)"
-					#slots
-				></rg-entity-editor>
-
-				<rg-entity-editor 
-					*ngIf="showPathEditor" 
-					[formDefinition]="pathForm"
-					[selectedItem]="selectedPath"
-					[connectedEntities]="entities"
-					(cancel)="togglePathEditor(false)"
-					(save)="handleSavePath($event)"
-					#paths
-				></rg-entity-editor>
-
-				<rg-board-main 
-					[ngClass]="{'hidden': visibleEditor}"
-					[images]="images" 
-					(selectSlot)="selectSlot($event)" 
-					(selectPath)="selectPath($event)"
-				></rg-board-main>
-			</ng-scrollbar>
-
-    </rg-editor-layout>
-`,
+	templateUrl: './board-editor.component.html',
 	styles: []
 })
 export class BoardEditorComponent {
@@ -88,6 +36,8 @@ export class BoardEditorComponent {
 	selectedSlot: Slot;
 	selectedPath: PathEntity;
 
+	viewMode: 'board' | 'list' = 'board';
+
 	get visibleEditor() {
 		return this.showSlotEditor || this.showPathEditor;
 	}
@@ -100,15 +50,26 @@ export class BoardEditorComponent {
 		this.showPathEditor = isVisible;
 	}
 
+	changeViewMode(mode: 'board' | 'list') {
+		this.viewMode = mode;
+	}
+
 	saveEnabled() {
 		const { slotEditor, pathEditor } = this;
 		return true;
 		// return slotEditor && slotEditor.form.valid || (pathEditor && pathEditor.form.valid);
 	}
 
+	editSlot(payload: Slot) {
+        this.selectSlot(payload);
+        this.toggleSlotEditor(true);
+    }
+
 	closeEditors() {
 		this.toggleSlotEditor(false);
 		this.togglePathEditor(false);
+		this.selectedPath = null;
+		this.selectedSlot = null;
 	}
 
 	selectSlot = (slot: Slot) => {
