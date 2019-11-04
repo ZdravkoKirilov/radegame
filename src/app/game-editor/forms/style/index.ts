@@ -1,6 +1,6 @@
-import { Style } from '@app/game-mechanics';
+import { Style, FONT_STYLES } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { baseTemplate, composeCommonFormContext } from '../helpers';
+import { baseTemplate, composeCommonFormContext, composeFromObject } from '../helpers';
 
 export function composeStyleForm(data: Style, ent: ConnectedEntities, asInlineForm = false): BaseControl[] {
     data = data || {};
@@ -12,15 +12,23 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities, asInlineFo
 
         <TextInput name='width' label='Width'>{data.width}</TextInput>
         <TextInput name='height' label='Height'>{data.height}</TextInput>
+        <TextInput name='x' label='Left'>{data.x}</TextInput>
+        <TextInput name='y' label='Top'>{data.y}</TextInput>
+
         <ColorPicker name='stroke_color' label='Stroke color'>{data.stroke_color}</ColorPicker>
-        <NumberInput name='stroke_thickness' label='Stroke thickness'>{data.stroke_thickness}</NumberInput>
+        <TextInput name='stroke_thickness' label='Stroke thickness'>{data.stroke_thickness}</TextInput>
+        <TextInput name='background_color' label='Background color'>{data.background_color}</TextInput>
 
-        <NumberInput name='frame' label='Frame'>{data.frame}</NumberInput>
-        <NumberInput name='rotation' label='Rotate'>{data.rotation}</NumberInput>
+        <TextInput name='rotation' label='Rotate'>{data.rotation}</TextInput>
+        <TextInput name='opacity' label='Opacity'>{data.opacity}</TextInput>
+        <TextInput name='skew' label='Skew'>{data.skew}</TextInput>
+        <TextInput name='border_radius' label='Border radius'>{data.border_radius}</TextInput>
 
-        <NumberInput name='opacity' label='Opacity'>{data.opacity}</NumberInput>
-
-        <Dropdown name='hidden' label='Hidden' options='{boolean_options}'>{data.hidden}</Dropdown>
+        <TextInput name='font_size' label='Font size'>{data.font_size}</TextInput>
+        <TextInput name='font_family' label='font_family'>{data.font_family}</TextInput>
+        <Dropdown name='font_style' label='Font style' options='{font_styles}'>
+            {data.font_style}
+        </Dropdown>
 
     </Form>
     `;
@@ -29,7 +37,7 @@ export function composeStyleForm(data: Style, ent: ConnectedEntities, asInlineFo
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data,
+            data, font_styles: composeFromObject(FONT_STYLES)
         }
     }, true) as BaseControl[];
 
