@@ -50,7 +50,7 @@ export const selectSlotShape = (slot_id: number) => createSelector(
     selectForm,
     selectSlotData(slot_id),
     (form, slot_data) => {
-        let shape = form.shapes.items[slot_data.shape] as Shape;
+        let shape = form.shapes.items[slot_data.shape as number] as Shape;
         return shape;
     }
 );

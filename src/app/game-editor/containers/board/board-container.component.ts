@@ -53,7 +53,10 @@ export class BoardContainerComponent {
 	).pipe(
 		filter(data => data.every(elem => !!elem)),
 		map(([stage, slots, paths, entities, gameId, images]) => {
-			return { stage, slots, paths, entities, gameId, images };
+			return {
+				stage, paths, entities, gameId, images,
+				slots: slots.filter((slot: Slot) => stage && stage.id === slot.owner)
+			};
 		}),
 	)
 

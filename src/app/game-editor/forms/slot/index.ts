@@ -26,11 +26,15 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             ${boardTemplate}
 
+            <Dropdown name='shape' label='Shape' options='{shape_options}'>
+                {data.shape}
+            </Dropdown>
+
+            ${framesTemplate}
+
             ${styleTemplate}
 
             ${stateTemplate}
-
-            ${framesTemplate}
 
             <Dropdown name='display_text' label='Displayed text' options='{expression_options}'>
                 {data.display_text}

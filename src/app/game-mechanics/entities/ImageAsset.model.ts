@@ -1,3 +1,6 @@
+import { Stage } from "./Stage.model";
+import { WithStyle } from "./Base.model";
+
 export type ImageAsset = Partial<{
     id: number;
     game: number;
@@ -8,10 +11,10 @@ export type ImageAsset = Partial<{
     svg: string;
 }>
 
-export type ImageFrame = Partial<{
+export type ImageFrame = WithStyle & Partial<{
     id: number;
     owner: number;
 
-    image: number;
-    style: number;
+    image: number | ImageAsset;
+    stage: number | Stage;
 }>

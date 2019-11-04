@@ -3,6 +3,7 @@ import { Transition } from "./Transition.model";
 import { Expression } from "./Expression.model";
 import { InteractiveEntity } from "./types";
 import { Handler } from "./Handler.model";
+import { Shape } from "./Shape.model";
 
 export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & WithFrames & Partial<{
     owner: number; // Stage;
@@ -14,7 +15,7 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & W
     display_text_inline: string;
 
     items: SlotItem[];
-    shape: number; // Shape
+    shape: number | Shape; // Shape
 
     enabled: number | Expression;
     enabled_inline: string;

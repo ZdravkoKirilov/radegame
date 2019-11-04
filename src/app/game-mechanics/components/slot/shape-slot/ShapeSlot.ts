@@ -68,7 +68,9 @@ const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, sh
                 { transitions, data: {}, context: {} as any },
                 (transitionStyle: AnimatableProps | any) => {
                     const composedStyle: Style = { ...style, ...transitionStyle, ...animatedStyle };
-                    return createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle, shape });
+                    return shape ?
+                        createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle, shape }) :
+                        null;
                 }
             );
         }

@@ -41,8 +41,8 @@ export const FacadeSlot = Memo<SlotFacadeProps>(({ data, forItem, forImage, forT
     if (data.frames && data.frames.length) {
         return createElement(forImage, { data });
     }
-    return createElement(forShape, { data });
-    //throw new Error('Undetermined slot type: ' + data.name);
+
+    throw new Error('Undetermined slot type: ' + data.name);
 
 }, ['data']);
 
