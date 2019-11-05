@@ -3,7 +3,7 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import { Animation, ANIMATION_PLAY_TYPE } from '@app/game-mechanics';
-import { composeCommonFormContext, composeFromObject } from '../helpers';
+import { composeCommonFormContext, composeFromObject, composeInlineStyleFormContext } from '../helpers';
 import { ANIMATION_EASINGS } from '@app/render-kit';
 
 export const composeAnimationForm: FormDefinition = (data: Animation, ent?: ConnectedEntities) => {
@@ -37,6 +37,24 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
                     {@item.to_style}
                 </Dropdown>
 
+                <EmbeddedData 
+                    name='from_style_inline' 
+                    label='Inline from style' 
+                    childrenDefinition='{composeStyleForm}'
+                    connectedEntities='{entities}' 
+                >
+                    {@item.from_style_inline}
+                </EmbeddedData>
+
+                <EmbeddedData 
+                    name='to_style_inline' 
+                    label='Inline to style' 
+                    childrenDefinition='{composeStyleForm}'
+                    connectedEntities='{entities}' 
+                >
+                    {@item.to_style_inline}
+                </EmbeddedData>
+
                 <NumberInput name='duration' label='Duration'>{@item.duration}</NumberInput>
 
                 <NumberInput name='delay' label='Delay'>{@item.delay}</NumberInput>
@@ -61,6 +79,7 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
+            ...composeInlineStyleFormContext(ent),
             data, steps,
             types: composeFromObject(ANIMATION_PLAY_TYPE),
             easings: composeFromObject(ANIMATION_EASINGS, true),

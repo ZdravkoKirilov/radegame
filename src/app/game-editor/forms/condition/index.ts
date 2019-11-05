@@ -2,7 +2,7 @@ import { Condition } from "@app/game-mechanics";
 import { ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import {
     baseTemplate,
-    stakesTemplate, composeCommonFormContext, displayNameTemplate, framesTemplate
+ composeCommonFormContext, displayNameTemplate
 } from "../helpers";
 
 export function composeConditionForm(data: Condition, ent: ConnectedEntities): BaseControl[] {
@@ -21,10 +21,6 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
         <Dropdown name='clause' label='Clause' options='{expression_options}'>
             {data.clause}
         </Dropdown>
-
-        ${stakesTemplate}
-
-        ${framesTemplate}
         
     </Form>
     `;

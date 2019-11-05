@@ -10,13 +10,6 @@ export type Option = {
     context?: ToggleContext;
 }
 
-export type SubFormMapping = {
-    [key: string]: {
-        form: FormDefinition,
-        name: string;
-    };
-}
-
 export type BaseControl = Partial<{
     value: any;
     defaultValue: any;
@@ -30,8 +23,8 @@ export type BaseControl = Partial<{
     options: Option[];
     children: BaseControl[];
     childTemplate: BaseControl;
-    embeddedChildren: BaseControl[];
     connectedEntities: ConnectedEntities;
+    childrenDefinition: FormDefinition;
     addButtonText: string;
     multiple: boolean;
     min: number;

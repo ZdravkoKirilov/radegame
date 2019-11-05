@@ -23,6 +23,9 @@ export type AnimationStep = Partial<{
     from_style: number | Style;
     to_style: number | Style;
 
+    from_style_inline: Style;
+    to_style_inline: Style;
+
     easing: AnimationEasing;
     delay: number;
     duration: number;

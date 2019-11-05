@@ -97,22 +97,21 @@ export const displayNameTemplate = `
     <TextInput name='display_name' label='Displayed name'>{data.display_name}</TextInput>
 `;
 
-export const styleTemplate = `
-    <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
-
+export const inlineStyleTemplate = `
     <EmbeddedData 
         name='style_inline' 
-        label='Inline style' 
-        embeddedChildren='{inlineStyleFields}' 
-        value='{parsedInlineStyle}'
+        label='Inline style'
+        connectedEntities='{entities}' 
+        childrenDefinition='{composeStyleForm}' 
     >
         {data.style_inline}
     </EmbeddedData>
 `;
 
-export const stakesTemplate = `
-    <Dropdown name='passes' label='Done' options='{expression_options}'>{passes}</Dropdown>
-    <Dropdown name='fails' label='Undone' options='{expression_options}'>{fails}</Dropdown>
+export const styleTemplate = `
+    <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
+
+    ${inlineStyleTemplate}
 `;
 
 export const boardTemplate = `
@@ -136,10 +135,8 @@ export const framesTemplate = `
     </Group>
 `;
 
-export const composeInlineStyleFormContext = (data: Slot | Shape, ent: ConnectedEntities) => {
-    const parsedInlineStyle: Style = data.style_inline ? JSON.parse(data.style_inline) : {};
-    const inlineStyleFields = composeStyleForm(parsedInlineStyle, ent, true);
-    return { parsedInlineStyle, inlineStyleFields };
+export const composeInlineStyleFormContext = (ent: ConnectedEntities) => {
+    return { composeStyleForm: composeStyleForm(true), entities: ent };
 }
 
 export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => {

@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormGroup } from '@angular/forms';
+import { FormGroup, FormControl } from '@angular/forms';
 
 import { BaseControl } from '../../models';
 import { ControlsService } from '../../services';
@@ -17,16 +17,24 @@ export class EmbeddedDataComponent implements OnInit {
 
   constructor(private cs: ControlsService) { }
 
+  ownGroup: FormGroup;
+
+  private embeddedChildren: BaseControl[];
   private draft: any;
 
   ngOnInit() {
+    const def = this.data.childrenDefinition;
+    try {
+      this.data.value = JSON.parse(this.data.value);
+    } catch {
+      this.data.value = {};
+    }
     this.draft = { ...this.data.value };
-    this.ownGroup = this.cs.toFormGroup(this.data.embeddedChildren);
+    this.embeddedChildren = def(this.draft, this.data.connectedEntities);
+    this.ownGroup = this.cs.toFormGroup(this.embeddedChildren);
   }
 
-  ownGroup: FormGroup;
-
-  handleChange({ data, group }) {
+  handleChange({ data }) {
     this.draft = {
       ...this.draft,
       ...data,
@@ -35,17 +43,17 @@ export class EmbeddedDataComponent implements OnInit {
     try {
       asString = JSON.stringify(this.draft);
     } catch (err) { }
-   
+
     this.change.emit({
       [this.data.name]: asString,
     });
   }
 
   composeDataWithChildren() {
-    if (this.data) {
+    if (this.data && this.embeddedChildren) {
       return {
         ...this.data,
-        children: this.data.embeddedChildren
+        children: this.embeddedChildren
       };
     }
     return {};

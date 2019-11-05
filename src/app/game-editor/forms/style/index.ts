@@ -2,7 +2,7 @@ import { Style, FONT_STYLES } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import { baseTemplate, composeCommonFormContext, composeFromObject } from '../helpers';
 
-export function composeStyleForm(data: Style, ent: ConnectedEntities, asInlineForm = false): BaseControl[] {
+export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
 
     const template = `
