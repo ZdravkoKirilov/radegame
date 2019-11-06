@@ -1,5 +1,9 @@
 import { ImageFrame, ImageAsset } from "./ImageAsset.model";
 import { InteractiveEntityType } from "./types";
+import { Stage } from "./Stage.model";
+import { Expression } from "./Expression.model";
+import { Style } from "./Style.model";
+import { Keyword } from "./Keyword.model";
 
 export type BaseModel = Partial<{
     id: number;
@@ -10,7 +14,7 @@ export type BaseModel = Partial<{
 }>;
 
 export type WithImage = Partial<{
-    image: number;
+    image: number | ImageAsset;
 }>
 
 export type WithType = Partial<{
@@ -22,7 +26,7 @@ export type WithDisplayName = Partial<{
 }>;
 
 export type WithDone = Partial<{
-    done: number; // Expression
+    done: number | Expression;
 }>;
 
 export type WithFrames = Partial<{
@@ -30,23 +34,27 @@ export type WithFrames = Partial<{
 }>;
 
 export type WithKeywords = Partial<{
-    keywords: number[];
+    keywords: number[] | Keyword[];
 }>;
 
 export type WithBoard = Partial<{
-    board: number; // Stage
+    board: number | Stage;
 }>
 
 export type WithStakes = Partial<{
-    passes: number; // Expression
-    fails: number; // Expression
+    passes: number | Expression;
+    fails: number | Expression;
 }>
 
 export type WithStyle = Partial<{
-    style: number; // Style
+    style: number | Style;
     style_inline: string;
 }>
 
 export type WithState = Partial<{
-    state: number; // Expression 
+    state: number | Expression;
+}>;
+
+export type WithTemplate = Partial<{
+    template: number | Stage;
 }>;

@@ -1,18 +1,19 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
-import { ArenaState } from "../reducers";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, EntityState, Animation, Transition, AnimationStep } from "@app/game-mechanics";
-import { selectUser } from "@app/core";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, EntityState, Animation, Transition, AnimationStep, Text, Shape } from "@app/game-mechanics";
+import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary, removeEmptyProps } from "@app/shared";
 import { removeNonAnimatableProps } from "@app/render-kit";
 
-const selectFeature = createFeatureSelector<ArenaState>(FEATURE_NAME);
-const selectConfig = createSelector(
+const selectFeature = (state: AppState) => state[FEATURE_NAME];
+
+export const selectConfig = createSelector(
     selectFeature,
     feature => feature.config,
 );
+
 export const selectGameState = createSelector(
     selectFeature,
     feature => feature.state,
@@ -58,7 +59,7 @@ export const selectCurrentRoundStage = createSelector(
     selectRoundData,
     selectConfig,
     (round, config) => {
-        return config.stages[round.board] as Stage;
+        return config.stages[round.board as number] as Stage;
     }
 );
 
@@ -108,7 +109,7 @@ export const selectSlotState = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
     (config, context, slot_data) => {
         if (slot_data.state) {
-            const expression = config.expressions[slot_data.state] as Expression;
+            const expression = config.expressions[slot_data.state as number] as Expression;
             const callback = parseFromString(expression.code, context);
             const state: EntityState = callback(slot_data);
             return state;
@@ -122,12 +123,36 @@ export const selectSlotStyle = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
     selectSlotState(slot_id),
     (config, slot_data, state) => {
-        let style = config.styles[slot_data.style] as Style;
+        let style = config.styles[slot_data.style as number] as Style;
         if (state && state.style) {
             const stateStyle = removeEmptyProps(config.styles[state.style]);
             style = { ...style, ...stateStyle };
         }
         return style;
+    }
+);
+
+export const selectSlotShape = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    (config, slot_data) => {
+        if (slot_data.shape) {
+            const shape = config.shapes[slot_data.shape as number] as Shape;
+            return shape;
+        }
+        return null;
+    }
+);
+
+export const selectSlotText = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    (config, slot_data) => {
+        if (slot_data.display_text) {
+            const text = config.texts[slot_data.display_text as number] as Text;
+            return text;
+        }
+        return null;
     }
 );
 
@@ -204,8 +229,29 @@ export const selectSlotImage = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),
     (config, slot_data) => {
-        const image_data = config.images[slot_data.image] || {};
+        const image_data = config.images[slot_data.image as number] || {};
         return image_data as ImageAsset;
+    }
+);
+
+export const selectSlotStage = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    (config, slot_data) => {
+        let stage_data = config.stages[slot_data.board as number] as Stage || {} as Stage;
+        stage_data = {
+            ...stage_data,
+            image: config.images[stage_data.image as number] as ImageAsset
+        }
+        return stage_data as Stage;
+    }
+);
+
+export const selectSlotStageChildren = (slot_id: number) => createSelector(
+    selectSlotStage(slot_id),
+    selectConfig,
+    (stage, config) => {
+        return Object.values(config.slots).filter((elem: Slot) => elem.owner === stage.id) as Slot[];
     }
 );
 

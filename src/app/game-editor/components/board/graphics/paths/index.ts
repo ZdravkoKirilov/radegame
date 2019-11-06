@@ -17,9 +17,9 @@ export const PathsList = Memo<Props>(
         const nodesList = props.slots;
 
         const lines = props.slots && props.slots.length ? props.paths.map(elem => {
-            const fromStyle = props.styles[nodesList[elem.from_slot].style];
-            const toStyle = props.styles[nodesList[elem.to_slot].style];
-            const style = props.styles[elem.style];
+            const fromStyle = props.styles[nodesList[elem.from_slot].style as number];
+            const toStyle = props.styles[nodesList[elem.to_slot].style as number];
+            const style = props.styles[elem.style as number];
 
             const from = {
                 left: nodesList[elem.from_slot].x,

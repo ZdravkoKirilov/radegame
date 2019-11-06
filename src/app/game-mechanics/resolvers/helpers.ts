@@ -21,12 +21,12 @@ export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
     let total = [];
     setup_data.rounds.forEach(elem => {
         const round_data = conf.rounds[elem.round] as Round;
-        const stage = conf.stages[round_data.board] as Stage;
+        const stage = conf.stages[round_data.board as number] as Stage;
         const image = conf.images[stage.image as number] as ImageAsset;
         const slot_images = Object.values(conf.slots).reduce(
             (acc, item: Slot) => {
                 if (item.owner === stage.id) {
-                    const slot_image: ImageAsset = conf.images[item.image];
+                    const slot_image: ImageAsset = conf.images[item.image as number];
                     slot_image ? acc.push(slot_image.image) : null;
                 }
                 return acc;

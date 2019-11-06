@@ -41,7 +41,7 @@ export const selectSlotStyle = (slot_id: number) => createSelector(
     selectForm,
     selectSlotData(slot_id),
     (form, slot_data) => {
-        let style = form.styles.items[slot_data.style] as Style;
+        let style = form.styles.items[slot_data.style as number] as Style;
         return style;
     }
 );
@@ -74,7 +74,7 @@ export const selectSlotImage = (slot_id: number) => createSelector(
     selectForm,
     selectSlotData(slot_id),
     (form, slot_data) => {
-        const image_data = form.images.items[slot_data.image] || {};
+        const image_data = form.images.items[slot_data.image as number] || {};
         return image_data as ImageAsset;
     }
 );
@@ -83,7 +83,7 @@ export const selectSlotStage = (slot_id: number) => createSelector(
     selectForm,
     selectSlotData(slot_id),
     (form, slot_data) => {
-        let stage_data = form.stages.items[slot_data.board] as Stage || {} as Stage;
+        let stage_data = form.stages.items[slot_data.board as number] as Stage || {} as Stage;
         stage_data = {
             ...stage_data,
             image: form.images.items[stage_data.image as number] as ImageAsset
