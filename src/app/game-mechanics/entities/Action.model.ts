@@ -19,17 +19,13 @@ export type ActionParam = {
 }
 
 export type MutationParams = {
-    type: 'upsert' | 'remove';
     path: string;
     value: any;
 }
 
 export const ACTION_TYPE = {
-
     END_TURN: 'END_TURN',
-
     MUTATE_STATE: 'MUTATE_STATE',
-
 };
 
 export type ActionType = keyof typeof ACTION_TYPE;

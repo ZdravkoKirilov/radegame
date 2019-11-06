@@ -1,5 +1,6 @@
 import { MetaReducer, ActionReducer } from "@ngrx/store";
 import immer from 'immer';
+import set from 'lodash/set';
 
 import { ArenaState } from "./arenaReducer";
 import { GameArenaAction, MutatorAction, MutatorTypes } from "../actions";
@@ -24,6 +25,11 @@ export const gameStateMetaReducer = (anyReducer: ActionReducer<any>) => {
             case MutatorTypes.CHANGE_ROUND:
                 return immer(state, draft => {
                     draft.state.round = action.payload;
+                });
+            case MutatorTypes.MUTATE_STATE:
+                return immer(state, draft => {
+                    const { path, value } = action.payload;
+                    set(draft.state, path, value);
                 });
             default:
                 return anyReducer(state, action);
