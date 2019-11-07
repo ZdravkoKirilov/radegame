@@ -11,7 +11,6 @@ import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
 import Background, { Props as BGProps } from './background';
 import { Slot, PathEntity, Stage, GameEntity, ALL_ENTITIES, AllEntity } from "@app/game-mechanics";
-import { MainContext } from "./context";
 import { AppState } from "@app/core";
 import { getActiveStage, SaveItemAction, getEntitiesDict, getItems, GameEntitiesDict } from "../../../state";
 import { selectGameId } from "@app/shared";
@@ -72,7 +71,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
         const { handleDragMove, handleDragEnd, selectSlot, selectPath } = this;
         const background = loaded && stage ? entities.images[stage.image as number] : null;
 
-        return loaded ? createElement(MainContext.Provider, { value: { entities } },
+        return loaded ?
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
                 height: window.innerHeight,
@@ -102,9 +101,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
                     selectSlot,
                     selected: selectedSlot,
                     onDragEnd: handleDragEnd,
-                })
-            ),
-        ) : null;
+                }),
+            ) : null;
     }
 
     selectSlot = (slot: Slot) => {
