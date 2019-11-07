@@ -2,7 +2,7 @@ import { isEqual } from 'lodash';
 import { RenderFunctionExtras, RenderFunction, MetaProps } from "../models";
 import { updateComponent } from "./mutation";
 
-export type StateHook = <T = any>(initialValue?: T) => [T, (value: T) => void];
+export type StateHook = <T = any>(initialValue?: T) => [T, UseStateUpdater<T>];
 export type EffectHook = (callback: () => FuncOrVoid, dependencies?: any[]) => void;
 
 type FuncOrVoid = Function | void;
@@ -16,6 +16,9 @@ type StateHookParams = {
 export type StateHooks = Map<RenderFunction, any[]>;
 export type EffectHooks = Map<RenderFunction, StateHookParams[]>;
 
+type UseStateFunctionalUpdater<T> = (oldValue: T) => T;
+type UseStateUpdater<T> = (value: T | UseStateFunctionalUpdater<T>) => void;
+
 export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFunctionExtras => {
     let stateHookIndex = 0;
     let effectHookIndex = 0;
@@ -24,9 +27,13 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
         const state = meta.hooks.state.get(target) || [];
         meta.hooks.state.set(target, state);
         const currentValue = state[stateHookIndex] || initialState;
-        const mutator = (order: number) => (value: T) => {
+        const mutator = (order: number): UseStateUpdater<T> => (value) => {
             setTimeout(() => {
-                state[order] = value;
+                if (typeof value === 'function') {
+                    state[order] = (value as UseStateFunctionalUpdater<T>)(currentValue);
+                } else {
+                    state[order] = value;
+                }
                 const rendered = target(target.props, prepareExtras(target, meta));
                 updateComponent(target, rendered);
             });

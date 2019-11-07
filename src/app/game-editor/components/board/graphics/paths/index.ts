@@ -13,8 +13,15 @@ export type Props = {
 }
 
 export const PathsList = Memo<Props>(
-    (props) => {
+    (props, { useState, useEffect }) => {
         const nodesList = props.slots;
+        // const [count, setCount] = useState(0);
+        // useEffect(() => {
+        //     setInterval(() => {
+        //         setCount(count + 5)
+        //     }, 2000)
+        // }, []);
+        // console.log(count);
 
         const lines = props.slots && props.slots.length ? props.paths.map(elem => {
             const fromStyle = props.styles[nodesList[elem.from_slot].style as number];
