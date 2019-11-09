@@ -66,6 +66,10 @@ export class RootComponent extends StatefulComponent<Props, State> {
         ).subscribe();
     }
 
+    didCatch(err: any, stack: string) {
+        debugger;
+    }
+
     render() {
         const { stage, selectedSlot, selectedPath, loaded, entities, slots, paths } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot, selectPath } = this;

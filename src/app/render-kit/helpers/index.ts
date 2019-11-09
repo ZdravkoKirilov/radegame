@@ -7,3 +7,4 @@ export * from './misc';
 export * from './layout';
 export * from './hooks';
 export * from './cleaner';
+export * from './error';

@@ -25,10 +25,6 @@ export const unmountComponent = (component: Component) => {
 };
 
 export const unmountStatefulComponent = (component: StatefulComponent) => {
-    if (component instanceof StatefulComponent) {
-        // const leaveAnimations: AnimationGroup[] = [];
-        // await Promise.all(leaveAnimations.map(animation => animation.playAll()));
-    }
 
     if ('willUnmount' in component) {
         component.willUnmount();

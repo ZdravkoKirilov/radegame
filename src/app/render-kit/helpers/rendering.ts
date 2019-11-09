@@ -17,7 +17,7 @@ export const createRenderer = (engine: AbstractRenderEngine, resources: Set<stri
                 state: new Map(),
                 effect: new Map(),
             };
-            const node = createComponent(elem, engine.factory, meta);
+            const node = createComponent(elem, engine.factory, meta, null);
             mountComponent(node, container);
             resolve(node);
         });

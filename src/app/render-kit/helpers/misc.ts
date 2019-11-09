@@ -46,7 +46,7 @@ export const flatRender = (source: any): RzElement => {
     return result;
 }
 
-export const cloneRenderFunction = (originalType: RenderFunction, meta: MetaProps) => {
+export const cloneRenderFunction = (originalType: RenderFunction, meta: MetaProps): RenderFunction => {
     const component = originalType.bind({
         ...originalType,
         meta

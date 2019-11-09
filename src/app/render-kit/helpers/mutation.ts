@@ -71,7 +71,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
             updateByType(currentChild, incomingChild);
             newChildren = [currentChild];
         } else {
-            const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
+            const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta, component);
             newChildren = [newInstance];
             mountComponent(newInstance, container);
             unmountComponent(currentChild);
@@ -84,7 +84,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
     }
 
     if (!currentChild && incomingChild) {
-        const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
+        const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta, component);
         newChildren = [newInstance];
         mountComponent(newInstance, container);
     }
@@ -150,7 +150,7 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
             acc[key] = existing;
             updateByType(existing, child);
         } else {
-            acc[key] = createComponent(child, component.meta.engine.factory, component.meta);
+            acc[key] = createComponent(child, component.meta.engine.factory, component.meta, component);
             mountComponent(acc[key], component.graphic);
             updateByType(acc[key], child);
         }
