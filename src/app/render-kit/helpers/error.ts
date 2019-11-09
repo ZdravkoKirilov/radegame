@@ -15,7 +15,7 @@ export const withErrorPropagation = <T = any>(parent: Component, callback: Funct
                 return;
             } else {
                 nextAncestor = nextAncestor.parent;
-                stack += nextAncestor.type['name'];
+                stack += (nextAncestor.type['name'] + '/n');
             }
         }
 

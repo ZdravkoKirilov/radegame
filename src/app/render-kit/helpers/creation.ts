@@ -53,7 +53,7 @@ export const createComponent = (
         component = createStatefulComponent(element, meta);
         component.type = element.type;
         component.parent = parent;
-        const rendered = flatRender(component.render());
+        const rendered = withErrorPropagation(parent, () => flatRender(component['render']()));
         const child = createComponent(rendered, factory, meta, component);
         if (child) {
             child.parent = component;

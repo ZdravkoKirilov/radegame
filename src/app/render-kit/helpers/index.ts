@@ -1,5 +1,5 @@
 export * from './mutation';
-export * from './rendering';
+export * from './renderer';
 export * from './create-element';
 export * from './mounting';
 export * from './creation';
