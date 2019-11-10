@@ -6,16 +6,19 @@ export const withErrorPropagation = <T = any>(parent: Component, callback: Funct
         return result;
     } catch (err) {
         let nextAncestor = parent;
-        let stack = '';
+        let stack = [];
 
         while (nextAncestor) {
             if ('didCatch' in nextAncestor && typeof nextAncestor['didCatch'] === 'function') {
-                nextAncestor['didCatch'](err, stack);
+                withErrorPropagation(nextAncestor.parent, () => nextAncestor['didCatch'](err, stack.reverse().join(' \n')));
                 nextAncestor = null;
                 return;
             } else {
                 nextAncestor = nextAncestor.parent;
-                stack += (nextAncestor.type['name'] + '/n');
+                const typeName = typeof nextAncestor.type === 'string' ? nextAncestor.type : '';
+                const givenName = nextAncestor.props.name || null;
+                const composedName = givenName ? `${typeName}[${givenName}]` : '';
+                stack.push(composedName || typeName || nextAncestor.type['name'] || nextAncestor.type['displayName'] || 'Anonymous');
             }
         }
 

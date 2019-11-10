@@ -4,7 +4,7 @@ import { map } from "rxjs/operators";
 
 import {
     StatefulComponent, createElement, PrimitiveContainer,
-    Scrollable, ScrollableProps, AutoClean, MetaProps
+    Scrollable, ScrollableProps, AutoClean, MetaProps, Suspense, SuspenseProps, PrimitiveTextProps
 } from "@app/render-kit";
 
 import Slots, { Props as SlotProps } from './slots';
@@ -91,13 +91,17 @@ export class RootComponent extends StatefulComponent<Props, State> {
                     background, stage, selectSlot, selectPath,
                 }) : null,
 
-                createElement<PathProps>(Paths, {
-                    paths,
-                    slots: entities.slots,
-                    styles: entities.styles,
-                    selectPath,
-                    selected: selectedPath,
-                }),
+                createElement<SuspenseProps>(Suspense, {
+                    fallback: createElement<PrimitiveTextProps>('text', { value: 'Loading...', styles: { x: 100, y: 100 } })
+                },
+                    createElement<PathProps>(Paths, {
+                        paths,
+                        slots: entities.slots,
+                        styles: entities.styles,
+                        selectPath,
+                        selected: selectedPath,
+                    }),
+                ),
 
                 createElement<SlotProps>(Slots, {
                     slots: slots.filter(slot => slot.owner === stage.id),

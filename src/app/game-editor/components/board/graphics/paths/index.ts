@@ -12,6 +12,8 @@ export type Props = {
     selectPath: (item: PathEntity) => void;
 }
 
+let hasFired = false;
+
 export const PathsList = Memo<Props>(
     (props, { useState, useEffect }) => {
         const nodesList = props.slots;
@@ -23,38 +25,50 @@ export const PathsList = Memo<Props>(
         // }, []);
         // console.log(count);
 
-        throw new Error('oops');
-
-        // const lines = props.slots && props.slots.length ? props.paths.map(elem => {
-        //     const fromStyle = props.styles[nodesList[elem.from_slot].style as number];
-        //     const toStyle = props.styles[nodesList[elem.to_slot].style as number];
-        //     const style = props.styles[elem.style as number];
-
-        //     const from = {
-        //         left: nodesList[elem.from_slot].x,
-        //         top: nodesList[elem.from_slot].y,
-        //         width: fromStyle.width,
-        //         height: fromStyle.height,
-        //     };
-        //     const to = {
-        //         left: nodesList[elem.to_slot].x,
-        //         top: nodesList[elem.to_slot].y,
-        //         width: toStyle.width,
-        //         height: toStyle.height,
-        //     };
-
-        //     const points = computeLinePoints({ ...from, ...fromStyle }, { ...to, ...toStyle });
-        //     const polygon = computePolygon({ ...from, ...fromStyle }, { ...to, ...toStyle });
-
-        //     return createElement<PathProps>(Path, {
-        //         points, polygon, key: elem.id, style,
-        //         selected: props.selected && props.selected.id === elem.id,
-        //         selectPath: () => props.selectPath(elem)
+        // if (!hasFired) {
+        //     debugger;
+        //     hasFired = true;
+        //     throw new Promise((res, rej) => {
+        //         setTimeout(() => {
+        //             res([]);
+        //         }, 5000);
         //     });
+        // } else {
+        //     debugger;
+        // }
 
-        // }) : [];
+        // throw new Error('oops');
 
-        // return createElement('collection', { key: props.key, name: 'paths' }, lines);
+        const lines = props.slots && props.slots.length ? props.paths.map(elem => {
+            const fromStyle = props.styles[nodesList[elem.from_slot].style as number];
+            const toStyle = props.styles[nodesList[elem.to_slot].style as number];
+            const style = props.styles[elem.style as number];
+
+            const from = {
+                left: nodesList[elem.from_slot].x,
+                top: nodesList[elem.from_slot].y,
+                width: fromStyle.width,
+                height: fromStyle.height,
+            };
+            const to = {
+                left: nodesList[elem.to_slot].x,
+                top: nodesList[elem.to_slot].y,
+                width: toStyle.width,
+                height: toStyle.height,
+            };
+
+            const points = computeLinePoints({ ...from, ...fromStyle }, { ...to, ...toStyle });
+            const polygon = computePolygon({ ...from, ...fromStyle }, { ...to, ...toStyle });
+
+            return createElement<PathProps>(Path, {
+                points, polygon, key: elem.id, style,
+                selected: props.selected && props.selected.id === elem.id,
+                selectPath: () => props.selectPath(elem)
+            });
+
+        }) : [];
+
+        return createElement('collection', { key: props.key, name: 'paths' }, lines);
     },
     ['paths', 'slots', 'selected']
 );
@@ -90,5 +104,7 @@ const computeLinePoints = (from: any, to: any): Points => {
 
     return points;
 };
+
+PathsList.displayName = 'PathsList';
 
 export default PathsList;

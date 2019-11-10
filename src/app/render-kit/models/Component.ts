@@ -33,6 +33,7 @@ export type RenderFunction<T = {}> = Render<T & RzElementProps> & Partial<{
     meta: MetaProps;
     type: RenderFunction<T>;
     parent: Component;
+    displayName: string;
 }>
 
 export type RenderFunctionExtras = {
