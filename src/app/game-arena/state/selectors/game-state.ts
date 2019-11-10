@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, EntityState, Animation, Transition, AnimationStep, Text, Shape } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, Animation, Transition, AnimationStep, Text, Shape } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary, removeEmptyProps } from "@app/shared";
@@ -103,31 +103,11 @@ export const selectSlotData = (slot_id: number) => createSelector(
     }
 );
 
-export const selectSlotState = (slot_id: number) => createSelector(
-    selectConfig,
-    selectExpressionContext,
-    selectSlotData(slot_id),
-    (config, context, slot_data) => {
-        if (slot_data.state) {
-            const expression = config.expressions[slot_data.state as number] as Expression;
-            const callback = parseFromString(expression.code, context);
-            const state: EntityState = callback(slot_data);
-            return state;
-        }
-        return null;
-    }
-);
-
 export const selectSlotStyle = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),
-    selectSlotState(slot_id),
-    (config, slot_data, state) => {
+    (config, slot_data) => {
         let style = config.styles[slot_data.style as number] as Style;
-        if (state && state.style) {
-            const stateStyle = removeEmptyProps(config.styles[state.style]);
-            style = { ...style, ...stateStyle };
-        }
         return style;
     }
 );
@@ -158,23 +138,7 @@ export const selectSlotText = (slot_id: number) => createSelector(
 
 export const selectSlotAnimation = (slot_id: number) => createSelector(
     selectConfig,
-    selectSlotState(slot_id),
-    (config, state) => {
-        if (state && state.animation) {
-            let animation = { ...config.animations[state.animation] } as Animation;
-            animation.steps = animation.steps.map(step => {
-                const from_style = config.styles[step.from_style as number] as Style;
-                const to_style = config.styles[step.to_style as number] as Style;
-
-                step = {
-                    ...step,
-                    from_style: removeNonAnimatableProps(from_style),
-                    to_style: removeNonAnimatableProps(to_style),
-                };
-                return step;
-            });
-            return animation;
-        };
+    (config) => {
         return null;
     }
 );

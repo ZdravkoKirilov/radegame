@@ -6,7 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Condition, Round, Team, Handler,
-    Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, EntityState, Style, Keyword, Setup,
+    Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, Style, Keyword, Setup,
     AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
@@ -183,8 +183,6 @@ export class GenericEffectsService {
                 return this.api.saveStyle(<Style>entity);
             case ALL_ENTITIES.sounds:
                 return this.api.saveSound(entity);
-            case ALL_ENTITIES.states:
-                return this.api.saveEntityState(<EntityState>entity);
             case ALL_ENTITIES.expressions:
                 return this.api.saveExpression(entity);
             case ALL_ENTITIES.animations:
@@ -243,8 +241,6 @@ export class GenericEffectsService {
                 return this.api.deleteStyle(<Style>entity);
             case ALL_ENTITIES.sounds:
                 return this.api.deleteSound(entity);
-            case ALL_ENTITIES.states:
-                return this.api.deleteEntityState(<EntityState>entity);
             case ALL_ENTITIES.expressions:
                 return this.api.deleteExpression(entity);
             case ALL_ENTITIES.animations:

@@ -14,7 +14,6 @@ export * from './image';
 export * from './keyword';
 export * from './style';
 export * from './sound';
-export * from './state';
 export * from './expression';
 export * from './animation';
 export * from './handler';

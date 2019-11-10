@@ -15,7 +15,6 @@ export * from './ImageAsset.model';
 export * from './Base.model';
 export * from './Keyword.model';
 export * from './Style.model';
-export * from './State.model';
 export * from './Sound.model';
 export * from './Expression.model';
 export * from './Animation.model';
@@ -45,7 +44,6 @@ import { Game } from '../models';
 import { Keyword } from './Keyword.model';
 import { Style } from './Style.model';
 import { Sound } from './Sound.model';
-import { EntityState } from './State.model';
 import { Expression } from './Expression.model';
 import { Handler } from './Handler.model';
 import { Animation } from './Animation.model';
@@ -56,7 +54,7 @@ import { Shape } from './Shape.model';
 
 export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
     Round | Choice | Stage | Faction | Token | Team | Phase |
-    Setup | ImageAsset | Keyword | Style | Sound | EntityState | Expression
+    Setup | ImageAsset | Keyword | Style | Sound | Expression
     | Handler | Animation | Transition | Text | Sonata | Shape;
 
 export type GameEntityList = Dictionary<GameEntity>;

@@ -31,7 +31,6 @@ export const ALL_ENTITIES = {
     keywords: 'keywords',
     styles: 'styles',
     sounds: 'sounds',
-    states: 'states',
     expressions: 'expressions',
     animations: 'animations',
     transitions: 'transitions',
