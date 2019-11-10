@@ -15,10 +15,12 @@ export const withErrorPropagation = <T = any>(parent: Component, callback: Funct
                 return;
             } else {
                 nextAncestor = nextAncestor.parent;
-                const typeName = typeof nextAncestor.type === 'string' ? nextAncestor.type : '';
+                const typeName = typeof nextAncestor.type === 'string' ?
+                    nextAncestor.type :
+                    nextAncestor.type['name'] || nextAncestor.type['displayName'];
                 const givenName = nextAncestor.props.name || null;
                 const composedName = givenName ? `${typeName}[${givenName}]` : '';
-                stack.push(composedName || typeName || nextAncestor.type['name'] || nextAncestor.type['displayName'] || 'Anonymous');
+                stack.push(composedName || typeName || 'Anonymous');
             }
         }
 
