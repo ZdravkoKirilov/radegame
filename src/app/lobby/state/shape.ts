@@ -1,6 +1,6 @@
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
 
-import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
+import { Game, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { Lobby, LobbyPlayer, ChatMessage } from '../models';
 
 export type LobbyFeatureState = {
@@ -8,14 +8,13 @@ export type LobbyFeatureState = {
     games: GameEntityState;
     lobbies: LobbyEntityState;
     players: PlayerEntityState;
-    teams: TeamEntityState;
     factions: FactionEntityState;
     images: ImageEntityState;
     messages: MessageEntityState;
     setups: SetupEntityState;
 };
 
-export type LobbyFeatureEntity = Game | Lobby | LobbyPlayer | Team | Faction | ImageAsset | ChatMessage;
+export type LobbyFeatureEntity = Game | Lobby | LobbyPlayer | Faction | ImageAsset | ChatMessage;
 
 export type LobbyMetaState = {
     showForm: boolean;
@@ -24,7 +23,6 @@ export type LobbyMetaState = {
 export type GameEntityState = EntityState<Game>;
 export type PlayerEntityState = EntityState<LobbyPlayer>;
 export type LobbyEntityState = EntityState<Lobby>;
-export type TeamEntityState = EntityState<Team>;
 export type FactionEntityState = EntityState<Faction>;
 export type ImageEntityState = EntityState<ImageAsset>;
 export type MessageEntityState = EntityState<ChatMessage>;
@@ -51,11 +49,6 @@ export const lobbyAdapter = createEntityAdapter<Lobby>({
 export const playerAdapter = createEntityAdapter<LobbyPlayer>({
     selectId: selectBy('name'),
     sortComparer: sortBy('name'),
-});
-
-export const teamAdapter = createEntityAdapter<Team>({
-    selectId: selectBy('id'),
-    sortComparer: sortBy('id'),
 });
 
 export const factionAdapter = createEntityAdapter<Faction>({
@@ -85,7 +78,6 @@ export const initialState: LobbyFeatureState = {
     games: gameAdapter.getInitialState(),
     lobbies: lobbyAdapter.getInitialState(),
     players: playerAdapter.getInitialState(),
-    teams: teamAdapter.getInitialState(),
     factions: factionAdapter.getInitialState(),
     images: imageAdapter.getInitialState(),
     messages: messageAdapter.getInitialState(),

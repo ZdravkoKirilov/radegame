@@ -83,7 +83,6 @@ export const formReducer: ActionReducer<any> = combineReducers({
     choices: createEntityReducer(ALL_ENTITIES.choices),
     stages: createEntityReducer(ALL_ENTITIES.stages),
     games: createEntityReducer(ALL_ENTITIES.games),
-    teams: createEntityReducer(ALL_ENTITIES.teams),
     images: createEntityReducer(ALL_ENTITIES.images),
     keywords: createEntityReducer(ALL_ENTITIES.keywords),
     styles: createEntityReducer(ALL_ENTITIES.styles),

@@ -1,5 +1,5 @@
 import produce from 'immer';
-import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter, TeamEntityState, FactionEntityState, ImageEntityState, teamAdapter, factionAdapter, imageAdapter, MessageEntityState, messageAdapter, SetupEntityState, setupAdapter } from './shape';
+import { LobbyFeatureState, initialState, LobbyMetaState, GameEntityState, LobbyEntityState, PlayerEntityState, gameAdapter, lobbyAdapter, playerAdapter, FactionEntityState, ImageEntityState, factionAdapter, imageAdapter, MessageEntityState, messageAdapter, SetupEntityState, setupAdapter } from './shape';
 import { LobbyAction } from './actions';
 import { ActionReducerMap } from '@ngrx/store';
 import {
@@ -66,18 +66,6 @@ const metaReducer = (
     }
 };
 
-const teamReducer = (
-    state: TeamEntityState = initialState.teams,
-    action: LobbyAction
-): TeamEntityState => {
-    switch (action.type) {
-        case FETCH_TEAMS_SUCCESS:
-            return teamAdapter.addAll(action.payload, state);
-        default:
-            return state;
-    }
-};
-
 const factionReducer = (
     state: FactionEntityState = initialState.factions,
     action: LobbyAction
@@ -131,7 +119,6 @@ export const mainReducer: ActionReducerMap<LobbyFeatureState> = {
     games: gamesReducer,
     lobbies: lobbyReducer,
     players: playerReducer,
-    teams: teamReducer,
     factions: factionReducer,
     images: imageReducer,
     messages: messageReducer,

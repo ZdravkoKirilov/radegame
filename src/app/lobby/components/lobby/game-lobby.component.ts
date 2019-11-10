@@ -1,6 +1,6 @@
 import { Component, ChangeDetectionStrategy, Input, Output, EventEmitter } from '@angular/core';
 import { Lobby, LobbyPlayer, ChatMessage } from '../../models';
-import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
+import { Game, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User } from '@app/core';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 
@@ -21,7 +21,6 @@ export class GameLobbyComponent {
 		lobby: Lobby;
 		game: Game;
 		user: User;
-		teams: Team[];
 		factions: Faction[];
 		images: ImageAsset[];
 		messages: ChatMessage[];

@@ -4,7 +4,6 @@ export * from './Round.model';
 export * from './Choice.model';
 export * from './Stage.model';
 export * from './Faction.model';
-export * from './Team.model';
 export * from './Token.model';
 export * from './Phase.model';
 export * from './Slot.model';
@@ -32,7 +31,6 @@ import { Round } from './Round.model';
 import { Choice } from './Choice.model';
 import { Stage } from './Stage.model';
 import { Faction } from './Faction.model';
-import { Team } from './Team.model';
 import { Token } from './Token.model';
 import { Phase } from './Phase.model';
 import { PathEntity } from './Path.model';
@@ -53,7 +51,7 @@ import { Sonata } from './Sonata.model';
 import { Shape } from './Shape.model';
 
 export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
-    Round | Choice | Stage | Faction | Token | Team | Phase |
+    Round | Choice | Stage | Faction | Token | Phase |
     Setup | ImageAsset | Keyword | Style | Sound | Expression
     | Handler | Animation | Transition | Text | Sonata | Shape;
 

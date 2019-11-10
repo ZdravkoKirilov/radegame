@@ -25,7 +25,6 @@ export const ALL_ENTITIES = {
     tokens: 'tokens',
     slots: 'slots',
     paths: 'paths',
-    teams: 'teams',
     games: 'games',
     images: 'images',
     keywords: 'keywords',

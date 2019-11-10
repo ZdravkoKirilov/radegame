@@ -8,7 +8,7 @@ import {
     CREATE_PLAYER, SAVE_PLAYER, REMOVE_PLAYERS, UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, FETCH_SETUPS_SUCCESS, FETCH_SETUPS_FAIL, CREATE_GAME, CREATE_GAME_SUCCESS, CREATE_GAME_FAIL, GAME_STARTING,
 } from "./actionTypes";
 import { Lobby, LobbyPlayer, ChatMessage } from "../models";
-import { Game, Team, Faction, ImageAsset, Setup, CreateGamePayload } from "@app/game-mechanics";
+import { Game, Faction, ImageAsset, Setup, CreateGamePayload } from "@app/game-mechanics";
 import { ActiveGame } from "@app/core";
 
 export class ToggleForm {
@@ -151,11 +151,6 @@ export class FetchTeams {
     constructor(public payload: number) { }
 }
 
-export class FetchTeamsSuccess {
-    readonly type = FETCH_TEAMS_SUCCESS;
-    constructor(public payload: Team[]) { }
-}
-
 export class FetchTeamsFail {
     readonly type = FETCH_TEAMS_FAIL;
 }
@@ -237,7 +232,7 @@ export type LobbyAction = ToggleForm | CreateLobby | CreateLobbyFail | CreateLob
     FetchGameSuccess | FetchGameFail | FetchPlayers | FetchPlayersFail | FetchPlayersSuccess |
     FetchAllPlayers | FetchAllPlayersFail | FetchAllPlayersSuccess | CreatePlayer | SavePlayer |
     RemovePlayer | FetchLobby | FetchLobbyFail | FetchLobbySuccess | DeleteLobby
-    | FetchTeams | FetchTeamsSuccess | FetchTeamsFail | FetchFactions | FetchFactionsSuccess |
+    | FetchTeams | FetchTeamsFail | FetchFactions | FetchFactionsSuccess |
     FetchFactionsFail | FetchImages | FetchImagesFail | FetchImagesSuccess | RemovePlayers |
     SendMessage | SaveMessage | FetchSetups | FetchSetupsSuccess | FetchSetupsFail | CreateGame
     | CreateGameFail | CreateGameSuccess | GameStarting;

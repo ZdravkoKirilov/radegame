@@ -6,7 +6,7 @@ import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent,
     RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent,
-    TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent,
+    TokensContainerComponent, PhasesContainerComponent,
     BoardContainerComponent, ImageAssetContainerComponent,
 } from './containers';
 import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
@@ -83,10 +83,6 @@ export const routes: Routes = [
             {
                 path: 'phases',
                 component: PhasesContainerComponent
-            },
-            {
-                path: 'teams',
-                component: TeamsContainerComponent
             },
             {
                 path: 'keywords',
