@@ -1,11 +1,14 @@
+import clone from 'immer';
+
 import { GameTemplate, GameConfig } from "../models";
 import {
     Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, Expression, GameAction,
-    ParamedExpressionFunc, SlotHandler, Handler, Sonata
+    ParamedExpressionFunc, SlotHandler, Handler, Sonata, GameEntity
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
 import { SoundPlayer } from "@app/render-kit";
+import { Dictionary } from '@app/shared';
 
 export const parseFromString = (src: string, context: any): any => {
     try {
@@ -97,3 +100,27 @@ const event_name_map = {
     [HANDLER_TYPES.HOVERIN]: 'onPointerover',
     [HANDLER_TYPES.HOVEROUT]: 'onPointerout'
 } as const;
+
+type ParseConfig<T> = {
+    [k in keyof T]: string | ((item: any) => any)
+};
+
+export const enrichEntity = <T = GameEntity, P extends T = any>(config: Dictionary<GameEntity>, parseConfig: ParseConfig<T>, source: T): P => {
+    return clone(source, draft => {
+        for (let key in parseConfig) {
+            const parser = parseConfig[key];
+            const value = draft[key];
+            if (typeof parser === 'string') {
+                draft[key] = config[parser][draft[key] as any];
+            } else if (typeof parser === 'function') {
+                if (Array.isArray(value)) {
+                    draft[key] = value.map(item => {
+                        item = (parser as any)(item);
+                    }) as any;
+                } else {
+                    draft[key] = value ? (parser as any)(value as any) as any : value;
+                }
+            }
+        }
+    }) as P;
+};

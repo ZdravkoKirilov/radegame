@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import {
     Stage, ImageAsset, Slot, Style, Text, Expression, parseFromString,
-    createExpressionContext, GameTemplate, Shape
+    createExpressionContext, GameTemplate, Shape, enrichEntity, GameEntity
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -13,6 +13,17 @@ const selectForm = createSelector(
     selectFeature,
     feature => feature.form,
 );
+
+const selectEntitiesDictionary = createSelector(
+    selectForm,
+    form => {
+        const result = {} as GameTemplate;
+        for (let key in form) {
+            result[key] = form[key].items;
+        }
+        return result;
+    }
+)
 
 const selectExpressionContext = createSelector(
     selectForm,
@@ -26,14 +37,13 @@ const selectExpressionContext = createSelector(
 );
 
 export const selectSlotData = (slot_id: number) => createSelector(
-    selectForm,
-    (form) => {
-        const slot = form.slots.items[slot_id] as Slot;
-        const slot_data = {
-            ...slot,
-            enabled: form.expressions.items[slot.enabled as number]
-        } as Slot;
-        return slot_data;
+    selectEntitiesDictionary,
+    (entities) => {
+        const slot = enrichEntity<Slot, Slot>(entities, {
+            enabled: 'expressions',
+            style_inline: (value: string) => JSON.parse(value),
+        }, entities.slots[slot_id] as Slot);
+        return slot;
     }
 );
 
