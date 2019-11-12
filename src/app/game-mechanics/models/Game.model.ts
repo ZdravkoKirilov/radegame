@@ -1,4 +1,4 @@
-import { Slot, GameEntityList, ALL_ENTITIES, WithImage } from '../entities';
+import { Slot, GameEntityList, ALL_ENTITIES, WithImage, Stage } from '../entities';
 import { Dictionary, WithKeysAs, Omit } from '@app/shared';
 
 import { WithBoard } from '../entities';
@@ -11,6 +11,7 @@ export type Game = WithBoard & Partial<{
     image: string;
 
     languages: GameLanguage[];
+    menu: number | Stage;
 }>
 
 export type GameLanguage = WithImage & Partial<{
