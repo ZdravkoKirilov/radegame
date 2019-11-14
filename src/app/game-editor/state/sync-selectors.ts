@@ -41,6 +41,7 @@ export const selectSlotData = (slot_id: number) => createSelector(
     (entities) => {
         const slot = enrichEntity<Slot, Slot>(entities, {
             enabled: 'expressions',
+            style: 'styles',
             style_inline: (value: string) => JSON.parse(value),
         }, entities.slots[slot_id] as Slot);
         return slot;
@@ -48,10 +49,9 @@ export const selectSlotData = (slot_id: number) => createSelector(
 );
 
 export const selectSlotStyle = (slot_id: number) => createSelector(
-    selectForm,
     selectSlotData(slot_id),
-    (form, slot_data) => {
-        let style = form.styles.items[slot_data.style as number] as Style;
+    (slot_data) => {
+        const style = slot_data ? slot_data.style as Style : null;
         return style;
     }
 );

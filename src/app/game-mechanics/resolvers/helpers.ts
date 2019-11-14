@@ -1,4 +1,5 @@
 import clone from 'immer';
+import get from 'lodash/get';
 
 import { GameTemplate, GameConfig } from "../models";
 import {
@@ -110,15 +111,15 @@ export const enrichEntity = <T = GameEntity, P extends T = any>(config: Dictiona
         for (let key in parseConfig) {
             const parser = parseConfig[key];
             const value = draft[key];
-            if (typeof parser === 'string') {
-                draft[key] = config[parser][draft[key] as any];
+            if (typeof value !== 'object' && typeof parser === 'string') {
+                draft[key] = get(config, [parser, source[key] as any], null);
             } else if (typeof parser === 'function') {
                 if (Array.isArray(value)) {
                     draft[key] = value.map(item => {
                         item = (parser as any)(item);
                     }) as any;
                 } else {
-                    draft[key] = value ? (parser as any)(value as any) as any : value;
+                    draft[key] = value && typeof value !== 'object' ? (parser as any)(value as any) as any : value;
                 }
             }
         }
