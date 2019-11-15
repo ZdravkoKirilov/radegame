@@ -9,7 +9,7 @@ import { GameTemplate } from '../../../models';
 import { GameBroadcastService } from '../../../services/game-broadcast/game-broadcast.service';
 import { selectExpressionContext, selectConfig } from 'app/game-arena/state/selectors/game-state2';
 
-import ImageSlot from '../image-slot';
+import FrameSlot from '../frame-slot';
 import ItemSlot from '../item-slot';
 import ShapeSlot from '../shape-slot';
 import StageSlot from '../stage-slot';
@@ -18,14 +18,14 @@ import TextSlot from '../text-slot';
 type BasicProps = { data: Slot };
 
 export type SlotFacadeProps = BasicProps & {
-    forImage: CompositeType<BasicProps>;
+    forFrame: CompositeType<BasicProps>;
     forItem: CompositeType<BasicProps>;
     forShape: CompositeType<BasicProps>;
     forStage: CompositeType<BasicProps>;
     forText: CompositeType<BasicProps>;
 };
 
-export const FacadeSlot = Memo<SlotFacadeProps>(({ data, forItem, forImage, forText, forStage, forShape }) => {
+export const FacadeSlot = Memo<SlotFacadeProps>(({ data, forItem, forFrame, forText, forStage, forShape }) => {
     if (data.board) {
         return createElement(forStage, { data });
     }
@@ -39,7 +39,7 @@ export const FacadeSlot = Memo<SlotFacadeProps>(({ data, forItem, forImage, forT
         return createElement(forItem, { data });
     }
     if (data.frames && data.frames.length) {
-        return createElement(forImage, { data });
+        return createElement(forFrame, { data });
     }
 
     throw new Error('Undetermined slot type: ' + data.name);
@@ -76,7 +76,7 @@ const EnhancedFacadeSlot: RenderFunction<EnhancedSlotFacadeProps> = ({ data, con
                 FacadeSlot,
                 {
                     data,
-                    forImage: ImageSlot,
+                    forFrame: FrameSlot,
                     forItem: ItemSlot,
                     forShape: ShapeSlot,
                     forStage: StageSlot,

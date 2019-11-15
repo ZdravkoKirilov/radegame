@@ -17,7 +17,7 @@ const EnhancedFacadeSlot = Memo<EnhancedFacadeSlotProps>(({ data }) => {
         FacadeSlot,
         {
             data,
-            forImage: ImageSlot,
+            forFrame: ImageSlot,
             forItem: ItemSlot,
             forShape: ShapeSlot,
             forStage: StageSlot,
