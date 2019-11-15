@@ -7,7 +7,7 @@ import { AppState } from "@app/core";
 import {
     selectSlotStyle, selectSlotAnimation,
     selectSlotTransitions, selectSlotText
-} from "app/game-arena/state/selectors/game-state2";
+} from "@app/game-arena";
 import { connect } from "../../../hocs";
 
 export type TextSlotProps = {

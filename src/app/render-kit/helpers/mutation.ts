@@ -12,6 +12,7 @@ import { isFunctional, isPrimitive, isStateful, isMemo, flatRender } from "./mis
 import { AbstractContainer } from "../interfaces";
 import { MemoRenderFunction } from "../bases";
 import { prepareExtras } from "./hooks";
+import { withErrorPropagation } from './error';
 
 export const updateComposite = (element: RzElement, component: CompositeComponent) => {
     const currentChild: Component = (component.children || [])[0];
@@ -41,13 +42,13 @@ export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => 
 
     if (shouldUpdateIsFunction && (shouldUpdate as Function)(memoComp.props, updated.props)) {
         memoComp.props = updated.props;
-        return updateComponent(memoComp, memoComp(updated.props, extras));
+        return updateComponent(memoComp, withErrorPropagation(memoComp.parent, () => memoComp(updated.props, extras)));
     }
 
     if (shouldUpdateIsArray && shouldUpdate.length > 0) {
         if ((shouldUpdate as []).some(propName => get(memoComp.props, propName) !== get(updated.props, propName))) {
             memoComp.props = updated.props;
-            return updateComponent(memoComp, memoComp(updated.props, extras));
+            return updateComponent(memoComp, withErrorPropagation(memoComp.parent, () => memoComp(updated.props, extras)));
         }
         memoComp.props = updated.props;
         return;
@@ -55,7 +56,7 @@ export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => 
 
     if (memoComp.props !== updated && !shouldUpdate) {
         memoComp.props = updated.props;
-        return updateComponent(memoComp, memoComp(updated.props, extras));
+        return updateComponent(memoComp, withErrorPropagation(memoComp.parent, () => memoComp(updated.props, extras)));
     }
 
     memoComp.props = updated.props;
@@ -71,7 +72,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
             updateByType(currentChild, incomingChild);
             newChildren = [currentChild];
         } else {
-            const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
+            const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta, component);
             newChildren = [newInstance];
             mountComponent(newInstance, container);
             unmountComponent(currentChild);
@@ -84,7 +85,7 @@ export const reconcileChildSlot = (currentChild: Component, incomingChild: RzEle
     }
 
     if (!currentChild && incomingChild) {
-        const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta);
+        const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta, component);
         newChildren = [newInstance];
         mountComponent(newInstance, container);
     }
@@ -97,7 +98,8 @@ export const updateFunctionalComponent = (target: RenderFunction, updated: RzEle
     } else if (updated) {
         target.props = updated.props;
         const extras = prepareExtras(target, target.meta);
-        updateComponent(target, target(updated.props, extras));
+        const rendered = withErrorPropagation(target.parent, () => target(updated.props, extras))
+        updateComponent(target, rendered);
     }
 };
 
@@ -107,7 +109,7 @@ export const updateByType = (target: Component<RzElementProps>, updated: RzEleme
     }
 
     if (isStateful(target)) {
-        target.updateProps(updated.props);
+        withErrorPropagation(target.parent, () => target.updateProps(updated.props));
     }
 
     if (isPrimitive(target)) {
@@ -150,7 +152,7 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
             acc[key] = existing;
             updateByType(existing, child);
         } else {
-            acc[key] = createComponent(child, component.meta.engine.factory, component.meta);
+            acc[key] = createComponent(child, component.meta.engine.factory, component.meta, component);
             mountComponent(acc[key], component.graphic);
             updateByType(acc[key], child);
         }

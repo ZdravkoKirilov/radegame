@@ -37,7 +37,7 @@ export function composeShapeForm(data: Shape, ent: ConnectedEntities): BaseContr
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            ...composeInlineStyleFormContext(data, ent),
+            ...composeInlineStyleFormContext(ent),
             data, types: composeFromObject(SHAPE_TYPES), points
         },
     }, true);

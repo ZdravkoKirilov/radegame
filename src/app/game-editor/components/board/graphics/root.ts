@@ -4,14 +4,13 @@ import { map } from "rxjs/operators";
 
 import {
     StatefulComponent, createElement, PrimitiveContainer,
-    Scrollable, ScrollableProps, AutoClean, MetaProps
+    Scrollable, ScrollableProps, AutoClean, MetaProps, Suspense, SuspenseProps, PrimitiveTextProps
 } from "@app/render-kit";
 
 import Slots, { Props as SlotProps } from './slots';
 import Paths, { Props as PathProps } from './paths';
 import Background, { Props as BGProps } from './background';
 import { Slot, PathEntity, Stage, GameEntity, ALL_ENTITIES, AllEntity } from "@app/game-mechanics";
-import { MainContext } from "./context";
 import { AppState } from "@app/core";
 import { getActiveStage, SaveItemAction, getEntitiesDict, getItems, GameEntitiesDict } from "../../../state";
 import { selectGameId } from "@app/shared";
@@ -67,12 +66,16 @@ export class RootComponent extends StatefulComponent<Props, State> {
         ).subscribe();
     }
 
+    didCatch(err: any, stack: string) {
+        debugger;
+    }
+
     render() {
         const { stage, selectedSlot, selectedPath, loaded, entities, slots, paths } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot, selectPath } = this;
         const background = loaded && stage ? entities.images[stage.image as number] : null;
 
-        return loaded ? createElement(MainContext.Provider, { value: { entities } },
+        return loaded ?
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
                 height: window.innerHeight,
@@ -88,13 +91,17 @@ export class RootComponent extends StatefulComponent<Props, State> {
                     background, stage, selectSlot, selectPath,
                 }) : null,
 
-                createElement<PathProps>(Paths, {
-                    paths,
-                    slots: entities.slots,
-                    styles: entities.styles,
-                    selectPath,
-                    selected: selectedPath,
-                }),
+                createElement<SuspenseProps>(Suspense, {
+                    fallback: createElement<PrimitiveTextProps>('text', { value: 'Loading...', styles: { x: 100, y: 100 } })
+                },
+                    createElement<PathProps>(Paths, {
+                        paths,
+                        slots: entities.slots,
+                        styles: entities.styles,
+                        selectPath,
+                        selected: selectedPath,
+                    }),
+                ),
 
                 createElement<SlotProps>(Slots, {
                     slots: slots.filter(slot => slot.owner === stage.id),
@@ -102,9 +109,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
                     selectSlot,
                     selected: selectedSlot,
                     onDragEnd: handleDragEnd,
-                })
-            ),
-        ) : null;
+                }),
+            ) : null;
     }
 
     selectSlot = (slot: Slot) => {

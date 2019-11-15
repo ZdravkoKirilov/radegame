@@ -1,33 +1,84 @@
 import { isEqual } from 'lodash';
 import { RenderFunctionExtras, RenderFunction, MetaProps } from "../models";
 import { updateComponent } from "./mutation";
+import { withErrorPropagation } from './error';
 
-export type StateHook = <T = any>(initialValue?: T) => [T, (value: T) => void];
+export type StateHook = <T = any>(initialValue?: T) => [T, UseStateUpdater<T>];
 export type EffectHook = (callback: () => FuncOrVoid, dependencies?: any[]) => void;
+export type MemoHook = <T = any>(initialValue: T, dependencies: any[]) => T;
+export type RefHook = <T = any>(initialValue: T) => RefObject<T>;
 
 type FuncOrVoid = Function | void;
 
-type StateHookParams = {
+type EffectHookParams = {
     callback: () => FuncOrVoid;
     dependencies: any[];
     cleaner?: Function | void;
 };
 
+type MemoHookParams = {
+    value: any;
+    dependencies: any[];
+}
+
+export type RefObject<T = any> = { current: T };
+
 export type StateHooks = Map<RenderFunction, any[]>;
-export type EffectHooks = Map<RenderFunction, StateHookParams[]>;
+export type EffectHooks = Map<RenderFunction, EffectHookParams[]>;
+export type MemoHooks = Map<RenderFunction, MemoHookParams[]>;
+export type RefHooks = Map<RenderFunction, RefObject[]>;
+
+type UseStateFunctionalUpdater<T> = (oldValue: T) => T;
+type UseStateUpdater<T> = (value: T | UseStateFunctionalUpdater<T>) => void;
 
 export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFunctionExtras => {
     let stateHookIndex = 0;
     let effectHookIndex = 0;
+    let memoHookIndex = 0;
+    let refHookIndex = 0;
+
+    const useRef: RefHook = (value) => {
+        const refs = meta.hooks.refs;
+        const state = refs.get(target) || [];
+        refHookIndex += 1;
+        return state[refHookIndex];
+    }
+
+    const useMemo: MemoHook = (value, dependencies) => {
+        const memos = meta.hooks.memos;
+        const state = memos.get(target) || [];
+        memos.set(target, state);
+        const currentTarget = state[memoHookIndex];
+
+        if (currentTarget) {
+            const oldDeps = currentTarget.dependencies;
+            if (!dependencies) {
+                state[memoHookIndex] = { value, dependencies };
+            } else if (dependencies.length > 0 && !isEqual(oldDeps, dependencies)) {
+                state[memoHookIndex] = { value, dependencies };
+            } else {
+                // ignore the case when dependencies are empty or haven't changed
+            }
+        } else { // first fire is free
+            state[memoHookIndex] = { value, dependencies };
+        }
+        const returnValue = state[memoHookIndex].value;
+        memoHookIndex += 1;
+        return returnValue;
+    };
 
     const useState: StateHook = <T = any>(initialState?: T) => {
         const state = meta.hooks.state.get(target) || [];
         meta.hooks.state.set(target, state);
         const currentValue = state[stateHookIndex] || initialState;
-        const mutator = (order: number) => (value: T) => {
+        const mutator = (order: number): UseStateUpdater<T> => (value) => {
             setTimeout(() => {
-                state[order] = value;
-                const rendered = target(target.props, prepareExtras(target, meta));
+                if (typeof value === 'function') {
+                    state[order] = (value as UseStateFunctionalUpdater<T>)(currentValue);
+                } else {
+                    state[order] = value;
+                }
+                const rendered = withErrorPropagation(target.parent, () => target(target.props, prepareExtras(target, meta)));
                 updateComponent(target, rendered);
             });
         };
@@ -57,8 +108,15 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
         effectHookIndex += 1;
     };
 
-    return { useState, useEffect };
+    return { useState, useEffect, useMemo, useRef };
 };
+
+export const cleanAllHooks = (component: RenderFunction, meta: MetaProps) => {
+    component.meta.hooks.state.delete(component);
+    component.meta.hooks.memos.delete(component);
+    component.meta.hooks.refs.delete(component);
+    cleanEffectHooks(component);
+}
 
 export const cleanEffectHooks = (component: RenderFunction) => {
     const effects = component.meta.hooks.effect.get(component);
@@ -73,7 +131,7 @@ export const cleanEffectHooks = (component: RenderFunction) => {
 };
 
 const executeEffectAsync = (
-    state: StateHookParams[],
+    state: EffectHookParams[],
     effectHookIndex: number,
     callback: () => FuncOrVoid,
     dependencies: any[],

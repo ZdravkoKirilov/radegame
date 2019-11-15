@@ -16,6 +16,10 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
 
             <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
 
+            <Dropdown name='menu' label='Menu' options='{stage_options}'>
+                {data.menu}
+            </Dropdown>
+
             <Group name='languages' label='Languages' children='{languages}' item='@item' addButtonText='Add'>
                 <Form>
                     <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>

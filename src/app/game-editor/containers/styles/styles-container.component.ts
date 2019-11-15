@@ -28,7 +28,7 @@ import { composeStyleForm } from '../../forms';
 })
 export class StylesContainerComponent extends SmartBase {
 
-  formDefinition = composeStyleForm;
+  formDefinition = composeStyleForm(false);
   readonly key = ALL_ENTITIES.styles ;
 
   constructor(public store: Store<AppState>) { super(store) }

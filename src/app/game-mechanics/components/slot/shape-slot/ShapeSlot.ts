@@ -8,7 +8,7 @@ import { AppState } from "@app/core";
 import {
     selectSlotStyle, selectSlotAnimation,
     selectSlotTransitions, selectSlotShape
-} from "app/game-arena/state/selectors/game-state2";
+} from "@app/game-arena";
 
 import Rectangle, { RectangleProps } from './Rectangle';
 import Circle, { CircleSlotProps } from './Circle';

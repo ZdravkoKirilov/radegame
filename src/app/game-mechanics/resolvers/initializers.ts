@@ -44,8 +44,8 @@ export const createGameState = ({ setup, conf, players }: CreateStateParams): Ga
     const first_round = setup_data.rounds[0];
     const turn_order = players.map(player => player.id);
     return {
-        global_overrides: {},
-        player_overrides: createPlayerOverrides(players, conf),
+        global_state: {},
+        player_state: createPlayerOverrides(players, conf),
         turn_order,
         setup,
         round: first_round.id,
@@ -66,7 +66,7 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
             return ctx.$self.id === state.active_player;
         },
         $player_overrides(player: Player, path: string) {
-            const overrides = state.player_overrides[player.id];
+            const overrides = state.player_state[player.id];
             return get(overrides, path, {});
         }
     };

@@ -76,4 +76,6 @@ export class StatefulComponent<P = {}, S = {}> {
     didMount?(): void;
     willUnmount?(): void;
     didUpdate?(payload: DidUpdatePayload<P, S>): void;
+
+    didCatch?(err: any, stack: string): void;
 }

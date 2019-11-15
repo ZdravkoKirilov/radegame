@@ -20,8 +20,7 @@ import {
 import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, RoundsContainerComponent,
-    StagesContainerComponent, ChoicesContainerComponent,
-    TeamsContainerComponent, TokensContainerComponent, PhasesContainerComponent, BoardContainerComponent
+    StagesContainerComponent, ChoicesContainerComponent, TokensContainerComponent, PhasesContainerComponent, BoardContainerComponent
 } from './containers';
 
 import { BoardEditorComponent } from './components/board/board-editor.component';
@@ -33,7 +32,6 @@ import { EditHeaderComponent } from './components/header/edit-header.component';
 import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
-import { StatesContainerComponent } from './containers/states/states-container.component';
 import { ExpressionsContainerComponent } from './containers/expressions/expressions-container.component';
 import { AnimationsContainerComponent } from './containers/animations/animations-container.component';
 import { HandlersContainerComponent } from './containers/handlers/handlers-container.component';
@@ -74,7 +72,6 @@ import { ShapePreviewComponent } from './components/shape/preview/shape-preview.
         RoundsContainerComponent,
         StagesContainerComponent,
         ChoicesContainerComponent,
-        TeamsContainerComponent,
         TokensContainerComponent,
         PhasesContainerComponent,
         BoardEditorComponent,
@@ -91,7 +88,6 @@ import { ShapePreviewComponent } from './components/shape/preview/shape-preview.
         KeywordsContainerComponent,
         StylesContainerComponent,
         SoundsContainerComponent,
-        StatesContainerComponent,
         ExpressionsContainerComponent,
         AnimationsContainerComponent,
         HandlersContainerComponent,

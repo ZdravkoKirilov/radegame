@@ -97,7 +97,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            ...composeInlineStyleFormContext(data, ent),
+            ...composeInlineStyleFormContext(ent),
             data, items, handlers, transitions, frames
         },
     }, true);

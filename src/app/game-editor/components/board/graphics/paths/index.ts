@@ -12,14 +12,37 @@ export type Props = {
     selectPath: (item: PathEntity) => void;
 }
 
+let hasFired = false;
+
 export const PathsList = Memo<Props>(
-    (props) => {
+    (props, { useState, useEffect }) => {
         const nodesList = props.slots;
+        // const [count, setCount] = useState(0);
+        // useEffect(() => {
+        //     setInterval(() => {
+        //         setCount(count + 5)
+        //     }, 2000)
+        // }, []);
+        // console.log(count);
+
+        // if (!hasFired) {
+        //     debugger;
+        //     hasFired = true;
+        //     throw new Promise((res, rej) => {
+        //         setTimeout(() => {
+        //             res([]);
+        //         }, 5000);
+        //     });
+        // } else {
+        //     debugger;
+        // }
+
+        // throw new Error('oops');
 
         const lines = props.slots && props.slots.length ? props.paths.map(elem => {
-            const fromStyle = props.styles[nodesList[elem.from_slot].style];
-            const toStyle = props.styles[nodesList[elem.to_slot].style];
-            const style = props.styles[elem.style];
+            const fromStyle = props.styles[nodesList[elem.from_slot].style as number];
+            const toStyle = props.styles[nodesList[elem.to_slot].style as number];
+            const style = props.styles[elem.style as number];
 
             const from = {
                 left: nodesList[elem.from_slot].x,
@@ -81,5 +104,7 @@ const computeLinePoints = (from: any, to: any): Points => {
 
     return points;
 };
+
+PathsList.displayName = 'PathsList';
 
 export default PathsList;

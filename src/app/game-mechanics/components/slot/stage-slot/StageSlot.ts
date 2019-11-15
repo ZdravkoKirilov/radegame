@@ -4,7 +4,7 @@ import { Stage, Slot, ImageAsset } from "@app/game-mechanics";
 import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
 import { connect } from "app/game-mechanics/hocs";
-import { selectSlotStage, selectSlotStageChildren } from 'app/game-arena/state/selectors/game-state2';
+import { selectSlotStage, selectSlotStageChildren } from '@app/game-arena';
 
 export type StageSlotProps = {
     stage: Stage;

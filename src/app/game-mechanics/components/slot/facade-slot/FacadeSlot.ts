@@ -7,7 +7,7 @@ import { AppState } from '@app/core';
 import { assignHandlers, ExpressionContext } from '../../../resolvers';
 import { GameTemplate } from '../../../models';
 import { GameBroadcastService } from '../../../services/game-broadcast/game-broadcast.service';
-import { selectExpressionContext, selectConfig } from 'app/game-arena/state/selectors/game-state2';
+import { selectExpressionContext, selectConfig } from '@app/game-arena';
 
 import FrameSlot from '../frame-slot';
 import ItemSlot from '../item-slot';

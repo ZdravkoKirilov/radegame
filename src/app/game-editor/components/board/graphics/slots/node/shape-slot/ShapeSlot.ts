@@ -13,6 +13,7 @@ type StoreProps = {
 };
 
 const EnhancedShapeSlot: RenderFunction<EnhancedShapeSlotProps & StoreProps> = ({ style, shape }) => {
+    console.log(style);
     return style ? createElement<ShapeSlotProps>(ShapeSlot, { style, shape }) : null;
 };
 

@@ -1,4 +1,4 @@
-import { Slot, GameEntityList, ALL_ENTITIES, WithImage } from '../entities';
+import { Slot, GameEntityList, ALL_ENTITIES, WithImage, Stage } from '../entities';
 import { Dictionary, WithKeysAs, Omit } from '@app/shared';
 
 import { WithBoard } from '../entities';
@@ -11,6 +11,7 @@ export type Game = WithBoard & Partial<{
     image: string;
 
     languages: GameLanguage[];
+    menu: number | Stage;
 }>
 
 export type GameLanguage = WithImage & Partial<{
@@ -22,19 +23,20 @@ export type GameLanguage = WithImage & Partial<{
 
 export type GameState = {
     
-    global_overrides: Partial<GameConfig>;
-    player_overrides: Dictionary<{
+    global_state: Partial<GameConfig>;
+    player_state: Dictionary<{
         [key: string]: {
             slots: Dictionary<Slot>
         }
     }>;
 
     turn_order: number[]; // player ids determining turn order
+    active_player: number; //
 
     setup: number;
     round: number; //
     phase: number; //
-    active_player: number; //
+
 };
 
 export type GameTemplate = Omit<WithKeysAs<typeof ALL_ENTITIES, GameEntityList>, 'games'>;

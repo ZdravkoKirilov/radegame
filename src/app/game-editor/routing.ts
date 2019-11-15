@@ -6,13 +6,12 @@ import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent,
     RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent,
-    TokensContainerComponent, PhasesContainerComponent, TeamsContainerComponent,
+    TokensContainerComponent, PhasesContainerComponent,
     BoardContainerComponent, ImageAssetContainerComponent,
 } from './containers';
 import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
-import { StatesContainerComponent } from './containers/states/states-container.component';
 import { ExpressionsContainerComponent } from './containers/expressions/expressions-container.component';
 import { AnimationsContainerComponent } from './containers/animations/animations-container.component';
 import { HandlersContainerComponent } from './containers/handlers/handlers-container.component';
@@ -86,10 +85,6 @@ export const routes: Routes = [
                 component: PhasesContainerComponent
             },
             {
-                path: 'teams',
-                component: TeamsContainerComponent
-            },
-            {
                 path: 'keywords',
                 component: KeywordsContainerComponent
             },
@@ -104,10 +99,6 @@ export const routes: Routes = [
             {
                 path: 'sounds',
                 component: SoundsContainerComponent
-            },
-            {
-                path: 'states',
-                component: StatesContainerComponent
             },
             {
                 path: 'animations',

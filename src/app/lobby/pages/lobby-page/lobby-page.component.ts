@@ -8,11 +8,11 @@ import { AppState, selectUser, getLatestActiveGame, ActiveGame } from '@app/core
 import { AutoUnsubscribe, selectLobbyName, selectGameId, OnChange } from '@app/shared';
 import {
 	FetchLobby, FetchPlayers, getSelectedGame, getSelectedLobbyWithPlayers, FetchGame,
-	FetchTeams, FetchFactions, FetchImages, getTeams, getFactions, getImages, getSetup, CreatePlayer, playerJoined, isOwner,
+	FetchTeams, FetchFactions, FetchImages, getFactions, getImages, getSetup, CreatePlayer, playerJoined, isOwner,
 	DeletePlayer, DeleteLobby, getSelf, UpdatePlayer, SendMessage, getMessages, FetchSetups, CreateGame,
 } from '../../state';
 import { Lobby, LobbyPlayer, ChatMessage } from '../../models';
-import { Game, Team, Faction, ImageAsset, Setup } from '@app/game-mechanics';
+import { Game, Faction, ImageAsset, Setup } from '@app/game-mechanics';
 import { User } from '@app/core';
 import { composePlayerName } from '../../utils';
 import { LiveLobbyService } from '../../services/live-lobbies.service';
@@ -67,7 +67,6 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 		lobby: Lobby;
 		game: Game;
 		user: User;
-		teams: Team[];
 		factions: Faction[];
 		images: ImageAsset[];
 		messages: ChatMessage[];
@@ -116,7 +115,6 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 			this.store.pipe(select(getSelectedGame)),
 			this.store.pipe(select(selectUser)),
 			this.store.pipe(select(getSelectedLobbyWithPlayers)),
-			this.store.pipe(select(getTeams)),
 			this.store.pipe(select(getFactions)),
 			this.store.pipe(select(getImages)),
 			this.store.pipe(select(getMessages)),
@@ -131,9 +129,9 @@ export class LobbyPageComponent implements OnInit, OnDestroy {
 					return chunk !== null && chunk !== undefined;
 				}
 			}),
-			map(([game, user, lobby, teams, factions, images, messages, setup, isOwner, hasJoined]) => {
+			map(([game, user, lobby, factions, images, messages, setup, isOwner, hasJoined]) => {
 				this.data = {
-					game, user, lobby, teams, factions,
+					game, user, lobby, factions,
 					images, setup, isOwner, messages,
 				};
 				if (!hasJoined && !this.pendingLeave) {

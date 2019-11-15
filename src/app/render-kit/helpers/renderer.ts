@@ -16,8 +16,10 @@ export const createRenderer = (engine: AbstractRenderEngine, resources: Set<stri
             meta.hooks = {
                 state: new Map(),
                 effect: new Map(),
+                memos: new Map(),
+                refs: new Map(),
             };
-            const node = createComponent(elem, engine.factory, meta);
+            const node = createComponent(elem, engine.factory, meta, null);
             mountComponent(node, container);
             resolve(node);
         });

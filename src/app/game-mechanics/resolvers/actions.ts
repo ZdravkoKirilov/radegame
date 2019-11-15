@@ -1,23 +1,7 @@
-import { GameAction, Setup, ActionConfig, ACTION_TYPE } from "../entities";
-import { MutatorAction, ChangeTurn, ChangeRound } from "@app/game-arena";
-import { GameState, GameConfig } from "../models";
-
-type MultiActionsTransformerPayload = {
-    actions: GameAction[];
-    state: GameState;
-    config: GameConfig;
-};
-
-type SingleActionTransformerPayload = {
-    action: GameAction;
-    state: GameState;
-    config: GameConfig;
-
-    action_config?: ActionConfig;
-};
-
-type MultiActionsTransformer = (payload: MultiActionsTransformerPayload) => MutatorAction[];
-type SingleActionTransformer = (payload: SingleActionTransformerPayload) => MutatorAction[];
+import { ACTION_TYPE } from "../entities";
+import { MultiActionsTransformer, SingleActionTransformer } from "../models";
+import { handleEndTurn } from "./action-handlers/handleEndTurn";
+import { mutateState } from "./action-handlers/mutateState";
 
 export const transformToMutators: MultiActionsTransformer = (payload) => {
     return reduceMutators(payload);
@@ -45,25 +29,10 @@ const delegateByActionType: SingleActionTransformer = (payload) => {
     switch (payload.action_config.type) {
         case ACTION_TYPE.END_TURN:
             return handleEndTurn(payload);
+        case ACTION_TYPE.MUTATE_STATE:
+            return mutateState(payload);
         default:
             return [];
     }
 };
 
-const handleEndTurn: SingleActionTransformer = ({ state, config }) => {
-    let { active_player, turn_order, round, setup } = state;
-    const setupData: Setup = config.setups[setup];
-    const rounds = setupData.rounds.map(elem => elem.id);
-
-    let nextRound = null;
-    if (turn_order[turn_order.length - 1] === active_player) {
-        active_player = turn_order[0];
-        nextRound = rounds[rounds.indexOf(round) + 1];
-    } else {
-        active_player = turn_order[turn_order.indexOf(active_player) + 1];
-    }
-    return [
-        new ChangeTurn(active_player),
-        nextRound ? new ChangeRound(nextRound) : null,
-    ];
-};

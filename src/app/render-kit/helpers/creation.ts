@@ -3,11 +3,13 @@ import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent } from "../bases";
 import { hasPrimitiveType, getRealType, flatRender, cloneRenderFunction } from './misc';
 import { prepareExtras } from "./hooks";
+import { withErrorPropagation } from "./error";
 
 export const createComponent = (
     element: RzElement,
     factory: AbstractFactory,
     meta: MetaProps,
+    parent: Component,
 ): Component => {
     if (!element) {
         return null;
@@ -24,10 +26,10 @@ export const createComponent = (
 
         if (hasPrimitiveType(element.type)) {
             component = createPrimitiveComponent(element, factory, meta);
-            registerAnimations(component);
+            component.parent = parent;
             component.type = element.type;
             const children = (element.children as RzElement[]).map(child => {
-                const comp = createComponent(child, factory, meta);
+                const comp = createComponent(child, factory, meta, component);
                 if (comp) {
                     comp.parent = component;
                 }
@@ -42,7 +44,7 @@ export const createComponent = (
             let realType = getRealType(factory, type);
 
             if (realType) {
-                return createComponent({ ...element, type: realType as any }, factory, meta);
+                return createComponent({ ...element, type: realType as any }, factory, meta, component);
             }
         }
     }
@@ -50,8 +52,9 @@ export const createComponent = (
     if ((element.type as any).stateful) {
         component = createStatefulComponent(element, meta);
         component.type = element.type;
-        const rendered = flatRender(component.render());
-        const child = createComponent(rendered, factory, meta);
+        component.parent = parent;
+        const rendered = withErrorPropagation(parent, () => flatRender(component['render']()));
+        const child = createComponent(rendered, factory, meta, component);
         if (child) {
             child.parent = component;
         }
@@ -62,18 +65,19 @@ export const createComponent = (
 
     if (typeof element.type === typeof Function) {
         const originalType = element.type as RenderFunction;
-        component = cloneRenderFunction(originalType, meta);
-        const extras = prepareExtras(component, meta);
-        const rendered = flatRender(component(element.props, extras));
-        const child = createComponent(rendered, factory, meta);
+        const renderFunc = cloneRenderFunction(originalType, meta);
+        renderFunc.parent = parent;
+        const extras = prepareExtras(renderFunc, meta);
+        const rendered = withErrorPropagation(parent, () => flatRender(renderFunc(element.props, extras)));
+        const child = createComponent(rendered, factory, meta, renderFunc);
         if (child) {
-            child.parent = component;
+            child.parent = renderFunc;
         }
         const children = [child];
-        component.props = element.props;
-        component.children = children;
-        component.type = originalType;
-        return component;
+        renderFunc.props = element.props;
+        renderFunc.children = children;
+        renderFunc.type = originalType;
+        return renderFunc;
     }
 
     if (!component && element.type) {
@@ -91,10 +95,4 @@ const createStatefulComponent = (element: RzElement, meta: MetaProps): StatefulC
     const constructor = element.type as any;
     const component = new constructor(element.props, meta);
     return component;
-};
-
-const registerAnimations = (component: BasicComponent) => {
-    // if (component.props.animations) {
-    //     component.props.animations.forEach(animation => animation.addComponent(component));
-    // }
 };

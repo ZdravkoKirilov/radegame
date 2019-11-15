@@ -1,11 +1,15 @@
+import clone from 'immer';
+import get from 'lodash/get';
+
 import { GameTemplate, GameConfig } from "../models";
 import {
     Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, Expression, GameAction,
-    ParamedExpressionFunc, SlotHandler, Handler, Sonata
+    ParamedExpressionFunc, SlotHandler, Handler, Sonata, GameEntity
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
 import { SoundPlayer } from "@app/render-kit";
+import { Dictionary } from '@app/shared';
 
 export const parseFromString = (src: string, context: any): any => {
     try {
@@ -21,12 +25,12 @@ export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
     let total = [];
     setup_data.rounds.forEach(elem => {
         const round_data = conf.rounds[elem.round] as Round;
-        const stage = conf.stages[round_data.board] as Stage;
+        const stage = conf.stages[round_data.board as number] as Stage;
         const image = conf.images[stage.image as number] as ImageAsset;
         const slot_images = Object.values(conf.slots).reduce(
             (acc, item: Slot) => {
                 if (item.owner === stage.id) {
-                    const slot_image: ImageAsset = conf.images[item.image];
+                    const slot_image: ImageAsset = conf.images[item.image as number];
                     slot_image ? acc.push(slot_image.image) : null;
                 }
                 return acc;
@@ -97,3 +101,27 @@ const event_name_map = {
     [HANDLER_TYPES.HOVERIN]: 'onPointerover',
     [HANDLER_TYPES.HOVEROUT]: 'onPointerout'
 } as const;
+
+type ParseConfig<T> = {
+    [k in keyof T]: string | ((item: any) => any)
+};
+
+export const enrichEntity = <T = GameEntity, P extends T = any>(config: Dictionary<GameEntity>, parseConfig: ParseConfig<T>, source: T): P => {
+    return clone(source, draft => {
+        for (let key in parseConfig) {
+            const parser = parseConfig[key];
+            const value = draft[key];
+            if (typeof value !== 'object' && typeof parser === 'string') {
+                draft[key] = get(config, [parser, source[key] as any], null);
+            } else if (typeof parser === 'function') {
+                if (Array.isArray(value)) {
+                    draft[key] = value.map(item => {
+                        item = (parser as any)(item);
+                    }) as any;
+                } else {
+                    draft[key] = value && typeof value !== 'object' ? (parser as any)(value as any) as any : value;
+                }
+            }
+        }
+    }) as P;
+};

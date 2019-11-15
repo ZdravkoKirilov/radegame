@@ -9,18 +9,17 @@ import {
     FetchLobbiesFail, FetchLobbies, FetchGame, FetchGameFail,
     FetchGameSuccess, FetchLobbiesSuccess, FetchPlayers, FetchPlayersFail, FetchPlayersSuccess,
     FetchAllPlayers, FetchAllPlayersSuccess, FetchAllPlayersFail, CreateLobby, CreateLobbyFail,
-    CreateLobbySuccess, AddLobby, CreatePlayer, SavePlayer, FetchLobby, FetchLobbyFail, FetchLobbySuccess,
-    FetchTeams, FetchTeamsSuccess, FetchTeamsFail, FetchFactions, FetchFactionsSuccess, FetchFactionsFail,
+    CreateLobbySuccess, AddLobby, CreatePlayer, SavePlayer, FetchLobby, FetchLobbyFail, FetchLobbySuccess, FetchFactions, FetchFactionsSuccess, FetchFactionsFail,
     FetchImages, FetchImagesSuccess, FetchImagesFail, RemoveLobby, RemovePlayers, RemovePlayer, UpdatePlayer,
     DeletePlayer, DeleteLobby, SendMessage, SaveMessage, FetchSetups, FetchSetupsSuccess, FetchSetupsFail, CreateGame, CreateGameSuccess, CreateGameFail, GameStarting
 } from './actions';
 import {
     FETCH_LOBBIES, FETCH_GAME, FETCH_PLAYERS, FETCH_ALL_PLAYERS, CREATE_LOBBY,
-    CREATE_PLAYER, FETCH_LOBBY, FETCH_TEAMS, FETCH_FACTIONS, FETCH_IMAGES, REMOVE_LOBBY, REMOVE_PLAYER, SAVE_PLAYER,
+    CREATE_PLAYER, FETCH_LOBBY, FETCH_FACTIONS, FETCH_IMAGES, REMOVE_LOBBY, REMOVE_PLAYER, SAVE_PLAYER,
     UPDATE_PLAYER, DELETE_PLAYER, DELETE_LOBBY, SEND_MESSAGE, SAVE_MESSAGE, FETCH_SETUPS, CREATE_GAME, GAME_STARTING
 } from './actionTypes';
 import { LobbyService } from '../services/lobby.service';
-import { GameFetchService, AppState, AddActiveGame } from '@app/core';
+import { GameFetchService, AppState } from '@app/core';
 import { LiveLobbyService } from '../services/live-lobbies.service';
 import { getPlayers } from './selectors';
 import { GameArenaService } from '@app/core';
@@ -213,21 +212,6 @@ export class LobbyEffects {
         ofType<SendMessage>(SEND_MESSAGE),
         map(action => this.sockets.sendMessage(action))
     )
-
-    @Effect()
-    fetchTeams = this.actions$.pipe(
-        ofType<FetchTeams>(FETCH_TEAMS),
-        mergeMap(action => {
-            return this.fetcher.getTeams(action.payload).pipe(
-                map(response => {
-                    return new FetchTeamsSuccess(response);
-                }),
-                catchError(() => {
-                    return of(new FetchTeamsFail());
-                })
-            )
-        }),
-    );
 
     @Effect()
     fetchSetups = this.actions$.pipe(

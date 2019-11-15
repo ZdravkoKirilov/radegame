@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import {
     Stage, ImageAsset, Slot, Style, Text, Expression, parseFromString,
-    createExpressionContext, GameTemplate, Shape
+    createExpressionContext, GameTemplate, Shape, enrichEntity, GameEntity
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -13,6 +13,17 @@ const selectForm = createSelector(
     selectFeature,
     feature => feature.form,
 );
+
+const selectEntitiesDictionary = createSelector(
+    selectForm,
+    form => {
+        const result = {} as GameTemplate;
+        for (let key in form) {
+            result[key] = form[key].items;
+        }
+        return result;
+    }
+)
 
 const selectExpressionContext = createSelector(
     selectForm,
@@ -26,22 +37,21 @@ const selectExpressionContext = createSelector(
 );
 
 export const selectSlotData = (slot_id: number) => createSelector(
-    selectForm,
-    (form) => {
-        const slot = form.slots.items[slot_id] as Slot;
-        const slot_data = {
-            ...slot,
-            enabled: form.expressions.items[slot.enabled as number]
-        } as Slot;
-        return slot_data;
+    selectEntitiesDictionary,
+    (entities) => {
+        const slot = enrichEntity<Slot, Slot>(entities, {
+            enabled: 'expressions',
+            style: 'styles',
+            style_inline: (value: string) => JSON.parse(value),
+        }, entities.slots[slot_id] as Slot);
+        return slot;
     }
 );
 
 export const selectSlotStyle = (slot_id: number) => createSelector(
-    selectForm,
     selectSlotData(slot_id),
-    (form, slot_data) => {
-        let style = form.styles.items[slot_data.style] as Style;
+    (slot_data) => {
+        const style = slot_data ? slot_data.style as Style : null;
         return style;
     }
 );
@@ -74,7 +84,7 @@ export const selectSlotImage = (slot_id: number) => createSelector(
     selectForm,
     selectSlotData(slot_id),
     (form, slot_data) => {
-        const image_data = form.images.items[slot_data.image] || {};
+        const image_data = form.images.items[slot_data.image as number] || {};
         return image_data as ImageAsset;
     }
 );
@@ -83,7 +93,7 @@ export const selectSlotStage = (slot_id: number) => createSelector(
     selectForm,
     selectSlotData(slot_id),
     (form, slot_data) => {
-        let stage_data = form.stages.items[slot_data.board] as Stage || {} as Stage;
+        let stage_data = form.stages.items[slot_data.board as number] as Stage || {} as Stage;
         stage_data = {
             ...stage_data,
             image: form.images.items[stage_data.image as number] as ImageAsset

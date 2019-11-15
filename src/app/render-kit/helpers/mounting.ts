@@ -4,7 +4,8 @@ import { StatefulComponent, BasicComponent } from "../bases";
 import { PRIMS } from "../primitives";
 import { RenderFunction } from "../models/Component";
 import { isStateful, isPrimitive, isFunctional } from "./misc";
-import { cleanEffectHooks } from "./hooks";
+import { cleanAllHooks } from "./hooks";
+import { withErrorPropagation } from "./error";
 
 export const unmountComponent = (component: Component) => {
     if (component && (component as any).__mounted__ === true) {
@@ -25,10 +26,6 @@ export const unmountComponent = (component: Component) => {
 };
 
 export const unmountStatefulComponent = (component: StatefulComponent) => {
-    if (component instanceof StatefulComponent) {
-        // const leaveAnimations: AnimationGroup[] = [];
-        // await Promise.all(leaveAnimations.map(animation => animation.playAll()));
-    }
 
     if ('willUnmount' in component) {
         component.willUnmount();
@@ -38,8 +35,7 @@ export const unmountStatefulComponent = (component: StatefulComponent) => {
 };
 
 export const unmountFunctionalComponent = (component: RenderFunction) => {
-    component.meta.hooks.state.delete(component);
-    cleanEffectHooks(component);
+    cleanAllHooks(component, component.meta);
     unmountChildren(component);
 };
 
@@ -70,13 +66,13 @@ const mountStatefulComponent = (component: StatefulComponent, container: Abstrac
     component.container = container;
 
     if ('willMount' in component) {
-        component.willMount.call(component);
+        withErrorPropagation(component.parent, () => component.willMount.call(component));
     }
 
     component.children = component.children.map(child => mountComponent(child, container));
 
     if ('didMount' in component) {
-        component.didMount.call(component);
+        withErrorPropagation(component.parent, () => component.didMount.call(component));
     }
 
     return component;

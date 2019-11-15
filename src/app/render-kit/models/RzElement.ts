@@ -2,7 +2,7 @@ import { AbstractRenderEngine } from "../interfaces";
 import { ComponentConstructor, RenderFunction } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 import { PRIMS } from "../primitives";
-import { StateHooks, EffectHooks } from "../helpers";
+import { StateHooks, EffectHooks, MemoHooks, RefHooks } from "../helpers";
 
 export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
@@ -83,6 +83,8 @@ export type MetaProps = {
     hooks?: {
         state: StateHooks;
         effect: EffectHooks;
+        memos: MemoHooks;
+        refs: RefHooks;
     }
 };
 
