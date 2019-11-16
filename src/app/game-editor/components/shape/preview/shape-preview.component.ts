@@ -20,7 +20,7 @@ export class ShapePreviewComponent implements OnInit {
   @OnChange<Shape>(function (value) {
     const mount: MountRef = this.mount;
     const component = mount ? mount.component as StatefulComponent : null;
-    const inlineStyle: Style = JSON.parse(value ? value.style_inline : '{}');
+    const inlineStyle: Style = JSON.parse(value ? value.style_inline as any : '{}');
     if (component) {
       component.updateProps({ shape: value, style: inlineStyle });
     }

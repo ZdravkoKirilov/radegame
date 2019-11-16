@@ -22,7 +22,7 @@ export type ShapeSlotProps = {
 }
 
 export const ShapeSlot: RenderFunction<ShapeSlotProps & StoreProps> = ({ style, shape }) => {
-
+    
     if (shape.type === 'rectange') {
         return createElement<RectangleProps>(Rectangle, { style, shape });
     }

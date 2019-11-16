@@ -39,7 +39,7 @@ const selectExpressionContext = createSelector(
 export const selectSlotData = (slot_id: number) => createSelector(
     selectEntitiesDictionary,
     (entities) => {
-        const slot = enrichEntity<Slot, Slot>(entities, {
+        const slot = enrichEntity<Slot>(entities, {
             enabled: 'expressions',
             style: 'styles',
             style_inline: (value: string) => JSON.parse(value),
@@ -51,16 +51,19 @@ export const selectSlotData = (slot_id: number) => createSelector(
 export const selectSlotStyle = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
     (slot_data) => {
-        const style = slot_data ? slot_data.style as Style : null;
+        const style = slot_data ? slot_data.style : null;
         return style;
     }
 );
 
 export const selectSlotShape = (slot_id: number) => createSelector(
-    selectForm,
+    selectEntitiesDictionary,
     selectSlotData(slot_id),
-    (form, slot_data) => {
-        let shape = form.shapes.items[slot_data.shape as number] as Shape;
+    (entities, slot_data) => {
+        const shape = enrichEntity<Shape>(entities, {
+            style_inline: (value: string) => JSON.parse(value || '{}'),
+            style: 'styles'
+        }, entities.shapes[slot_data.shape as number] as Shape);
         return shape;
     }
 );

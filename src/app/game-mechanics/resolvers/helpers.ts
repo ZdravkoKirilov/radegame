@@ -106,20 +106,24 @@ type ParseConfig<T> = {
     [k in keyof T]: string | ((item: any) => any)
 };
 
-export const enrichEntity = <T = GameEntity, P extends T = any>(config: Dictionary<GameEntity>, parseConfig: ParseConfig<T>, source: T): P => {
+export const enrichEntity = <T = GameEntity, P extends T = T>(config: Dictionary<GameEntity>, parseConfig: ParseConfig<T>, source: T): P => {
     return clone(source, draft => {
         for (let key in parseConfig) {
             const parser = parseConfig[key];
-            const value = draft[key];
-            if (typeof value !== 'object' && typeof parser === 'string') {
-                draft[key] = get(config, [parser, source[key] as any], null);
-            } else if (typeof parser === 'function') {
-                if (Array.isArray(value)) {
-                    draft[key] = value.map(item => {
-                        item = (parser as any)(item);
-                    }) as any;
-                } else {
-                    draft[key] = value && typeof value !== 'object' ? (parser as any)(value as any) as any : value;
+            const currentPropertyValue = draft[key];
+
+            if (typeof currentPropertyValue !== 'object') {
+                if (typeof parser === 'string') {
+                    draft[key] = get(config, [parser, source[key] as any], null);
+                }
+                if (typeof parser === 'function') {
+                    if (Array.isArray(currentPropertyValue)) {
+                        draft[key] = currentPropertyValue.map(item => {
+                            item = (parser as any)(item);
+                        }) as any;
+                    } else {
+                        draft[key] = currentPropertyValue && typeof currentPropertyValue !== 'object' ? (parser as any)(currentPropertyValue as any) as any : currentPropertyValue;
+                    }
                 }
             }
         }

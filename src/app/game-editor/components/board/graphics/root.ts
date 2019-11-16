@@ -67,7 +67,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     didCatch(err: any, stack: string) {
-        debugger;
+        console.error(err);
+        console.error(stack);
     }
 
     render() {

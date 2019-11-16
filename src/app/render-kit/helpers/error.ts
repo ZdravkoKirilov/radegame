@@ -1,3 +1,5 @@
+import { get } from 'lodash';
+
 import { Component } from "../models";
 
 export const withErrorPropagation = <T = any>(parent: Component, callback: Function): T => {
@@ -17,8 +19,8 @@ export const withErrorPropagation = <T = any>(parent: Component, callback: Funct
                 nextAncestor = nextAncestor.parent;
                 const typeName = typeof nextAncestor.type === 'string' ?
                     nextAncestor.type :
-                    nextAncestor.type['name'] || nextAncestor.type['displayName'];
-                const givenName = nextAncestor.props.name || null;
+                    get(nextAncestor, ['type', 'name']) || get(nextAncestor, ['type', 'displayName']) || '';
+                const givenName = get(nextAncestor, ['props', 'name']);
                 const composedName = givenName ? `${typeName}[${givenName}]` : '';
                 stack.push(composedName || typeName || 'Anonymous');
             }
