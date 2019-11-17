@@ -27,11 +27,22 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='type' label='Type' options='{types}' required='{true}'>{@item.type}</Dropdown>
 
-                    <Dropdown name='target' label='Target' options='{expression_options}'>{@item.target}</Dropdown>
+                    <Group name='payload' label='Parameters' children='{@item.payload}' item='@param' addButtonText='Add'>
 
-                    <Dropdown name='subject' label='Subject' options='{expression_options}'>{@item.subject}</Dropdown>
+                        <Form>
+                            <NumberInput name='id' hidden='{true}'>{@param.id}</NumberInput>
+                            
+                            <TextInput name='key' required='{true}' label='Key'>
+                                {@param.key}
+                            </TextInput>
 
-                    <Dropdown name='value' label='Value' options='{expression_options}'>{@item.value}</Dropdown>
+                            <TextInput name='value' required='{true}' label='Value'>
+                                {@param.value}
+                            </TextInput>
+
+                        </Form>
+    
+                    </Group>
 
                 </Form>
 

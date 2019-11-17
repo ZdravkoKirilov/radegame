@@ -18,11 +18,6 @@ export type ActionParam = {
     value: any;
 }
 
-export type MutationParams = {
-    path: string;
-    value: any;
-}
-
 export const ACTION_TYPE = {
     END_TURN: 'END_TURN',
     MUTATE_STATE: 'MUTATE_STATE',

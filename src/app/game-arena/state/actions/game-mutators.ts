@@ -1,4 +1,4 @@
-import { MutationParams } from "@app/game-mechanics";
+import { ActionParam } from "@app/game-mechanics";
 
 export const MutatorTypes = {
     CHANGE_TURN: '[Arena] CHANGE_TURN',
@@ -18,7 +18,7 @@ export class ChangeRound {
 
 export class MutateState {
     readonly type = MutatorTypes.MUTATE_STATE;
-    constructor (public payload: MutationParams) {}
+    constructor (public payload: ActionParam[]) {}
 }
 
 export type MutatorAction = ChangeTurn | ChangeRound | MutateState;

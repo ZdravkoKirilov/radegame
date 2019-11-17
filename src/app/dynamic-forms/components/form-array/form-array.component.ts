@@ -12,6 +12,7 @@ import { controlTypes } from '../../config';
 })
 export class FormArrayComponent implements OnInit {
     @Input() form: FormGroup;
+    @Input() group: FormGroup;
     @Input() data: BaseControl;
     formArray: FormArray;
     controls: BaseControl[];
@@ -36,6 +37,6 @@ export class FormArrayComponent implements OnInit {
 
     ngOnInit() {
         this.controls = [...this.data.children];
-        this.formArray = <FormArray>this.form.controls[this.data.name];
+        this.formArray = <FormArray>this.form.controls[this.data.name] || <FormArray>this.group.controls[this.data.name];
     }
 }
