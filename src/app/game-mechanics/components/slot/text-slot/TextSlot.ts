@@ -19,13 +19,8 @@ export type TextSlotProps = {
 export const TextSlot = Memo<TextSlotProps>(({ style, text, slot }) => {
     style = style || {};
     text = text || {};
-
     return createElement('text', {
         value: text.default_value || 'Default value',
-        styles: {
-            x: slot.x || 0,
-            y: slot.y || 0,
-        },
         textStyle: {
             fontSize: style.font_size || 18,
             stroke: style.stroke_color || '#1a1b1c',

@@ -1,24 +1,22 @@
-import { RenderFunction, createElement, DynamicSprite, SpriteProps } from "@app/render-kit";
+import { RenderFunction, createElement, DynamicSprite, SpriteProps, CompositeType } from "@app/render-kit";
 import { Style, ImageFrame, Stage, ImageAsset } from "../../../entities";
 
 export type FrameSlotProps = {
     style: Style;
-    frame: ImageFrame;
+    forStage: CompositeType<{ data: Stage, style: Style }>;
+
+    frame?: ImageFrame;
 };
 
-export const FrameSlot: RenderFunction<FrameSlotProps> = ({ style, frame }) => {
-    const stage = frame.stage as Stage;
-    const image = frame.image as ImageAsset;
+export const FrameSlot: RenderFunction<FrameSlotProps> = ({ style, frame, forStage }) => {
 
-    if (stage) {
-        return null;
+    if (frame.stage) {
+        return createElement(forStage, { data: frame.stage, style });
     }
 
-    if (image) {
+    if (frame.image) {
         return createElement<SpriteProps>(DynamicSprite, {
-            image: image.image, styles: {
-                x: 5,
-                y: 15,
+            image: frame.image.image, styles: {
                 width: style.width,
                 height: style.height,
             }

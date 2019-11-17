@@ -39,8 +39,8 @@ export const connect = <OwnProps = any, StoreProps = any>(mapStateToProps: MapSt
                 this.sub.unsubscribe();
             }
             render() {
-                const computedProps: StoreProps = this.state.fromStore ? mapStateToProps(this.state.fromStore, this.props) : {};
-                return createElement(
+                const computedProps: StoreProps = this.state.fromStore ? mapStateToProps(this.state.fromStore, this.props) : null;
+                return computedProps ? createElement(
                     component,
                     {
                         store: this.meta.context.get('store'),
@@ -48,7 +48,7 @@ export const connect = <OwnProps = any, StoreProps = any>(mapStateToProps: MapSt
                         ...this.props
                     },
                     [...(this.props.children || []) as any]
-                );
+                ) : null;
             }
         };
     };

@@ -128,7 +128,18 @@ export const framesTemplate = `
                 {@frame.image}
             </Dropdown>
 
+            <Dropdown name='stage' label='Stage' options='{stage_options}' showImage='{true}'>{@frame.stage}</Dropdown>
+
             <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{@frame.style}</Dropdown>
+
+            <EmbeddedData 
+                name='style_inline' 
+                label='Inline style'
+                connectedEntities='{entities}' 
+                childrenDefinition='{composeStyleForm}' 
+            >
+                {@frame.style_inline}
+            </EmbeddedData>
             
         </Form>
 

@@ -1,7 +1,7 @@
 import { createElement, PrimitiveContainer, Memo } from "@app/render-kit";
 import { Slot } from "@app/game-mechanics";
 
-import Node, { Props as NodeProps } from './node';
+import Node, { Props as NodeProps } from '../node';
 
 export type Props = {
     slots: Slot[];

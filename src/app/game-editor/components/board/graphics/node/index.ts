@@ -35,8 +35,8 @@ export const Node: RenderFunction<Props> = (props) => {
                 stroke_color: style.stroke_color,
                 x: 0,
                 y: 0,
-                width: Number(style.width) + 10,
-                height: Number(style.height) + 35,
+                width: Number(style.width),
+                height: Number(style.height),
                 border_radius: 5,
                 radius: style.width
             }

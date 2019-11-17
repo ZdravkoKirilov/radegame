@@ -80,7 +80,9 @@ export const toHexColor = (value: string | number) => {
     const color = Array.isArray(value) ? Color.rgb(value) : Color(value);
     const result = color.hex().replace('#', '0x');
     return Number(result);
+};
 
-
+export const calculateScaling = (target: [number, number], original: [number, number]) => {
+    return `${target[0] / original[0]} ${target[1] / original[1]}`;
 };
 

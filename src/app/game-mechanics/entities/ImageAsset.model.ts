@@ -15,6 +15,6 @@ export type ImageFrame = WithStyle & Partial<{
     id: number;
     owner: number;
 
-    image: number | ImageAsset;
-    stage: number | Stage;
+    image: ImageAsset;
+    stage: Stage;
 }>

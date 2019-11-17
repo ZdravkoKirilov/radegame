@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import {
     Stage, ImageAsset, Slot, Style, Text, Expression, parseFromString,
-    createExpressionContext, GameTemplate, Shape, enrichEntity, GameEntity
+    createExpressionContext, GameTemplate, Shape, enrichEntity, GameEntity, ImageFrame
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -43,6 +43,10 @@ export const selectSlotData = (slot_id: number) => createSelector(
             enabled: 'expressions',
             style: 'styles',
             style_inline: (value: string) => JSON.parse(value),
+            frames: {
+                image: 'images',
+                stage: 'stages',
+            },
         }, entities.slots[slot_id] as Slot);
         return slot;
     }
@@ -51,8 +55,11 @@ export const selectSlotData = (slot_id: number) => createSelector(
 export const selectSlotStyle = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
     (slot_data) => {
-        const style = slot_data ? slot_data.style : null;
-        return style;
+        if (slot_data) {
+            const style = { ...slot_data.style, ...slot_data.style_inline };
+            return style;
+        }
+        return null;
     }
 );
 
@@ -65,6 +72,19 @@ export const selectSlotShape = (slot_id: number) => createSelector(
             style: 'styles'
         }, entities.shapes[slot_data.shape as number] as Shape);
         return shape;
+    }
+);
+
+export const selectSlotDefaultFrame = (slot_id: number) => createSelector(
+    selectEntitiesDictionary,
+    selectSlotData(slot_id),
+    (entities, slot_data) => {
+        return enrichEntity<ImageFrame>(entities, {
+            image: 'images',
+            stage: 'stages',
+            style: 'styles',
+            style_inline: (value: string) => JSON.parse(value || '{}'),
+        }, slot_data.frames[0]);
     }
 );
 
