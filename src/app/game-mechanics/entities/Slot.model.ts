@@ -1,9 +1,12 @@
-import { BaseModel, WithBoard, WithStyle, WithType, WithState, WithFrames, WithImage } from "./Base.model";
+import { BaseModel, WithBoard, WithStyle, WithState, WithFrames, WithImage } from "./Base.model";
 import { Transition } from "./Transition.model";
 import { Expression } from "./Expression.model";
-import { InteractiveEntity } from "./types";
 import { Handler } from "./Handler.model";
 import { Shape } from "./Shape.model";
+import { GameAction } from "./Action.model";
+import { Condition } from "./Condition.model";
+import { Choice } from "./Choice.model";
+import { Token } from "./Token.model";
 
 export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & WithFrames & Partial<{
     owner: number; // Stage;
@@ -11,17 +14,17 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & W
     y: number;
     x: number;
 
-    display_text: number | Expression; // returns Text
+    display_text: Expression; // returns Text
     display_text_inline: string;
 
-    items: SlotItem[];
-    shape: number | Shape; // Shape
+    item: SlotItem;
+    shape: Shape; // Shape
 
     enabled: number | Expression;
     enabled_inline: string;
 
     handlers: SlotHandler[];
-    transitions: number[] | Transition[];
+    transitions: Transition[];
 }>;
 
 export type SlotHandler = {
@@ -29,7 +32,9 @@ export type SlotHandler = {
     handler: number | Handler;
 };
 
-export type SlotItem = WithType & {
-    owner: number; // Slot
-    entity: number | InteractiveEntity;
-};
+export type SlotItem = Partial<{
+    action: GameAction;
+    condition: Condition;
+    choice: Choice;
+    token: Token;
+}>;

@@ -90,9 +90,9 @@ const createSlotOverrides = (players: Player[], conf: GameTemplate) => (base: Di
             const current = base[player.id] || {};
             current.slots = slots.reduce((acc, slotId) => {
                 const targetSlot = conf.slots[slotId] as Slot;
-                acc[slotId] = {
-                    items: [...targetSlot.items]
-                } as Slot;
+                // acc[slotId] = {
+                //     items: [...targetSlot.items]
+                // } as Slot;
                 return acc;
             }, {});
         }

@@ -3,7 +3,7 @@ import { RenderFunction, createElement, DynamicSprite, CompositeType, Memo, calc
 import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
 import { connect } from '../../../hocs';
-import { selectSlotStage, selectSlotStageChildren } from '@app/game-arena';
+import { selectSlotStage, selectSlotStageChildren, selectSlotStyle } from '@app/game-arena';
 import { Style, Stage, Slot, ImageAsset } from '../../../entities';
 
 export type StageSlotProps = {
@@ -50,15 +50,17 @@ type StoreProps = Partial<{
     stage: Stage;
     slots: Slot[];
     image: ImageAsset;
+    style: Style;
 }>;
 
-const EnhancedStageSlot: RenderFunction<EnhancedStageSlotProps> = (({ stage, slots }) => {
-    return createElement<StageSlotProps>(StageSlot, { stage, slots, childType: FacadeSlot });
+const EnhancedStageSlot: RenderFunction<EnhancedStageSlotProps> = (({ stage, slots, style }) => {
+    return createElement<StageSlotProps>(StageSlot, { stage, slots, childType: FacadeSlot, style });
 });
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
     stage: selectSlotStage(ownProps.data.id)(state),
     slots: selectSlotStageChildren(ownProps.data.id)(state),
+    style: selectSlotStyle(ownProps.data.id)(state),
 });
 
 export default connect(mapStateToProps)(EnhancedStageSlot);

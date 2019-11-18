@@ -17,10 +17,6 @@ export type WithImage = Partial<{
     image: number | ImageAsset;
 }>
 
-export type WithType = Partial<{
-    entity_type: InteractiveEntityType;
-}>
-
 export type WithDisplayName = Partial<{
     display_name: string;
 }>;

@@ -35,7 +35,7 @@ export const FacadeSlot = Memo<SlotFacadeProps>(({ data, forItem, forFrame, forT
     if (data.shape) {
         return createElement(forShape, { data });
     }
-    if (data.items.length) {
+    if (data.item) {
         return createElement(forItem, { data });
     }
     if (data.frames && data.frames.length) {
