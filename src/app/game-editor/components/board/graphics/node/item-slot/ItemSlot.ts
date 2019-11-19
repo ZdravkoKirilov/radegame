@@ -1,7 +1,9 @@
 import { createElement, RenderFunction, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { FrameSlot, FrameSlotProps, Slot, Style, connect, ImageFrame } from "@app/game-mechanics";
+import { Slot, Style, connect, ImageFrame, ItemSlot, ItemSlotProps } from "@app/game-mechanics";
 import { selectSlotStyle, selectSlotItemDefaultFrame } from '../../../../../state';
+
+import StageSlot from '../stage-slot';
 
 export type EnhancedItemSlotProps = {
     data: Slot;
@@ -14,10 +16,11 @@ type StoreProps = {
 
 const EnhancedItemSlot: RenderFunction<EnhancedItemSlotProps & StoreProps> = ({ style, frame }) => {
     const composedStyle = { ...style, ...frame.style, ...frame.style_inline };
-    return createElement<FrameSlotProps>(FrameSlot, {
+
+    return createElement<ItemSlotProps>(ItemSlot, {
         frame: frame,
         style: composedStyle,
-        forStage: null,
+        forStage: StageSlot,
     });
 };
 

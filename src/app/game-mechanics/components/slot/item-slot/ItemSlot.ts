@@ -9,6 +9,7 @@ export type ItemSlotProps = {
 };
 
 export const ItemSlot: RenderFunction<ItemSlotProps> = ({ style, frame, forStage }) => {
+
     if (frame.stage) {
         return createElement(forStage, { data: frame.stage, style });
     }

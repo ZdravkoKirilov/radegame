@@ -1,5 +1,5 @@
 import { RenderFunction, createElement, DynamicSprite, SpriteProps, CompositeType } from "@app/render-kit";
-import { Style, ImageFrame, Stage, ImageAsset } from "../../../entities";
+import { Style, ImageFrame, Stage, Slot } from "../../../entities";
 
 export type FrameSlotProps = {
     style: Style;

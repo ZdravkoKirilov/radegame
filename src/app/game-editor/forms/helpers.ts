@@ -124,7 +124,7 @@ export const framesTemplate = `
         <Form>
             <NumberInput name='id' hidden='{true}'>{@frame.id}</NumberInput>
 
-            <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}' required='{true}'>
+            <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>
                 {@frame.image}
             </Dropdown>
 
