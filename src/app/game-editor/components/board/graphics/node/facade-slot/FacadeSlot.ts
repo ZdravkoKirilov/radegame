@@ -1,13 +1,13 @@
 import { Memo, createElement } from "@app/render-kit";
 import {
     Slot, FacadeSlot, SlotFacadeProps,
-    ItemSlot
 } from "@app/game-mechanics";
 
 import TextSlot from '../text-slot';
 import StageSlot from '../stage-slot';
 import ShapeSlot from '../shape-slot';
 import FrameSlot from '../frame-slot';
+import ItemSlot from '../item-slot';
 
 export type EnhancedFacadeSlotProps = {
     data: Slot;

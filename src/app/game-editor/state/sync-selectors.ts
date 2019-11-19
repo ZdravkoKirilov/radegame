@@ -47,6 +47,7 @@ export const selectSlotData = (slot_id: number) => createSelector(
                 image: 'images',
                 stage: 'stages',
             },
+            item: (value: string) => JSON.parse(value),
         }, entities.slots[slot_id] as Slot);
         return slot;
     }
@@ -85,6 +86,29 @@ export const selectSlotDefaultFrame = (slot_id: number) => createSelector(
             style: 'styles',
             style_inline: (value: string) => JSON.parse(value || '{}'),
         }, slot_data.frames[0]);
+    }
+);
+
+export const selectSlotItemDefaultFrame = (slot_id: number) => createSelector(
+    selectEntitiesDictionary,
+    selectSlotData(slot_id),
+    (entities, slot_data) => {
+        const item = enrichEntity(entities, {
+            token: 'tokens',
+            action: 'actions',
+            condition: 'conditions',
+            choice: 'choices'
+        }, slot_data.item);
+
+        if (item) {
+            return enrichEntity<ImageFrame>(entities, {
+                image: 'images',
+                stage: 'stages',
+                style: 'styles',
+                style_inline: (value: string) => JSON.parse(value || '{}'),
+            }, item.token.frames[0]);
+        }
+        return null;
     }
 );
 

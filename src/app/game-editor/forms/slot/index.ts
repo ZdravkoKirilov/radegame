@@ -4,59 +4,56 @@ import {
     baseTemplate,
     boardTemplate, styleTemplate,
     composeCommonFormContext,
-    stateTemplate,
     framesTemplate,
     composeInlineStyleFormContext,
 } from "../helpers";
 
-export const composeSlotForm: FormDefinition = (item: Slot, ent?: ConnectedEntities) => {
-    item = item || {};
-    const handlers = item.handlers || [];
-    const transitions = item.transitions || [];
-    const frames = item.frames || [];
+export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
+    data = data || {};
+    const handlers = data.handlers || [];
+    const transitions = data.transitions || [];
+    const frames = data.frames || [];
 
     const template = `
         <Form>
             ${baseTemplate}
 
-            <NumberInput name='x' label='Left' defaultValue='{100}'>{item.x}</NumberInput>
+            <NumberInput name='x' label='Left' defaultValue='{100}'>{data.x}</NumberInput>
 
-            <NumberInput name='y' label='Top' defaultValue='{100}'>{item.y}</NumberInput>
+            <NumberInput name='y' label='Top' defaultValue='{100}'>{data.y}</NumberInput>
 
             ${boardTemplate}
 
             <Dropdown name='shape' label='Shape' options='{shape_options}'>
-                {item.shape}
+                {data.shape}
             </Dropdown>
 
             ${framesTemplate}
 
             ${styleTemplate}
 
-            ${stateTemplate}
-
             <Dropdown name='display_text' label='Displayed text' options='{expression_options}'>
-                {item.display_text}
+                {data.display_text}
             </Dropdown>
 
             <CodeEditor name='display_text_inline' label='Display text: inline'>
-                {item.display_text_inline}
+                {data.display_text_inline}
             </CodeEditor>
 
             <Dropdown name='enabled' label='Enabled if:' options='{expression_options}'>
-                {item.enabled}
+                {data.enabled}
             </Dropdown>
 
-            <CodeEditor name='enabled_inline' label='Enabled: inline'>{item.enabled_inline}</CodeEditor>
+            <CodeEditor name='enabled_inline' label='Enabled: inline'>{data.enabled_inline}</CodeEditor>
 
-            <Embeddeditem 
+            <EmbeddedData 
                 name='item' 
                 label='Item'
                 connectedEntities='{entities}' 
                 childrenDefinition='{composeSlotItemForm}' 
             >
-                {item.item}
-            </Embeddeditem>
+                {data.item}
+            </EmbeddedData>
 
             <Group name='handlers' label='Handlers' children='{handlers}' item='@handlerSlot' addButtonText='Add'>
                 <Form>
@@ -78,9 +75,9 @@ export const composeSlotForm: FormDefinition = (item: Slot, ent?: ConnectedEntit
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(item, ent),
+            ...composeCommonFormContext(data, ent),
             ...composeInlineStyleFormContext(ent),
-            item, handlers, transitions, frames,
+            data, handlers, transitions, frames,
             entities: ent, composeSlotItemForm
         },
     }, true);
@@ -88,26 +85,26 @@ export const composeSlotForm: FormDefinition = (item: Slot, ent?: ConnectedEntit
     return result as BaseControl[];
 };
 
-export function composeSlotItemForm(item: SlotItem, ent: ConnectedEntities): BaseControl[] {
-    item = item || {};
+export function composeSlotItemForm(data: SlotItem, ent: ConnectedEntities): BaseControl[] {
+    data = data || {};
 
     const template = `
     <Form>
 
         <Dropdown name='action' label='Action' options='{action_options}'>
-            {item.action}
+            {data.action}
         </Dropdown>
 
         <Dropdown name='condition' label='Condition' options='{condition_options}'>
-            {item.condition}
+            {data.condition}
         </Dropdown>
 
         <Dropdown name='choice' label='Choice' options='{choice_options}'>
-            {item.choice}
+            {data.choice}
         </Dropdown>
 
         <Dropdown name='token' label='Token' options='{token_options}'>
-            {item.token}
+            {data.token}
         </Dropdown>
 
     </Form>
@@ -116,8 +113,8 @@ export function composeSlotItemForm(item: SlotItem, ent: ConnectedEntities): Bas
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(item as any, ent),
-            item,
+            ...composeCommonFormContext(data as any, ent),
+            data,
         }
     }, true) as BaseControl[];
 
