@@ -16,3 +16,4 @@ export { FacadeSlot, SlotFacadeProps } from './components/slot/facade-slot';
 export { FrameSlot as FrameSlot, FrameSlotProps as FrameSlotProps } from './components/slot/frame-slot';
 export { TextSlot, TextSlotProps } from './components/slot/text-slot';
 export { ItemSlot, ItemSlotProps } from './components/slot/item-slot';
+export { FrameStageProps, FrameStage } from './components/slot/frame-stage';

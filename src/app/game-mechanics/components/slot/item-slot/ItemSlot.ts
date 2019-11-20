@@ -3,15 +3,14 @@ import { Style, ImageFrame, Stage } from '../../../entities';
 
 export type ItemSlotProps = {
     style: Style;
-    forStage: CompositeType<{ data: Stage, style: Style }>;
+    forStage: CompositeType<{ stage: Stage, style: Style }>;
 
     frame?: ImageFrame;
 };
 
 export const ItemSlot: RenderFunction<ItemSlotProps> = ({ style, frame, forStage }) => {
-
     if (frame.stage) {
-        return createElement(forStage, { data: frame.stage, style });
+        return createElement(forStage, { stage: frame.stage, style });
     }
 
     if (frame.image) {

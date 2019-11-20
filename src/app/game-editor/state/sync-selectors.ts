@@ -1,8 +1,8 @@
 import { createSelector } from "reselect";
 
 import {
-    Stage, ImageAsset, Slot, Style, Text, Expression, parseFromString,
-    createExpressionContext, GameTemplate, Shape, enrichEntity, GameEntity, ImageFrame
+    Stage, ImageAsset, Slot, Text, Expression, parseFromString,
+    createExpressionContext, GameTemplate, Shape, enrichEntity, ImageFrame
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -154,5 +154,21 @@ export const selectSlotStageChildren = (slot_id: number) => createSelector(
     selectForm,
     (stage, form) => {
         return Object.values(form.slots.items).filter((elem: Slot) => elem.owner === stage.id) as Slot[];
+    }
+);
+
+export const selectStageChildren = (stage_id: number) => createSelector(
+    selectForm,
+    (form) => {
+        return Object.values(form.slots.items).filter((elem: Slot) => elem.owner === stage_id) as Slot[];
+    }
+);
+
+export const selectFullStageData = (stage: Stage) => createSelector(
+    selectEntitiesDictionary,
+    entities => {
+        return enrichEntity(entities, {
+            'image': 'images'
+        }, stage);
     }
 );

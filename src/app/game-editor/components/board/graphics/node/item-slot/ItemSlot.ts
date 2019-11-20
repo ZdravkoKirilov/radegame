@@ -3,7 +3,7 @@ import { AppState } from "@app/core";
 import { Slot, Style, connect, ImageFrame, ItemSlot, ItemSlotProps } from "@app/game-mechanics";
 import { selectSlotStyle, selectSlotItemDefaultFrame } from '../../../../../state';
 
-import StageSlot from '../stage-slot';
+import FrameStage from '../frame-stage';
 
 export type EnhancedItemSlotProps = {
     data: Slot;
@@ -20,7 +20,7 @@ const EnhancedItemSlot: RenderFunction<EnhancedItemSlotProps & StoreProps> = ({ 
     return createElement<ItemSlotProps>(ItemSlot, {
         frame: frame,
         style: composedStyle,
-        forStage: StageSlot,
+        forStage: FrameStage,
     });
 };
 
