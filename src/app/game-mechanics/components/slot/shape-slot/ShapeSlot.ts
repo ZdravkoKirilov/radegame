@@ -52,6 +52,7 @@ type StoreProps = {
 };
 
 const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, shape, animation, transitions = [] }) => {
+
     return createElement<RzAnimationProps>(
         RzAnimation,
         {
@@ -67,7 +68,7 @@ const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, sh
                 RzTransition,
                 { transitions, data: {}, context: {} as any },
                 (transitionStyle: AnimatableProps | any) => {
-                    const composedStyle: Style = { ...style, ...transitionStyle, ...animatedStyle };
+                    const composedStyle: Style = { ...style, ...shape.style, ...shape.style_inline, ...transitionStyle, ...animatedStyle };
                     return shape ?
                         createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle, shape }) :
                         null;

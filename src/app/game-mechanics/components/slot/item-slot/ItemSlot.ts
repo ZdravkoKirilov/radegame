@@ -2,7 +2,7 @@ import { RenderFunction, createElement, SpriteProps, DynamicSprite, CompositeTyp
 import { Style, ImageFrame, Stage, Slot } from '../../../entities';
 import { connect } from "../../../hocs";
 import { selectSlotStyle, selectSlotItemDefaultFrame } from "@app/game-arena";
-import { FrameStage } from "../frame-stage";
+import FrameStage from "../frame-stage";
 import { AppState } from "@app/core";
 
 export type ItemSlotProps = {
@@ -38,7 +38,6 @@ type StoreProps = {
 
 const EnhancedItemSlot: RenderFunction<EnhancedItemSlotProps & StoreProps> = ({ style, frame }) => {
     const composedStyle = { ...style, ...frame.style, ...frame.style_inline };
-
     return createElement<ItemSlotProps>(ItemSlot, {
         frame: frame,
         style: composedStyle,

@@ -16,7 +16,6 @@ type StoreProps = {
 
 const EnhancedItemSlot: RenderFunction<EnhancedItemSlotProps & StoreProps> = ({ style, frame }) => {
     const composedStyle = { ...style, ...frame.style, ...frame.style_inline };
-
     return createElement<ItemSlotProps>(ItemSlot, {
         frame: frame,
         style: composedStyle,

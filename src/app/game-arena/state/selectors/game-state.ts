@@ -109,23 +109,25 @@ export const selectSlotData = (slot_id: number) => createSelector(
 );
 
 export const selectSlotStyle = (slot_id: number) => createSelector(
-    selectConfig,
     selectSlotData(slot_id),
-    (config, slot_data) => {
-        let style = config.styles[slot_data.style as number] as Style;
-        return style;
+    (slot_data) => {
+        if (slot_data) {
+            const style = { ...slot_data.style, ...slot_data.style_inline };
+            return style;
+        }
+        return null;
     }
 );
 
 export const selectSlotShape = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),
-    (config, slot_data) => {
-        if (slot_data.shape) {
-            const shape = config.shapes[slot_data.shape as number] as Shape;
-            return shape;
-        }
-        return null;
+    (entities, slot_data) => {
+        const shape = enrichEntity<Shape>(entities, {
+            style_inline: (value: string) => JSON.parse(value || '{}'),
+            style: 'styles'
+        }, entities.shapes[slot_data.shape as number] as Shape);
+        return shape;
     }
 );
 
