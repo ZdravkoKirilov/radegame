@@ -1,22 +1,21 @@
 import { get } from 'lodash';
 import {
     RenderFunction, createElement, DynamicSprite,
-    CompositeType, Memo, calculateScaling
+    CompositeType, Memo
 } from "@app/render-kit";
 import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
 import { connect } from '../../../hocs';
-import { selectSlotStageChildren } from '@app/game-arena';
-import { Style, Stage, Slot } from '../../../entities';
+import { Stage, Slot } from '../../../entities';
+import { selectStageChildren, selectFullStageData } from '@app/game-arena';
 
 export type FrameStageProps = {
     stage: Stage;
     slots: Slot[];
     childType: CompositeType<{ data: Slot }>;
-    style: Style;
 };
 
-export const FrameStage = Memo<FrameStageProps>(({ stage, slots, childType, style }) => {
+export const FrameStage = Memo<FrameStageProps>(({ stage, slots, childType }) => {
 
     slots = slots || [];
     const nodes = slots.map(slot => {
@@ -25,13 +24,7 @@ export const FrameStage = Memo<FrameStageProps>(({ stage, slots, childType, styl
         );
     });
 
-    return createElement('container', {
-        styles: {
-            scale: calculateScaling(
-                [Number(style.width), Number(style.height)],
-                [Number(stage.width), Number(stage.height)]),
-        }
-    },
+    return createElement('container', null,
         createElement(DynamicSprite, {
             image: get(stage, 'image.image'), styles: {
                 x: 0,
@@ -52,15 +45,16 @@ export type EnhancedFrameStageProps = StoreProps & OwnProps;
 
 type StoreProps = Partial<{
     slots: Slot[];
-    style: Style;
+    fullStage: Stage;
 }>;
 
-const EnhancedFrameStage: RenderFunction<EnhancedFrameStageProps> = (({ stage, slots, style }) => {
-    return createElement<FrameStageProps>(FrameStage, { stage, slots, childType: FacadeSlot, style });
+const EnhancedFrameStage: RenderFunction<EnhancedFrameStageProps> = (({ fullStage, slots }) => {
+    return createElement<FrameStageProps>(FrameStage, { stage: fullStage, slots, childType: FacadeSlot });
 });
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
-    slots: selectSlotStageChildren(ownProps.stage.id)(state),
+    slots: selectStageChildren(ownProps.stage.id)(state),
+    fullStage: selectFullStageData(ownProps.stage)(state),
 });
 
 export default connect(mapStateToProps)(EnhancedFrameStage);

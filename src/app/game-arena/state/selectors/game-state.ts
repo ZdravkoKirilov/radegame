@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, Animation, Transition, AnimationStep, Text, Shape } from "@app/game-mechanics";
+import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, Animation, Transition, AnimationStep, Text, Shape, enrichEntity, ImageFrame } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary, removeEmptyProps } from "@app/shared";
@@ -94,12 +94,17 @@ export const selectImageAssets = createSelector(
 export const selectSlotData = (slot_id: number) => createSelector(
     selectConfig,
     (config) => {
-        const slot = config.slots[slot_id] as Slot;
-        const slot_data = {
-            ...slot,
-            enabled: config.expressions[slot.enabled as number]
-        } as Slot;
-        return slot_data;
+        const slot = enrichEntity<Slot>(config, {
+            enabled: 'expressions',
+            style: 'styles',
+            style_inline: (value: string) => JSON.parse(value),
+            frames: {
+                image: 'images',
+                stage: 'stages',
+            },
+            item: (value: string) => JSON.parse(value),
+        }, config.slots[slot_id] as Slot);
+        return slot;
     }
 );
 
@@ -251,4 +256,56 @@ export const selectActivePlayerData = createSelector(
 export const selectRounds = createSelector(
     selectSetupData,
     setup => setup.rounds.map(round => round.id),
+);
+
+export const selectStageChildren = (stage_id: number) => createSelector(
+    selectConfig,
+    (conf) => {
+        return Object.values(conf.slots).filter((elem: Slot) => elem.owner === stage_id) as Slot[];
+    }
+);
+
+export const selectFullStageData = (stage: Stage) => createSelector(
+    selectConfig,
+    config => {
+        return enrichEntity(config, {
+            'image': 'images'
+        }, stage);
+    }
+);
+
+export const selectSlotDefaultFrame = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    (entities, slot_data) => {
+        return enrichEntity<ImageFrame>(entities, {
+            image: 'images',
+            stage: 'stages',
+            style: 'styles',
+            style_inline: (value: string) => JSON.parse(value || '{}'),
+        }, slot_data.frames[0]);
+    }
+);
+
+export const selectSlotItemDefaultFrame = (slot_id: number) => createSelector(
+    selectConfig,
+    selectSlotData(slot_id),
+    (config, slot_data) => {
+        const item = enrichEntity(config, {
+            token: 'tokens',
+            action: 'actions',
+            condition: 'conditions',
+            choice: 'choices'
+        }, slot_data.item);
+
+        if (item) {
+            return enrichEntity<ImageFrame>(config, {
+                image: 'images',
+                stage: 'stages',
+                style: 'styles',
+                style_inline: (value: string) => JSON.parse(value || '{}'),
+            }, item.token.frames[0]);
+        }
+        return null;
+    }
 );

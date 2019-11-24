@@ -1,40 +1,11 @@
 import { get } from 'lodash';
 import {
-    RenderFunction, createElement, DynamicSprite,
-    CompositeType, Memo
+    RenderFunction, createElement
 } from "@app/render-kit";
 import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
-import { Stage, Slot, connect } from '@app/game-mechanics';
+import { Stage, Slot, connect, FrameStageProps, FrameStage } from '@app/game-mechanics';
 import { selectStageChildren, selectFullStageData } from '../../../../../state';
-
-export type FrameStageProps = {
-    stage: Stage;
-    slots: Slot[];
-    childType: CompositeType<{ data: Slot }>;
-};
-
-export const FrameStage = Memo<FrameStageProps>(({ stage, slots, childType }) => {
-
-    slots = slots || [];
-    const nodes = slots.map(slot => {
-        return createElement('container', { styles: { x: slot.x, y: slot.y }, key: slot.id },
-            createElement(childType, { data: slot }),
-        );
-    });
-
-    return createElement('container', null,
-        createElement(DynamicSprite, {
-            image: get(stage, 'image.image'), styles: {
-                x: 0,
-                y: 0,
-                width: stage.width,
-                height: stage.height,
-            }
-        }),
-        createElement('collection', {}, nodes),
-    );
-});
 
 type OwnProps = {
     stage: Stage;

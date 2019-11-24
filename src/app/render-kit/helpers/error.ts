@@ -17,7 +17,7 @@ export const withErrorPropagation = <T = any>(parent: Component, callback: Funct
                 return;
             } else {
                 nextAncestor = nextAncestor.parent;
-                const typeName = typeof nextAncestor.type === 'string' ?
+                const typeName = typeof get(nextAncestor, 'type') === 'string' ?
                     nextAncestor.type :
                     get(nextAncestor, ['type', 'name']) || get(nextAncestor, ['type', 'displayName']) || '';
                 const givenName = get(nextAncestor, ['props', 'name']);
