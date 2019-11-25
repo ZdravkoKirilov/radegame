@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import {
     RenderFunction, createElement
 } from "@app/render-kit";

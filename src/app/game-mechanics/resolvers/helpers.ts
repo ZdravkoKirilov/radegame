@@ -40,7 +40,7 @@ export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
     total = [...total, image.image, ...slot_images];
   });
 
-  return total;
+  return [] //total;
 };
 
 type HandlerParams<T> = {

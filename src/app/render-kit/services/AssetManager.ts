@@ -21,10 +21,17 @@ export class AssetManager {
 
     add(resourceUrl: string) {
         if (!this.getTexture(resourceUrl)) {
-            this.loader.loadOne(resourceUrl).then(asset => {
-                this.data.textures[resourceUrl] = asset;
-                this.handlers.forEach(cb => cb(asset, this.data.textures));
-            });
+
+            if (this.loader.isBusy) {
+                setTimeout(() => {
+                    this.add(resourceUrl);
+                }, 30);
+            } else {
+                this.loader.loadOne(resourceUrl).then(asset => {
+                    this.data.textures[resourceUrl] = asset;
+                    this.handlers.forEach(cb => cb(asset, this.data.textures));
+                });
+            }
         }
     }
 

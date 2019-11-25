@@ -2,7 +2,7 @@ import { RenderFunction, createElement, DynamicSprite, SpriteProps, CompositeTyp
 import { Style, ImageFrame, Stage, Slot } from "../../../entities";
 import StageSlot from "../stage-slot";
 import { AppState } from "@app/core";
-import { selectSlotStyle, selectSlotItemDefaultFrame, selectSlotDefaultFrame } from "@app/game-arena";
+import { selectSlotStyle, selectSlotDefaultFrame } from "@app/game-arena";
 import { connect } from "../../../hocs";
 
 export type FrameSlotProps = {
