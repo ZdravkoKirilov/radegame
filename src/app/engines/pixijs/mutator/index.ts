@@ -3,11 +3,9 @@ import {
     RzElementProps, PRIMS, Points,
     updateCollection, updateContainer, BasicComponent,
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
-    PrimitiveEllipse,
-    LineProps,
-    unmountComponent,
+    PrimitiveEllipse, LineProps, unmountComponent,
 } from "@app/render-kit";
-import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text } from "pixi.js";
+import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text, Container } from "pixi.js";
 import { setProp, getValue, applyTransformations } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
@@ -99,7 +97,18 @@ const updatePrimitive = (component: BasicComponent<any>) => {
         default:
             updateGeneric(component);
             break;
+    }
 
+    applyZOrder(component);
+    updateZOrder(component.container as any);
+};
+
+const applyZOrder = (comp: BasicComponent) => {
+    const { graphic } = comp;
+    let { props } = comp;
+
+    if (graphic && props.zOrder) {
+        graphic.zOrder = props.zOrder;
     }
 }
 
@@ -112,9 +121,30 @@ const updateGeneric = (comp: BasicComponent) => {
     if (graphic && props.name) {
         graphic.name = props.name;
     }
+
+    applyZOrder(comp);
+
     if (graphic && styles) {
         Object.keys(styles).forEach((key: keyof RzStyles) => {
             setProp(comp, key, props.styles[key]);
+        });
+    }
+};
+
+const updateZOrder = (graphic: Container) => {
+    if (graphic) {
+        graphic.children = graphic.children.sort((a, b) => {
+            const order1 = a['zOrder'];
+            const order2 = b['zOrder'];
+
+            if (order1 && order2) {
+                if (order1 === order2) {
+                    return null;
+                }
+                return order1 > order2 ? -1 : 1;
+            }
+
+            return 0;
         });
     }
 };

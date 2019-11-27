@@ -26,14 +26,16 @@ export const FrameStage = Memo<FrameStageProps>(({ stage, slots, childType }) =>
 
     return createElement('container', null,
         createElement(DynamicSprite, {
-            image: get(stage, 'image.image'), styles: {
+            image: get(stage, 'image.image'),
+            styles: {
                 x: 0,
                 y: 0,
                 width: stage.width,
                 height: stage.height,
-            }
+            },
+            zOrder: 2
         }),
-        createElement('collection', {}, nodes),
+        createElement('collection', { zOrder: 1 }, nodes),
     );
 });
 
