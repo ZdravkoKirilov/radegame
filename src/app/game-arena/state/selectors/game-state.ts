@@ -1,10 +1,13 @@
 import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
-import { Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, Style, createExpressionContext, Expression, parseFromString, Animation, Transition, AnimationStep, Text, Shape, enrichEntity, ImageFrame } from "@app/game-mechanics";
+import {
+    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext,
+    Expression, Animation, Transition, AnimationStep, Text, Shape, enrichEntity, ImageFrame, inlineOrRelated, parseFromString
+} from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
-import { toDictionary, removeEmptyProps } from "@app/shared";
+import { toDictionary } from "@app/shared";
 import { removeNonAnimatableProps } from "@app/render-kit";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
@@ -95,7 +98,6 @@ export const selectSlotData = (slot_id: number) => createSelector(
     selectConfig,
     (config) => {
         const slot = enrichEntity<Slot>(config, {
-            enabled: 'expressions',
             style: 'styles',
             style_inline: (value: string) => JSON.parse(value),
             frames: {
@@ -134,9 +136,18 @@ export const selectSlotShape = (slot_id: number) => createSelector(
 export const selectSlotText = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),
-    (config, slot_data) => {
-        if (slot_data.display_text) {
-            const text = config.texts[slot_data.display_text as number] as Text;
+    selectExpressionContext,
+    (config, slot_data, context) => {
+        if (slot_data.display_text || slot_data.display_text_inline) {
+            const textGetter = inlineOrRelated(
+                slot_data,
+                'display_text',
+                'code',
+                config,
+                'expressions',
+                parseFromString(context),
+            );
+            const text = typeof textGetter === 'function' ? textGetter.call(context, slot_data) : null;
             return text;
         }
         return null;
@@ -179,20 +190,6 @@ export const selectSlotTransitions = (slot_id: number) => createSelector(
             }
             return transition;
         }) as Transition[];
-    }
-);
-
-export const isSlotEnabled = (slot_id: number) => createSelector(
-    selectSlotData(slot_id),
-    selectExpressionContext,
-    (slot, context) => {
-        if (slot.enabled) {
-            const enabled = slot.enabled as Expression;
-            const callback: Function = parseFromString(enabled.code, context);
-            const result = callback.call(context, slot);
-            return result as boolean;
-        }
-        return true;
     }
 );
 

@@ -75,7 +75,7 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
 
 const composeHelpers = (expressions: Expression[]) => {
     return expressions.reduce((result, item) => {
-        result[item.preload_as] = parseFromString(item.code, {});
+        result[item.preload_as] = parseFromString({} as any)(item.code);
         return result;
     }, {
             compute: parseFromString

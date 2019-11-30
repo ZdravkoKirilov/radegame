@@ -40,7 +40,6 @@ export const selectSlotData = (slot_id: number) => createSelector(
     selectEntitiesDictionary,
     (entities) => {
         const slot = enrichEntity<Slot>(entities, {
-            enabled: 'expressions',
             style: 'styles',
             style_inline: (value: string) => JSON.parse(value),
             frames: {
@@ -119,7 +118,7 @@ export const selectSlotText = (slot_id: number) => createSelector(
     (form, context, slot_data) => {
         if (slot_data.display_text) {
             const expression = form.expressions.items[slot_data.display_text as number] as Expression;
-            const callback = parseFromString(expression.code, context);
+            const callback = parseFromString(context)(expression.code);
             const text = callback.call(context, slot_data) as Text;
             return text;
         }

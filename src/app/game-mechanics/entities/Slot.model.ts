@@ -19,9 +19,6 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & W
     item: SlotItem;
     shape: Shape; // Shape
 
-    enabled: number | Expression;
-    enabled_inline: string;
-
     handlers: SlotHandler[];
     transitions: Transition[];
 }>;
@@ -35,7 +32,7 @@ export type SlotHandler = {
     effect_inline: string;
 
     sound: Expression;
-    enabled: Expression;
+    sound_inline: string;
 };
 
 export type SlotItem = Partial<{

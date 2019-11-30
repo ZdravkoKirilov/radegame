@@ -159,7 +159,7 @@ export const removeNonAnimatableProps = (source: Style) => {
 export const isTransitionEnabled = (transition: Transition, context: ExpressionContext, data: Dictionary) => {
     if (transition.enabled && context && data) {
         const expression = transition.enabled as Expression;
-        const callback = parseFromString(expression.code, context) as Function;
+        const callback = parseFromString(context)(expression.code) as Function;
         const enabled = callback.call(context, data);
         return enabled;
     }

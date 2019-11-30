@@ -1,12 +1,12 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Slot, SlotItem } from "@app/game-mechanics";
+import { Slot, SlotItem, HANDLER_TYPES } from "@app/game-mechanics";
 import {
     baseTemplate,
     boardTemplate, styleTemplate,
     composeCommonFormContext,
     framesTemplate,
     composeInlineStyleFormContext,
-    stateTemplate,
+    composeFromObject,
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
@@ -41,12 +41,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {data.display_text_inline}
             </CodeEditor>
 
-            <Dropdown name='enabled' label='Enabled if:' options='{expression_options}'>
-                {data.enabled}
-            </Dropdown>
-
-            <CodeEditor name='enabled_inline' label='Enabled: inline'>{data.enabled_inline}</CodeEditor>
-
             <EmbeddedData 
                 name='item' 
                 label='Item'
@@ -56,22 +50,24 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {data.item}
             </EmbeddedData>
 
-            <Group name='handlers' label='Handlers' children='{handlers}' item='@handlerSlot' addButtonText='Add'>
+            <Group name='handlers' label='Handlers' children='{handlers}' item='@handler' addButtonText='Add'>
                 <Form>
-                    <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+                    <NumberInput name='id' hidden='{true}'>{@handler.id}</NumberInput>
 
-                    <Dropdown name='type' label='Type' options='{types}'>{data.type}</Dropdown>
-            
-                    <Dropdown name='enabled' label='Enabled' options='{expression_options}'>{data.enabled}</Dropdown>
-            
-                    <Dropdown name='sound' label='Sound' options='{expression_options}'>{data.sound}</Dropdown>
+                    <Dropdown name='type' label='Type' options='{types}'>{@handler.type}</Dropdown>
 
                     <Dropdown name='effect' label='Effect' options='{expression_options}'>
-                        {@handlerSlot.effect}
+                        {@handler.effect}
                     </Dropdown>
 
                     <CodeEditor name='effect_inline' label='Effect: inline'>
-                        {@handlerSlot.effect_inline}
+                        {@handler.effect_inline}
+                    </CodeEditor>
+
+                    <Dropdown name='sound' label='Sound' options='{expression_options}'>{@handler.sound}</Dropdown>
+
+                    <CodeEditor name='sound_inline' label='Sound: inline'>
+                        {@handler.sound_inline}
                     </CodeEditor>
                 </Form>
             </Group>
@@ -89,6 +85,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
         context: {
             ...composeCommonFormContext(data, ent),
             ...composeInlineStyleFormContext(ent),
+            types: composeFromObject(HANDLER_TYPES),
             data, handlers, transitions, frames,
             entities: ent, composeSlotItemForm
         },
