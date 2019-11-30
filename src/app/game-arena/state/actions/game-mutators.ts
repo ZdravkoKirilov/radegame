@@ -18,7 +18,7 @@ export class ChangeRound {
 
 export class MutateState {
     readonly type = MutatorTypes.MUTATE_STATE;
-    constructor (public payload: ActionParam[]) {}
+    constructor (public payload: ActionParam) {}
 }
 
 export type MutatorAction = ChangeTurn | ChangeRound | MutateState;

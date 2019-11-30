@@ -4,7 +4,7 @@ import get from 'lodash/get';
 import { GameTemplate, GameConfig } from "../models";
 import {
   Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, Expression, GameAction,
-  ParamedExpressionFunc, SlotHandler, Handler, Sonata, GameEntity
+  ParamedExpressionFunc, SlotHandler, Sonata, GameEntity
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
@@ -52,47 +52,48 @@ type HandlerParams<T> = {
 }
 
 export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, context }: HandlerParams<T>) => {
-  const all_handlers = handlers.reduce(
-    (acc, elem) => {
-      const handler = conf.handlers[elem.handler as number] as Handler;
-      const eventName = event_name_map[handler.type];
-      const expression: Expression = conf.expressions[handler.effect as number];
-      const innerCallback: ParamedExpressionFunc<Slot> = parseFromString(expression.code, context);
-      acc[eventName] = () => {
-        const actions: GameAction[] = innerCallback.call(context, payload);
-        const enabledRule = handler.enabled;
-        playSoundIfNeeded(handler, conf, context);
-        if (enabledRule) {
-          const enabledExpression: Expression = conf.expressions[enabledRule as number];
-          const enabledCallback: ParamedExpressionFunc<Slot> = parseFromString(enabledExpression.code, context);
-          if (enabledCallback.call(context, payload)) {
-            dispatcher.dispatch(actions);
-          }
-        } else {
-          dispatcher.dispatch(actions);
-        }
-      };
-      return acc;
-    },
-    {}
-  );
-  return all_handlers;
+  // const all_handlers = handlers.reduce(
+  //   (acc, elem) => {
+  //     const handler = conf.handlers[elem.handler as number] as Handler;
+  //     const eventName = event_name_map[handler.type];
+  //     const expression: Expression = conf.expressions[handler.effect as number];
+  //     const innerCallback: ParamedExpressionFunc<Slot> = parseFromString(expression.code, context);
+  //     acc[eventName] = () => {
+  //       const actions: GameAction[] = innerCallback.call(context, payload);
+  //       const enabledRule = handler.enabled;
+  //       playSoundIfNeeded(handler, conf, context);
+  //       if (enabledRule) {
+  //         const enabledExpression: Expression = conf.expressions[enabledRule as number];
+  //         const enabledCallback: ParamedExpressionFunc<Slot> = parseFromString(enabledExpression.code, context);
+  //         if (enabledCallback.call(context, payload)) {
+  //           dispatcher.dispatch(actions);
+  //         }
+  //       } else {
+  //         dispatcher.dispatch(actions);
+  //       }
+  //     };
+  //     return acc;
+  //   },
+  //   {}
+  // );
+  // return all_handlers;
+  return null;
 };
 
-const playSoundIfNeeded = (handler: Handler, conf: GameConfig, context: ExpressionContext) => {
-  const soundExpression = conf.expressions[handler.sound as number] as Expression;
-  const getSound = soundExpression ? parseFromString(soundExpression.code, context) : null;
-  let sound: Sonata = getSound ? getSound(handler) : null;
-  if (sound) {
-    sound = { ...sound };
-    sound.steps = sound.steps.map(step => {
-      step = { ...step };
-      step.sound = conf.sounds[step.sound as number];
-      return step;
-    });
-    const soundPlayer = new SoundPlayer();
-    soundPlayer.play(sound);
-  }
+const playSoundIfNeeded = (conf: GameConfig, context: ExpressionContext) => {
+  // const soundExpression = conf.expressions[handler.sound as number] as Expression;
+  // const getSound = soundExpression ? parseFromString(soundExpression.code, context) : null;
+  // let sound: Sonata = getSound ? getSound(handler) : null;
+  // if (sound) {
+  //   sound = { ...sound };
+  //   sound.steps = sound.steps.map(step => {
+  //     step = { ...step };
+  //     step.sound = conf.sounds[step.sound as number];
+  //     return step;
+  //   });
+  //   const soundPlayer = new SoundPlayer();
+  //   soundPlayer.play(sound);
+  // }
 };
 
 const event_name_map = {

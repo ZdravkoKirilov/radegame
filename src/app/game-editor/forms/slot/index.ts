@@ -6,6 +6,7 @@ import {
     composeCommonFormContext,
     framesTemplate,
     composeInlineStyleFormContext,
+    stateTemplate,
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
@@ -58,9 +59,20 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             <Group name='handlers' label='Handlers' children='{handlers}' item='@handlerSlot' addButtonText='Add'>
                 <Form>
                     <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
-                    <Dropdown name='handler' label='Handler' options='{handler_options}' required='{true}'>
-                        {@handlerSlot.handler}
+
+                    <Dropdown name='type' label='Type' options='{types}'>{data.type}</Dropdown>
+            
+                    <Dropdown name='enabled' label='Enabled' options='{expression_options}'>{data.enabled}</Dropdown>
+            
+                    <Dropdown name='sound' label='Sound' options='{expression_options}'>{data.sound}</Dropdown>
+
+                    <Dropdown name='effect' label='Effect' options='{expression_options}'>
+                        {@handlerSlot.effect}
                     </Dropdown>
+
+                    <CodeEditor name='effect_inline' label='Effect: inline'>
+                        {@handlerSlot.effect_inline}
+                    </CodeEditor>
                 </Form>
             </Group>
 

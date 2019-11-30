@@ -5,7 +5,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
-    GameEntity, GameAction, Condition, Round, Handler,
+    GameEntity, GameAction, Condition, Round,
     Faction, Token, Phase, Choice, PathEntity, Game, ImageAsset, Stage, Slot, Style, Keyword, Setup,
     AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
 } from '@app/game-mechanics';
@@ -183,8 +183,6 @@ export class GenericEffectsService {
                 return this.api.saveExpression(entity);
             case ALL_ENTITIES.animations:
                 return this.api.saveAnimation(<Animation>entity);
-            case ALL_ENTITIES.handlers:
-                return this.api.saveHandler(<Handler>entity);
             case ALL_ENTITIES.setups:
                 return this.api.saveSetup(<Setup>entity);
             case ALL_ENTITIES.transitions:
@@ -239,8 +237,6 @@ export class GenericEffectsService {
                 return this.api.deleteExpression(entity);
             case ALL_ENTITIES.animations:
                 return this.api.deleteAnimation(<Animation>entity);
-            case ALL_ENTITIES.handlers:
-                return this.api.deleteHandler(<Handler>entity);
             case ALL_ENTITIES.setups:
                 return this.api.deleteSetup(<Setup>entity);
             case ALL_ENTITIES.transitions:

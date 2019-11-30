@@ -28,10 +28,8 @@ export const gameStateMetaReducer = (anyReducer: ActionReducer<any>) => {
                 });
             case MutatorTypes.MUTATE_STATE:
                 return immer(state, draft => {
-                    action.payload.forEach(param => {
-                        const { key, value } = param;
-                        set(draft.state, key, value);
-                    });
+                    const { key, value } = action.payload;
+                    set(draft.state, key, value);
                 });
             default:
                 return anyReducer(state, action);

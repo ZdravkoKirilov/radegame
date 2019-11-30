@@ -33,7 +33,6 @@ export const ALL_ENTITIES = {
     expressions: 'expressions',
     animations: 'animations',
     transitions: 'transitions',
-    handlers: 'handlers',
     setups: 'setups',
     texts: 'texts',
     sonatas: 'sonatas',

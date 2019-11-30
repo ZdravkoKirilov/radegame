@@ -89,7 +89,6 @@ export const formReducer: ActionReducer<any> = combineReducers({
     sounds: createEntityReducer(ALL_ENTITIES.sounds),
     expressions: createEntityReducer(ALL_ENTITIES.expressions),
     animations: createEntityReducer(ALL_ENTITIES.animations),
-    handlers: createEntityReducer(ALL_ENTITIES.handlers),
     setups: createEntityReducer(ALL_ENTITIES.setups),
     transitions: createEntityReducer(ALL_ENTITIES.transitions),
     texts: createEntityReducer(ALL_ENTITIES.texts),

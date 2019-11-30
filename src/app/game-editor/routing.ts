@@ -14,7 +14,6 @@ import { StylesContainerComponent } from './containers/styles/styles-container.c
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
 import { ExpressionsContainerComponent } from './containers/expressions/expressions-container.component';
 import { AnimationsContainerComponent } from './containers/animations/animations-container.component';
-import { HandlersContainerComponent } from './containers/handlers/handlers-container.component';
 import { SetupsContainerComponent } from './containers/setups/setups-container.component';
 import { TransitionsContainerComponent } from './containers/transitions/transitions-container.component';
 import { TextsContainerComponent } from './containers/texts/texts-container.component';
@@ -103,10 +102,6 @@ export const routes: Routes = [
             {
                 path: 'animations',
                 component: AnimationsContainerComponent
-            },
-            {
-                path: 'handlers',
-                component: HandlersContainerComponent
             },
             {
                 path: 'transitions',

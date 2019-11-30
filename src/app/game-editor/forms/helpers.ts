@@ -166,7 +166,6 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
         slot_options: composeEntityOptions(ent, 'slots'),
         expression_options: composeEntityOptions(ent, 'expressions'),
         animation_options: composeEntityOptions(ent, 'animations'),
-        handler_options: composeEntityOptions(ent, 'handlers'),
         round_options: composeEntityOptions(ent, 'rounds'),
         phase_options: composeEntityOptions(ent, 'phases'),
         transition_options: composeEntityOptions(ent, 'transitions'),

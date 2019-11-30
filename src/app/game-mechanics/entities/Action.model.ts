@@ -1,6 +1,6 @@
 import { BaseModel, WithFrames, WithDisplayName } from "./Base.model";
 
-export type GameAction = BaseModel & WithFrames & WithDisplayName & Partial<{
+export type GameAction = BaseModel & WithFrames & Partial<{
     configs: ActionConfig[];
 }>
 
@@ -10,7 +10,7 @@ export type ActionConfig = Partial<{
 
     type: ActionType;
 
-    payload: ActionParam[];
+    payload: ActionParam;
 }>
 
 export type ActionParam = {

@@ -1,7 +1,6 @@
 import { BaseModel, WithBoard, WithStyle, WithState, WithFrames, WithImage } from "./Base.model";
 import { Transition } from "./Transition.model";
 import { Expression } from "./Expression.model";
-import { Handler } from "./Handler.model";
 import { Shape } from "./Shape.model";
 import { GameAction } from "./Action.model";
 import { Condition } from "./Condition.model";
@@ -29,7 +28,14 @@ export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & W
 
 export type SlotHandler = {
     owner: number;
-    handler: number | Handler;
+
+    type: HandlerType;
+
+    effect: Expression;
+    effect_inline: string;
+
+    sound: Expression;
+    enabled: Expression;
 };
 
 export type SlotItem = Partial<{
@@ -38,3 +44,12 @@ export type SlotItem = Partial<{
     choice: Choice;
     token: Token;
 }>;
+
+export const HANDLER_TYPES = {
+    POINTERDOWN: 'POINTERDOWN',
+    POINTERUP: 'POINTERUP',
+    HOVERIN: 'HOVERIN',
+    HOVEROUT: 'HOVEROUT',
+};
+
+export type HandlerType = keyof typeof HANDLER_TYPES;

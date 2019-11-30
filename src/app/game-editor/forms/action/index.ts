@@ -6,7 +6,7 @@ import {
     GameAction, ACTION_TYPE as types,
 } from '@app/game-mechanics';
 import {
-    composeFromObject, baseTemplate, composeCommonFormContext, framesTemplate, displayNameTemplate
+    composeFromObject, baseTemplate, composeCommonFormContext, framesTemplate
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
@@ -18,8 +18,6 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
         <Form>
             ${baseTemplate}
 
-            ${displayNameTemplate}
-
             <Group name='configs' label='Action configs' children='{configs}' item='@item' addButtonText='Add'>
 
                 <Form>
@@ -27,22 +25,14 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='type' label='Type' options='{types}' required='{true}'>{@item.type}</Dropdown>
 
-                    <Group name='payload' label='Parameters' children='{@item.payload}' item='@param' addButtonText='Add'>
-
-                        <Form>
-                            <NumberInput name='id' hidden='{true}'>{@param.id}</NumberInput>
-                            
-                            <TextInput name='key' required='{true}' label='Key'>
-                                {@param.key}
-                            </TextInput>
-
-                            <TextInput name='value' required='{true}' label='Value'>
-                                {@param.value}
-                            </TextInput>
-
-                        </Form>
-    
-                    </Group>
+                    <EmbeddedData
+                        name='payload' 
+                        label='Payload'
+                        connectedEntities='{entities}' 
+                        childrenDefinition='{composePayloadForm}' 
+                    >
+                        {@item.payload}
+                    </EmbeddedData>
 
                 </Form>
 
@@ -57,8 +47,33 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, configs, frames,
-            types: composeFromObject(types),
+            data, configs, frames, entities: ent,
+            types: composeFromObject(types), composePayloadForm
+        },
+    }, true);
+
+    return result as BaseControl[];
+};
+
+const composePayloadForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
+    data = data || {};
+
+    const template = `
+    <Form>
+        <TextInput name='key' required='{true}' label='Key'>
+            {data.key}
+        </TextInput>
+
+        <TextInput name='value' required='{true}' label='Value'>
+            {data.value}
+        </TextInput>
+    </Form>
+    `;
+
+    const result = parse({
+        source: template,
+        context: {
+            data,
         },
     }, true);
 
