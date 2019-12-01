@@ -178,7 +178,9 @@ export const selectSlotTransitions = (slot_id: number) => createSelector(
                         return {
                             ...step,
                             from_style: removeNonAnimatableProps(config.styles[step.from_style as number]),
+                            from_style_inline: step.from_style_inline ? JSON.parse(step.from_style_inline as string) : {},
                             to_style: removeNonAnimatableProps(config.styles[step.to_style as number]),
+                            to_style_inline: step.to_style_inline ? JSON.parse(step.to_style_inline as string) : {},
                         } as AnimationStep;
                     }),
                 }

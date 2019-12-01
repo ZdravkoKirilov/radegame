@@ -2,6 +2,7 @@ import { BasicComponent, StatefulComponent } from "../bases";
 import { RzElementProps, MetaProps, RzElement } from "./RzElement";
 import { AbstractContainer } from "../interfaces";
 import { StateHook, EffectHook, MemoHook, RefHook } from '../helpers/hooks';
+import { Dictionary } from "@app/shared";
 
 export type CompositeComponent = StatefulComponent | RenderFunction;
 
@@ -10,14 +11,9 @@ export type Component<T extends RzElementProps = {}> = BasicComponent<T> | State
 export type ClassComponent<T extends RzElementProps = {}> = BasicComponent<T> | StatefulComponent<T>;
 
 export type DidUpdatePayload<T = any, S = any> = {
-    prev: ComponentData<T, S>;
-    next: ComponentData<T, S>;
+    prev: Dictionary;
+    next: Dictionary;
 }
-
-export type ComponentData<P = any, S = any> = {
-    state: S;
-    props: P;
-};
 
 export interface ComponentConstructor<T extends RzElementProps = {}> {
     new(props: T, graphic: any, container: AbstractContainer): StatefulComponent;

@@ -1,10 +1,9 @@
 import { get } from 'lodash';
 
-import { DidUpdatePayload, ComponentData } from "../models";
+import { DidUpdatePayload } from "../models";
 import { evaluate } from "@app/dynamic-forms";
-import { Style, Animation, Transition, ExpressionContext, Expression, parseFromString } from '@app/game-mechanics';
+import { Style, Animation, Transition, Expression, parseFromString } from '@app/game-mechanics';
 import { removeEmptyProps, Dictionary, WithKeysAs } from '@app/shared';
-import { toNumericColor } from '../helpers';
 
 const SPECIALS = {
     WILDCARD: '*',
@@ -21,7 +20,8 @@ export const ANIMATABLE_PROPS = {
     stroke_thickness: 'stroke_thickness',
     fill: 'fill',
     x: 'x',
-    y: 'y'
+    y: 'y',
+    font_size: 'font_size',
 } as const;
 
 export type AnimatableProps = Partial<WithKeysAs<typeof ANIMATABLE_PROPS, string | number>>;
@@ -41,7 +41,7 @@ export const shouldTransition = (transition: string, prop: string, payload?: Did
     }
 
     if (transition === SPECIALS.WILDCARD) {
-        return get(prev, prop) !== get(next, prop);
+        return nextValue !== prevValue;
     }
 
     const transitionArguments = transition.split(' ').filter(elem => !!elem).map(elem => elem.trim());
@@ -73,22 +73,11 @@ const patchBooleanValues = (value: string) => {
     return value;
 };
 
-export const extractTransitionValues = (
-    prop: string,
-    payload: DidUpdatePayload
-) => {
-    // const props = prop.split('.');
-    // const prev = payload[props[0]].prev[props[1]];
-    // const next = payload[props[0]].next[props[1]];
-
-    return [1, 2];
-};
-
 const isSpecialValue = (value: string | number) => {
     return value && typeof value === 'string' && !value.startsWith('#');
 };
 
-const parseBinding = (source: string, context: ComponentData) => {
+const parseBinding = (source: string, context: Dictionary) => {
     const nextBinding = source.indexOf('{');
     const endBinding = source.indexOf('}');
     const fullExpression = source.slice(nextBinding, endBinding + 1);
@@ -99,7 +88,7 @@ const parseBinding = (source: string, context: ComponentData) => {
     return source.replace(fullExpression, value);
 };
 
-const parseSpecial = (source: string, context: ComponentData) => {
+const parseSpecial = (source: string, context: Dictionary) => {
 
     // while (source.indexOf('{') !== -1) {
     //     source = parseBinding(source, context);
@@ -109,7 +98,7 @@ const parseSpecial = (source: string, context: ComponentData) => {
     return result;
 };
 
-export const parseValue = (value: string, context: ComponentData, key: string) => {
+export const parseValue = (value: string, context: Dictionary, key: string) => {
     // if (key === ANIMATABLE_PROPS.stroke_color || key === ANIMATABLE_PROPS.fill) {
     //     return toNumericColor(value);
     // }
@@ -119,7 +108,7 @@ export const parseValue = (value: string, context: ComponentData, key: string) =
     return value;
 };
 
-const parsePropsData = (source: Dictionary, context: ComponentData) => {
+const parsePropsData = (source: Dictionary, context: Dictionary) => {
     const result = {};
 
     for (let key in source) {
@@ -131,7 +120,7 @@ const parsePropsData = (source: Dictionary, context: ComponentData) => {
     return result;
 };
 
-export const parseAnimationValues = (animation: Animation, context: ComponentData) => {
+export const parseAnimationValues = (animation: Animation, context: Dictionary) => {
     return {
         ...animation,
         steps: animation.steps.map(step => {
@@ -156,7 +145,7 @@ export const removeNonAnimatableProps = (source: Style) => {
     return copy;
 };
 
-export const isTransitionEnabled = (transition: Transition, context: ExpressionContext, data: Dictionary) => {
+export const isTransitionEnabled = (transition: Transition, context: Dictionary, data: Dictionary) => {
     if (transition.enabled && context && data) {
         const expression = transition.enabled as Expression;
         const callback = parseFromString(context)(expression.code) as Function;

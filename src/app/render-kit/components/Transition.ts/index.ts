@@ -1,25 +1,25 @@
 import { map } from "rxjs/operators";
 
 import { StatefulComponent } from "../../bases";
-import { DidUpdatePayload } from "../../models";
+import { DidUpdatePayload, RzElement } from "../../models";
 import { getChildAsRenderFunc } from "../../helpers";
 import { Dictionary } from "@app/shared";
-import { withBasicInteractions, BasicInteractionProps } from "../../hocs";
-import { Transition, ExpressionContext } from "@app/game-mechanics";
+import { BasicInteractionProps } from "../../hocs";
+import { Transition } from "@app/game-mechanics";
 import { TransitionAnimationsPlayer } from "../../animations/animation";
 import { isTransitionEnabled, AnimatableProps } from "../../animations/helpers";
 
 export type TransitionProps = Partial<BasicInteractionProps> & {
     transitions: Transition[];
-    data: Dictionary;
-    context: ExpressionContext;
+    target: Dictionary;
+    context: Dictionary;
 };
 
 type State = {
     interpolatingStyle?: AnimatableProps;
 };
 
-class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
+export class RzTransition extends StatefulComponent<TransitionProps, State> {
     state: State = { interpolatingStyle: {} };
     players: TransitionAnimationsPlayer[] = [];
 
@@ -41,8 +41,8 @@ class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
 
     didUpdate(payload: DidUpdatePayload<TransitionProps>) {
         this.players.forEach(player => {
-            if (isTransitionEnabled(player.config, this.props.context, this.props.data)) {
-                player.playIfShould(payload, this.props.data)
+            if (isTransitionEnabled(player.config, this.props.context, this.props.target)) {
+                player.playIfShould(payload, this.props.target);
             }
         });
     }
@@ -57,5 +57,3 @@ class RzTransitionDefinition extends StatefulComponent<TransitionProps, State> {
         return renderFunc(interpolatingStyle || {});
     }
 }
-
-export const RzTransition = withBasicInteractions<TransitionProps>(RzTransitionDefinition);

@@ -11,8 +11,11 @@ export type Transition = Partial<{
 
     trigger: string; // DSL style
     prop: string; // the trigger watches this prop
-    enabled: number | Expression;
 
-    animation: number | Animation;
-    sound: number | Sound;
+    enabled: Expression;
+    enabled_inline: string;
+
+    animation: Animation;
+
+    sound: Sound;
 }>

@@ -8,7 +8,7 @@ import {
     selectSlotStyle, selectSlotAnimation,
     selectSlotTransitions, selectSlotText
 } from "@app/game-arena";
-import { connect } from "../../../hocs";
+import { connect, withArenaTransition } from "../../../hocs";
 
 export type TextSlotProps = {
     style: Style;
@@ -41,29 +41,14 @@ type StoreProps = {
     transitions: Transition[];
 };
 
-const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps>(({ text, style, animation, transitions, data }) => {
+type AnimationProps = {
+    interpolatedStyle: AnimatableProps;
+}
 
-    return createElement<RzAnimationProps>(
-        RzAnimation,
-        {
-            config: animation,
-            active: !!animation,
-            context: {
-                state: {},
-                props: {},
-            }
-        },
-        (animatedStyle: AnimatableProps | any) => {
-            return createElement<TransitionProps>(
-                RzTransition,
-                { transitions, data: {}, context: {} as any },
-                (transitionStyle: AnimatableProps | any) => {
-                    const composedStyle: Style = { ...style, ...transitionStyle, ...animatedStyle };
-                    return createElement<TextSlotProps>(TextSlot, { text, style: composedStyle, slot: data });
-                }
-            );
-        }
-    );
+const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps & AnimationProps>(({ text, style, data, interpolatedStyle }) => {
+    const composedStyle = { ...style, ...interpolatedStyle } as Style;
+    console.log(interpolatedStyle);
+    return createElement<TextSlotProps>(TextSlot, { text, style: composedStyle, slot: data });
 });
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
@@ -73,4 +58,26 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): Stor
     text: selectSlotText(ownProps.data.id)(state),
 });
 
-export default connect(mapStateToProps)(EnhancedTextSlot);
+export default connect(mapStateToProps)(withArenaTransition(EnhancedTextSlot));
+
+    // return createElement<RzAnimationProps>(
+    //     RzAnimation,
+    //     {
+    //         config: animation,
+    //         active: !!animation,
+    //         context: {
+    //             state: {},
+    //             props: {},
+    //         }
+    //     },
+    //     (animatedStyle: AnimatableProps | any) => {
+    //         return createElement<TransitionProps>(
+    //             RzTransition,
+    //             { transitions, target: {}, context: {} as any },
+    //             (transitionStyle: AnimatableProps | any) => {
+    //                 const composedStyle: Style = { ...style, ...transitionStyle, ...animatedStyle };
+    //                 return createElement<TextSlotProps>(TextSlot, { text, style: composedStyle, slot: data });
+    //             }
+    //         );
+    //     }
+    // );

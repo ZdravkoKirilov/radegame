@@ -11,7 +11,7 @@ import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.
 import { SoundPlayer } from "@app/render-kit";
 import { Dictionary } from '@app/shared';
 
-export const parseFromString = (context: ExpressionContext) => (src: string): any => {
+export const parseFromString = (context: Dictionary) => (src: string): any => {
   try {
     const result = (new Function("with(this) {" + src + "}")).call(context);
     return result !== undefined ? result : '';

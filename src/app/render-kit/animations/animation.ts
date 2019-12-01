@@ -3,7 +3,7 @@ import { TweenMax, TimelineMax, TweenConfig } from 'gsap';
 
 import { Dictionary } from '@app/shared';
 import { Animation, AnimationStep, ANIMATION_PLAY_TYPE, Transition, Style } from "@app/game-mechanics";
-import { DidUpdatePayload, ComponentData } from "../models";
+import { DidUpdatePayload } from "../models";
 import { shouldTransition, parseAnimationValues, AnimatableProps } from "./helpers";
 import { mapEasing } from "./easings";
 
@@ -21,14 +21,14 @@ export class TransitionAnimationsPlayer {
     playIfShould = (data: DidUpdatePayload, injectedProps = {}) => {
         const { trigger, prop, animation } = this.config;
 
-        const next: ComponentData = {
+        const next = {
             ...data.next,
             props: {
                 ...data.next.props,
                 ...injectedProps
             }
         };
-
+   
         if (shouldTransition(trigger, prop, data) && !this.player.playing) {
             this.player.play(animation as Animation, next);
         }
@@ -50,7 +50,7 @@ export class AnimationPlayer {
 
     constructor() { }
 
-    play(config: Animation, context: ComponentData) {
+    play(config: Animation, context: Dictionary) {
         this.config = parseAnimationValues(config, context);
         this.playing = true;
         this.startTweens();
@@ -128,10 +128,10 @@ export const createTweenSequence = (
     const timeline = new TimelineMax();
 
     steps.forEach(step => {
-        const { from_style, to_style, duration, delay, bidirectional, repeat, easing } = step;
-        const fromStyle = { ...(from_style as Style) };
+        const { from_style, from_style_inline, to_style, to_style_inline, duration, delay, bidirectional, repeat, easing } = step;
+        const fromStyle = { ...(from_style_inline || from_style as Style) };
         const toStyle: TweenConfig = {
-            ...(to_style as Style),
+            ...(to_style_inline || to_style as Style),
             ease: mapEasing(easing),
             delay: delay > 1 ? delay / 1000 : 0,
             yoyo: bidirectional,
