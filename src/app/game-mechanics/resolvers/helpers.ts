@@ -55,15 +55,7 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
   const all_handlers = handlers.reduce(
     (acc, handler) => {
       const eventName = event_name_map[handler.type];
-      const innerCallback: ParamedExpressionFunc<Slot> = inlineOrRelated(
-        handler,
-        'effect',
-        'code',
-        conf,
-        'expressions',
-        parseFromString(context),
-      );
-      // const innerCallback: ParamedExpressionFunc<Slot> = parseFromString(expression.code, context);
+      const innerCallback = parseFromString(context)(handler.effect);
       acc[eventName] = () => {
         const actions: GameAction[] = innerCallback.call(context, payload);
         playSoundIfNeeded(handler, conf, context);
@@ -94,16 +86,8 @@ export const inlineOrRelated = <T, P>(
 };
 
 const playSoundIfNeeded = (handler: SlotHandler, conf: GameConfig, context: ExpressionContext) => {
-  const getSound: ParamedExpressionFunc<SlotHandler> = inlineOrRelated(
-    handler,
-    'sound',
-    'sound',
-    conf,
-    'sounds',
-    parseFromString(context),
-  );
+  const getSound = parseFromString(context)(handler.sound);
   let sound: Sonata = getSound ? getSound.call(context, handler) : null;
-
   if (sound) {
     sound = { ...sound };
     sound.steps = sound.steps.map(step => {

@@ -70,7 +70,7 @@ export const formatGameConfigData = (data: GameTemplate): GameTemplate => {
 };
 
 export const removeEmptyProps = (source: {}) => {
-    const copy = {...source};
+    const copy = { ...source };
 
     for (let key in source) {
         const value = source[key];
@@ -79,4 +79,16 @@ export const removeEmptyProps = (source: {}) => {
         }
     }
     return copy;
+};
+
+export const safeJSON = (source: any, fallback = null) => {
+    if (typeof source === 'string') {
+        try {
+            return JSON.parse(source);
+        } catch {
+            return null;
+        }
+    } else {
+        return source;
+    }
 };

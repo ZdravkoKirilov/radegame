@@ -49,9 +49,14 @@ export class SoundPlayer {
         const firstHowl = this.active[0];
 
         if (firstHowl) {
-            firstHowl.once('load', function () {
+            const state = firstHowl.state();
+            if (state === 'loaded') {
                 firstHowl.play();
-            });
+            } else {
+                firstHowl.once('load', function () {
+                    firstHowl.play();
+                });
+            }
         }
     }
 

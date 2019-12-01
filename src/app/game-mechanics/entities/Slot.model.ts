@@ -1,20 +1,22 @@
-import { BaseModel, WithBoard, WithStyle, WithState, WithFrames, WithImage } from "./Base.model";
+import { BaseModel, WithBoard, WithState, WithFrames, WithImage } from "./Base.model";
 import { Transition } from "./Transition.model";
-import { Expression } from "./Expression.model";
 import { Shape } from "./Shape.model";
 import { GameAction } from "./Action.model";
 import { Condition } from "./Condition.model";
 import { Choice } from "./Choice.model";
 import { Token } from "./Token.model";
+import { Style } from "./Style.model";
 
-export type Slot = BaseModel & WithBoard & WithStyle & WithImage & WithState & WithFrames & Partial<{
+export type Slot = BaseModel & WithBoard & WithImage & WithState & WithFrames & Partial<{
     owner: number; // Stage;
 
     y: number;
     x: number;
 
-    display_text: Expression; // returns Text
-    display_text_inline: string;
+    style: string; // Expression -> Style
+    style_inline: Style;
+
+    display_text: string; // Expression -> Text
 
     item: SlotItem;
     shape: Shape; // Shape
@@ -28,11 +30,9 @@ export type SlotHandler = {
 
     type: HandlerType;
 
-    effect: Expression;
-    effect_inline: string;
+    effect: string; // Expression -> GameAction[]
 
-    sound: Expression;
-    sound_inline: string;
+    sound: string; // Expression -> Sonata
 };
 
 export type SlotItem = Partial<{

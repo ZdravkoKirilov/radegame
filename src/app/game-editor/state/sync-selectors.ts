@@ -6,6 +6,7 @@ import {
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
+import { safeJSON } from "@app/shared";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -54,9 +55,12 @@ export const selectSlotData = (slot_id: number) => createSelector(
 
 export const selectSlotStyle = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
-    (slot_data) => {
+    selectExpressionContext,
+    (slot_data, context) => {
         if (slot_data) {
-            const style = { ...slot_data.style, ...slot_data.style_inline };
+            const dynamicStyle = parseFromString(context)(slot_data.style) || {};
+            const inlineStyle = safeJSON(slot_data.style_inline, {});
+            const style = { ...inlineStyle, ...dynamicStyle };
             return style;
         }
         return null;
@@ -117,8 +121,7 @@ export const selectSlotText = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
     (form, context, slot_data) => {
         if (slot_data.display_text) {
-            const expression = form.expressions.items[slot_data.display_text as number] as Expression;
-            const callback = parseFromString(context)(expression.code);
+            const callback = parseFromString(context)(slot_data.display_text);
             const text = callback.call(context, slot_data) as Text;
             return text;
         }

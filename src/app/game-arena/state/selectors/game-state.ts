@@ -7,7 +7,7 @@ import {
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
-import { toDictionary } from "@app/shared";
+import { toDictionary, safeJSON } from "@app/shared";
 import { removeNonAnimatableProps } from "@app/render-kit";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
@@ -72,14 +72,30 @@ export const selectCurrentRoundStageImage = createSelector(
     (stage, config) => config.images[stage.image as number] as ImageAsset
 );
 
+export const selectExpressionContext = createSelector(
+    selectUser,
+    selectConfig,
+    selectGameState,
+    selectPlayers,
+    (user, conf, state, players) => {
+        return createExpressionContext({
+            self: user.id,
+            conf, state, players: toDictionary(players, 'id'),
+        });
+    }
+);
+
 export const selectCurrentRoundStageSlots = createSelector(
     selectCurrentRoundStage,
     selectConfig,
-    (stage, config) => {
+    selectExpressionContext,
+    (stage, config, context) => {
         return Object.values(config.slots)
             .filter((slot: Slot) => slot.owner === stage.id)
             .map((elem: Slot) => {
-                elem = { ...elem, style: config.styles[elem.style as number] } as Slot;
+                const dynamicStyle = parseFromString(context)(elem.style) || {};
+                const inlineStyle = safeJSON(elem.style_inline, {});
+                elem = { ...elem, style: { ...inlineStyle, ...dynamicStyle } } as Slot;
                 return elem;
             }) as Slot[];
     }
@@ -112,9 +128,12 @@ export const selectSlotData = (slot_id: number) => createSelector(
 
 export const selectSlotStyle = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
-    (slot_data) => {
+    selectExpressionContext,
+    (slot_data, context) => {
         if (slot_data) {
-            const style = { ...slot_data.style, ...slot_data.style_inline };
+            const dynamicStyle = parseFromString(context)(slot_data.style) || {};
+            const inlineStyle = safeJSON(slot_data.style_inline, {});
+            const style = { ...inlineStyle, ...dynamicStyle };
             return style;
         }
         return null;
@@ -134,19 +153,11 @@ export const selectSlotShape = (slot_id: number) => createSelector(
 );
 
 export const selectSlotText = (slot_id: number) => createSelector(
-    selectConfig,
     selectSlotData(slot_id),
     selectExpressionContext,
-    (config, slot_data, context) => {
-        if (slot_data.display_text || slot_data.display_text_inline) {
-            const textGetter = inlineOrRelated(
-                slot_data,
-                'display_text',
-                'code',
-                config,
-                'expressions',
-                parseFromString(context),
-            );
+    (slot_data, context) => {
+        if (slot_data.display_text) {
+            const textGetter = parseFromString(context)(slot_data.display_text);
             const text = typeof textGetter === 'function' ? textGetter.call(context, slot_data) : null;
             return text;
         }
@@ -222,19 +233,6 @@ export const selectSlotStageChildren = (slot_id: number) => createSelector(
     selectConfig,
     (stage, config) => {
         return Object.values(config.slots).filter((elem: Slot) => elem.owner === stage.id) as Slot[];
-    }
-);
-
-export const selectExpressionContext = createSelector(
-    selectUser,
-    selectConfig,
-    selectGameState,
-    selectPlayers,
-    (user, conf, state, players) => {
-        return createExpressionContext({
-            self: user.id,
-            conf, state, players: toDictionary(players, 'id'),
-        });
     }
 );
 

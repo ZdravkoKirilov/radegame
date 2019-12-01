@@ -7,6 +7,7 @@ import {
     framesTemplate,
     composeInlineStyleFormContext,
     composeFromObject,
+    inlineStyleTemplate,
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
@@ -31,14 +32,12 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             ${framesTemplate}
 
-            ${styleTemplate}
+            <CodeEditor name='style' label='Style'>{data.style}</CodeEditor>
 
-            <Dropdown name='display_text' label='Displayed text' options='{expression_options}'>
+            ${inlineStyleTemplate}
+
+            <CodeEditor name='display_text' label='Display text'>
                 {data.display_text}
-            </Dropdown>
-
-            <CodeEditor name='display_text_inline' label='Display text: inline'>
-                {data.display_text_inline}
             </CodeEditor>
 
             <EmbeddedData 
@@ -56,22 +55,15 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
                     <Dropdown name='type' label='Type' options='{types}'>{@handler.type}</Dropdown>
 
-                    <Dropdown name='effect' label='Effect' options='{expression_options}'>
+                    <CodeEditor name='effect' label='Effect'>
                         {@handler.effect}
-                    </Dropdown>
-
-                    <CodeEditor name='effect_inline' label='Effect: inline'>
-                        {@handler.effect_inline}
                     </CodeEditor>
 
-                    <Dropdown name='sound' label='Sound' options='{expression_options}'>{@handler.sound}</Dropdown>
-
-                    <CodeEditor name='sound_inline' label='Sound: inline'>
-                        {@handler.sound_inline}
+                    <CodeEditor name='sound' label='Sound'>
+                        {@handler.sound}
                     </CodeEditor>
                 </Form>
             </Group>
-
             
             <ButtonGroup name='transitions' label='Transitions' options='{transition_options}' multiple='{true}'>
                 {transitions}
