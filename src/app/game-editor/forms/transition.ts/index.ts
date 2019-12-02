@@ -13,13 +13,12 @@ export const composeTransitionForm: FormDefinition = (data: Transition, ent?: Co
         <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
         <TextInput name='description' label='Description'>{data.description}</TextInput>
 
-        <TextInput name='trigger' label='Trigger' required='{true}'>{data.trigger}</TextInput>
-        <TextInput name='prop' label='Watch prop' required='{true}'>{data.prop}</TextInput>
+        <CodeEditor name='trigger' label='Trigger' required='{true}'>{data.trigger}</CodeEditor>
 
         <Dropdown name='sound' label='Sound' options='{sound_options}'>{data.sound}</Dropdown>
         <Dropdown name='animation' label='Animation' options='{animation_options}'>{data.animation}</Dropdown>
 
-        <Dropdown name='enabled' label='Enabled' options='{expression_options}'>{data.enabled}</Dropdown>
+        <CodeEditor name='enabled' label='Enabled'>{data.enabled}</CodeEditor>
 
     </Form>
     `;

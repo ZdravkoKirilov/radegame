@@ -19,7 +19,7 @@ export class TransitionAnimationsPlayer {
     }
 
     playIfShould = (data: DidUpdatePayload, injectedProps = {}) => {
-        const { trigger, prop, animation } = this.config;
+        const { trigger, animation } = this.config;
 
         const next = {
             ...data.next,
@@ -29,7 +29,7 @@ export class TransitionAnimationsPlayer {
             }
         };
    
-        if (shouldTransition(trigger, prop, data) && !this.player.playing) {
+        if (shouldTransition(trigger, data) && !this.player.playing) {
             this.player.play(animation as Animation, next);
         }
     }

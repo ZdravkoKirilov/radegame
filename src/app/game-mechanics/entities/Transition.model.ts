@@ -9,11 +9,9 @@ export type Transition = Partial<{
     name: string;
     description: string;
 
-    trigger: string; // DSL style
-    prop: string; // the trigger watches this prop
+    trigger: string; // Expression -> boolean
 
-    enabled: Expression;
-    enabled_inline: string;
+    enabled: string; // Expression -> boolean
 
     animation: Animation;
 

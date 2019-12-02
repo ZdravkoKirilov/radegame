@@ -3,20 +3,19 @@ import get from 'lodash/get';
 
 import { GameTemplate, GameConfig } from "../models";
 import {
-  Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, GameAction,
-  ParamedExpressionFunc, SlotHandler, Sonata, GameEntity
+  Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, GameAction, SlotHandler, Sonata, GameEntity
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
 import { SoundPlayer } from "@app/render-kit";
 import { Dictionary } from '@app/shared';
 
-export const parseFromString = (context: Dictionary) => (src: string): any => {
+export const parseFromString = <T = any>(context: Dictionary) => (src: string): T => {
   try {
     const result = (new Function("with(this) {" + src + "}")).call(context);
     return result !== undefined ? result : '';
   } catch (err) {
-    return '';
+    return '' as any;
   }
 };
 
@@ -66,23 +65,6 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
     {}
   );
   return all_handlers;
-};
-
-export const inlineOrRelated = <T, P>(
-  target: T, prop: keyof T, nestedProp: string,
-  entities: GameConfig, slice: keyof GameConfig, callback: Function, merge = false,
-) => {
-  const inlineProp = `${prop}_inline`;
-  const path = [slice, target[prop as string], nestedProp].filter(Boolean);
-  const related: P = get(entities, path);
-  const inlineString = target[inlineProp];
-
-  try {
-    const inlineParsed = callback(inlineString);
-    return merge ? { ...related, ...inlineParsed } : inlineParsed;
-  } catch {
-    return related;
-  }
 };
 
 const playSoundIfNeeded = (handler: SlotHandler, conf: GameConfig, context: ExpressionContext) => {

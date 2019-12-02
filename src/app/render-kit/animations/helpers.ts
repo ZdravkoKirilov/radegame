@@ -26,41 +26,12 @@ export const ANIMATABLE_PROPS = {
 
 export type AnimatableProps = Partial<WithKeysAs<typeof ANIMATABLE_PROPS, string | number>>;
 
-export const shouldTransition = (transition: string, prop: string, payload?: DidUpdatePayload, isEntering = false, isLeaving = false) => {
-    const prev = payload.prev;
-    const next = payload.next;
-    const nextValue = get(next, prop);
-    const prevValue = get(prev, prop);
-
-    if (transition === SPECIALS.ENTER && isEntering) {
-        return true;
+export const shouldTransition = (trigger: string, payload?: DidUpdatePayload, isEntering = false, isLeaving = false) => {
+    if (trigger) {
+        const shouldTransition = parseFromString<Function>(payload)(trigger)();
+        return shouldTransition;
     }
-
-    if (transition === SPECIALS.LEAVE && isLeaving) {
-        return true;
-    }
-
-    if (transition === SPECIALS.WILDCARD) {
-        return nextValue !== prevValue;
-    }
-
-    const transitionArguments = transition.split(' ').filter(elem => !!elem).map(elem => elem.trim());
-    const isForwards = transitionArguments[1] === SPECIALS.FORWARDS;
-    const firstArg = patchBooleanValues(transitionArguments[0]);
-    const lastArg = patchBooleanValues(transitionArguments[2]);
-    let firstMatches: boolean;
-    let lastMatches: boolean;
-
-    if (isForwards) {
-        firstMatches = firstArg === SPECIALS.WILDCARD || firstArg === prevValue;
-        lastMatches = lastArg === SPECIALS.WILDCARD || lastArg === nextValue;
-    } else {
-        firstMatches = firstArg === SPECIALS.WILDCARD || firstArg === prevValue || firstArg === nextValue;
-        lastMatches = lastArg === SPECIALS.WILDCARD || nextValue || prevValue;
-    }
-
-    return firstMatches && lastMatches && (prevValue !== nextValue);
-
+    return false;
 };
 
 const patchBooleanValues = (value: string) => {
