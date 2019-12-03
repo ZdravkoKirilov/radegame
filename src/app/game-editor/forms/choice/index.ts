@@ -1,14 +1,13 @@
 import { Choice } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    baseTemplate, composeCommonFormContext, keywordsTemplate, framesTemplate, imageTemplate, displayNameTemplate
+    baseTemplate, composeCommonFormContext, framesTemplate, imageTemplate, displayNameTemplate
 } from '../helpers';
 
 export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
     const options = data.options || [];
     const tips = data.tips || [];
-    const keywords = data.keywords || [];
     const frames = data.frames || [];
 
     const template = `
@@ -35,8 +34,6 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
             {data.scope}
         </Dropdown>
 
-        ${keywordsTemplate}
-
         <Group name='options' label='Options' children='{options}' item='@item' addButtonText='Add'>
             <Form>
                 <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
@@ -48,10 +45,6 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
                 <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{data.image}</Dropdown>
 
                 <Dropdown name='effect' label='Effect' options='{expression_options}'>{@item.effect}</Dropdown>
-
-                <ButtonGroup name='keywords' label='Keywords' options='{keyword_options}' multiple='{true}'>
-                    {@item.keywords}
-                </ButtonGroup>
                 
             </Form>
         </Group>
@@ -63,10 +56,6 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
                 <TextInput name='description' label='Description'>{@tip.description}</TextInput>
 
                 <Dropdown name='image' label='Image' options='{image_options}'>{@tip.image}</Dropdown>
-
-                <ButtonGroup name='keywords' label='Keywords' options='{keyword_options}' multiple='{true}'>
-                    {@tip.keywords}
-                </ButtonGroup>
                 
             </Form>
         </Group>
@@ -80,7 +69,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, options, keywords, tips, frames,
+            data, options, tips, frames,
         },
     }, true);
 

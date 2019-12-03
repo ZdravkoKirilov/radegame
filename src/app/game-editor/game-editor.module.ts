@@ -29,7 +29,6 @@ import { BoardMainComponent } from './components/board/main/board-main.component
 import { ImageAssetContainerComponent } from './containers/images/image-asset-container.component';
 import { EditorLayoutComponent, EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent, EditSidebarLinkComponent } from './layouts';
 import { EditHeaderComponent } from './components/header/edit-header.component';
-import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
 import { ExpressionsContainerComponent } from './containers/expressions/expressions-container.component';
@@ -84,7 +83,6 @@ import { ShapePreviewComponent } from './components/shape/preview/shape-preview.
         EditSidebarNavComponent,
         EditSidebarHeaderComponent,
         EditSidebarLinkComponent,
-        KeywordsContainerComponent,
         StylesContainerComponent,
         SoundsContainerComponent,
         ExpressionsContainerComponent,

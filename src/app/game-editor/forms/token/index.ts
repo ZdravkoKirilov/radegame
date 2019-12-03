@@ -1,19 +1,16 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Token } from "@app/game-mechanics";
-import { baseTemplate, keywordsTemplate, composeCommonFormContext, framesTemplate, composeInlineStyleFormContext } from "../helpers";
+import { baseTemplate, composeCommonFormContext, framesTemplate, composeInlineStyleFormContext } from "../helpers";
 
 export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
 
-    const keywords = data.keywords || [];
     const frames = data.frames || [];
 
     const template = `
     <Form>
 
         ${baseTemplate}
-
-        ${keywordsTemplate}
 
         ${framesTemplate}
 
@@ -25,7 +22,7 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
         context: {
             ...composeCommonFormContext(data, ent),
             ...composeInlineStyleFormContext(ent),
-            keywords, frames,
+            frames,
             data,
         }
     }, true) as BaseControl[];

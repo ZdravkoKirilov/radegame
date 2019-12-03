@@ -1,12 +1,11 @@
 import { Text } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    baseTemplate, composeCommonFormContext, keywordsTemplate, framesTemplate, imageTemplate, displayNameTemplate
+    composeCommonFormContext
 } from '../helpers';
 
 export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
-    const keywords = data.keywords || [];
     const translations = data.translations || [];
 
     const template = `
@@ -15,8 +14,6 @@ export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl
         <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
 
         <TextInput name='default_value' label='Default value'>{data.default_value}</TextInput>
-
-        ${keywordsTemplate}
 
         <Group name='translations' label='Translations' children='{translations}' item='@item' addButtonText='Add'>
             <Form>
@@ -36,7 +33,7 @@ export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, keywords, translations
+            data, translations
         },
     }, true);
 

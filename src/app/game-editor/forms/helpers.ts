@@ -83,16 +83,6 @@ export const stateTemplate = `
     </Dropdown>
 `;
 
-export const keywordsTemplate = `
-    <ButtonGroup 
-        name='keywords' 
-        label='Keywords' 
-        options='{keyword_options}' 
-        multiple='{true}'>
-        {keywords}
-    </ButtonGroup>
-`;
-
 export const displayNameTemplate = `
     <TextInput name='display_name' label='Displayed name'>{data.display_name}</TextInput>
 `;
@@ -153,7 +143,6 @@ export const composeInlineStyleFormContext = (ent: ConnectedEntities) => {
 export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => {
 
     return {
-        keyword_options: composeEntityOptions(ent, 'keywords'),
         setup_options: composeEntityOptions(ent, 'setups'),
         condition_options: composeEntityOptions(ent, 'conditions'),
         token_options: composeEntityOptions(ent, 'tokens'),

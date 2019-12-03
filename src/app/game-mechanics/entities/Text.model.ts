@@ -1,7 +1,6 @@
-import { WithKeywords } from "./Base.model";
 import { GameLanguage } from "../models";
 
-export type Text = WithKeywords & Partial<{
+export type Text = Partial<{
     id: number;
     game: number;
 

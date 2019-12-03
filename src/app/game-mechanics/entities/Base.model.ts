@@ -1,9 +1,7 @@
 import { ImageFrame, ImageAsset } from "./ImageAsset.model";
-import { InteractiveEntityType } from "./types";
 import { Stage } from "./Stage.model";
 import { Expression } from "./Expression.model";
 import { Style } from "./Style.model";
-import { Keyword } from "./Keyword.model";
 
 export type BaseModel = Partial<{
     id: number;
@@ -27,10 +25,6 @@ export type WithDone = Partial<{
 
 export type WithFrames = Partial<{
     frames: ImageFrame[];
-}>;
-
-export type WithKeywords = Partial<{
-    keywords: number[] | Keyword[];
 }>;
 
 export type WithBoard = Partial<{

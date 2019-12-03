@@ -9,7 +9,6 @@ import {
     TokensContainerComponent, PhasesContainerComponent,
     BoardContainerComponent, ImageAssetContainerComponent,
 } from './containers';
-import { KeywordsContainerComponent } from './containers/keywords/keywords-container.component';
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
 import { ExpressionsContainerComponent } from './containers/expressions/expressions-container.component';
@@ -82,10 +81,6 @@ export const routes: Routes = [
             {
                 path: 'phases',
                 component: PhasesContainerComponent
-            },
-            {
-                path: 'keywords',
-                component: KeywordsContainerComponent
             },
             {
                 path: 'styles',

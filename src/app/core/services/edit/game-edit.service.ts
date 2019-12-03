@@ -13,7 +13,7 @@ import {
     Choice,
     Stage,
     Token,
-    Phase, Animation, ImageAsset, Keyword, Style,
+    Phase, Animation, ImageAsset, Style,
     Sound, Expression, Setup, Transition, Text, Sonata, Shape,
 } from '@app/game-mechanics';
 
@@ -226,19 +226,6 @@ export class GameEditService {
         } else {
             return this.http.post(API_URLS.SOUNDS(data.game), formData, options);
         }
-    }
-
-    saveKeyword(data: Keyword): Observable<any> {
-
-        if (data.id) {
-            return this.http.patch(API_URLS.KEYWORDS(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.KEYWORDS(data.game), data);
-        }
-    }
-
-    deleteKeyword(data: Keyword): Observable<any> {
-        return this.http.delete(API_URLS.KEYWORDS(data.game, data.id));
     }
 
     saveStyle(data: Style): Observable<any> {

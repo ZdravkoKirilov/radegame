@@ -27,7 +27,6 @@ export const ALL_ENTITIES = {
     paths: 'paths',
     games: 'games',
     images: 'images',
-    keywords: 'keywords',
     styles: 'styles',
     sounds: 'sounds',
     expressions: 'expressions',
