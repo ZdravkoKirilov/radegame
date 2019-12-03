@@ -7,9 +7,7 @@ export type Expression = Partial<{
     name: string;
     description: string;
 
-    preload_as: string;
     code: string;
-    parsed_code: Function;
 }>
 
 export type SimpleExpressionFunc = () => GameAction[];

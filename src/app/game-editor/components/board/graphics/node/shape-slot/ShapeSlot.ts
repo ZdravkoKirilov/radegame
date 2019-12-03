@@ -13,7 +13,7 @@ type StoreProps = {
 };
 
 const EnhancedShapeSlot: RenderFunction<EnhancedShapeSlotProps & StoreProps> = ({ style, shape }) => {
-    const composedStyle = { ...style, ...shape.style, ...shape.style_inline };
+    const composedStyle = { ...style, ...shape.style_inline };
     return createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle, shape });
 };
 

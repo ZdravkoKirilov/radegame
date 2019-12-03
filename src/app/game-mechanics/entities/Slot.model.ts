@@ -1,4 +1,4 @@
-import { BaseModel, WithBoard, WithState, WithFrames, WithImage } from "./Base.model";
+import { BaseModel, WithBoard, WithState, WithFrames, WithImage, WithStyle } from "./Base.model";
 import { Transition } from "./Transition.model";
 import { Shape } from "./Shape.model";
 import { GameAction } from "./Action.model";
@@ -7,14 +7,11 @@ import { Choice } from "./Choice.model";
 import { Token } from "./Token.model";
 import { Style } from "./Style.model";
 
-export type Slot = BaseModel & WithBoard & WithImage & WithState & WithFrames & Partial<{
+export type Slot = BaseModel & WithBoard & WithImage & WithState & WithFrames & WithStyle & Partial<{
     owner: number; // Stage;
 
     y: number;
     x: number;
-
-    style: string; // Expression -> Style
-    style_inline: Style;
 
     display_text: string; // Expression -> Text
 

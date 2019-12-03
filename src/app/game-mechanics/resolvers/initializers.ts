@@ -25,7 +25,6 @@ export type ExpressionContext = {
     players: Dictionary<Player>;
     helpers: {
         [key: string]: any;
-        compute: typeof parseFromString
     },
     $self: Player,
     $own_turn: boolean,
@@ -55,7 +54,7 @@ export const createGameState = ({ setup, conf, players }: CreateStateParams): Ga
 };
 
 export const createExpressionContext = ({ state, conf, self, players }: CreateExpressionParams): ExpressionContext => {
-    const helpers = Object.values<Expression>(conf.expressions).filter(elem => elem.preload_as);
+    const helpers = Object.values<Expression>(conf.expressions);
     const ctx = {
         state, conf, players,
         helpers: composeHelpers(helpers),
@@ -75,7 +74,7 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
 
 const composeHelpers = (expressions: Expression[]) => {
     return expressions.reduce((result, item) => {
-        result[item.preload_as] = parseFromString({} as any)(item.code);
+        result[item.name] = parseFromString({} as any)(item.code);
         return result;
     }, {
             compute: parseFromString

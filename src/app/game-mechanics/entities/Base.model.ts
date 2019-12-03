@@ -43,7 +43,7 @@ export type WithStakes = Partial<{
 }>
 
 export type WithStyle = Partial<{
-    style: Style;
+    style: string; // Expression -> Style
     style_inline: Style;
 }>
 

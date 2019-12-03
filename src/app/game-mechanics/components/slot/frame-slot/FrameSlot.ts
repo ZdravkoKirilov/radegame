@@ -38,7 +38,7 @@ type StoreProps = {
 };
 
 const EnhancedFrameSlot: RenderFunction<EnhancedFrameSlotProps & StoreProps> = ({ style, frame }) => {
-    const composedStyle = { ...style, ...frame.style, ...frame.style_inline };
+    const composedStyle = { ...style, ...frame.style_inline };
     return createElement<FrameSlotProps>(FrameSlot, {
         frame: frame,
         style: composedStyle,
