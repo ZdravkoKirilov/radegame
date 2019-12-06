@@ -12,7 +12,7 @@ export type BaseModel = Partial<{
 }>;
 
 export type WithImage = Partial<{
-    image: number | ImageAsset;
+    image: ImageAsset;
 }>
 
 export type WithDisplayName = Partial<{

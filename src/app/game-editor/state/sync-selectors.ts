@@ -129,15 +129,6 @@ export const selectSlotText = (slot_id: number) => createSelector(
     }
 );
 
-export const selectSlotImage = (slot_id: number) => createSelector(
-    selectForm,
-    selectSlotData(slot_id),
-    (form, slot_data) => {
-        const image_data = form.images.items[slot_data.image as number] || {};
-        return image_data as ImageAsset;
-    }
-);
-
 export const selectSlotStage = (slot_id: number) => createSelector(
     selectForm,
     selectSlotData(slot_id),

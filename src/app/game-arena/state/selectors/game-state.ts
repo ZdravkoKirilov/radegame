@@ -209,15 +209,6 @@ export const selectSlotTransitions = (slot_id: number) => createSelector(
     }
 );
 
-export const selectSlotImage = (slot_id: number) => createSelector(
-    selectConfig,
-    selectSlotData(slot_id),
-    (config, slot_data) => {
-        const image_data = config.images[slot_data.image as number] || {};
-        return image_data as ImageAsset;
-    }
-);
-
 export const selectSlotStage = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),

@@ -29,8 +29,7 @@ export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
     const slot_images = Object.values(conf.slots).reduce(
       (acc, item: Slot) => {
         if (item.owner === stage.id) {
-          const slot_image: ImageAsset = conf.images[item.image as number];
-          slot_image ? acc.push(slot_image.image) : null;
+
         }
         return acc;
       },

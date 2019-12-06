@@ -99,7 +99,9 @@ export const inlineStyleTemplate = `
 `;
 
 export const styleTemplate = `
-    <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
+    <CodeEditor name="style" label="Style">
+        {data.style}
+    </CodeEditor>
 
     ${inlineStyleTemplate}
 `;

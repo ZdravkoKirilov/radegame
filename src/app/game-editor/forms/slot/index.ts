@@ -2,12 +2,12 @@ import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dyna
 import { Slot, SlotItem, HANDLER_TYPES } from "@app/game-mechanics";
 import {
     baseTemplate,
-    boardTemplate, styleTemplate,
+    boardTemplate,
     composeCommonFormContext,
     framesTemplate,
     composeInlineStyleFormContext,
     composeFromObject,
-    inlineStyleTemplate,
+    styleTemplate,
 } from "../helpers";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
@@ -32,14 +32,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             ${framesTemplate}
 
-            <CodeEditor name='style' label='Style'>{data.style}</CodeEditor>
-
-            ${inlineStyleTemplate}
-
-            <CodeEditor name='display_text' label='Display text'>
-                {data.display_text}
-            </CodeEditor>
-
             <EmbeddedData 
                 name='item' 
                 label='Item'
@@ -48,6 +40,12 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             >
                 {data.item}
             </EmbeddedData>
+
+            <CodeEditor name='display_text' label='Display text'>
+                {data.display_text}
+            </CodeEditor>
+
+            ${styleTemplate}
 
             <Group name='handlers' label='Handlers' children='{handlers}' item='@handler' addButtonText='Add'>
                 <Form>

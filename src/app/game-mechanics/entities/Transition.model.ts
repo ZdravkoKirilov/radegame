@@ -1,6 +1,5 @@
 import { Animation } from "./Animation.model";
 import { Sound } from "./Sound.model";
-import { Expression } from "./Expression.model";
 
 export type Transition = Partial<{
     id: number;
