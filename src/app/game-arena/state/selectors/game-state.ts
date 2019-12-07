@@ -2,8 +2,8 @@ import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
 import {
-    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext,
-    Animation, Transition, AnimationStep, Shape, enrichEntity, ImageFrame, parseFromString, RuntimeTransition, parseAndBind
+    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Transition, Shape, enrichEntity, ImageFrame, parseFromString,
+    RuntimeTransition, parseAndBind, RuntimeSlot, RuntimeImageFrame
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -111,26 +111,30 @@ export const selectImageAssets = createSelector(
 
 export const selectSlotData = (slot_id: number) => createSelector(
     selectConfig,
-    (config) => {
+    selectExpressionContext,
+    (config, context) => {
         const slot = enrichEntity<Slot>(config, {
-            style: 'styles',
-            style_inline: (value: string) => JSON.parse(value),
-            frames: {
-                image: 'images',
-                stage: 'stages',
-            },
-            item: (value: string) => JSON.parse(value),
+            style: src => parseAndBind(context)(src),
+            style_inline: value => safeJSON(value, null),
+            frames: frame => enrichEntity<ImageFrame>(
+                config,
+                {
+                    image: 'images',
+                    stage: 'stages'
+                },
+                frame,
+            ),
+            item: (value: string) => safeJSON(value, null),
         }, config.slots[slot_id] as Slot);
-        return slot;
+        return slot as RuntimeSlot;
     }
 );
 
 export const selectSlotStyle = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
-    selectExpressionContext,
-    (slot_data, context) => {
+    (slot_data) => {
         if (slot_data) {
-            const dynamicStyle = parseFromString(context)(slot_data.style) || {};
+            const dynamicStyle = slot_data.style ? slot_data.style(slot_data) : {};
             const inlineStyle = safeJSON(slot_data.style_inline, {});
             const style = { ...inlineStyle, ...dynamicStyle };
             return style;
@@ -164,37 +168,22 @@ export const selectSlotText = (slot_id: number) => createSelector(
     }
 );
 
-export const selectSlotAnimation = (slot_id: number) => createSelector(
-    selectConfig,
-    (config) => {
-        return null;
-    }
-);
-
 export const selectSlotTransitions = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),
     selectExpressionContext,
-    (config, data, context) => {
-        return (data.transitions as number[])
-            .map(id => {
-                const rawTransition: Transition = config.transitions[id];
-                const transition = enrichEntity<Transition, RuntimeTransition>(
-                    config,
-                    {
-                        animation: {
-                            steps: {
-                                from_style_inline: (src: string) => safeJSON(src, {}),
-                                to_style_inline: (src: string) => safeJSON(src, {}),
-                                from_style: parseAndBind(context)('*')
-                            }
-                        },
-                        enabled: parseAndBind(context)(rawTransition.enabled)
-                    },
-                    rawTransition
-                );
-                return transition;
-            });
+    (config, slot, context) => {
+
+        return slot.transitions.map(transition => {
+            return enrichEntity<Transition, RuntimeTransition>(config, {
+                animation: (animationId: string) => enrichEntity(config, {
+                    from_style_inline: (src: string) => safeJSON(src, {}),
+                    to_style_inline: (src: string) => safeJSON(src, {}),
+                    from_style: (src: string) => parseAndBind(context)(src),
+                    to_style: (src: string) => parseAndBind(context)(src),
+                }, config.animations[animationId] as any),
+            }, transition);
+        });
     }
 );
 
@@ -259,34 +248,30 @@ export const selectFullStageData = (stage: Stage) => createSelector(
 export const selectSlotDefaultFrame = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),
-    (entities, slot_data) => {
+    selectExpressionContext,
+    (entities, slot_data, context) => {
         return enrichEntity<ImageFrame>(entities, {
             image: 'images',
             stage: 'stages',
-            style: 'styles',
-            style_inline: (value: string) => JSON.parse(value || '{}'),
-        }, slot_data.frames[0]);
+            style: (value: string) => parseAndBind(context)(value),
+            style_inline: (value: string) => safeJSON(value, {}),
+        }, slot_data.frames[0]) as RuntimeImageFrame;
     }
 );
 
 export const selectSlotItemDefaultFrame = (slot_id: number) => createSelector(
     selectConfig,
     selectSlotData(slot_id),
-    (config, slot_data) => {
-        const item = enrichEntity(config, {
-            token: 'tokens',
-            action: 'actions',
-            condition: 'conditions',
-            choice: 'choices'
-        }, slot_data.item);
-
+    selectExpressionContext,
+    (config, slot_data, context) => {
+        const item = slot_data.item;
         if (item) {
             return enrichEntity<ImageFrame>(config, {
                 image: 'images',
                 stage: 'stages',
-                style: 'styles',
-                style_inline: (value: string) => JSON.parse(value || '{}'),
-            }, item.token.frames[0]);
+                style: (value: string) => parseAndBind(context)(value),
+                style_inline: (value: string) => safeJSON(value, {}),
+            }, item.token.frames[0]) as RuntimeImageFrame;
         }
         return null;
     }

@@ -1,5 +1,7 @@
 import clone from 'immer';
 import get from 'lodash/get';
+import isArray from 'lodash/isArray';
+import invoke from 'lodash/invoke';
 
 import { GameTemplate, GameConfig } from "../models";
 import {
@@ -94,7 +96,7 @@ const event_name_map = {
 } as const;
 
 type ParseConfig<T> = {
-  [k in keyof T]: string | ((item: any) => any) | { [key: string]: any }
+  [K in keyof T]: string | ((item: T[K]) => any) | any;
 };
 
 export const enrichEntity = <T = GameEntity, P extends T = T>(
@@ -104,7 +106,7 @@ export const enrichEntity = <T = GameEntity, P extends T = T>(
 ): P => {
   return source ? clone(source, draft => {
     for (let key in parseConfig) {
-      const parser = parseConfig[key];
+      const parser = parseConfig[key] as any;
       const currentPropertyValue = draft[key];
 
       if (typeof currentPropertyValue !== 'object') {
@@ -112,15 +114,13 @@ export const enrichEntity = <T = GameEntity, P extends T = T>(
           draft[key] = get(config, [parser, source[key] as any], null);
         }
         if (typeof parser === 'function') {
-          draft[key] = currentPropertyValue && typeof currentPropertyValue !== 'object' ?
-            (parser as any)(currentPropertyValue as any) as any :
-            currentPropertyValue;
-        }
-        if (Array.isArray(currentPropertyValue) && typeof parser === 'object') {
-          draft[key] = currentPropertyValue.map(item => {
-            item = enrichEntity(config, parser as ParseConfig<any>, { ...item });
-            return item;
-          }) as any;
+          if (isArray(currentPropertyValue)) {
+            draft[key] = currentPropertyValue.map(elem => {
+              return parser(elem);
+            }) as any;
+          } else {
+            draft[key] = parser(currentPropertyValue);
+          }
         }
       }
     }

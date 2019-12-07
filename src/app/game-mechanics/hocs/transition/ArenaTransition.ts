@@ -2,7 +2,7 @@ import {
     RenderFunction, RzElementType, RzElementProps,
     AnimatableProps, withBasicInteractions, createElement, RzTransition
 } from "@app/render-kit"
-import { Transition } from "../../entities";
+import { RuntimeTransition } from "../../entities";
 import { AppState } from "@app/core";
 import { selectExpressionContext } from "@app/game-arena";
 import { connect } from "../store";
@@ -10,7 +10,7 @@ import { ExpressionContext } from "../../resolvers";
 import { Dictionary } from "@app/shared";
 
 export type ArenaTransitionProps = {
-    transitions: Transition[];
+    transitions: RuntimeTransition[];
     data: Dictionary;
 } & RzElementProps;
 

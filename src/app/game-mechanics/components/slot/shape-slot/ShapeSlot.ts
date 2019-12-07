@@ -1,12 +1,11 @@
 import {
-    RenderFunction, createElement, Memo, RzAnimation,
-    RzAnimationProps, RzTransition, AnimatableProps, TransitionProps
+    RenderFunction, createElement, Memo, RzTransition, AnimatableProps, TransitionProps
 } from "@app/render-kit";
-import { Style, Slot, Shape, RuntimeAnimation, RuntimeTransition } from "../../../entities";
+import { Style, Slot, Shape, RuntimeTransition } from "../../../entities";
 import { connect } from "../../../hocs";
 import { AppState } from "@app/core";
 import {
-    selectSlotStyle, selectSlotAnimation,
+    selectSlotStyle,
     selectSlotTransitions, selectSlotShape
 } from "@app/game-arena";
 
@@ -47,29 +46,19 @@ type EnhancedShapeSlotProps = {
 type StoreProps = {
     style: Style;
     shape: Shape;
-    animation: RuntimeAnimation;
     transitions: RuntimeTransition[];
 };
 
-const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, shape, animation, transitions = [] }) => {
+const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, shape, transitions = [] }) => {
 
-    return createElement<RzAnimationProps>(
-        RzAnimation,
-        {
-            config: animation,
-            active: !!animation,
-        },
-        (animatedStyle: AnimatableProps | any) => {
-            return createElement<TransitionProps>(
-                RzTransition,
-                { transitions, target: {}, context: {} as any },
-                (transitionStyle: AnimatableProps | any) => {
-                    const composedStyle: Style = { ...style, ...shape.style_inline, ...transitionStyle, ...animatedStyle };
-                    return shape ?
-                        createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle, shape }) :
-                        null;
-                }
-            );
+    return createElement<TransitionProps>(
+        RzTransition,
+        { transitions, target: {}, context: {} as any },
+        (transitionStyle: AnimatableProps | any) => {
+            const composedStyle: Style = { ...style, ...shape.style_inline, ...transitionStyle };
+            return shape ?
+                createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle, shape }) :
+                null;
         }
     );
 });
@@ -77,7 +66,6 @@ const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, sh
 const mapStateToProps = (state: AppState, ownProps: EnhancedShapeSlotProps): StoreProps => ({
     style: selectSlotStyle(ownProps.data.id)(state),
     shape: selectSlotShape(ownProps.data.id)(state),
-    animation: selectSlotAnimation(ownProps.data.id)(state),
     transitions: selectSlotTransitions(ownProps.data.id)(state),
 });
 

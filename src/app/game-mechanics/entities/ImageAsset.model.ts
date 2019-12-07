@@ -1,5 +1,6 @@
 import { Stage } from "./Stage.model";
 import { WithStyle } from "./Base.model";
+import { Omit } from "@app/shared";
 
 export type ImageAsset = Partial<{
     id: number;
@@ -15,6 +16,11 @@ export type ImageFrame = WithStyle & Partial<{
     id: number;
     owner: number;
 
+    image: number;
+    stage: number;
+}>
+
+export type RuntimeImageFrame = Omit<ImageFrame, 'image' | 'stage'> & {
     image: ImageAsset;
     stage: Stage;
-}>
+}

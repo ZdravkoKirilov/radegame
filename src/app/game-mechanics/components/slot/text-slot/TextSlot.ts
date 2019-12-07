@@ -1,11 +1,10 @@
 import {
-    createElement, Memo, RzAnimation, AnimatableProps, RzAnimationProps,
-    RzTransition, TransitionProps
+    createElement, Memo, AnimatableProps,
 } from "@app/render-kit";
-import { Style, Text, Slot, Animation, Transition } from "../../../entities";
+import { Style, Text, Slot, Transition } from "../../../entities";
 import { AppState } from "@app/core";
 import {
-    selectSlotStyle, selectSlotAnimation,
+    selectSlotStyle,
     selectSlotTransitions, selectSlotText
 } from "@app/game-arena";
 import { connect, withArenaTransition } from "../../../hocs";
@@ -37,7 +36,6 @@ export type EnhancedTextSlotProps = {
 type StoreProps = {
     style: Style;
     text: Text;
-    animation: Animation;
     transitions: Transition[];
 };
 
@@ -47,37 +45,13 @@ type AnimationProps = {
 
 const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps & AnimationProps>(({ text, style, data, interpolatedStyle }) => {
     const composedStyle = { ...style, ...interpolatedStyle } as Style;
-    console.log(interpolatedStyle);
     return createElement<TextSlotProps>(TextSlot, { text, style: composedStyle, slot: data });
 });
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
     style: selectSlotStyle(ownProps.data.id)(state),
-    animation: selectSlotAnimation(ownProps.data.id)(state),
     transitions: selectSlotTransitions(ownProps.data.id)(state),
     text: selectSlotText(ownProps.data.id)(state),
 });
 
 export default connect(mapStateToProps)(withArenaTransition(EnhancedTextSlot));
-
-    // return createElement<RzAnimationProps>(
-    //     RzAnimation,
-    //     {
-    //         config: animation,
-    //         active: !!animation,
-    //         context: {
-    //             state: {},
-    //             props: {},
-    //         }
-    //     },
-    //     (animatedStyle: AnimatableProps | any) => {
-    //         return createElement<TransitionProps>(
-    //             RzTransition,
-    //             { transitions, target: {}, context: {} as any },
-    //             (transitionStyle: AnimatableProps | any) => {
-    //                 const composedStyle: Style = { ...style, ...transitionStyle, ...animatedStyle };
-    //                 return createElement<TextSlotProps>(TextSlot, { text, style: composedStyle, slot: data });
-    //             }
-    //         );
-    //     }
-    // );
