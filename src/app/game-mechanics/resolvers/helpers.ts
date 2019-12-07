@@ -19,6 +19,11 @@ export const parseFromString = <T = any>(context: Dictionary) => (src: string): 
   }
 };
 
+export const parseAndBind = <T = Function>(context: Dictionary) => (src: string): T => {
+  const func = parseFromString(context)(src) as Function;
+  return typeof func === 'function' ? func.bind(context) : func;
+};
+
 export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
   const setup_data = conf.setups[setup_id] as Setup;
   let total = [];

@@ -2,7 +2,7 @@ import {
     RenderFunction, createElement, Memo, RzAnimation,
     RzAnimationProps, RzTransition, AnimatableProps, TransitionProps
 } from "@app/render-kit";
-import { Style, Slot, Transition, Animation, Shape } from "../../../entities";
+import { Style, Slot, Shape, RuntimeAnimation, RuntimeTransition } from "../../../entities";
 import { connect } from "../../../hocs";
 import { AppState } from "@app/core";
 import {
@@ -22,7 +22,7 @@ export type ShapeSlotProps = {
 }
 
 export const ShapeSlot: RenderFunction<ShapeSlotProps & StoreProps> = ({ style, shape }) => {
-    
+
     if (shape.type === 'rectange') {
         return createElement<RectangleProps>(Rectangle, { style, shape });
     }
@@ -47,8 +47,8 @@ type EnhancedShapeSlotProps = {
 type StoreProps = {
     style: Style;
     shape: Shape;
-    animation: Animation;
-    transitions: Transition[];
+    animation: RuntimeAnimation;
+    transitions: RuntimeTransition[];
 };
 
 const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, shape, animation, transitions = [] }) => {
@@ -58,10 +58,6 @@ const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, sh
         {
             config: animation,
             active: !!animation,
-            context: {
-                state: {},
-                props: {},
-            }
         },
         (animatedStyle: AnimatableProps | any) => {
             return createElement<TransitionProps>(

@@ -1,16 +1,16 @@
 import { map } from "rxjs/operators";
 
 import { StatefulComponent } from "../../bases";
-import { DidUpdatePayload, RzElement } from "../../models";
+import { DidUpdatePayload } from "../../models";
 import { getChildAsRenderFunc } from "../../helpers";
 import { Dictionary } from "@app/shared";
 import { BasicInteractionProps } from "../../hocs";
-import { Transition } from "@app/game-mechanics";
+import { RuntimeTransition } from "@app/game-mechanics";
 import { TransitionAnimationsPlayer } from "../../animations/animation";
 import { isTransitionEnabled, AnimatableProps } from "../../animations/helpers";
 
 export type TransitionProps = Partial<BasicInteractionProps> & {
-    transitions: Transition[];
+    transitions: RuntimeTransition[];
     target: Dictionary;
     context: Dictionary;
 };

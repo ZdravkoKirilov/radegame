@@ -7,7 +7,7 @@ export type RectangleProps = {
 }
 
 const Rectangle: RenderFunction<RectangleProps> = ({ style, shape }) => {
-    
+
     return createElement('rectangle', {
         styles: {
             stroke_thickness: style.stroke_thickness,

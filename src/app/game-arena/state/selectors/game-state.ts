@@ -3,12 +3,11 @@ import { createSelector } from "reselect";
 import { FEATURE_NAME } from "../../config";
 import {
     Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext,
-     Animation, Transition, AnimationStep, Shape, enrichEntity, ImageFrame, parseFromString
+    Animation, Transition, AnimationStep, Shape, enrichEntity, ImageFrame, parseFromString, RuntimeTransition, parseAndBind
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary, safeJSON } from "@app/shared";
-import { removeNonAnimatableProps } from "@app/render-kit";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -179,33 +178,23 @@ export const selectSlotTransitions = (slot_id: number) => createSelector(
     (config, data, context) => {
         return (data.transitions as number[])
             .map(id => {
-                const originalTransition = config.transitions[id] as Transition;
-                const originalAnimation = config.animations[originalTransition.animation as number] as Animation;
-
-                let transition = {
-                    ...originalTransition,
-                    animation: {
-                        ...originalAnimation,
-                        steps: originalAnimation.steps.map(step => {
-                            return {
-                                ...step,
-                                from_style: removeNonAnimatableProps(config.styles[step.from_style as number]),
-                                from_style_inline: step.from_style_inline ? JSON.parse(step.from_style_inline as string) : {},
-                                to_style: removeNonAnimatableProps(config.styles[step.to_style as number]),
-                                to_style_inline: step.to_style_inline ? JSON.parse(step.to_style_inline as string) : {},
-                            } as AnimationStep;
-                        }),
-                    }
-                } as Transition;
+                const rawTransition: Transition = config.transitions[id];
+                const transition = enrichEntity<Transition, RuntimeTransition>(
+                    config,
+                    {
+                        animation: {
+                            steps: {
+                                from_style_inline: (src: string) => safeJSON(src, {}),
+                                to_style_inline: (src: string) => safeJSON(src, {}),
+                                from_style: parseAndBind(context)('*')
+                            }
+                        },
+                        enabled: parseAndBind(context)(rawTransition.enabled)
+                    },
+                    rawTransition
+                );
                 return transition;
-            })
-            .filter(elem => {
-                if (elem.enabled) {
-                    const expression = parseFromString(context)(elem.enabled);
-                    return expression(data);
-                }
-                return true;
-            }) as Transition[];
+            });
     }
 );
 

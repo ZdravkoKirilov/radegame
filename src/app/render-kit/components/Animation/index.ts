@@ -1,16 +1,14 @@
 import { map } from "rxjs/operators";
 
 import { StatefulComponent } from "../../bases";
-import { Animation } from "@app/game-mechanics";
+import { RuntimeAnimation } from "@app/game-mechanics";
 import { DidUpdatePayload } from "../../models";
 import { AnimationPlayer } from "../../animations/animation";
 import { getChildAsRenderFunc } from "../../helpers";
 import { AnimatableProps } from "../../animations";
-import { Dictionary } from "@app/shared";
 
 export type RzAnimationProps = {
-    config: Animation;
-    context: Dictionary;
+    config: RuntimeAnimation;
     active: boolean;
 };
 
@@ -37,13 +35,13 @@ export class RzAnimation extends StatefulComponent<RzAnimationProps, State> {
         ).subscribe();
 
         if (this.props.active && this.props.config) {
-            this.player.play(this.props.config, this.props.context);
+            this.player.play(this.props.config);
         }
     }
 
     didUpdate(data: DidUpdatePayload<RzAnimationProps>) {
         if (!data.prev.props.active && data.next.props.active) {
-            this.player.play(this.props.config, data.next);
+            this.player.play(this.props.config);
         }
         if (!data.next.props.active) {
             this.player.stop();

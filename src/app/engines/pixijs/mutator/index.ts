@@ -158,7 +158,7 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
         graphic.beginFill(props.styles.fill);
     }
 
-    graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
+    graphic.lineStyle(styles.stroke_thickness || 1, styles.stroke_color, styles.alpha || 1);
 
     if (styles && !isNaN(Number(styles.border_radius))) {
         graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.border_radius);

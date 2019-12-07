@@ -1,5 +1,6 @@
-import { Animation } from "./Animation.model";
+import { Animation, RuntimeAnimation } from "./Animation.model";
 import { Sound } from "./Sound.model";
+import { ParamedExpressionFunc } from "./Expression.model";
 
 export type Transition = Partial<{
     id: number;
@@ -16,3 +17,10 @@ export type Transition = Partial<{
 
     sound: Sound;
 }>
+
+export type RuntimeTransition = Transition & {
+    trigger: ParamedExpressionFunc;
+    enabled: ParamedExpressionFunc;
+
+    animation: RuntimeAnimation;
+}

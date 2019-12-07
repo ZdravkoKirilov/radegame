@@ -29,14 +29,6 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
             <Form>
                 <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
 
-                <Dropdown name='from_style' label='Starting style' options='{style_options}' showImage='{true}'>
-                    {@item.from_style}
-                </Dropdown>
-
-                <Dropdown name='to_style' label='Target style' options='{style_options}' showImage='{true}'>
-                    {@item.to_style}
-                </Dropdown>
-
                 <EmbeddedData 
                     name='from_style_inline' 
                     label='Inline from style' 
@@ -54,6 +46,14 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
                 >
                     {@item.to_style_inline}
                 </EmbeddedData>
+
+                <CodeEditor name='from_style' label='From style'>
+                    {@item.from_style}
+                </CodeEditor>
+
+                <CodeEditor name='to_style' label='To style'>
+                    {@item.to_style}
+                </CodeEditor>
 
                 <NumberInput name='duration' label='Duration'>{@item.duration}</NumberInput>
 

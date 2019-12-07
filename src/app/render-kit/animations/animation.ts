@@ -2,9 +2,9 @@ import { Subject } from "rxjs";
 import { TweenMax, TimelineMax, TweenConfig } from 'gsap';
 
 import { Dictionary } from '@app/shared';
-import { Animation, AnimationStep, ANIMATION_PLAY_TYPE, Transition, Style } from "@app/game-mechanics";
+import { ANIMATION_PLAY_TYPE, Style, RuntimeAnimation, RuntimeAnimationStep, RuntimeTransition } from "@app/game-mechanics";
 import { DidUpdatePayload } from "../models";
-import { shouldTransition, parseAnimationValues, AnimatableProps } from "./helpers";
+import { shouldTransition, AnimatableProps } from "./helpers";
 import { mapEasing } from "./easings";
 
 export class TransitionAnimationsPlayer {
@@ -13,7 +13,7 @@ export class TransitionAnimationsPlayer {
 
     private player = new AnimationPlayer();
 
-    constructor(public config: Transition) {
+    constructor(public config: RuntimeTransition) {
         this.updates$ = this.player.updates$;
         this.done$ = this.player.done$;
     }
@@ -21,16 +21,8 @@ export class TransitionAnimationsPlayer {
     playIfShould = (data: DidUpdatePayload, injectedProps = {}) => {
         const { trigger, animation } = this.config;
 
-        const next = {
-            ...data.next,
-            props: {
-                ...data.next.props,
-                ...injectedProps
-            }
-        };
-   
         if (shouldTransition(trigger, data) && !this.player.playing) {
-            this.player.play(animation as Animation, next);
+            this.player.play(animation);
         }
     }
 
@@ -46,12 +38,12 @@ export class AnimationPlayer {
     playing = false;
 
     private timeline: TimelineMax;
-    private config: Animation;
+    private config: RuntimeAnimation;
 
     constructor() { }
 
-    play(config: Animation, context: Dictionary) {
-        this.config = parseAnimationValues(config, context);
+    play(config: RuntimeAnimation) {
+        this.config = config;
         this.playing = true;
         this.startTweens();
     }
@@ -99,7 +91,7 @@ export class AnimationPlayer {
     }
 }
 
-export const createTween = (data: AnimationStep, onUpdate: (interpolatingStyle: AnimatableProps) => void) => {
+export const createTween = (data: RuntimeAnimationStep, onUpdate: (interpolatingStyle: AnimatableProps) => void) => {
     const { from_style, to_style, easing, duration, delay = 0, repeat, bidirectional } = data;
     const fromStyle = { ...(from_style as Style) };
     const toStyle: TweenConfig = {
@@ -120,7 +112,7 @@ export const createTween = (data: AnimationStep, onUpdate: (interpolatingStyle: 
 };
 
 export const createTweenSequence = (
-    config: Animation,
+    config: RuntimeAnimation,
     onUpdate: (interpolatingStyle: AnimatableProps) => void,
     onDone: () => void,
 ) => {
@@ -152,7 +144,7 @@ export const createTweenSequence = (
 };
 
 export const createParallelTweens = (
-    config: Animation,
+    config: RuntimeAnimation,
     onUpdate: (interpolatingStyle: Dictionary<number>) => void,
     onDone: () => void,
 ) => {
