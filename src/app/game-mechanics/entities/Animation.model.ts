@@ -1,7 +1,7 @@
 import { Style } from "./Style.model";
-import { AnimationEasing } from "@app/render-kit";
+import { AnimationEasing, DidUpdatePayload } from "@app/render-kit";
 import { ParamedExpressionFunc } from "./Expression.model";
-import { Omit } from "@app/shared";
+import { Omit, Dictionary } from "@app/shared";
 
 export type Animation = Partial<{
     id: number;
@@ -22,11 +22,13 @@ export type AnimationStep = Partial<{
     id: number;
     owner: number;
 
-    from_style: string;
-    to_style: string;
+    from_value: string;
+    to_value: string;
 
     from_style_inline: string;
     to_style_inline: string;
+
+    output_transformer: string;
 
     easing: AnimationEasing;
     delay: number;
@@ -40,12 +42,14 @@ export type RuntimeAnimation = Omit<Animation, 'steps'> & {
     steps: RuntimeAnimationStep[];
 };
 
-export type RuntimeAnimationStep = Omit<AnimationStep, 'from_style' | 'to_style' | 'from_style_inline' | 'to_style_inline'> & Partial<{
-    from_style: ParamedExpressionFunc;
-    to_style: ParamedExpressionFunc;
+export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value' | 'from_style_inline' | 'to_style_inline' | 'output_transformer'> & Partial<{
+    from_value: ParamedExpressionFunc<DidUpdatePayload, Dictionary>;
+    to_value: ParamedExpressionFunc<DidUpdatePayload, Dictionary>;
 
     from_style_inline: Style;
     to_style_inline: Style;
+
+    output_transformer: ParamedExpressionFunc<Dictionary, Dictionary>;
 }>
 
 export const ANIMATION_PLAY_TYPE = {

@@ -1,5 +1,5 @@
 import { DidUpdatePayload } from "../models";
-import { Style, Transition, Expression, parseFromString } from '@app/game-mechanics';
+import { Style, Transition, Expression, parseFromString, RuntimeTransition, ParamedExpressionFunc } from '@app/game-mechanics';
 import { removeEmptyProps, Dictionary, WithKeysAs } from '@app/shared';
 
 export const ANIMATABLE_PROPS = {
@@ -15,10 +15,12 @@ export const ANIMATABLE_PROPS = {
 
 export type AnimatableProps = Partial<WithKeysAs<typeof ANIMATABLE_PROPS, string | number>>;
 
-export const shouldTransition = (trigger: string, payload?: DidUpdatePayload, isEntering = false, isLeaving = false) => {
+export const shouldTransition = (
+    trigger: ParamedExpressionFunc<DidUpdatePayload, boolean>,
+    payload: DidUpdatePayload,
+) => {
     if (trigger) {
-        const shouldTransition = parseFromString<Function>(payload)(trigger)();
-        return shouldTransition;
+        return trigger(payload);
     }
     return false;
 };
@@ -34,12 +36,9 @@ export const removeNonAnimatableProps = (source: Style) => {
     return copy;
 };
 
-export const isTransitionEnabled = (transition: Transition, context: Dictionary, data: Dictionary) => {
-    if (transition.enabled && context && data) {
-        const expression = transition.enabled as Expression;
-        const callback = parseFromString(context)(expression.code) as Function;
-        const enabled = callback.call(context, data);
-        return enabled;
+export const isTransitionEnabled = (transition: RuntimeTransition, data: Dictionary) => {
+    if (transition.enabled) {
+        return transition.enabled(data);
     }
     return true;
 };

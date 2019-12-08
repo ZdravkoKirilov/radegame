@@ -1,5 +1,5 @@
 import {
-    createElement, Memo, AnimatableProps,
+    createElement, Memo,
 } from "@app/render-kit";
 import { Style, Text, Slot, Transition } from "../../../entities";
 import { AppState } from "@app/core";
@@ -8,18 +8,19 @@ import {
     selectSlotTransitions, selectSlotText
 } from "@app/game-arena";
 import { connect, withArenaTransition } from "../../../hocs";
+import { Dictionary } from "@app/shared";
 
 export type TextSlotProps = {
     style: Style;
-    text: Text;
+    text: string;
     slot: Slot;
 };
 
 export const TextSlot = Memo<TextSlotProps>(({ style, text, slot }) => {
     style = style || {};
-    text = text || {};
+    text = text || 'Default value';
     return createElement('text', {
-        value: text.default_value || 'Default value',
+        value: text,
         textStyle: {
             fontSize: style.font_size || 18,
             stroke: style.stroke_color || '#1a1b1c',
@@ -40,12 +41,13 @@ type StoreProps = {
 };
 
 type AnimationProps = {
-    interpolatedStyle: AnimatableProps;
+    interpolatedData: Dictionary;
 }
 
-const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps & AnimationProps>(({ text, style, data, interpolatedStyle }) => {
-    const composedStyle = { ...style, ...interpolatedStyle } as Style;
-    return createElement<TextSlotProps>(TextSlot, { text, style: composedStyle, slot: data });
+const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps & AnimationProps>(({ text, style, data, interpolatedData }) => {
+    const composedStyle = { ...style } as Style;
+    const composedText = interpolatedData.text || text.default_value;
+    return createElement<TextSlotProps>(TextSlot, { text: composedText, style: composedStyle, slot: data });
 });
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({

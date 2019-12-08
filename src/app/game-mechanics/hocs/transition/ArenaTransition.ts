@@ -4,10 +4,10 @@ import {
 } from "@app/render-kit"
 import { RuntimeTransition } from "../../entities";
 import { AppState } from "@app/core";
-import { selectExpressionContext } from "@app/game-arena";
+import { selectGameState } from "@app/game-arena";
 import { connect } from "../store";
-import { ExpressionContext } from "../../resolvers";
 import { Dictionary } from "@app/shared";
+import { GameState } from "app/game-mechanics/models";
 
 export type ArenaTransitionProps = {
     transitions: RuntimeTransition[];
@@ -15,27 +15,26 @@ export type ArenaTransitionProps = {
 } & RzElementProps;
 
 export type ArenaTransitionOutputProps = ArenaTransitionProps & {
-    interpolatedStyle: AnimatableProps;
+    interpolatedData: Dictionary;
 };
 
 type StoreProps = {
-    context?: ExpressionContext;
+    game_state?: GameState;
 };
 
 export const withArenaTransition = <T = any>(component: RzElementType<ArenaTransitionOutputProps & T>) => {
     const ArenaTransition: RenderFunction<ArenaTransitionProps & StoreProps & T> = (props) => {
         return createElement(RzTransition, {
             transitions: props.transitions,
-            target: props.data,
-            context: props.context
-        }, (interpolatedStyle: any) => createElement(component, {
+            global_state: props.game_state
+        }, (interpolatedData: any) => createElement(component, {
             ...props,
-            interpolatedStyle
+            interpolatedData
         }));
     };
 
     const mapStateToProps = (state: AppState): StoreProps => ({
-        context: selectExpressionContext(state),
+        game_state: selectGameState(state),
     });
 
     return withBasicInteractions(connect(mapStateToProps)(ArenaTransition)) as RzElementType<ArenaTransitionOutputProps & T>;

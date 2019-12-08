@@ -1,7 +1,6 @@
 import clone from 'immer';
 import get from 'lodash/get';
 import isArray from 'lodash/isArray';
-import invoke from 'lodash/invoke';
 
 import { GameTemplate, GameConfig } from "../models";
 import {
@@ -95,9 +94,9 @@ const event_name_map = {
   [HANDLER_TYPES.HOVEROUT]: 'onPointerout'
 } as const;
 
-type ParseConfig<T> = {
-  [K in keyof T]: string | ((item: T[K]) => any) | any;
-};
+type ParseConfig<T> = Partial<{
+  [K in keyof T]: string | ((item: any) => any);
+}>;
 
 export const enrichEntity = <T = GameEntity, P extends T = T>(
   config: Dictionary<GameEntity>,
@@ -109,7 +108,7 @@ export const enrichEntity = <T = GameEntity, P extends T = T>(
       const parser = parseConfig[key] as any;
       const currentPropertyValue = draft[key];
 
-      if (typeof currentPropertyValue !== 'object') {
+      if (isArray(currentPropertyValue) || typeof currentPropertyValue !== 'object') {
         if (typeof parser === 'string') {
           draft[key] = get(config, [parser, source[key] as any], null);
         }

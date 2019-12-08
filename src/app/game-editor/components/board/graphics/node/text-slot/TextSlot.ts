@@ -17,7 +17,7 @@ type StoreProps = {
 };
 
 const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps>(({ text, style, data }) => {
-    return createElement<TextSlotProps>(TextSlot, { text, style, slot: data });
+    return createElement<TextSlotProps>(TextSlot, { text: text.default_value, style, slot: data });
 });
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({

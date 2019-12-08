@@ -29,6 +29,7 @@ export type ExpressionContext = {
     $self: Player,
     $own_turn: boolean,
     $player_overrides: (player: Player, path: string) => any;
+    $get: typeof get
 };
 
 export type CreateGamePayload = {
@@ -67,7 +68,8 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
         $player_overrides(player: Player, path: string) {
             const overrides = state.player_state[player.id];
             return get(overrides, path, {});
-        }
+        },
+        $get: get,
     };
     return ctx;
 };

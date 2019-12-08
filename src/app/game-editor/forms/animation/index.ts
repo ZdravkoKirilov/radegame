@@ -47,12 +47,12 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
                     {@item.to_style_inline}
                 </EmbeddedData>
 
-                <CodeEditor name='from_style' label='From style'>
-                    {@item.from_style}
+                <CodeEditor name='from_value' label='From value'>
+                    {@item.from_value}
                 </CodeEditor>
 
-                <CodeEditor name='to_style' label='To style'>
-                    {@item.to_style}
+                <CodeEditor name='to_value' label='To value'>
+                    {@item.to_value}
                 </CodeEditor>
 
                 <NumberInput name='duration' label='Duration'>{@item.duration}</NumberInput>
@@ -68,6 +68,10 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
                 <ButtonGroup name='bidirectional' label='Bidirectional' options='{boolean_options}' defaultValue='{false}'>
                     {@item.bidirectional}
                 </ButtonGroup>
+
+                <CodeEditor name='output_transformer' label='Output transformer'>
+                    {@item.output_transformer}
+                </CodeEditor>
 
             </Form>
         </Group>

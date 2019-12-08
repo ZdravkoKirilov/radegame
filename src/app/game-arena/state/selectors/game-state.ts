@@ -3,7 +3,7 @@ import { createSelector } from "reselect";
 import { FEATURE_NAME } from "../../config";
 import {
     Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Transition, Shape, enrichEntity, ImageFrame, parseFromString,
-    RuntimeTransition, parseAndBind, RuntimeSlot, RuntimeImageFrame
+    RuntimeTransition, parseAndBind, RuntimeSlot, RuntimeImageFrame, AnimationStep, RuntimeAnimation, Animation
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -125,6 +125,19 @@ export const selectSlotData = (slot_id: number) => createSelector(
                 frame,
             ),
             item: (value: string) => safeJSON(value, null),
+            display_text: src => parseAndBind(context)(src),
+            transitions: transitionId => enrichEntity<Transition, RuntimeTransition>(config, {
+                animation: (animationId: string) => enrichEntity<Animation, RuntimeAnimation>(config, {
+                    steps: (item: AnimationStep) => enrichEntity<AnimationStep>(config, {
+                        from_style_inline: (src: string) => safeJSON(src, {}),
+                        to_style_inline: (src: string) => safeJSON(src, {}),
+                        from_value: (src: string) => parseAndBind(context)(src),
+                        to_value: (src: string) => parseAndBind(context)(src),
+                        output_transformer: src => parseAndBind(context)(src),
+                    }, item),
+                }, config.animations[animationId] as Animation),
+                trigger: src => parseAndBind(context)(src)
+            }, config.transitions[transitionId] as Transition)
         }, config.slots[slot_id] as Slot);
         return slot as RuntimeSlot;
     }
@@ -157,11 +170,9 @@ export const selectSlotShape = (slot_id: number) => createSelector(
 
 export const selectSlotText = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
-    selectExpressionContext,
-    (slot_data, context) => {
+    (slot_data) => {
         if (slot_data.display_text) {
-            const textGetter = parseFromString(context)(slot_data.display_text);
-            const text = typeof textGetter === 'function' ? textGetter.call(context, slot_data) : null;
+            const text = slot_data.display_text(slot_data);
             return text;
         }
         return null;
@@ -169,21 +180,9 @@ export const selectSlotText = (slot_id: number) => createSelector(
 );
 
 export const selectSlotTransitions = (slot_id: number) => createSelector(
-    selectConfig,
     selectSlotData(slot_id),
-    selectExpressionContext,
-    (config, slot, context) => {
-
-        return slot.transitions.map(transition => {
-            return enrichEntity<Transition, RuntimeTransition>(config, {
-                animation: (animationId: string) => enrichEntity(config, {
-                    from_style_inline: (src: string) => safeJSON(src, {}),
-                    to_style_inline: (src: string) => safeJSON(src, {}),
-                    from_style: (src: string) => parseAndBind(context)(src),
-                    to_style: (src: string) => parseAndBind(context)(src),
-                }, config.animations[animationId] as any),
-            }, transition);
-        });
+    slot => {
+        return slot.transitions;
     }
 );
 

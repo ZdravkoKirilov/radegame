@@ -10,6 +10,7 @@ import { ImageFrame } from "./ImageAsset.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
+import { Text } from "./Text.model";
 
 export type Slot = BaseModel & WithBoard & WithFrames & WithStyle & Partial<{
     owner: number; // Stage;
@@ -26,7 +27,7 @@ export type Slot = BaseModel & WithBoard & WithFrames & WithStyle & Partial<{
     transitions: Transition[];
 }>;
 
-export type RuntimeSlot = Omit<Slot, 'board' | 'frames' | 'style' | 'style_inline' | 'item' | 'shape' | 'handlers' | 'transitions'> & {
+export type RuntimeSlot = Omit<Slot, 'board' | 'frames' | 'style' | 'style_inline' | 'item' | 'shape' | 'handlers' | 'transitions' | 'display_text'> & {
     board: Stage;
     frames: ImageFrame[];
     style: ParamedExpressionFunc;
@@ -35,6 +36,7 @@ export type RuntimeSlot = Omit<Slot, 'board' | 'frames' | 'style' | 'style_inlin
     shape: Shape;
     handlers: RuntimeSlotHandler[];
     transitions: RuntimeTransition[];
+    display_text: ParamedExpressionFunc<RuntimeSlot, Text>;
 };
 
 export type SlotHandler = {

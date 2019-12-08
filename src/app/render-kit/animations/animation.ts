@@ -2,13 +2,13 @@ import { Subject } from "rxjs";
 import { TweenMax, TimelineMax, TweenConfig } from 'gsap';
 
 import { Dictionary } from '@app/shared';
-import { ANIMATION_PLAY_TYPE, Style, RuntimeAnimation, RuntimeAnimationStep, RuntimeTransition } from "@app/game-mechanics";
+import { ANIMATION_PLAY_TYPE, RuntimeAnimation, RuntimeAnimationStep, RuntimeTransition } from "@app/game-mechanics";
 import { DidUpdatePayload } from "../models";
-import { shouldTransition, AnimatableProps } from "./helpers";
+import { shouldTransition } from "./helpers";
 import { mapEasing } from "./easings";
 
 export class TransitionAnimationsPlayer {
-    updates$: Subject<AnimatableProps>;
+    updates$: Subject<Dictionary>;
     done$: Subject<unknown>;
 
     private player = new AnimationPlayer();
@@ -18,11 +18,11 @@ export class TransitionAnimationsPlayer {
         this.done$ = this.player.done$;
     }
 
-    playIfShould = (data: DidUpdatePayload, injectedProps = {}) => {
+    playIfShould = (data: DidUpdatePayload) => {
         const { trigger, animation } = this.config;
 
         if (shouldTransition(trigger, data) && !this.player.playing) {
-            this.player.play(animation);
+            this.player.play(animation, data);
         }
     }
 
@@ -32,19 +32,21 @@ export class TransitionAnimationsPlayer {
 }
 
 export class AnimationPlayer {
-    updates$ = new Subject<AnimatableProps>();
+    updates$ = new Subject<Dictionary>();
     done$ = new Subject();
 
     playing = false;
+    data: DidUpdatePayload;
 
     private timeline: TimelineMax;
     private config: RuntimeAnimation;
 
     constructor() { }
 
-    play(config: RuntimeAnimation) {
+    play(config: RuntimeAnimation, data: DidUpdatePayload) {
         this.config = config;
         this.playing = true;
+        this.data = data;
         this.startTweens();
     }
 
@@ -60,7 +62,7 @@ export class AnimationPlayer {
 
     private playInParallel = () => {
         const { repeat, bidirectional, delay } = this.config;
-        this.timeline = createParallelTweens(this.config, this.onUpdate, this.onDone);
+        this.timeline = this.createParallelTweens(this.config, this.onUpdate, this.onDone);
         this.timeline.repeat(repeat || 0);
         this.timeline.yoyo(bidirectional || false);
         this.timeline.delay(delay / 1000 || 0);
@@ -68,7 +70,7 @@ export class AnimationPlayer {
 
     private playInSequence = () => {
         const { repeat, bidirectional, delay } = this.config;
-        this.timeline = createTweenSequence(this.config, this.onUpdate, this.onDone);
+        this.timeline = this.createTweenSequence(this.config, this.onUpdate, this.onDone);
         this.timeline.repeat(repeat || 0);
         this.timeline.yoyo(bidirectional || false);
         this.timeline.delay(delay / 1000 || 0);
@@ -89,77 +91,91 @@ export class AnimationPlayer {
             this.timeline.kill();
         }
     }
-}
 
-export const createTween = (data: RuntimeAnimationStep, onUpdate: (interpolatingStyle: AnimatableProps) => void) => {
-    const { from_style, to_style, easing, duration, delay = 0, repeat, bidirectional } = data;
-    const fromStyle = { ...(from_style as Style) };
-    const toStyle: TweenConfig = {
-        ...(to_style as Style),
-        ease: mapEasing(easing),
-        delay: delay > 1 ? delay / 1000 : 0,
-        yoyo: bidirectional,
-        repeat
+    createParallelTweens = (
+        config: RuntimeAnimation,
+        onUpdate: (interpolatingStyle: Dictionary<number>) => void,
+        onDone: () => void,
+    ) => {
+        const { steps } = config;
+        const timeline = new TimelineMax();
+
+        steps.map(step => {
+            const tween = this.createTween(step, onUpdate);
+            timeline.add(tween);
+            return tween;
+        });
+
+        timeline.eventCallback('onComplete', () => {
+            onDone();
+        });
+
+        return timeline;
     };
 
-    const tween = TweenMax.to(fromStyle, duration / 1000, toStyle);
+    createTweenSequence = (
+        config: RuntimeAnimation,
+        onUpdate: (interpolatingData: Dictionary) => void,
+        onDone: () => void,
+    ) => {
+        const { steps } = config;
+        const timeline = new TimelineMax();
 
-    tween.eventCallback('onUpdate', () => {
-        onUpdate(fromStyle);
-    });
+        steps.forEach(step => {
+            const { from_value, from_style_inline, to_value, to_style_inline,
+                duration, delay, bidirectional, repeat, easing, output_transformer } = step;
+            const start = from_value ? { ...from_value(this.data) } : { ...from_style_inline };
+            const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
+            const tweenConfig: TweenConfig = {
+                ...end,
+                ease: mapEasing(easing),
+                delay: delay > 1 ? delay / 1000 : 0,
+                yoyo: bidirectional,
+                repeat
+            };
+            timeline.to(start, duration / 1000, tweenConfig);
 
-    return tween;
-};
+            timeline.eventCallback('onUpdate', () => {
+                if (output_transformer) {
+                    onUpdate(output_transformer(start));
+                } else {
+                    onUpdate(start);
+                }
+            });
+        });
 
-export const createTweenSequence = (
-    config: RuntimeAnimation,
-    onUpdate: (interpolatingStyle: AnimatableProps) => void,
-    onDone: () => void,
-) => {
-    const { steps } = config;
-    const timeline = new TimelineMax();
+        timeline.eventCallback('onComplete', () => {
+            onDone();
+        });
 
-    steps.forEach(step => {
-        const { from_style, from_style_inline, to_style, to_style_inline, duration, delay, bidirectional, repeat, easing } = step;
-        const fromStyle = { ...(from_style_inline || from_style as Style) };
-        const toStyle: TweenConfig = {
-            ...(to_style_inline || to_style as Style),
+        return timeline;
+    };
+
+    createTween = (data: RuntimeAnimationStep, onUpdate: (interpolatingStyle: Dictionary) => void) => {
+        const { from_value, to_value, from_style_inline, to_style_inline,
+            easing, duration, delay = 0, repeat, bidirectional, output_transformer } = data;
+        const start = from_value ? { ...from_value(this.data) } : { ...from_style_inline };
+        const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
+
+        const tweenConfig: TweenConfig = {
+            ...end,
             ease: mapEasing(easing),
             delay: delay > 1 ? delay / 1000 : 0,
             yoyo: bidirectional,
             repeat
         };
-        timeline.to(fromStyle, duration / 1000, toStyle);
 
-        timeline.eventCallback('onUpdate', () => {
-            onUpdate(fromStyle);
+        const tween = TweenMax.to(start, duration / 1000, tweenConfig);
+
+        tween.eventCallback('onUpdate', () => {
+            if (output_transformer) {
+                onUpdate(output_transformer(start));
+            } else {
+                onUpdate(start);
+            }
         });
-    });
 
-    timeline.eventCallback('onComplete', () => {
-        onDone();
-    });
-
-    return timeline;
-};
-
-export const createParallelTweens = (
-    config: RuntimeAnimation,
-    onUpdate: (interpolatingStyle: Dictionary<number>) => void,
-    onDone: () => void,
-) => {
-    const { steps } = config;
-    const timeline = new TimelineMax();
-
-    steps.map(step => {
-        const tween = createTween(step, onUpdate);
-        timeline.add(tween);
         return tween;
-    });
 
-    timeline.eventCallback('onComplete', () => {
-        onDone();
-    });
-
-    return timeline;
-};
+    }
+}

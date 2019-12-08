@@ -53,7 +53,7 @@ const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, sh
 
     return createElement<TransitionProps>(
         RzTransition,
-        { transitions, target: {}, context: {} as any },
+        { transitions },
         (transitionStyle: AnimatableProps | any) => {
             const composedStyle: Style = { ...style, ...shape.style_inline, ...transitionStyle };
             return shape ?

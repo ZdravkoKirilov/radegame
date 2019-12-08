@@ -53,6 +53,7 @@ export const selectSlotData = (slot_id: number) => createSelector(
                 frame,
             ),
             item: (value: string) => safeJSON(value, null),
+            display_text: src => parseAndBind(context)(src),
         }, entities.slots[slot_id] as Slot);
         return slot as RuntimeSlot;
     }
@@ -116,13 +117,10 @@ export const selectSlotItemDefaultFrame = (slot_id: number) => createSelector(
 );
 
 export const selectSlotText = (slot_id: number) => createSelector(
-    selectForm,
-    selectExpressionContext,
     selectSlotData(slot_id),
-    (form, context, slot_data) => {
+    (slot_data) => {
         if (slot_data.display_text) {
-            const callback = parseFromString(context)(slot_data.display_text);
-            const text = callback.call(context, slot_data) as Text;
+            const text = slot_data.display_text(slot_data);
             return text;
         }
         return null;
