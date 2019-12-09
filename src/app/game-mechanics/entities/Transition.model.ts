@@ -1,8 +1,8 @@
 import { Animation, RuntimeAnimation } from "./Animation.model";
-import { Sound } from "./Sound.model";
 import { ParamedExpressionFunc } from "./Expression.model";
-import { Dictionary } from "@app/shared";
 import { DidUpdatePayload } from "@app/render-kit";
+import { Sonata } from "./Sonata.model";
+import { Dictionary } from "@app/shared";
 
 export type Transition = Partial<{
     id: number;
@@ -17,12 +17,13 @@ export type Transition = Partial<{
 
     animation: Animation;
 
-    sound: Sound;
+    sound: string;
 }>
 
 export type RuntimeTransition = Transition & {
     trigger: ParamedExpressionFunc<DidUpdatePayload, boolean>;
-    enabled: ParamedExpressionFunc<Dictionary, boolean>;
+    enabled: ParamedExpressionFunc<DidUpdatePayload, boolean>;
 
     animation: RuntimeAnimation;
+    sound: ParamedExpressionFunc<Dictionary, Sonata>;
 }

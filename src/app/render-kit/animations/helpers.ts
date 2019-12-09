@@ -1,5 +1,5 @@
 import { DidUpdatePayload } from "../models";
-import { Style, Transition, Expression, parseFromString, RuntimeTransition, ParamedExpressionFunc } from '@app/game-mechanics';
+import { Style, RuntimeTransition, ParamedExpressionFunc } from '@app/game-mechanics';
 import { removeEmptyProps, Dictionary, WithKeysAs } from '@app/shared';
 
 export const ANIMATABLE_PROPS = {
@@ -36,7 +36,7 @@ export const removeNonAnimatableProps = (source: Style) => {
     return copy;
 };
 
-export const isTransitionEnabled = (transition: RuntimeTransition, data: Dictionary) => {
+export const isTransitionEnabled = (transition: RuntimeTransition, data: DidUpdatePayload) => {
     if (transition.enabled) {
         return transition.enabled(data);
     }

@@ -1,9 +1,9 @@
 import { createElement, Memo } from "@app/render-kit";
 import FacadeSlot, { EnhancedSlotFacadeProps } from './facade-slot';
-import { Slot } from "../../entities";
+import { RuntimeSlot } from "../../entities";
 
 export type Props = {
-    data: Slot;
+    data: RuntimeSlot;
 };
 
 export const Node = Memo<Props>(

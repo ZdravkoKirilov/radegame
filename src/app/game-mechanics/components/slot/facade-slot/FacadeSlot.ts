@@ -1,7 +1,7 @@
 import { compose } from 'lodash/fp';
 
 import { RenderFunction, createElement, CurriedMemo, Memo, CompositeType } from "@app/render-kit";
-import { Slot } from '../../../entities';
+import { RuntimeSlot } from '../../../entities';
 import { withDispatcher, connect } from '../../../hocs';
 import { AppState } from '@app/core';
 import { assignHandlers, ExpressionContext } from '../../../resolvers';
@@ -15,7 +15,7 @@ import ShapeSlot from '../shape-slot';
 import StageSlot from '../stage-slot';
 import TextSlot from '../text-slot';
 
-type BasicProps = { data: Slot };
+type BasicProps = { data: RuntimeSlot };
 
 export type SlotFacadeProps = BasicProps & {
     forFrame: CompositeType<BasicProps>;

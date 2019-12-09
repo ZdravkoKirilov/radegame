@@ -11,6 +11,7 @@ import { ParamedExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
 import { Text } from "./Text.model";
+import { Sonata } from "./Sonata.model";
 
 export type Slot = BaseModel & WithBoard & WithFrames & WithStyle & Partial<{
     owner: number; // Stage;
@@ -49,7 +50,7 @@ export type SlotHandler = {
 
 export type RuntimeSlotHandler = Omit<SlotHandler, 'effect' | 'sound'> & {
     effect: ParamedExpressionFunc;
-    sound: ParamedExpressionFunc;
+    sound: ParamedExpressionFunc<RuntimeSlot, Sonata>;
 };
 
 export type SlotItem = Partial<{

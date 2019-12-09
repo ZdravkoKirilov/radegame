@@ -1,11 +1,11 @@
-import { Stage, Slot, ImageAsset } from "../../entities";
+import { Stage, RuntimeSlot, ImageAsset } from "../../entities";
 import { Memo, createElement, SpriteProps, DynamicSprite } from "@app/render-kit";
 import { SlotsList, Props as SlotsListProps } from "../slots";
 
 export type RoundStageProps = {
     stage: Stage;
     image: ImageAsset;
-    slots: Slot[];
+    slots: RuntimeSlot[];
 }
 
 export const RoundStage = Memo<RoundStageProps>(({ stage, image, slots }) => {

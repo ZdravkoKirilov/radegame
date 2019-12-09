@@ -1,5 +1,5 @@
 import { RenderFunction, createElement, SpriteProps, DynamicSprite, CompositeType } from "@app/render-kit";
-import { Style, RuntimeImageFrame, Stage, Slot } from '../../../entities';
+import { Style, RuntimeImageFrame, Stage, RuntimeSlot } from '../../../entities';
 import { connect } from "../../../hocs";
 import { selectSlotStyle, selectSlotItemDefaultFrame } from "@app/game-arena";
 import FrameStage from "../frame-stage";
@@ -28,7 +28,7 @@ export const ItemSlot: RenderFunction<ItemSlotProps> = ({ style, frame, forStage
 };
 
 export type EnhancedItemSlotProps = {
-    data: Slot;
+    data: RuntimeSlot;
 }
 
 type StoreProps = {

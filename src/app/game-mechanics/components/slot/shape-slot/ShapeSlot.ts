@@ -1,7 +1,7 @@
 import {
     RenderFunction, createElement, Memo, RzTransition, AnimatableProps, TransitionProps
 } from "@app/render-kit";
-import { Style, Slot, Shape, RuntimeTransition } from "../../../entities";
+import { Style, RuntimeSlot, Shape, RuntimeTransition } from "../../../entities";
 import { connect } from "../../../hocs";
 import { AppState } from "@app/core";
 import {
@@ -40,7 +40,7 @@ export const ShapeSlot: RenderFunction<ShapeSlotProps & StoreProps> = ({ style, 
 };
 
 type EnhancedShapeSlotProps = {
-    data: Slot;
+    data: RuntimeSlot;
 }
 
 type StoreProps = {

@@ -3,7 +3,7 @@ import { createSelector } from "reselect";
 import { FEATURE_NAME } from "../../config";
 import {
     Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Transition, Shape, enrichEntity, ImageFrame, parseFromString,
-    RuntimeTransition, parseAndBind, RuntimeSlot, RuntimeImageFrame, AnimationStep, RuntimeAnimation, Animation
+    RuntimeTransition, parseAndBind, RuntimeSlot, RuntimeImageFrame, AnimationStep, RuntimeAnimation, Animation, SlotHandler
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -124,6 +124,10 @@ export const selectSlotData = (slot_id: number) => createSelector(
                 },
                 frame,
             ),
+            handlers: handler => enrichEntity<SlotHandler>(config, {
+                effect: src => parseAndBind(context)(src),
+                sound: src => parseAndBind(context)(src),
+            }, handler),
             item: (value: string) => safeJSON(value, null),
             display_text: src => parseAndBind(context)(src),
             transitions: transitionId => enrichEntity<Transition, RuntimeTransition>(config, {
@@ -203,7 +207,7 @@ export const selectSlotStageChildren = (slot_id: number) => createSelector(
     selectSlotStage(slot_id),
     selectConfig,
     (stage, config) => {
-        return Object.values(config.slots).filter((elem: Slot) => elem.owner === stage.id) as Slot[];
+        return Object.values(config.slots).filter((elem: Slot) => elem.owner === stage.id) as RuntimeSlot[];
     }
 );
 

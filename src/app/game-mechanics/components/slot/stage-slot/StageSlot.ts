@@ -4,12 +4,12 @@ import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
 import { connect } from '../../../hocs';
 import { selectSlotStage, selectSlotStageChildren, selectSlotStyle } from '@app/game-arena';
-import { Style, Stage, Slot, ImageAsset } from '../../../entities';
+import { Style, Stage, RuntimeSlot, ImageAsset } from '../../../entities';
 
 export type StageSlotProps = {
     stage: Stage;
-    slots: Slot[];
-    childType: CompositeType<{ data: Slot }>;
+    slots: RuntimeSlot[];
+    childType: CompositeType<{ data: RuntimeSlot }>;
     style: Style;
 };
 
@@ -43,14 +43,14 @@ export const StageSlot = Memo<StageSlotProps>(({ stage, slots, childType, style 
 });
 
 type OwnProps = {
-    data: Slot;
+    data: RuntimeSlot;
 };
 
 export type EnhancedStageSlotProps = StoreProps & OwnProps;
 
 type StoreProps = Partial<{
     stage: Stage;
-    slots: Slot[];
+    slots: RuntimeSlot[];
     image: ImageAsset;
     style: Style;
 }>;

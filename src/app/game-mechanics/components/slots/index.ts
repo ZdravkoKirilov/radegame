@@ -1,9 +1,9 @@
-import { Slot } from "../../entities";
+import { RuntimeSlot } from "../../entities";
 import { RenderFunction, Memo, createElement } from "@app/render-kit";
 import Node, { Props as NodeProps } from "../slot";
 
 export type Props = {
-    slots: Slot[];
+    slots: RuntimeSlot[];
 }
 
 export const SlotsList: RenderFunction<Props> = Memo(({ slots }) => {

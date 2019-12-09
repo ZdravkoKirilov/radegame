@@ -15,7 +15,8 @@ export const composeTransitionForm: FormDefinition = (data: Transition, ent?: Co
 
         <CodeEditor name='trigger' label='Trigger' required='{true}'>{data.trigger}</CodeEditor>
 
-        <Dropdown name='sound' label='Sound' options='{sound_options}'>{data.sound}</Dropdown>
+        <CodeEditor name='sound' label='Sound'>{data.sound}</CodeEditor>
+
         <Dropdown name='animation' label='Animation' options='{animation_options}'>{data.animation}</Dropdown>
 
         <CodeEditor name='enabled' label='Enabled'>{data.enabled}</CodeEditor>

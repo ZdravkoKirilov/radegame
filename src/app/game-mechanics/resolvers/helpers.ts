@@ -4,7 +4,7 @@ import isArray from 'lodash/isArray';
 
 import { GameTemplate, GameConfig } from "../models";
 import {
-  Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, GameAction, SlotHandler, Sonata, GameEntity
+  Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, GameAction, GameEntity, RuntimeSlotHandler, RuntimeSlot
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
@@ -51,7 +51,7 @@ type HandlerParams<T> = {
   payload: T,
   conf: GameTemplate,
   dispatcher: GameBroadcastService,
-  handlers: SlotHandler[],
+  handlers: RuntimeSlotHandler[],
   context: ExpressionContext,
 }
 
@@ -59,10 +59,10 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
   const all_handlers = handlers.reduce(
     (acc, handler) => {
       const eventName = event_name_map[handler.type];
-      const innerCallback = parseFromString(context)(handler.effect);
+      const innerCallback = handler.effect;
       acc[eventName] = () => {
-        const actions: GameAction[] = innerCallback.call(context, payload);
-        playSoundIfNeeded(handler, conf, context);
+        const actions: GameAction[] = innerCallback(payload);
+        playSoundIfNeeded(handler, conf, payload as any);
         dispatcher.dispatch(actions);
       };
       return acc;
@@ -72,9 +72,8 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
   return all_handlers;
 };
 
-const playSoundIfNeeded = (handler: SlotHandler, conf: GameConfig, context: ExpressionContext) => {
-  const getSound = parseFromString(context)(handler.sound);
-  let sound: Sonata = getSound ? getSound.call(context, handler) : null;
+const playSoundIfNeeded = (handler: RuntimeSlotHandler, conf: GameConfig, payload: RuntimeSlot) => {
+  let sound = handler.sound(payload);
   if (sound) {
     sound = { ...sound };
     sound.steps = sound.steps.map(step => {

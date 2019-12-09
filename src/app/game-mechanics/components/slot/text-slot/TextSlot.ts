@@ -1,7 +1,7 @@
 import {
     createElement, Memo,
 } from "@app/render-kit";
-import { Style, Text, Slot, Transition } from "../../../entities";
+import { Style, Text, RuntimeSlot, Transition } from "../../../entities";
 import { AppState } from "@app/core";
 import {
     selectSlotStyle,
@@ -13,7 +13,7 @@ import { Dictionary } from "@app/shared";
 export type TextSlotProps = {
     style: Style;
     text: string;
-    slot: Slot;
+    slot: RuntimeSlot;
 };
 
 export const TextSlot = Memo<TextSlotProps>(({ style, text, slot }) => {
@@ -31,7 +31,7 @@ export const TextSlot = Memo<TextSlotProps>(({ style, text, slot }) => {
 }, ['style', 'text']);
 
 export type EnhancedTextSlotProps = {
-    data: Slot;
+    data: RuntimeSlot;
 };
 
 type StoreProps = {
