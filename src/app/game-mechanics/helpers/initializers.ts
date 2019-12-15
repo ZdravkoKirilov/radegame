@@ -3,7 +3,7 @@ import { get } from 'lodash';
 import { GameState, Player, GameTemplate } from "../models";
 import { Expression, Slot, Setup } from "../entities";
 import { Dictionary } from "@app/shared";
-import { parseFromString } from './helpers';
+import { parseFromString } from './misc';
 import { LobbyPlayer } from '@app/lobby';
 
 type CreateExpressionParams = {

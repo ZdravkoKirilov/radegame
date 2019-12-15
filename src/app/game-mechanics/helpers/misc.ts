@@ -73,16 +73,17 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
 };
 
 const playSoundIfNeeded = (handler: RuntimeSlotHandler, conf: GameConfig, payload: RuntimeSlot) => {
-  let sound = handler.sound(payload);
-  if (sound) {
-    sound = { ...sound };
-    sound.steps = sound.steps.map(step => {
-      step = { ...step };
-      step.sound = conf.sounds[step.sound as number];
-      return step;
-    });
-    const soundPlayer = new SoundPlayer();
-    soundPlayer.play(sound);
+  if (typeof handler.sound === 'function') {
+    const sound = handler.sound(payload);
+    if (sound) {
+      sound.steps = sound.steps.map(step => {
+        step = { ...step };
+        step.sound = conf.sounds[step.sound as number];
+        return step;
+      });
+      const soundPlayer = new SoundPlayer();
+      soundPlayer.play(sound);
+    }
   }
 };
 
@@ -97,12 +98,12 @@ type ParseConfig<T> = Partial<{
   [K in keyof T]: string | ((item: any) => any);
 }>;
 
-export const enrichEntity = <T = GameEntity, P extends T = T>(
+export const enrichEntity = <T = GameEntity, P = any>(
   config: Dictionary<GameEntity>,
   parseConfig: ParseConfig<T>,
   source: T,
 ): P => {
-  return source ? clone(source, draft => {
+  return source ? clone<P>(source as any, (draft: any) => {
     for (let key in parseConfig) {
       const parser = parseConfig[key] as any;
       const currentPropertyValue = draft[key];
@@ -122,5 +123,5 @@ export const enrichEntity = <T = GameEntity, P extends T = T>(
         }
       }
     }
-  }) as P : null;
+  }) : null;
 };

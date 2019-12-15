@@ -1,16 +1,16 @@
-import { createElement, PrimitiveContainer, Points, Memo, RenderFunction } from "@app/render-kit";
-import { Slot, Style, connect } from "@app/game-mechanics";
+import { createElement, PrimitiveContainer, Points, RenderFunction } from "@app/render-kit";
+import { RuntimeSlot, Style, connect } from "@app/game-mechanics";
 
 import FacadeSlot, { EnhancedFacadeSlotProps } from './facade-slot';
 import { AppState } from "@app/core";
 import { selectSlotStyle } from "app/game-editor/state";
 
 export type Props = Partial<StoreProps> & {
-    data: Slot;
+    data: RuntimeSlot;
     selected: boolean;
     onDragMove: (comp: PrimitiveContainer) => void;
-    onDragEnd: (slot: Slot) => void;
-    onSelect: (item: Slot) => void;
+    onDragEnd: (slot: RuntimeSlot) => void;
+    onSelect: (item: RuntimeSlot) => void;
 };
 
 type StoreProps = {

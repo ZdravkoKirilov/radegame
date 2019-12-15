@@ -3,7 +3,7 @@ import {
 } from "@app/render-kit";
 import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
-import { Stage, Slot, connect, FrameStageProps, FrameStage } from '@app/game-mechanics';
+import { Stage, RuntimeSlot, connect, FrameStageProps, FrameStage } from '@app/game-mechanics';
 import { selectStageChildren, selectFullStageData } from '../../../../../state';
 
 type OwnProps = {
@@ -13,7 +13,7 @@ type OwnProps = {
 export type EnhancedFrameStageProps = StoreProps & OwnProps;
 
 type StoreProps = Partial<{
-    slots: Slot[];
+    slots: RuntimeSlot[];
     fullStage: Stage;
 }>;
 

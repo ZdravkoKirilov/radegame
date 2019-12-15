@@ -1,14 +1,14 @@
 import { createElement, PrimitiveContainer, Memo } from "@app/render-kit";
-import { Slot } from "@app/game-mechanics";
+import { RuntimeSlot } from "@app/game-mechanics";
 
 import Node, { Props as NodeProps } from '../node';
 
 export type Props = {
-    slots: Slot[];
-    selected: Slot;
+    slots: RuntimeSlot[];
+    selected: RuntimeSlot;
     onDragMove: (comp: PrimitiveContainer) => void;
     onDragEnd: (id: number) => void;
-    selectSlot: (item: Slot) => void;
+    selectSlot: (item: RuntimeSlot) => void;
 }
 
 export const SlotsList = Memo<Props>(

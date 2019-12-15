@@ -5,10 +5,10 @@ import { AppState } from "@app/core";
 import {
     selectSlotStyle, selectSlotText
 } from '../../../../../state';
-import { TextSlotProps, TextSlot, Text, Style, Slot, connect } from "@app/game-mechanics";
+import { TextSlotProps, TextSlot, Text, Style, RuntimeSlot, connect } from "@app/game-mechanics";
 
 export type EnhancedTextSlotProps = {
-    data: Slot;
+    data: RuntimeSlot;
 };
 
 type StoreProps = {

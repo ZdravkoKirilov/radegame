@@ -2,8 +2,7 @@ import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
 import {
-    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Transition, Shape, enrichEntity, ImageFrame, parseFromString,
-    RuntimeTransition, parseAndBind, RuntimeSlot, RuntimeImageFrame, AnimationStep, RuntimeAnimation, Animation, SlotHandler
+    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Shape, enrichEntity, ImageFrame, parseFromString, parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -92,11 +91,8 @@ export const selectCurrentRoundStageSlots = createSelector(
         return Object.values(config.slots)
             .filter((slot: Slot) => slot.owner === stage.id)
             .map((elem: Slot) => {
-                const dynamicStyle = parseFromString(context)(elem.style) || {};
-                const inlineStyle = safeJSON(elem.style_inline, {});
-                elem = { ...elem, style: { ...inlineStyle, ...dynamicStyle } } as Slot;
-                return elem;
-            }) as Slot[];
+                return enrichSlot(config, context, elem);   
+            });
     }
 );
 
@@ -113,37 +109,7 @@ export const selectSlotData = (slot_id: number) => createSelector(
     selectConfig,
     selectExpressionContext,
     (config, context) => {
-        const slot = enrichEntity<Slot>(config, {
-            style: src => parseAndBind(context)(src),
-            style_inline: value => safeJSON(value, null),
-            frames: frame => enrichEntity<ImageFrame>(
-                config,
-                {
-                    image: 'images',
-                    stage: 'stages'
-                },
-                frame,
-            ),
-            handlers: handler => enrichEntity<SlotHandler>(config, {
-                effect: src => parseAndBind(context)(src),
-                sound: src => parseAndBind(context)(src),
-            }, handler),
-            item: (value: string) => safeJSON(value, null),
-            display_text: src => parseAndBind(context)(src),
-            transitions: transitionId => enrichEntity<Transition, RuntimeTransition>(config, {
-                animation: (animationId: string) => enrichEntity<Animation, RuntimeAnimation>(config, {
-                    steps: (item: AnimationStep) => enrichEntity<AnimationStep>(config, {
-                        from_style_inline: (src: string) => safeJSON(src, {}),
-                        to_style_inline: (src: string) => safeJSON(src, {}),
-                        from_value: (src: string) => parseAndBind(context)(src),
-                        to_value: (src: string) => parseAndBind(context)(src),
-                        output_transformer: src => parseAndBind(context)(src),
-                    }, item),
-                }, config.animations[animationId] as Animation),
-                trigger: src => parseAndBind(context)(src)
-            }, config.transitions[transitionId] as Transition)
-        }, config.slots[slot_id] as Slot);
-        return slot as RuntimeSlot;
+        return enrichSlot(config, context, config.slots[slot_id]);
     }
 );
 
@@ -235,7 +201,7 @@ export const selectRounds = createSelector(
 export const selectStageChildren = (stage_id: number) => createSelector(
     selectConfig,
     (conf) => {
-        return Object.values(conf.slots).filter((elem: Slot) => elem.owner === stage_id) as Slot[];
+        return Object.values(conf.slots).filter((elem: Slot) => elem.owner === stage_id) as RuntimeSlot[];
     }
 );
 

@@ -1,6 +1,6 @@
 import { Memo, createElement } from "@app/render-kit";
 import {
-    Slot, FacadeSlot, SlotFacadeProps,
+    RuntimeSlot, FacadeSlot, SlotFacadeProps,
 } from "@app/game-mechanics";
 
 import TextSlot from '../text-slot';
@@ -10,7 +10,7 @@ import FrameSlot from '../frame-slot';
 import ItemSlot from '../item-slot';
 
 export type EnhancedFacadeSlotProps = {
-    data: Slot;
+    data: RuntimeSlot;
 }
 
 const EnhancedFacadeSlot = Memo<EnhancedFacadeSlotProps>(({ data }) => {

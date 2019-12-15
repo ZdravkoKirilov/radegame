@@ -4,7 +4,7 @@ import { RenderFunction, createElement, CurriedMemo, Memo, CompositeType } from 
 import { RuntimeSlot } from '../../../entities';
 import { withDispatcher, connect } from '../../../hocs';
 import { AppState } from '@app/core';
-import { assignHandlers, ExpressionContext } from '../../../resolvers';
+import { assignHandlers, ExpressionContext } from '../../../helpers';
 import { GameTemplate } from '../../../models';
 import { GameBroadcastService } from '../../../services/game-broadcast/game-broadcast.service';
 import { selectExpressionContext, selectConfig } from '@app/game-arena';

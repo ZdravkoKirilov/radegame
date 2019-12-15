@@ -7,7 +7,7 @@ import { connect } from "../../../hocs";
 
 export type FrameSlotProps = {
     style: Style;
-    forStage: CompositeType<{ data: Stage, style: Style }>;
+    forStage: CompositeType;
 
     frame?: RuntimeImageFrame;
 };

@@ -11,7 +11,7 @@ import { selectStageChildren, selectFullStageData } from '@app/game-arena';
 
 export type FrameStageProps = {
     stage: Stage;
-    slots: Slot[];
+    slots: RuntimeSlot[];
     childType: CompositeType<{ data: RuntimeSlot }>;
 };
 

@@ -1,14 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 import { GameAction } from '../../entities';
-import { MutatorAction, ChangeTurn, selectTurnOrder, selectActivePlayer, selectRounds, selectRound, ChangeRound, selectGameState, selectGameConfig } from '@app/game-arena';
+import { MutatorAction, selectGameState, selectGameConfig } from '@app/game-arena';
 import { AppState } from '@app/core';
 import { AutoUnsubscribe } from '@app/shared';
-import { transformToMutators } from 'app/game-mechanics/resolvers/actions';
-import { GameTemplate, GameConfig, GameState } from 'app/game-mechanics/models';
+import { transformToMutators } from '../../helpers/actions';
+import {  GameConfig, GameState } from '../../models';
 
 @Injectable()
 @AutoUnsubscribe()

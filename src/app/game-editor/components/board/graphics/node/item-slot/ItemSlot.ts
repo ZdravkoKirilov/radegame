@@ -1,12 +1,12 @@
 import { createElement, RenderFunction, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { Slot, Style, connect, RuntimeImageFrame, ItemSlot, ItemSlotProps } from "@app/game-mechanics";
+import { RuntimeSlot, Style, connect, RuntimeImageFrame, ItemSlot, ItemSlotProps } from "@app/game-mechanics";
 import { selectSlotStyle, selectSlotItemDefaultFrame } from '../../../../../state';
 
 import FrameStage from '../frame-stage';
 
 export type EnhancedItemSlotProps = {
-    data: Slot;
+    data: RuntimeSlot;
 }
 
 type StoreProps = {

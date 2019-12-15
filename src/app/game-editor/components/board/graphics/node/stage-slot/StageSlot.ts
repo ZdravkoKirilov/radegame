@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 import { RenderFunction, createElement } from "@app/render-kit";
-import { Stage, Slot, StageSlot, StageSlotProps, Style } from "@app/game-mechanics";
+import { Stage, StageSlot, StageSlotProps, Style, RuntimeSlot } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { connect } from "@app/game-mechanics";
 import { selectSlotStage, selectSlotStageChildren, selectSlotStyle } from '../../../../../state';
@@ -9,14 +9,14 @@ import FacadeSlot from '../facade-slot';
 
 
 type OwnProps = {
-    data: Slot;
+    data: RuntimeSlot;
 };
 
 export type EnhancedStageSlotProps = StoreProps & OwnProps;
 
 type StoreProps = Partial<{
     stage: Stage;
-    slots: Slot[];
+    slots: RuntimeSlot[];
     style: Style;
 }>;
 

@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import {
     Stage, ImageAsset, Slot, Text, Expression, parseFromString,
-    createExpressionContext, GameTemplate, Shape, enrichEntity, ImageFrame, RuntimeSlot, parseAndBind, RuntimeImageFrame
+    createExpressionContext, GameTemplate, Shape, enrichEntity, ImageFrame, RuntimeSlot, parseAndBind, RuntimeImageFrame, enrichSlot
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -41,21 +41,7 @@ export const selectSlotData = (slot_id: number) => createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
     (entities, context) => {
-        const slot = enrichEntity<Slot>(entities, {
-            style: src => parseAndBind(context)(src),
-            style_inline: value => safeJSON(value, null),
-            frames: frame => enrichEntity<ImageFrame>(
-                entities,
-                {
-                    image: 'images',
-                    stage: 'stages'
-                },
-                frame,
-            ),
-            item: (value: string) => safeJSON(value, null),
-            display_text: src => parseAndBind(context)(src),
-        }, entities.slots[slot_id] as Slot);
-        return slot as RuntimeSlot;
+        return enrichSlot(entities, context, entities.slots[slot_id]);
     }
 );
 
@@ -144,14 +130,14 @@ export const selectSlotStageChildren = (slot_id: number) => createSelector(
     selectSlotStage(slot_id),
     selectForm,
     (stage, form) => {
-        return Object.values(form.slots.items).filter((elem: Slot) => elem.owner === stage.id) as Slot[];
+        return Object.values(form.slots.items).filter((elem: Slot) => elem.owner === stage.id) as RuntimeSlot[];
     }
 );
 
 export const selectStageChildren = (stage_id: number) => createSelector(
     selectForm,
     (form) => {
-        return Object.values(form.slots.items).filter((elem: Slot) => elem.owner === stage_id) as Slot[];
+        return Object.values(form.slots.items).filter((elem: Slot) => elem.owner === stage_id) as RuntimeSlot[];
     }
 );
 
