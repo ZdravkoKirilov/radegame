@@ -10,7 +10,7 @@ import { RootComponent } from '../graphics';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
 import { MountRef } from '@app/render-kit';
-import { Slot, PathEntity, ImageAsset } from '@app/game-mechanics';
+import { Slot, ImageAsset } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-main',
@@ -26,7 +26,6 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 
 	@ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
 	@Output() selectSlot = new EventEmitter<Slot>();
-	@Output() selectPath = new EventEmitter<PathEntity>();
 
 	mount: MountRef;
 
@@ -36,13 +35,13 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 	) { }
 
 	async ngOnInit() {
-		const { _selectSlot, _selectPath } = this;
+		const { _selectSlot } = this;
 		const domHost = this.canvasWrapper.nativeElement;
 		this.mount = await mountPixi(RootComponent, domHost, {
 			width: this.windowRef.nativeWindow.innerWidth,
 			height: this.windowRef.nativeWindow.innerHeight,
 			props: {
-				store: this.store, selectSlot: _selectSlot, selectPath: _selectPath
+				store: this.store, selectSlot: _selectSlot
 			},
 			assets: new Set(this.images.map(img => img.image))
 		});
@@ -50,10 +49,6 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 
 	_selectSlot = (slot: Slot) => {
 		this.selectSlot.emit(slot);
-	}
-
-	_selectPath = (path: PathEntity) => {
-		this.selectPath.emit(path);
 	}
 
 	ngOnDestroy() {

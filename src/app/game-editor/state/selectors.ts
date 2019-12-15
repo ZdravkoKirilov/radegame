@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { values } from 'lodash';
 
 import { FEATURE_NAME } from '../utils/config';
-import { GameEditorFeature, GameEntitiesDict } from './reducers';
+import { GameEditorFeature } from './reducers';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { Stage, Game, GameEntity, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, selectGameId, Dictionary } from '@app/shared';
@@ -69,7 +69,7 @@ export const getEntitiesDict = createSelector(
     selectForm,
     form => {
         if (form) {
-            const result = {} as GameEntitiesDict;
+            const result = {};
             for (let key in form) {
                 result[key] = form[key].items;
             }

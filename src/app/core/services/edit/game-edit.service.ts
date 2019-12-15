@@ -6,7 +6,6 @@ import {
     Faction,
     Game,
     Slot,
-    PathEntity,
     GameAction,
     Condition,
     Round,
@@ -24,18 +23,6 @@ import { toMultipartFormData } from '@app/shared';
 export class GameEditService {
 
     constructor(private http: HttpClient) {
-    }
-
-    saveMapPath(data: PathEntity): Observable<any> {
-        if (data.id) {
-            return this.http.patch(API_URLS.PATHS(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.PATHS(data.game), data);
-        }
-    }
-
-    deleteMapPath(data: PathEntity): Observable<any> {
-        return this.http.delete(API_URLS.PATHS(data.game, data.id));
     }
 
     saveTransition(data: Transition): Observable<any> {

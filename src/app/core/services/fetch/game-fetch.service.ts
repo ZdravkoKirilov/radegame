@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { API_URLS } from 'app/core/config';
 import {
-	PathEntity, GameAction, Stage, Condition, Round,
+	GameAction, Stage, Condition, Round,
 	Token, Phase, Choice, Slot, ImageAsset,
 	Game, Faction, Expression, Animation, Setup, GameTemplate
 } from '@app/game-mechanics';
@@ -19,10 +19,6 @@ export class GameFetchService {
 
 	getGameData(gameId: number) {
 		return this.http.get<GameTemplate>(API_URLS.GAME_DATA(gameId));
-	}
-
-	getPaths(gameId: number) {
-		return this.http.get<PathEntity[]>(API_URLS.PATHS(gameId));
 	}
 
 	getActions(gameId: number) {
@@ -51,10 +47,6 @@ export class GameFetchService {
 
 	getChoices(gameId: number) {
 		return this.http.get<Choice[]>(API_URLS.CHOICES(gameId));
-	}
-
-	getMaps(gameId: number) {
-		return this.http.get<PathEntity[]>(API_URLS.MAPS(gameId));
 	}
 
 	getSlots(gameId: number) {

@@ -12,10 +12,7 @@
     <rg-board-toolbar
         [class.hidden]="visibleEditor"
         [selectedSlot]="!!selectedSlot"
-        [selectedPath]="!!selectedPath"
         (showSlotEditor)="toggleSlotEditor(true)"
-        (showPathEditor)="togglePathEditor(true)"
-        (deletePath)="handleDeletePath()"
         (deleteSlot)="handleDeleteSlot()"
         (changeView)="changeViewMode($event)"
     ></rg-board-toolbar>
@@ -31,21 +28,10 @@
             #slots
         ></rg-entity-editor>
 
-        <rg-entity-editor 
-            *ngIf="showPathEditor" 
-            [formDefinition]="pathForm"
-            [selectedItem]="selectedPath"
-            [connectedEntities]="entities"
-            (cancel)="togglePathEditor(false)"
-            (save)="handleSavePath($event)"
-            #paths
-        ></rg-entity-editor>
-
         <rg-board-main 
             [ngClass]="{'hidden': visibleEditor || viewMode === 'list'}"
             [images]="images" 
             (selectSlot)="selectSlot($event)" 
-            (selectPath)="selectPath($event)"
         ></rg-board-main>
 
         <rg-entity-list

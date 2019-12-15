@@ -4,30 +4,26 @@ import { map } from "rxjs/operators";
 
 import {
     StatefulComponent, createElement, PrimitiveContainer,
-    Scrollable, ScrollableProps, AutoClean, MetaProps, Suspense, SuspenseProps, PrimitiveTextProps
+    Scrollable, ScrollableProps, AutoClean, MetaProps
 } from "@app/render-kit";
 
 import Slots, { Props as SlotProps } from './slots';
-import Paths, { Props as PathProps } from './paths';
 import Background, { Props as BGProps } from './background';
-import { RuntimeSlot, PathEntity, Stage, GameEntity, ALL_ENTITIES, AllEntity } from "@app/game-mechanics";
+import { RuntimeSlot, Stage, GameEntity, ALL_ENTITIES, AllEntity } from "@app/game-mechanics";
 import { AppState } from "@app/core";
-import { getActiveStage, SaveItemAction, getEntitiesDict, getItems, GameEntitiesDict } from "../../../state";
-import { selectGameId } from "@app/shared";
+import { getActiveStage, SaveItemAction, getEntitiesDict, getItems } from "../../../state";
+import { selectGameId, Dictionary } from "@app/shared";
 
 export type Props = {
     store: Store<AppState>;
     selectSlot: (slot: RuntimeSlot) => void;
-    selectPath: (path: PathEntity) => void;
 }
 
 type State = Partial<{
-    entities: GameEntitiesDict;
+    entities: Dictionary;
     slots: RuntimeSlot[];
-    paths: PathEntity[];
     stage: Stage;
     selectedSlot: RuntimeSlot;
-    selectedPath: PathEntity;
     gameId: number;
     loaded: boolean;
 }>
@@ -43,7 +39,6 @@ export class RootComponent extends StatefulComponent<Props, State> {
         entities: {},
         stage: null,
         selectedSlot: null,
-        selectedPath: null,
     } as State
 
     data$: Subscription;
@@ -54,13 +49,11 @@ export class RootComponent extends StatefulComponent<Props, State> {
             this.props.store.pipe(select(selectGameId)),
             this.props.store.pipe(select(getEntitiesDict)),
             this.props.store.pipe(select(getItems<RuntimeSlot>(ALL_ENTITIES.slots))),
-            this.props.store.pipe(select(getItems<PathEntity>(ALL_ENTITIES.paths))),
         ).pipe(
-            map(([stage, gameId, entities, slots, paths]) => {
+            map(([stage, gameId, entities, slots]) => {
                 this.setState({
                     entities, stage, gameId, loaded: true,
                     slots: slots.filter(slot => slot.owner === stage.id),
-                    paths: paths.filter(path => path.owner === stage.id),
                 });
             }),
         ).subscribe();
@@ -72,8 +65,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     render() {
-        const { stage, selectedSlot, selectedPath, loaded, entities, slots, paths } = this.state;
-        const { handleDragMove, handleDragEnd, selectSlot, selectPath } = this;
+        const { stage, selectedSlot, loaded, entities, slots } = this.state;
+        const { handleDragMove, handleDragEnd, selectSlot } = this;
         const background = loaded && stage ? entities.images[stage.image as number] : null;
 
         return loaded ?
@@ -89,20 +82,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
                 padding: '0 0',
             },
                 background ? createElement<BGProps>(Background, {
-                    background, stage, selectSlot, selectPath,
+                    background, stage, selectSlot,
                 }) : null,
-
-                createElement<SuspenseProps>(Suspense, {
-                    fallback: createElement<PrimitiveTextProps>('text', { value: 'Loading...', styles: { x: 100, y: 100 } })
-                },
-                    createElement<PathProps>(Paths, {
-                        paths,
-                        slots: entities.slots,
-                        styles: entities.styles,
-                        selectPath,
-                        selected: selectedPath,
-                    }),
-                ),
 
                 createElement<SlotProps>(Slots, {
                     slots: slots.filter(slot => slot.owner === stage.id),
@@ -117,11 +98,6 @@ export class RootComponent extends StatefulComponent<Props, State> {
     selectSlot = (slot: RuntimeSlot) => {
         this.setState({ selectedSlot: slot });
         this.props.selectSlot(slot);
-    }
-
-    selectPath = (path: PathEntity) => {
-        this.setState({ selectedPath: path });
-        this.props.selectPath(path);
     }
 
     handleDragEnd = (slotId: number) => {

@@ -50,10 +50,6 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/sonatas/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    PATHS: (gameId: number, pathId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/paths/`;
-        return pathId ? `${base}${pathId}/` : base;
-    },
     MAPS: (gameId: number, mapId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/maps/`;
         return mapId ? `${base}${mapId}/` : base;

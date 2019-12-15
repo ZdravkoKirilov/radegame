@@ -7,7 +7,6 @@ export * from './Faction.model';
 export * from './Token.model';
 export * from './Phase.model';
 export * from './Slot.model';
-export * from './Path.model';
 
 export * from './Setup.model';
 export * from './ImageAsset.model';
@@ -31,7 +30,6 @@ import { Stage } from './Stage.model';
 import { Faction } from './Faction.model';
 import { Token } from './Token.model';
 import { Phase } from './Phase.model';
-import { PathEntity } from './Path.model';
 import { Slot } from './Slot.model';
 import { Setup } from './Setup.model';
 import { Dictionary } from '@app/shared';
@@ -46,7 +44,7 @@ import { Text } from './Text.model';
 import { Sonata } from './Sonata.model';
 import { Shape } from './Shape.model';
 
-export type GameEntity = Game | GameAction | Slot | PathEntity | Condition |
+export type GameEntity = Game | GameAction | Slot | Condition |
     Round | Choice | Stage | Faction | Token | Phase |
     Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape;
 
