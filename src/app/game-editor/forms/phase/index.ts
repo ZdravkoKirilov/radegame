@@ -3,7 +3,7 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import { Phase } from '@app/game-mechanics';
-import { baseTemplate, composeCommonFormContext, doneTemplate, displayNameTemplate } from '../helpers';
+import { baseTemplate, composeCommonFormContext, doneTemplate } from '../helpers';
 
 export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEntities) => {
     data = data || {};
@@ -11,7 +11,6 @@ export const composePhaseForm: FormDefinition = (data: Phase, ent?: ConnectedEnt
     const template = `
         <Form>
             ${baseTemplate}
-            ${displayNameTemplate}
             ${doneTemplate}
         </Form>
     `;

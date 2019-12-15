@@ -12,3 +12,5 @@ export type Expression = Partial<{
 
 export type ParamedExpressionFunc<T = {}, R = GameAction[]> = (payload: T) => R;
 
+export type ExpressionFunc<T = GameAction[]> = () => T;
+

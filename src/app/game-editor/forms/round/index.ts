@@ -1,7 +1,7 @@
 import { Round } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    baseTemplate, boardTemplate, composeCommonFormContext, doneTemplate, displayNameTemplate
+    baseTemplate, boardTemplate, composeCommonFormContext
 } from '../helpers';
 
 export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseControl[] {
@@ -11,9 +11,15 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
     const template = `
     <Form>
         ${baseTemplate}
-        ${displayNameTemplate}
         ${boardTemplate}
-        ${doneTemplate}
+
+        <CodeEditor name="preload" label="Preload">
+            {data.preload}
+        </CodeEditor>
+
+        <CodeEditor name="load_done" label="Has loaded if">
+            {data.load_done}
+        </CodeEditor>
 
         <Group name='phases' label='Phases' children='{phases}' item='@item' addButtonText='Add'>
             <Form>

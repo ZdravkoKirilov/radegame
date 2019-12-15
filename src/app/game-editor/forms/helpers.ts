@@ -87,6 +87,10 @@ export const displayNameTemplate = `
     <TextInput name='display_name' label='Displayed name'>{data.display_name}</TextInput>
 `;
 
+export const keywordsTemplate = `
+    <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
+`;
+
 export const inlineStyleTemplate = `
     <EmbeddedData 
         name='style_inline' 

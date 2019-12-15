@@ -1,4 +1,4 @@
-import { BaseModel, WithFrames, WithDisplayName } from "./Base.model";
+import { BaseModel, WithFrames } from "./Base.model";
 
 export type GameAction = BaseModel & WithFrames & Partial<{
     configs: ActionConfig[];
@@ -21,6 +21,9 @@ export type ActionParam = {
 export const ACTION_TYPE = {
     END_TURN: 'END_TURN',
     MUTATE_STATE: 'MUTATE_STATE',
+
+    LOAD_FROM_SERVER: 'LOAD_FROM_SERVER',
+    SAVE_TO_SERVER: 'SAVE_TO_SERVER',
 };
 
 export type ActionType = keyof typeof ACTION_TYPE;

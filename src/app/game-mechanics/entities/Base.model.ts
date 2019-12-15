@@ -3,7 +3,7 @@ import { Stage } from "./Stage.model";
 import { Expression } from "./Expression.model";
 import { Style } from "./Style.model";
 
-export type BaseModel = Partial<{
+export type BaseModel = WithKeywords & Partial<{
     id: number;
     game: number;
 
@@ -11,17 +11,13 @@ export type BaseModel = Partial<{
     description: string;
 }>;
 
+export type WithKeywords = Partial<{
+    keywords: string;
+}>;
+
 export type WithImage = Partial<{
     image: ImageAsset;
 }>
-
-export type WithDisplayName = Partial<{
-    display_name: string;
-}>;
-
-export type WithDone = Partial<{
-    done: number | Expression;
-}>;
 
 export type WithFrames = Partial<{
     frames: ImageFrame[];
@@ -29,11 +25,6 @@ export type WithFrames = Partial<{
 
 export type WithBoard = Partial<{
     board: number | Stage;
-}>
-
-export type WithStakes = Partial<{
-    passes: number | Expression;
-    fails: number | Expression;
 }>
 
 export type WithStyle = Partial<{

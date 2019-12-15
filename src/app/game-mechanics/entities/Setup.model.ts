@@ -1,6 +1,6 @@
-import { BaseModel, WithDisplayName } from "./Base.model";
+import { BaseModel } from "./Base.model";
 
-export type Setup = BaseModel & WithDisplayName & Partial<{
+export type Setup = BaseModel & Partial<{
     min_players: number;
     max_players: number;
     recommended_age: number;

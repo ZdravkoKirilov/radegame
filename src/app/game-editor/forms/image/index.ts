@@ -1,5 +1,6 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { ImageAsset } from "@app/game-mechanics";
+import { keywordsTemplate } from "../helpers";
 
 
 export const composeImageForm: FormDefinition = (data: ImageAsset, ent?: ConnectedEntities) => {
@@ -11,6 +12,8 @@ export const composeImageForm: FormDefinition = (data: ImageAsset, ent?: Connect
 
             <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
             <ImagePicker name='image' label='Add image' required='{true}'>{data.image}</ImagePicker>
+
+            ${keywordsTemplate}
 
         </Form>
     `;

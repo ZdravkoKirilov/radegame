@@ -2,25 +2,27 @@ import { Condition } from "@app/game-mechanics";
 import { ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import {
     baseTemplate,
- composeCommonFormContext, displayNameTemplate
+    composeCommonFormContext
 } from "../helpers";
 
 export function composeConditionForm(data: Condition, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
 
-    const passes = data.passes || [];
-    const fails = data.fails || [];
-    const frames = data.frames || [];
-
     const template = `
     <Form>
         ${baseTemplate}
 
-        ${displayNameTemplate}
-
-        <Dropdown name='clause' label='Clause' options='{expression_options}'>
+        <CodeEditor name='clause' label='Clause'>
             {data.clause}
-        </Dropdown>
+        </CodeEditor>
+
+        <CodeEditor name='passes' label='Passes'>
+            {data.passes}
+        </CodeEditor>
+
+        <CodeEditor name='fails' label='Fails'>
+            {data.fails}
+        </CodeEditor>
         
     </Form>
     `;
@@ -29,7 +31,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, passes, fails, frames,
+            data,
         },
     }, true);
 

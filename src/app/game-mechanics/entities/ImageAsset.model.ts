@@ -10,6 +10,7 @@ export type ImageAsset = Partial<{
     image: string;
     thumbnail: string;
     svg: string;
+    keywords: string;
 }>
 
 export type ImageFrame = WithStyle & Partial<{
