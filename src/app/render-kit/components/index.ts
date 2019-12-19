@@ -1,5 +1,5 @@
 export * from './Context';
-export * from './WithAsset';
+export * from './WithAssets';
 export * from './DynamicSprite';
 export * from './Scrollable';
 export * from './Transition.ts';
