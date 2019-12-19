@@ -71,6 +71,10 @@ export const imageTemplate = `
     <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{data.image}</Dropdown>
 `;
 
+export const interactiveTemplate = `
+    <Dropdown name='template' label='Template' options='{stage_options}' showImage='{true}'>{data.template}</Dropdown>
+`;
+
 export const doneTemplate = `
     <Dropdown name='done' label='Done if' options='{expression_options}'>
         {data.done}
@@ -147,7 +151,7 @@ export const composeInlineStyleFormContext = (ent: ConnectedEntities) => {
 }
 
 export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => {
-
+    debugger;
     return {
         setup_options: composeEntityOptions(ent, 'setups'),
         condition_options: composeEntityOptions(ent, 'conditions'),

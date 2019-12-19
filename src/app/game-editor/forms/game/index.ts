@@ -1,6 +1,6 @@
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
 import { Game } from '@app/game-mechanics';
-import { composeEntityOptions, composeCommonFormContext } from '../helpers';
+import { composeCommonFormContext } from '../helpers';
 
 export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl[] {
     data = data || {} as Game;
@@ -16,7 +16,7 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
 
             <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
 
-            <Dropdown name='menu' label='Menu' options='{stage_options}'>
+            <Dropdown name='menu' label='Menu' options='{round_options}'>
                 {data.menu}
             </Dropdown>
 

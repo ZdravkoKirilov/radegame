@@ -1,6 +1,6 @@
-import { BaseModel, WithFrames } from "./Base.model";
+import { BaseModel, WithTemplate } from "./Base.model";
 
-export type GameAction = BaseModel & WithFrames & Partial<{
+export type GameAction = BaseModel & WithTemplate & Partial<{
     configs: ActionConfig[];
 }>
 

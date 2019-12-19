@@ -6,13 +6,12 @@ import {
     GameAction, ACTION_TYPE as types,
 } from '@app/game-mechanics';
 import {
-    composeFromObject, baseTemplate, composeCommonFormContext, framesTemplate
+    composeFromObject, baseTemplate, composeCommonFormContext, interactiveTemplate
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
     data = data || {};
     const configs = data.configs || [];
-    const frames = data.frames || [];
 
     const template = `
         <Form>
@@ -38,7 +37,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
             </Group>
 
-            ${framesTemplate}
+            ${interactiveTemplate}
 
         </Form>
     `;

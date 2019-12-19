@@ -1,4 +1,4 @@
-import { Slot, GameEntityList, ALL_ENTITIES, WithImage, Stage } from '../entities';
+import { Slot, GameEntityList, ALL_ENTITIES, WithImage, Round } from '../entities';
 import { Dictionary, WithKeysAs, Omit } from '@app/shared';
 
 import { WithBoard } from '../entities';
@@ -11,7 +11,7 @@ export type Game = WithBoard & Partial<{
     image: string;
 
     languages: GameLanguage[];
-    menu: number | Stage;
+    menu: number | Round;
 }>
 
 export type GameLanguage = WithImage & Partial<{
@@ -29,6 +29,7 @@ export type GameState = {
             slots: Dictionary<Slot>
         }
     }>;
+    local_state?: Dictionary;
 
     turn_order: number[]; // player ids determining turn order
     active_player: number; //
