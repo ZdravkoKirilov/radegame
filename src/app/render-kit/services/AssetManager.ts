@@ -17,6 +17,7 @@ export class AssetManager {
     async addMany(urls: Set<string>) {
         const result = await this.loader.loadAll(urls);
         this.data.textures = { ...this.data.textures, ...result };
+        this.handlers.forEach(cb => cb(null, this.data.textures));
     }
 
     add(resourceUrl: string) {

@@ -24,7 +24,7 @@ export type WithFrames = Partial<{
 }>;
 
 export type WithBoard = Partial<{
-    board: number | Stage;
+    board: number;
 }>
 
 export type WithStyle = Partial<{

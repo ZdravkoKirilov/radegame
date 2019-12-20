@@ -1,4 +1,6 @@
 import difference from 'lodash/difference';
+import isEqual from 'lodash/isEqual';
+
 import { StatefulComponent } from "../../bases";
 import { AssetManagerSubscription } from "../../services";
 
@@ -26,7 +28,7 @@ export class WithAssets extends StatefulComponent<WithAssetProps, State> {
     }
 
     willReceiveProps(nextProps: WithAssetProps) {
-        if (nextProps.urls !== this.props.urls) {
+        if (!isEqual(nextProps.urls, this.props.urls)) {
             const newUrls = difference(nextProps.urls, this.props.urls);
             if (newUrls.length) {
                 this.setState({ loaded: false });

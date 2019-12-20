@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
 import {
-    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Shape, enrichEntity, ImageFrame, parseFromString, parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot
+    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Shape, enrichEntity, ImageFrame, parseFromString, parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -45,31 +45,6 @@ export const selectSetupData = createSelector(
     (setup, config) => config && setup ? config.setups[setup] as Setup : null,
 );
 
-export const selectRoundData = createSelector(
-    selectRound,
-    selectSetupData,
-    selectConfig,
-    (roundSlotId, setup, config) => {
-        const roundId = setup.rounds.find(elem => elem.id === roundSlotId).round;
-        const roundData = config.rounds[roundId];
-        return roundData as Round;
-    }
-);
-
-export const selectCurrentRoundStage = createSelector(
-    selectRoundData,
-    selectConfig,
-    (round, config) => {
-        return config.stages[round.board as number] as Stage;
-    }
-);
-
-export const selectCurrentRoundStageImage = createSelector(
-    selectCurrentRoundStage,
-    selectConfig,
-    (stage, config) => config.images[stage.image as number] as ImageAsset
-);
-
 export const selectExpressionContext = createSelector(
     selectUser,
     selectConfig,
@@ -81,6 +56,39 @@ export const selectExpressionContext = createSelector(
             conf, state, players: toDictionary(players, 'id'),
         });
     }
+);
+
+export const selectRoundData = createSelector(
+    selectRound,
+    selectSetupData,
+    selectConfig,
+    selectExpressionContext,
+    (roundSlotId, setup, config, context) => {
+        const roundId = setup.rounds.find(elem => elem.id === roundSlotId).round;
+        const roundData = config.rounds[roundId] as Round;
+        return enrichEntity<Round, RuntimeRound>(config, {
+            board: stageId => enrichEntity<Stage>(config, {
+                image: 'images'
+            }, config.stages[stageId] as Stage),
+            loader: stageId => enrichEntity<Stage>(config, {
+                image: 'images'
+            }, config.stages[stageId] as Stage),
+            preload: src => parseAndBind(context)(src),
+            load_done: src => parseAndBind(context)(src),
+        }, roundData);
+    }
+);
+
+export const selectCurrentRoundStage = createSelector(
+    selectRoundData,
+    (round) => {
+        return round.board
+    }
+);
+
+export const selectCurrentRoundStageImage = createSelector(
+    selectCurrentRoundStage,
+    (stage) => stage.image
 );
 
 export const selectCurrentRoundStageSlots = createSelector(
