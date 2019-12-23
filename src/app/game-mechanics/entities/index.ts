@@ -5,7 +5,6 @@ export * from './Choice.model';
 export * from './Stage.model';
 export * from './Faction.model';
 export * from './Token.model';
-export * from './Phase.model';
 export * from './Slot.model';
 
 export * from './Setup.model';
@@ -29,7 +28,6 @@ import { Choice } from './Choice.model';
 import { Stage } from './Stage.model';
 import { Faction } from './Faction.model';
 import { Token } from './Token.model';
-import { Phase } from './Phase.model';
 import { Slot } from './Slot.model';
 import { Setup } from './Setup.model';
 import { Dictionary } from '@app/shared';
@@ -45,7 +43,7 @@ import { Sonata } from './Sonata.model';
 import { Shape } from './Shape.model';
 
 export type GameEntity = Game | GameAction | Slot | Condition |
-    Round | Choice | Stage | Faction | Token | Phase |
+    Round | Choice | Stage | Faction | Token |
     Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape;
 
 export type GameEntityList = Dictionary<GameEntity>;

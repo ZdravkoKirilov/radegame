@@ -78,10 +78,6 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/tokens/`;
         return tokenId ? `${base}${tokenId}/` : base;
     },
-    PHASES: (gameId: number, phaseId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/phases/`;
-        return phaseId ? `${base}${phaseId}/` : base;
-    },
     IMAGES: (gameId: number, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/imageassets/`;
         return itemId ? `${base}${itemId}/` : base;

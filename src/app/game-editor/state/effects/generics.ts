@@ -6,7 +6,7 @@ import { map, mergeMap, catchError } from 'rxjs/operators';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, GameAction, Condition, Round,
-    Faction, Token, Phase, Choice, Game, ImageAsset, Stage, Slot, Style, Setup,
+    Faction, Token, Choice, Game, ImageAsset, Stage, Slot, Style, Setup,
     AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
@@ -136,8 +136,6 @@ export class GenericEffectsService {
                 return this.fetcher.getSlots(data);
             case ALL_ENTITIES.tokens:
                 return this.fetcher.getTokens(data);
-            case ALL_ENTITIES.phases:
-                return this.fetcher.getPhases(data);
             case ALL_ENTITIES.images:
                 return this.fetcher.getImages(data);
             case ALL_ENTITIES.games:
@@ -165,8 +163,6 @@ export class GenericEffectsService {
                 return this.api.saveSlot(<Slot>entity);
             case ALL_ENTITIES.tokens:
                 return this.api.saveToken(<Token>entity);
-            case ALL_ENTITIES.phases:
-                return this.api.savePhase(<Phase>entity);
             case ALL_ENTITIES.images:
                 return this.api.saveImage(<ImageAsset>entity);
             case ALL_ENTITIES.styles:
@@ -213,8 +209,6 @@ export class GenericEffectsService {
                 return this.api.deleteChoice(<Choice>entity);
             case ALL_ENTITIES.tokens:
                 return this.api.deleteToken(<Token>entity);
-            case ALL_ENTITIES.phases:
-                return this.api.deletePhase(<Phase>entity);
             case ALL_ENTITIES.slots:
                 return this.api.deleteSlot(<Slot>entity);
             case ALL_ENTITIES.images:

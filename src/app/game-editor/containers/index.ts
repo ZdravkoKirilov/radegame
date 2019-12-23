@@ -7,6 +7,5 @@ export * from './rounds/rounds.container';
 export * from './stages/stages.container';
 export * from './choices/choices.container';
 export * from './tokens/tokens-container.component';
-export * from './phases/phases-container.component';
 export * from './board/board-container.component';
 export * from './images/image-asset-container.component';

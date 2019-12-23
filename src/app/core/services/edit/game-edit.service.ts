@@ -4,15 +4,10 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
     Faction,
-    Game,
-    Slot,
-    GameAction,
-    Condition,
-    Round,
-    Choice,
-    Stage,
-    Token,
-    Phase, Animation, ImageAsset, Style,
+    Game, Slot,
+    GameAction, Condition, Round,
+    Choice, Stage,
+    Token, Animation, ImageAsset, Style,
     Sound, Expression, Setup, Transition, Text, Sonata, Shape,
 } from '@app/game-mechanics';
 
@@ -137,19 +132,6 @@ export class GameEditService {
 
     deleteToken(data: Token): Observable<any> {
         return this.http.delete(API_URLS.TOKENS(data.game, data.id));
-    }
-
-    savePhase(data: Phase): Observable<any> {
-
-        if (data.id) {
-            return this.http.patch(API_URLS.PHASES(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.PHASES(data.game), data);
-        }
-    }
-
-    deletePhase(data: Phase): Observable<any> {
-        return this.http.delete(API_URLS.PHASES(data.game, data.id));
     }
 
     saveChoice(data: Choice): Observable<any> {

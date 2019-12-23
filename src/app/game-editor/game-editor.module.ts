@@ -20,7 +20,7 @@ import {
 import {
     EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent,
     GamesContainerComponent, ConditionsContainerComponent, RoundsContainerComponent,
-    StagesContainerComponent, ChoicesContainerComponent, TokensContainerComponent, PhasesContainerComponent, BoardContainerComponent
+    StagesContainerComponent, ChoicesContainerComponent, TokensContainerComponent, BoardContainerComponent
 } from './containers';
 
 import { BoardEditorComponent } from './components/board/board-editor.component';
@@ -71,7 +71,6 @@ import { ShapePreviewComponent } from './components/shape/preview/shape-preview.
         StagesContainerComponent,
         ChoicesContainerComponent,
         TokensContainerComponent,
-        PhasesContainerComponent,
         BoardEditorComponent,
         BoardContainerComponent,
         BoardToolbarComponent,

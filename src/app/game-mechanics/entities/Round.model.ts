@@ -4,7 +4,7 @@ import { ExpressionFunc } from './Expression.model';
 import { Stage } from './Stage.model';
 
 export type Round = BaseModel & WithBoard & Partial<{
-    phases: number[]; // Phase[]
+    phases: Phase[]; // Phase[]
 
     preload: string;
     load_done: string;
@@ -18,7 +18,14 @@ export type RuntimeRound = Round & Omit<Round, 'preload' | 'load_done'> & {
     board: Stage;
 };
 
-export type PhaseSlot = Partial<{
+export type Phase = Partial<{
+    id: number;
     owner: number;
-    phase: number;
+    
+    name: string;
+    description: string;
+    keywords: string;
+
+    done: string; // Expression
+    image: number; // ImageAsset
 }>;

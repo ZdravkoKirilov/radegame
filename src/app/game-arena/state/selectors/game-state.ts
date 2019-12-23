@@ -2,7 +2,9 @@ import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
 import {
-    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Shape, enrichEntity, ImageFrame, parseFromString, parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound
+    Round, Setup, Stage, ImageAsset, Slot, getAllImageAssets,
+    createExpressionContext, Shape, enrichEntity, ImageFrame,
+    parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -24,19 +26,10 @@ export const selectRound = createSelector(
     selectGameState,
     state => state.round,
 );
-const selectPhase = createSelector(
-    selectGameState,
-    state => state.phase
-);
+
 const selectSetup = createSelector(
     selectGameState,
     state => state ? state.setup : null,
-);
-
-export const selectPhaseData = createSelector(
-    selectPhase,
-    selectConfig,
-    (phase, config) => config.phases[phase] as Phase,
 );
 
 export const selectSetupData = createSelector(
@@ -99,7 +92,7 @@ export const selectCurrentRoundStageSlots = createSelector(
         return Object.values(config.slots)
             .filter((slot: Slot) => slot.owner === stage.id)
             .map((elem: Slot) => {
-                return enrichSlot(config, context, elem);   
+                return enrichSlot(config, context, elem);
             });
     }
 );

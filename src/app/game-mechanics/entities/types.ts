@@ -17,7 +17,6 @@ export type InteractiveEntity = GameAction | Condition | Choice | Token;
 export const ALL_ENTITIES = {
     choices: 'choices',
     rounds: 'rounds',
-    phases: 'phases',
     conditions: 'conditions',
     stages: 'stages',
     actions: 'actions',
