@@ -1,6 +1,4 @@
 import { BaseModel } from "./Base.model";
 
-export type Faction = BaseModel & Partial<{
-    slots: number[];
-}>;
+export type Faction = BaseModel;
 

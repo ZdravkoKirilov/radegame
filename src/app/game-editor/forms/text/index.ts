@@ -1,7 +1,7 @@
 import { Text } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    composeCommonFormContext
+    composeCommonFormContext, baseTemplate
 } from '../helpers';
 
 export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl[] {
@@ -11,7 +11,7 @@ export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl
     const template = `
     <Form>
 
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+        ${baseTemplate}
 
         <TextInput name='default_value' label='Default value'>{data.default_value}</TextInput>
 

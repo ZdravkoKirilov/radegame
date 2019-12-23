@@ -2,7 +2,7 @@ import { Condition } from "@app/game-mechanics";
 import { ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import {
     baseTemplate,
-    composeCommonFormContext
+    composeCommonFormContext,
 } from "../helpers";
 
 export function composeConditionForm(data: Condition, ent: ConnectedEntities): BaseControl[] {

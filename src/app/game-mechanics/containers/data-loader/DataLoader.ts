@@ -1,13 +1,15 @@
 import { RuntimeRound } from "../../entities";
-import { RenderFunction } from "@app/render-kit";
+import { RenderFunction, RzElement } from "@app/render-kit";
 
 export type DataLoaderProps = {
     round: RuntimeRound;
+    children?: RzElement;
 }
 
-export const DataLoader: RenderFunction<DataLoaderProps> = ({ round }) => {
-    if (!round.load_done()) {
-        round.preload();
+export const DataLoader: RenderFunction<DataLoaderProps> = ({ round, children }) => {
+    if (round && round.preload && round.load_done && !round.load_done()) {
+        throw round.preload();
     }
-    return null;
+    throw new Promise(() => null);
+    // return children;
 };

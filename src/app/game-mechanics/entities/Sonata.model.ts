@@ -1,12 +1,7 @@
 import { Sound } from "./Sound.model";
+import { BaseModel } from "./Base.model";
 
-export type Sonata = Partial<{
-    id: number;
-    game: number;
-
-    name: string;
-    description: string;
-
+export type Sonata = BaseModel & Partial<{
     type: SonataPlayType;
     steps: SonataStep[];
 

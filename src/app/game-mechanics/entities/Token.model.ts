@@ -1,3 +1,3 @@
-import { BaseModel, WithFrames } from "./Base.model";
+import { BaseModel, WithTemplate } from "./Base.model";
 
-export type Token = BaseModel & WithFrames;
+export type Token = BaseModel & WithTemplate;

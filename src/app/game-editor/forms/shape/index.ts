@@ -1,7 +1,7 @@
 import { Shape, SHAPE_TYPES } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    composeCommonFormContext, composeFromObject, styleTemplate, composeInlineStyleFormContext
+    composeCommonFormContext, composeFromObject, styleTemplate, composeInlineStyleFormContext, baseTemplate
 } from '../helpers';
 
 export function composeShapeForm(data: Shape, ent: ConnectedEntities): BaseControl[] {
@@ -11,7 +11,7 @@ export function composeShapeForm(data: Shape, ent: ConnectedEntities): BaseContr
     const template = `
     <Form>
 
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+        ${baseTemplate}
 
         <Dropdown name='type' label='Type' required='true' options='{types}'>
             {data.type}

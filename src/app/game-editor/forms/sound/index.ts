@@ -1,6 +1,6 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Sound, GameEntity } from "@app/game-mechanics";
-import { composeCommonFormContext } from "../helpers";
+import { composeCommonFormContext, baseTemplate } from "../helpers";
 
 export const composeSoundForm: FormDefinition = (data: Sound, ent?: ConnectedEntities) => {
 
@@ -9,7 +9,7 @@ export const composeSoundForm: FormDefinition = (data: Sound, ent?: ConnectedEnt
     const template = `
         <Form>
 
-            <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+            ${baseTemplate}
             <FilePicker name='file' label='Sound file' required='{true}'>{data.file}</FilePicker>
 
         </Form>

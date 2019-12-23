@@ -1,38 +1,29 @@
 import { Choice } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    baseTemplate, composeCommonFormContext, framesTemplate, imageTemplate, displayNameTemplate
+    baseTemplate, composeCommonFormContext
 } from '../helpers';
 
 export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
     const options = data.options || [];
     const tips = data.tips || [];
-    const frames = data.frames || [];
 
     const template = `
     <Form>
         ${baseTemplate}
 
-        ${imageTemplate}
-
-        ${displayNameTemplate}
-
-        <Dropdown name='chances' label='Chances' options='{expression_options}'>
+        <CodeEditor name='chances' label='Chances'>
             {data.chances}
-        </Dropdown>
+        </CodeEditor>
 
-        <Dropdown name='time' label='Time limit' options='{expression_options}'>
+        <CodeEditor name='time' label='Time limit'>
             {data.time}
-        </Dropdown>
+        </CodeEditor>
 
-        <Dropdown name='options_filter' label='Options filter' options='{expression_options}'>
-            {data.options_filter}
-        </Dropdown>
-
-        <Dropdown name='scope' label='Show to' options='{expression_options}'>
-            {data.scope}
-        </Dropdown>
+        <CodeEditor name='computed_options' label='Compute options'>
+            {data.computed_options}
+        </CodeEditor>
 
         <Group name='options' label='Options' children='{options}' item='@item' addButtonText='Add'>
             <Form>
@@ -41,10 +32,12 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
                 <TextInput name='name' required='{true}' label='Option name'>{@item.name}</TextInput>
 
                 <TextInput name='description' label='Description'>{@item.description}</TextInput>
+
+                <TagsInput name='keywords' label='Keywords'>{@item.keywords}</TagsInput>
         
                 <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{data.image}</Dropdown>
 
-                <Dropdown name='effect' label='Effect' options='{expression_options}'>{@item.effect}</Dropdown>
+                <CodeEditor name='effect' label='Effect'>{@item.effect}</CodeEditor>
                 
             </Form>
         </Group>
@@ -56,11 +49,11 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
                 <TextInput name='description' label='Description'>{@tip.description}</TextInput>
 
                 <Dropdown name='image' label='Image' options='{image_options}'>{@tip.image}</Dropdown>
+
+                <TagsInput name='keywords' label='Keywords'>{@tip.keywords}</TagsInput>
                 
             </Form>
         </Group>
-
-        ${framesTemplate}
 
     </Form>
     `;
@@ -69,7 +62,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, options, tips, frames,
+            data, options, tips,
         },
     }, true);
 

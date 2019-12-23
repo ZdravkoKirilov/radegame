@@ -1,17 +1,8 @@
-import { WithStyle } from "./Base.model";
-import { Expression } from "./Expression.model";
+import { WithStyle, BaseModel } from "./Base.model";
 
-export type Shape = WithStyle & Partial<{
-    id: number;
-    game: number;
-
-    name: string;
-
+export type Shape = WithStyle & BaseModel & Partial<{
     type: ShapeType;
     points: ShapePoint[];
-
-    construct_by: number | Expression;
-    construct_by_inline: string;
 }>;
 
 export type ShapePoint = {

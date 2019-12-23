@@ -3,7 +3,7 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import { Sonata, SONATA_PLAY_TYPE } from '@app/game-mechanics';
-import { composeCommonFormContext, composeFromObject } from '../helpers';
+import { composeCommonFormContext, composeFromObject, baseTemplate } from '../helpers';
 
 export const composeSonataForm: FormDefinition = (data: Sonata, ent?: ConnectedEntities) => {
     data = data || {};
@@ -11,8 +11,7 @@ export const composeSonataForm: FormDefinition = (data: Sonata, ent?: ConnectedE
 
     const template = `
     <Form>
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
+        ${baseTemplate}
 
         <Dropdown name='type' label='Type' options='{types}' defaultValue='{types[0].value}'>{data.type}</Dropdown>
 

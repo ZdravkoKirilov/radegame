@@ -1,7 +1,7 @@
 import {
     createElement, Memo,
 } from "@app/render-kit";
-import { Style, Text, RuntimeSlot, Transition } from "../../../entities";
+import { Style, Text, RuntimeSlot, RuntimeTransition } from "../../../entities";
 import { AppState } from "@app/core";
 import {
     selectSlotStyle,
@@ -37,7 +37,7 @@ export type EnhancedTextSlotProps = {
 type StoreProps = {
     style: Style;
     text: Text;
-    transitions: Transition[];
+    transitions: RuntimeTransition[];
 };
 
 type AnimationProps = {

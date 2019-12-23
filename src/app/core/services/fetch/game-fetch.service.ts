@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { API_URLS } from 'app/core/config';
+import { API_URLS } from '../../config';
 import {
 	GameAction, Stage, Condition, Round,
 	Token, Phase, Choice, Slot, ImageAsset,

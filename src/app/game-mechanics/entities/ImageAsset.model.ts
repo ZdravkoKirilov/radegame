@@ -1,12 +1,8 @@
 import { Stage } from "./Stage.model";
-import { WithStyle } from "./Base.model";
+import { WithStyle, BaseModel } from "./Base.model";
 import { Omit } from "@app/shared";
 
-export type ImageAsset = Partial<{
-    id: number;
-    game: number;
-
-    name: string;
+export type ImageAsset = BaseModel & Partial<{
     image: string;
     thumbnail: string;
     svg: string;

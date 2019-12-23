@@ -126,7 +126,7 @@ const updateGeneric = (comp: BasicComponent) => {
 
     if (graphic && styles) {
         Object.keys(styles).forEach((key: keyof RzStyles) => {
-            setProp(comp, key, props.styles[key]);
+            setProp(comp, key, props.styles[key] as any);
         });
     }
 };
@@ -155,10 +155,10 @@ const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
     graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
 
     if (props.styles.fill) {
-        graphic.beginFill(props.styles.fill);
+        graphic.beginFill(props.styles.fill as number);
     }
 
-    graphic.lineStyle(styles.stroke_thickness || 1, styles.stroke_color, styles.alpha || 1);
+    graphic.lineStyle(styles.stroke_thickness || 1, styles.stroke_color as number, styles.alpha || 1);
 
     if (styles && !isNaN(Number(styles.border_radius))) {
         graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.border_radius);
@@ -211,7 +211,7 @@ const updateLine = (props: LineProps, line: Graphics) => {
     const dash = props.dashGap || 0;
 
     line.clear();
-    line.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
+    line.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.alpha || 1);
 
     line.moveTo(start[0], start[1]);
 
@@ -234,7 +234,7 @@ const updatePolygon = (props: RzElementProps, graphic: Graphics) => {
     const { styles } = props;
 
     graphic.clear();
-    graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha);
+    graphic.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.alpha);
 
     const polygon = points.map(point => {
         return new Point(point[0], point[1]);
@@ -254,7 +254,7 @@ const updateCircle = (comp: PrimitiveCircle, styles: RzStyles) => {
 
     if (styles) {
         graphic.clear();
-        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color);
+        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color as number);
         graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
         graphic.drawCircle(styles.x, styles.y, styles.width);
 
@@ -271,7 +271,7 @@ const updateEllipse = (comp: PrimitiveEllipse, styles: RzStyles) => {
 
     if (styles) {
         graphic.clear();
-        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color, styles.alpha || 1);
+        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.alpha || 1);
         graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
         graphic.drawEllipse(styles.x, styles.y, styles.width, styles.height);
 

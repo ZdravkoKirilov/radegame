@@ -90,14 +90,14 @@ export const selectSlotItemDefaultFrame = (slot_id: number) => createSelector(
     selectExpressionContext,
     (entities, slot_data, context) => {
         const item = slot_data.item;
-        if (item) {
-            return enrichEntity<ImageFrame>(entities, {
-                image: 'images',
-                stage: 'stages',
-                style: (value: string) => parseAndBind(context)(value),
-                style_inline: (value: string) => safeJSON(value, {}),
-            }, item.token.frames[0]) as RuntimeImageFrame;
-        }
+        // if (item) {
+        //     return enrichEntity<ImageFrame>(entities, {
+        //         image: 'images',
+        //         stage: 'stages',
+        //         style: (value: string) => parseAndBind(context)(value),
+        //         style_inline: (value: string) => safeJSON(value, {}),
+        //     }, item.token.frames[0]) as RuntimeImageFrame;
+        // }
         return null;
     }
 );

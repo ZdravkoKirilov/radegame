@@ -1,23 +1,22 @@
-import { BaseModel, WithFrames, WithImage, } from "./Base.model";
+import { BaseModel, WithTemplate, WithKeywords, } from "./Base.model";
 import { Omit } from "@app/shared";
 
-export type Choice = BaseModel & WithFrames & WithImage & Partial<{
-    chances: number; // retries. Expression
-    time: number; // Expression
+export type Choice = BaseModel & WithTemplate & Partial<{
+    chances: string; // retries. Expression
+    time: string; // Expression
 
-    options_filter: number; // Expression
-    scope: number; // Expression
+    calculated_options: string; // Expression
 
     options: number[]; //ChoiceOption[];
     tips: number[]; // ChoiceTip[];
 }>
 
-export type ChoiceOption = Omit<BaseModel, 'game'> & Partial<{
+export type ChoiceOption = Omit<BaseModel, 'game'> & WithKeywords & Partial<{
     owner: number; // Choice
-    effect: number; // Expression
+    effect: string; // Expression
 }>
 
-export type ChoiceTip = Partial<{
+export type ChoiceTip = WithKeywords & Partial<{
     owner: number; // Choice
     description: string;
     image: number; // ImageAsset

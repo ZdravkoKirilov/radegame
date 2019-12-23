@@ -1,10 +1,8 @@
 import { GameLanguage } from "../models";
+import { BaseModel } from "./Base.model";
 
-export type Text = Partial<{
-    id: number;
-    game: number;
+export type Text = BaseModel & Partial<{
 
-    name: string;
     default_value: string;
     translations: Translation[];
 }>
