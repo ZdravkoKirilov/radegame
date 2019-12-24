@@ -74,7 +74,6 @@ export const createEntityReducer = (allowedKey: AllEntity | string): ActionReduc
 export const formReducer: ActionReducer<any> = combineReducers({
     factions: createEntityReducer(ALL_ENTITIES.factions),
     tokens: createEntityReducer(ALL_ENTITIES.tokens),
-    slots: createEntityReducer(ALL_ENTITIES.slots),
     actions: createEntityReducer(ALL_ENTITIES.actions),
     conditions: createEntityReducer(ALL_ENTITIES.conditions),
     rounds: createEntityReducer(ALL_ENTITIES.rounds),

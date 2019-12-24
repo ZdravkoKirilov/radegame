@@ -28,7 +28,6 @@ export type ExpressionContext = {
     },
     $self: Player,
     $own_turn: boolean,
-    $player_overrides: (player: Player, path: string) => any;
     $get: typeof get
 };
 
@@ -45,7 +44,6 @@ export const createGameState = ({ setup, conf, players }: CreateStateParams): Ga
     const turn_order = players.map(player => player.id);
     return {
         global_state: {},
-        player_state: createPlayerOverrides(players, conf),
         turn_order,
         setup,
         round: first_round.id,
@@ -65,10 +63,6 @@ export const createExpressionContext = ({ state, conf, self, players }: CreateEx
         get $own_turn() {
             return ctx.$self.id === state.active_player;
         },
-        $player_overrides(player: Player, path: string) {
-            const overrides = state.player_state[player.id];
-            return get(overrides, path, {});
-        },
         $get: get,
     };
     return ctx;
@@ -82,25 +76,4 @@ const composeHelpers = (expressions: Expression[]) => {
             compute: parseFromString
         }
     );
-};
-
-const createSlotOverrides = (players: Player[], conf: GameTemplate) => (base: Dictionary) => {
-    return players.reduce((acc, player) => {
-        const slots: number[] = get(conf, `factions[${player.faction}].slots`, null);
-        if (slots) {
-            const current = base[player.id] || {};
-            current.slots = slots.reduce((acc, slotId) => {
-                const targetSlot = conf.slots[slotId] as Slot;
-                // acc[slotId] = {
-                //     items: [...targetSlot.items]
-                // } as Slot;
-                return acc;
-            }, {});
-        }
-        return acc;
-    }, {});
-};
-
-const createPlayerOverrides = (players: Player[], conf: GameTemplate) => {
-    return createSlotOverrides(players, conf)({});
 };

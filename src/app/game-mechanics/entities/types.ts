@@ -22,7 +22,6 @@ export const ALL_ENTITIES = {
     actions: 'actions',
     factions: 'factions',
     tokens: 'tokens',
-    slots: 'slots',
     games: 'games',
     images: 'images',
     styles: 'styles',

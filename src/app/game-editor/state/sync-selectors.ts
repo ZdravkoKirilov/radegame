@@ -41,7 +41,7 @@ export const selectSlotData = (slot_id: number) => createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
     (entities, context) => {
-        return enrichSlot(entities, context, entities.slots[slot_id]);
+        return enrichSlot(entities, context, {});
     }
 );
 

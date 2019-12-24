@@ -22,13 +22,7 @@ export type GameLanguage = WithImage & Partial<{
 }>
 
 export type GameState = {
-    
     global_state: Partial<GameConfig>;
-    player_state: Dictionary<{
-        [key: string]: {
-            slots: Dictionary<Slot>
-        }
-    }>;
     local_state?: Dictionary;
 
     turn_order: number[]; // player ids determining turn order

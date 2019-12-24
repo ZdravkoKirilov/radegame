@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
 import {
-    Round, Setup, Stage, ImageAsset, Slot, getAllImageAssets,
+    Round, Setup, Stage, ImageAsset, Slot,
     createExpressionContext, Shape, enrichEntity, ImageFrame,
     parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound
 } from "@app/game-mechanics";
@@ -89,7 +89,7 @@ export const selectCurrentRoundStageSlots = createSelector(
     selectConfig,
     selectExpressionContext,
     (stage, config, context) => {
-        return Object.values(config.slots)
+        return stage.slots
             .filter((slot: Slot) => slot.owner === stage.id)
             .map((elem: Slot) => {
                 return enrichSlot(config, context, elem);
@@ -97,20 +97,11 @@ export const selectCurrentRoundStageSlots = createSelector(
     }
 );
 
-export const selectImageAssets = createSelector(
-    selectSetup,
-    selectConfig,
-    (setup_id, config) => {
-        const result = getAllImageAssets(setup_id, config);
-        return new Set(result);
-    }
-);
-
 export const selectSlotData = (slot_id: number) => createSelector(
     selectConfig,
     selectExpressionContext,
     (config, context) => {
-        return enrichSlot(config, context, config.slots[slot_id]);
+        return enrichSlot(config, context, {});
     }
 );
 
@@ -174,7 +165,7 @@ export const selectSlotStageChildren = (slot_id: number) => createSelector(
     selectSlotStage(slot_id),
     selectConfig,
     (stage, config) => {
-        return Object.values(config.slots).filter((elem: Slot) => elem.owner === stage.id) as RuntimeSlot[];
+        return stage.slots as RuntimeSlot[];
     }
 );
 
@@ -202,7 +193,7 @@ export const selectRounds = createSelector(
 export const selectStageChildren = (stage_id: number) => createSelector(
     selectConfig,
     (conf) => {
-        return Object.values(conf.slots).filter((elem: Slot) => elem.owner === stage_id) as RuntimeSlot[];
+        return [];
     }
 );
 

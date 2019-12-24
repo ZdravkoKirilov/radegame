@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
     Faction,
-    Game, Slot,
+    Game,
     GameAction, Condition, Round,
     Choice, Stage,
     Token, Animation, ImageAsset, Style,
@@ -145,18 +145,6 @@ export class GameEditService {
 
     deleteChoice(data: Choice): Observable<any> {
         return this.http.delete(API_URLS.CHOICES(data.game, data.id));
-    }
-
-    saveSlot(data: Slot): Observable<any> {
-        if (data.id) {
-            return this.http.patch(API_URLS.SLOTS(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.SLOTS(data.game), data);
-        }
-    }
-
-    deleteSlot(data: Slot): Observable<any> {
-        return this.http.delete(API_URLS.SLOTS(data.game, data.id));
     }
 
     saveAnimation(data: Animation): Observable<any> {

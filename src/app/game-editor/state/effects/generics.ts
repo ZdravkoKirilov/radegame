@@ -132,8 +132,6 @@ export class GenericEffectsService {
                 return this.fetcher.getStages(data);
             case ALL_ENTITIES.choices:
                 return this.fetcher.getChoices(data);
-            case ALL_ENTITIES.slots:
-                return this.fetcher.getSlots(data);
             case ALL_ENTITIES.tokens:
                 return this.fetcher.getTokens(data);
             case ALL_ENTITIES.images:
@@ -159,8 +157,6 @@ export class GenericEffectsService {
                 return this.api.saveStage(<Stage>entity);
             case ALL_ENTITIES.choices:
                 return this.api.saveChoice(<Choice>entity);
-            case ALL_ENTITIES.slots:
-                return this.api.saveSlot(<Slot>entity);
             case ALL_ENTITIES.tokens:
                 return this.api.saveToken(<Token>entity);
             case ALL_ENTITIES.images:
@@ -209,8 +205,6 @@ export class GenericEffectsService {
                 return this.api.deleteChoice(<Choice>entity);
             case ALL_ENTITIES.tokens:
                 return this.api.deleteToken(<Token>entity);
-            case ALL_ENTITIES.slots:
-                return this.api.deleteSlot(<Slot>entity);
             case ALL_ENTITIES.images:
                 return this.api.deleteImage(<ImageAsset>entity);
             case ALL_ENTITIES.styles:

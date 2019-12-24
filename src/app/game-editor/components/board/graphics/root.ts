@@ -48,12 +48,11 @@ export class RootComponent extends StatefulComponent<Props, State> {
             this.props.store.pipe(select(getActiveStage)),
             this.props.store.pipe(select(selectGameId)),
             this.props.store.pipe(select(getEntitiesDict)),
-            this.props.store.pipe(select(getItems<RuntimeSlot>(ALL_ENTITIES.slots))),
         ).pipe(
-            map(([stage, gameId, entities, slots]) => {
+            map(([stage, gameId, entities]) => {
                 this.setState({
                     entities, stage, gameId, loaded: true,
-                    slots: slots.filter(slot => slot.owner === stage.id),
+                    slots: stage.slots as any,
                 });
             }),
         ).subscribe();
@@ -109,10 +108,10 @@ export class RootComponent extends StatefulComponent<Props, State> {
         this.setState({ selectedSlot: null });
         this.props.selectSlot(null);
 
-        this.props.store.dispatch(new SaveItemAction({
-            key: ALL_ENTITIES.slots as AllEntity,
-            data: slot as GameEntity,
-        }));
+        // this.props.store.dispatch(new SaveItemAction({
+        //     key: ALL_ENTITIES.slots as AllEntity,
+        //     data: slot as GameEntity,
+        // }));
     }
 
     handleDragMove = (comp: PrimitiveContainer) => {

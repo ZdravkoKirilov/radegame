@@ -25,28 +25,6 @@ export const parseAndBind = <T = Function>(context: Dictionary) => (src: string)
   return typeof func === 'function' ? func.bind(context) : func;
 };
 
-export const getAllImageAssets = (setup_id: number, conf: GameTemplate) => {
-  const setup_data = conf.setups[setup_id] as Setup;
-  let total = [];
-  setup_data.rounds.forEach(elem => {
-    const round_data = conf.rounds[elem.round] as Round;
-    const stage = conf.stages[round_data.board as number] as Stage;
-    const image = conf.images[stage.image as number] as ImageAsset;
-    const slot_images = Object.values(conf.slots).reduce(
-      (acc, item: Slot) => {
-        if (item.owner === stage.id) {
-
-        }
-        return acc;
-      },
-      []
-    );
-    total = [...total, image.image, ...slot_images];
-  });
-
-  return [] //total;
-};
-
 type HandlerParams<T> = {
   payload: T,
   conf: GameTemplate,
