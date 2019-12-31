@@ -75,9 +75,12 @@ export class BoardContainerComponent {
 	}
 
 	deleteSlot = (slot: Slot) => {
-		// this.store.dispatch(new DeleteItemAction({
-		// 	key: ALL_ENTITIES.slots as AllEntity,
-		// 	data: slot as GameEntity,
-		// }));
+		const stage = clone(this.stage, draft => {
+			draft.slots = draft.slots.filter(childSlot => childSlot.id !== slot.id);
+		});
+		this.store.dispatch(new SaveItemAction({
+			key: ALL_ENTITIES.stages,
+			data: stage,
+		}));
 	}
 }

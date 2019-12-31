@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import {
     Stage, ImageAsset, Slot, Text, Expression, parseFromString,
-    createExpressionContext, GameTemplate, Shape, enrichEntity, ImageFrame, RuntimeSlot, parseAndBind, RuntimeImageFrame, enrichSlot
+    createExpressionContext, GameTemplate, Shape, enrichEntity, ImageFrame, RuntimeSlot, parseAndBind, RuntimeImageFrame, enrichSlot, RuntimeStage
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -45,6 +45,17 @@ export const selectSlotData = (slot_id: number) => createSelector(
     }
 );
 
+export const selectRuntimeStage = (stage: Stage) => createSelector(
+    selectEntitiesDictionary,
+    selectExpressionContext,
+    (entities, context) => {
+        const result = enrichEntity<Stage, RuntimeStage>(entities, {
+            slots: slot => enrichSlot(entities, context, slot)
+        }, stage);
+        return result;
+    }
+);
+
 export const selectSlotStyle = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
     (slot_data) => {
@@ -55,18 +66,6 @@ export const selectSlotStyle = (slot_id: number) => createSelector(
             return style;
         }
         return null;
-    }
-);
-
-export const selectSlotShape = (slot_id: number) => createSelector(
-    selectEntitiesDictionary,
-    selectSlotData(slot_id),
-    (entities, slot_data) => {
-        const shape = enrichEntity<Shape>(entities, {
-            style_inline: (value: string) => JSON.parse(value || '{}'),
-            style: 'styles'
-        }, entities.shapes[slot_data.shape as number] as Shape);
-        return shape;
     }
 );
 

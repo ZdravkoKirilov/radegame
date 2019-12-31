@@ -15,8 +15,8 @@ export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseContr
 
             <NumberInput name='height' label='Height' required='{true}'>{data.height}</NumberInput>
 
-            <CodeEditor name="computed_slots" label="Get slots">
-                {data.get_slots}
+            <CodeEditor name="computed_slots" label="Compute slots">
+                {data.computed_slots}
             </CodeEditor>
 
         </Form>

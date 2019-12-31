@@ -5,7 +5,8 @@ import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
 import { composeStageForm } from '../../forms';
 import { SmartBase } from '../../mixins';
-import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
+import { AllEntity, ALL_ENTITIES, Stage} from '@app/game-mechanics';
+import { SaveItemAction } from '../../state';
 
 
 @Component({
@@ -20,5 +21,17 @@ export class StagesContainerComponent extends SmartBase {
 
     constructor(public store: Store<AppState>) {
         super(store);
+    }
+
+    saveItem(data: Stage) {
+        const payload = { ...data, game: this.gameId, slots: data.slots || [] };
+        if (this.selectedItem) {
+            payload.id = this.selectedItem.id;
+        }
+        this.store.dispatch(new SaveItemAction({
+            key: this.key,
+            data: payload
+        }));
+        this.toggleEditor(false);
     }
 }
