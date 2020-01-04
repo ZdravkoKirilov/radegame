@@ -46,7 +46,7 @@ const EnhancedItemSlot: RenderFunction<EnhancedItemSlotProps & StoreProps> = ({ 
 };
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedItemSlotProps): StoreProps => ({
-    style: selectSlotStyle(ownProps.data.id)(state),
+    style: selectSlotStyle(ownProps.data),
     frame: selectSlotItemDefaultFrame(ownProps.data.id)(state),
 });
 

@@ -8,7 +8,8 @@ import { MutatorAction, selectGameState, selectGameConfig } from '@app/game-aren
 import { AppState } from '@app/core';
 import { AutoUnsubscribe } from '@app/shared';
 import { transformToMutators } from '../../helpers/actions';
-import {  GameConfig, GameState } from '../../models';
+import {  GameConfig } from '../../models';
+import { GameState } from '../../helpers';
 
 @Injectable()
 @AutoUnsubscribe()

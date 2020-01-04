@@ -1,13 +1,12 @@
 import {
-    RenderFunction, RzElementType, RzElementProps,
-    AnimatableProps, withBasicInteractions, createElement, RzTransition
+    RenderFunction, RzElementType, RzElementProps, withBasicInteractions, createElement, RzTransition
 } from "@app/render-kit"
 import { RuntimeTransition } from "../../entities";
 import { AppState } from "@app/core";
 import { selectGameState } from "@app/game-arena";
 import { connect } from "../store";
 import { Dictionary } from "@app/shared";
-import { GameState } from "app/game-mechanics/models";
+import { GameState } from "../../helpers";
 
 export type ArenaTransitionProps = {
     transitions: RuntimeTransition[];

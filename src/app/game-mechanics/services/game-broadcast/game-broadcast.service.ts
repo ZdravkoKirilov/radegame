@@ -61,12 +61,14 @@ export class GameBroadcastService {
     this.socket.close();
   }
 
-  dispatch = (actions: GameAction[]) => {
+  dispatch = (actions: GameAction[], shared = true) => {
     const mutators = this.processor.toMutators(actions);
     mutators.filter(Boolean).forEach(mutator => this.store.dispatch(mutator));
-    this.sendActions({
-      actions, initiator: this.self.id
-    });
+    if (shared) {
+      this.sendActions({
+        actions, initiator: this.self.id
+      });
+    }
   }
 
   private sendActions(actions: GameActionsPayload) {

@@ -8,10 +8,10 @@ import { selectGameInstanceId, AutoUnsubscribe } from '@app/shared';
 
 import {
   FetchGameInstance, selectGameInstance, FetchGameConfig,
-  isDownloadingGameData, FetchGame, selectGameConfig, CreateGameState
+  isDownloadingGameData, FetchGame, selectGameConfig, CreateGameState, selectGame
 } from '../../state';
 import { GameInstance } from '../../models';
-import { GameTemplate } from '@app/game-mechanics';
+import { GameTemplate, Game } from '@app/game-mechanics';
 
 @Component({
   selector: 'rg-game-loader',
@@ -27,6 +27,7 @@ export class GameLoaderComponent implements OnInit {
   game_id$: Subscription;
   game_instance$: Subscription;
   game_config$: Subscription;
+  game$: Subscription;
 
   isDownloading$: Observable<boolean>;
 
@@ -41,13 +42,20 @@ export class GameLoaderComponent implements OnInit {
       })
     ).subscribe();
 
+    this.game$ = this.store.pipe(
+      select(selectGame),
+      filter<Game>(Boolean),
+      map(game => {
+        this.store.dispatch(new FetchGameConfig({ gameId: game.id, keywords: game.core_data.split(',') }));
+      })
+    ).subscribe();
+
     this.game_instance$ = this.store.pipe(
       select(selectGameInstance),
       filter<GameInstance>(Boolean),
       map(instance => {
         this.game_instance = instance;
         this.store.dispatch(new FetchGame(instance.game_id));
-        this.store.dispatch(new FetchGameConfig(instance.game_id));
       })
     ).subscribe();
 

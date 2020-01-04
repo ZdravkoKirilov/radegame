@@ -10,7 +10,7 @@ export type ActionConfig = Partial<{
 
     type: ActionType;
 
-    payload: ActionParam;
+    payload: ActionParam[];
 }>
 
 export type ActionParam = {
@@ -19,7 +19,6 @@ export type ActionParam = {
 }
 
 export const ACTION_TYPE = {
-    END_TURN: 'END_TURN',
     MUTATE_STATE: 'MUTATE_STATE',
 
     LOAD_FROM_SERVER: 'LOAD_FROM_SERVER',

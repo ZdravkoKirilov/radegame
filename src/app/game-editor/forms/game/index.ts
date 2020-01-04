@@ -16,6 +16,8 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
 
             <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
 
+            <TagsInput name='core_data' label="Always load: ">{data.core_data}</TagsInput>
+
             <Dropdown name='menu' label='Menu' options='{round_options}'>
                 {data.menu}
             </Dropdown>

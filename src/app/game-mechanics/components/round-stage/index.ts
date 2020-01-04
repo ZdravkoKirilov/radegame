@@ -1,9 +1,9 @@
-import { Stage, RuntimeSlot, ImageAsset } from "../../entities";
+import { RuntimeStage, RuntimeSlot, ImageAsset } from "../../entities";
 import { Memo, createElement, SpriteProps, DynamicSprite } from "@app/render-kit";
 import { SlotsList, Props as SlotsListProps } from "../slots";
 
 export type RoundStageProps = {
-    stage: Stage;
+    stage: RuntimeStage;
     image: ImageAsset;
     slots: RuntimeSlot[];
 }

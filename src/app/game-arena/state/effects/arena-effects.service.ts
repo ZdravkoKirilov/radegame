@@ -68,10 +68,13 @@ export class ArenaEffectsService {
   getGameConfig = this.actions$.pipe(
     ofType<FetchGameConfig>(actionTypes.FETCH_GAME_CONFIG),
     mergeMap(action => {
-      return this.fetchApi.getGameData(action.payload).pipe(
+      return this.fetchApi.getGameData(action.payload.gameId).pipe(
         map(data => {
           data = formatGameConfigData(data);
-          return new FetchGameConfigSuccess(data);
+          return new FetchGameConfigSuccess({
+            config: data,
+            keywords: action.payload.keywords,
+          });
         }),
         catchError(() => {
           return of(new FetchGameConfigFail());

@@ -1,15 +1,20 @@
-import { RuntimeRound } from "../../entities";
 import { RenderFunction, RzElement } from "@app/render-kit";
+import { withDispatcher, InjectedDispatcher } from "app/game-mechanics/hocs";
 
 export type DataLoaderProps = {
-    round: RuntimeRound;
+    preload: Function;
+    load_done: Function;
+    fallback: RzElement;
     children?: RzElement;
-}
+} & InjectedDispatcher;
 
-export const DataLoader: RenderFunction<DataLoaderProps> = ({ round, children }) => {
-    if (round && round.preload && round.load_done && !round.load_done()) {
-        throw round.preload();
+const dataLoader: RenderFunction<DataLoaderProps> = ({ preload, load_done, fallback, children, dispatcher }) => {
+    if (preload && load_done && !load_done()) {
+        const actions = preload();
+        dispatcher.dispatch(actions, false);
+        return fallback;
     }
-    throw new Promise(() => null);
-    // return children;
+    return children;
 };
+
+export const DataLoader = withDispatcher<DataLoaderProps>(dataLoader);

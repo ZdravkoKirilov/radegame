@@ -34,12 +34,18 @@ export class FetchGameFail {
 
 export class FetchGameConfig {
     readonly type = actionTypes.FETCH_GAME_CONFIG;
-    constructor(public payload: number) { }
+    constructor(public payload: {
+        gameId: number;
+        keywords: string[];
+    }) { }
 }
 
 export class FetchGameConfigSuccess {
     readonly type = actionTypes.FETCH_GAME_CONFIG_SUCCESS;
-    constructor(public payload: GameTemplate) { }
+    constructor(public payload: {
+        config: GameTemplate;
+        keywords: string[];
+    }) { }
 }
 
 export class FetchGameConfigFail {

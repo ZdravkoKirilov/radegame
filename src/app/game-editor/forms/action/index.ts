@@ -3,7 +3,7 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import {
-    GameAction, ACTION_TYPE as types,
+    GameAction, ACTION_TYPE as types, ActionParam,
 } from '@app/game-mechanics';
 import {
     composeFromObject, baseTemplate, composeCommonFormContext, interactiveTemplate
@@ -24,14 +24,18 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
                     <Dropdown name='type' label='Type' options='{types}' required='{true}'>{@item.type}</Dropdown>
 
-                    <EmbeddedData
-                        name='payload' 
-                        label='Payload'
-                        connectedEntities='{entities}' 
-                        childrenDefinition='{composePayloadForm}' 
-                    >
-                        {@item.payload}
-                    </EmbeddedData>
+                    <Group name='payload' label='Payload' children='{@item.payload}' addButtonText='Add' item='@param'>
+                        <Form>
+                            <NumberInput name='id' hidden='{true}'>{@param.id}</NumberInput>
+                            <TextInput name='key' required='{true}' label='Key'>
+                                {@param.key}
+                            </TextInput>
+                    
+                            <TextInput name='value' required='{true}' label='Value'>
+                                {@param.value}
+                            </TextInput>
+                        </Form>
+                    </Group>
 
                 </Form>
 

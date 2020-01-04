@@ -33,7 +33,7 @@ const selectExpressionContext = createSelector(
             total[key] = value.items;
             return total;
         }, {}) as GameTemplate;
-        return createExpressionContext({ conf, self: 1, players: {}, state: {} as any });
+        return createExpressionContext({ conf, self: 1, players: {}, state: {} as any, loaded_chunks: [] });
     }
 );
 

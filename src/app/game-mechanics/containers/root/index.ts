@@ -1,10 +1,9 @@
 import { Store } from "@ngrx/store";
 
-import { StatefulComponent, createElement, MetaProps, Suspense, SuspenseProps } from "@app/render-kit";
+import { StatefulComponent, createElement, MetaProps } from "@app/render-kit";
 import { AppState } from "@app/core";
 import { MainStage } from "../main-stage";
 import { GameBroadcastService } from "../../services/game-broadcast/game-broadcast.service";
-import { DataLoader, DataLoaderProps } from "../data-loader";
 
 type Props = {
     store: Store<AppState>;
@@ -22,26 +21,6 @@ export class GameArenaRoot extends StatefulComponent<Props> {
     }
 
     render() {
-        return createElement<SuspenseProps>(
-            Suspense,
-            {
-                fallback: createElement('text', {
-                    value: 'Loading...',
-                    styles: {
-                        x: 50, y: 50,
-                    },
-                    textStyle: {
-                        fill: ['#333231'], stroke: '#333231'
-                    }
-                })
-            },
-            createElement<DataLoaderProps>(
-                DataLoader,
-                {
-                    round: null
-                },
-                createElement(MainStage)
-            ),
-        );
+        return createElement(MainStage)
     }
 }

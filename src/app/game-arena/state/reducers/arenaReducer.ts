@@ -9,6 +9,7 @@ export type ArenaState = Partial<{
     game: Game;
     config: GameTemplate;
     state: GameState;
+    loaded_chunks: string[];
 }>;
 
 const initialState: ArenaState = {
@@ -16,6 +17,7 @@ const initialState: ArenaState = {
     config: null,
     game: null,
     state: null,
+    loaded_chunks: [],
 };
 
 export const arenaReducer = (state: ArenaState = initialState, action: GameArenaAction): ArenaState => {
@@ -26,7 +28,8 @@ export const arenaReducer = (state: ArenaState = initialState, action: GameArena
             });
         case actionTypes.FETCH_GAME_CONFIG_SUCCESS:
             return produce(state, draft => {
-                draft.config = action.payload;
+                draft.config = action.payload.config;
+                draft.loaded_chunks = [...draft.loaded_chunks, ...action.payload.keywords];
             });
         case actionTypes.FETCH_GAME_SUCCESS:
             return produce(state, draft => {
