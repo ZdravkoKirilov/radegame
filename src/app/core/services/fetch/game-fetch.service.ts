@@ -17,8 +17,9 @@ export class GameFetchService {
 	constructor(private http: HttpClient) {
 	}
 
-	getGameData(gameId: number) {
-		return this.http.get<GameTemplate>(API_URLS.GAME_DATA(gameId));
+	getGameData(gameId: number, query = '') {
+		const url = API_URLS.GAME_DATA(gameId, query);
+		return this.http.get<GameTemplate>(url);
 	}
 
 	getActions(gameId: number) {
