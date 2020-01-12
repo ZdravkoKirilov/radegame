@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
-import { API_URLS } from 'app/core/config';
+import { API_URLS } from '../../config';
 import {
 	GameAction, Stage, Condition, Round,
-	Token, Phase, Choice, Slot, ImageAsset,
+	Token, Choice, ImageAsset,
 	Game, Faction, Expression, Animation, Setup, GameTemplate
 } from '@app/game-mechanics';
 
@@ -17,8 +17,9 @@ export class GameFetchService {
 	constructor(private http: HttpClient) {
 	}
 
-	getGameData(gameId: number) {
-		return this.http.get<GameTemplate>(API_URLS.GAME_DATA(gameId));
+	getGameData(gameId: number, query = '') {
+		const url = API_URLS.GAME_DATA(gameId, query);
+		return this.http.get<GameTemplate>(url);
 	}
 
 	getActions(gameId: number) {
@@ -41,16 +42,8 @@ export class GameFetchService {
 		return this.http.get<Token[]>(API_URLS.TOKENS(gameId));
 	}
 
-	getPhases(gameId: number) {
-		return this.http.get<Phase[]>(API_URLS.PHASES(gameId));
-	}
-
 	getChoices(gameId: number) {
 		return this.http.get<Choice[]>(API_URLS.CHOICES(gameId));
-	}
-
-	getSlots(gameId: number) {
-		return this.http.get<Slot[]>(API_URLS.SLOTS(gameId));
 	}
 
 	getImages(gameId: number) {

@@ -1,14 +1,13 @@
 import { GameEntity, Expression } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeCommonFormContext } from '../helpers';
+import { composeCommonFormContext, baseTemplate } from '../helpers';
 
 export function composeExpressionForm(data: Expression, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
 
     const template = `
     <Form>
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
+        ${baseTemplate}
 
         <TextInput name='preload_as' label='Preload as'>{data.preload_as}</TextInput>
 

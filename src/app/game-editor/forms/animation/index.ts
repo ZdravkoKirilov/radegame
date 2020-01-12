@@ -3,7 +3,7 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import { Animation, ANIMATION_PLAY_TYPE } from '@app/game-mechanics';
-import { composeCommonFormContext, composeFromObject, composeInlineStyleFormContext } from '../helpers';
+import { composeCommonFormContext, composeFromObject, composeInlineStyleFormContext, baseTemplate } from '../helpers';
 import { ANIMATION_EASINGS } from '@app/render-kit';
 
 export const composeAnimationForm: FormDefinition = (data: Animation, ent?: ConnectedEntities) => {
@@ -12,8 +12,7 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
 
     const template = `
     <Form>
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
+        ${baseTemplate}
 
         <Dropdown name='type' label='Type' options='{types}' defaultValue='{types[0].value}'>{data.type}</Dropdown>
 

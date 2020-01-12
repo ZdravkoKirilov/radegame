@@ -2,7 +2,9 @@ import { createSelector } from "reselect";
 
 import { FEATURE_NAME } from "../../config";
 import {
-    Round, Phase, Setup, Stage, ImageAsset, Slot, getAllImageAssets, createExpressionContext, Shape, enrichEntity, ImageFrame, parseFromString, parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound
+    Round, Setup, Stage, ImageAsset,
+    createExpressionContext, enrichEntity, ImageFrame,
+    parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound, RuntimeStage
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -15,6 +17,11 @@ export const selectConfig = createSelector(
     feature => feature.config,
 );
 
+const selectLoadedChunks = createSelector(
+    selectFeature,
+    feature => feature.loaded_chunks
+);
+
 export const selectGameState = createSelector(
     selectFeature,
     feature => feature.state,
@@ -24,19 +31,10 @@ export const selectRound = createSelector(
     selectGameState,
     state => state.round,
 );
-const selectPhase = createSelector(
-    selectGameState,
-    state => state.phase
-);
+
 const selectSetup = createSelector(
     selectGameState,
     state => state ? state.setup : null,
-);
-
-export const selectPhaseData = createSelector(
-    selectPhase,
-    selectConfig,
-    (phase, config) => config.phases[phase] as Phase,
 );
 
 export const selectSetupData = createSelector(
@@ -50,10 +48,11 @@ export const selectExpressionContext = createSelector(
     selectConfig,
     selectGameState,
     selectPlayers,
-    (user, conf, state, players) => {
+    selectLoadedChunks,
+    (user, conf, state, players, loaded_chunks) => {
         return createExpressionContext({
-            self: user.id,
-            conf, state, players: toDictionary(players, 'id'),
+            self: user.id, loaded_chunks,
+            conf, state, players: toDictionary(players, 'id')
         });
     }
 );
@@ -67,8 +66,9 @@ export const selectRoundData = createSelector(
         const roundId = setup.rounds.find(elem => elem.id === roundSlotId).round;
         const roundData = config.rounds[roundId] as Round;
         return enrichEntity<Round, RuntimeRound>(config, {
-            board: stageId => enrichEntity<Stage>(config, {
-                image: 'images'
+            board: stageId => enrichEntity<Stage, RuntimeStage>(config, {
+                image: 'images',
+                slots: slot => enrichSlot(config, context, slot),
             }, config.stages[stageId] as Stage),
             loader: stageId => enrichEntity<Stage>(config, {
                 image: 'images'
@@ -88,63 +88,33 @@ export const selectCurrentRoundStage = createSelector(
 
 export const selectCurrentRoundStageImage = createSelector(
     selectCurrentRoundStage,
-    (stage) => stage.image
+    stage => stage.image
 );
 
 export const selectCurrentRoundStageSlots = createSelector(
     selectCurrentRoundStage,
-    selectConfig,
-    selectExpressionContext,
-    (stage, config, context) => {
-        return Object.values(config.slots)
-            .filter((slot: Slot) => slot.owner === stage.id)
-            .map((elem: Slot) => {
-                return enrichSlot(config, context, elem);   
-            });
-    }
-);
-
-export const selectImageAssets = createSelector(
-    selectSetup,
-    selectConfig,
-    (setup_id, config) => {
-        const result = getAllImageAssets(setup_id, config);
-        return new Set(result);
-    }
+    stage => stage.slots
 );
 
 export const selectSlotData = (slot_id: number) => createSelector(
     selectConfig,
     selectExpressionContext,
     (config, context) => {
-        return enrichSlot(config, context, config.slots[slot_id]);
+        return enrichSlot(config, context, {});
     }
 );
 
-export const selectSlotStyle = (slot_id: number) => createSelector(
-    selectSlotData(slot_id),
-    (slot_data) => {
-        if (slot_data) {
-            const dynamicStyle = slot_data.style ? slot_data.style(slot_data) : {};
-            const inlineStyle = safeJSON(slot_data.style_inline, {});
-            const style = { ...inlineStyle, ...dynamicStyle };
-            return style;
-        }
-        return null;
+export const selectSlotStyle = (slot: RuntimeSlot) => {
+    if (slot) {
+        const dynamicStyle = slot.style ? slot.style(slot) : {};
+        const inlineStyle = safeJSON(slot.style_inline, {});
+        const style = { ...inlineStyle, ...dynamicStyle };
+        return style;
     }
-);
+    return null;
+};
 
-export const selectSlotShape = (slot_id: number) => createSelector(
-    selectConfig,
-    selectSlotData(slot_id),
-    (entities, slot_data) => {
-        const shape = enrichEntity<Shape>(entities, {
-            style_inline: (value: string) => JSON.parse(value || '{}'),
-            style: 'styles'
-        }, entities.shapes[slot_data.shape as number] as Shape);
-        return shape;
-    }
-);
+export const selectSlotShape = (slot: RuntimeSlot) => slot.shape
 
 export const selectSlotText = (slot_id: number) => createSelector(
     selectSlotData(slot_id),
@@ -157,12 +127,7 @@ export const selectSlotText = (slot_id: number) => createSelector(
     }
 );
 
-export const selectSlotTransitions = (slot_id: number) => createSelector(
-    selectSlotData(slot_id),
-    slot => {
-        return slot.transitions;
-    }
-);
+export const selectSlotTransitions = (slot: RuntimeSlot) => slot.transitions;
 
 export const selectSlotStage = (slot_id: number) => createSelector(
     selectConfig,
@@ -181,7 +146,7 @@ export const selectSlotStageChildren = (slot_id: number) => createSelector(
     selectSlotStage(slot_id),
     selectConfig,
     (stage, config) => {
-        return Object.values(config.slots).filter((elem: Slot) => elem.owner === stage.id) as RuntimeSlot[];
+        return stage.slots as RuntimeSlot[];
     }
 );
 
@@ -209,7 +174,7 @@ export const selectRounds = createSelector(
 export const selectStageChildren = (stage_id: number) => createSelector(
     selectConfig,
     (conf) => {
-        return Object.values(conf.slots).filter((elem: Slot) => elem.owner === stage_id) as RuntimeSlot[];
+        return [];
     }
 );
 
@@ -243,12 +208,12 @@ export const selectSlotItemDefaultFrame = (slot_id: number) => createSelector(
     (config, slot_data, context) => {
         const item = slot_data.item;
         if (item) {
-            return enrichEntity<ImageFrame>(config, {
-                image: 'images',
-                stage: 'stages',
-                style: (value: string) => parseAndBind(context)(value),
-                style_inline: (value: string) => safeJSON(value, {}),
-            }, item.token.frames[0]) as RuntimeImageFrame;
+            // return enrichEntity<ImageFrame>(config, {
+            //     image: 'images',
+            //     stage: 'stages',
+            //     style: (value: string) => parseAndBind(context)(value),
+            //     style_inline: (value: string) => safeJSON(value, {}),
+            // }, item.token.frames[0]) as RuntimeImageFrame;
         }
         return null;
     }

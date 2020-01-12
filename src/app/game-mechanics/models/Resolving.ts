@@ -1,6 +1,7 @@
 import { GameAction, ActionConfig } from "../entities";
-import { GameState, GameConfig } from "./Game.model";
+import { GameConfig } from "./Game.model";
 import { MutatorAction } from "@app/game-arena";
+import { GameState } from "../helpers";
 
 type MultiActionsTransformerPayload = {
     actions: GameAction[];
@@ -16,5 +17,5 @@ type SingleActionTransformerPayload = {
     action_config?: ActionConfig;
 };
 
-export type MultiActionsTransformer = (payload: MultiActionsTransformerPayload) => MutatorAction[];
-export type SingleActionTransformer = (payload: SingleActionTransformerPayload) => MutatorAction[];
+export type MultiActionsTransformer<T = MutatorAction> = (payload: MultiActionsTransformerPayload) => T[];
+export type SingleActionTransformer<T = MutatorAction> = (payload: SingleActionTransformerPayload) => T[];

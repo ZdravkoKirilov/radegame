@@ -1,12 +1,7 @@
 import { GameAction } from "./Action.model"
+import { BaseModel } from "./Base.model";
 
-export type Expression = Partial<{
-    id: number;
-    game: number;
-
-    name: string;
-    description: string;
-
+export type Expression = BaseModel & Partial<{
     code: string;
 }>
 

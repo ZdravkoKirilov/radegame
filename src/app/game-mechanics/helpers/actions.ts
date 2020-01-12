@@ -1,7 +1,7 @@
 import { ACTION_TYPE } from "../entities";
 import { MultiActionsTransformer, SingleActionTransformer } from "../models";
-import { handleEndTurn } from "./action-handlers/handleEndTurn";
 import { mutateState } from "./action-handlers/mutateState";
+import { loadFromServer } from "./action-handlers/loadFromServer";
 
 export const transformToMutators: MultiActionsTransformer = (payload) => {
     return reduceMutators(payload);
@@ -27,10 +27,10 @@ const reduceMutatorsForAction: SingleActionTransformer = (payload) => {
 
 const delegateByActionType: SingleActionTransformer = (payload) => {
     switch (payload.action_config.type) {
-        case ACTION_TYPE.END_TURN:
-            return handleEndTurn(payload);
         case ACTION_TYPE.MUTATE_STATE:
             return mutateState(payload);
+        case ACTION_TYPE.LOAD_FROM_SERVER:
+            return loadFromServer(payload);
         default:
             return [];
     }

@@ -81,7 +81,7 @@ export const removeEmptyProps = (source: {}) => {
     return copy;
 };
 
-export const safeJSON = (source: any, fallback = null) => {
+export const safeJSON = <T = any>(source: any, fallback = null): T => {
     if (typeof source === 'string') {
         try {
             return JSON.parse(source);

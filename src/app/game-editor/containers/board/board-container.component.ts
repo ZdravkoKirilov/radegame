@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { map, filter } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
+import clone from 'immer';
 
 import { AppState } from '@app/core';
 import {
@@ -33,6 +34,8 @@ export class BoardContainerComponent {
 
 	constructor(private store: Store<AppState>) { }
 
+	stage: Stage;
+
 	data$: Observable<{
 		stage: Stage,
 		slots: Slot[],
@@ -41,31 +44,43 @@ export class BoardContainerComponent {
 		images: ImageAsset[],
 	}> = combineLatest<any>(
 		this.store.pipe(select(getActiveStage)),
-		this.store.pipe(select(getItems<Slot>(ALL_ENTITIES.slots))),
 		this.store.pipe(select(getEntities)),
 		this.store.pipe(select(selectGameId)),
 		this.store.pipe(select(getItems<ImageAsset>(ALL_ENTITIES.images))),
 	).pipe(
 		filter(data => data.every(elem => !!elem)),
-		map(([stage, slots, entities, gameId, images]) => {
+		map(([stage, entities, gameId, images]) => {
+			this.stage = stage;
 			return {
 				stage, entities, gameId, images,
-				slots: slots.filter((slot: Slot) => stage && stage.id === slot.owner)
+				slots: stage.slots
 			};
 		}),
 	)
 
 	saveSlot = (slot: Slot) => {
+		const index = this.stage.slots.findIndex(childSlot => childSlot.id === slot.id);
+		const stage = clone(this.stage, draft => {
+			if (index === -1) {
+				draft.slots.push(slot);
+			} else {
+				draft.slots[index] = slot;
+			}
+		});
+
 		this.store.dispatch(new SaveItemAction({
-			key: ALL_ENTITIES.slots as AllEntity,
-			data: slot as GameEntity,
+			key: ALL_ENTITIES.stages,
+			data: stage,
 		}));
 	}
 
 	deleteSlot = (slot: Slot) => {
-		this.store.dispatch(new DeleteItemAction({
-			key: ALL_ENTITIES.slots as AllEntity,
-			data: slot as GameEntity,
+		const stage = clone(this.stage, draft => {
+			draft.slots = draft.slots.filter(childSlot => childSlot.id !== slot.id);
+		});
+		this.store.dispatch(new SaveItemAction({
+			key: ALL_ENTITIES.stages,
+			data: stage,
 		}));
 	}
 }

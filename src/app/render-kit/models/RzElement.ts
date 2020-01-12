@@ -63,11 +63,11 @@ export type RzStyles = {
     pivot: string;  // "xValue yValue"
     anchor: string; // "xValue yValue"
     alpha: number;
-    fill: number;
+    fill: number | string[];
     radius: number;
     border_radius: number;
     stroke_thickness: number;
-    stroke_color: number;
+    stroke_color: string | number;
     scale: string; // "xValue yValue"
     color: number;
     blur: number;

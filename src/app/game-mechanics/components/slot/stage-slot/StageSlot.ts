@@ -62,7 +62,7 @@ const EnhancedStageSlot: RenderFunction<EnhancedStageSlotProps> = (({ stage, slo
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
     stage: selectSlotStage(ownProps.data.id)(state),
     slots: selectSlotStageChildren(ownProps.data.id)(state),
-    style: selectSlotStyle(ownProps.data.id)(state),
+    style: selectSlotStyle(ownProps.data),
 });
 
 export default connect(mapStateToProps)(EnhancedStageSlot);

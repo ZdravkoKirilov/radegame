@@ -1,7 +1,7 @@
 import {
     createElement, Memo,
 } from "@app/render-kit";
-import { Style, Text, RuntimeSlot, Transition } from "../../../entities";
+import { Style, Text, RuntimeSlot, RuntimeTransition } from "../../../entities";
 import { AppState } from "@app/core";
 import {
     selectSlotStyle,
@@ -37,7 +37,7 @@ export type EnhancedTextSlotProps = {
 type StoreProps = {
     style: Style;
     text: Text;
-    transitions: Transition[];
+    transitions: RuntimeTransition[];
 };
 
 type AnimationProps = {
@@ -51,8 +51,8 @@ const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps & AnimationProp
 });
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
-    style: selectSlotStyle(ownProps.data.id)(state),
-    transitions: selectSlotTransitions(ownProps.data.id)(state),
+    style: selectSlotStyle(ownProps.data),
+    transitions: selectSlotTransitions(ownProps.data),
     text: selectSlotText(ownProps.data.id)(state),
 });
 

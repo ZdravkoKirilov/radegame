@@ -1,9 +1,5 @@
-export type Sound = Partial<{
-    id: number;
-    game: number;
+import { BaseModel } from "./Base.model"
 
-    name: string;
-    description: string;
-
+export type Sound = BaseModel & Partial<{
     file: string;
 }>

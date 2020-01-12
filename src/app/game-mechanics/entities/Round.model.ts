@@ -1,10 +1,10 @@
 import { BaseModel, WithBoard } from './Base.model';
 import { Omit } from '@app/shared';
 import { ExpressionFunc } from './Expression.model';
-import { Stage } from './Stage.model';
+import { RuntimeStage } from './Stage.model';
 
 export type Round = BaseModel & WithBoard & Partial<{
-    phases: number[]; // Phase[]
+    phases: Phase[]; // Phase[]
 
     preload: string;
     load_done: string;
@@ -14,11 +14,18 @@ export type Round = BaseModel & WithBoard & Partial<{
 export type RuntimeRound = Round & Omit<Round, 'preload' | 'load_done'> & {
     preload: ExpressionFunc<void>;
     load_done: ExpressionFunc<boolean>;
-    loader: Stage;
-    board: Stage;
+    loader: RuntimeStage;
+    board: RuntimeStage;
 };
 
-export type PhaseSlot = Partial<{
+export type Phase = Partial<{
+    id: number;
     owner: number;
-    phase: number;
+    
+    name: string;
+    description: string;
+    keywords: string;
+
+    done: string; // Expression
+    image: number; // ImageAsset
 }>;

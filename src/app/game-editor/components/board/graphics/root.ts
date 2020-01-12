@@ -1,6 +1,8 @@
-import { combineLatest, Subscription } from "rxjs";
+import { combineLatest, Subscription, identity } from "rxjs";
 import { Store, select } from "@ngrx/store";
 import { map } from "rxjs/operators";
+import clone from 'immer';
+import get from 'lodash/get';
 
 import {
     StatefulComponent, createElement, PrimitiveContainer,
@@ -9,20 +11,20 @@ import {
 
 import Slots, { Props as SlotProps } from './slots';
 import Background, { Props as BGProps } from './background';
-import { RuntimeSlot, Stage, GameEntity, ALL_ENTITIES, AllEntity } from "@app/game-mechanics";
+import { RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot } from "@app/game-mechanics";
 import { AppState } from "@app/core";
-import { getActiveStage, SaveItemAction, getEntitiesDict, getItems } from "../../../state";
+import { getActiveStage, SaveItemAction, getEntitiesDict, selectRuntimeStage } from "../../../state";
 import { selectGameId, Dictionary } from "@app/shared";
 
 export type Props = {
     store: Store<AppState>;
     selectSlot: (slot: RuntimeSlot) => void;
-}
+};
 
 type State = Partial<{
     entities: Dictionary;
-    slots: RuntimeSlot[];
     stage: Stage;
+    runtimeStage: RuntimeStage;
     selectedSlot: RuntimeSlot;
     gameId: number;
     loaded: boolean;
@@ -48,13 +50,15 @@ export class RootComponent extends StatefulComponent<Props, State> {
             this.props.store.pipe(select(getActiveStage)),
             this.props.store.pipe(select(selectGameId)),
             this.props.store.pipe(select(getEntitiesDict)),
-            this.props.store.pipe(select(getItems<RuntimeSlot>(ALL_ENTITIES.slots))),
+            this.props.store.pipe(map(identity))
         ).pipe(
-            map(([stage, gameId, entities, slots]) => {
-                this.setState({
-                    entities, stage, gameId, loaded: true,
-                    slots: slots.filter(slot => slot.owner === stage.id),
-                });
+            map(([stage, gameId, entities, state]) => {
+                let payload: Partial<State> = {entities, stage, gameId, loaded: true};
+                const runtimeStage = selectRuntimeStage(stage)(state);
+                if (runtimeStage.id !== get(this.state, ['runtimeStage', 'id'])) {
+                    payload.runtimeStage = runtimeStage
+                }
+                this.setState(payload);
             }),
         ).subscribe();
     }
@@ -65,10 +69,9 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     render() {
-        const { stage, selectedSlot, loaded, entities, slots } = this.state;
+        const { stage, selectedSlot, loaded, entities, runtimeStage } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot } = this;
         const background = loaded && stage ? entities.images[stage.image as number] : null;
-
         return loaded ?
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
@@ -85,13 +88,13 @@ export class RootComponent extends StatefulComponent<Props, State> {
                     background, stage, selectSlot,
                 }) : null,
 
-                createElement<SlotProps>(Slots, {
-                    slots: slots.filter(slot => slot.owner === stage.id),
+                runtimeStage ? createElement<SlotProps>(Slots, {
+                    slots: runtimeStage.slots,
                     onDragMove: handleDragMove,
                     selectSlot,
                     selected: selectedSlot,
                     onDragEnd: handleDragEnd,
-                }),
+                }) : null,
             ) : null;
     }
 
@@ -101,30 +104,51 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     handleDragEnd = (slotId: number) => {
-        let slot = this.state.slots.find(slot => slot.id === slotId);
-        slot = <RuntimeSlot>{ ...slot, game: this.state.gameId, owner: this.state.stage.id };
+        const existingSlot = this.state.stage.slots.find(slot => slot.id === slotId);
+        const existingRuntimeSlot = this.state.runtimeStage.slots.find(slot => slot.id === slotId);
+        let slot = <Slot>{
+            ...existingSlot,
+            game: this.state.gameId,
+            owner: this.state.stage.id,
+            x: existingRuntimeSlot.x,
+            y: existingRuntimeSlot.y
+        };
         if (this.state.selectedSlot) {
             slot.id = this.state.selectedSlot.id;
         }
         this.setState({ selectedSlot: null });
         this.props.selectSlot(null);
 
+        const index = this.state.stage.slots.findIndex(childSlot => childSlot.id === slot.id);
+
+        const stage = clone(this.state.stage, draft => {
+            draft.slots[index] = slot;
+        });
+
+        const runtimeStage = clone(this.state.runtimeStage, draft => {
+            draft.slots[index] = existingRuntimeSlot;
+        });
+
+        this.setState({ runtimeStage });
+
         this.props.store.dispatch(new SaveItemAction({
-            key: ALL_ENTITIES.slots as AllEntity,
-            data: slot as GameEntity,
+            key: ALL_ENTITIES.stages,
+            data: stage,
         }));
     }
 
     handleDragMove = (comp: PrimitiveContainer) => {
         const { x, y } = comp.props.styles;
         const { id } = comp.props;
-        const { slots } = this.state;
+        const slots = this.state.runtimeStage.slots;
         const index = slots.findIndex(elem => elem.id === id);
         const node = slots[index];
         const newNodes = [...slots];
         const newNode = { ...node, x, y };
         newNodes[index] = newNode;
 
-        this.setState({ slots: newNodes });
+        this.setState({
+            runtimeStage: { ...this.state.runtimeStage, slots: newNodes }
+        });
     }
 }

@@ -23,6 +23,9 @@ export const enrichSlot = (config: Dictionary<GameEntity>, context: Dictionary, 
             sound: src => parseAndBind(context)(src),
         }, handler),
         item: (value: string) => safeJSON(value, null),
+        shape: (shapeId: string) => enrichEntity(config, {
+            style_inline: (src: string) => safeJSON(src, {})
+        }, config.shapes[shapeId]),
         display_text: src => parseAndBind(context)(src),
         transitions: transitionId => enrichEntity<Transition, RuntimeTransition>(config, {
             animation: (animationId: string) => enrichEntity<Animation, RuntimeAnimation>(config, {

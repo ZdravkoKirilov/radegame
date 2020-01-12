@@ -25,7 +25,14 @@ export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseContr
             <Form>
                 <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
 
-                <Dropdown name='phase' label='Phase' options='{phase_options}' required='{true}'>{@item.phase}</Dropdown>
+                <TextInput name='name' required='{true}' label='Name'>{@item.name}</TextInput>
+                <TextInput name='description' label='Description'>{@item.description}</TextInput>
+
+                <CodeEditor name='done' label='Done if'>
+                    {@item.done}
+                </CodeEditor>
+
+                <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{@item.image}</Dropdown>
 
             </Form>
         </Group>

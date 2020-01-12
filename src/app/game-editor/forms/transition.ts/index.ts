@@ -3,15 +3,14 @@ import {
     FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
 import { Transition } from '@app/game-mechanics';
-import { composeCommonFormContext } from '../helpers';
+import { composeCommonFormContext, baseTemplate } from '../helpers';
 
 export const composeTransitionForm: FormDefinition = (data: Transition, ent?: ConnectedEntities) => {
     data = data || {};
 
     const template = `
     <Form>
-        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-        <TextInput name='description' label='Description'>{data.description}</TextInput>
+        ${baseTemplate}
 
         <CodeEditor name='trigger' label='Trigger' required='{true}'>{data.trigger}</CodeEditor>
 

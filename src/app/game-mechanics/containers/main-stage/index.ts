@@ -2,15 +2,16 @@ import { AppState } from "@app/core";
 import { Memo, createElement } from "@app/render-kit";
 import { RoundStage, RoundStageProps } from "../../components";
 import { connect } from "../../hocs";
-import { Stage, ImageAsset, RuntimeSlot, RuntimeRound } from "../../entities";
+import { ImageAsset, RuntimeSlot, RuntimeRound, RuntimeStage } from "../../entities";
 import {
     selectCurrentRoundStage, selectCurrentRoundStageImage,
     selectCurrentRoundStageSlots,
     selectRoundData
 } from "@app/game-arena";
+import { DataLoader, DataLoaderProps } from "../data-loader";
 
 type StoreProps = {
-    stage: Stage;
+    stage: RuntimeStage;
     image: ImageAsset;
     slots: RuntimeSlot[];
     round: RuntimeRound;
@@ -18,14 +19,28 @@ type StoreProps = {
 
 type Props = StoreProps;
 
-const mainStage = Memo<Props>(({ stage, image, slots }) => {
+const mainStage = Memo<Props>(({ stage, image, slots, round }) => {
 
-    const hasData = stage && image && slots;
-
-    return hasData ? createElement<RoundStageProps>(
-        RoundStage,
-        { stage, image, slots }
-    ) : null;
+    return createElement<DataLoaderProps>(
+        DataLoader,
+        {
+            fallback: createElement('text', {
+                value: 'Loading...',
+                styles: {
+                    x: 50, y: 50,
+                },
+                textStyle: {
+                    fill: ['#333231'], stroke: '#333231'
+                }
+            }),
+            load_done: round.load_done,
+            preload: round.preload,
+        },
+        createElement<RoundStageProps>(
+            RoundStage,
+            { stage, image, slots }
+        )
+    );
 });
 
 const mapStateToProps = (state: AppState): StoreProps => ({

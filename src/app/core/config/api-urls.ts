@@ -27,16 +27,12 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/`;
         return gameId ? `${base}${gameId}/` : base;
     },
-    GAME_DATA: (gameId: number) => {
-        return `${API_BASE_URL}/games/${gameId}/data`;
+    GAME_DATA: (gameId: number, query = '') => {
+        return `${API_BASE_URL}/games/${gameId}/data` + (query ? '?' + query : '');
     },
     ACTIONS: (gameId: number, actionId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/actions/`;
         return actionId ? `${base}${actionId}/` : base;
-    },
-    SLOTS: (gameId: number, locId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/slots/`;
-        return locId ? `${base}${locId}/` : base;
     },
     TEXTS: (gameId: number, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/texts/`;
@@ -77,10 +73,6 @@ export const API_URLS = {
     TOKENS: (gameId: number, tokenId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/tokens/`;
         return tokenId ? `${base}${tokenId}/` : base;
-    },
-    PHASES: (gameId: number, phaseId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/phases/`;
-        return phaseId ? `${base}${phaseId}/` : base;
     },
     IMAGES: (gameId: number, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/imageassets/`;

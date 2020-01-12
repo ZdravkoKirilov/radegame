@@ -2,8 +2,9 @@ import { Style } from "./Style.model";
 import { AnimationEasing, DidUpdatePayload } from "@app/render-kit";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { Omit, Dictionary } from "@app/shared";
+import { WithKeywords } from "./Base.model";
 
-export type Animation = Partial<{
+export type Animation = WithKeywords & Partial<{
     id: number;
     game: number;
 

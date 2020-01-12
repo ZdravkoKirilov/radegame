@@ -1,16 +1,29 @@
 import { get } from 'lodash';
 
-import { GameState, Player, GameTemplate } from "../models";
-import { Expression, Slot, Setup } from "../entities";
+import { Player, GameTemplate, GameConfig } from "../models";
+import { Expression, Setup } from "../entities";
 import { Dictionary } from "@app/shared";
 import { parseFromString } from './misc';
 import { LobbyPlayer } from '@app/lobby';
+
+export type GameState = {
+    global_state: Partial<GameConfig>;
+    local_state?: Dictionary;
+
+    turn_order: number[]; // player ids determining turn order
+    active_player: number; //
+
+    setup: number;
+    round: number; //
+    phase: number; //
+};
 
 type CreateExpressionParams = {
     state: GameState;
     conf: GameTemplate;
     players: Dictionary<Player>;
     self: number;
+    loaded_chunks: string[];
 }
 
 export type CreateStateParams = {
@@ -20,6 +33,7 @@ export type CreateStateParams = {
 };
 
 export type ExpressionContext = {
+    loaded_chunks: string[];
     state: GameState;
     conf: GameTemplate;
     players: Dictionary<Player>;
@@ -28,8 +42,7 @@ export type ExpressionContext = {
     },
     $self: Player,
     $own_turn: boolean,
-    $player_overrides: (player: Player, path: string) => any;
-    $get: typeof get
+    $get: typeof get,
 };
 
 export type CreateGamePayload = {
@@ -45,7 +58,6 @@ export const createGameState = ({ setup, conf, players }: CreateStateParams): Ga
     const turn_order = players.map(player => player.id);
     return {
         global_state: {},
-        player_state: createPlayerOverrides(players, conf),
         turn_order,
         setup,
         round: first_round.id,
@@ -54,20 +66,16 @@ export const createGameState = ({ setup, conf, players }: CreateStateParams): Ga
     };
 };
 
-export const createExpressionContext = ({ state, conf, self, players }: CreateExpressionParams): ExpressionContext => {
+export const createExpressionContext = ({ state, conf, self, players, loaded_chunks }: CreateExpressionParams): ExpressionContext => {
     const helpers = Object.values<Expression>(conf.expressions);
     const ctx = {
-        state, conf, players,
+        state, conf, players, loaded_chunks,
         helpers: composeHelpers(helpers),
         get $self(): Player {
             return Object.values(players).find(player => player.user === self);
         },
         get $own_turn() {
             return ctx.$self.id === state.active_player;
-        },
-        $player_overrides(player: Player, path: string) {
-            const overrides = state.player_state[player.id];
-            return get(overrides, path, {});
         },
         $get: get,
     };
@@ -82,25 +90,4 @@ const composeHelpers = (expressions: Expression[]) => {
             compute: parseFromString
         }
     );
-};
-
-const createSlotOverrides = (players: Player[], conf: GameTemplate) => (base: Dictionary) => {
-    return players.reduce((acc, player) => {
-        const slots: number[] = get(conf, `factions[${player.faction}].slots`, null);
-        if (slots) {
-            const current = base[player.id] || {};
-            current.slots = slots.reduce((acc, slotId) => {
-                const targetSlot = conf.slots[slotId] as Slot;
-                // acc[slotId] = {
-                //     items: [...targetSlot.items]
-                // } as Slot;
-                return acc;
-            }, {});
-        }
-        return acc;
-    }, {});
-};
-
-const createPlayerOverrides = (players: Player[], conf: GameTemplate) => {
-    return createSlotOverrides(players, conf)({});
 };

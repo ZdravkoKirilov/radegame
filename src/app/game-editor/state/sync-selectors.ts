@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 
 import {
     Stage, ImageAsset, Slot, Text, Expression, parseFromString,
-    createExpressionContext, GameTemplate, Shape, enrichEntity, ImageFrame, RuntimeSlot, parseAndBind, RuntimeImageFrame, enrichSlot
+    createExpressionContext, GameTemplate, Shape, enrichEntity, ImageFrame, RuntimeSlot, parseAndBind, RuntimeImageFrame, enrichSlot, RuntimeStage
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -33,7 +33,7 @@ const selectExpressionContext = createSelector(
             total[key] = value.items;
             return total;
         }, {}) as GameTemplate;
-        return createExpressionContext({ conf, self: 1, players: {}, state: {} as any });
+        return createExpressionContext({ conf, self: 1, players: {}, state: {} as any, loaded_chunks: [] });
     }
 );
 
@@ -41,7 +41,18 @@ export const selectSlotData = (slot_id: number) => createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
     (entities, context) => {
-        return enrichSlot(entities, context, entities.slots[slot_id]);
+        return enrichSlot(entities, context, {});
+    }
+);
+
+export const selectRuntimeStage = (stage: Stage) => createSelector(
+    selectEntitiesDictionary,
+    selectExpressionContext,
+    (entities, context) => {
+        const result = enrichEntity<Stage, RuntimeStage>(entities, {
+            slots: slot => enrichSlot(entities, context, slot)
+        }, stage);
+        return result;
     }
 );
 
@@ -55,18 +66,6 @@ export const selectSlotStyle = (slot_id: number) => createSelector(
             return style;
         }
         return null;
-    }
-);
-
-export const selectSlotShape = (slot_id: number) => createSelector(
-    selectEntitiesDictionary,
-    selectSlotData(slot_id),
-    (entities, slot_data) => {
-        const shape = enrichEntity<Shape>(entities, {
-            style_inline: (value: string) => JSON.parse(value || '{}'),
-            style: 'styles'
-        }, entities.shapes[slot_data.shape as number] as Shape);
-        return shape;
     }
 );
 
@@ -90,14 +89,14 @@ export const selectSlotItemDefaultFrame = (slot_id: number) => createSelector(
     selectExpressionContext,
     (entities, slot_data, context) => {
         const item = slot_data.item;
-        if (item) {
-            return enrichEntity<ImageFrame>(entities, {
-                image: 'images',
-                stage: 'stages',
-                style: (value: string) => parseAndBind(context)(value),
-                style_inline: (value: string) => safeJSON(value, {}),
-            }, item.token.frames[0]) as RuntimeImageFrame;
-        }
+        // if (item) {
+        //     return enrichEntity<ImageFrame>(entities, {
+        //         image: 'images',
+        //         stage: 'stages',
+        //         style: (value: string) => parseAndBind(context)(value),
+        //         style_inline: (value: string) => safeJSON(value, {}),
+        //     }, item.token.frames[0]) as RuntimeImageFrame;
+        // }
         return null;
     }
 );
