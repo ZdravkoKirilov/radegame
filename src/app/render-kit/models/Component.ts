@@ -38,3 +38,7 @@ export type RenderFunctionExtras = {
     useMemo: MemoHook;
     useRef: RefHook;
 }
+
+export type AbstractGraphic = {
+    component: BasicComponent;
+}

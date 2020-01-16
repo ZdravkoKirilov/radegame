@@ -4,11 +4,11 @@ import isArray from 'lodash/isArray';
 
 import { GameTemplate, GameConfig } from "../models";
 import {
-  Setup, Round, Stage, ImageAsset, Slot, HANDLER_TYPES, GameAction, GameEntity, RuntimeSlotHandler, RuntimeSlot
+  HANDLER_TYPES, GameAction, GameEntity, RuntimeSlotHandler, RuntimeSlot
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
-import { SoundPlayer } from "@app/render-kit";
+import { SoundPlayer, GenericEvent, BasicComponent } from "@app/render-kit";
 import { Dictionary } from '@app/shared';
 
 export const parseFromString = <T = any>(context: Dictionary) => (src: string): T => {
@@ -38,8 +38,8 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
     (acc, handler) => {
       const eventName = event_name_map[handler.type];
       const innerCallback = handler.effect;
-      acc[eventName] = () => {
-        const actions: GameAction[] = innerCallback(payload);
+      acc[eventName] = (event: GenericEvent, component: BasicComponent) => {
+        const actions: GameAction[] = innerCallback(payload, event, component);
         playSoundIfNeeded(handler, conf, payload as any);
         dispatcher.dispatch(actions);
       };

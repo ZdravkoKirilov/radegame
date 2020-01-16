@@ -53,10 +53,10 @@ export const formatGameConfigData = (data: GameTemplate): GameTemplate => {
     return Object.keys(data).reduce((acc, key) => {
         if (key === 'images') {
             const images: ImageAsset[] = data[key] as any;
-            images.forEach(img => {
-                img.thumbnail = BASE_URL + img.thumbnail
-                img.image = BASE_URL + img.image
-            });
+            // images.forEach(img => {
+            //     img.thumbnail = BASE_URL + img.thumbnail
+            //     img.image = BASE_URL + img.image
+            // });
         }
         if (key === 'sounds') {
             const sounds: Sound[] = data[key] as any;

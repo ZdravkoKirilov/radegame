@@ -7,7 +7,7 @@ import { Choice } from "./Choice.model";
 import { Token } from "./Token.model";
 import { Stage } from "./Stage.model";
 import { ImageFrame } from "./ImageAsset.model";
-import { ParamedExpressionFunc } from "./Expression.model";
+import { ParamedExpressionFunc, EventHandlingExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
 import { Text } from "./Text.model";
@@ -49,7 +49,7 @@ export type SlotHandler = {
 };
 
 export type RuntimeSlotHandler = Omit<SlotHandler, 'effect' | 'sound'> & {
-    effect: ParamedExpressionFunc;
+    effect: EventHandlingExpressionFunc;
     sound: ParamedExpressionFunc<RuntimeSlot, Sonata>;
 };
 

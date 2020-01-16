@@ -3,8 +3,21 @@ import { Subscription } from "rxjs";
 import { map, filter } from "rxjs/operators";
 
 import { AppState } from "@app/core";
-import { StatefulComponent, createElement, RzElementType } from "@app/render-kit";
-import { Omit } from "@app/shared";
+import { StatefulComponent, createElement, RzElementType, MetaProps } from "@app/render-kit";
+
+export type StoreProviderProps = {
+    store: Store<AppState>;
+};
+
+export class StoreProvider extends StatefulComponent<StoreProviderProps> {
+    constructor(props: StoreProviderProps, meta: MetaProps) {
+        super(props, meta);
+        this.meta.context.set('store', this.props.store);
+    }
+    render() {
+        return this.props.children;
+    }
+}
 
 export const withStore = <T>(component: RzElementType<T>) => {
     return class WithStore extends StatefulComponent<T & { store?: Store<AppState> }> {
