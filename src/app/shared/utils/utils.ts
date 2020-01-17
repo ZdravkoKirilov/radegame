@@ -58,12 +58,12 @@ export const formatGameConfigData = (data: GameTemplate): GameTemplate => {
             //     img.image = BASE_URL + img.image
             // });
         }
-        if (key === 'sounds') {
-            const sounds: Sound[] = data[key] as any;
-            sounds.forEach(sound => {
-                sound.file = BASE_URL + sound.file;
-            });
-        }
+        // if (key === 'sounds') {
+        //     const sounds: Sound[] = data[key] as any;
+        //     sounds.forEach(sound => {
+        //         sound.file = BASE_URL + sound.file;
+        //     });
+        // }
         acc[key] = toDictionary<GameEntity>(data[key]);
         return acc;
     }, {}) as GameTemplate;
