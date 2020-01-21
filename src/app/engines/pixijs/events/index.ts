@@ -96,9 +96,6 @@ export class PixiEventsManager implements AbstractEvent {
                     graphic.on(eventName as interaction.InteractionEventTypes, genericHandler);
                     graphic.interactive = true;
 
-                    if (comp.props.button) {
-                        graphic.buttonMode = true;
-                    }
                     newHandlers.add({
                         type: eventName as interaction.InteractionEventTypes,
                         handler: genericHandler,
@@ -107,9 +104,6 @@ export class PixiEventsManager implements AbstractEvent {
 
                 if (eventName === 'wheel' && graphic) {
                     graphic.interactive = true;
-                    if (comp.props.button) {
-                        graphic.buttonMode = true;
-                    }
                     graphic.on('pointerdown', wheelHandler);
                     newHandlers.add({
                         type: 'pointerdown',
@@ -119,9 +113,6 @@ export class PixiEventsManager implements AbstractEvent {
 
                 if (eventName === 'keypress' && graphic) {
                     graphic.interactive = true;
-                    if (comp.props.button) {
-                        graphic.buttonMode = true;
-                    }
                     graphic.on('pointerdown', keypressHandler);
                     newHandlers.add({
                         type: 'pointerdown',
@@ -131,9 +122,6 @@ export class PixiEventsManager implements AbstractEvent {
 
                 if (eventName === 'focus' && graphic) {
                     graphic.interactive = true;
-                    if (comp.props.button) {
-                        graphic.buttonMode = true;
-                    }
                     graphic.on('pointerdown', focusHandler);
                     newHandlers.add({
                         type: 'pointerdown',

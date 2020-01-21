@@ -3,6 +3,7 @@ import { ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import {
     baseTemplate,
     composeCommonFormContext,
+    interactiveTemplate,
 } from "../helpers";
 
 export function composeConditionForm(data: Condition, ent: ConnectedEntities): BaseControl[] {
@@ -23,6 +24,8 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
         <CodeEditor name='fails' label='Fails'>
             {data.fails}
         </CodeEditor>
+
+        ${interactiveTemplate}
         
     </Form>
     `;

@@ -55,7 +55,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
             map(([stage, gameId, entities, state]) => {
                 let payload: Partial<State> = {entities, stage, gameId, loaded: true};
                 const runtimeStage = selectRuntimeStage(stage)(state);
-                if (runtimeStage.id !== get(this.state, ['runtimeStage', 'id'])) {
+                if (get(runtimeStage, 'id') !== get(this.state, ['runtimeStage', 'id'])) {
                     payload.runtimeStage = runtimeStage
                 }
                 this.setState(payload);

@@ -11,7 +11,7 @@ export type Style = BaseModel & Partial<{
 
     stroke_color: number;
     stroke_thickness: number;
-    background_color: number;
+    fill: number;
 
     font_size: number;
     font_family: string;
@@ -19,6 +19,8 @@ export type Style = BaseModel & Partial<{
 
     x: number;
     y: number;
+
+    interactive: boolean;
 }>;
 
 export const FONT_STYLES = {

@@ -107,7 +107,26 @@ export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyle
         copy.stroke_color = toHexColor(styles.stroke_color);
     }
     if (styles.fill) {
-        copy.fill = toHexColor(styles.stroke_color);
+        copy.fill = toHexColor(styles.fill);
     }
+    if (styles.x && typeof styles.x === 'string') {
+        copy.x = Number(styles.x);
+    }
+    if (styles.y && typeof styles.y === 'string') {
+        copy.y = Number(styles.y);
+    }
+    if (styles.stroke_thickness && typeof styles.stroke_thickness === 'string') {
+        copy.stroke_thickness = Number(styles.stroke_thickness);
+    }
+    if (styles.width && typeof styles.width === 'string') {
+        copy.width = Number(styles.width);
+    }
+    if (styles.height && typeof styles.height === 'string') {
+        copy.height = Number(styles.height);
+    }
+    if (styles.interactive) {
+        copy.interactive = Boolean(styles.interactive);
+    }
+
     return copy;
 };

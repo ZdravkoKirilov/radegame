@@ -12,7 +12,6 @@ export default class RootComponent extends StatefulComponent<Props> {
             width: 150,
             height: 150,
             stroke_thickness: 3,
-            stroke_color: '#4287f5',
             ...(this.props.style || {}),
             x: 20,
             y: 20,

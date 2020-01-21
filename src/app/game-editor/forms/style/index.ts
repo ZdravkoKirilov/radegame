@@ -17,7 +17,7 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
 
         <ColorPicker name='stroke_color' label='Stroke color'>{data.stroke_color}</ColorPicker>
         <TextInput name='stroke_thickness' label='Stroke thickness'>{data.stroke_thickness}</TextInput>
-        <TextInput name='background_color' label='Background color'>{data.background_color}</TextInput>
+        <ColorPicker name='fill' label='Background color'>{data.fill}</ColorPicker>
 
         <TextInput name='rotation' label='Rotate'>{data.rotation}</TextInput>
         <TextInput name='opacity' label='Opacity'>{data.opacity}</TextInput>
@@ -29,6 +29,8 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
         <Dropdown name='font_style' label='Font style' options='{font_styles}'>
             {data.font_style}
         </Dropdown>
+
+        <ButtonGroup name='interactive' label='Interactive'>{data.interactive}</ButtonGroup>
 
     </Form>
     `;

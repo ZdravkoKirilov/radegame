@@ -68,7 +68,7 @@ export const toNumericColor = (value: string | number) => {
     return asArray;
 };
 
-export const toHexColor = (value: string | number) => {
+export const toHexColor = (value: string | number | string[] | number[]) => {
     if (typeof value === 'string') {
         if (value.startsWith('#')) {
             const result = value.replace('#', '0x');

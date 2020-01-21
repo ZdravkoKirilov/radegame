@@ -54,7 +54,6 @@ const updatePrimitive = (component: BasicComponent<any>) => {
     let { props } = component;
     const styles = applyTransformations(props.styles) as Required<RzStyles>;
     props = { ...props, styles };
-
     switch (type) {
         case PRIMS.line:
             updateLine(props as LineProps, graphic as Graphics);
@@ -115,8 +114,7 @@ const applyZOrder = (comp: BasicComponent) => {
 const updateGeneric = (comp: BasicComponent) => {
     const { graphic } = comp;
     let { props } = comp;
-    const styles = applyTransformations(props.styles);
-    props = { ...props, styles };
+    const styles = props.styles;
 
     if (graphic && props.name) {
         graphic.name = props.name;
@@ -152,18 +150,23 @@ const updateZOrder = (graphic: Container) => {
 const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
     const { styles } = props;
     graphic.clear();
-    graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
 
     if (props.styles.fill) {
         graphic.beginFill(props.styles.fill as number);
     }
 
-    graphic.lineStyle(styles.stroke_thickness || 1, styles.stroke_color as number, styles.alpha || 1);
+    if (styles.stroke_color) {
+        graphic.lineStyle(styles.stroke_thickness || 1, styles.stroke_color as number, styles.alpha || 1);
+    }
 
     if (styles && !isNaN(Number(styles.border_radius))) {
         graphic.drawRoundedRect(styles.x, styles.y, styles.width, styles.height, styles.border_radius);
     } else {
         graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
+    }
+
+    if (styles.interactive) {
+        graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
     }
 
     // const maskElem = new Graphics().drawRect(styles.x, styles.y, styles.width / 2, styles.height / 2);
@@ -240,10 +243,8 @@ const updatePolygon = (props: RzElementProps, graphic: Graphics) => {
         return new Point(point[0], point[1]);
     });
 
-    if (props.button) {
+    if (styles.interactive) {
         graphic.hitArea = new Polygon(polygon);
-        graphic.buttonMode = true;
-        graphic.interactive = true;
     }
 
     graphic.drawPolygon(polygon);
@@ -258,10 +259,8 @@ const updateCircle = (comp: PrimitiveCircle, styles: RzStyles) => {
         graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
         graphic.drawCircle(styles.x, styles.y, styles.width);
 
-        if (comp.props.button) {
+        if (styles.interactive) {
             graphic.hitArea = new Circle(styles.x, styles.y, styles.width);
-            graphic.buttonMode = true;
-            graphic.interactive = true;
         }
     }
 };
@@ -275,10 +274,8 @@ const updateEllipse = (comp: PrimitiveEllipse, styles: RzStyles) => {
         graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
         graphic.drawEllipse(styles.x, styles.y, styles.width, styles.height);
 
-        if (comp.props.button) {
+        if (styles.interactive) {
             graphic.hitArea = new Ellipse(styles.x, styles.y, styles.width, styles.height);
-            graphic.buttonMode = true;
-            graphic.interactive = true;
         }
     }
 };

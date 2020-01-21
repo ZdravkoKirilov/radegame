@@ -20,7 +20,6 @@ export type RzElementProps = DefaultEvents & Partial<{
     zOrder: number;
     id: string | number;
     name: string;
-    button: boolean;
     hitArea: any;
     textStyle: { [key: string]: any };
     points: Points;
@@ -73,6 +72,8 @@ export type RzStyles = {
     blur: number;
     distance: number;
     mask: number[];
+
+    interactive: boolean;
 };
 
 export type Points = Array<[number, number]>;
