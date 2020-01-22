@@ -4,7 +4,6 @@ import {
     baseTemplate,
     boardTemplate,
     composeCommonFormContext,
-    framesTemplate,
     composeInlineStyleFormContext,
     composeFromObject,
     styleTemplate,
@@ -14,7 +13,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     data = data || {};
     const handlers = data.handlers || [];
     const transitions = data.transitions || [];
-    const frames = data.frames || [];
 
     const template = `
         <Form>
@@ -29,8 +27,6 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             <Dropdown name='shape' label='Shape' options='{shape_options}'>
                 {data.shape}
             </Dropdown>
-
-            ${framesTemplate}
 
             <EmbeddedData 
                 name='item' 
@@ -76,7 +72,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             ...composeCommonFormContext(data, ent),
             ...composeInlineStyleFormContext(ent),
             types: composeFromObject(HANDLER_TYPES),
-            data, handlers, transitions, frames,
+            data, handlers, transitions,
             entities: ent, composeSlotItemForm
         },
     }, true);

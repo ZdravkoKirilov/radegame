@@ -79,7 +79,7 @@ export const selectSlotDefaultFrame = (slot_id: number) => createSelector(
             stage: 'stages',
             style: (value: string) => parseAndBind(context)(value),
             style_inline: (value: string) => safeJSON(value, {}),
-        }, slot_data.frames[0]) as RuntimeImageFrame;
+        }, {}) as RuntimeImageFrame;
     }
 );
 

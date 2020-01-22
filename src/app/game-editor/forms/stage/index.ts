@@ -1,9 +1,10 @@
 import { Stage, GameEntity } from '@app/game-mechanics';
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
-import { baseTemplate, composeCommonFormContext, imageTemplate } from '../helpers';
+import { baseTemplate, composeCommonFormContext, imageTemplate, framesTemplate } from '../helpers';
 
 export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
+    const frames = data.frames || [];
 
     const template = `
         <Form>
@@ -19,6 +20,8 @@ export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseContr
                 {data.computed_slots}
             </CodeEditor>
 
+            ${framesTemplate}
+
         </Form>
     `;
 
@@ -26,7 +29,7 @@ export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseContr
         source: template,
         context: {
             ...composeCommonFormContext(data as GameEntity, ent),
-            data,
+            data, frames,
         },
     }, true);
 

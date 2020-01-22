@@ -1,4 +1,4 @@
-import { BaseModel, WithBoard, WithFrames, WithStyle } from "./Base.model";
+import { BaseModel, WithBoard, WithStyle } from "./Base.model";
 import { Transition, RuntimeTransition } from "./Transition.model";
 import { Shape } from "./Shape.model";
 import { GameAction } from "./Action.model";
@@ -6,21 +6,19 @@ import { Condition } from "./Condition.model";
 import { Choice } from "./Choice.model";
 import { Token } from "./Token.model";
 import { Stage } from "./Stage.model";
-import { ImageFrame } from "./ImageAsset.model";
 import { ParamedExpressionFunc, EventHandlingExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
 import { Text } from "./Text.model";
 import { Sonata } from "./Sonata.model";
 
-export type Slot = BaseModel & WithBoard & WithFrames & WithStyle & Partial<{
+export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
     owner: number; // Stage;
 
     y: number;
     x: number;
 
     display_text: string; // Expression -> Text
-
     item: string;
     shape: number; // Shape
 
@@ -28,17 +26,17 @@ export type Slot = BaseModel & WithBoard & WithFrames & WithStyle & Partial<{
     transitions: Transition[];
 }>;
 
-export type RuntimeSlot = Omit<Slot, 'board' | 'frames' | 'style' | 'style_inline' | 'item' | 'shape' | 'handlers' | 'transitions' | 'display_text'> & {
-    board: Stage;
-    frames: ImageFrame[];
-    style: ParamedExpressionFunc;
-    style_inline: Style;
-    item: RuntimeSlotItem;
-    shape: Shape;
-    handlers: RuntimeSlotHandler[];
-    transitions: RuntimeTransition[];
-    display_text: ParamedExpressionFunc<RuntimeSlot, Text>;
-};
+export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item' | 'shape' |
+    'handlers' | 'transitions' | 'display_text'> & {
+        board: Stage;
+        style: ParamedExpressionFunc;
+        style_inline: Style;
+        item: RuntimeSlotItem;
+        shape: Shape;
+        handlers: RuntimeSlotHandler[];
+        transitions: RuntimeTransition[];
+        display_text: ParamedExpressionFunc<RuntimeSlot, Text>;
+    };
 
 export type SlotHandler = {
     owner: number;

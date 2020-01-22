@@ -10,14 +10,6 @@ export const enrichSlot = (config: Dictionary<GameEntity>, context: Dictionary, 
     const slot = enrichEntity<Slot, RuntimeSlot>(config, {
         style: src => parseAndBind(context)(src),
         style_inline: value => safeJSON(value, null),
-        frames: frame => enrichEntity<ImageFrame>(
-            config,
-            {
-                image: 'images',
-                stage: 'stages'
-            },
-            frame,
-        ),
         handlers: handler => enrichEntity<SlotHandler>(config, {
             effect: src => parseAndBind(context)(src),
             sound: src => parseAndBind(context)(src),
