@@ -53,7 +53,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
             this.props.store.pipe(map(identity))
         ).pipe(
             map(([stage, gameId, entities, state]) => {
-                let payload: Partial<State> = {entities, stage, gameId, loaded: true};
+                let payload: Partial<State> = { entities, stage, gameId, loaded: true };
                 const runtimeStage = selectRuntimeStage(stage)(state);
                 if (get(runtimeStage, 'id') !== get(this.state, ['runtimeStage', 'id'])) {
                     payload.runtimeStage = runtimeStage
@@ -121,10 +121,6 @@ export class RootComponent extends StatefulComponent<Props, State> {
 
         const index = this.state.stage.slots.findIndex(childSlot => childSlot.id === slot.id);
 
-        const stage = clone(this.state.stage, draft => {
-            draft.slots[index] = slot;
-        });
-
         const runtimeStage = clone(this.state.runtimeStage, draft => {
             draft.slots[index] = existingRuntimeSlot;
         });
@@ -133,7 +129,13 @@ export class RootComponent extends StatefulComponent<Props, State> {
 
         this.props.store.dispatch(new SaveItemAction({
             key: ALL_ENTITIES.stages,
-            data: stage,
+            data: clone(runtimeStage, draft => {
+                draft.slots = draft.slots.map((slot, index) => ({
+                    ...get(this.state.stage, ['slots', index], {}),
+                    x: slot.x,
+                    y: slot.y,
+                }));
+            }),
         }));
     }
 

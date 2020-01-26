@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, mergeMap, catchError } from 'rxjs/operators';
+import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
@@ -77,7 +77,7 @@ export class GenericEffectsService {
             const payload = <GenericActionPayload>{ ...action.payload };
             return payload;
         }),
-        mergeMap((payload: GenericActionPayload) => {
+        switchMap((payload: GenericActionPayload) => {
             const data = <GameEntity>payload.data;
             const key = <AllEntity>payload.key;
             return this.saveRequest(key, data).pipe(

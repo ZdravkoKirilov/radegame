@@ -12,7 +12,7 @@ export type Stage = BaseModel & WithImage & WithFrames & Partial<{
     slots: Slot[];
 }>;
 
-export type RuntimeStage = Omit<Stage, 'image' | 'computed_slots' | 'slots'> & {
+export type RuntimeStage = Omit<Stage, 'image' | 'computed_slots' | 'slots' | 'frames'> & {
     image: ImageAsset;
     computed_slots: ExpressionFunc;
     slots: RuntimeSlot[];

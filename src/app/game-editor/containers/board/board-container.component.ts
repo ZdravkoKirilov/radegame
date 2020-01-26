@@ -7,9 +7,8 @@ import clone from 'immer';
 import { AppState } from '@app/core';
 import {
 	getActiveStage, getItems, getEntities, SaveItemAction,
-	DeleteItemAction,
 } from '../../state';
-import { Stage, Slot, ImageAsset, GameEntity, ALL_ENTITIES, AllEntity } from '@app/game-mechanics';
+import { Stage, Slot, ImageAsset, ALL_ENTITIES } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId } from '@app/shared';
 
@@ -53,7 +52,7 @@ export class BoardContainerComponent {
 			this.stage = stage;
 			return {
 				stage, entities, gameId, images,
-				slots: stage.slots
+				slots: stage.slots,
 			};
 		}),
 	)
