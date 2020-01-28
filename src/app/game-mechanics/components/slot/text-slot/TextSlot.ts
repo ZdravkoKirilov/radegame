@@ -9,26 +9,7 @@ import {
 } from "@app/game-arena";
 import { connect, withArenaTransition } from "../../../hocs";
 import { Dictionary } from "@app/shared";
-
-export type TextSlotProps = {
-    style: Style;
-    text: string;
-    slot: RuntimeSlot;
-};
-
-export const TextSlot = Memo<TextSlotProps>(({ style, text, slot }) => {
-    style = style || {};
-    text = text || 'Default value';
-    return createElement('text', {
-        value: text,
-        textStyle: {
-            fontSize: style.font_size || 18,
-            stroke: style.stroke_color || '#1a1b1c',
-            fill: style.fill || '#1a1b1c',
-        }
-    });
-
-}, ['style', 'text']);
+import { TextSlotProps, TextSlot } from "../../presentationals";
 
 export type EnhancedTextSlotProps = {
     data: RuntimeSlot;

@@ -84,9 +84,16 @@ export class RootComponent extends StatefulComponent<Props, State> {
                 borderColor: 0x161616,
                 padding: '0 0',
             },
-                background ? createElement<BGProps>(Background, {
-                    background, stage, selectSlot,
-                }) : null,
+                createElement('container', {
+                    name: 'background',
+                    onClick: () => {
+                        selectSlot(null);
+                    },
+                },
+                    background ? createElement<BGProps>(Background, {
+                        background, stage
+                    }) : null,
+                ),
 
                 runtimeStage ? createElement<SlotProps>(Slots, {
                     slots: runtimeStage.slots,
@@ -108,14 +115,9 @@ export class RootComponent extends StatefulComponent<Props, State> {
         const existingRuntimeSlot = this.state.runtimeStage.slots.find(slot => slot.id === slotId);
         let slot = <Slot>{
             ...existingSlot,
-            game: this.state.gameId,
-            owner: this.state.stage.id,
             x: existingRuntimeSlot.x,
             y: existingRuntimeSlot.y
         };
-        if (this.state.selectedSlot) {
-            slot.id = this.state.selectedSlot.id;
-        }
         this.setState({ selectedSlot: null });
         this.props.selectSlot(null);
 
@@ -127,15 +129,17 @@ export class RootComponent extends StatefulComponent<Props, State> {
 
         this.setState({ runtimeStage });
 
+        const newStageData = clone(runtimeStage, draft => {
+            draft.slots = draft.slots.map((slot, index) => ({
+                ...get(this.state.stage, ['slots', index], {}),
+                x: slot.x,
+                y: slot.y,
+            }));
+        });
+
         this.props.store.dispatch(new SaveItemAction({
             key: ALL_ENTITIES.stages,
-            data: clone(runtimeStage, draft => {
-                draft.slots = draft.slots.map((slot, index) => ({
-                    ...get(this.state.stage, ['slots', index], {}),
-                    x: slot.x,
-                    y: slot.y,
-                }));
-            }),
+            data: newStageData,
         }));
     }
 

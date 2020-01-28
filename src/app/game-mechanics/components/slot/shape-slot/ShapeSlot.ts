@@ -1,5 +1,5 @@
 import {
-    RenderFunction, createElement, Memo, RzTransition, AnimatableProps, TransitionProps
+    createElement, Memo, RzTransition, AnimatableProps, TransitionProps
 } from "@app/render-kit";
 import { Style, RuntimeSlot, Shape, RuntimeTransition } from "../../../entities";
 import { connect } from "../../../hocs";
@@ -8,36 +8,7 @@ import {
     selectSlotStyle,
     selectSlotTransitions, selectSlotShape
 } from "@app/game-arena";
-
-import Rectangle, { RectangleProps } from './Rectangle';
-import Circle, { CircleSlotProps } from './Circle';
-import Polygon, { PolygonSlotProps } from './Polygon';
-import Line, { LineSlotProps } from './Line';
-import Ellipse, { EllipseSlotProps } from './Ellipse';
-
-export type ShapeSlotProps = {
-    style: Style;
-    shape: Shape;
-}
-
-export const ShapeSlot: RenderFunction<ShapeSlotProps & StoreProps> = ({ style, shape }) => {
-
-    if (shape.type === 'rectange') {
-        return createElement<RectangleProps>(Rectangle, { style, shape });
-    }
-    if (shape.type === 'circle') {
-        return createElement<CircleSlotProps>(Circle, { style, shape });
-    }
-    if (shape.type === 'polygon') {
-        return createElement<PolygonSlotProps>(Polygon, { style, shape });
-    }
-    if (shape.type === 'line') {
-        return createElement<LineSlotProps>(Line, { style, shape });
-    }
-    if (shape.type === 'ellipse') {
-        return createElement<EllipseSlotProps>(Ellipse, { style, shape });
-    }
-};
+import { ShapeSlotProps, ShapeSlot } from "../../presentationals/Shape";
 
 type EnhancedShapeSlotProps = {
     data: RuntimeSlot;

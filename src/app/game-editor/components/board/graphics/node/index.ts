@@ -1,4 +1,4 @@
-import { createElement, PrimitiveContainer, Points, RenderFunction } from "@app/render-kit";
+import { createElement, PrimitiveContainer, RenderFunction } from "@app/render-kit";
 import { RuntimeSlot, Style, connect } from "@app/game-mechanics";
 
 import FacadeSlot, { EnhancedFacadeSlotProps } from './facade-slot';
@@ -53,20 +53,3 @@ const mapStateToProps = (state: AppState, ownProps: Props): StoreProps => ({
 });
 
 export default connect(mapStateToProps)(Node);
-
-const computePolygon = (sprite, text): Points => {
-    const padding = 0;
-    const x1 = sprite.styles.x;
-    const y1 = sprite.styles.y - text.textStyle.fontSize;
-    const x2 = sprite.styles.x + sprite.styles.width;
-    const y2 = sprite.styles.y + sprite.styles.height;
-    const polygon = [
-        [x1 - padding, y1 - padding],
-        [x2 + padding, y1 - padding],
-        [x2 + padding, y2 + padding],
-        [x1 - padding, y2 + padding],
-        [x1 - padding, y1 - padding],
-    ];
-
-    return polygon as Points;
-};

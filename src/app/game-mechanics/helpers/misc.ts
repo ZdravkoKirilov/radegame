@@ -8,7 +8,7 @@ import {
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
-import { SoundPlayer, GenericEvent, BasicComponent } from "@app/render-kit";
+import { SoundPlayer, GenericEvent, BasicComponent, Points } from "@app/render-kit";
 import { Dictionary } from '@app/shared';
 
 export const parseFromString = <T = any>(context: Dictionary) => (src: string): T => {
@@ -102,4 +102,21 @@ export const enrichEntity = <T = GameEntity, P = any>(
       }
     }
   }) : null;
+};
+
+const computePolygon = (sprite, text): Points => {
+  const padding = 0;
+  const x1 = sprite.styles.x;
+  const y1 = sprite.styles.y - text.textStyle.fontSize;
+  const x2 = sprite.styles.x + sprite.styles.width;
+  const y2 = sprite.styles.y + sprite.styles.height;
+  const polygon = [
+      [x1 - padding, y1 - padding],
+      [x2 + padding, y1 - padding],
+      [x2 + padding, y2 + padding],
+      [x1 - padding, y2 + padding],
+      [x1 - padding, y1 - padding],
+  ];
+
+  return polygon as Points;
 };

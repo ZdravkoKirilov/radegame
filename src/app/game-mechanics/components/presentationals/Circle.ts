@@ -1,4 +1,4 @@
-import { Shape, Style } from "../../../entities";
+import { Shape, Style } from "../../entities";
 import { RenderFunction, createElement, CircleProps } from "@app/render-kit";
 
 export type CircleSlotProps = {
