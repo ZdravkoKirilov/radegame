@@ -20,8 +20,8 @@ export const RoundStage = Memo<RoundStageProps>(({ stage, image, slots }) => {
                     y: 0,
                     width: stage.width,
                     height: stage.height,
+                    z_order: 2,
                 },
-                zOrder: 2
             }
         ),
         createElement<SlotsListProps>(

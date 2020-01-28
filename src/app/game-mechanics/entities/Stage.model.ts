@@ -1,10 +1,10 @@
-import { BaseModel, WithImage, WithFrames } from "./Base.model";
+import { BaseModel, WithFrames } from "./Base.model";
 import { Slot, RuntimeSlot } from "./Slot.model";
 import { Omit } from "@app/shared";
-import { ImageAsset, ImageFrame } from "./ImageAsset.model";
+import { ImageFrame } from "./ImageAsset.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 
-export type Stage = BaseModel & WithImage & WithFrames & Partial<{
+export type Stage = BaseModel & WithFrames & Partial<{
     width: number;
     height: number;
 
@@ -14,8 +14,7 @@ export type Stage = BaseModel & WithImage & WithFrames & Partial<{
     frame_getter: string;
 }>;
 
-export type RuntimeStage = Omit<Stage, 'image' | 'slot_getter' | 'slots' | 'frames' | 'frame_getter'> & {
-    image: ImageAsset;
+export type RuntimeStage = Omit<Stage, 'slot_getter' | 'slots' | 'frames' | 'frame_getter'> & {
     slot_getter: ParamedExpressionFunc<any, RuntimeSlot[]>;
     slots: RuntimeSlot[];
     frames: ImageFrame[];

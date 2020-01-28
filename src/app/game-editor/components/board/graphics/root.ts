@@ -14,7 +14,7 @@ import Background, { Props as BGProps } from './background';
 import { RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { getActiveStage, SaveItemAction, getEntitiesDict, selectRuntimeStage } from "../../../state";
-import { selectGameId, Dictionary } from "@app/shared";
+import { selectGameId, Dictionary, safeStringify } from "@app/shared";
 
 export type Props = {
     store: Store<AppState>;
@@ -71,7 +71,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
     render() {
         const { stage, selectedSlot, loaded, entities, runtimeStage } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot } = this;
-        const background = loaded && stage ? entities.images[stage.image as number] : null;
+        const background = null;
         return loaded ?
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
@@ -106,8 +106,13 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     selectSlot = (slot: RuntimeSlot) => {
-        this.setState({ selectedSlot: slot });
-        this.props.selectSlot(slot);
+        const selectedSlot = {
+            ...slot,
+            shape: get(slot, ['shape', 'id']),
+            style_inline: safeStringify(slot.style_inline, ''),
+        } as any;
+        this.setState({ selectedSlot });
+        this.props.selectSlot(selectedSlot);
     }
 
     handleDragEnd = (slotId: number) => {

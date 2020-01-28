@@ -1,17 +1,17 @@
-import { Style, RuntimeImageFrame } from "../../entities";
-import { CompositeType, RenderFunction, createElement, SpriteProps, DynamicSprite } from "@app/render-kit";
+import { Style, RuntimeImageFrame, Stage } from "../../entities";
+import { RenderFunction, createElement, SpriteProps, DynamicSprite, RzElement } from "@app/render-kit";
 
 export type FrameRendererProps = {
     style: Style;
-    forStage: CompositeType;
+    renderStage: (stage: Stage) => RzElement;
 
     frame: RuntimeImageFrame;
 };
 
-export const FrameRenderer: RenderFunction<FrameRendererProps> = ({ style, frame, forStage }) => {
+export const FrameRenderer: RenderFunction<FrameRendererProps> = ({ style, frame, renderStage }) => {
 
     if (frame.stage) {
-        return createElement(forStage, { data: frame.stage, style });
+        return renderStage(frame.stage);
     }
 
     if (frame.image) {

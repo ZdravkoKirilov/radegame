@@ -19,10 +19,11 @@ type StoreProps = {
 
 export const Node: RenderFunction<Props> = (props) => {
     const { data, onDragMove, onDragEnd, onSelect, selected, style } = props;
+
     return createElement(
         'container',
         {
-            styles: { x: data.x, y: data.y },
+            styles: { x: data.x, y: data.y, z_order: style.z_order },
             id: data.id, onDragMove, onDragEnd,
             draggable: { xAxis: true, yAxis: true },
             onPointerDown: () => onSelect(data),

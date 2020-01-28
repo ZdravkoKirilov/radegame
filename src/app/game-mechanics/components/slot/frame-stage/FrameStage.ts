@@ -32,10 +32,10 @@ export const FrameStage = Memo<FrameStageProps>(({ stage, slots, childType }) =>
                 y: 0,
                 width: stage.width,
                 height: stage.height,
+                z_order: 2
             },
-            zOrder: 2
         }),
-        createElement('collection', { zOrder: 1 }, nodes),
+        createElement('collection', { styles: { z_order: 1 } }, nodes),
     );
 });
 

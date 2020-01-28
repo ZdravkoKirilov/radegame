@@ -17,7 +17,6 @@ export type RzElementKey = number | string;
 export type RzElementProps = DefaultEvents & Partial<{
     styles: Partial<RzStyles>;
     key: RzElementKey;
-    zOrder: number;
     id: string | number;
     name: string;
     hitArea: any;
@@ -74,6 +73,7 @@ export type RzStyles = {
     mask: number[];
 
     interactive: boolean;
+    z_order: number;
 };
 
 export type Points = Array<[number, number]>;

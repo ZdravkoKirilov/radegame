@@ -21,6 +21,7 @@ export type Style = BaseModel & Partial<{
     y: number;
 
     interactive: boolean;
+    z_order: number;
 }>;
 
 export const FONT_STYLES = {

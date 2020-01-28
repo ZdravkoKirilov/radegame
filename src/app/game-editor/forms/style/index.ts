@@ -30,7 +30,11 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
             {data.font_style}
         </Dropdown>
 
-        <ButtonGroup name='interactive' label='Interactive'>{data.interactive}</ButtonGroup>
+        <ButtonGroup name='interactive' label='Interactive' options='{boolean_options}' default_value='{false}'>
+            {data.interactive}
+        </ButtonGroup>
+
+        <NumberInput name='z_order' label='Z order'>{data.z_order}</NumberInput>
 
     </Form>
     `;

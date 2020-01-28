@@ -119,7 +119,6 @@ export const selectSlotStage = (slot_id: number) => createSelector(
         let stage_data = form.stages.items[slot_data.board as number] as Stage || {} as Stage;
         stage_data = {
             ...stage_data,
-            image: form.images.items[stage_data.image as number] as ImageAsset
         }
         return stage_data as Stage;
     }
@@ -144,7 +143,6 @@ export const selectFullStageData = (stage: Stage) => createSelector(
     selectEntitiesDictionary,
     entities => {
         return enrichEntity(entities, {
-            'image': 'images'
         }, stage);
     }
 );

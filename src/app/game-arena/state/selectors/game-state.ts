@@ -67,11 +67,9 @@ export const selectRoundData = createSelector(
         const roundData = config.rounds[roundId] as Round;
         return enrichEntity<Round, RuntimeRound>(config, {
             board: stageId => enrichEntity<Stage, RuntimeStage>(config, {
-                image: 'images',
                 slots: slot => enrichSlot(config, context, slot),
             }, config.stages[stageId] as Stage),
             loader: stageId => enrichEntity<Stage>(config, {
-                image: 'images'
             }, config.stages[stageId] as Stage),
             preload: src => parseAndBind(context)(src),
             load_done: src => parseAndBind(context)(src),
@@ -88,7 +86,7 @@ export const selectCurrentRoundStage = createSelector(
 
 export const selectCurrentRoundStageImage = createSelector(
     selectCurrentRoundStage,
-    stage => stage.image
+    stage => null,
 );
 
 export const selectCurrentRoundStageSlots = createSelector(
@@ -136,7 +134,6 @@ export const selectSlotStage = (slot_id: number) => createSelector(
         let stage_data = config.stages[slot_data.board as number] as Stage || {} as Stage;
         stage_data = {
             ...stage_data,
-            image: config.images[stage_data.image as number] as ImageAsset
         }
         return stage_data as Stage;
     }
@@ -182,7 +179,7 @@ export const selectFullStageData = (stage: Stage) => createSelector(
     selectConfig,
     config => {
         return enrichEntity(config, {
-            'image': 'images'
+
         }, stage);
     }
 );

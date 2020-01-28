@@ -92,3 +92,11 @@ export const safeJSON = <T = any>(source: any, fallback = null): T => {
         return source;
     }
 };
+
+export const safeStringify = (source: any, fallback = '') => {
+    try {
+        return JSON.stringify(source);
+    } catch {
+        return fallback;
+    }
+};

@@ -1,3 +1,7 @@
+import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text, Container, DisplayObject } from "pixi.js";
+import { get } from 'lodash';
+
+import { setProp, getValue, applyTransformations } from "../helpers";
 import {
     AbstractMutator,
     RzElementProps, PRIMS, Points,
@@ -5,8 +9,6 @@ import {
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
     PrimitiveEllipse, LineProps, unmountComponent,
 } from "@app/render-kit";
-import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text, Container } from "pixi.js";
-import { setProp, getValue, applyTransformations } from "../helpers";
 
 export class PixiMutator implements AbstractMutator {
     updateComponent(component: BasicComponent) {
@@ -105,19 +107,25 @@ const updatePrimitive = (component: BasicComponent<any>) => {
 const applyZOrder = (comp: BasicComponent) => {
     const { graphic } = comp;
     let { props } = comp;
+    const zOrder = get(props, ['styles', 'z_order']);
 
-    if (graphic && props.zOrder) {
-        graphic.zOrder = props.zOrder;
+    if (graphic && Number(zOrder)) {
+        graphic.zOrder = Number(zOrder);
     }
 }
 
 const updateGeneric = (comp: BasicComponent) => {
-    const { graphic } = comp;
+    const graphic: DisplayObject = comp.graphic;
     let { props } = comp;
-    const styles = props.styles;
+    const styles = props.styles || {};
 
     if (graphic && props.name) {
         graphic.name = props.name;
+    }
+    if (graphic && styles.interactive) {
+        graphic.interactive = true;
+    } else {
+        graphic.interactive = false;
     }
 
     applyZOrder(comp);
@@ -135,9 +143,9 @@ const updateZOrder = (graphic: Container) => {
             const order1 = a['zOrder'];
             const order2 = b['zOrder'];
 
-            if (order1 && order2) {
+            if (order1 || order2) {
                 if (order1 === order2) {
-                    return null;
+                    return 0;
                 }
                 return order1 > order2 ? -1 : 1;
             }

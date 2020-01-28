@@ -4,10 +4,12 @@ import {
     baseTemplate,
     composeCommonFormContext,
     interactiveTemplate,
+    framesTemplate,
 } from "../helpers";
 
 export function composeConditionForm(data: Condition, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
+    const frames = data.frames || [];
 
     const template = `
     <Form>
@@ -26,6 +28,8 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
         </CodeEditor>
 
         ${interactiveTemplate}
+
+        ${framesTemplate}
         
     </Form>
     `;
@@ -34,7 +38,7 @@ export function composeConditionForm(data: Condition, ent: ConnectedEntities): B
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data,
+            data, frames,
         },
     }, true);
 

@@ -17,7 +17,7 @@ export const SlotsList: RenderFunction<Props> = Memo(({ slots }) => {
         createElement(
             'collection',
             {
-                zOrder: 1,
+                styles: { z_order: 1 }
             },
             items
         )
