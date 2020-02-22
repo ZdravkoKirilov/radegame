@@ -1,7 +1,7 @@
 import { createElement, RenderFunction, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import { ShapeSlotProps, ShapeSlot, RuntimeSlot, Style, connect } from "@app/game-mechanics";
-import { selectSlotStyle } from '../../../../../state';
+import { selectSlotStyle } from '../../../state';
 
 export type EnhancedShapeSlotProps = {
     data: RuntimeSlot;

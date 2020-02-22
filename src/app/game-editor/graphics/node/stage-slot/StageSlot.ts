@@ -1,9 +1,9 @@
 import { get } from 'lodash';
 import { RenderFunction, createElement } from "@app/render-kit";
-import { Stage, StageSlot, StageSlotProps, Style, RuntimeSlot } from "@app/game-mechanics";
+import { Stage, StageRenderer, StageRendererProps, Style, RuntimeSlot } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { connect } from "@app/game-mechanics";
-import { selectSlotStage, selectSlotStageChildren, selectSlotStyle } from '../../../../../state';
+import { selectSlotStage, selectSlotStageChildren, selectSlotStyle } from '../../../state';
 
 import FacadeSlot from '../facade-slot';
 
@@ -21,7 +21,7 @@ type StoreProps = Partial<{
 }>;
 
 const EnhancedStageSlot: RenderFunction<EnhancedStageSlotProps> = (({ stage, slots, style }) => {
-    return createElement<StageSlotProps>(StageSlot, { stage, slots, childType: FacadeSlot, style });
+    return createElement<StageRendererProps>(StageRenderer, { stage, slots, childType: FacadeSlot, style });
 });
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({

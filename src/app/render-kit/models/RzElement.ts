@@ -49,7 +49,7 @@ export type RzElementType<T extends RzElementProps = {}> = PrimitiveType | Compo
 
 export type CompositeType<T = any> = ComponentConstructor<T> | RenderFunction;
 
-export type RzStyles = {
+export type RzStyles = Partial<{
     width: number;
     height: number;
     x: number;
@@ -74,7 +74,7 @@ export type RzStyles = {
 
     interactive: boolean;
     z_order: number;
-};
+}>;
 
 export type Points = Array<[number, number]>;
 

@@ -4,7 +4,7 @@ import {
 import { AppState } from "@app/core";
 import {
     selectSlotStyle, selectSlotText
-} from '../../../../../state';
+} from '../../../state';
 import { TextSlotProps, TextSlot, Text, Style, RuntimeSlot, connect } from "@app/game-mechanics";
 
 export type EnhancedTextSlotProps = {

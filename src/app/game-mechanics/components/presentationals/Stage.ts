@@ -1,19 +1,21 @@
-import { Stage, RuntimeSlot, Style, RuntimeImageFrame } from "../../entities";
-import { Memo, createElement, calculateScaling, DynamicSprite, RzElement, SpriteProps } from "@app/render-kit";
+import { RuntimeSlot, Style, RuntimeImageFrame, RuntimeStage } from "../../entities";
+import { Memo, createElement, calculateScaling, RzElement } from "@app/render-kit";
+import { FrameRendererProps, FrameRenderer } from "./Frame";
 
-export type StageSlotProps = {
-    stage: Stage;
+export type StageRendererProps = {
+    stage: RuntimeStage;
     slots: RuntimeSlot[];
     frame: RuntimeImageFrame;
     renderChild: (slot: RuntimeSlot) => RzElement;
+    renderFrameAsStage: (stage: RuntimeStage) => RzElement;
     style: Style;
 };
 
-export const StageSlot = Memo<StageSlotProps>(({ stage, slots, renderChild, style, frame }) => {
+export const StageRenderer = Memo<StageRendererProps>(({ stage, slots, renderChild, renderFrameAsStage, style, frame }) => {
     slots = slots || [];
     const nodes = slots.map(slot => {
-        return createElement('container', { styles: { x: slot.x, y: slot.y }, key: slot.id },
-            renderChild(slot)
+        return createElement('container', { key: slot.id },
+            renderChild(slot),
         );
     });
 
@@ -25,15 +27,8 @@ export const StageSlot = Memo<StageSlotProps>(({ stage, slots, renderChild, styl
             ),
         }
     },
-        createElement<SpriteProps>(DynamicSprite, {
-            image: frame.image.image,
-            styles: {
-                x: 0,
-                y: 0,
-                width: stage.width,
-                height: stage.height,
-                z_order: 2,
-            },
+        createElement<FrameRendererProps>(FrameRenderer, {
+            frame, renderStage: renderFrameAsStage,
         }),
         createElement('collection', { styles: { z_order: 1 } }, nodes),
     );

@@ -1,14 +1,13 @@
-import { Style, RuntimeImageFrame, Stage } from "../../entities";
+import { RuntimeImageFrame, RuntimeStage, Style } from "../../entities";
 import { RenderFunction, createElement, SpriteProps, DynamicSprite, RzElement } from "@app/render-kit";
 
 export type FrameRendererProps = {
-    style: Style;
-    renderStage: (stage: Stage) => RzElement;
-
+    renderStage: (stage: RuntimeStage) => RzElement;
     frame: RuntimeImageFrame;
 };
 
-export const FrameRenderer: RenderFunction<FrameRendererProps> = ({ style, frame, renderStage }) => {
+export const FrameRenderer: RenderFunction<FrameRendererProps> = ({ frame, renderStage }) => {
+    const style = frame.style(frame);
 
     if (frame.stage) {
         return renderStage(frame.stage);
@@ -19,6 +18,9 @@ export const FrameRenderer: RenderFunction<FrameRendererProps> = ({ style, frame
             image: frame.image.image, styles: {
                 width: style.width,
                 height: style.height,
+                x: style.x,
+                y: style.y,
+                z_order: style.z_order,
             }
         });
     }

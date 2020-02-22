@@ -11,9 +11,9 @@ import {
 
 import Slots, { Props as SlotProps } from './slots';
 import Background, { Props as BGProps } from './background';
-import { RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot } from "@app/game-mechanics";
+import { RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot, FrameRenderer, FrameRendererProps, RuntimeImageFrame } from "@app/game-mechanics";
 import { AppState } from "@app/core";
-import { getActiveStage, SaveItemAction, getEntitiesDict, selectRuntimeStage } from "../../../state";
+import { getActiveStage, SaveItemAction, getEntitiesDict, selectRuntimeStage } from "../state";
 import { selectGameId, Dictionary, safeStringify } from "@app/shared";
 
 export type Props = {
@@ -69,9 +69,10 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     render() {
-        const { stage, selectedSlot, loaded, entities, runtimeStage } = this.state;
+        const { stage, selectedSlot, loaded, runtimeStage } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot } = this;
-        const background = null;
+        const activeFrame = runtimeStage && runtimeStage.frame_getter ? runtimeStage.frame_getter(runtimeStage) || runtimeStage.frames[0] : null;
+
         return loaded ?
             createElement<ScrollableProps>(Scrollable, {
                 width: window.innerWidth - 200,
@@ -90,8 +91,9 @@ export class RootComponent extends StatefulComponent<Props, State> {
                         selectSlot(null);
                     },
                 },
-                    background ? createElement<BGProps>(Background, {
-                        background, stage
+                    activeFrame ? createElement<FrameRendererProps>(FrameRenderer, {
+                        frame: activeFrame as any,
+                        renderStage: (stage: RuntimeStage) => createElement(null)
                     }) : null,
                 ),
 

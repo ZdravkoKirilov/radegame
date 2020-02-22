@@ -6,7 +6,7 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
-import { RootComponent } from '../graphics';
+import { RootComponent } from '../../../graphics';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
 import { MountRef } from '@app/render-kit';

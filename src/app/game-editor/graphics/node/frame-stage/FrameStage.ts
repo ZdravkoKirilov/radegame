@@ -4,7 +4,7 @@ import {
 import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
 import { Stage, RuntimeSlot, connect, FrameStageProps, FrameStage } from '@app/game-mechanics';
-import { selectStageChildren, selectFullStageData } from '../../../../../state';
+import { selectStageChildren, selectFullStageData } from '../../../state';
 
 type OwnProps = {
     stage: Stage;

@@ -1,7 +1,7 @@
 import { createElement, RenderFunction, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import { RuntimeSlot, Style, connect, RuntimeImageFrame, ItemSlot, ItemSlotProps } from "@app/game-mechanics";
-import { selectSlotStyle, selectSlotItemDefaultFrame } from '../../../../../state';
+import { selectSlotStyle, selectSlotItemDefaultFrame } from '../../../state';
 
 import FrameStage from '../frame-stage';
 
