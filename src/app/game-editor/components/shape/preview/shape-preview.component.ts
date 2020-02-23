@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { Shape, Style } from '@app/game-mechanics';
+import { Style, RuntimeShape } from '@app/game-mechanics';
 import { MountRef, StatefulComponent } from '@app/render-kit';
 import { mountPixi } from '@app/engines/pixi';
 import { OnChange } from '@app/shared';
@@ -17,15 +17,15 @@ export class ShapePreviewComponent implements OnInit {
 
   @ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
 
-  @OnChange<Shape>(function (value) {
+  @OnChange<RuntimeShape>(function (shape) {
     const mount: MountRef = this.mount;
     const component = mount ? mount.component as StatefulComponent : null;
-    const inlineStyle: Style = JSON.parse(value ? value.style_inline as any : '{}');
+    const shapeStyle = (typeof shape.style === 'function' ? shape.style(shape) : shape.style_inline) || {} as Style;
     if (component) {
-      component.updateProps({ shape: value, style: inlineStyle });
+      component.updateProps({ shape, style: shapeStyle });
     }
   })
-  @Input() data: Shape;
+  @Input() data: RuntimeShape;
 
   mount: MountRef;
 

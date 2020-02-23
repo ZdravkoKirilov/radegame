@@ -1,8 +1,8 @@
-import { Shape, Style, ShapeSlot, ShapeSlotProps } from "@app/game-mechanics";
+import { Style, ShapeSlot, ShapeSlotProps, RuntimeShape } from "@app/game-mechanics";
 import { StatefulComponent, createElement } from "@app/render-kit";
 
 type Props = {
-    shape: Shape;
+    shape: RuntimeShape;
     style: Style;
 }
 
@@ -17,7 +17,7 @@ export default class RootComponent extends StatefulComponent<Props> {
             y: 20,
 
         } as Style;
-        const shape = this.props.shape || {};
+        const shape = this.props.shape || {} as RuntimeShape;
 
         return createElement<ShapeSlotProps>(ShapeSlot, { style, shape });
     }

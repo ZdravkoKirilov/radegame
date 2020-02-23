@@ -10,8 +10,7 @@ import {
 } from "@app/render-kit";
 
 import Slots, { Props as SlotProps } from './slots';
-import Background, { Props as BGProps } from './background';
-import { RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot, FrameRenderer, FrameRendererProps, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot, FrameRenderer, FrameRendererProps } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { getActiveStage, SaveItemAction, getEntitiesDict, selectRuntimeStage } from "../state";
 import { selectGameId, Dictionary, safeStringify } from "@app/shared";

@@ -37,7 +37,11 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                 {data.item}
             </EmbeddedData>
 
-            <CodeEditor name='display_text' label='Display text'>
+            <Dropdown name='display_text_inline' label='Display text' options='{text_options}'>
+                {data.display_text_inline}
+            </Dropdown>
+
+            <CodeEditor name='display_text' label='Display text getter'>
                 {data.display_text}
             </CodeEditor>
 

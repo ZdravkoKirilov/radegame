@@ -1,1 +1,0 @@
-export { default, EnhancedShapeSlotProps } from './ShapeSlot';

@@ -1,9 +1,9 @@
-import { Shape, Style } from "../../entities";
+import { RuntimeShape, Style } from "../../entities";
 import { RenderFunction, createElement, PolygonProps } from "@app/render-kit";
 
 export type PolygonSlotProps = {
     style: Style;
-    shape: Shape;
+    shape: RuntimeShape;
 }
 
 const Polygon: RenderFunction<PolygonSlotProps> = ({ style, shape }) => {

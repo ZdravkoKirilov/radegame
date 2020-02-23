@@ -1,1 +1,0 @@
-export { default, EnhancedStageSlotProps } from './StageSlot';

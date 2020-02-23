@@ -1,12 +1,11 @@
-import { Shape, Style } from "../../entities";
+import { Style } from "../../entities";
 import { RenderFunction, createElement } from "@app/render-kit";
 
 export type RectangleProps = {
     style: Style;
-    shape: Shape;
 }
 
-const Rectangle: RenderFunction<RectangleProps> = ({ style, shape }) => {
+const Rectangle: RenderFunction<RectangleProps> = ({ style }) => {
 
     return createElement('rectangle', {
         styles: {

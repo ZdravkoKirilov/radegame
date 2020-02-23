@@ -4,7 +4,7 @@ import { FEATURE_NAME } from "../../config";
 import {
     Round, Setup, Stage, ImageAsset,
     createExpressionContext, enrichEntity, ImageFrame,
-    parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound, RuntimeStage
+    parseAndBind, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound, RuntimeStage, RuntimeShape
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -112,7 +112,7 @@ export const selectSlotStyle = (slot: RuntimeSlot) => {
     return null;
 };
 
-export const selectSlotShape = (slot: RuntimeSlot) => slot.shape
+export const selectSlotShape = (slot: RuntimeSlot) => slot.shape as RuntimeShape;
 
 export const selectSlotText = (slot_id: number) => createSelector(
     selectSlotData(slot_id),

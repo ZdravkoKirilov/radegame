@@ -1,9 +1,9 @@
 import { createElement, PrimitiveContainer, RenderFunction } from "@app/render-kit";
 import { RuntimeSlot, Style, connect } from "@app/game-mechanics";
 
-import FacadeSlot, { EnhancedFacadeSlotProps } from './facade-slot';
 import { AppState } from "@app/core";
 import { selectSlotStyle } from "app/game-editor/state";
+import NodeFactory, { NodeFactoryProps } from "./Factory";
 
 export type Props = Partial<StoreProps> & {
     data: RuntimeSlot;
@@ -19,11 +19,12 @@ type StoreProps = {
 
 export const Node: RenderFunction<Props> = (props) => {
     const { data, onDragMove, onDragEnd, onSelect, selected, style } = props;
+    const _style = style || {} as Style;
 
     return createElement(
         'container',
         {
-            styles: { x: data.x, y: data.y, z_order: style.z_order },
+            styles: { x: data.x, y: data.y, z_order: _style.z_order },
             id: data.id, onDragMove, onDragEnd,
             draggable: { xAxis: true, yAxis: true },
             onPointerDown: () => onSelect(data),
@@ -33,24 +34,24 @@ export const Node: RenderFunction<Props> = (props) => {
             button: true,
             styles: {
                 stroke_thickness: 5,
-                stroke_color: style.stroke_color,
+                stroke_color: _style.stroke_color,
                 x: 0,
                 y: 0,
-                width: Number(style.width),
-                height: Number(style.height),
+                width: Number(_style.width),
+                height: Number(_style.height),
                 border_radius: 5,
-                radius: style.width
+                radius: _style.width
             }
         }) : null,
-        createElement<EnhancedFacadeSlotProps>(
-            FacadeSlot,
+        createElement<NodeFactoryProps>(
+            NodeFactory,
             { data }
         ),
     );
 };
 
 const mapStateToProps = (state: AppState, ownProps: Props): StoreProps => ({
-    style: selectSlotStyle(ownProps.data.id)(state),
+    style: selectSlotStyle(ownProps.data),
 });
 
 export default connect(mapStateToProps)(Node);

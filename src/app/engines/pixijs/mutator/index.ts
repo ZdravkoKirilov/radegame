@@ -101,7 +101,7 @@ const updatePrimitive = (component: BasicComponent<any>) => {
     }
 
     applyZOrder(component);
-    updateZOrder(component.container as any);
+    updateZOrder(component.container as Container);
 };
 
 const applyZOrder = (comp: BasicComponent) => {

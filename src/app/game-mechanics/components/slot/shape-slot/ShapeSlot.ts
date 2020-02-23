@@ -1,7 +1,7 @@
 import {
     createElement, Memo, RzTransition, AnimatableProps, TransitionProps
 } from "@app/render-kit";
-import { Style, RuntimeSlot, Shape, RuntimeTransition } from "../../../entities";
+import { Style, RuntimeSlot, RuntimeTransition, RuntimeShape } from "../../../entities";
 import { connect } from "../../../hocs";
 import { AppState } from "@app/core";
 import {
@@ -16,7 +16,7 @@ type EnhancedShapeSlotProps = {
 
 type StoreProps = {
     style: Style;
-    shape: Shape;
+    shape: RuntimeShape;
     transitions: RuntimeTransition[];
 };
 

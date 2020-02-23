@@ -4,7 +4,7 @@ import {
 import { AppState } from "@app/core";
 import {
     selectSlotStyle, selectSlotText
-} from '../../../state';
+} from '../../state';
 import { TextSlotProps, TextSlot, Text, Style, RuntimeSlot, connect } from "@app/game-mechanics";
 
 export type EnhancedTextSlotProps = {
@@ -21,8 +21,8 @@ const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps>(({ text, style
 });
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
-    style: selectSlotStyle(ownProps.data.id)(state),
-    text: selectSlotText(ownProps.data.id)(state),
+    style: selectSlotStyle(ownProps.data),
+    text: selectSlotText(ownProps.data),
 });
 
 export default connect(mapStateToProps)(EnhancedTextSlot);

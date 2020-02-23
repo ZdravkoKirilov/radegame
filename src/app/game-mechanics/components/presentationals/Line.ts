@@ -1,9 +1,9 @@
-import { Shape, Style } from "../../entities";
+import { RuntimeShape, Style } from "../../entities";
 import { RenderFunction, createElement, LineProps } from "@app/render-kit";
 
 export type LineSlotProps = {
     style: Style;
-    shape: Shape;
+    shape: RuntimeShape;
 }
 
 const LineSlot: RenderFunction<LineSlotProps> = ({ style, shape }) => {

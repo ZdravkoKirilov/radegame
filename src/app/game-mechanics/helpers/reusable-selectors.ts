@@ -1,6 +1,6 @@
 import { enrichEntity, parseAndBind } from "./misc";
 import {
-    Slot, RuntimeSlot, GameEntity, ImageFrame,
+    Slot, RuntimeSlot, GameEntity,
     SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
     AnimationStep, RuntimeAnimationStep, Animation
 } from "../entities";
@@ -19,6 +19,7 @@ export const enrichSlot = (config: Dictionary<GameEntity>, context: Dictionary, 
             style_inline: (src: string) => safeJSON(src, {})
         }, config.shapes[shapeId]),
         display_text: src => parseAndBind(context)(src),
+        display_text_inline: 'texts',
         transitions: transitionId => enrichEntity<Transition, RuntimeTransition>(config, {
             animation: (animationId: string) => enrichEntity<Animation, RuntimeAnimation>(config, {
                 steps: (item: AnimationStep) => enrichEntity<AnimationStep, RuntimeAnimationStep>(config, {

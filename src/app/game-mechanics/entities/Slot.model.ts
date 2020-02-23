@@ -19,6 +19,7 @@ export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
     x: number;
 
     display_text: string; // Expression -> Text
+    display_text_inline: number;
     item: string;
     shape: number; // Shape
 
@@ -29,13 +30,14 @@ export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
 export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item' | 'shape' |
     'handlers' | 'transitions' | 'display_text'> & {
         board: Stage;
-        style: ParamedExpressionFunc;
+        style: ParamedExpressionFunc<RuntimeSlot, Style>;
         style_inline: Style;
         item: RuntimeSlotItem;
         shape: Shape;
         handlers: RuntimeSlotHandler[];
         transitions: RuntimeTransition[];
         display_text: ParamedExpressionFunc<RuntimeSlot, Text>;
+        display_text_inline: Text;
     };
 
 export type SlotHandler = {

@@ -1,4 +1,7 @@
 import { WithStyle, BaseModel } from "./Base.model";
+import { Omit } from "@app/shared";
+import { ParamedExpressionFunc } from "./Expression.model";
+import { Style } from "./Style.model";
 
 export type Shape = WithStyle & BaseModel & Partial<{
     type: ShapeType;
@@ -22,3 +25,8 @@ export const SHAPE_TYPES = {
 } as const;
 
 export type ShapeType = keyof typeof SHAPE_TYPES;
+
+export type RuntimeShape = Omit<Shape, 'style' | 'style_inline'> & {
+    style: ParamedExpressionFunc<RuntimeShape, Style>;
+    style_inline: Style;
+};
