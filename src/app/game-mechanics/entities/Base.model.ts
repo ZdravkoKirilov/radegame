@@ -1,6 +1,6 @@
 import { ImageFrame, ImageAsset } from "./ImageAsset.model";
 import { Stage } from "./Stage.model";
-import { Expression } from "./Expression.model";
+import { Expression, ParamedExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 
 export type BaseModel = WithKeywords & Partial<{
@@ -39,3 +39,8 @@ export type WithState = Partial<{
 export type WithTemplate = Partial<{
     template: number | Stage;
 }>;
+
+export type WithRuntimeStyle<T = any> = {
+    style_inline: Style;
+    style: ParamedExpressionFunc<T, Style>;
+};

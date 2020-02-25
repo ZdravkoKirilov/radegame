@@ -4,7 +4,7 @@ import isArray from 'lodash/isArray';
 
 import { GameTemplate, GameConfig } from "../models";
 import {
-  HANDLER_TYPES, GameAction, GameEntity, RuntimeSlotHandler, RuntimeSlot
+  HANDLER_TYPES, GameAction, GameEntity, RuntimeSlotHandler, RuntimeSlot, Style, WithRuntimeStyle
 } from "../entities";
 import { ExpressionContext } from "./initializers";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
@@ -111,12 +111,35 @@ const computePolygon = (sprite, text): Points => {
   const x2 = sprite.styles.x + sprite.styles.width;
   const y2 = sprite.styles.y + sprite.styles.height;
   const polygon = [
-      [x1 - padding, y1 - padding],
-      [x2 + padding, y1 - padding],
-      [x2 + padding, y2 + padding],
-      [x1 - padding, y2 + padding],
-      [x1 - padding, y1 - padding],
+    [x1 - padding, y1 - padding],
+    [x2 + padding, y1 - padding],
+    [x2 + padding, y2 + padding],
+    [x1 - padding, y2 + padding],
+    [x1 - padding, y1 - padding],
   ];
 
   return polygon as Points;
+};
+
+const isEntityWithRuntimeStyle = (item: any): item is WithRuntimeStyle => {
+  return 'style' in item && 'style_inline' in item;
+};
+
+export const combineStyles = (...args: (Style | WithRuntimeStyle)[]): Style => {
+  return args.reduce((total, item) => {
+
+    if (isEntityWithRuntimeStyle(item)) {
+      const style = (typeof item.style === 'function' ? item.style(item) : item.style_inline) || {} as Style;
+      return {
+        ...total,
+        ...style,
+      } as any;
+    }
+
+    return {
+      ...total,
+      ...item,
+    } as Style;
+
+  }, {} as Style);
 };
