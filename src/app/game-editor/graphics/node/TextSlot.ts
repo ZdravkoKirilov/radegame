@@ -1,11 +1,7 @@
-import {
-    createElement, Memo
-} from "@app/render-kit";
+import { createElement, Memo } from "@app/render-kit";
 import { AppState } from "@app/core";
-import {
-    selectSlotStyle, selectSlotText
-} from '../../state';
-import { TextSlotProps, TextSlot, Text, Style, RuntimeSlot, connect } from "@app/game-mechanics";
+import { selectSlotStyle, selectSlotText } from '../../state';
+import { TextSlotProps, TextSlot, Style, RuntimeSlot, connect, RuntimeText, combineStyles } from "@app/game-mechanics";
 
 export type EnhancedTextSlotProps = {
     data: RuntimeSlot;
@@ -13,16 +9,17 @@ export type EnhancedTextSlotProps = {
 
 type StoreProps = {
     style: Style;
-    text: Text;
+    text: RuntimeText;
 };
 
-const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps>(({ text, style, data }) => {
-    return createElement<TextSlotProps>(TextSlot, { text: text.default_value, style, slot: data });
+const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps>(({ text, style }) => {
+    const composedStyle = combineStyles(text, style);
+    return createElement<TextSlotProps>(TextSlot, { text: text.computed_value, style: composedStyle });
 });
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
     style: selectSlotStyle(ownProps.data),
-    text: selectSlotText(ownProps.data),
+    text: selectSlotText(ownProps.data)(state),
 });
 
 export default connect(mapStateToProps)(EnhancedTextSlot);

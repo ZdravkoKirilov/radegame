@@ -1,7 +1,7 @@
 import { Text } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
-    composeCommonFormContext, baseTemplate
+    composeCommonFormContext, baseTemplate, styleTemplate, composeInlineStyleFormContext
 } from '../helpers';
 
 export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl[] {
@@ -14,6 +14,8 @@ export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl
         ${baseTemplate}
 
         <TextInput name='default_value' label='Default value'>{data.default_value}</TextInput>
+
+        ${styleTemplate}
 
         <Group name='translations' label='Translations' children='{translations}' item='@item' addButtonText='Add'>
             <Form>
@@ -33,6 +35,7 @@ export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
+            ...composeInlineStyleFormContext(ent),
             data, translations
         },
     }, true);

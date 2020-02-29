@@ -9,7 +9,7 @@ import { Stage } from "./Stage.model";
 import { ParamedExpressionFunc, EventHandlingExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
-import { Text } from "./Text.model";
+import { Text, RuntimeText } from "./Text.model";
 import { Sonata } from "./Sonata.model";
 
 export type Slot = BaseModel & WithBoard & WithStyle & Partial<{

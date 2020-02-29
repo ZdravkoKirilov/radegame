@@ -9,7 +9,7 @@ type HandlerData = {
 export class PixiEventsManager implements AbstractEvent {
 
     constructor(private interactionManager: interaction.InteractionManager) {
-        window.addEventListener("wheel", this.onMouseWheel);
+        window.addEventListener("wheel", this.onMouseWheel, { passive: true});
         window.addEventListener("keypress", this.onKeypress);
         this.interactionManager.on('pointerdown', this.onGraphicClick);
     }

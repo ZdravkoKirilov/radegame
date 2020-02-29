@@ -1,8 +1,9 @@
 import { createSelector } from "reselect";
+import get from 'lodash/get';
 
 import {
     Stage, createExpressionContext, GameTemplate, enrichEntity, ImageFrame, parseAndBind, RuntimeImageFrame,
-    enrichSlot, RuntimeStage, RuntimeSlot, Shape, RuntimeShape
+    enrichSlot, RuntimeStage, RuntimeSlot, Shape, RuntimeShape, RuntimeText, Text
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -102,10 +103,37 @@ export const selectSlotStyle = (slot_data: RuntimeSlot) => {
 };
 
 
-export const selectSlotText = (slot_data: RuntimeSlot) => {
-    if (slot_data.display_text) {
-        const text = slot_data.display_text(slot_data);
-        return text;
+export const selectSlotText = (slot_data: RuntimeSlot) => createSelector(
+    selectEntitiesDictionary,
+    selectExpressionContext,
+    (entities, context) => {
+        let runtimeText: RuntimeText = null;
+        if (slot_data.display_text) {
+            const text = slot_data.display_text(slot_data);
+            runtimeText = {
+                ...enrichEntity<Text, RuntimeText>(entities, {
+                    style_inline: src => safeJSON(src, {}),
+                    style: src => parseAndBind(context)(src)
+                }, text)
+            };
+        }
+
+        if (slot_data.display_text_inline) {
+            runtimeText = {
+                ...enrichEntity<Text, RuntimeText>(entities, {
+                    style_inline: src => safeJSON(src, {}),
+                    style: src => parseAndBind(context)(src)
+                }, slot_data.display_text_inline)
+            };
+        }
+
+        if (runtimeText) {
+            const selectedLanguage = 2;
+            const translation = runtimeText.translations.find(elem => elem.language === selectedLanguage);
+            runtimeText.computed_value = get(translation, 'value', runtimeText.default_value);
+        }
+
+        return runtimeText;
     }
-    return slot_data.display_text_inline;
-};
+);
+

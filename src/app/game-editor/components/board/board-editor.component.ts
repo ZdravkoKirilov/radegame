@@ -67,7 +67,7 @@ export class BoardEditorComponent {
 	}
 
 	handleSaveSlot(payload: Slot) {
-		const slot = <Slot>{ ...payload, game: this.gameId, owner: this.stage.id };
+		const slot = <Slot>{ ...payload, id: null, game: this.gameId, owner: this.stage.id };
 		if (this.selectedSlot) {
 			slot.id = this.selectedSlot.id;
 		}

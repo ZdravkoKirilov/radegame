@@ -1,6 +1,6 @@
 import { createElement, RenderFunction, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { ShapeSlotProps, ShapeSlot, RuntimeSlot, Style, connect, RuntimeShape } from "@app/game-mechanics";
+import { ShapeSlotProps, ShapeSlot, RuntimeSlot, Style, connect, RuntimeShape, combineStyles } from "@app/game-mechanics";
 import { selectSlotStyle, selectRuntimeShape } from '../../state';
 
 export type EnhancedShapeSlotProps = {
@@ -13,8 +13,7 @@ type StoreProps = {
 };
 
 const EnhancedShapeSlot: RenderFunction<EnhancedShapeSlotProps & StoreProps> = ({ style, shape }) => {
-    const shapeStyle = (typeof shape.style === 'function' ? shape.style(shape) : shape.style_inline) || {} as Style;
-    const composedStyle = { ...style, ...shapeStyle } as Style;
+    const composedStyle = combineStyles(shape, style);
     return createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle, shape });
 };
 

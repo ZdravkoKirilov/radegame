@@ -9,8 +9,7 @@ export type NodeFactoryProps = {
 }
 
 const NodeFactory = Memo<NodeFactoryProps>(({ data }) => {
-
-    if (data.display_text) {
+    if (data.display_text || data.display_text_inline) {
         return createElement<EnhancedTextSlotProps>(EnhancedTextSlot, { data });
     }
     if (data.shape) {

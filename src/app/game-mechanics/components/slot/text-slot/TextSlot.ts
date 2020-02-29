@@ -25,10 +25,10 @@ type AnimationProps = {
     interpolatedData: Dictionary;
 }
 
-const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps & AnimationProps>(({ text, style, data, interpolatedData }) => {
+const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps & AnimationProps>(({ text, style, interpolatedData }) => {
     const composedStyle = { ...style } as Style;
     const composedText = interpolatedData.text || text.default_value;
-    return createElement<TextSlotProps>(TextSlot, { text: composedText, style: composedStyle, slot: data });
+    return createElement<TextSlotProps>(TextSlot, { text: composedText, style: composedStyle });
 });
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
