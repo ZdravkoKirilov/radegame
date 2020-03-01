@@ -1,6 +1,6 @@
-import { DisplayObject, Sprite, Graphics } from "pixi.js";
+import { DisplayObject, Sprite, Graphics, TextStyleOptions } from "pixi.js";
 
-import { Component, RzStyles, BasicComponent, toHexColor } from "@app/render-kit";
+import { Component, RzStyles, BasicComponent, toHexColor, RzTextStyles } from "@app/render-kit";
 
 export const bringToFront = (obj: DisplayObject) => {
     const parent = obj.parent;
@@ -126,6 +126,31 @@ export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyle
     }
     if (styles.interactive) {
         copy.interactive = Boolean(styles.interactive);
+    }
+
+    return copy;
+};
+
+export const applyTextTransformations = (styles: Partial<RzTextStyles>): Partial<TextStyleOptions> => {
+    styles = styles || {};
+    let copy = {} as Partial<TextStyleOptions>;
+    if (styles.stroke_color) {
+        copy.stroke = toHexColor(styles.stroke_color);
+    }
+    if (styles.fill) {
+        copy.fill = toHexColor(styles.fill);
+    }
+    if (styles.stroke_thickness && typeof styles.stroke_thickness === 'string') {
+        copy.strokeThickness = Number(styles.stroke_thickness);
+    }
+    if (styles.font_size && typeof styles.font_size === 'string') {
+        copy.fontSize = Number(styles.font_size);
+    }
+    if (styles.font_family) {
+        copy.fontFamily = styles.font_family;
+    }
+    if (styles.font_style) {
+        copy.fontStyle = styles.font_style;
     }
 
     return copy;

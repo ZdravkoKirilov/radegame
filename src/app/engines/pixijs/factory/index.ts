@@ -9,6 +9,7 @@ import {
 
 import { Dictionary } from '@app/shared';
 import { BasicComponent } from "@app/render-kit";
+import { updateText } from "../mutator";
 
 export class PixiFactory implements AbstractFactory {
     createComponent(elem: RzElement, meta: MetaProps): BasicComponent {
@@ -44,9 +45,11 @@ export class PixiFactory implements AbstractFactory {
         return collection;
     }
     createText(elem: RzElement<any>, meta: MetaProps): PrimitiveText {
-        const textStyle = new TextStyle({ ...PrimitiveText.defaultTextStyle, ...(elem.props.textStyle || {}) });
+        /* TODO generic styles to pixi styles */
+        const textStyle = new TextStyle({ ...PrimitiveText.defaultTextStyle });
         const text = new PrimitiveText(elem.props, new Text(elem.props.value, textStyle), meta);
         text.style = textStyle;
+        updateText(text); // Style -> RzTextStyle remapping done there instead of bloating here
         return text;
     }
     createSprite(elem: RzElement<any>, meta: MetaProps): PrimitiveSprite {

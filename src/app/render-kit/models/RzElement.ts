@@ -3,6 +3,7 @@ import { ComponentConstructor, RenderFunction } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 import { PRIMS } from "../primitives";
 import { StateHooks, EffectHooks, MemoHooks, RefHooks } from "../helpers";
+import { FontStyle } from "@app/game-mechanics";
 
 export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
@@ -61,7 +62,7 @@ export type RzStyles = Partial<{
     pivot: string;  // "xValue yValue"
     anchor: string; // "xValue yValue"
     alpha: number;
-    fill: number | string[];
+    fill: number | string | string[];
     radius: number;
     border_radius: number;
     stroke_thickness: number;
@@ -75,6 +76,50 @@ export type RzStyles = Partial<{
     interactive: boolean;
     z_order: number;
 }>;
+
+export type RzTextStyles = Partial<Pick<RzStyles, 'stroke_color' | 'stroke_thickness' | 'fill'>> & Partial<{
+    font_size: number;
+    font_family: string;
+    font_style: FontStyle;
+}>;
+
+/*
+ align?: string;
+        breakWords?: boolean;
+        dropShadow?: boolean;
+        dropShadowAlpha?: number;
+        dropShadowAngle?: number;
+        dropShadowBlur?: number;
+        dropShadowColor?: string | number;
+        dropShadowDistance?: number;
+        fill?:
+            | string
+            | string[]
+            | number
+            | number[]
+            | CanvasGradient
+            | CanvasPattern;
+        fillGradientType?: number;
+        fillGradientStops?: number[];
+        fontFamily?: string | string[];
+        fontSize?: number | string;
+        fontStyle?: string;
+        fontVariant?: string;
+        fontWeight?: string;
+        letterSpacing?: number;
+        lineHeight?: number;
+        lineJoin?: string;
+        miterLimit?: number;
+        padding?: number;
+        stroke?: string | number;
+        strokeThickness?: number;
+        textBaseline?: string;
+        trim?: boolean;
+        whiteSpace?: string;
+        wordWrap?: boolean;
+        wordWrapWidth?: number;
+        leading?: number;
+*/
 
 export type Points = Array<[number, number]>;
 

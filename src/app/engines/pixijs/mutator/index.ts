@@ -1,7 +1,7 @@
 import { Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text, Container, DisplayObject } from "pixi.js";
 import { get } from 'lodash';
 
-import { setProp, getValue, applyTransformations } from "../helpers";
+import { setProp, getValue, applyTransformations, applyTextTransformations } from "../helpers";
 import {
     AbstractMutator,
     RzElementProps, PRIMS, Points,
@@ -202,13 +202,15 @@ const updateSprite = (comp: PrimitiveSprite) => {
     }
 }
 
-const updateText = (comp: PrimitiveText) => {
+export const updateText = (comp: PrimitiveText) => {
     const { props } = comp;
     const styleObject = comp.style as TextStyle;
     const graphic = comp.graphic as Text;
     const textStyle = props.textStyle || {};
-    Object.keys(textStyle || {}).forEach(key => {
-        const value = textStyle[key];
+    const remappedTextStyle = applyTextTransformations(textStyle);
+
+    Object.keys(remappedTextStyle || {}).forEach(key => {
+        const value = remappedTextStyle[key];
         const result = getValue(value as string, key as any, comp);
         styleObject[key] = result;
     });
