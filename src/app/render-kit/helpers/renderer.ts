@@ -20,6 +20,7 @@ export const createRenderer = (engine: AbstractRenderEngine, resources: Set<stri
                 refs: new Map(),
             };
             const node = createComponent(elem, engine.factory, meta, null);
+            meta.root = node;
             mountComponent(node, container);
             resolve(node);
         });

@@ -1,5 +1,5 @@
 import { AbstractRenderEngine } from "../interfaces";
-import { ComponentConstructor, RenderFunction } from "./Component";
+import { ComponentConstructor, RenderFunction, Component } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 import { PRIMS } from "../primitives";
 import { StateHooks, EffectHooks, MemoHooks, RefHooks } from "../helpers";
@@ -133,6 +133,7 @@ export type MetaProps = {
         memos: MemoHooks;
         refs: RefHooks;
     }
+    root?: Component;
 };
 
 export type PrimitiveType = keyof typeof PRIMS;
