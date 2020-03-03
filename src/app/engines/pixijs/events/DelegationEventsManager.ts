@@ -1,17 +1,69 @@
 import { DisplayObject, interaction } from "pixi.js";
-import { AbstractEventManager, BasicComponent } from "@app/render-kit";
+import { AbstractEventManager, BasicComponent, Component } from "@app/render-kit";
 
 type TrackData = { handler: Function, graphic: DisplayObject };
-type HandlerData = {
-    type: interaction.InteractionEventTypes;
-    handler: (event: interaction.InteractionEvent) => void;
-};
-export class PixiEventsManager implements AbstractEventManager {
+
+export const PixiSupportedEvents = {
+    click: 'click',
+    mousedown: 'mousedown',
+    mousemove: 'mousemove',
+    mouseout: 'mouseout',
+    mouseover: 'mouseover',
+    mouseup: 'mouseup',
+    mouseupoutside: 'mouseupoutside',
+    pointercancel: 'pointercancel',
+    pointerdown: 'pointerdown',
+    pointermove: 'pointermove',
+    pointerout: 'pointerout',
+    pointerover: 'pointerover',
+    pointertap: 'pointertap',
+    pointerup: 'pointerup',
+    pointerupoutside: 'pointerupoutside',
+    rightclick: 'rightclick',
+    rightdown: 'rightdown',
+    rightup: 'rightup',
+    tap: 'tap',
+    touchcancel: 'touchcancel',
+    touchend: 'touchend',
+    touchendoutside: 'touchendoutside',
+    touchstart: 'touchstart',
+
+    // non pixi native events
+    wheel: 'wheel',
+    keypress: 'keypress',
+    focus: 'focus',
+} as const;
+
+type PixiEventType = keyof typeof PixiSupportedEvents;
+type ComponentEvents = Map<Component, Function>;
+
+export class PixiDelegationEventsManager implements AbstractEventManager {
 
     constructor(private interactionManager: interaction.InteractionManager) {
-        window.addEventListener("wheel", this.onMouseWheel, { passive: true});
+        window.addEventListener("wheel", this.onMouseWheel, { passive: true });
         window.addEventListener("keypress", this.onKeypress);
         this.interactionManager.on('pointerdown', this.onGraphicClick);
+    }
+
+    registeredEvents: Map<PixiEventType, ComponentEvents> = new Map();
+
+    getEventBranchForType = (type: PixiEventType) => {
+        const branch = this.registeredEvents.get(type) || new Map<Component, Function>();
+        return branch;
+    }
+
+    createEventTracking = (eventType: PixiEventType, branch: ComponentEvents) => {
+        if (branch.size < 2) {
+            this.interactionManager.on(eventType, (event: interaction.InteractionEvent) => {
+                const currentBranch: ComponentEvents = this.registeredEvents[eventType];
+                currentBranch.forEach((handler, component) => {
+                    handler();
+                    // propagation here
+                    // synthetic event creation
+                    // + exception for wheel, keypress, focus
+                });
+            });
+        }
     }
 
     onMouseWheel = (event: MouseWheelEvent) => {
@@ -30,44 +82,19 @@ export class PixiEventsManager implements AbstractEventManager {
         }
     }
 
-    supported = new Set([
-        'click',
-        'mousedown',
-        'mousemove',
-        'mouseout',
-        'mouseover',
-        'mouseup',
-        'mouseupoutside',
-        'pointercancel',
-        'pointerdown',
-        'pointermove',
-        'pointerout',
-        'pointerover',
-        'pointertap',
-        'pointerup',
-        'pointerupoutside',
-        'rightclick',
-        'rightdown',
-        'rightup',
-        'tap',
-        'touchcancel',
-        'touchend',
-        'touchendoutside',
-        'touchstart',
-    ]);
-
     elementWithWheel: TrackData;
     elementWithKeyboard: TrackData;
     focused: BasicComponent;
-    compEvents: Map<BasicComponent, Set<HandlerData>> = new Map();
 
     assignEvents(comp: BasicComponent) {
         const graphic = comp.graphic as DisplayObject;
-        const newHandlers: Set<HandlerData> = new Set();
+
         Object.keys(comp.props).forEach((key: string) => {
-            if (graphic && key.startsWith('on') && typeof comp.props[key] === 'function') {
+            if (key.startsWith('on') && typeof comp.props[key] === 'function') {
                 const handler: Function = comp.props[key];
-                const eventName = key.slice(2).toLowerCase();
+                const eventName = key.slice(2).toLowerCase() as PixiEventType;
+                const branch = this.getEventBranchForType(eventName);
+
                 const genericHandler = (event: interaction.InteractionEvent) => {
                     handler(event, comp);
                 };
@@ -92,45 +119,29 @@ export class PixiEventsManager implements AbstractEventManager {
                     }
                 };
 
-                if (this.supported.has(eventName) && graphic) {
-                    graphic.on(eventName as interaction.InteractionEventTypes, genericHandler);
+                if (eventName in PixiSupportedEvents && graphic) {
                     graphic.interactive = true;
-
-                    newHandlers.add({
-                        type: eventName as interaction.InteractionEventTypes,
-                        handler: genericHandler,
-                    });
+                    branch.set(comp, genericHandler);
                 }
 
                 if (eventName === 'wheel' && graphic) {
                     graphic.interactive = true;
-                    graphic.on('pointerdown', wheelHandler);
-                    newHandlers.add({
-                        type: 'pointerdown',
-                        handler: wheelHandler,
-                    });
+                    branch.set(comp, wheelHandler);
                 }
 
                 if (eventName === 'keypress' && graphic) {
                     graphic.interactive = true;
-                    graphic.on('pointerdown', keypressHandler);
-                    newHandlers.add({
-                        type: 'pointerdown',
-                        handler: keypressHandler,
-                    });
+                    branch.set(comp, keypressHandler);
                 }
 
                 if (eventName === 'focus' && graphic) {
                     graphic.interactive = true;
-                    graphic.on('pointerdown', focusHandler);
-                    newHandlers.add({
-                        type: 'pointerdown',
-                        handler: focusHandler,
-                    });
+                    branch.set(comp, focusHandler);
                 }
+
+                this.createEventTracking(eventName, branch);
             }
         });
-        this.compEvents.set(comp, newHandlers);
     }
 
     onGraphicClick = (event: interaction.InteractionEvent) => {
@@ -152,16 +163,14 @@ export class PixiEventsManager implements AbstractEventManager {
     }
 
     removeListeners(comp: BasicComponent) {
-        const graphic = comp.graphic as DisplayObject;
-        const cachedHandlers = this.compEvents.get(comp) || new Set();
-        cachedHandlers.forEach(elem => {
-            graphic.off(elem.type, elem.handler);
+        this.registeredEvents.forEach(eventCategory => {
+            eventCategory.delete(comp);
         });
     }
 
     onDestroy() {
         window.removeEventListener('wheel', this.onMouseWheel);
         window.removeEventListener('keypress', this.onKeypress);
-        this.interactionManager.off('pointerdown', this.onGraphicClick);
+        this.interactionManager.removeAllListeners();
     }
 }
