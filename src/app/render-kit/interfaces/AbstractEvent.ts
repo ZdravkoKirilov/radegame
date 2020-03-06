@@ -6,9 +6,15 @@ export abstract class AbstractEventManager {
     abstract removeListeners(comp: BasicComponent): void;
 };
 
-export interface GenericEvent {
-    stopPropagation(): void;
-    target: Component;
+export type GenericEventType = string;
 
+export interface GenericEvent {
+    type: GenericEventType;
+
+    stopPropagation(): void;
+    currentTarget: Component;
+    originalTarget: Component;
     propagationStopped: boolean;
 };
+
+export type GenericEventHandler = (event: GenericEvent) => void;

@@ -1,7 +1,10 @@
 import { DisplayObject, interaction } from "pixi.js";
-import { AbstractEventManager, BasicComponent, Component } from "@app/render-kit";
-
-type TrackData = { handler: Function, graphic: DisplayObject };
+import {
+    AbstractEventManager, BasicComponent, Component, GenericEvent, propagateEvent,
+    GenericEventHandler,
+    withErrorPropagation
+} from "@app/render-kit";
+import { createGenericEventFromPixiEvent } from "../helpers";
 
 export const PixiSupportedEvents = {
     click: 'click',
@@ -35,7 +38,8 @@ export const PixiSupportedEvents = {
 } as const;
 
 type PixiEventType = keyof typeof PixiSupportedEvents;
-type ComponentEvents = Map<Component, Function>;
+type ComponentEvents = Map<Component, GenericEventHandler>;
+type TrackData = { handler: Function, graphic: DisplayObject };
 
 export class PixiDelegationEventsManager implements AbstractEventManager {
 
@@ -48,19 +52,20 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     registeredEvents: Map<PixiEventType, ComponentEvents> = new Map();
 
     getEventBranchForType = (type: PixiEventType) => {
-        const branch = this.registeredEvents.get(type) || new Map<Component, Function>();
+        const branch = this.registeredEvents.get(type) || new Map<Component, GenericEventHandler>();
         return branch;
     }
 
-    createEventTracking = (eventType: PixiEventType, branch: ComponentEvents) => {
+    createEventTracking = (eventType: PixiEventType, branch: ComponentEvents, eventHandlerName: string) => {
         if (branch.size < 2) {
             this.interactionManager.on(eventType, (event: interaction.InteractionEvent) => {
                 const currentBranch: ComponentEvents = this.registeredEvents[eventType];
                 currentBranch.forEach((handler, component) => {
-                    handler();
-                    // propagation here
-                    // synthetic event creation
-                    // + exception for wheel, keypress, focus
+                    const genericEvent = createGenericEventFromPixiEvent(
+                        event, eventType, component
+                    );
+                    withErrorPropagation(component, () => handler(genericEvent));
+                    propagateEvent(genericEvent, eventHandlerName);
                 });
             });
         }
@@ -91,24 +96,24 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
 
         Object.keys(comp.props).forEach((key: string) => {
             if (key.startsWith('on') && typeof comp.props[key] === 'function') {
-                const handler: Function = comp.props[key];
-                const eventName = key.slice(2).toLowerCase() as PixiEventType;
+                const handler: GenericEventHandler = comp.props[key];
+                const eventName = key.slice(2).toLowerCase() as PixiEventType; //TODO event name mapping here
                 const branch = this.getEventBranchForType(eventName);
 
-                const genericHandler = (event: interaction.InteractionEvent) => {
-                    handler(event, comp);
+                const genericHandler = (event: GenericEvent) => {
+                    handler(event);
                 };
-                const wheelHandler = (event: interaction.InteractionEvent) => {
+                const wheelHandler = (event: GenericEvent) => {
                     event.stopPropagation();
                     const data = { handler, graphic };
                     this.elementWithWheel = data;
                 };
-                const keypressHandler = (event: interaction.InteractionEvent) => {
+                const keypressHandler = (event: GenericEvent) => {
                     event.stopPropagation();
                     const data = { handler, graphic };
                     this.elementWithKeyboard = data;
                 };
-                const focusHandler = (event: interaction.InteractionEvent) => {
+                const focusHandler = (event: GenericEvent) => {
                     event.stopPropagation();
                     if (this.focused && this.focused !== comp && this.focused.props.onBlur) {
                         this.focused.props.onBlur();
@@ -122,6 +127,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
                 if (eventName in PixiSupportedEvents && graphic) {
                     graphic.interactive = true;
                     branch.set(comp, genericHandler);
+                    this.createEventTracking(eventName, branch, key);
                 }
 
                 if (eventName === 'wheel' && graphic) {
@@ -138,8 +144,6 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
                     graphic.interactive = true;
                     branch.set(comp, focusHandler);
                 }
-
-                this.createEventTracking(eventName, branch);
             }
         });
     }
