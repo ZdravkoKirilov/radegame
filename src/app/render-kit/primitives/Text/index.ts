@@ -1,7 +1,7 @@
-import { RzElementProps, MetaProps, RzTextStyles } from "../../models";
+import { RzElementPrimitiveProps, MetaProps, RzTextStyles } from "../../models";
 import { BasicComponent } from "../../bases";
 
-export type PrimitiveTextProps = RzElementProps & {
+export type PrimitiveTextProps = RzElementPrimitiveProps & {
     value: string;
     textStyle: RzTextStyles;
 };

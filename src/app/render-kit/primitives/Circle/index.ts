@@ -1,7 +1,7 @@
 import { BasicComponent } from '../../bases';
-import { RzElementProps, MetaProps, RzStyles } from '../../models';
+import { RzElementPrimitiveProps, MetaProps, RzStyles } from '../../models';
 
-export type CircleProps = RzElementProps & {
+export type CircleProps = RzElementPrimitiveProps & {
     styles: Required<Pick<RzStyles, 'stroke_thickness' | 'stroke_color' | 'x' | 'y' | 'width'>>;
 };
 export class PrimitiveCircle extends BasicComponent<CircleProps> {

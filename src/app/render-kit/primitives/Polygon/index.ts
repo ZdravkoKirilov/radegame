@@ -1,7 +1,7 @@
 import { BasicComponent } from '../../bases';
-import { RzElementProps, MetaProps, Points, RzStyles } from '../../models';
+import { RzElementPrimitiveProps, MetaProps, Points, RzStyles } from '../../models';
 
-export type PolygonProps = RzElementProps & {
+export type PolygonProps = RzElementPrimitiveProps & {
     points: Points;
 } & {
     styles: Required<Pick<RzStyles, 'stroke_thickness' | 'stroke_color' | 'x' | 'y'>>;

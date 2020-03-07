@@ -8,7 +8,7 @@ export class PrimitiveFragment extends BasicComponent {
     }
 
     shouldRerender(nextProps: RzElementProps) {
-        return nextProps.styles !== this.props.styles || nextProps.children !== this.props.children;
+        return nextProps.children !== this.props.children;
     }
 
 }

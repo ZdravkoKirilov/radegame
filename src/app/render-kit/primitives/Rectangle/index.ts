@@ -1,7 +1,7 @@
 import { BasicComponent } from '../../bases';
-import { RzElementProps, MetaProps, RzStyles } from '../../models';
+import { RzElementPrimitiveProps, MetaProps, RzStyles } from '../../models';
 
-export type RectangleProps = RzElementProps & {
+export type RectangleProps = RzElementPrimitiveProps & {
     styles: Required<Pick<RzStyles, 'stroke_thickness' | 'stroke_color' | 'x' | 'y'>>;
 };
 export class PrimitiveRectangle extends BasicComponent<RectangleProps> {

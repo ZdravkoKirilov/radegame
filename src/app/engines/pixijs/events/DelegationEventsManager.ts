@@ -2,46 +2,23 @@ import { DisplayObject, interaction } from "pixi.js";
 import {
     AbstractEventManager, BasicComponent, Component, GenericEvent, propagateEvent,
     GenericEventHandler,
-    withErrorPropagation
+    withErrorPropagation,
+    isGenericEventType,
+    RzEventTypes,
+    isDescendantOf
 } from "@app/render-kit";
 import { createGenericEventFromPixiEvent } from "../helpers";
+import { PixiSupportedEvents, toPixiEvent, toGenericEvent } from "./helpers";
 
-export const PixiSupportedEvents = {
-    click: 'click',
-    mousedown: 'mousedown',
-    mousemove: 'mousemove',
-    mouseout: 'mouseout',
-    mouseover: 'mouseover',
-    mouseup: 'mouseup',
-    mouseupoutside: 'mouseupoutside',
-    pointercancel: 'pointercancel',
-    pointerdown: 'pointerdown',
-    pointermove: 'pointermove',
-    pointerout: 'pointerout',
-    pointerover: 'pointerover',
-    pointertap: 'pointertap',
-    pointerup: 'pointerup',
-    pointerupoutside: 'pointerupoutside',
-    rightclick: 'rightclick',
-    rightdown: 'rightdown',
-    rightup: 'rightup',
-    tap: 'tap',
-    touchcancel: 'touchcancel',
-    touchend: 'touchend',
-    touchendoutside: 'touchendoutside',
-    touchstart: 'touchstart',
-
-    // non pixi native events
-    wheel: 'wheel',
-    keypress: 'keypress',
-    focus: 'focus',
-} as const;
-
-type PixiEventType = keyof typeof PixiSupportedEvents;
 type ComponentEvents = Map<Component, GenericEventHandler>;
-type TrackData = { handler: Function, graphic: DisplayObject };
+type TrackData = { handler: GenericEventHandler, component: BasicComponent };
 
 export class PixiDelegationEventsManager implements AbstractEventManager {
+
+    elementWithWheel: TrackData;
+    elementWithKeyboard: TrackData;
+    focused: BasicComponent;
+    registeredEvents: Map<RzEventTypes, ComponentEvents> = new Map();
 
     constructor(private interactionManager: interaction.InteractionManager) {
         window.addEventListener("wheel", this.onMouseWheel, { passive: true });
@@ -49,98 +26,63 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
         this.interactionManager.on('pointerdown', this.onGraphicClick);
     }
 
-    registeredEvents: Map<PixiEventType, ComponentEvents> = new Map();
-
-    getEventBranchForType = (type: PixiEventType) => {
-        const branch = this.registeredEvents.get(type) || new Map<Component, GenericEventHandler>();
-        return branch;
-    }
-
-    createEventTracking = (eventType: PixiEventType, branch: ComponentEvents, eventHandlerName: string) => {
-        if (branch.size < 2) {
-            this.interactionManager.on(eventType, (event: interaction.InteractionEvent) => {
-                const currentBranch: ComponentEvents = this.registeredEvents[eventType];
-                currentBranch.forEach((handler, component) => {
-                    const genericEvent = createGenericEventFromPixiEvent(
-                        event, eventType, component
-                    );
-                    withErrorPropagation(component, () => handler(genericEvent));
-                    propagateEvent(genericEvent, eventHandlerName);
-                });
-            });
-        }
-    }
-
-    onMouseWheel = (event: MouseWheelEvent) => {
-        event.stopPropagation();
-        const delta = Math.sign(event.deltaY);
-        if (this.elementWithWheel) {
-            this.elementWithWheel.handler(delta);
-        }
-    }
-
-    onKeypress = (event: KeyboardEvent) => {
-        if (this.elementWithKeyboard) {
-            event.stopPropagation();
-            event.preventDefault();
-            this.elementWithKeyboard.handler(event);
-        }
-    }
-
-    elementWithWheel: TrackData;
-    elementWithKeyboard: TrackData;
-    focused: BasicComponent;
-
     assignEvents(comp: BasicComponent) {
         const graphic = comp.graphic as DisplayObject;
 
-        Object.keys(comp.props).forEach((key: string) => {
-            if (key.startsWith('on') && typeof comp.props[key] === 'function') {
-                const handler: GenericEventHandler = comp.props[key];
-                const eventName = key.slice(2).toLowerCase() as PixiEventType; //TODO event name mapping here
-                const branch = this.getEventBranchForType(eventName);
+        Object.keys(comp.props).forEach((genericEventType) => {
+            if (graphic && isGenericEventType(genericEventType)) {
+                const handler: GenericEventHandler = comp.props[genericEventType];
+                const eventName = toPixiEvent(genericEventType);
+                const branch = this.getEventBranchForType(genericEventType);
 
                 const genericHandler = (event: GenericEvent) => {
                     handler(event);
                 };
                 const wheelHandler = (event: GenericEvent) => {
                     event.stopPropagation();
-                    const data = { handler, graphic };
+                    const data = { handler, component: comp };
                     this.elementWithWheel = data;
                 };
                 const keypressHandler = (event: GenericEvent) => {
                     event.stopPropagation();
-                    const data = { handler, graphic };
+                    const data = { handler, component: comp };
                     this.elementWithKeyboard = data;
                 };
                 const focusHandler = (event: GenericEvent) => {
                     event.stopPropagation();
                     if (this.focused && this.focused !== comp && this.focused.props.onBlur) {
-                        this.focused.props.onBlur();
+                        const { handler, component } = this.elementWithWheel;
+                        const fakeNativeEvent = { target: { component } } as any;
+                        const genericEvent = createGenericEventFromPixiEvent(fakeNativeEvent, RzEventTypes.onBlur, component);
+                        withErrorPropagation(component, () => handler(genericEvent));
+                        propagateEvent(genericEvent, RzEventTypes.onBlur);
                     }
                     if (this.focused !== comp) {
-                        this.focused = comp;
-                        comp.props.onFocus();
+                        const { handler, component } = this.elementWithWheel;
+                        const fakeNativeEvent = { target: { component } } as any;
+                        const genericEvent = createGenericEventFromPixiEvent(fakeNativeEvent, RzEventTypes.onFocus, component);
+                        withErrorPropagation(component, () => handler(genericEvent));
+                        propagateEvent(genericEvent, RzEventTypes.onFocus);
                     }
                 };
 
                 if (eventName in PixiSupportedEvents && graphic) {
                     graphic.interactive = true;
                     branch.set(comp, genericHandler);
-                    this.createEventTracking(eventName, branch, key);
+                    this.createEventTracking(eventName, branch);
                 }
 
-                if (eventName === 'wheel' && graphic) {
+                if (genericEventType === RzEventTypes.onWheel) {
                     graphic.interactive = true;
                     branch.set(comp, wheelHandler);
                 }
 
-                if (eventName === 'keypress' && graphic) {
+                if (genericEventType === RzEventTypes.onKeypress) {
                     graphic.interactive = true;
                     branch.set(comp, keypressHandler);
                 }
 
-                if (eventName === 'focus' && graphic) {
+                if (genericEventType === RzEventTypes.onFocus || genericEventType === RzEventTypes.onBlur) {
                     graphic.interactive = true;
                     branch.set(comp, focusHandler);
                 }
@@ -148,21 +90,74 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
         });
     }
 
+    getEventBranchForType = (type: RzEventTypes) => {
+        const branch = this.registeredEvents.get(type) || new Map<Component, GenericEventHandler>();
+        this.registeredEvents.set(type, branch);
+        return branch;
+    }
+
+    createEventTracking = (pixiEventType: PixiSupportedEvents, branch: ComponentEvents) => {
+        if (branch.size < 2) {
+            this.interactionManager.on(pixiEventType, (event: interaction.InteractionEvent) => {
+                const genericEventType = toGenericEvent(pixiEventType);
+                const currentBranch = this.registeredEvents.get(genericEventType);
+                currentBranch.forEach((handler, component) => {
+                    const genericEvent = createGenericEventFromPixiEvent(
+                        event, genericEventType, component
+                    );
+                    withErrorPropagation(component, () => handler(genericEvent));
+                    propagateEvent(genericEvent, genericEventType);
+                });
+            });
+        }
+    }
+
     onGraphicClick = (event: interaction.InteractionEvent) => {
-        const target = event.currentTarget as DisplayObject & { component: BasicComponent };
-        const comp = target ? target.component : null;
-        const withWheel = this.elementWithWheel ? this.elementWithWheel.graphic : null;
-        const withKeyboard = this.elementWithKeyboard ? this.elementWithKeyboard.graphic : null;
+        event.stopPropagation();
+        if (event.currentTarget) {
+            const targetComponent = event.currentTarget['component'] as BasicComponent;
+            const withWheel = this.elementWithWheel ? this.elementWithWheel.component : null;
+            const withKeyboard = this.elementWithKeyboard ? this.elementWithKeyboard.component : null;
 
-        if (target !== withWheel) {
-            this.elementWithWheel = null;
-        }
-        if (target !== withKeyboard) {
-            this.elementWithKeyboard = null;
-        }
+            if (targetComponent !== withWheel) {
+                this.elementWithWheel = null;
+            }
+            if (targetComponent !== withKeyboard) {
+                this.elementWithKeyboard = null;
+            }
 
-        if (this.focused && this.focused !== comp && this.focused.props.onBlur) {
-            this.focused.props.onBlur();
+            if (this.focused && this.focused !== targetComponent && this.focused.props.onBlur && !isDescendantOf(targetComponent, this.focused)) {
+                const genericEvent = createGenericEventFromPixiEvent(
+                    event, RzEventTypes.onBlur, this.focused
+                );
+                withErrorPropagation(this.focused, () => this.focused.props.onBlur(genericEvent));
+                propagateEvent(genericEvent, RzEventTypes.onBlur);
+            }
+        }
+    }
+
+    onMouseWheel = (event: MouseWheelEvent) => {
+        event.stopPropagation();
+        const deltaY = Math.sign(event.deltaY);
+        if (this.elementWithWheel) {
+            const { handler, component } = this.elementWithWheel;
+            const fakeNativeEvent = { target: { component } } as any;
+            const genericEvent = createGenericEventFromPixiEvent(fakeNativeEvent, RzEventTypes.onWheel, component, { deltaY });
+            withErrorPropagation(component, () => handler(genericEvent));
+            propagateEvent(genericEvent, RzEventTypes.onWheel);
+        }
+    }
+
+    onKeypress = (event: KeyboardEvent) => {
+        if (this.elementWithKeyboard) {
+            const { key, keyCode, ctrlKey, altKey, shiftKey } = event;
+            const { handler, component } = this.elementWithWheel;
+            const fakeNativeEvent = { target: { component } } as any;
+            const genericEvent = createGenericEventFromPixiEvent(fakeNativeEvent, RzEventTypes.onKeypress, component,
+                { key, keyCode, ctrlKey, altKey, shiftKey }
+            );
+            withErrorPropagation(component, () => handler(genericEvent));
+            propagateEvent(genericEvent, RzEventTypes.onKeypress);
         }
     }
 

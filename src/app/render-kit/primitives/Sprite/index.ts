@@ -1,7 +1,7 @@
-import { RzElementProps, MetaProps } from '../../models';
+import { RzElementPrimitiveProps, MetaProps } from '../../models';
 import { BasicComponent } from '../../bases';
 
-export type SpriteProps = RzElementProps & {
+export type SpriteProps = RzElementPrimitiveProps & {
     image: string;
 }
 export class PrimitiveSprite extends BasicComponent<SpriteProps> {

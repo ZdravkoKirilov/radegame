@@ -1,7 +1,7 @@
 import { BasicComponent } from '../../bases';
-import { RzElementProps, MetaProps, Points } from '../../models';
+import { RzElementPrimitiveProps, MetaProps, Points } from '../../models';
 
-export type LineProps = RzElementProps & {
+export type LineProps = RzElementPrimitiveProps & {
     points: Points;
     dashGap?: number;
 }
@@ -11,7 +11,7 @@ export class PrimitiveLine extends BasicComponent<LineProps> {
         super(props, graphic, meta);
     }
 
-    shouldRerender(nextProps) {
+    shouldRerender(nextProps: LineProps) {
         return nextProps.styles !== this.props.styles || nextProps.points !== this.props.points;
     }
 }

@@ -1,6 +1,9 @@
 import { interaction, DisplayObject } from 'pixi.js';
-import { AbstractEnhancer, RzElementProps, ScrollableConfig, BasicComponent } from "@app/render-kit";
-import { bringToFront } from '../helpers';
+import {
+    AbstractEnhancer, RzElementPrimitiveProps, ScrollableConfig, BasicComponent, RzEventTypes,
+    withErrorPropagation, propagateEvent
+} from "@app/render-kit";
+import { bringToFront, createGenericEventFromPixiEvent } from '../helpers';
 import { evaluate } from '@app/dynamic-forms';
 
 type Coords = { x: number, y: number };
@@ -95,15 +98,20 @@ export class PixiEnhancer implements AbstractEnhancer {
                 const { x, y } = comp.props.styles;
 
                 if (dragWasReal(closure.initial, { x, y })) {
-                    comp.props.onDragEnd && comp.props.onDragEnd(comp);
+                    if (comp.props.onDragEnd) {
+                        const genericEvent = createGenericEventFromPixiEvent(
+                            event, RzEventTypes.onDragEnd, comp
+                        );
+                        withErrorPropagation(comp, () => comp.props.onDragEnd(genericEvent));
+                        propagateEvent(genericEvent, RzEventTypes.onDragEnd);
+                    }
                 }
             });
 
             elem.on('pointermove', (event: interaction.InteractionEvent) => {
-                // event.stopPropagation();
                 if (closure.dragging) {
                     const newPos = event.data.getLocalPosition(comp.graphic.parent);
-                    const props: RzElementProps = {
+                    const props: RzElementPrimitiveProps = {
                         styles: {
                             x: newPos.x - closure.dragPoint.x,
                             y: newPos.y - closure.dragPoint.y
@@ -112,7 +120,14 @@ export class PixiEnhancer implements AbstractEnhancer {
                     comp.updateProps(props);
                     comp.update();
                     closure.hasMoved = true;
-                    comp.props.onDragMove && comp.props.onDragMove(comp);
+
+                    if (comp.props.onDragMove) {
+                        const genericEvent = createGenericEventFromPixiEvent(
+                            event, RzEventTypes.onDragMove, comp
+                        );
+                        withErrorPropagation(comp, () => comp.props.onDragMove(genericEvent));
+                        propagateEvent(genericEvent, RzEventTypes.onDragMove);
+                    }
                 }
             });
 
@@ -147,7 +162,11 @@ export class PixiEnhancer implements AbstractEnhancer {
                 delete comp['scrolling'];
 
                 if (comp.props.onScrollEnd) {
-                    comp.props.onScrollEnd(comp);
+                    const genericEvent = createGenericEventFromPixiEvent(
+                        event, RzEventTypes.onScrollEnd, comp
+                    );
+                    withErrorPropagation(comp, () => comp.props.onScrollEnd(genericEvent));
+                    propagateEvent(genericEvent, RzEventTypes.onScrollEnd);
                 }
             });
 
@@ -159,12 +178,16 @@ export class PixiEnhancer implements AbstractEnhancer {
                 delete comp['scrolling'];
 
                 if (comp.props.onScrollEnd) {
-                    comp.props.onScrollEnd(comp);
+                    const genericEvent = createGenericEventFromPixiEvent(
+                        event, RzEventTypes.onScrollEnd, comp
+                    );
+                    withErrorPropagation(comp, () => comp.props.onScrollEnd(genericEvent));
+                    propagateEvent(genericEvent, RzEventTypes.onScrollEnd);
                 }
             });
 
             elem.on('pointermove', (event: interaction.InteractionEvent) => {
-                // event.stopPropagation();
+                event.stopPropagation();
                 if (closure.dragging) {
                     const newPos = event.data.getLocalPosition(comp.graphic.parent);
                     const passedPos = {} as any;
@@ -187,7 +210,14 @@ export class PixiEnhancer implements AbstractEnhancer {
 
                     if (isValid.x || isValid.y) {
                         closure.hasMoved = true;
-                        comp.props.onScroll(passedPos);
+
+                        if (comp.props.onScroll) {
+                            const genericEvent = createGenericEventFromPixiEvent(
+                                event, RzEventTypes.onScroll, comp, passedPos
+                            );
+                            withErrorPropagation(comp, () => comp.props.onScroll(genericEvent));
+                            propagateEvent(genericEvent, RzEventTypes.onScroll);
+                        }
                     }
                 }
             });

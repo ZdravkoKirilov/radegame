@@ -1,8 +1,8 @@
-import { AbstractRenderEngine } from "../interfaces";
+import { AbstractRenderEngine, GenericEventHandler } from "../interfaces";
 import { ComponentConstructor, RenderFunction, Component } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 import { PRIMS } from "../primitives";
-import { StateHooks, EffectHooks, MemoHooks, RefHooks } from "../helpers";
+import { StateHooks, EffectHooks, MemoHooks, RefHooks, RzEventTypes } from "../helpers";
 import { FontStyle } from "@app/game-mechanics";
 
 export type RzElement<T extends RzElementProps = {}> = {
@@ -15,8 +15,11 @@ export type RzElementChild = RzElement | RzElement[];
 
 export type RzElementKey = number | string;
 
-export type RzElementProps = DefaultEvents & Partial<{
-    styles: Partial<RzStyles>;
+export type RzElementPrimitiveProps = DefaultEvents & {
+    styles?: Partial<RzStyles>;
+} & RzElementProps;
+
+export type RzElementProps = Partial<{
     key: RzElementKey;
     id: string | number;
     name: string;
@@ -138,21 +141,7 @@ export type MetaProps = {
 
 export type PrimitiveType = keyof typeof PRIMS;
 
-type EventHandler = (...args: any) => any;
 
 export type DefaultEvents = Partial<{
-    onClick: EventHandler,
-    onPointerDown: EventHandler,
-    onPointerUp: EventHandler,
-    onClickOutside: EventHandler,
-    onPointerOver: EventHandler;
-    onPointerOut: EventHandler;
-    onDragEnd: EventHandler;
-    onDragMove: EventHandler;
-    onScroll: EventHandler;
-    onScrollEnd: EventHandler;
-    onWheel: EventHandler;
-    onKeypress: (event: KeyboardEvent) => void;
-    onFocus: EventHandler;
-    onBlur: EventHandler;
+    [key in RzEventTypes]: GenericEventHandler;
 }>;

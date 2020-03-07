@@ -1,15 +1,15 @@
-import { RzElementProps, MetaProps, RzElementType, Component, } from "../models";
+import { RzElementPrimitiveProps, MetaProps, RzElementType, Component, } from "../models";
 import { AbstractContainer } from "../interfaces";
 import { updateComponent } from "../helpers";
 
-export class BasicComponent<T extends RzElementProps = {}> {
+export class BasicComponent<T extends RzElementPrimitiveProps = {}> {
     static defaultProps = {};
     type: RzElementType;
     container: AbstractContainer;
     children: Component[];
     parent: Component;
 
-    constructor(public props: T & Partial<RzElementProps>, public graphic: any, public meta: MetaProps) {
+    constructor(public props: T & Partial<RzElementPrimitiveProps>, public graphic: any, public meta: MetaProps) {
         this.props = { ...BasicComponent.defaultProps, ...(props as any) };
         this.meta.engine.enhancer.assignEnhancers(this);
         this.meta.engine.event.assignEvents(this);
@@ -19,7 +19,7 @@ export class BasicComponent<T extends RzElementProps = {}> {
         return null;
     };
 
-    updateProps(newProps: T & RzElementProps) {
+    updateProps(newProps: T & RzElementPrimitiveProps) {
         const current = this.props || {};
         const next = { ...current, ...(newProps as any) } as T;
 

@@ -1,6 +1,6 @@
 import { DisplayObject, Sprite, Graphics, TextStyleOptions, interaction } from "pixi.js";
 
-import { Component, RzStyles, BasicComponent, toHexColor, RzTextStyles, GenericEvent } from "@app/render-kit";
+import { Component, RzStyles, BasicComponent, toHexColor, RzTextStyles, GenericEvent, RzEventTypes, EventOptionalProps } from "@app/render-kit";
 
 export const bringToFront = (obj: DisplayObject) => {
     const parent = obj.parent;
@@ -158,18 +158,20 @@ export const applyTextTransformations = (styles: Partial<RzTextStyles>): Partial
 
 export const createGenericEventFromPixiEvent = (
     event: interaction.InteractionEvent,
-    eventName: string,
-    currentTarget: Component
+    genericEventName: RzEventTypes,
+    currentTarget: Component,
+    other?: Partial<EventOptionalProps>
 ): GenericEvent => {
     const genericEvent: GenericEvent = {
-        type: eventName,
+        type: genericEventName,
         originalTarget: (event.target as any)['component'],
         currentTarget,
         stopPropagation() {
-            event.stopPropagation();
+            event && event.stopPropagation();
             genericEvent.propagationStopped = true;
         },
         propagationStopped: false,
+        ...(other || {}),
     };
     return genericEvent;
 }

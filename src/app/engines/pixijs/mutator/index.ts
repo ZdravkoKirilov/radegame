@@ -4,7 +4,7 @@ import { get } from 'lodash';
 import { setProp, getValue, applyTransformations, applyTextTransformations } from "../helpers";
 import {
     AbstractMutator,
-    RzElementProps, PRIMS, Points,
+    RzElementPrimitiveProps, PRIMS, Points,
     updateCollection, updateContainer, BasicComponent,
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
     PrimitiveEllipse, LineProps, unmountComponent,
@@ -155,7 +155,7 @@ const updateZOrder = (graphic: Container) => {
     }
 };
 
-const updateRectangle = (props: RzElementProps, graphic: Graphics) => {
+const updateRectangle = (props: RzElementPrimitiveProps, graphic: Graphics) => {
     const { styles } = props;
     graphic.clear();
 
@@ -242,7 +242,7 @@ const updateLine = (props: LineProps, line: Graphics) => {
     }
 };
 
-const updatePolygon = (props: RzElementProps, graphic: Graphics) => {
+const updatePolygon = (props: RzElementPrimitiveProps, graphic: Graphics) => {
     const points = [...props.points] as Points;
     const { styles } = props;
 
