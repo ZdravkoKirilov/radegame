@@ -5,7 +5,7 @@ import { PRIMS } from "../primitives";
 import { RenderFunction } from "../models/Component";
 import { isStateful, isPrimitive, isFunctional } from "./misc";
 import { cleanAllHooks } from "./hooks";
-import { withErrorPropagation } from "./error";
+import { callWithErrorPropagation } from "./error";
 
 export const unmountComponent = (component: Component) => {
     if (component && (component as any).__mounted__ === true) {
@@ -66,13 +66,13 @@ const mountStatefulComponent = (component: StatefulComponent, container: Abstrac
     component.container = container;
 
     if ('willMount' in component) {
-        withErrorPropagation(component.parent, () => component.willMount.call(component));
+        callWithErrorPropagation(component.parent, () => component.willMount.call(component));
     }
 
     component.children = component.children.map(child => mountComponent(child, container));
 
     if ('didMount' in component) {
-        withErrorPropagation(component.parent, () => component.didMount.call(component));
+        callWithErrorPropagation(component.parent, () => component.didMount.call(component));
     }
 
     return component;

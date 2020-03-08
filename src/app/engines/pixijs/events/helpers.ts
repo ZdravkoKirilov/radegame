@@ -1,4 +1,7 @@
-import { RzEventTypes } from "@app/render-kit";
+import { interaction } from "pixi.js";
+import get from 'lodash/get';
+
+import { RzEventTypes, BasicComponent, EventOptionalProps, GenericEvent } from "@app/render-kit";
 
 export enum PixiSupportedEvents {
     click = 'click',
@@ -49,3 +52,23 @@ export const toGenericEvent = (eventName: PixiSupportedEvents): RzEventTypes => 
     }
     return result;
 };
+
+export const createGenericEventFromPixiEvent = (
+    event: interaction.InteractionEvent,
+    genericEventName: RzEventTypes,
+    currentTarget: BasicComponent,
+    other?: Partial<EventOptionalProps>
+): GenericEvent => {
+    const genericEvent: GenericEvent = {
+        type: genericEventName,
+        originalTarget: get(event, ['target, component']),
+        currentTarget,
+        stopPropagation() {
+            event && event.stopPropagation();
+            genericEvent.propagationStopped = true;
+        },
+        propagationStopped: false,
+        ...(other || {}),
+    };
+    return genericEvent;
+}

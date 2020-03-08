@@ -1,6 +1,6 @@
 import { GenericEvent, GenericEventHandler } from "../interfaces";
 import { Component } from "../models";
-import { withErrorPropagation } from "./error";
+import { callWithErrorPropagation } from "./error";
 
 export const propagateEvent = (event: GenericEvent, handlerName: RzEventTypes) => {
     if (!event.propagationStopped) {
@@ -9,7 +9,7 @@ export const propagateEvent = (event: GenericEvent, handlerName: RzEventTypes) =
         do {
             const handler: GenericEventHandler = parent[handlerName];
             if (handler) {
-                withErrorPropagation(parent, () => handler(event));
+                callWithErrorPropagation(parent, () => handler(event));
             }
             parent = parent.parent;
         } while (parent && !event.propagationStopped);

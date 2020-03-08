@@ -2,7 +2,7 @@ import { get } from 'lodash';
 
 import { Component } from "../models";
 
-export const withErrorPropagation = <T = any>(parent: Component, callback: Function): T => {
+export const callWithErrorPropagation = <T = any>(parent: Component, callback: Function): T => {
     try {
         const result = callback();
         return result;
@@ -12,7 +12,7 @@ export const withErrorPropagation = <T = any>(parent: Component, callback: Funct
 
         while (nextAncestor) {
             if ('didCatch' in nextAncestor && typeof nextAncestor['didCatch'] === 'function') {
-                withErrorPropagation(nextAncestor.parent, () => nextAncestor['didCatch'](err, stack.reverse().join(' \n')));
+                callWithErrorPropagation(nextAncestor.parent, () => nextAncestor['didCatch'](err, stack.reverse().join(' \n')));
                 nextAncestor = null;
                 return;
             } else {

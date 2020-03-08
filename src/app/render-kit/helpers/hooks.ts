@@ -1,7 +1,7 @@
 import { isEqual } from 'lodash';
 import { RenderFunctionExtras, RenderFunction, MetaProps } from "../models";
 import { updateComponent } from "./mutation";
-import { withErrorPropagation } from './error';
+import { callWithErrorPropagation } from './error';
 
 export type StateHook = <T = any>(initialValue?: T) => [T, UseStateUpdater<T>];
 export type EffectHook = (callback: () => FuncOrVoid, dependencies?: any[]) => void;
@@ -78,7 +78,7 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
                 } else {
                     state[order] = value;
                 }
-                const rendered = withErrorPropagation(target.parent, () => target(target.props, prepareExtras(target, meta)));
+                const rendered = callWithErrorPropagation(target.parent, () => target(target.props, prepareExtras(target, meta)));
                 updateComponent(target, rendered);
             });
         };

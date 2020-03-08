@@ -73,16 +73,16 @@ export class RootComponent extends StatefulComponent<Props, State> {
         const activeFrame = runtimeStage && runtimeStage.frame_getter ? runtimeStage.frame_getter(runtimeStage) || runtimeStage.frames[0] : null;
 
         return loaded ?
-            createElement<ScrollableProps>(Scrollable, {
-                width: window.innerWidth - 200,
-                height: window.innerHeight,
-                x: 10,
-                y: 10,
-                vertical: true,
-                horizontal: true,
-                borderSize: 1,
-                borderColor: 0x161616,
-                padding: '0 0',
+            createElement<ScrollableProps>('container', {
+                // width: window.innerWidth - 200,
+                // height: window.innerHeight,
+                // x: 10,
+                // y: 10,
+                // vertical: true,
+                // horizontal: true,
+                // borderSize: 1,
+                // borderColor: 0x161616,
+                // padding: '0 0',
             },
                 createElement('container', {
                     name: 'background',
@@ -117,50 +117,50 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     handleDragEnd = (slotId: number) => {
-        const existingSlot = this.state.stage.slots.find(slot => slot.id === slotId);
-        const existingRuntimeSlot = this.state.runtimeStage.slots.find(slot => slot.id === slotId);
-        let slot = <Slot>{
-            ...existingSlot,
-            x: existingRuntimeSlot.x,
-            y: existingRuntimeSlot.y
-        };
-        this.setState({ selectedSlot: null });
-        this.props.selectSlot(null);
+        // const existingSlot = this.state.stage.slots.find(slot => slot.id === slotId);
+        // const existingRuntimeSlot = this.state.runtimeStage.slots.find(slot => slot.id === slotId);
+        // let slot = <Slot>{
+        //     ...existingSlot,
+        //     x: existingRuntimeSlot.x,
+        //     y: existingRuntimeSlot.y
+        // };
+        // this.setState({ selectedSlot: null });
+        // this.props.selectSlot(null);
 
-        const index = this.state.stage.slots.findIndex(childSlot => childSlot.id === slot.id);
+        // const index = this.state.stage.slots.findIndex(childSlot => childSlot.id === slot.id);
 
-        const runtimeStage = clone(this.state.runtimeStage, draft => {
-            draft.slots[index] = existingRuntimeSlot;
-        });
+        // const runtimeStage = clone(this.state.runtimeStage, draft => {
+        //     draft.slots[index] = existingRuntimeSlot;
+        // });
 
-        this.setState({ runtimeStage });
+        // this.setState({ runtimeStage });
 
-        const newStageData = clone(runtimeStage, draft => {
-            draft.slots = draft.slots.map((slot, index) => ({
-                ...get(this.state.stage, ['slots', index], {}),
-                x: slot.x,
-                y: slot.y,
-            }));
-        });
+        // const newStageData = clone(runtimeStage, draft => {
+        //     draft.slots = draft.slots.map((slot, index) => ({
+        //         ...get(this.state.stage, ['slots', index], {}),
+        //         x: slot.x,
+        //         y: slot.y,
+        //     }));
+        // });
 
-        this.props.store.dispatch(new SaveItemAction({
-            key: ALL_ENTITIES.stages,
-            data: newStageData,
-        }));
+        // this.props.store.dispatch(new SaveItemAction({
+        //     key: ALL_ENTITIES.stages,
+        //     data: newStageData,
+        // }));
     }
 
     handleDragMove = (comp: PrimitiveContainer) => {
-        const { x, y } = comp.props.styles;
-        const { id } = comp.props;
-        const slots = this.state.runtimeStage.slots;
-        const index = slots.findIndex(elem => elem.id === id);
-        const node = slots[index];
-        const newNodes = [...slots];
-        const newNode = { ...node, x, y };
-        newNodes[index] = newNode;
+        // const { x, y } = comp.props.styles;
+        // const { id } = comp.props;
+        // const slots = this.state.runtimeStage.slots;
+        // const index = slots.findIndex(elem => elem.id === id);
+        // const node = slots[index];
+        // const newNodes = [...slots];
+        // const newNode = { ...node, x, y };
+        // newNodes[index] = newNode;
 
-        this.setState({
-            runtimeStage: { ...this.state.runtimeStage, slots: newNodes }
-        });
+        // this.setState({
+        //     runtimeStage: { ...this.state.runtimeStage, slots: newNodes }
+        // });
     }
 }

@@ -34,6 +34,7 @@ export class BasicComponent<T extends RzElementPrimitiveProps = {}> {
     update() {
         this.meta.engine.mutator.updateComponent(this);
         this.meta.engine.event.removeListeners(this);
+        this.meta.engine.enhancer.assignEnhancers(this);
         this.meta.engine.event.assignEvents(this);
     }
 

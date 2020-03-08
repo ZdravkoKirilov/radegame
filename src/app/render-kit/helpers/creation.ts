@@ -3,7 +3,7 @@ import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent } from "../bases";
 import { hasPrimitiveType, getRealType, flatRender, cloneRenderFunction } from './misc';
 import { prepareExtras } from "./hooks";
-import { withErrorPropagation } from "./error";
+import { callWithErrorPropagation } from "./error";
 
 export const createComponent = (
     element: RzElement,
@@ -53,7 +53,7 @@ export const createComponent = (
         component = createStatefulComponent(element, meta);
         component.type = element.type;
         component.parent = parent;
-        const rendered = withErrorPropagation(parent, () => flatRender(component['render']()));
+        const rendered = callWithErrorPropagation(parent, () => flatRender(component['render']()));
         const child = createComponent(rendered, factory, meta, component);
         if (child) {
             child.parent = component;
@@ -68,7 +68,7 @@ export const createComponent = (
         const renderFunc = cloneRenderFunction(originalType, meta);
         renderFunc.parent = parent;
         const extras = prepareExtras(renderFunc, meta);
-        const rendered = withErrorPropagation(parent, () => flatRender(renderFunc(element.props, extras)));
+        const rendered = callWithErrorPropagation(parent, () => flatRender(renderFunc(element.props, extras)));
         const child = createComponent(rendered, factory, meta, renderFunc);
         if (child) {
             child.parent = renderFunc;

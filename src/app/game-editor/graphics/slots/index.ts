@@ -15,7 +15,9 @@ export const SlotsList = Memo<Props>(
     ({ slots, selected, onDragMove, onDragEnd, selectSlot, key }) => {
         const items = slots.map(elem => {
             return createElement<NodeProps>(Node, {
-                data: elem, key: elem.id, onDragMove,
+                data: elem,
+                key: elem.id,
+                onDragMove,
                 onDragEnd: () => onDragEnd(elem.id),
                 onSelect: selectSlot,
                 selected: selected && selected.id === elem.id,

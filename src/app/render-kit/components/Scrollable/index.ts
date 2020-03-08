@@ -1,5 +1,6 @@
 import { StatefulComponent } from "../../bases";
 import { createElement } from "../../helpers";
+import { RzElementPrimitiveProps } from "app/render-kit/models";
 
 export type ScrollableProps = Partial<{
     x: number;
@@ -41,7 +42,7 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
                     fill: background
                 }
             }),
-            createElement(
+            createElement<RzElementPrimitiveProps>(
                 'container',
                 {
                     styles: { x: xScroll + (paddingX), y: yScroll + paddingY },
@@ -61,22 +62,22 @@ export class Scrollable extends StatefulComponent<ScrollableProps, State> {
         );
     }
 
-    onChildScroll = (newValue: { x?: number, y?: number }) => {
+    onChildScroll = (event: { x?: number, y?: number }) => {
 
         if (this.props.vertical && this.props.horizontal &&
-            newValue.y !== undefined && newValue.x !== undefined) {
+            event.y !== undefined && event.x !== undefined) {
             return this.setState({
-                xScroll: newValue.x,
-                yScroll: newValue.y
+                xScroll: event.x,
+                yScroll: event.y
             });
         }
 
-        if (this.props.vertical && newValue.y !== undefined) {
-            return this.setState({ yScroll: newValue.y });
+        if (this.props.vertical && event.y !== undefined) {
+            return this.setState({ yScroll: event.y });
         }
 
-        if (this.props.horizontal && newValue.x !== undefined) {
-            return this.setState({ xScroll: newValue.x });
+        if (this.props.horizontal && event.x !== undefined) {
+            return this.setState({ xScroll: event.x });
         }
     }
 }

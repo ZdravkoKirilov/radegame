@@ -25,7 +25,9 @@ export const Node: RenderFunction<Props> = (props) => {
         'container',
         {
             styles: { x: data.x, y: data.y, z_order: _style.z_order },
-            id: data.id, onDragMove, onDragEnd,
+            id: data.id,
+            onDragMove,
+            onDragEnd,
             draggable: { xAxis: true, yAxis: true },
             onPointerDown: () => onSelect(data),
             name: `node_${data.id}`
