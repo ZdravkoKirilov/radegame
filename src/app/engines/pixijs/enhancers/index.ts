@@ -1,5 +1,5 @@
 import { interaction, DisplayObject } from 'pixi.js';
-import { AbstractEnhancer, ScrollableConfig, BasicComponent, RzElementPrimitiveProps, RzEventTypes } from "@app/render-kit";
+import { AbstractEnhancer, ScrollableConfig, BasicComponent, RzElementPrimitiveProps, RzEventTypes, EventOptionalProps } from "@app/render-kit";
 import { bringToFront } from '../helpers';
 import { evaluate } from '@app/dynamic-forms';
 import { createGenericEventFromPixiEvent } from '../events/helpers';
@@ -74,12 +74,10 @@ export class PixiEnhancer implements AbstractEnhancer {
         if (comp.props.draggable) {
             const closure: Draggable = {};
             const elem = comp.graphic as DisplayObject;
-            console.log('Register start', comp);
             elem.interactive = true;
             elem.buttonMode = true;
 
             elem.on('pointerdown', (event: interaction.InteractionEvent) => {
-                console.log('DOWN', comp);
                 event.stopPropagation();
                 closure.dragPoint = event.data.getLocalPosition(comp.graphic.parent);
                 closure.dragPoint.x -= comp.graphic.x;
@@ -91,7 +89,6 @@ export class PixiEnhancer implements AbstractEnhancer {
             });
 
             elem.on('pointerup', (event: interaction.InteractionEvent) => {
-                console.log('UP', comp);
                 event.stopPropagation();
                 closure.dragging = false;
                 closure.hasMoved = false;
@@ -110,7 +107,6 @@ export class PixiEnhancer implements AbstractEnhancer {
             elem.on('pointermove', (event: interaction.InteractionEvent) => {
                 event.stopPropagation();
                 if (closure.dragging) {
-                    console.log('MOVE', comp);
                     const newPos = event.data.getLocalPosition(comp.graphic.parent);
                     const props: RzElementPrimitiveProps = {
                         styles: {
@@ -188,7 +184,7 @@ export class PixiEnhancer implements AbstractEnhancer {
                 event.stopPropagation();
                 if (closure.dragging) {
                     const newPos = event.data.getLocalPosition(comp.graphic.parent);
-                    const passedPos = {} as any;
+                    const passedPos = { position: { }} as EventOptionalProps;
                     const isValid = getThresholdState(
                         closure.initial,
                         {
@@ -199,11 +195,11 @@ export class PixiEnhancer implements AbstractEnhancer {
                     )
 
                     if (xThreshold && isValid.x) {
-                        passedPos.x = newPos.x - closure.dragPoint.x;
+                        passedPos.position.x = newPos.x - closure.dragPoint.x;
                     }
 
                     if (yThreshold && isValid.y) {
-                        passedPos.y = newPos.y - closure.dragPoint.y;
+                        passedPos.position.y = newPos.y - closure.dragPoint.y;
                     }
 
                     if (isValid.x || isValid.y) {

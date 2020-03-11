@@ -27,7 +27,6 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
         const graphic = comp.graphic as DisplayObject;
         this.removeListeners(comp);
         graphic.interactive = false;
-        // console.log(this.interactionManager);
 
         Object.keys(comp.props).forEach((genericEventType) => {
             if (graphic && isGenericEventType(genericEventType)) {
@@ -51,8 +50,9 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
             currentBranch.forEach((handler, component) => {
                 const targetComponent: BasicComponent = event.target ? event.target['component'] : null;
                 if (targetComponent === component) {
+                    const position = event.data.getLocalPosition(component.graphic.parent);
                     const genericEvent = createGenericEventFromPixiEvent(
-                        event, genericEventType, component
+                        event, genericEventType, component, { position }
                     );
                     callWithErrorPropagation(component, () => handler(genericEvent));
                     propagateEvent(genericEvent, genericEventType);
@@ -65,7 +65,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
         if (event.currentTarget) {
             const targetComponent = event.currentTarget['component'] as BasicComponent;
             const focused = this.focusedComponent;
-            
+
             if (targetComponent !== focused && !isDescendantOf(targetComponent, focused)) {
                 if (focused.props.onBlur) {
                     const genericEvent = createGenericEventFromPixiEvent(

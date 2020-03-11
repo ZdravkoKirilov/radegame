@@ -16,8 +16,8 @@ type EffectHookParams = {
     cleaner?: Function | void;
 };
 
-type MemoHookParams = {
-    value: any;
+type MemoHookParams<T= any> = {
+    value: T;
     dependencies: any[];
 }
 
@@ -44,7 +44,7 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
         return state[refHookIndex];
     }
 
-    const useMemo: MemoHook = (value, dependencies) => {
+    const useMemo: MemoHook = <T>(value: T, dependencies) => {
         const memos = meta.hooks.memos;
         const state = memos.get(target) || [];
         memos.set(target, state);

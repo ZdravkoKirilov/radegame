@@ -8,10 +8,10 @@ import { FontStyle } from "@app/game-mechanics";
 export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
     props: RzElementProps & T,
-    children: RzElement[] | RenderFunction[];
+    children: RzNode[]
 };
 
-export type RzElementChild = RzElement | RzElement[];
+export type RzNode = RzElement | RzElement[] | RenderFunction | RenderFunction[];
 
 export type RzElementKey = number | string;
 
@@ -24,7 +24,6 @@ export type RzElementProps = Partial<{
     id: string | number;
     name: string;
     hitArea: any;
-    textStyle: { [key: string]: any };
     points: Points;
     children: RzElement[] | RenderFunction[];
     draggable: DraggableConfig;
@@ -125,6 +124,7 @@ export type RzTextStyles = Partial<Pick<RzStyles, 'stroke_color' | 'stroke_thick
 */
 
 export type Points = Array<[number, number]>;
+export type RzPoint = { x: number, y: number };
 
 export type MetaProps = {
     engine?: AbstractRenderEngine;

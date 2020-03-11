@@ -23,6 +23,7 @@ export enum RzEventTypes {
     onPointerUp = 'onPointerUp',
     onPointerOver = 'onPointerOver',
     onPointerOut = 'onPointerOut',
+    onPointerMove = 'onPointerMove',
 
     onDragEnd = 'onDragEnd',
     onDragMove = 'onDragMove',

@@ -58,8 +58,8 @@ export const cloneRenderFunction = (originalType: RenderFunction, meta: MetaProp
     return component;
 };
 
-export const getChildAsRenderFunc = <T>(props: RzElementProps): RenderFunction<T> => {
-    return props.children[0] as RenderFunction<T>;
+export const getChildAsRenderFunc = <T>(children): RenderFunction<T> => {
+    return children[0] as RenderFunction<T>;
 };
 
 export const toNumericColor = (value: string | number) => {

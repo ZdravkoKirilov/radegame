@@ -59,6 +59,7 @@ export const createGenericEventFromPixiEvent = (
     currentTarget: BasicComponent,
     other?: Partial<EventOptionalProps>
 ): GenericEvent => {
+
     const genericEvent: GenericEvent = {
         type: genericEventName,
         originalTarget: get(event, ['target, component']),

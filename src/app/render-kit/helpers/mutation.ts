@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import { RzElement, RzElementKey, RzElementProps, RzElementChild, RenderFunction } from "../models";
+import { RzElement, RzElementKey, RzElementProps, RzNode, RenderFunction } from "../models";
 import { CompositeComponent, Component } from "../models";
 import { createComponent } from "./creation";
 import { toDictionary } from "@app/shared";
@@ -25,7 +25,7 @@ export const updateComposite = (element: RzElement, component: CompositeComponen
     }
 };
 
-export const updateComponent = (component: Component, rendered: RzElementChild) => {
+export const updateComponent = (component: Component, rendered: RzNode) => {
     if (isPrimitive(component)) {
         component.update();
     } else {

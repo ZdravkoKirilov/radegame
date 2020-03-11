@@ -51,7 +51,7 @@ export class RzTransition extends StatefulComponent<TransitionProps, State> {
 
     render() {
         const { interpolatingStyle } = this.state;
-        const renderFunc = getChildAsRenderFunc<AnimatableProps>(this.props);
+        const renderFunc = getChildAsRenderFunc<AnimatableProps>(this.props.children);
         return renderFunc(interpolatingStyle || {});
     }
 }

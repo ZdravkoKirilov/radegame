@@ -1,9 +1,9 @@
-import { RzElementProps, RzElementChild, RzElement, RzElementType, RenderFunction } from "../models";
+import { RzElementProps, RzNode, RzElement, RzElementType, RenderFunction } from "../models";
 
 export const createElement = <T = {} & Partial<RzElementProps>>(
     type: RzElementType<T>,
     props?: T & RzElementProps,
-    ...children: RzElementChild[] | RenderFunction[]
+    ...children: RzNode[]
 ): RzElement | null => {
     children = children || [];
     props = props || {} as T;

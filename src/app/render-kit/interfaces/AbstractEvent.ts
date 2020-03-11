@@ -1,5 +1,5 @@
 import { BasicComponent } from "../bases";
-import { Component } from "../models";
+import { Component, RzPoint } from "../models";
 import { RzEventTypes } from "../helpers";
 
 export abstract class AbstractEventManager {
@@ -23,8 +23,7 @@ export type EventOptionalProps = {
     altKey: boolean;
     shiftKey: boolean;
     ctrlKey: boolean;
-    x: number;
-    y: number;
+    position: RzPoint;
 }
 
 export type GenericEventHandler = (event: GenericEvent) => void;
