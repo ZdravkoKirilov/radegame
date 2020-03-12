@@ -87,7 +87,10 @@ export const calculateScaling = (target: [number, number], original: [number, nu
 };
 
 export const isDescendantOf = (target: Component, potentialParent: Component) => {
-    const isDirectChild = potentialParent.children.includes(target);
-    return isDirectChild || potentialParent.children.some(child => isDescendantOf(target, child));
+    if (target && potentialParent) {
+        const isDirectChild = potentialParent.children.includes(target);
+        return isDirectChild || potentialParent.children.some(child => isDescendantOf(target, child));
+    }
+    return false;
 };
 

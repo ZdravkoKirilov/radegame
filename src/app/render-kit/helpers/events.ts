@@ -7,7 +7,7 @@ export const propagateEvent = (event: GenericEvent, handlerName: RzEventTypes) =
         let parent: Component = event.currentTarget.parent;
 
         do {
-            const handler: GenericEventHandler = parent[handlerName];
+            const handler: GenericEventHandler = parent.props[handlerName];
             if (handler) {
                 callWithErrorPropagation(parent, () => handler(event));
             }
@@ -21,6 +21,7 @@ export enum RzEventTypes {
 
     onPointerDown = 'onPointerDown',
     onPointerUp = 'onPointerUp',
+    onPointerUpOutside = 'onPointerUpOutside',
     onPointerOver = 'onPointerOver',
     onPointerOut = 'onPointerOut',
     onPointerMove = 'onPointerMove',

@@ -6,7 +6,7 @@ import { callWithErrorPropagation } from './error';
 export type StateHook = <T = any>(initialValue?: T) => [T, UseStateUpdater<T>];
 export type EffectHook = (callback: () => FuncOrVoid, dependencies?: any[]) => void;
 export type MemoHook = <T = any>(initialValue: T, dependencies: any[]) => T;
-export type RefHook = <T = any>(initialValue: T) => RefObject<T>;
+export type RefHook = <T = any>(initialValue?: T) => RefObject<T>;
 
 type FuncOrVoid = Function | void;
 
@@ -16,7 +16,7 @@ type EffectHookParams = {
     cleaner?: Function | void;
 };
 
-type MemoHookParams<T= any> = {
+type MemoHookParams<T = any> = {
     value: T;
     dependencies: any[];
 }
@@ -37,12 +37,15 @@ export const prepareExtras = (target: RenderFunction, meta: MetaProps): RenderFu
     let memoHookIndex = 0;
     let refHookIndex = 0;
 
-    const useRef: RefHook = (value) => {
+    const useRef: RefHook = <T = any>(value?: T): RefObject<T> => {
         const refs = meta.hooks.refs;
         const state = refs.get(target) || [];
+        refs.set(target, state);
+        const currentValue = state[refHookIndex] || { current: value };
+        state[refHookIndex] = currentValue;
         refHookIndex += 1;
-        return state[refHookIndex];
-    }
+        return currentValue;
+    };
 
     const useMemo: MemoHook = <T>(value: T, dependencies) => {
         const memos = meta.hooks.memos;

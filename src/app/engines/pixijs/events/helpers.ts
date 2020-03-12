@@ -36,6 +36,8 @@ export const pixiEventMapping = {
     [RzEventTypes.onPointerOut]: PixiSupportedEvents.pointerout,
     [RzEventTypes.onPointerOver]: PixiSupportedEvents.pointerover,
     [RzEventTypes.onPointerUp]: PixiSupportedEvents.pointerup,
+    [RzEventTypes.onPointerUpOutside]: PixiSupportedEvents.pointerupoutside,
+    [RzEventTypes.onPointerMove]: PixiSupportedEvents.pointermove,
 } as const;
 
 export const toPixiEvent = (eventName: RzEventTypes): PixiSupportedEvents => pixiEventMapping[eventName];

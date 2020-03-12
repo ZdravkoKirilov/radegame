@@ -1,60 +1,56 @@
 import { Memo } from "../../bases";
 import { createElement } from "../../helpers/create-element";
-import { RzElementPrimitiveProps, RzPoint } from "../../models";
+import { RzElementPrimitiveProps, RzPoint, RzNode } from "../../models";
 import { GenericEventHandler } from "../../interfaces";
 import { getChildAsRenderFunc } from "../../helpers";
 
-type Props = {
+export type RzDraggableProps = {
     onDragEnd: (position: RzPoint) => void;
     onDragMove?: (position: RzPoint) => void;
     startPosition: RzPoint;
+    render: (points: RzPoint) => RzNode;
 };
 
-export const RzDraggable = Memo<Props>(({ children, startPosition, onDragEnd, onDragMove }, { useMemo, useState, useEffect }) => {
-    const [dragStartPosition, setDragStartPosition] = useState<RzPoint>();
-    const [dragPosition, setDragPosition] = useState<RzPoint>();
+export const RzDraggable = Memo<RzDraggableProps>(({ startPosition, onDragEnd, onDragMove, render }, { useMemo, useEffect, useRef, useState }) => {
+    const dragStartPosition = useRef<RzPoint>();
+    const dragStartPositionStatic = useRef<RzPoint>();
+    const activeDragPosition = useRef<RzPoint>();
+    const [_, forceUpdate] = useState(0);
 
-    useEffect(() => {
-        setDragPosition(startPosition);
-    }, []);
-
-    const handlePointerDown = useMemo<GenericEventHandler>(event => {
+    const handlePointerDown = event => {
         event.stopPropagation();
         const eventPosition = event.position;
         const dragStart = {
             x: eventPosition.x - startPosition.x,
             y: eventPosition.y - startPosition.y,
         }; // that's the offset inside of the graphic itself. e.g.: click inside the sprite in coordinates 30,25
-        setDragStartPosition(dragStart);
-        setDragPosition(dragPosition);
+        dragStartPosition.current = dragStart;
+        dragStartPositionStatic.current = { x: startPosition.x, y: startPosition.y };
+        activeDragPosition.current = { ...startPosition };
+    };
 
-    }, [startPosition.x, startPosition.y]);
-
-    const handlePointerUp = useMemo<GenericEventHandler>(event => {
+    const handleDragEnd = event => {
         event.stopPropagation();
-
-        if (dragPosition && (dragPosition.x !== startPosition.x || dragPosition.y !== startPosition.y)) {
-            onDragEnd(dragPosition);
-            setDragStartPosition(null);
-            setDragPosition(null);
+        if (activeDragPosition.current && dragWasReal(dragStartPositionStatic.current, activeDragPosition.current)) {
+            onDragEnd(activeDragPosition.current);
+            dragStartPosition.current = null;
+            activeDragPosition.current = null;
         }
-    }, []);
+    };
 
-    const handlePointerMove = useMemo<GenericEventHandler>(event => {
+    const handlePointerMove = event => {
         event.stopPropagation();
-
-        if (dragStartPosition) {
+        if (dragStartPosition.current) {
             const newPosition = event.position;
             const newPositionWithOffset = {
-                x: newPosition.x - dragStartPosition.x,
-                y: newPosition.y - dragStartPosition.y,
+                x: newPosition.x - dragStartPosition.current.x,
+                y: newPosition.y - dragStartPosition.current.y,
             };
-            setDragPosition(newPositionWithOffset);
-            onDragMove(newPositionWithOffset);
+            onDragMove && onDragMove(newPositionWithOffset);
+            activeDragPosition.current = newPositionWithOffset;
+            forceUpdate(prevValue => prevValue++);
         }
-    }, []);
-
-    const childFunction = getChildAsRenderFunc<RzPoint>(children);
+    };
 
     return (
         createElement<RzElementPrimitiveProps>(
@@ -62,9 +58,18 @@ export const RzDraggable = Memo<Props>(({ children, startPosition, onDragEnd, on
             {
                 onPointerDown: handlePointerDown,
                 onPointerMove: handlePointerMove,
-                onPointerUp: handlePointerUp,
+                onPointerUp: handleDragEnd,
+                onPointerOut: handleDragEnd,
+                onPointerUpOutside: handleDragEnd,
             },
-            childFunction(dragPosition || startPosition)
+            render(activeDragPosition.current || startPosition)
         )
     );
-}, ['onDragEnd']);
+}, ['onDragEnd', 'startPosition', 'render']);
+
+
+const dragWasReal = (initial: RzPoint, result: RzPoint) => {
+    const validDragX = Math.abs(initial.x - result.x) > 0;
+    const validDragY = Math.abs(initial.y - result.y) > 0;
+    return validDragX && validDragY;
+};

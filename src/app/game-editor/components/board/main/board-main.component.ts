@@ -45,6 +45,7 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 			},
 			assets: new Set(this.images.map(img => img.image))
 		});
+		window['pixiroot'] = this.mount.component;
 	}
 
 	_selectSlot = (slot: Slot) => {

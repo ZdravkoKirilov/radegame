@@ -65,10 +65,10 @@ const getThresholdState = (
 
 export class PixiEnhancer implements AbstractEnhancer {
     assignEnhancers(comp: BasicComponent) {
-        const elem = comp.graphic as DisplayObject;
-        elem.removeAllListeners();
-        this.makeDraggable(comp);
-        this.makeScrollable(comp);
+        // const elem = comp.graphic as DisplayObject;
+        // elem.removeAllListeners();
+        // this.makeDraggable(comp);
+        // this.makeScrollable(comp);
     }
     makeDraggable(comp: BasicComponent) {
         if (comp.props.draggable) {

@@ -173,9 +173,8 @@ const updateRectangle = (props: RzElementPrimitiveProps, graphic: Graphics) => {
         graphic.drawRect(styles.x, styles.y, styles.width, styles.height);
     }
 
-    if (styles.interactive) {
-        graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
-    }
+    graphic.hitArea = new Rectangle(styles.x, styles.y, styles.width, styles.height);
+
 
     // const maskElem = new Graphics().drawRect(styles.x, styles.y, styles.width / 2, styles.height / 2);
 
@@ -219,7 +218,7 @@ export const updateText = (comp: PrimitiveText) => {
 
 const updateLine = (props: LineProps, line: Graphics) => {
     const points = [...props.points] as Points;
-    const { styles, hitArea } = props;
+    const { styles } = props;
     const start = points.shift();
     const dash = props.dashGap || 0;
 
@@ -236,10 +235,10 @@ const updateLine = (props: LineProps, line: Graphics) => {
         line.moveTo(x + dash, y + dash);
     });
 
-    if (hitArea) {
-        const polygon = new Polygon(hitArea.map(elem => new Point(elem[0], elem[1])));
-        line.hitArea = polygon;
-    }
+
+    const polygon = new Polygon(points.map(elem => new Point(elem[0], elem[1])));
+    line.hitArea = polygon;
+
 };
 
 const updatePolygon = (props: RzElementPrimitiveProps, graphic: Graphics) => {
@@ -253,9 +252,8 @@ const updatePolygon = (props: RzElementPrimitiveProps, graphic: Graphics) => {
         return new Point(point[0], point[1]);
     });
 
-    if (styles.interactive) {
-        graphic.hitArea = new Polygon(polygon);
-    }
+    graphic.hitArea = new Polygon(polygon);
+
 
     graphic.drawPolygon(polygon);
 };
@@ -269,9 +267,7 @@ const updateCircle = (comp: PrimitiveCircle, styles: RzStyles) => {
         graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
         graphic.drawCircle(styles.x, styles.y, styles.width);
 
-        if (styles.interactive) {
-            graphic.hitArea = new Circle(styles.x, styles.y, styles.width);
-        }
+        graphic.hitArea = new Circle(styles.x, styles.y, styles.width);
     }
 };
 
@@ -284,9 +280,8 @@ const updateEllipse = (comp: PrimitiveEllipse, styles: RzStyles) => {
         graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
         graphic.drawEllipse(styles.x, styles.y, styles.width, styles.height);
 
-        if (styles.interactive) {
-            graphic.hitArea = new Ellipse(styles.x, styles.y, styles.width, styles.height);
-        }
+        graphic.hitArea = new Ellipse(styles.x, styles.y, styles.width, styles.height);
+
     }
 };
 

@@ -11,7 +11,7 @@ export type RzElement<T extends RzElementProps = {}> = {
     children: RzNode[]
 };
 
-export type RzNode = RzElement | RzElement[] | RenderFunction | RenderFunction[];
+export type RzNode = RzElement | RzElement[] | RenderFunction | RenderFunction[] | RenderFunction<any>;
 
 export type RzElementKey = number | string;
 
@@ -23,7 +23,6 @@ export type RzElementProps = Partial<{
     key: RzElementKey;
     id: string | number;
     name: string;
-    hitArea: any;
     points: Points;
     children: RzElement[] | RenderFunction[];
     draggable: DraggableConfig;
