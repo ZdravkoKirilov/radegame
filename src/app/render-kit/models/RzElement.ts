@@ -4,6 +4,7 @@ import { ContextManager, AssetManager } from "../services";
 import { PRIMS } from "../primitives";
 import { StateHooks, EffectHooks, MemoHooks, RefHooks, RzEventTypes } from "../helpers";
 import { FontStyle } from "@app/game-mechanics";
+import { StatefulComponent } from "../bases";
 
 export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
@@ -50,6 +51,22 @@ export type ScrollableConfig = Partial<{
 export type RzElementType<T extends RzElementProps = {}> = PrimitiveType | ComponentConstructor<T> | RenderFunction;
 
 export type CompositeType<T = any> = ComponentConstructor<T> | RenderFunction;
+
+export const isOfPrimitiveType = (type: any): type is PrimitiveType => {
+    return new Set(Object.values(PRIMS)).has(type as any)
+};
+
+export const isRenderFunction = (type: any): type is RenderFunction => {
+    return typeof type === typeof Function && !('stateful' in type);
+};
+
+export const isStatefulType = (type: any): type is StatefulComponent => {
+    return 'stateful' in type;
+};
+
+export const isRzElementType = (type: any): type is RzElementType => {
+    return isOfPrimitiveType(type) || isStatefulType(type) || isRenderFunction(type);
+}
 
 export type RzStyles = Partial<{
     width: number;

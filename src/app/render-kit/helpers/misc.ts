@@ -3,13 +3,11 @@ import * as Color from 'color';
 
 import {
     Component, RenderFunction, CompositeComponent, RzElement,
-    MetaProps, RzElementProps
+    MetaProps
 } from '../models';
 import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
-
-export const hasPrimitiveType = (type: string) => new Set(values(PRIMS)).has(type as any);
 
 export const getRealType = (factory: AbstractFactory, type: string) => {
     const realType = factory.customResolvers.reduce(
@@ -84,13 +82,5 @@ export const toHexColor = (value: string | number | string[] | number[]) => {
 
 export const calculateScaling = (target: [number, number], original: [number, number]) => {
     return `${target[0] / original[0]} ${target[1] / original[1]}`;
-};
-
-export const isDescendantOf = (target: Component, potentialParent: Component) => {
-    if (target && potentialParent) {
-        const isDirectChild = potentialParent.children.includes(target);
-        return isDirectChild || potentialParent.children.some(child => isDescendantOf(target, child));
-    }
-    return false;
 };
 

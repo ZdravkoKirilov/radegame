@@ -9,3 +9,4 @@ export * from './hooks';
 export * from './cleaner';
 export * from './error';
 export * from './events';
+export * from './selectors';

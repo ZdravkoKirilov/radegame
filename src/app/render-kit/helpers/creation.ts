@@ -1,7 +1,7 @@
-import { RzElement, MetaProps, Component, RenderFunction } from "../models";
+import { RzElement, MetaProps, Component, RenderFunction, isOfPrimitiveType, isStatefulType, isRenderFunction } from "../models";
 import { AbstractFactory } from "../interfaces";
 import { BasicComponent, StatefulComponent } from "../bases";
-import { hasPrimitiveType, getRealType, flatRender, cloneRenderFunction } from './misc';
+import { getRealType, flatRender, cloneRenderFunction } from './misc';
 import { prepareExtras } from "./hooks";
 import { callWithErrorPropagation } from "./error";
 
@@ -24,7 +24,7 @@ export const createComponent = (
     if (typeof element.type === 'string') {
         let { type } = element;
 
-        if (hasPrimitiveType(element.type)) {
+        if (isOfPrimitiveType(element.type)) {
             component = createPrimitiveComponent(element, factory, meta);
             component.parent = parent;
             component.type = element.type;
@@ -49,7 +49,7 @@ export const createComponent = (
         }
     }
 
-    if ((element.type as any).stateful) {
+    if (isStatefulType(element.type)) {
         component = createStatefulComponent(element, meta);
         component.type = element.type;
         component.parent = parent;
@@ -63,7 +63,7 @@ export const createComponent = (
         return component;
     }
 
-    if (typeof element.type === typeof Function) {
+    if (isRenderFunction(element.type)) {
         const originalType = element.type as RenderFunction;
         const renderFunc = cloneRenderFunction(originalType, meta);
         renderFunc.parent = parent;
