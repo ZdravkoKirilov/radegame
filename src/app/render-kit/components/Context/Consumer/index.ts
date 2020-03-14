@@ -1,34 +1,51 @@
 import { StatefulComponent } from "../../../bases";
-import { MetaProps, RzElement } from "../../../models";
-import { ContextSubscription } from "../../../services";
+import { MetaProps, RzElement, ComponentConstructor, RzElementType } from "../../../models";
+import { ContextSubscription, ContextProvider } from "../Provider";
+import { Dictionary } from "@app/shared";
+import { findInAncestors } from "../../../helpers";
 
 type RenderCallback<T> = (data: T) => RzElement;
 
-export class ContextConsumer<T> extends StatefulComponent<{ value?: T, render?: RenderCallback<T> }> {
+type ContextConsumerProps<T = any> = {
+    value?: T;
+    render?: RenderCallback<T>;
+    parentName?: string;
+}
 
+type State<T = any> = { value: T };
+
+export class ContextConsumer<T = any> extends StatefulComponent<ContextConsumerProps<T>> {
+
+    state: State = {} as State;
+    key: ComponentConstructor;
     sub: ContextSubscription;
-    state: { value: T } = {} as any;
-    key: Function;
 
-    constructor(props: { value?: T, render?: RenderCallback<T> }, meta: MetaProps) {
+    constructor(props: ContextConsumerProps<T>, meta: MetaProps) {
         super(props, meta);
     }
 
-    shouldRerender(nextProps: { value?: T, render?: RenderCallback<T> }, nextState: { value: T }) {
+    shouldRerender() {
         return true;
+    }
+
+    didMount() {
+        let matcher: Dictionary | RzElementType;
+        if (this.props.parentName) {
+            matcher = { name: this.props.parentName };
+        } else {
+            matcher = this.key;
+        }
+        const providerContext = findInAncestors<ContextProvider>(this)(matcher);
+        if (providerContext) {
+            providerContext.subscribe(newValue => this.setState({ value: newValue }));
+        }
+    }
+
+    willUnmount() {
+        this.sub && this.sub.unsubscribe();
     }
 
     render() {
         return this.state.value ? this.props.render(this.state.value) : null;
-    }
-
-    didMount() {
-        this.sub = this.meta.context.subscribe(this.key, (value: T) => {
-            this.setState({ value });
-        });
-    }
-
-    willUnmount() {
-        this.sub.unsubscribe();
     }
 }

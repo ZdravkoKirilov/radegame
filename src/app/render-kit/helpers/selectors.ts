@@ -22,7 +22,7 @@ const matchByType = (type: RzElementType) => (target: Component) => {
     return get(target, 'type') === type;
 };
 
-export const findInDescendants = (startPoint: Component) => (criteria: Dictionary | RzElementProps) => {
+export const findInDescendants = (startPoint: Component) => (criteria: Dictionary | RzElementType) => {
     if (isRzElementType(criteria)) {
         const matcher = matchByType(criteria);
         return iterateUntil('child', matcher)(startPoint);
@@ -34,19 +34,31 @@ export const findInDescendants = (startPoint: Component) => (criteria: Dictionar
     return null;
 };
 
-export const findInAncestors = (startPoint: Component) => (criteria: Dictionary | RzElementProps) => {
+export const findInAncestors = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T => {
     if (isRzElementType(criteria)) {
         const matcher = matchByType(criteria);
-        return iterateUntil('parent', matcher)(startPoint);
+        return iterateUntil('parent', matcher)(startPoint) as any;
     }
     if (typeof criteria === 'object' && Object.keys(criteria).length > 0) {
         const matcher = matchByProp(criteria);
-        return iterateUntil('parent', matcher)(startPoint);
+        return iterateUntil('parent', matcher)(startPoint) as any;
     }
     return null;
 };
 
-const iterateUntil = (direction: 'parent' | 'child', matcher: (target: Component) => boolean) => (target: Component): Component | null => {
+export const findInSiblings = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T => {
+    if (isRzElementType(criteria)) {
+        const matcher = matchByType(criteria);
+        return iterateUntil('sibling', matcher)(startPoint) as any;
+    }
+    if (typeof criteria === 'object' && Object.keys(criteria).length > 0) {
+        const matcher = matchByProp(criteria);
+        return iterateUntil('sibling', matcher)(startPoint) as any;
+    }
+    return null;
+};
+
+const iterateUntil = (direction: 'parent' | 'child' | 'sibling', matcher: (target: Component) => boolean) => (target: Component, recursive = true): Component | null => {
     if (direction === 'parent') {
         const parent = get(target, 'parent');
         if (parent) {
@@ -56,13 +68,25 @@ const iterateUntil = (direction: 'parent' | 'child', matcher: (target: Component
             return iterateUntil(direction, matcher)(parent);
         }
         return null;
-    } else {
+    } else if (direction === 'child') {
         const children: Component[] = get(target, 'children', []);
-        const firstMatch = children.find(child => {
-            const childMatches = matcher(child);
-            return childMatches ? child : get(child, 'children', []).find(child => iterateUntil(direction, matcher)(child))
-        });
+        let firstMatch = children.find(child => matcher(child));
+        if (recursive && !firstMatch) {
+            let index = 0;
+            while (!firstMatch && index < children.length) {
+                firstMatch = iterateUntil(direction, matcher)(children[index], false);
+            }
+            if (!firstMatch) {
+                index = 0;
+                while (!firstMatch && index < children.length) {
+                    firstMatch = iterateUntil(direction, matcher)(children[index]);
+                }
+            }
+        }
         return firstMatch;
+    } else { // sibling
+        const allSiblings: Component[] = get(target, ['parent', 'children'], []);
+        return allSiblings.find(sibling => matcher(sibling));
     }
 };
 

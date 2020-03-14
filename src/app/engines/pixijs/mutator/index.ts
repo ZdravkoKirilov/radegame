@@ -102,6 +102,9 @@ const updatePrimitive = (component: BasicComponent<any>) => {
 
     applyZOrder(component);
     updateZOrder(component.container as Container);
+    if (component.graphic) {
+        component.graphic.interactive = true;
+    }
 };
 
 const applyZOrder = (comp: BasicComponent) => {
@@ -122,11 +125,11 @@ const updateGeneric = (comp: BasicComponent) => {
     if (graphic && props.name) {
         graphic.name = props.name;
     }
-    if (graphic && styles.interactive) {
-        graphic.interactive = true;
-    } else {
-        graphic.interactive = false;
-    }
+    // if (graphic && styles.interactive) {
+    //     graphic.interactive = true;
+    // } else {
+    //     graphic.interactive = false;
+    // }
 
     applyZOrder(comp);
 

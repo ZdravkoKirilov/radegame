@@ -31,35 +31,48 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
         Object.keys(comp.props).forEach((genericEventType) => {
             if (graphic && isGenericEventType(genericEventType)) {
                 graphic.interactive = true;
-                graphic.buttonMode = true;
                 const handler: GenericEventHandler = comp.props[genericEventType];
                 const pixiEventName = toPixiEvent(genericEventType);
                 if (pixiEventName) {
                     const branch = this.createEventBranchForType(genericEventType);
                     branch.set(comp, handler);
-                    this.createEventTracking(pixiEventName);
+                    this.createEventTracking(pixiEventName, graphic, handler);
                 }
             }
         });
     }
 
-    createEventTracking = (pixiEventType: PixiSupportedEvents) => {
+    createEventTracking = (pixiEventType: PixiSupportedEvents, graphic: DisplayObject, handler: GenericEventHandler) => {
         this.interactionManager.off(pixiEventType);
-        this.interactionManager.on(pixiEventType, (event: interaction.InteractionEvent) => {
-            const genericEventType = toGenericEvent(pixiEventType);
-            const currentBranch = this.registeredEvents[genericEventType];
-            currentBranch.forEach((handler, component) => {
-                const targetComponent: BasicComponent = event.target ? event.target['component'] : null;
-                if (targetComponent === component || isDescendantOf(targetComponent, component)) {
-                    const position = event.data.getLocalPosition(component.graphic.parent);
-                    const genericEvent = createGenericEventFromPixiEvent(
-                        event, genericEventType, component, { position }
-                    );
-                    callWithErrorPropagation(component, () => handler(genericEvent));
-                    propagateEvent(genericEvent, genericEventType);
-                }
+        if (pixiEventType === 'pointerover' || pixiEventType === 'pointerout') { // doesnt fire on interactionManager for some reason
+            graphic.off(pixiEventType);
+            graphic.on(pixiEventType, event => {
+                const component = graphic['component'] as BasicComponent;
+                const position = event.data.getLocalPosition(component.graphic.parent);
+                const genericEventType = toGenericEvent(pixiEventType);
+                const genericEvent = createGenericEventFromPixiEvent(
+                    event, genericEventType, component, { position }
+                );
+                callWithErrorPropagation(component, () => handler(genericEvent));
+                propagateEvent(genericEvent, genericEventType);
             });
-        });
+        } else {
+            this.interactionManager.on(pixiEventType, (event: interaction.InteractionEvent) => {
+                const genericEventType = toGenericEvent(pixiEventType);
+                const currentBranch = this.registeredEvents[genericEventType];
+                currentBranch.forEach((handler, component) => {
+                    const targetComponent: BasicComponent = event.target ? event.target['component'] : null;
+                    if (targetComponent === component || isDescendantOf(targetComponent, component)) {
+                        const position = event.data.getLocalPosition(component.graphic.parent);
+                        const genericEvent = createGenericEventFromPixiEvent(
+                            event, genericEventType, component, { position }
+                        );
+                        callWithErrorPropagation(component, () => handler(genericEvent));
+                        propagateEvent(genericEvent, genericEventType);
+                    }
+                });
+            });
+        }
     }
 
     onGraphicClick = (event: interaction.InteractionEvent) => {
@@ -68,7 +81,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
             const focused = this.focusedComponent;
 
             if (targetComponent !== focused && !isDescendantOf(targetComponent, focused)) {
-                if (focused.props.onBlur) {
+                if (focused && focused.props.onBlur) {
                     const genericEvent = createGenericEventFromPixiEvent(
                         event, RzEventTypes.onBlur, focused
                     );

@@ -31,9 +31,9 @@ export const RzDraggable = Memo<RzDraggableProps>(({ startPosition, onDragEnd, o
         event.stopPropagation();
         if (activeDragPosition.current && dragWasReal(dragStartPositionStatic.current, activeDragPosition.current)) {
             onDragEnd(activeDragPosition.current);
-            dragStartPosition.current = null;
-            activeDragPosition.current = null;
         }
+        dragStartPosition.current = null;
+        activeDragPosition.current = null;
     };
 
     const handlePointerMove = event => {
@@ -59,6 +59,7 @@ export const RzDraggable = Memo<RzDraggableProps>(({ startPosition, onDragEnd, o
                 onPointerUp: handleDragEnd,
                 onPointerOut: handleDragEnd,
                 onPointerUpOutside: handleDragEnd,
+                onBlur: handleDragEnd,
             },
             render(activeDragPosition.current || startPosition)
         )

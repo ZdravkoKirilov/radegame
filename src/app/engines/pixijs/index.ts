@@ -53,7 +53,7 @@ export const mountPixi: AbstractMountManager = async (
     const render = createRenderer(PixiEngine, config.assets || new Set());
     const renderedComponent = await render(createElement(component, config.props), stage);
     const startRenderLoop = () => {
-        renderLoop = requestAnimationFrame(() => startRenderLoop());
+        renderLoop = requestAnimationFrame(startRenderLoop);
         app.renderer.render(stage);
     };
 
