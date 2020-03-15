@@ -1,12 +1,10 @@
 import {
     RenderFunction, RzElementType, RzElementProps, withBasicInteractions, createElement, RzTransition
 } from "@app/render-kit"
-import { RuntimeTransition } from "../../entities";
 import { AppState } from "@app/core";
-import { selectGameState } from "@app/game-arena";
-import { connect } from "../store";
+import { selectGameState } from "../../state";
 import { Dictionary } from "@app/shared";
-import { GameState } from "../../helpers";
+import { RuntimeTransition, GameState, connectToStore } from "@app/game-mechanics";
 
 export type ArenaTransitionProps = {
     transitions: RuntimeTransition[];
@@ -36,5 +34,5 @@ export const withArenaTransition = <T = any>(component: RzElementType<ArenaTrans
         game_state: selectGameState(state),
     });
 
-    return withBasicInteractions(connect(mapStateToProps)(ArenaTransition)) as RzElementType<ArenaTransitionOutputProps & T>;
+    return withBasicInteractions(connectToStore(mapStateToProps)(ArenaTransition)) as RzElementType<ArenaTransitionOutputProps & T>;
 };

@@ -5,8 +5,8 @@ import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
-import { GameBroadcastService } from 'app/game-mechanics/services/game-broadcast/game-broadcast.service';
-import { ActionProcessorService } from 'app/game-mechanics/services/action-processor/action-processor.service';
+import { GameBroadcastService } from '../../services/game-broadcast/game-broadcast.service';
+import { ActionProcessorService } from '../../services/action-processor/action-processor.service';
 import { GameArenaRoot } from '../../graphics/containers/root';
 
 @Component({

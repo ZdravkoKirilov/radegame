@@ -10,7 +10,7 @@ import {
   FetchGameInstanceFail, FetchGameConfig, FetchGameConfigFail, FetchGameConfigSuccess, FetchGame, FetchGameSuccess, FetchGameFail, CreateGameState, SetGameState
 } from '../actions';
 import { formatGameConfigData } from '@app/shared';
-import { createGameState } from '@app/game-mechanics';
+import { createGameState } from '../../helpers';
 
 @Injectable({
   providedIn: 'root'

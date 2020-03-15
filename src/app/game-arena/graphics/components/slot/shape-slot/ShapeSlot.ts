@@ -6,7 +6,7 @@ import {
     selectSlotStyle,
     selectSlotTransitions, selectSlotShape
 } from "@app/game-arena";
-import { RuntimeSlot, Style, RuntimeShape, RuntimeTransition, ShapeSlotProps, ShapeSlot, connect } from "@app/game-mechanics";
+import { RuntimeSlot, Style, RuntimeShape, RuntimeTransition, ShapeSlotProps, ShapeSlot, connectToStore } from "@app/game-mechanics";
 
 type EnhancedShapeSlotProps = {
     data: RuntimeSlot;
@@ -38,4 +38,4 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedShapeSlotProps): Sto
     transitions: selectSlotTransitions(ownProps.data),
 });
 
-export default connect(mapStateToProps)(EnhancedShapeSlot);
+export default connectToStore(mapStateToProps)(EnhancedShapeSlot);

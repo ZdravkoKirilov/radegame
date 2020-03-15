@@ -5,7 +5,4 @@ export * from './helpers';
 
 export * from './graphics';
 
-export * from './services/action-processor/action-processor.service';
-export * from './services/game-broadcast/game-broadcast.service';
-
 export * from './hocs';

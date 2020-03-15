@@ -1,7 +1,7 @@
-import { ACTION_TYPE } from "../entities";
 import { MultiActionsTransformer, SingleActionTransformer } from "../models";
-import { mutateState } from "./action-handlers/mutateState";
-import { loadFromServer } from "./action-handlers/loadFromServer";
+import { ACTION_TYPE } from "@app/game-mechanics";
+import { mutateState } from "./mutateState";
+import { loadFromServer } from "./loadFromServer";
 
 export const transformToMutators: MultiActionsTransformer = (payload) => {
     return reduceMutators(payload);

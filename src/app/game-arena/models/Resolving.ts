@@ -1,7 +1,5 @@
-import { GameAction, ActionConfig } from "../entities";
-import { GameConfig } from "./Game.model";
+import { GameAction, ActionConfig, GameConfig, GameState } from "@app/game-mechanics";
 import { MutatorAction } from "@app/game-arena";
-import { GameState } from "../helpers";
 
 type MultiActionsTransformerPayload = {
     actions: GameAction[];

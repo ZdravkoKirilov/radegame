@@ -3,7 +3,7 @@ import { Store } from "@ngrx/store";
 import { StatefulComponent, createElement, MetaProps } from "@app/render-kit";
 import { AppState } from "@app/core";
 import { MainStage } from "../main-stage";
-import { GameBroadcastService } from "@app/game-mechanics";
+import { GameBroadcastService } from "../../../services/game-broadcast/game-broadcast.service";
 
 type Props = {
     store: Store<AppState>;

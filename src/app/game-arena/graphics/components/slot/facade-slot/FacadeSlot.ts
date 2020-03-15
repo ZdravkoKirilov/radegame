@@ -2,14 +2,17 @@ import { compose } from 'lodash/fp';
 
 import { RenderFunction, createElement, CurriedMemo, Memo, CompositeType } from "@app/render-kit";
 import { AppState } from '@app/core';
-import { selectExpressionContext, selectConfig } from '@app/game-arena';
+import { selectExpressionContext, selectConfig } from '../../../../state';
 
 import FrameSlot from '../frame-slot';
 import ItemSlot from '../item-slot';
 import ShapeSlot from '../shape-slot';
 import StageSlot from '../stage-slot';
 import TextSlot from '../text-slot';
-import { GameTemplate, ExpressionContext, GameBroadcastService, assignHandlers, connect, withDispatcher, RuntimeSlot } from '@app/game-mechanics';
+import { GameTemplate, ExpressionContext, connectToStore, RuntimeSlot } from '@app/game-mechanics';
+import { GameBroadcastService } from '../../../../services/game-broadcast/game-broadcast.service';
+import { assignHandlers } from '../../../../helpers';
+import { injectDispatcher } from '../../../../hocs';
 
 type BasicProps = { data: RuntimeSlot };
 
@@ -85,4 +88,4 @@ const mapStateToProps = (state: AppState): StoreProps => ({
     expressionContext: selectExpressionContext(state),
 });
 
-export default compose(connect(mapStateToProps), withDispatcher, CurriedMemo())(EnhancedFacadeSlot);
+export default compose(connectToStore(mapStateToProps), injectDispatcher, CurriedMemo())(EnhancedFacadeSlot);

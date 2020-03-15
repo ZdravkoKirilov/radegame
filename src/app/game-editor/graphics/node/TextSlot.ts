@@ -1,7 +1,7 @@
 import { createElement, Memo } from "@app/render-kit";
 import { AppState } from "@app/core";
 import { selectSlotStyle, selectSlotText } from '../../state';
-import { TextSlotProps, TextSlot, Style, RuntimeSlot, connect, RuntimeText, combineStyles } from "@app/game-mechanics";
+import { TextSlotProps, TextSlot, Style, RuntimeSlot, connectToStore, RuntimeText, combineStyles } from "@app/game-mechanics";
 
 export type EnhancedTextSlotProps = {
     data: RuntimeSlot;
@@ -22,4 +22,4 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): Stor
     text: selectSlotText(ownProps.data)(state),
 });
 
-export default connect(mapStateToProps)(EnhancedTextSlot);
+export default connectToStore(mapStateToProps)(EnhancedTextSlot);

@@ -5,7 +5,7 @@ export type InjectedDispatcher = {
     dispatcher?: GameBroadcastService;
 };
 
-export const withDispatcher = <T>(component: RzElementType<T>) => {
+export const injectDispatcher = <T>(component: RzElementType<T>) => {
     return class WithDispatcher extends StatefulComponent<T & InjectedDispatcher> {
         render() {
             return createElement(

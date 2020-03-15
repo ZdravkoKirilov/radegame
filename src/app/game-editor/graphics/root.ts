@@ -5,8 +5,7 @@ import clone from 'immer';
 import get from 'lodash/get';
 
 import {
-    StatefulComponent, createElement, PrimitiveContainer,
-    Scrollable, ScrollableProps, AutoClean, MetaProps, RzPoint
+    StatefulComponent, createElement, ScrollableProps, AutoClean, MetaProps, RzPoint
 } from "@app/render-kit";
 
 import Slots, { Props as SlotProps } from './slots';
@@ -68,7 +67,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }
 
     render() {
-        const { stage, selectedSlot, loaded, runtimeStage } = this.state;
+        const { selectedSlot, loaded, runtimeStage } = this.state;
         const { handleDragMove, handleDragEnd, selectSlot } = this;
         const activeFrame = runtimeStage && runtimeStage.frame_getter ? runtimeStage.frame_getter(runtimeStage) || runtimeStage.frames[0] : null;
 

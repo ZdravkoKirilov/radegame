@@ -2,8 +2,8 @@ import { createSelector } from "reselect";
 import get from 'lodash/get';
 
 import {
-    Stage, createExpressionContext, GameTemplate, enrichEntity, ImageFrame, parseAndBind, RuntimeImageFrame,
-    enrichSlot, RuntimeStage, RuntimeSlot, Shape, RuntimeShape, RuntimeText, Text
+    Stage, GameTemplate, enrichEntity, ImageFrame, parseAndBind, RuntimeImageFrame,
+    enrichSlot, RuntimeStage, RuntimeSlot, Shape, RuntimeShape, RuntimeText, Text, createExpressionContext
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";

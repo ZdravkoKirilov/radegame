@@ -36,7 +36,7 @@ export const withStore = <T>(component: RzElementType<T>) => {
 
 type MapStateToProps<T> = (storeState: AppState, componentProps: T) => any;
 
-export const connect = <OwnProps = any, StoreProps = any>(mapStateToProps: MapStateToProps<OwnProps>) =>
+export const connectToStore = <OwnProps = any, StoreProps = any>(mapStateToProps: MapStateToProps<OwnProps>) =>
     (component: RzElementType<OwnProps>) => {
         type State = { fromStore?: AppState };
         type Props = OwnProps & Partial<StoreProps>;

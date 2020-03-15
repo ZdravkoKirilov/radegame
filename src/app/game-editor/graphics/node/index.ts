@@ -1,5 +1,5 @@
 import { createElement, PrimitiveContainer, RenderFunction, RzDraggable, RzDraggableProps, RzPoint, RzElementPrimitiveProps } from "@app/render-kit";
-import { RuntimeSlot, Style, connect } from "@app/game-mechanics";
+import { RuntimeSlot, Style, connectToStore } from "@app/game-mechanics";
 
 import { AppState } from "@app/core";
 import { selectSlotStyle } from "app/game-editor/state";
@@ -89,4 +89,4 @@ const mapStateToProps = (state: AppState, ownProps: Props): StoreProps => ({
     style: selectSlotStyle(ownProps.data),
 });
 
-export default connect(mapStateToProps)(Node);
+export default connectToStore(mapStateToProps)(Node);

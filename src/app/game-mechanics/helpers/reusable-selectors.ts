@@ -1,10 +1,10 @@
-import { enrichEntity, parseAndBind } from "./misc";
 import {
     Slot, RuntimeSlot, GameEntity,
     SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
     AnimationStep, RuntimeAnimationStep, Animation
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
+import { enrichEntity, parseAndBind } from "./misc";
 
 export const enrichSlot = (config: Dictionary<GameEntity>, context: Dictionary, initialSlot: Slot) => {
     const slot = enrichEntity<Slot, RuntimeSlot>(config, {

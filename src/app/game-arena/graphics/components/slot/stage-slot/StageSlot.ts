@@ -3,7 +3,7 @@ import { RenderFunction, createElement, DynamicSprite, CompositeType, Memo, calc
 import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
 import { selectSlotStage, selectSlotStageChildren, selectSlotStyle } from '@app/game-arena';
-import { Stage, RuntimeSlot, Style, ImageAsset, connect } from '@app/game-mechanics';
+import { Stage, RuntimeSlot, Style, ImageAsset, connectToStore } from '@app/game-mechanics';
 
 export type StageSlotProps = {
     stage: Stage;
@@ -64,4 +64,4 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
     style: selectSlotStyle(ownProps.data),
 });
 
-export default connect(mapStateToProps)(EnhancedStageSlot);
+export default connectToStore(mapStateToProps)(EnhancedStageSlot);

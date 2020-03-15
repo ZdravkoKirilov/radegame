@@ -1,6 +1,6 @@
 import { createElement, RenderFunction, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { ShapeSlotProps, ShapeSlot, RuntimeSlot, Style, connect, RuntimeShape, combineStyles } from "@app/game-mechanics";
+import { ShapeSlotProps, ShapeSlot, RuntimeSlot, Style, connectToStore, RuntimeShape, combineStyles } from "@app/game-mechanics";
 import { selectSlotStyle, selectRuntimeShape } from '../../state';
 
 export type EnhancedShapeSlotProps = {
@@ -22,4 +22,4 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedShapeSlotProps): Sto
     shape: selectRuntimeShape(ownProps.data.shape)(state),
 });
 
-export default connect(mapStateToProps)(EnhancedShapeSlot);
+export default connectToStore(mapStateToProps)(EnhancedShapeSlot);

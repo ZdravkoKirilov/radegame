@@ -1,5 +1,5 @@
 import { RenderFunction, RzElement } from "@app/render-kit";
-import { withDispatcher, InjectedDispatcher } from "@app/game-mechanics";
+import { injectDispatcher, InjectedDispatcher } from "../../../hocs";
 
 export type DataLoaderProps = {
     preload: Function;
@@ -22,4 +22,4 @@ const dataLoader: RenderFunction<DataLoaderProps> = ({ preload, load_done, fallb
     return children;
 };
 
-export const DataLoader = withDispatcher<DataLoaderProps>(dataLoader);
+export const DataLoader = injectDispatcher<DataLoaderProps>(dataLoader);

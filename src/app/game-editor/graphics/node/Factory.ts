@@ -3,6 +3,7 @@ import { Memo, createElement } from "@app/render-kit";
 
 import EnhancedTextSlot, { EnhancedTextSlotProps } from './TextSlot';
 import EnhancedShapeSlot, { EnhancedShapeSlotProps } from './ShapeSlot';
+import EnhancedStageSlot, { EnhancedStageSlotProps } from "./StageSlot";
 
 export type NodeFactoryProps = {
     data: RuntimeSlot;
@@ -14,6 +15,9 @@ const NodeFactory = Memo<NodeFactoryProps>(({ data }) => {
     }
     if (data.shape) {
         return createElement<EnhancedShapeSlotProps>(EnhancedShapeSlot, { data });
+    }
+    if (data.board) {
+        return createElement<EnhancedStageSlotProps>(EnhancedStageSlot, { data });
     }
 
     throw new Error('Undetermined slot type: ' + data.name);

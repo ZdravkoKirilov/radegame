@@ -1,6 +1,6 @@
 import keyBy from 'lodash/keyBy';
 
-import { SingleActionTransformer } from "../../models";
+import { SingleActionTransformer } from "../models";
 import { FetchGameConfig } from "@app/game-arena";
 
 export const loadFromServer: SingleActionTransformer<any> = ({ action_config }) => {

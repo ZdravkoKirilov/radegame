@@ -1,6 +1,6 @@
 import { createElement, RenderFunction, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { connect, RuntimeStage } from "@app/game-mechanics";
+import { connectToStore, RuntimeStage } from "@app/game-mechanics";
 
 export type FrameAsStageProps = {
     stage: RuntimeStage;
@@ -18,4 +18,4 @@ const mapStateToProps = (state: AppState, ownProps: FrameAsStageProps): StorePro
 
 });
 
-export default connect(mapStateToProps)(FrameAsStage);
+export default connectToStore(mapStateToProps)(FrameAsStage);

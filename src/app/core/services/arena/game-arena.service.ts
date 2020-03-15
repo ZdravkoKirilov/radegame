@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+
 import { ARENA_URLS, LOBBY_URLS } from '../../config';
-import { CreateGamePayload } from '@app/game-mechanics';
 import { ActiveGame } from '../../models';
 import { GameInstance } from '@app/game-arena';
+import { CreateGamePayload } from '@app/game-mechanics';
 
 @Injectable({
   providedIn: 'root'

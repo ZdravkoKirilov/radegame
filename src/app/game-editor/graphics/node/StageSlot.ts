@@ -1,6 +1,6 @@
 import { createElement, RenderFunction, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { RuntimeSlot, Style, connect, StageRendererProps, StageRenderer, RuntimeStage, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeSlot, Style, connectToStore, StageRendererProps, StageRenderer, RuntimeStage, RuntimeImageFrame } from "@app/game-mechanics";
 import { selectSlotStyle, selectRuntimeStage, selectStageSlots, selectStageFrame } from '../../state';
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
@@ -33,4 +33,4 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedStageSlotProps): Sto
     frame: selectStageFrame(ownProps.data.board)(state),
 });
 
-export default connect(mapStateToProps)(EnhancedStageSlot);
+export default connectToStore(mapStateToProps)(EnhancedStageSlot);

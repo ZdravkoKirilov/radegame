@@ -5,8 +5,8 @@ import {
 } from "@app/render-kit";
 import FacadeSlot from "../facade-slot";
 import { AppState } from "@app/core";
-import { selectStageChildren, selectFullStageData } from '@app/game-arena';
-import { Stage, RuntimeSlot, connect } from '@app/game-mechanics';
+import { selectStageChildren, selectFullStageData } from '../../../../state';
+import { Stage, RuntimeSlot, connectToStore } from '@app/game-mechanics';
 
 export type FrameStageProps = {
     stage: Stage;
@@ -58,4 +58,4 @@ const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
     fullStage: selectFullStageData(ownProps.stage)(state),
 });
 
-export default connect(mapStateToProps)(EnhancedFrameStage);
+export default connectToStore(mapStateToProps)(EnhancedFrameStage);

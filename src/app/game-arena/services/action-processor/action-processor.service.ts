@@ -3,13 +3,11 @@ import { Store, select } from '@ngrx/store';
 import { Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { GameAction } from '../../entities';
 import { MutatorAction, selectGameState, selectGameConfig } from '@app/game-arena';
 import { AppState } from '@app/core';
 import { AutoUnsubscribe } from '@app/shared';
 import { transformToMutators } from '../../helpers/actions';
-import {  GameConfig } from '../../models';
-import { GameState } from '../../helpers';
+import { GameState, GameConfig, GameAction } from '@app/game-mechanics';
 
 @Injectable()
 @AutoUnsubscribe()

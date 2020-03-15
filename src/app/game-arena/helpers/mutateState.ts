@@ -1,4 +1,4 @@
-import { SingleActionTransformer } from "../../models";
+import { SingleActionTransformer } from "../models";
 import { MutateState } from "@app/game-arena";
 
 export const mutateState: SingleActionTransformer = ({ action_config }) => {

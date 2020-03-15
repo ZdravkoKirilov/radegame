@@ -5,9 +5,10 @@ import { AppState } from "@app/core";
 import {
     selectSlotStyle,
     selectSlotTransitions, selectSlotText
-} from "@app/game-arena";
+} from "../../../../state";
 import { Dictionary } from "@app/shared";
-import { RuntimeSlot, Style, RuntimeTransition, TextSlotProps, TextSlot, withArenaTransition, connect, Text } from "@app/game-mechanics";
+import { RuntimeSlot, Style, RuntimeTransition, TextSlotProps, TextSlot, connectToStore, Text } from "@app/game-mechanics";
+import { withArenaTransition } from "../../../../hocs";
 
 export type EnhancedTextSlotProps = {
     data: RuntimeSlot;
@@ -35,4 +36,4 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): Stor
     text: selectSlotText(ownProps.data.id)(state),
 });
 
-export default connect(mapStateToProps)(withArenaTransition(EnhancedTextSlot));
+export default connectToStore(mapStateToProps)(withArenaTransition(EnhancedTextSlot));

@@ -1,8 +1,8 @@
 import { RenderFunction, createElement, SpriteProps, DynamicSprite, CompositeType } from "@app/render-kit";
-import { selectSlotStyle, selectSlotItemDefaultFrame } from "@app/game-arena";
+import { selectSlotStyle, selectSlotItemDefaultFrame } from "../../../../state";
 import FrameStage from "../frame-stage";
 import { AppState } from "@app/core";
-import { RuntimeSlot, Style, RuntimeImageFrame, connect, Stage } from "@app/game-mechanics";
+import { RuntimeSlot, Style, RuntimeImageFrame, connectToStore, Stage } from "@app/game-mechanics";
 
 export type ItemSlotProps = {
     style: Style;
@@ -49,4 +49,4 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedItemSlotProps): Stor
     frame: selectSlotItemDefaultFrame(ownProps.data.id)(state),
 });
 
-export default connect(mapStateToProps)(EnhancedItemSlot);
+export default connectToStore(mapStateToProps)(EnhancedItemSlot);

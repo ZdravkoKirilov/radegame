@@ -4,12 +4,11 @@ import { filter, map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { ARENA_URLS, AppState } from '@app/core';
-import { GameAction } from '../../entities';
 import { ActionProcessorService } from '../action-processor/action-processor.service';
 import { GameActionsPayload } from 'app/game-mechanics/models/Payloads';
 import { AutoUnsubscribe } from '@app/shared';
-import { Player } from '../../models';
 import { selectActivePlayerData } from '@app/game-arena';
+import { Player, GameAction } from '@app/game-mechanics';
 
 @Injectable()
 @AutoUnsubscribe()

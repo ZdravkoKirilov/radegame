@@ -1,11 +1,11 @@
 import { AppState } from "@app/core";
 import { Memo, createElement } from "@app/render-kit";
-import { ImageAsset, RuntimeSlot, RuntimeRound, RuntimeStage, connect } from "@app/game-mechanics";
+import { ImageAsset, RuntimeSlot, RuntimeRound, RuntimeStage, connectToStore } from "@app/game-mechanics";
 import {
     selectCurrentRoundStage, selectCurrentRoundStageImage,
     selectCurrentRoundStageSlots,
     selectRoundData
-} from "@app/game-arena";
+} from "../../../state";
 import { DataLoader, DataLoaderProps } from "../data-loader";
 import { RoundStage, RoundStageProps } from "../../components/round-stage";
 
@@ -49,4 +49,4 @@ const mapStateToProps = (state: AppState): StoreProps => ({
     round: selectRoundData(state),
 });
 
-export const MainStage = connect(mapStateToProps)(mainStage);
+export const MainStage = connectToStore(mapStateToProps)(mainStage);
