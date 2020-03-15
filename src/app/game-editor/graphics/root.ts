@@ -11,7 +11,7 @@ import {
 import Slots, { Props as SlotProps } from './slots';
 import { RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot, FrameRenderer, FrameRendererProps } from "@app/game-mechanics";
 import { AppState } from "@app/core";
-import { getActiveStage, SaveItemAction, getEntitiesDict, selectRuntimeStage } from "../state";
+import { getActiveStage, SaveItemAction, getEntitiesDict, selectRuntimeStage, selectStageSlots } from "../state";
 import { selectGameId, Dictionary, safeStringify } from "@app/shared";
 
 export type Props = {
@@ -48,7 +48,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
             this.props.store.pipe(select(getActiveStage)),
             this.props.store.pipe(select(selectGameId)),
             this.props.store.pipe(select(getEntitiesDict)),
-            this.props.store.pipe(map(identity))
+            this.props.store.pipe(map(identity)),
         ).pipe(
             map(([stage, gameId, entities, state]) => {
                 let payload: Partial<State> = { entities, stage, gameId, loaded: true };
@@ -96,7 +96,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
                 ),
 
                 runtimeStage ? createElement<SlotProps>(Slots, {
-                    slots: runtimeStage.slots,
+                    slots: runtimeStage.slots as any,
                     onDragMove: handleDragMove,
                     selectSlot,
                     selected: selectedSlot,

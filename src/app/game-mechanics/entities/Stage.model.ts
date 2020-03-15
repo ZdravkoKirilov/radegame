@@ -1,7 +1,7 @@
 import { BaseModel, WithFrames } from "./Base.model";
-import { Slot, RuntimeSlot } from "./Slot.model";
+import { Slot } from "./Slot.model";
 import { Omit } from "@app/shared";
-import { ImageFrame, RuntimeImageFrame } from "./ImageAsset.model";
+import { ImageFrame } from "./ImageAsset.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 
 export type Stage = BaseModel & WithFrames & Partial<{
@@ -15,9 +15,9 @@ export type Stage = BaseModel & WithFrames & Partial<{
 }>;
 
 export type RuntimeStage = Omit<Stage, 'slot_getter' | 'slots' | 'frames' | 'frame_getter'> & {
-    slot_getter: ParamedExpressionFunc<any, RuntimeSlot[]>;
-    slots: RuntimeSlot[];
-    frames: RuntimeImageFrame[];
+    slot_getter: ParamedExpressionFunc<any, Slot[]>;
+    slots: Slot[];
+    frames: ImageFrame[];
     frame_getter: ParamedExpressionFunc<any, ImageFrame>;
 };
 

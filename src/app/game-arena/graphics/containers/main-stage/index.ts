@@ -45,7 +45,7 @@ const mainStage = Memo<Props>(({ stage, image, slots, round }) => {
 const mapStateToProps = (state: AppState): StoreProps => ({
     stage: selectCurrentRoundStage(state),
     image: selectCurrentRoundStageImage(state),
-    slots: selectCurrentRoundStageSlots(state),
+    slots: selectCurrentRoundStageSlots(state) as any,
     round: selectRoundData(state),
 });
 

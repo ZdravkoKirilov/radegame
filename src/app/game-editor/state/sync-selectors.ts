@@ -57,12 +57,14 @@ export const selectRuntimeStage = (stage: Stage) => createSelector(
 
 export const selectStageSlots = (stage: Stage) => createSelector(
     selectRuntimeStage(stage),
-    runtimeStage => {
+    selectEntitiesDictionary,
+    selectExpressionContext,
+    (runtimeStage, entities, context) => {
         const { slot_getter } = runtimeStage;
         if (typeof slot_getter === 'function') {
-            return slot_getter(runtimeStage);
+            return slot_getter(runtimeStage).map(elem => enrichSlot(entities, context, elem));
         }
-        return runtimeStage.slots;
+        return runtimeStage.slots.map(elem => enrichSlot(entities, context, elem));
     }
 );
 
@@ -79,7 +81,11 @@ export const selectStageFrame = (stage: Stage) => createSelector(
                 style: src => parseAndBind(context)(src)
             }, frame);
         }
-        return runtimeStage.frames[0];
+        const frame = runtimeStage.frames[0];
+        return enrichEntity<ImageFrame, RuntimeImageFrame>(entities, {
+            stage: 'stages',
+            style: src => parseAndBind(context)(src)
+        }, frame);
     }
 );
 
