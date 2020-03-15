@@ -47,7 +47,6 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
             select(getItems(this.key)),
             filter(games => !!games),
             map(games => {
-
                 if (!this.hasLoadedDependencies) {
                     games.forEach(elem => {
                         this.store.dispatch(new FetchItemsAction({

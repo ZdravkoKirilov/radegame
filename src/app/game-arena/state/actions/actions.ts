@@ -55,7 +55,7 @@ export class FetchGameConfigFail {
 
 export class CreateGameState {
     readonly type = actionTypes.INITIALIZE_GAME_STATE;
-    constructor(public payload: { conf: GameTemplate; instance: GameInstance }) { }
+    constructor(public payload: { conf: GameTemplate; instance?: GameInstance; round?: number; }) { }
 }
 
 export class SetGameState {

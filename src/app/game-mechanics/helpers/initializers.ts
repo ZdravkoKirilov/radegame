@@ -26,12 +26,6 @@ type CreateExpressionParams = {
     loaded_chunks: string[];
 }
 
-export type CreateStateParams = {
-    setup: number;
-    players: Player[];
-    conf: GameTemplate;
-};
-
 export type ExpressionContext = {
     loaded_chunks: string[];
     state: GameState;
@@ -41,7 +35,6 @@ export type ExpressionContext = {
         [key: string]: any;
     },
     $self: Player,
-    $own_turn: boolean,
     $get: typeof get,
 };
 
@@ -52,15 +45,23 @@ export type CreateGamePayload = {
     setup: number;
 };
 
-export const createGameState = ({ setup, conf, players }: CreateStateParams): GameState => {
+export type CreateStateParams = {
+    setup: number;
+    players: Player[];
+    conf: GameTemplate;
+    round?: number;
+};
+
+export const createGameState = (payload: CreateStateParams): GameState => {
+    const { setup, conf, round, players } = payload;
     const setup_data: Setup = conf.setups[setup];
-    const first_round = setup_data.rounds[0];
+    const first_round = get(setup_data, ['rounds', 0, 'id']);
     const turn_order = players.map(player => player.id);
     return {
         global_state: {},
         turn_order,
         setup,
-        round: first_round.id,
+        round: round || first_round,
         phase: null,
         active_player: turn_order[0],
     };
@@ -74,9 +75,6 @@ export const createExpressionContext = ({ state, conf, self, players, loaded_chu
         get $self(): Player {
             return Object.values(players).find(player => player.user === self);
         },
-        get $own_turn() {
-            return ctx.$self.id === state.active_player;
-        },
         $get: get,
     };
     return ctx;
@@ -87,7 +85,7 @@ const composeHelpers = (expressions: Expression[]) => {
         result[item.name] = parseFromString({} as any)(item.code);
         return result;
     }, {
-            compute: parseFromString
-        }
+        compute: parseFromString
+    }
     );
 };

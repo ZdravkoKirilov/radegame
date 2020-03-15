@@ -13,7 +13,7 @@ export type Game = WithBoard & Partial<{
     core_data: string;
 
     languages: GameLanguage[];
-    menu: number | Round;
+    menu: number;
 }>
 
 export type GameLanguage = WithImage & Partial<{

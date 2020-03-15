@@ -26,7 +26,9 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     assignEvents(comp: BasicComponent) {
         const graphic = comp.graphic as DisplayObject;
         this.removeListeners(comp);
-        graphic.interactive = false;
+        if (graphic) {
+            graphic.interactive = false;
+        }
 
         Object.keys(comp.props).forEach((genericEventType) => {
             if (graphic && isGenericEventType(genericEventType)) {

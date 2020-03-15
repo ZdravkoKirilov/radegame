@@ -1,0 +1,7 @@
+<h2 *ngIf="isDownloading$ | async; else game">
+    Downloading game data...
+</h2>
+
+<ng-template #game>
+    <rg-game-engine-loader></rg-game-engine-loader>
+</ng-template>

@@ -4,10 +4,10 @@ import { Store } from '@ngrx/store';
 import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
 import { mountPixi } from '@app/engines/pixi';
-import { GameArenaRoot } from '@app/game-mechanics';
 import { WindowRefService } from '@app/shared';
 import { GameBroadcastService } from 'app/game-mechanics/services/game-broadcast/game-broadcast.service';
 import { ActionProcessorService } from 'app/game-mechanics/services/action-processor/action-processor.service';
+import { GameArenaRoot } from '../../graphics/containers/root';
 
 @Component({
   selector: 'rg-game-engine-loader',
@@ -30,7 +30,9 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.broadcast.initConnection(this.gameName);
+    if (this.gameName) {
+      this.broadcast.initConnection(this.gameName);
+    }
     this.initializeGame();
   }
 

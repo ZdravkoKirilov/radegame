@@ -1,4 +1,5 @@
 import { createFeatureSelector, createSelector } from "@ngrx/store";
+import get from "lodash/get";
 
 import { FEATURE_NAME } from "../../config";
 import { ArenaState } from "../reducers";
@@ -22,7 +23,7 @@ export const selectGame = createSelector(
 
 export const selectPlayers = createSelector(
     selectGameInstance,
-    instance => instance.players,
+    instance => get(instance, 'players', []),
 );
 
 export const isDownloadingGameData = createSelector(
@@ -30,4 +31,10 @@ export const isDownloadingGameData = createSelector(
     selectGameConfig,
     selectGame,
     (instance, config, game) => !instance || !config || !game
+);
+
+export const isDownloadingGameMenuData = createSelector(
+    selectGameConfig,
+    selectGame,
+    (config, game) => !config || !game
 );

@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { mergeMap, map, catchError } from 'rxjs/operators';
 import { of } from 'rxjs';
+import get from 'lodash/get';
 
 import { GameArenaService, GameFetchService } from '@app/core';
 import {
@@ -26,10 +27,10 @@ export class ArenaEffectsService {
   initializeGameState = this.actions$.pipe(
     ofType<CreateGameState>(actionTypes.INITIALIZE_GAME_STATE),
     map(action => {
-      const { instance, conf } = action.payload;
-      const state = instance.state || createGameState({
-        setup: instance.setup, conf, players: instance.players,
-      });
+      const { instance, conf, round } = action.payload;
+      const state = get(instance, 'state', createGameState({
+        setup: get(instance, 'setup'), conf, players: get(instance, 'players', []), round,
+      }));
       return new SetGameState(state);
     }),
   );

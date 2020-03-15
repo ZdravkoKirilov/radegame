@@ -1,4 +1,5 @@
 import { createSelector } from "reselect";
+import get from "lodash/get";
 
 import { FEATURE_NAME } from "../../config";
 import {
@@ -63,8 +64,10 @@ export const selectRoundData = createSelector(
     selectConfig,
     selectExpressionContext,
     (roundSlotId, setup, config, context) => {
-        const roundId = setup.rounds.find(elem => elem.id === roundSlotId).round;
+        const round = get(setup, 'rounds', []).find(elem => elem.id === roundSlotId);
+        const roundId = round ? round.round : roundSlotId;
         const roundData = config.rounds[roundId] as Round;
+
         return enrichEntity<Round, RuntimeRound>(config, {
             board: stageId => enrichEntity<Stage, RuntimeStage>(config, {
                 slots: slot => enrichSlot(config, context, slot),
