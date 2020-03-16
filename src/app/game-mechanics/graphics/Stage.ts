@@ -27,9 +27,9 @@ export const StageRenderer = Memo<StageRendererProps>(({ stage, slots, renderChi
             ),
         }
     },
-        createElement<FrameRendererProps>(FrameRenderer, {
+        frame ? createElement<FrameRendererProps>(FrameRenderer, {
             frame, renderStage: renderFrameAsStage,
-        }),
+        }) : null,
         createElement('collection', { styles: { z_order: 1 } }, nodes),
     );
 });

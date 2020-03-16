@@ -14,10 +14,8 @@ export type Stage = BaseModel & WithFrames & Partial<{
     frame_getter: string;
 }>;
 
-export type RuntimeStage = Omit<Stage, 'slot_getter' | 'slots' | 'frames' | 'frame_getter'> & {
+export type RuntimeStage = Omit<Stage, 'slot_getter' | 'frame_getter'> & {
     slot_getter: ParamedExpressionFunc<any, Slot[]>;
-    slots: Slot[];
-    frames: ImageFrame[];
     frame_getter: ParamedExpressionFunc<any, ImageFrame>;
 };
 

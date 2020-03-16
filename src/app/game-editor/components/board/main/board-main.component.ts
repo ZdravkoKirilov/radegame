@@ -6,11 +6,11 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
-import { RootComponent } from '../../../graphics';
+import { ConnectedRootComponent } from '../../../graphics';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
 import { MountRef } from '@app/render-kit';
-import { Slot, ImageAsset } from '@app/game-mechanics';
+import { Slot, ImageAsset, Stage } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-main',
@@ -23,6 +23,7 @@ import { Slot, ImageAsset } from '@app/game-mechanics';
 export class BoardMainComponent implements OnInit, OnDestroy {
 
 	@Input() images: ImageAsset[] = [];
+	@Input() stage: Stage;
 
 	@ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
 	@Output() selectSlot = new EventEmitter<Slot>();
@@ -35,13 +36,13 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 	) { }
 
 	async ngOnInit() {
-		const { _selectSlot } = this;
+		const { _selectSlot, stage } = this;
 		const domHost = this.canvasWrapper.nativeElement;
-		this.mount = await mountPixi(RootComponent, domHost, {
+		this.mount = await mountPixi(ConnectedRootComponent, domHost, {
 			width: this.windowRef.nativeWindow.innerWidth,
 			height: this.windowRef.nativeWindow.innerHeight,
 			props: {
-				store: this.store, selectSlot: _selectSlot
+				store: this.store, selectSlot: _selectSlot, stage
 			},
 			assets: new Set(this.images.map(img => img.image))
 		});

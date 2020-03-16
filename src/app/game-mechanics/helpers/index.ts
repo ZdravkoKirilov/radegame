@@ -1,2 +1,2 @@
-export * from './reusable-selectors';
+export * from './entity-composers';
 export * from './misc';

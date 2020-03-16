@@ -3,7 +3,7 @@ import {
   RuntimeSlotHandler, RuntimeSlot, ExpressionContext,
 } from "@app/game-mechanics";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
-import { SoundPlayer, GenericEvent, BasicComponent } from "@app/render-kit";
+import { SoundPlayer, GenericEvent, BasicComponent, RzEventTypes } from "@app/render-kit";
 
 type HandlerParams<T> = {
   payload: T,
@@ -46,8 +46,6 @@ const playSoundIfNeeded = (handler: RuntimeSlotHandler, conf: GameConfig, payloa
 };
 
 const event_name_map = {
-  [HANDLER_TYPES.POINTERDOWN]: 'onPointerdown',
-  [HANDLER_TYPES.POINTERUP]: 'onPointerup',
-  [HANDLER_TYPES.HOVERIN]: 'onPointerover',
-  [HANDLER_TYPES.HOVEROUT]: 'onPointerout'
+  [HANDLER_TYPES.POINTERDOWN]: RzEventTypes.onPointerDown,
+  [HANDLER_TYPES.POINTERUP]: RzEventTypes.onPointerUp,
 } as const;

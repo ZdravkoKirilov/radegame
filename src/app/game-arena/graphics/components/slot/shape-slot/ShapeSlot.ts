@@ -35,7 +35,7 @@ const EnhancedShapeSlot = Memo<EnhancedShapeSlotProps & StoreProps>(({ style, sh
 const mapStateToProps = (state: AppState, ownProps: EnhancedShapeSlotProps): StoreProps => ({
     style: selectSlotStyle(ownProps.data),
     shape: selectSlotShape(ownProps.data),
-    transitions: selectSlotTransitions(ownProps.data),
+    transitions: selectSlotTransitions(ownProps.data) as any,
 });
 
 export default connectToStore(mapStateToProps)(EnhancedShapeSlot);

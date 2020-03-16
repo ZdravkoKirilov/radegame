@@ -63,7 +63,7 @@ const EnhancedFacadeSlot: RenderFunction<EnhancedSlotFacadeProps> = ({ data, con
                     context: expressionContext,
                     dispatcher,
                     payload: data,
-                    handlers: data.handlers,
+                    handlers: data.handlers as any,
                     conf,
                 }),
                 button: true,

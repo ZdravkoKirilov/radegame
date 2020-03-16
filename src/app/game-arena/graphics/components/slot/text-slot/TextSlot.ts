@@ -32,7 +32,7 @@ const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps & AnimationProp
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
     style: selectSlotStyle(ownProps.data),
-    transitions: selectSlotTransitions(ownProps.data),
+    transitions: selectSlotTransitions(ownProps.data) as any,
     text: selectSlotText(ownProps.data.id)(state),
 });
 

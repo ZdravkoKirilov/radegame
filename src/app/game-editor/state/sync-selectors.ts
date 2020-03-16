@@ -2,12 +2,11 @@ import { createSelector } from "reselect";
 import get from 'lodash/get';
 
 import {
-    Stage, GameTemplate, enrichEntity, ImageFrame, parseAndBind, RuntimeImageFrame,
-    enrichSlot, RuntimeStage, RuntimeSlot, Shape, RuntimeShape, RuntimeText, Text, createExpressionContext
+    Stage, GameTemplate,
+    enrichSlot, RuntimeSlot, Shape, RuntimeText, createExpressionContext, enrichFrame, enrichStage, enrichShape, enrichText
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
-import { safeJSON } from "@app/shared";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -42,16 +41,7 @@ export const selectRuntimeStage = (stage: Stage) => createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
     (entities, context) => {
-        const result = enrichEntity<Stage, RuntimeStage>(entities, {
-            slots: slot => enrichSlot(entities, context, slot),
-            slot_getter: src => parseAndBind(context)(src),
-            frame_getter: src => parseAndBind(context)(src),
-            frames: frame => enrichEntity<ImageFrame, RuntimeImageFrame>(entities, {
-                stage: 'stages',
-                style: src => parseAndBind(context)(src),
-            }, frame),
-        }, stage);
-        return result;
+        return enrichStage(entities, context, stage);
     }
 );
 
@@ -76,16 +66,10 @@ export const selectStageFrame = (stage: Stage) => createSelector(
         const { frame_getter } = runtimeStage;
         if (typeof frame_getter === 'function') {
             const frame = frame_getter(runtimeStage);
-            return enrichEntity<ImageFrame, RuntimeImageFrame>(entities, {
-                stage: 'stages',
-                style: src => parseAndBind(context)(src)
-            }, frame);
+            return enrichFrame(entities, context, frame);
         }
         const frame = runtimeStage.frames[0];
-        return enrichEntity<ImageFrame, RuntimeImageFrame>(entities, {
-            stage: 'stages',
-            style: src => parseAndBind(context)(src)
-        }, frame);
+        return enrichFrame(entities, context, frame);
     }
 );
 
@@ -93,10 +77,7 @@ export const selectRuntimeShape = (shape: Shape) => createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
     (entities, context) => {
-        return enrichEntity<Shape, RuntimeShape>(entities, {
-            style: src => parseAndBind(context)(src),
-            style_inline: src => safeJSON(src, {}),
-        }, shape);
+        return enrichShape(entities, context, shape);
     }
 );
 
@@ -108,35 +89,24 @@ export const selectSlotStyle = (slot_data: RuntimeSlot) => {
     return slot_data.style_inline;
 };
 
-
 export const selectSlotText = (slot_data: RuntimeSlot) => createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
     (entities, context) => {
         let runtimeText: RuntimeText = null;
-        if (slot_data.display_text) {
-            const text = slot_data.display_text(slot_data);
-            runtimeText = {
-                ...enrichEntity<Text, RuntimeText>(entities, {
-                    style_inline: src => safeJSON(src, {}),
-                    style: src => parseAndBind(context)(src)
-                }, text)
-            };
-        }
 
         if (slot_data.display_text_inline) {
-            runtimeText = {
-                ...enrichEntity<Text, RuntimeText>(entities, {
-                    style_inline: src => safeJSON(src, {}),
-                    style: src => parseAndBind(context)(src)
-                }, slot_data.display_text_inline)
-            };
+            runtimeText = enrichText(entities, context, slot_data.display_text_inline);
+        }
+        if (slot_data.display_text) {
+            const text = slot_data.display_text(slot_data);
+            runtimeText = enrichText(entities, context, text);
         }
 
         if (runtimeText) {
             const selectedLanguage = 2;
             const translation = runtimeText.translations.find(elem => elem.language === selectedLanguage);
-            runtimeText.computed_value = get(translation, 'value', runtimeText.default_value);
+            runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
         }
 
         return runtimeText;
