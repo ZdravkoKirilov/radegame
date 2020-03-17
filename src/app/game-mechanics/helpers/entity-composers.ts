@@ -47,6 +47,7 @@ export const enrichTransition = (config: Dictionary<GameEntity>, context: Dictio
 export const enrichFrame = (config: Dictionary<GameEntity>, context: Dictionary, frame: ImageFrame) => {
     return enrichEntity<ImageFrame, RuntimeImageFrame>(config, {
         stage: 'stages',
+        image: 'images',
         style: src => parseAndBind(context)(src)
     }, frame);
 };

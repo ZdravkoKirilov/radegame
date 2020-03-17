@@ -29,6 +29,10 @@ export const StageRenderer = Memo<StageRendererProps>(({ stage, slots, renderChi
     },
         frame ? createElement<FrameRendererProps>(FrameRenderer, {
             frame, renderStage: renderFrameAsStage,
+            style: {
+                width: stage.width,
+                height: stage.height
+            }
         }) : null,
         createElement('collection', { styles: { z_order: 1 } }, nodes),
     );

@@ -17,7 +17,8 @@ import { SaveItemAction } from '../../state';
 export class StagesContainerComponent extends SmartBase {
 
     public formDefinition: FormDefinition = composeStageForm;
-    public readonly key: AllEntity = ALL_ENTITIES.stages ;
+    public readonly key: AllEntity = ALL_ENTITIES.stages;
+    public selectedItem: Stage;
 
     constructor(public store: Store<AppState>) {
         super(store);
@@ -27,6 +28,7 @@ export class StagesContainerComponent extends SmartBase {
         const payload = { ...data, game: this.gameId, slots: data.slots || [] };
         if (this.selectedItem) {
             payload.id = this.selectedItem.id;
+            payload.slots = this.selectedItem.slots;
         }
         this.store.dispatch(new SaveItemAction({
             key: this.key,
