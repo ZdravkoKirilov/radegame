@@ -14,7 +14,8 @@ import { AppState } from "@app/core";
 import { SaveItemAction, selectRuntimeStage, selectStageSlots, selectStageFrame } from "../state";
 import { safeStringify } from "@app/shared";
 
-import Node, { Props as NodeProps } from './node';
+import DraggableSlot, { Props as NodeProps } from './node/DraggableSlot';
+import StaticStage, { StaticStageProps } from "./node/StaticStage";
 
 type Props = OwnProps & StoreProps;
 
@@ -109,11 +110,15 @@ export class RootComponent extends StatefulComponent<Props, State> {
     });
   }
 
+  // todo: simplify ondragmove / ondragend + fix bug along the way
+  // todo: refresh editor after a slot is created
+  // check why slot coordinates are always 0, 0 in embedded stages
+  
   render() {
     const { handleDragMove, handleDragEnd, selectSlot } = this;
     const { selectedSlot, runtimeStage } = this.state;
     const { slots, frame } = this.props;
-    const loaded = !!runtimeStage && slots && slots.length;
+    const loaded = !!runtimeStage && slots;
 
     return loaded ?
       createElement('container',
@@ -127,7 +132,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
           StageRenderer,
           {
             renderChild: (slot: RuntimeSlot) => {
-              return createElement<NodeProps>(Node, {
+              return createElement<NodeProps>(DraggableSlot, {
                 data: slot,
                 key: slot.id,
                 onDragMove: handleDragMove,
@@ -140,7 +145,12 @@ export class RootComponent extends StatefulComponent<Props, State> {
             stage: runtimeStage,
             style: { width: runtimeStage.width, height: runtimeStage.height },
             frame,
-            renderFrameAsStage: () => null,
+            renderStaticStage: stage => {
+              return createElement<StaticStageProps>(StaticStage, {
+                stage,
+                style: { width: runtimeStage.width, height: runtimeStage.height }
+              });
+            }
           }
         )
       ) : null;

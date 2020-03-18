@@ -1,4 +1,4 @@
-import { RuntimeStage } from "./Stage.model";
+import { Stage } from "./Stage.model";
 import { WithStyle, BaseModel } from "./Base.model";
 import { Omit } from "@app/shared";
 import { ParamedExpressionFunc } from "./Expression.model";
@@ -21,6 +21,6 @@ export type ImageFrame = WithStyle & Partial<{
 
 export type RuntimeImageFrame = Omit<ImageFrame, 'image' | 'stage' | 'style'> & {
     image: ImageAsset;
-    stage: RuntimeStage;
+    stage: Stage;
     style: ParamedExpressionFunc<RuntimeImageFrame, Style>;
 }

@@ -1,9 +1,9 @@
-import { RuntimeImageFrame, RuntimeStage, Style } from "../entities";
+import { RuntimeImageFrame, Style, Stage } from "../entities";
 import { RenderFunction, createElement, SpriteProps, DynamicSprite, RzElement } from "@app/render-kit";
 import { combineStyles } from "../helpers";
 
 export type FrameRendererProps = {
-    renderStage: (stage: RuntimeStage) => RzElement;
+    renderStage: (stage: Stage, style: Style) => RzElement;
     frame: RuntimeImageFrame;
     style: Style;
 };
@@ -12,7 +12,7 @@ export const FrameRenderer: RenderFunction<FrameRendererProps> = ({ frame, rende
     const composedStyle = combineStyles(style, frame);
 
     if (frame.stage) {
-        return renderStage(frame.stage);
+        return renderStage(frame.stage, style);
     }
 
     if (frame.image) {

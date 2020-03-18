@@ -4,7 +4,7 @@ import { RuntimeSlot, Style, connectToStore, StageRendererProps, StageRenderer, 
 import { selectSlotStyle, selectRuntimeStage, selectStageSlots, selectStageFrame } from '../../state';
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
-import FrameAsStage, { FrameAsStageProps } from "./FrameAsStage";
+import StaticStage, { StaticStageProps } from "./StaticStage";
 
 export type EnhancedStageSlotProps = {
     data: RuntimeSlot;
@@ -22,7 +22,7 @@ const EnhancedStageSlot: RenderFunction<EnhancedStageSlotProps & StoreProps> = (
     return createElement<StageRendererProps>(StageRenderer, {
         stage, slots, style, frame,
         renderChild: (slot: RuntimeSlot) => createElement<NodeFactoryProps>(NodeFactory, { data: slot }),
-        renderFrameAsStage: (stage: RuntimeStage) => createElement<FrameAsStageProps>(FrameAsStage, { stage }),
+        renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
     });
 };
 
