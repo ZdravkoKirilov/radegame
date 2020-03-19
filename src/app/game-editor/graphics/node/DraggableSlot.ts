@@ -1,4 +1,4 @@
-import { createElement, PrimitiveContainer, RenderFunction, RzDraggable, RzDraggableProps, RzPoint, RzElementPrimitiveProps } from "@app/render-kit";
+import { createElement, RenderFunction, RzDraggable, RzDraggableProps, RzPoint, RzElementPrimitiveProps } from "@app/render-kit";
 import { RuntimeSlot, Style, connectToStore } from "@app/game-mechanics";
 
 import { AppState } from "@app/core";
@@ -8,8 +8,7 @@ import NodeFactory, { NodeFactoryProps } from "./Factory";
 export type Props = Partial<StoreProps> & {
   data: RuntimeSlot;
   selected: boolean;
-  onDragMove: (id: number, coords: RzPoint) => void;
-  onDragEnd: (id: number) => void;
+  onDragEnd: (id: number, coords: RzPoint) => void;
   onSelect: (item: RuntimeSlot) => void;
 };
 
@@ -18,7 +17,7 @@ type StoreProps = {
 }
 
 export const DraggableSlot: RenderFunction<Props> = (props) => {
-  const { data, onDragMove, onDragEnd, onSelect, selected, style } = props;
+  const { data, onDragEnd, onSelect, selected, style } = props;
   const _style = style || {} as Style;
 
   return (
@@ -26,10 +25,7 @@ export const DraggableSlot: RenderFunction<Props> = (props) => {
       RzDraggable,
       {
         onDragEnd: (coords) => {
-          onDragEnd(data.id);
-        },
-        onDragMove: (coords) => {
-          onDragMove(data.id, coords);
+          onDragEnd(data.id, coords);
         },
         startPosition: { x: data.x, y: data.y },
         render: (coords => {
@@ -53,36 +49,6 @@ export const DraggableSlot: RenderFunction<Props> = (props) => {
       },
     )
   )
-
-  // return createElement(
-  //     'container',
-  //     {
-  //         styles: { x: data.x, y: data.y, z_order: _style.z_order },
-  //         id: data.id,
-  //         onDragMove,
-  //         onDragEnd,
-  //         draggable: { xAxis: true, yAxis: true },
-  //         onPointerDown: () => onSelect(data),
-  //         name: `node_${data.id}`
-  //     },
-  //     selected ? createElement('rectangle', {
-  //         button: true,
-  //         styles: {
-  //             stroke_thickness: 5,
-  //             stroke_color: _style.stroke_color,
-  //             x: 0,
-  //             y: 0,
-  //             width: Number(_style.width),
-  //             height: Number(_style.height),
-  //             border_radius: 5,
-  //             radius: _style.width
-  //         }
-  //     }) : null,
-  //     createElement<NodeFactoryProps>(
-  //         NodeFactory,
-  //         { data }
-  //     ),
-  // );
 };
 
 const mapStateToProps = (state: AppState, ownProps: Props): StoreProps => ({

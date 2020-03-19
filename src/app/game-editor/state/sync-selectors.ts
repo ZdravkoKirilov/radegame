@@ -3,10 +3,11 @@ import get from 'lodash/get';
 
 import {
     Stage, GameTemplate,
-    enrichSlot, RuntimeSlot, Shape, RuntimeText, createExpressionContext, enrichFrame, enrichStage, enrichShape, enrichText
+    enrichSlot, RuntimeSlot, Shape, RuntimeText, createExpressionContext, enrichFrame, enrichStage, enrichShape, enrichText, ExpressionContext, RuntimeStage
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
+import { withMemo } from "@app/shared";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -15,7 +16,7 @@ const selectForm = createSelector(
     feature => feature.form,
 );
 
-const selectEntitiesDictionary = createSelector(
+export const selectEntitiesDictionary = createSelector(
     selectForm,
     form => {
         const result = {} as GameTemplate;
@@ -26,7 +27,7 @@ const selectEntitiesDictionary = createSelector(
     }
 )
 
-const selectExpressionContext = createSelector(
+export const selectExpressionContext = createSelector(
     selectForm,
     form => {
         const conf = Object.entries(form).reduce((total, [key, value]) => {
@@ -57,6 +58,19 @@ export const selectStageSlots = (stage: Stage) => createSelector(
         return runtimeStage.slots.map(elem => enrichSlot(entities, context, elem));
     }
 );
+
+const _selectStageSlotsSync = (entities: GameTemplate, context: ExpressionContext, stage: RuntimeStage, state: any) => {
+    if (stage) {
+        const { slot_getter } = stage;
+        if (typeof slot_getter === 'function') {
+            return slot_getter(stage).map(elem => enrichSlot(entities, context, elem));
+        }
+        return stage.slots.map(elem => enrichSlot(entities, context, elem));
+    }
+    return [];
+};
+
+export const selectStageSlotsSync = withMemo(_selectStageSlotsSync);
 
 export const selectStageFrame = (stage: Stage) => createSelector(
     selectRuntimeStage(stage),

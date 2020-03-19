@@ -8,10 +8,13 @@ import {
 
 import {
   RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot, StoreProviderProps,
-  StoreProvider, StageRenderer, StageRendererProps, connectToStore, RuntimeImageFrame
+  StoreProvider, StageRenderer, StageRendererProps, connectToStore, RuntimeImageFrame, GameTemplate, ExpressionContext
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
-import { SaveItemAction, selectRuntimeStage, selectStageSlots, selectStageFrame } from "../state";
+import {
+  SaveItemAction, selectRuntimeStage, selectStageFrame, selectEntitiesDictionary, selectExpressionContext,
+  selectStageSlotsSync
+} from "../state";
 import { safeStringify } from "@app/shared";
 
 import DraggableSlot, { Props as NodeProps } from './node/DraggableSlot';
@@ -27,8 +30,9 @@ type OwnProps = {
 
 type StoreProps = {
   runtimeStage: RuntimeStage;
-  slots: RuntimeSlot[];
   frame: RuntimeImageFrame;
+  entities: GameTemplate;
+  context: ExpressionContext;
 }
 
 type State = { selectedSlot: Slot; runtimeStage: RuntimeStage };
@@ -63,32 +67,21 @@ export class RootComponent extends StatefulComponent<Props, State> {
     this.props.selectSlot(selectedSlot);
   }
 
-  handleDragEnd = (slotId: number) => {
-    const existingSlot = this.props.stage.slots.find(slot => slot.id === slotId);
-    const existingRuntimeSlot = this.state.runtimeStage.slots.find(slot => slot.id === slotId);
-    let slot = <Slot>{
-      ...existingSlot,
-      x: existingRuntimeSlot.x,
-      y: existingRuntimeSlot.y
-    };
-    this.setState({ selectedSlot: null });
+  handleDragEnd = (id: number, coords: RzPoint) => {
+    const slotIndex = this.props.stage.slots.findIndex(elem => elem.id === id);
+
+    const newStageData = clone(this.props.stage, draft => {
+      draft.slots[slotIndex].x = coords.x;
+      draft.slots[slotIndex].y = coords.y;
+    });
+
+    const newRuntimeStageData = clone(this.state.runtimeStage, draft => {
+      draft.slots[slotIndex].x = coords.x;
+      draft.slots[slotIndex].y = coords.y;
+    });
+
+    this.setState({ selectedSlot: null, runtimeStage: newRuntimeStageData });
     this.props.selectSlot(null);
-
-    const index = this.props.slots.findIndex(childSlot => childSlot.id === slot.id);
-
-    const runtimeStage = clone(this.props.runtimeStage, draft => {
-      draft.slots[index] = existingRuntimeSlot;
-    });
-
-    this.setState({ runtimeStage });
-
-    const newStageData = clone(runtimeStage, draft => {
-      draft.slots = draft.slots.map((slot, index) => ({
-        ...get(this.props.stage, ['slots', index], {}),
-        x: slot.x,
-        y: slot.y,
-      }));
-    });
 
     this.props.store.dispatch(new SaveItemAction({
       key: ALL_ENTITIES.stages,
@@ -96,28 +89,16 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }));
   }
 
-  handleDragMove = (id: number, coords: RzPoint) => {
-    const { x, y } = coords;
-    const slots = this.state.runtimeStage.slots;
-    const index = slots.findIndex(elem => elem.id === id);
-    const node = slots[index];
-    const newNodes = [...slots];
-    const newNode = { ...node, x, y };
-    newNodes[index] = newNode;
-
-    this.setState({
-      runtimeStage: { ...this.state.runtimeStage, slots: newNodes }
-    });
-  }
-
-  // todo: simplify ondragmove / ondragend + fix bug along the way
   // todo: refresh editor after a slot is created
   // check why slot coordinates are always 0, 0 in embedded stages
-  
+  // non-engine related bringToFront()
+  // transform selectors to use state where necessary
+
   render() {
-    const { handleDragMove, handleDragEnd, selectSlot } = this;
+    const { handleDragEnd, selectSlot } = this;
     const { selectedSlot, runtimeStage } = this.state;
-    const { slots, frame } = this.props;
+    const { frame, entities, context } = this.props;
+    const slots = selectStageSlotsSync(entities, context, this.state.runtimeStage, this.state);
     const loaded = !!runtimeStage && slots;
 
     return loaded ?
@@ -135,7 +116,6 @@ export class RootComponent extends StatefulComponent<Props, State> {
               return createElement<NodeProps>(DraggableSlot, {
                 data: slot,
                 key: slot.id,
-                onDragMove: handleDragMove,
                 onDragEnd: handleDragEnd,
                 onSelect: selectSlot,
                 selected: selectedSlot && selectedSlot.id === slot.id,
@@ -159,8 +139,9 @@ export class RootComponent extends StatefulComponent<Props, State> {
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
   runtimeStage: selectRuntimeStage(ownProps.stage)(state),
-  slots: selectStageSlots(ownProps.stage)(state),
   frame: selectStageFrame(ownProps.stage)(state),
+  entities: selectEntitiesDictionary(state),
+  context: selectExpressionContext(state),
 });
 
 const rootComponentWithStore = connectToStore(mapStateToProps)(RootComponent);

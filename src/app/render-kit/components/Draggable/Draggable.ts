@@ -1,6 +1,7 @@
 import { Memo } from "../../bases";
 import { createElement } from "../../helpers/create-element";
 import { RzElementPrimitiveProps, RzPoint, RzNode } from "../../models";
+import { GenericEventHandler } from "../../interfaces";
 
 export type RzDraggableProps = {
     onDragEnd: (position: RzPoint) => void;
@@ -9,13 +10,13 @@ export type RzDraggableProps = {
     render: (points: RzPoint) => RzNode;
 };
 
-export const RzDraggable = Memo<RzDraggableProps>(({ startPosition, onDragEnd, onDragMove, render }, { useMemo, useEffect, useRef, useState }) => {
+export const RzDraggable = Memo<RzDraggableProps>(({ startPosition, onDragEnd, onDragMove, render }, { useRef, useState }) => {
     const dragStartPosition = useRef<RzPoint>();
     const dragStartPositionStatic = useRef<RzPoint>();
     const activeDragPosition = useRef<RzPoint>();
     const [_, forceUpdate] = useState(0);
 
-    const handlePointerDown = event => {
+    const handlePointerDown: GenericEventHandler = event => {
         event.stopPropagation();
         const eventPosition = event.position;
         const dragStart = {
