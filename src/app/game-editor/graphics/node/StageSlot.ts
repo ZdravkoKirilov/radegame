@@ -1,6 +1,6 @@
-import { createElement, RenderFunction, } from "@app/render-kit";
+import { createElement, RenderFunction, RzElementPrimitiveProps, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { RuntimeSlot, Style, connectToStore, StageRendererProps, StageRenderer, RuntimeStage, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeSlot, Style, connectToStore, StageRendererProps, StageRenderer, RuntimeStage, RuntimeImageFrame, combineStyles } from "@app/game-mechanics";
 import { selectSlotStyle, selectRuntimeStage, selectStageSlots, selectStageFrame } from '../../state';
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
@@ -21,7 +21,19 @@ const EnhancedStageSlot: RenderFunction<EnhancedStageSlotProps & StoreProps> = (
 
     return createElement<StageRendererProps>(StageRenderer, {
         stage, slots, style, frame,
-        renderChild: (slot: RuntimeSlot) => createElement<NodeFactoryProps>(NodeFactory, { data: slot }),
+        renderChild: (slot: RuntimeSlot) => {
+            const composedStyle = combineStyles(slot, style);
+
+            return createElement<RzElementPrimitiveProps>(
+                'container',
+                {
+                    styles: { x: slot.x, y: slot.y, z_order: composedStyle.z_order },
+                    id: slot.id,
+                    name: `node_${slot.id}`
+                },
+                createElement<NodeFactoryProps>(NodeFactory, { data: slot })
+            );
+        },
         renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
     });
 };

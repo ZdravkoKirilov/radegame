@@ -90,9 +90,9 @@ export class RootComponent extends StatefulComponent<Props, State> {
   }
 
   // todo
-  // check why slot coordinates are always 0, 0 in embedded stages
   // non-engine related bringToFront()
   // transform selectors to use state where necessary
+  // test how context will work
 
   render() {
     const { handleDragEnd, selectSlot } = this;

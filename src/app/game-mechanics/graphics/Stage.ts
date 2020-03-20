@@ -1,5 +1,5 @@
 import { RuntimeSlot, Style, RuntimeImageFrame, RuntimeStage, Stage } from "../entities";
-import { Memo, createElement, calculateScaling, RzElement } from "@app/render-kit";
+import { Memo, createElement, calculateScaling, RzElement, RzElementPrimitiveProps } from "@app/render-kit";
 import { FrameRendererProps, FrameRenderer } from "./Frame";
 
 export type StageRendererProps = {
@@ -27,14 +27,18 @@ export const StageRenderer = Memo<StageRendererProps>(({ stage, slots, renderChi
             ),
         }
     },
-        frame ? createElement<FrameRendererProps>(FrameRenderer, {
-            frame,
-            renderStage: renderStaticStage,
-            style: {
-                width: stage.width,
-                height: stage.height
-            }
-        }) : null,
+        frame ? createElement<RzElementPrimitiveProps>(
+            'container',
+            { styles: { z_order: 2 } },
+            createElement<FrameRendererProps>(FrameRenderer, {
+                frame,
+                renderStage: renderStaticStage,
+                style: {
+                    width: stage.width,
+                    height: stage.height
+                }
+            }),
+        ) : null,
         createElement('collection', { styles: { z_order: 1 } }, nodes),
     );
 });
