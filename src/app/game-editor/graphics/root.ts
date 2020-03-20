@@ -8,12 +8,12 @@ import {
 
 import {
   RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot, StoreProviderProps,
-  StoreProvider, StageRenderer, StageRendererProps, connectToStore, RuntimeImageFrame, GameTemplate, ExpressionContext
+  StoreProvider, StageRenderer, StageRendererProps, connectToStore, RuntimeImageFrame, GameTemplate, ExpressionContext,
+  selectStageSlotsSync,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import {
   SaveItemAction, selectRuntimeStage, selectStageFrame, selectEntitiesDictionary, selectExpressionContext,
-  selectStageSlotsSync
 } from "../state";
 import { safeStringify } from "@app/shared";
 
