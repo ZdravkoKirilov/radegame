@@ -8,8 +8,8 @@ import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { ConnectedRootComponent } from '../../../graphics';
 import { mountPixi } from '@app/engines/pixi';
-import { WindowRefService } from '@app/shared';
-import { MountRef } from '@app/render-kit';
+import { WindowRefService, OnChange } from '@app/shared';
+import { MountRef, StatefulComponent, updateComponent, RenderFunction, prepareExtras } from '@app/render-kit';
 import { Slot, ImageAsset, Stage } from '@app/game-mechanics';
 
 @Component({
@@ -23,6 +23,19 @@ import { Slot, ImageAsset, Stage } from '@app/game-mechanics';
 export class BoardMainComponent implements OnInit, OnDestroy {
 
 	@Input() images: ImageAsset[] = [];
+
+	@OnChange<Stage>(function (newStage) {
+		const mount: MountRef = this.mount;
+		if (mount && mount.component) {
+			const component = mount.component as RenderFunction;
+			const newProps = {
+				...component.props,
+				stage: newStage,
+			};
+			const rendered = component(newProps);
+			updateComponent(component, rendered);
+		}
+	})
 	@Input() stage: Stage;
 
 	@ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;

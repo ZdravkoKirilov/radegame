@@ -89,7 +89,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
     }));
   }
 
-  // todo: refresh editor after a slot is created
+  // todo
   // check why slot coordinates are always 0, 0 in embedded stages
   // non-engine related bringToFront()
   // transform selectors to use state where necessary
