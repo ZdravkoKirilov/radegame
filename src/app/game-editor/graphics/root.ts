@@ -91,6 +91,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
 
   // todo
   // non-engine related bringToFront()
+  // fix rendering components for arena
   // transform selectors to use state where necessary
   // test how context will work
 
