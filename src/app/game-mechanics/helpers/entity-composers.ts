@@ -1,7 +1,7 @@
 import {
     Slot, RuntimeSlot, GameEntity,
     SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
-    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text
+    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
@@ -72,3 +72,12 @@ export const enrichText = (config: Dictionary<GameEntity>, context: Dictionary, 
         style: src => parseAndBind(context)(src)
     }, text)
 };
+
+export const enrichRound = (config: Dictionary<GameEntity>, context: Dictionary, round: Round) => {
+    return enrichEntity<Round, RuntimeRound>(config, {
+        board: 'stages',
+        loader: 'stages',
+        preload: src => parseAndBind(context)(src),
+        load_done: src => parseAndBind(context)(src),
+    }, round);
+}

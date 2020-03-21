@@ -4,7 +4,7 @@ import get from "lodash/get";
 import { FEATURE_NAME } from "../../config";
 import {
     Round, Setup, Stage,
-    ImageFrame, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeRound, RuntimeStage, RuntimeShape, enrichEntity, parseAndBind, createExpressionContext
+    ImageFrame, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeShape, enrichEntity, parseAndBind, createExpressionContext, enrichRound, enrichStage, enrichFrame
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -67,33 +67,45 @@ export const selectRoundData = createSelector(
         const roundId = round ? round.round : roundSlotId;
         const roundData = config.rounds[roundId] as Round;
 
-        return enrichEntity<Round, RuntimeRound>(config, {
-            board: stageId => enrichEntity<Stage, RuntimeStage>(config, {
-                slots: slot => enrichSlot(config, context, slot),
-            }, config.stages[stageId] as Stage),
-            loader: stageId => enrichEntity<Stage>(config, {
-            }, config.stages[stageId] as Stage),
-            preload: src => parseAndBind(context)(src),
-            load_done: src => parseAndBind(context)(src),
-        }, roundData);
+        return enrichRound(config, context, roundData);
     }
 );
 
 export const selectCurrentRoundStage = createSelector(
+    selectConfig,
+    selectExpressionContext,
     selectRoundData,
-    (round) => {
-        return round.board
+    (config, context, round) => {
+        return enrichStage(config, context, round);
     }
 );
 
-export const selectCurrentRoundStageImage = createSelector(
+export const selectCurrentRoundStageSlots = createSelector(
+    selectConfig,
+    selectExpressionContext,
     selectCurrentRoundStage,
-    stage => null,
+    (config, context, stage) => {
+        const { slot_getter } = stage;
+        if (typeof slot_getter === 'function') {
+            return slot_getter(stage).map(elem => enrichSlot(config, context, elem));
+        }
+        return stage.slots.map(elem => enrichSlot(config, context, elem));
+    }
 );
 
-export const selectCurrentRoundStageSlots = createSelector(
+export const selectCurrentRoundStageFrame = createSelector(
+    selectConfig,
+    selectExpressionContext,
     selectCurrentRoundStage,
-    stage => stage.slots
+    (config, context, stage) => {
+        const { frame_getter } = stage;
+        if (typeof frame_getter === 'function') {
+            const frame = frame_getter(stage);
+            return enrichFrame(config, context, frame);
+        }
+        const frame = stage.frames[0];
+        return enrichFrame(config, context, frame);
+    }
 );
 
 export const selectSlotData = (slot_id: number) => createSelector(

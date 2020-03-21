@@ -21,6 +21,6 @@ export class GameArenaRoot extends StatefulComponent<Props> {
     }
 
     render() {
-        return createElement(MainStage)
+        return createElement(MainStage);
     }
 }

@@ -122,7 +122,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
                 selected: selectedSlot && selectedSlot.id === slot.id,
               });
             },
-            slots: slots,
+            slots,
             stage: runtimeStage,
             style: { width: runtimeStage.width, height: runtimeStage.height },
             frame,
