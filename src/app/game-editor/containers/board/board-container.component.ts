@@ -17,13 +17,13 @@ import { selectGameId } from '@app/shared';
 	template: `
     <ng-container *ngIf="data$ | async as data">
         <rg-board-editor 
-			[stage]="data.stage"
-			[slots]="data.slots"
-			[entities]="data.entities"
-			[gameId]="data.gameId"
-			[images]="data.images"
-			(saveSlot)="saveSlot($event)"
-			(deleteSlot)="deleteSlot($event)"
+					[stage]="data.stage"
+					[slots]="data.slots"
+					[entities]="data.entities"
+					[gameId]="data.gameId"
+					[images]="data.images"
+					(saveSlot)="saveSlot($event)"
+					(deleteSlot)="deleteSlot($event)"
         ></rg-board-editor>
     </ng-container>
     `,

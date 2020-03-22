@@ -9,7 +9,7 @@ export interface AbstractRenderEngine {
     mutator: AbstractMutator;
     enhancer: AbstractEnhancer;
     event: AbstractEventManager;
-    loader: AbstractLoader;
+    loader: () => AbstractLoader;
     app: any;
     destroy(): void;
 };

@@ -10,29 +10,22 @@ export class AssetManager {
         textures: LoaderResources;
     }> = {}
 
-    constructor(private loader: AbstractLoader) {
-
-    }
+    constructor(private loaderFactory: () => AbstractLoader) { }
 
     async addMany(urls: Set<string>) {
-        const result = await this.loader.loadAll(urls);
+        const loader = this.loaderFactory();
+        const result = await loader.loadAll(urls);
         this.data.textures = { ...this.data.textures, ...result };
         this.handlers.forEach(cb => cb(null, this.data.textures));
     }
 
     add(resourceUrl: string) {
         if (!this.getTexture(resourceUrl)) {
-
-            if (this.loader.isBusy) {
-                setTimeout(() => {
-                    this.add(resourceUrl);
-                }, 30);
-            } else {
-                this.loader.loadOne(resourceUrl).then(asset => {
-                    this.data.textures[resourceUrl] = asset;
-                    this.handlers.forEach(cb => cb(asset, this.data.textures));
-                });
-            }
+            const loader = this.loaderFactory();
+            loader.loadOne(resourceUrl).then(asset => {
+                this.data.textures[resourceUrl] = asset;
+                this.handlers.forEach(cb => cb(asset, this.data.textures));
+            });
         }
     }
 

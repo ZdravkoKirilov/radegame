@@ -1,6 +1,5 @@
 import { Store } from "@ngrx/store";
 import clone from 'immer';
-import get from 'lodash/get';
 
 import {
   StatefulComponent, createElement, AutoClean, RzPoint, RenderFunction
@@ -15,7 +14,6 @@ import { AppState } from "@app/core";
 import {
   SaveItemAction, selectRuntimeStage, selectStageFrame, selectEntitiesDictionary, selectExpressionContext,
 } from "../state";
-import { safeStringify } from "@app/shared";
 
 import DraggableSlot, { Props as NodeProps } from './node/DraggableSlot';
 import StaticStage, { StaticStageProps } from "./node/StaticStage";
@@ -25,7 +23,7 @@ type Props = OwnProps & StoreProps;
 type OwnProps = {
   store: Store<AppState>;
   stage: Stage;
-  selectSlot: (slot: RuntimeSlot) => void;
+  selectSlot: (slot: Slot) => void;
 }
 
 type StoreProps = {
@@ -58,11 +56,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
   }
 
   selectSlot = (slot: RuntimeSlot) => {
-    const selectedSlot = {
-      ...slot,
-      shape: get(slot, ['shape', 'id']),
-      style_inline: safeStringify(slot.style_inline, ''),
-    } as any;
+    const selectedSlot = this.props.stage.slots.find(elem => elem.id === slot.id);
     this.setState({ selectedSlot });
     this.props.selectSlot(selectedSlot);
   }

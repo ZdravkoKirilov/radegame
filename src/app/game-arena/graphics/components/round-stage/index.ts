@@ -1,4 +1,4 @@
-import { RuntimeStage, RuntimeSlot, ImageAsset, StageRendererProps, StageRenderer, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeStage, RuntimeSlot, StageRendererProps, StageRenderer, RuntimeImageFrame } from "@app/game-mechanics";
 import { Memo, createElement, RzElementPrimitiveProps } from "@app/render-kit";
 import NodeFactory, { NodeFactoryProps } from "../Factory";
 import StaticStage, { StaticStageProps } from "../StaticStage";

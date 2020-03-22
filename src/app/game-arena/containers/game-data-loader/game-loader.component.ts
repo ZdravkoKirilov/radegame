@@ -11,7 +11,7 @@ import {
   isDownloadingGameData, FetchGame, selectGameConfig, CreateGameState, selectGame
 } from '../../state';
 import { GameInstance } from '../../models';
-import { GameTemplate, Game } from '@app/game-mechanics';
+import { GameTemplate, Game, ImageAsset } from '@app/game-mechanics';
 
 @Component({
   selector: 'rg-game-loader',
@@ -77,5 +77,13 @@ export class GameLoaderComponent implements OnInit {
         }
       }),
     );
+  }
+
+  get imageAssets() {
+    if (this.game_config) {
+      const asArray = Object.values(this.game_config.images).map((elem: ImageAsset) => elem.image);
+      return new Set(asArray);
+    }
+    return new Set();
   }
 }

@@ -17,14 +17,13 @@ export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine =>
     const mutator = new PixiMutator();
     const enhancer = new PixiEnhancer();
     const event = new PixiDelegationEventsManager(app.renderer.plugins.interaction);
-    const loader = new PixiLoader();
 
     return {
         factory,
         mutator,
         enhancer,
         event,
-        loader,
+        loader: () => new PixiLoader(),
         app,
         destroy: () => {
             event.onDestroy();
