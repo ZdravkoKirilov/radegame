@@ -1,7 +1,7 @@
 import {
     Slot, RuntimeSlot, GameEntity,
     SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
-    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound
+    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
@@ -26,6 +26,7 @@ export const enrichHandler = (config: Dictionary<GameEntity>, context: Dictionar
     return enrichEntity<SlotHandler, RuntimeSlotHandler>(config, {
         effect: src => parseAndBind(context)(src),
         sound: src => parseAndBind(context)(src),
+        static_sound: 'sonatas',
     }, handler);
 };
 
@@ -80,4 +81,12 @@ export const enrichRound = (config: Dictionary<GameEntity>, context: Dictionary,
         preload: src => parseAndBind(context)(src),
         load_done: src => parseAndBind(context)(src),
     }, round);
-}
+};
+
+export const enrichSonata = (config: Dictionary<GameEntity>, sonata: Sonata) => {
+    return enrichEntity<Sonata, RuntimeSonata>(config, {
+        steps: step => enrichEntity<SonataStep, RuntimeSonataStep>(config, {
+            sound: 'sounds'
+        }, step),
+    }, sonata);
+};

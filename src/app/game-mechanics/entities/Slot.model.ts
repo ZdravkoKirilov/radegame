@@ -11,6 +11,7 @@ import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
 import { Text } from "./Text.model";
 import { Sonata } from "./Sonata.model";
+import { RzEventTypes, StatefulComponent } from "@app/render-kit";
 
 export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
     owner: number; // Stage;
@@ -40,14 +41,16 @@ export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item'
 export type SlotHandler = {
     owner: number;
 
-    type: HandlerType;
+    type: RzEventTypes;
     effect: string; // Expression -> GameAction[]
     sound: string; // Expression -> Sonata
+    static_sound: number; // Sonata
 };
 
-export type RuntimeSlotHandler = Omit<SlotHandler, 'effect' | 'sound'> & {
+export type RuntimeSlotHandler = Omit<SlotHandler, 'effect' | 'sound' | 'static_sound'> & {
     effect: EventHandlingExpressionFunc;
-    sound: ParamedExpressionFunc<RuntimeSlot, Sonata>;
+    sound: ParamedExpressionFunc<StatefulComponent, Sonata>;
+    static_sound: Sonata;
 };
 
 export type SlotItem = Partial<{
@@ -63,10 +66,3 @@ export type RuntimeSlotItem = Omit<SlotItem, 'action' | 'condition' | 'choice' |
     choice: Choice;
     token: Token;
 };
-
-export const HANDLER_TYPES = {
-    POINTERDOWN: 'POINTERDOWN',
-    POINTERUP: 'POINTERUP',
-};
-
-export type HandlerType = keyof typeof HANDLER_TYPES;

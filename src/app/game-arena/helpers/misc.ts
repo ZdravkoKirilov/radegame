@@ -1,27 +1,26 @@
 import {
-  GameTemplate, GameConfig, HANDLER_TYPES, GameAction,
-  RuntimeSlotHandler, RuntimeSlot, ExpressionContext,
+  GameAction,
+  RuntimeSlotHandler, ExpressionContext, enrichSonata,
 } from "@app/game-mechanics";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
-import { SoundPlayer, GenericEvent, BasicComponent, RzEventTypes } from "@app/render-kit";
+import { SoundPlayer, GenericEvent, StatefulComponent } from "@app/render-kit";
 
-type HandlerParams<T> = {
-  payload: T,
-  conf: GameTemplate,
+type HandlerParams = {
+  self: StatefulComponent,
+  context: ExpressionContext;
   dispatcher: GameBroadcastService,
   handlers: RuntimeSlotHandler[],
-  context: ExpressionContext,
 }
 
-export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, context }: HandlerParams<T>) => {
+export const assignHandlers = ({ self, handlers, dispatcher, context }: HandlerParams) => {
   const all_handlers = handlers.reduce(
     (acc, handler) => {
-      const eventName = event_name_map[handler.type];
-      const innerCallback = handler.effect;
-      acc[eventName] = (event: GenericEvent, component: BasicComponent) => {
-        const actions: GameAction[] = innerCallback(payload, event, component);
-        playSoundIfNeeded(handler, conf, payload as any);
-        dispatcher.dispatch(actions);
+      acc[handler.type] = (event: GenericEvent) => {
+        const actions: GameAction[] = handler.effect(self, event);
+        playSoundIfNeeded(handler, self, context);
+        if (actions) {
+          dispatcher.dispatch(actions);
+        }
       };
       return acc;
     },
@@ -30,22 +29,12 @@ export const assignHandlers = <T = any>({ payload, conf, dispatcher, handlers, c
   return all_handlers;
 };
 
-const playSoundIfNeeded = (handler: RuntimeSlotHandler, conf: GameConfig, payload: RuntimeSlot) => {
-  if (typeof handler.sound === 'function') {
-    const sound = handler.sound(payload);
-    if (sound) {
-      sound.steps = sound.steps.map(step => {
-        step = { ...step };
-        step.sound = conf.sounds[step.sound as number];
-        return step;
-      });
-      const soundPlayer = new SoundPlayer();
-      soundPlayer.play(sound);
-    }
+const playSoundIfNeeded = (handler: RuntimeSlotHandler, self: StatefulComponent, context: ExpressionContext) => {
+  const sonata = typeof handler.sound === 'function' ? handler.sound(self) : handler.static_sound;
+
+  if (sonata) {
+    const runtimeSonata = enrichSonata(context.conf, sonata);
+    const soundPlayer = new SoundPlayer();
+    soundPlayer.play(runtimeSonata);
   }
 };
-
-const event_name_map = {
-  [HANDLER_TYPES.POINTERDOWN]: RzEventTypes.onPointerDown,
-  [HANDLER_TYPES.POINTERUP]: RzEventTypes.onPointerUp,
-} as const;

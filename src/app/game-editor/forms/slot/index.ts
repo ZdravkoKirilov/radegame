@@ -1,5 +1,5 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Slot, SlotItem, HANDLER_TYPES } from "@app/game-mechanics";
+import { Slot, SlotItem } from "@app/game-mechanics";
 import {
     baseTemplate,
     boardTemplate,
@@ -8,6 +8,7 @@ import {
     composeFromObject,
     styleTemplate,
 } from "../helpers";
+import { RzEventTypes } from "@app/render-kit";
 
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
     data = data || {};
@@ -75,7 +76,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
         context: {
             ...composeCommonFormContext(data, ent),
             ...composeInlineStyleFormContext(ent),
-            types: composeFromObject(HANDLER_TYPES),
+            types: composeFromObject(RzEventTypes),
             data, handlers, transitions,
             entities: ent, composeSlotItemForm
         },

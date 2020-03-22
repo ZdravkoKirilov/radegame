@@ -1,5 +1,6 @@
 import { Sound } from "./Sound.model";
 import { BaseModel } from "./Base.model";
+import { Omit } from "@app/shared";
 
 export type Sonata = BaseModel & Partial<{
     type: SonataPlayType;
@@ -22,6 +23,14 @@ export type SonataStep = Partial<{
     fade_to: number;
     fade_duration: number;
 }>
+
+export type RuntimeSonata = Omit<Sonata, 'steps'> & {
+    steps: RuntimeSonataStep[];
+};
+
+export type RuntimeSonataStep = Omit<SonataStep, 'sound'> & {
+    sound: Sound;
+}
 
 export const SONATA_PLAY_TYPE = {
     SEQUENCE: 'SEQUENCE',

@@ -3,12 +3,12 @@ import get from "lodash/get";
 
 import { FEATURE_NAME } from "../../config";
 import {
-    Round, Setup, Stage,
-    ImageFrame, RuntimeSlot, RuntimeImageFrame, enrichSlot, RuntimeShape, enrichEntity, parseAndBind, createExpressionContext, enrichRound, enrichStage, enrichFrame
+    Round, Setup, Stage, RuntimeSlot, enrichSlot, createExpressionContext, enrichRound, enrichStage,
+    enrichFrame, enrichShape, Shape, RuntimeText, enrichText, enrichHandler
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
-import { toDictionary, safeJSON } from "@app/shared";
+import { toDictionary } from "@app/shared";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -76,7 +76,7 @@ export const selectCurrentRoundStage = createSelector(
     selectExpressionContext,
     selectRoundData,
     (config, context, round) => {
-        return enrichStage(config, context, round);
+        return enrichStage(config, context, round.board);
     }
 );
 
@@ -108,56 +108,86 @@ export const selectCurrentRoundStageFrame = createSelector(
     }
 );
 
-export const selectSlotData = (slot_id: number) => createSelector(
+export const selectSlotStyle = (slot_data: RuntimeSlot) => {
+    if (slot_data.style) {
+        const style = slot_data.style(slot_data);
+        return style;
+    }
+    return slot_data.style_inline;
+};
+
+export const selectSlotHandlers = (slot: RuntimeSlot) => createSelector(
     selectConfig,
     selectExpressionContext,
     (config, context) => {
-        return enrichSlot(config, context, {});
+        return slot.handlers.map(slot => enrichHandler(config, context, slot));
     }
 );
 
-export const selectSlotStyle = (slot: RuntimeSlot) => {
-    if (slot) {
-        const dynamicStyle = slot.style ? slot.style(slot) : {};
-        const inlineStyle = safeJSON(slot.style_inline, {});
-        const style = { ...inlineStyle, ...dynamicStyle };
-        return style;
+export const selectRuntimeShape = (shape: Shape) => createSelector(
+    selectConfig,
+    selectExpressionContext,
+    (entities, context) => {
+        return enrichShape(entities, context, shape);
     }
-    return null;
-};
+);
 
-export const selectSlotShape = (slot: RuntimeSlot) => slot.shape as RuntimeShape;
+export const selectRuntimeStage = (stage: Stage) => createSelector(
+    selectConfig,
+    selectExpressionContext,
+    (entities, context) => {
+        return enrichStage(entities, context, stage);
+    }
+);
 
-export const selectSlotText = (slot_id: number) => createSelector(
-    selectSlotData(slot_id),
-    (slot_data) => {
+export const selectStageSlots = (stage: Stage) => createSelector(
+    selectRuntimeStage(stage),
+    selectConfig,
+    selectExpressionContext,
+    (runtimeStage, entities, context) => {
+        const { slot_getter } = runtimeStage;
+        if (typeof slot_getter === 'function') {
+            return slot_getter(runtimeStage).map(elem => enrichSlot(entities, context, elem));
+        }
+        return runtimeStage.slots.map(elem => enrichSlot(entities, context, elem));
+    }
+);
+
+export const selectStageFrame = (stage: Stage) => createSelector(
+    selectRuntimeStage(stage),
+    selectConfig,
+    selectExpressionContext,
+    (runtimeStage, entities, context) => {
+        const { frame_getter } = runtimeStage;
+        if (typeof frame_getter === 'function') {
+            const frame = frame_getter(runtimeStage);
+            return enrichFrame(entities, context, frame);
+        }
+        const frame = runtimeStage.frames[0];
+        return enrichFrame(entities, context, frame);
+    }
+);
+
+export const selectSlotText = (slot_data: RuntimeSlot) => createSelector(
+    selectConfig,
+    selectExpressionContext,
+    (entities, context) => {
+        let runtimeText: RuntimeText = null;
+
+        if (slot_data.display_text_inline) {
+            runtimeText = enrichText(entities, context, slot_data.display_text_inline);
+        }
         if (slot_data.display_text) {
             const text = slot_data.display_text(slot_data);
-            return text;
+            runtimeText = enrichText(entities, context, text);
         }
-        return null;
-    }
-);
 
-export const selectSlotTransitions = (slot: RuntimeSlot) => slot.transitions;
-
-export const selectSlotStage = (slot_id: number) => createSelector(
-    selectConfig,
-    selectSlotData(slot_id),
-    (config, slot_data) => {
-        let stage_data = config.stages[slot_data.board as number] as Stage || {} as Stage;
-        stage_data = {
-            ...stage_data,
+        if (runtimeText) {
+            const selectedLanguage = 2;
+            const translation = runtimeText.translations.find(elem => elem.language === selectedLanguage);
+            runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
         }
-        return stage_data as Stage;
-    }
-);
-
-export const selectSlotStageChildren = (slot_id: number) => createSelector(
-    selectSlotStage(slot_id),
-    selectConfig,
-    (stage, config) => {
-        return stage.slots as RuntimeSlot[];
+        return runtimeText;
     }
 );
 
@@ -166,7 +196,7 @@ export const selectTurnOrder = createSelector(
     state => state.turn_order,
 );
 
-export const selectActivePlayer = createSelector(
+const selectActivePlayer = createSelector(
     selectGameState,
     state => state.active_player,
 );
@@ -175,57 +205,4 @@ export const selectActivePlayerData = createSelector(
     selectPlayers,
     selectActivePlayer,
     (players, playerId) => players.find(player => player.id === playerId),
-);
-
-export const selectRounds = createSelector(
-    selectSetupData,
-    setup => setup.rounds.map(round => round.id),
-);
-
-export const selectStageChildren = (stage_id: number) => createSelector(
-    selectConfig,
-    (conf) => {
-        return [];
-    }
-);
-
-export const selectFullStageData = (stage: Stage) => createSelector(
-    selectConfig,
-    config => {
-        return enrichEntity(config, {
-
-        }, stage);
-    }
-);
-
-export const selectSlotDefaultFrame = (slot_id: number) => createSelector(
-    selectConfig,
-    selectSlotData(slot_id),
-    selectExpressionContext,
-    (entities, slot_data, context) => {
-        return enrichEntity<ImageFrame>(entities, {
-            image: 'images',
-            stage: 'stages',
-            style: (value: string) => parseAndBind(context)(value),
-            style_inline: (value: string) => safeJSON(value, {}),
-        }, {}) as RuntimeImageFrame;
-    }
-);
-
-export const selectSlotItemDefaultFrame = (slot_id: number) => createSelector(
-    selectConfig,
-    selectSlotData(slot_id),
-    selectExpressionContext,
-    (config, slot_data, context) => {
-        const item = slot_data.item;
-        if (item) {
-            // return enrichEntity<ImageFrame>(config, {
-            //     image: 'images',
-            //     stage: 'stages',
-            //     style: (value: string) => parseAndBind(context)(value),
-            //     style_inline: (value: string) => safeJSON(value, {}),
-            // }, item.token.frames[0]) as RuntimeImageFrame;
-        }
-        return null;
-    }
 );

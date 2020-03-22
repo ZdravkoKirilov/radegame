@@ -24,3 +24,7 @@ export class GameArenaRoot extends StatefulComponent<Props> {
         return createElement(MainStage);
     }
 }
+// todo
+ // redo handler assigning
+  // transform selectors to use state where necessary
+  // test how context will work
