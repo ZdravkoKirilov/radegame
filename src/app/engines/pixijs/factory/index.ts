@@ -45,7 +45,6 @@ export class PixiFactory implements AbstractFactory {
         return collection;
     }
     createText(elem: RzElement<any>, meta: MetaProps): PrimitiveText {
-        /* TODO generic styles to pixi styles */
         const textStyle = new TextStyle({ ...PrimitiveText.defaultTextStyle });
         const text = new PrimitiveText(elem.props, new Text(elem.props.value, textStyle), meta);
         text.style = textStyle;

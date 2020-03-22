@@ -16,7 +16,7 @@ type StoreProps = {
 };
 
 const StaticStage: RenderFunction<StaticStageProps & StoreProps> = ({ style, slots, runtimeStage, frame }) => {
-  debugger;
+
   return createElement<StageRendererProps>(StageRenderer, {
     stage: runtimeStage, slots, style, frame,
     renderChild: (slot: RuntimeSlot) => {
