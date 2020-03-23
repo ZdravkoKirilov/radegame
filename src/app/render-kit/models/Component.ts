@@ -10,9 +10,15 @@ export type Component<T extends RzElementProps = {}> = BasicComponent<T> | State
 
 export type ClassComponent<T extends RzElementProps = {}> = BasicComponent<T> | StatefulComponent<T>;
 
-export type DidUpdatePayload<T = any, S = any> = {
-    prev: Dictionary;
-    next: Dictionary;
+export type DidUpdatePayload<Props = any, State = any> = {
+    prev: {
+        state: State;
+        props: Props;
+    };
+    next: {
+        state: State;
+        props: Props;
+    };
 }
 
 export interface ComponentConstructor<T extends RzElementProps = {}> {

@@ -1,11 +1,9 @@
-import { values } from 'lodash';
 import * as Color from 'color';
 
 import {
     Component, RenderFunction, CompositeComponent, RzElement,
     MetaProps
 } from '../models';
-import { PRIMS } from '../primitives';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
 
@@ -54,10 +52,6 @@ export const cloneRenderFunction = (originalType: RenderFunction, meta: MetaProp
     }
     component.meta = meta;
     return component;
-};
-
-export const getChildAsRenderFunc = <T>(children): RenderFunction<T> => {
-    return children[0] as RenderFunction<T>;
 };
 
 export const toNumericColor = (value: string | number) => {

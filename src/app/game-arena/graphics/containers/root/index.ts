@@ -25,6 +25,6 @@ export class GameArenaRoot extends StatefulComponent<Props> {
     }
 }
 // todo
- // redo handler assigning
   // transform selectors to use state where necessary
+  // redo transitions
   // test how context will work

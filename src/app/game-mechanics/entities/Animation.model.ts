@@ -1,5 +1,5 @@
 import { Style } from "./Style.model";
-import { AnimationEasing, DidUpdatePayload } from "@app/render-kit";
+import { AnimationEasing, DidUpdatePayload, AnimationPayload } from "@app/render-kit";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { Omit, Dictionary } from "@app/shared";
 import { WithKeywords } from "./Base.model";
@@ -23,7 +23,7 @@ export type AnimationStep = Partial<{
     id: number;
     owner: number;
 
-    from_value: string;
+    from_value: string; // this is the place for dynamic styles as well, but also arbitrary values not part of RzStyle
     to_value: string;
 
     from_style_inline: string;
@@ -44,13 +44,13 @@ export type RuntimeAnimation = Omit<Animation, 'steps'> & {
 };
 
 export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value' | 'from_style_inline' | 'to_style_inline' | 'output_transformer'> & Partial<{
-    from_value: ParamedExpressionFunc<DidUpdatePayload, Dictionary>;
-    to_value: ParamedExpressionFunc<DidUpdatePayload, Dictionary>;
+    from_value: ParamedExpressionFunc<AnimationPayload, Dictionary>;
+    to_value: ParamedExpressionFunc<AnimationPayload, Dictionary>;
 
     from_style_inline: Style;
     to_style_inline: Style;
 
-    output_transformer: ParamedExpressionFunc<Dictionary, Dictionary>;
+    output_transformer: ParamedExpressionFunc<AnimationPayload, Dictionary>;
 }>
 
 export const ANIMATION_PLAY_TYPE = {

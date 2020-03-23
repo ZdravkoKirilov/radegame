@@ -3,9 +3,19 @@ import { TweenMax, TimelineMax, TweenConfig } from 'gsap';
 
 import { Dictionary } from '@app/shared';
 import { ANIMATION_PLAY_TYPE, RuntimeAnimation, RuntimeAnimationStep, RuntimeTransition } from "@app/game-mechanics";
-import { DidUpdatePayload } from "../models";
-import { shouldTransition } from "./helpers";
 import { mapEasing } from "./easings";
+import { StatefulComponent } from "../bases";
+
+export type AnimationPayloadSegment<Props = any, State = any> = {
+    state: State,
+    props: Props,
+    component: StatefulComponent<Props, State>,
+};
+
+export type AnimationPayload<Props = any, State = any> = {
+    prev: AnimationPayloadSegment<Props, State>,
+    next: AnimationPayloadSegment<Props, State>,
+};
 
 export class TransitionAnimationsPlayer {
     updates$: Subject<Dictionary>;
@@ -18,12 +28,9 @@ export class TransitionAnimationsPlayer {
         this.done$ = this.player.done$;
     }
 
-    playIfShould = (data: DidUpdatePayload) => {
-        const { trigger, animation } = this.config;
-
-        if (shouldTransition(trigger, data) && !this.player.playing) {
-            this.player.play(animation, data);
-        }
+    play = (data: AnimationPayload) => {
+        const { animation } = this.config;
+        this.player.play(animation, data);
     }
 
     stop() {
@@ -36,14 +43,14 @@ export class AnimationPlayer {
     done$ = new Subject();
 
     playing = false;
-    data: DidUpdatePayload;
+    data: AnimationPayload;
 
     private timeline: TimelineMax;
     private config: RuntimeAnimation;
 
     constructor() { }
 
-    play(config: RuntimeAnimation, data: DidUpdatePayload) {
+    play(config: RuntimeAnimation, data: AnimationPayload) {
         this.config = config;
         this.playing = true;
         this.data = data;
@@ -122,10 +129,14 @@ export class AnimationPlayer {
         const timeline = new TimelineMax();
 
         steps.forEach(step => {
-            const { from_value, from_style_inline, to_value, to_style_inline,
-                duration, delay, bidirectional, repeat, easing, output_transformer } = step;
+            const {
+                from_value, from_style_inline, to_value, to_style_inline,
+                duration, delay, bidirectional, repeat, easing, output_transformer
+            } = step;
+
             const start = from_value ? { ...from_value(this.data) } : { ...from_style_inline };
             const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
+
             const tweenConfig: TweenConfig = {
                 ...end,
                 ease: mapEasing(easing),
@@ -137,7 +148,7 @@ export class AnimationPlayer {
 
             timeline.eventCallback('onUpdate', () => {
                 if (output_transformer) {
-                    onUpdate(output_transformer(start));
+                    onUpdate(output_transformer(this.data));
                 } else {
                     onUpdate(start);
                 }
@@ -154,6 +165,7 @@ export class AnimationPlayer {
     createTween = (data: RuntimeAnimationStep, onUpdate: (interpolatingStyle: Dictionary) => void) => {
         const { from_value, to_value, from_style_inline, to_style_inline,
             easing, duration, delay = 0, repeat, bidirectional, output_transformer } = data;
+
         const start = from_value ? { ...from_value(this.data) } : { ...from_style_inline };
         const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
 
@@ -169,13 +181,12 @@ export class AnimationPlayer {
 
         tween.eventCallback('onUpdate', () => {
             if (output_transformer) {
-                onUpdate(output_transformer(start));
+                onUpdate(output_transformer(this.data));
             } else {
                 onUpdate(start);
             }
         });
 
         return tween;
-
     }
 }

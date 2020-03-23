@@ -1,7 +1,12 @@
-import { createElement, StatefulComponent, RzElementPrimitiveProps, DidUpdatePayload, } from "@app/render-kit";
+import { createElement, StatefulComponent, RzElementPrimitiveProps, RzTransition, RzTransitionProps, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { ShapeSlotProps, ShapeSlot, RuntimeSlot, Style, connectToStore, RuntimeShape, combineStyles, RuntimeSlotHandler, ExpressionContext } from "@app/game-mechanics";
-import { selectSlotStyle, selectRuntimeShape, selectSlotHandlers, selectExpressionContext } from '../../state';
+import {
+    ShapeSlotProps, ShapeSlot, RuntimeSlot, Style, connectToStore, RuntimeShape, combineStyles, RuntimeSlotHandler, ExpressionContext, RuntimeTransition
+} from "@app/game-mechanics";
+import {
+    selectSlotStyle, selectRuntimeShape, selectSlotHandlers, selectExpressionContext,
+    selectSlotTransitions
+} from '../../state';
 import { assignHandlers } from "../../helpers";
 
 export type EnhancedShapeSlotProps = {
@@ -13,6 +18,7 @@ type StoreProps = {
     shape: RuntimeShape;
     handlers: RuntimeSlotHandler[];
     context: ExpressionContext;
+    transitions: RuntimeTransition[];
 };
 
 type Props = EnhancedShapeSlotProps & StoreProps;
@@ -20,17 +26,37 @@ type Props = EnhancedShapeSlotProps & StoreProps;
 export class EnhancedShapeSlot extends StatefulComponent<Props> {
     render() {
         const self = this;
-        const { style, shape, handlers, context } = this.props;
+        const { style, shape, handlers, context, transitions } = this.props;
         const composedStyle = combineStyles(shape, style);
+
         return createElement<RzElementPrimitiveProps>(
             'container',
-            {...assignHandlers({
-                self,
-                dispatcher: null,
-                handlers,
-                context
-            })},
-            createElement<ShapeSlotProps>(ShapeSlot, { style: composedStyle, shape }),
+            {
+                ...assignHandlers({
+                    self,
+                    dispatcher: null,
+                    handlers,
+                    context
+                })
+            },
+            createElement<RzTransitionProps>(
+                RzTransition,
+                {
+                    transitions,
+                    context: {
+                        component: self,
+                        props: this.props,
+                        state: this.state,
+                    },
+                    render: value => {
+                        const styleWithTransitionOverrides = { ...composedStyle, ...value };
+                        return createElement<ShapeSlotProps>(
+                            ShapeSlot,
+                            { style: styleWithTransitionOverrides, shape }
+                        );
+                    }
+                },
+            )
         );
     }
 }
@@ -40,6 +66,7 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedShapeSlotProps): Sto
     shape: selectRuntimeShape(ownProps.data.shape)(state),
     handlers: selectSlotHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
+    transitions: selectSlotTransitions(ownProps.data)(state),
 });
 
 export default connectToStore(mapStateToProps)(EnhancedShapeSlot);
