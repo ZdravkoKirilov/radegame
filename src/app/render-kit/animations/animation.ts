@@ -1,5 +1,6 @@
 import { Subject } from "rxjs";
 import { TweenMax, TimelineMax, TweenConfig } from 'gsap';
+import { map } from "rxjs/operators";
 
 import { Dictionary } from '@app/shared';
 import { ANIMATION_PLAY_TYPE, RuntimeAnimation, RuntimeAnimationStep, RuntimeTransition } from "@app/game-mechanics";
@@ -21,6 +22,8 @@ export class TransitionAnimationsPlayer {
     updates$: Subject<Dictionary>;
     done$: Subject<unknown>;
 
+    isActive = false;
+
     private player = new AnimationPlayer();
 
     constructor(public config: RuntimeTransition) {
@@ -31,6 +34,10 @@ export class TransitionAnimationsPlayer {
     play = (data: AnimationPayload) => {
         const { animation } = this.config;
         this.player.play(animation, data);
+        this.isActive = true;
+        this.player.done$.pipe(
+            map(() => this.isActive = false),
+        ).subscribe();
     }
 
     stop() {
@@ -136,21 +143,25 @@ export class AnimationPlayer {
 
             const start = from_value ? { ...from_value(this.data) } : { ...from_style_inline };
             const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
+            const target = {};
 
-            const tweenConfig: TweenConfig = {
+            const toVars: TweenConfig = {
                 ...end,
                 ease: mapEasing(easing),
                 delay: delay > 1 ? delay / 1000 : 0,
                 yoyo: bidirectional,
+                duration: duration / 1000,
                 repeat
             };
-            timeline.to(start, duration / 1000, tweenConfig);
+            timeline.fromTo(target, start, toVars);
 
-            timeline.eventCallback('onUpdate', () => {
+            timeline.eventCallback('onUpdate', (...args) => {
                 if (output_transformer) {
                     onUpdate(output_transformer(this.data));
                 } else {
-                    onUpdate(start);
+                    const copy = { ...target };
+                    delete copy['_gsap'];
+                    onUpdate(copy);
                 }
             });
         });
@@ -168,22 +179,24 @@ export class AnimationPlayer {
 
         const start = from_value ? { ...from_value(this.data) } : { ...from_style_inline };
         const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
+        const target = {};
 
-        const tweenConfig: TweenConfig = {
+        const toVars: TweenConfig = {
             ...end,
             ease: mapEasing(easing),
             delay: delay > 1 ? delay / 1000 : 0,
             yoyo: bidirectional,
+            duration: duration / 1000,
             repeat
         };
 
-        const tween = TweenMax.to(start, duration / 1000, tweenConfig);
+        const tween = TweenMax.fromTo(target, toVars.duration, start, toVars);
 
         tween.eventCallback('onUpdate', () => {
             if (output_transformer) {
                 onUpdate(output_transformer(this.data));
             } else {
-                onUpdate(start);
+                onUpdate(target);
             }
         });
 

@@ -14,9 +14,12 @@ export const getValue = (value: any, prop: keyof RzStyles, comp: Component): any
     return value;
 }
 
-export const setProp = (comp: BasicComponent, prop: keyof RzStyles, value: string | number | number[]) => {
-    const graphic: DisplayObject = comp.graphic;
-    let result = getValue(value, prop, comp);
+export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: string | number | number[]) => {
+    let result = value as any;
+
+    if (prop === 'opacity') {
+        return graphic.alpha = Number(result);
+    }
 
     if (prop === 'anchor') {
         const [x, y] = result.split(' ').map(elem => Number(elem));
@@ -43,7 +46,7 @@ export const setProp = (comp: BasicComponent, prop: keyof RzStyles, value: strin
     }
 
     if (prop === 'mask') {
-        return applyMask(comp, value as number[]);
+        return applyMask(graphic['component'], value as number[]);
     }
 
     if (prop === 'stroke_color' || prop === 'fill') {
@@ -99,6 +102,7 @@ const centeredRotation = (style: Partial<RzStyles>): Partial<RzStyles> => {
 export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyles> => {
     styles = styles || {};
     let copy = { ...styles };
+    
     if (styles.rotation) {
         copy.rotation = copy.rotation * Math.PI / 180;
         copy = { ...copy, ...centeredRotation(styles) };

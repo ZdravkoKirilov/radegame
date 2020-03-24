@@ -155,7 +155,9 @@ export const selectStageSlots = (stage: Stage) => createSelector(
 
 export const selectSlotTransitions = (slot: RuntimeSlot) => createSelector(
     selectExpressionContext,
-    context => slot.transitions.map(elem => enrichTransition(context.conf, context, elem)),
+    context => {
+        return slot.transitions.map(transitionId => enrichTransition(context.conf, context, context.conf.transitions[transitionId]))
+    },
 );
 
 export const selectStageFrame = (stage: Stage) => createSelector(

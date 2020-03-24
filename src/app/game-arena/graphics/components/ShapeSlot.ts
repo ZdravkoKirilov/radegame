@@ -8,6 +8,7 @@ import {
     selectSlotTransitions
 } from '../../state';
 import { assignHandlers } from "../../helpers";
+import { Dictionary } from "@app/shared";
 
 export type EnhancedShapeSlotProps = {
     data: RuntimeSlot;
@@ -23,11 +24,17 @@ type StoreProps = {
 
 type Props = EnhancedShapeSlotProps & StoreProps;
 
-export class EnhancedShapeSlot extends StatefulComponent<Props> {
+type State = { animated: Dictionary };
+
+export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
+    state: State = { animated: {} };
+
     render() {
         const self = this;
         const { style, shape, handlers, context, transitions } = this.props;
+        const { animated } = this.state;
         const composedStyle = combineStyles(shape, style);
+        const styleWithTransitionOverrides = { ...composedStyle, ...animated };
 
         return createElement<RzElementPrimitiveProps>(
             'container',
@@ -48,14 +55,12 @@ export class EnhancedShapeSlot extends StatefulComponent<Props> {
                         props: this.props,
                         state: this.state,
                     },
-                    render: value => {
-                        const styleWithTransitionOverrides = { ...composedStyle, ...value };
-                        return createElement<ShapeSlotProps>(
-                            ShapeSlot,
-                            { style: styleWithTransitionOverrides, shape }
-                        );
-                    }
+                    onUpdate: (value: Dictionary) => this.setState({ animated: value })
                 },
+                createElement<ShapeSlotProps>(
+                    ShapeSlot,
+                    { style: styleWithTransitionOverrides, shape }
+                ),
             )
         );
     }

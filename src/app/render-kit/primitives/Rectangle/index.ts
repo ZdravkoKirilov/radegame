@@ -1,16 +1,16 @@
 import { BasicComponent } from '../../bases';
 import { RzElementPrimitiveProps, MetaProps, RzStyles } from '../../models';
 
-export type RectangleProps = RzElementPrimitiveProps & {
-    styles: Required<Pick<RzStyles, 'stroke_thickness' | 'stroke_color' | 'x' | 'y'>>;
+export type PrimitiveRectangleProps = RzElementPrimitiveProps & {
+    styles: Required<Pick<RzStyles, 'stroke_thickness' | 'stroke_color' | 'x' | 'y' | 'width' | 'height'>>;
 };
-export class PrimitiveRectangle extends BasicComponent<RectangleProps> {
+export class PrimitiveRectangle extends BasicComponent<PrimitiveRectangleProps> {
 
-    constructor(props: RectangleProps, graphic: any, meta: MetaProps) {
+    constructor(props: PrimitiveRectangleProps, graphic: any, meta: MetaProps) {
         super(props, graphic, meta);
     }
 
-    shouldRerender(nextProps: RectangleProps) {
+    shouldRerender(nextProps: PrimitiveRectangleProps) {
         return nextProps.styles !== this.props.styles;
     }
 }

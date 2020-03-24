@@ -25,7 +25,7 @@ export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
     shape: number; // Shape
 
     handlers: SlotHandler[];
-    transitions: Transition[];
+    transitions: number[]; // TransitionId[]
 }>;
 
 export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item' | 'shape' | 'display_text'> & {

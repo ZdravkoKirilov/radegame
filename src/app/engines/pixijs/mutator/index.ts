@@ -125,17 +125,12 @@ const updateGeneric = (comp: BasicComponent) => {
     if (graphic && props.name) {
         graphic.name = props.name;
     }
-    // if (graphic && styles.interactive) {
-    //     graphic.interactive = true;
-    // } else {
-    //     graphic.interactive = false;
-    // }
 
     applyZOrder(comp);
 
     if (graphic && styles) {
         Object.keys(styles).forEach((key: keyof RzStyles) => {
-            setProp(comp, key, props.styles[key] as any);
+            setProp(graphic, key, props.styles[key] as any);
         });
     }
 };
@@ -163,11 +158,11 @@ const updateRectangle = (props: RzElementPrimitiveProps, graphic: Graphics) => {
     graphic.clear();
 
     if (props.styles.fill) {
-        graphic.beginFill(props.styles.fill as number);
+        graphic.beginFill(props.styles.fill as number, styles.opacity || 1);
     }
 
     if (styles.stroke_color) {
-        graphic.lineStyle(styles.stroke_thickness || 1, styles.stroke_color as number, styles.alpha || 1);
+        graphic.lineStyle(styles.stroke_thickness || 1, styles.stroke_color as number, styles.opacity || 1);
     }
 
     if (styles && !isNaN(Number(styles.border_radius))) {
@@ -226,7 +221,7 @@ const updateLine = (props: LineProps, line: Graphics) => {
     const dash = props.dashGap || 0;
 
     line.clear();
-    line.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.alpha || 1);
+    line.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.opacity || 1);
 
     line.moveTo(start[0], start[1]);
 
@@ -249,7 +244,7 @@ const updatePolygon = (props: RzElementPrimitiveProps, graphic: Graphics) => {
     const { styles } = props;
 
     graphic.clear();
-    graphic.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.alpha);
+    graphic.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.opacity);
 
     const polygon = points.map(point => {
         return new Point(point[0], point[1]);
@@ -279,7 +274,7 @@ const updateEllipse = (comp: PrimitiveEllipse, styles: RzStyles) => {
 
     if (styles) {
         graphic.clear();
-        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.alpha || 1);
+        graphic.lineStyle(styles.stroke_thickness, styles.stroke_color as number, styles.opacity || 1);
         graphic.pivot.set((styles.width) * -1, (styles.width) * -1);
         graphic.drawEllipse(styles.x, styles.y, styles.width, styles.height);
 

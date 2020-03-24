@@ -1,7 +1,7 @@
 import { map } from "rxjs/operators";
 
 import { StatefulComponent } from "../../bases";
-import { DidUpdatePayload, RzStyles, RzElement } from "../../models";
+import { DidUpdatePayload, RzElement } from "../../models";
 import { RuntimeTransition } from "@app/game-mechanics";
 import { TransitionAnimationsPlayer, AnimationPayload } from "../../animations/animation";
 import { Dictionary } from "@app/shared";
@@ -13,15 +13,11 @@ export type RzTransitionProps = {
     props: Dictionary;
     state: Dictionary
   };
-  render: (payload: Dictionary) => RzElement;
+  onUpdate: (payload: Dictionary) => void;
+  onDone?: () => void;
 };
 
-type State = {
-  animatingValue?: Dictionary;
-};
-
-export class RzTransition extends StatefulComponent<RzTransitionProps, State> {
-  state: State = { animatingValue: {} };
+export class RzTransition extends StatefulComponent<RzTransitionProps> {
   players: { [id: string]: TransitionAnimationsPlayer } = {};
 
   createPlayers() {
@@ -38,14 +34,17 @@ export class RzTransition extends StatefulComponent<RzTransitionProps, State> {
       })
       .reduce((acc, elem) => {
         const player = new TransitionAnimationsPlayer(elem);
+
         player.updates$.pipe(
-          map(animatingValue => this.setState({
-            animatingValue: {
-              ...this.state.animatingValue,
-              ...animatingValue,
-            }
-          }))
+          map(animatingValue => this.props.onUpdate(animatingValue))
         ).subscribe();
+
+        if (this.props.onDone) {
+          player.done$.pipe(
+            map(() => this.props.onDone())
+          ).subscribe();
+        }
+
         acc[elem.id] = player;
         return acc;
       }, {});
@@ -62,27 +61,29 @@ export class RzTransition extends StatefulComponent<RzTransitionProps, State> {
   }
 
   didUpdate(payload: DidUpdatePayload<RzTransitionProps>) {
-    const prevContext = payload.prev.props.context;
-    const nextContext = payload.next.props.context;
+    if (Object.values(this.players).every(player => !player.isActive)) {
+      const prevContext = payload.prev.props.context;
+      const nextContext = payload.next.props.context;
 
-    const reformattedPayload: AnimationPayload = {
-      prev: {
-        state: prevContext.state,
-        props: prevContext.props,
-        component: prevContext.component,
-      },
-      next: {
-        state: nextContext.state,
-        props: nextContext.props,
-        component: nextContext.component,
-      }
-    };
+      const reformattedPayload: AnimationPayload = {
+        prev: {
+          state: prevContext.state,
+          props: prevContext.props,
+          component: prevContext.component,
+        },
+        next: {
+          state: nextContext.state,
+          props: nextContext.props,
+          component: nextContext.component,
+        }
+      };
 
-    Object.values(this.players).forEach(player => {
-      if (player.config.trigger(reformattedPayload)) {
-        player.play(reformattedPayload);
-      }
-    });
+      Object.values(this.players).forEach(player => {
+        if (player.config.trigger(reformattedPayload)) {
+          player.play(reformattedPayload);
+        }
+      });
+    }
   }
 
   willUnmount() {
@@ -90,7 +91,6 @@ export class RzTransition extends StatefulComponent<RzTransitionProps, State> {
   }
 
   render() {
-    const { animatingValue } = this.state;
-    return this.props.render(animatingValue);
+    return this.props.children;
   }
 }

@@ -1,5 +1,5 @@
 import { Style } from "../entities";
-import { RenderFunction, createElement } from "@app/render-kit";
+import { RenderFunction, createElement, PrimitiveRectangleProps } from "@app/render-kit";
 
 export type RectangleProps = {
     style: Style;
@@ -7,7 +7,7 @@ export type RectangleProps = {
 
 const Rectangle: RenderFunction<RectangleProps> = ({ style }) => {
 
-    return createElement('rectangle', {
+    return createElement<PrimitiveRectangleProps>('rectangle', {
         styles: {
             stroke_thickness: style.stroke_thickness,
             stroke_color: style.stroke_color,
@@ -18,6 +18,7 @@ const Rectangle: RenderFunction<RectangleProps> = ({ style }) => {
             height: Number(style.height),
             border_radius: style.border_radius,
             interactive: style.interactive,
+            opacity: style.opacity,
         }
     });
 };

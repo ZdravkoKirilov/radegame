@@ -79,7 +79,7 @@ export type RzStyles = Partial<{
     angle: number; // degrees
     pivot: string;  // "xValue yValue"
     anchor: string; // "xValue yValue"
-    alpha: number;
+    opacity: number;
     fill: number | string | string[];
     radius: number;
     border_radius: number;
