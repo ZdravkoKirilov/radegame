@@ -7,6 +7,8 @@ import {
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
+import { StatefulComponent } from "@app/render-kit";
+import { State } from "@ngrx/store";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -81,12 +83,12 @@ export const selectRuntimeShape = (shape: Shape) => createSelector(
     }
 );
 
-export const selectSlotStyle = (slot_data: RuntimeSlot) => {
-    if (slot_data.style) {
-        const style = slot_data.style(slot_data);
+export const selectSlotStyle = (slot: RuntimeSlot, component = {} as StatefulComponent) => {
+    if (slot.style) {
+        const style = slot.style({ slot, component });
         return style;
     }
-    return slot_data.style_inline;
+    return slot.style_inline;
 };
 
 export const selectSlotText = (slot_data: RuntimeSlot) => createSelector(

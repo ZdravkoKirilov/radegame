@@ -21,9 +21,10 @@ export const StageRenderer = Memo<StageRendererProps>(({ stage, slots, renderChi
 
     return createElement('container', {
         styles: {
+            ...style,
             scale: calculateScaling(
                 [Number(style.width), Number(style.height)],
-                [Number(stage.width), Number(stage.height)]
+                [Number(stage.width), Number(stage.height)],
             ),
         }
     },

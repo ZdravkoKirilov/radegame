@@ -1,10 +1,10 @@
 import { createElement, StatefulComponent, RzElementPrimitiveProps, RzTransition, RzTransitionProps, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-    ShapeSlotProps, ShapeSlot, RuntimeSlot, Style, connectToStore, RuntimeShape, combineStyles, RuntimeSlotHandler, ExpressionContext, RuntimeTransition
+    ShapeSlotProps, ShapeSlot, RuntimeSlot, connectToStore, RuntimeShape, combineStyles, RuntimeSlotHandler, ExpressionContext, RuntimeTransition, selectSlotStyleSync
 } from "@app/game-mechanics";
 import {
-    selectSlotStyle, selectRuntimeShape, selectSlotHandlers, selectExpressionContext,
+    selectRuntimeShape, selectSlotHandlers, selectExpressionContext,
     selectSlotTransitions
 } from '../../state';
 import { assignHandlers } from "../../helpers";
@@ -15,7 +15,6 @@ export type EnhancedShapeSlotProps = {
 }
 
 type StoreProps = {
-    style: Style;
     shape: RuntimeShape;
     handlers: RuntimeSlotHandler[];
     context: ExpressionContext;
@@ -31,8 +30,9 @@ export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
 
     render() {
         const self = this;
-        const { style, shape, handlers, context, transitions } = this.props;
+        const { shape, handlers, context, transitions, data } = this.props;
         const { animated } = this.state;
+        const style = selectSlotStyleSync(data, self);
         const composedStyle = combineStyles(shape, style);
         const styleWithTransitionOverrides = { ...composedStyle, ...animated };
 
@@ -55,7 +55,16 @@ export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
                         props: this.props,
                         state: this.state,
                     },
-                    onUpdate: (value: Dictionary) => this.setState({ animated: value })
+                    onUpdate: (value: Dictionary) => this.setState({ animated: value }),
+                    onDone: transition => {
+                        if (transition.onDone) {
+                            transition.onDone({
+                                component: self,
+                                transition,
+                                styles: styleWithTransitionOverrides,
+                            });
+                        }
+                    }
                 },
                 createElement<ShapeSlotProps>(
                     ShapeSlot,
@@ -67,7 +76,6 @@ export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
 }
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedShapeSlotProps): StoreProps => ({
-    style: selectSlotStyle(ownProps.data),
     shape: selectRuntimeShape(ownProps.data.shape)(state),
     handlers: selectSlotHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),

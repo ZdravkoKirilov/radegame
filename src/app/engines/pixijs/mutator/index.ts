@@ -9,7 +9,6 @@ import {
     PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
     PrimitiveEllipse, LineProps, unmountComponent,
 } from "@app/render-kit";
-
 export class PixiMutator implements AbstractMutator {
     updateComponent(component: BasicComponent) {
         updatePrimitive(component);
@@ -124,6 +123,18 @@ const updateGeneric = (comp: BasicComponent) => {
 
     if (graphic && props.name) {
         graphic.name = props.name;
+    }
+
+    if (styles.width && styles.height) {
+        // todo: should support other shapes than rectangle as well
+        if (styles.scale) {
+            const scale = styles.scale.split(' ').map(Number);
+            const width = styles.width * (1 / scale[0]);
+            const height = styles.height * (1 / scale[1]);
+            graphic.hitArea = new Rectangle(styles.x || 0, styles.y || 0, width, height);
+        } else {
+            graphic.hitArea = new Rectangle(styles.x || 0, styles.y || 0, styles.width, styles.height);
+        }
     }
 
     applyZOrder(comp);

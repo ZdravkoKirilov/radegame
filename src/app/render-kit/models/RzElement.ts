@@ -3,7 +3,6 @@ import { ComponentConstructor, RenderFunction, Component } from "./Component";
 import { ContextManager, AssetManager } from "../services";
 import { PRIMS } from "../primitives";
 import { StateHooks, EffectHooks, MemoHooks, RefHooks, RzEventTypes } from "../helpers";
-import { FontStyle } from "@app/game-mechanics";
 import { StatefulComponent } from "../bases";
 
 export type RzElement<T extends RzElementProps = {}> = {
@@ -73,33 +72,40 @@ export type RzStyles = Partial<{
     height: number;
     x: number;
     y: number;
-    rotation: number;  // degrees
 
+    rotation: number;  // degrees
     skew: string; // "xValue yValue"
-    angle: number; // degrees
     pivot: string;  // "xValue yValue"
     anchor: string; // "xValue yValue"
+    scale: string; // "xValue yValue"
+
     opacity: number;
     fill: number | string | string[];
     radius: number;
     border_radius: number;
+
     stroke_thickness: number;
     stroke_color: string | number;
-    scale: string; // "xValue yValue"
-    color: number;
-    blur: number;
-    distance: number;
+
     mask: number[];
 
     interactive: boolean;
     z_order: number;
-}>;
 
-export type RzTextStyles = Partial<Pick<RzStyles, 'stroke_color' | 'stroke_thickness' | 'fill'>> & Partial<{
     font_size: number;
     font_family: string;
     font_style: FontStyle;
 }>;
+
+export type RzTextStyles = Partial<Pick<RzStyles, 'stroke_color' | 'stroke_thickness' | 'fill' | 'font_family' | 'font_size' | 'font_style'>>
+
+export const FONT_STYLES = {
+    bold: 'bold',
+    italic: 'italic',
+    normal: 'normal',
+} as const;
+
+type FontStyle = keyof typeof FONT_STYLES;
 
 /*
  align?: string;

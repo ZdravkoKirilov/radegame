@@ -108,14 +108,6 @@ export const selectCurrentRoundStageFrame = createSelector(
     }
 );
 
-export const selectSlotStyle = (slot_data: RuntimeSlot) => {
-    if (slot_data.style) {
-        const style = slot_data.style(slot_data);
-        return style;
-    }
-    return slot_data.style_inline;
-};
-
 export const selectSlotHandlers = (slot: RuntimeSlot) => createSelector(
     selectConfig,
     selectExpressionContext,

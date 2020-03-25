@@ -1,5 +1,4 @@
 import { BaseModel, WithBoard, WithStyle } from "./Base.model";
-import { Transition } from "./Transition.model";
 import { Shape } from "./Shape.model";
 import { GameAction } from "./Action.model";
 import { Condition } from "./Condition.model";
@@ -30,7 +29,7 @@ export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
 
 export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item' | 'shape' | 'display_text'> & {
     board: Stage;
-    style: ParamedExpressionFunc<RuntimeSlot, Style>;
+    style: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, Style>;
     style_inline: Style;
     item: RuntimeSlotItem;
     shape: Shape;

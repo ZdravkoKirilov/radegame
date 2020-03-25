@@ -1,33 +1,36 @@
 import { BaseModel } from "./Base.model";
+import { RzStyles } from "@app/render-kit";
 
-export type Style = BaseModel & Partial<{
-    opacity: number;
-    border_radius: number;
-    rotation: number;
-    skew: number;
+export type Style = BaseModel & RzStyles;
 
-    width: number;
-    height: number;
+// export type Style = BaseModel & Partial<{
+//     opacity: number;
+//     border_radius: number;
+//     rotation: number;
+//     skew: number;
 
-    stroke_color: number;
-    stroke_thickness: number;
-    fill: number;
+//     width: number;
+//     height: number;
 
-    font_size: number;
-    font_family: string;
-    font_style: FontStyle;
+//     stroke_color: number;
+//     stroke_thickness: number;
+//     fill: number;
 
-    x: number;
-    y: number;
+//     font_size: number;
+//     font_family: string;
+//     font_style: FontStyle;
 
-    interactive: boolean;
-    z_order: number;
-}>;
+//     x: number;
+//     y: number;
 
-export const FONT_STYLES = {
-    bold: 'bold',
-    italic: 'italic',
-    normal: 'normal',
-} as const;
+//     interactive: boolean;
+//     z_order: number;
+// }>;
 
-export type FontStyle = keyof typeof FONT_STYLES;
+// export const FONT_STYLES = {
+//     bold: 'bold',
+//     italic: 'italic',
+//     normal: 'normal',
+// } as const;
+
+// export type FontStyle = keyof typeof FONT_STYLES;

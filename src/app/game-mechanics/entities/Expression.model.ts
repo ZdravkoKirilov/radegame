@@ -10,8 +10,8 @@ export type ParamedExpressionFunc<T = {}, R = GameAction[]> = (payload: T) => R;
 
 export type ExpressionFunc<T = GameAction[]> = () => T;
 
-export type EventHandlingExpressionFunc<T = {}, R = GameAction[]> = (
+export type EventHandlingExpressionFunc<ReturnData = GameAction[]> = (
     component: StatefulComponent,
     event: GenericEvent,
-) => R;
+) => ReturnData;
 

@@ -14,7 +14,7 @@ export type RzTransitionProps = {
     state: Dictionary
   };
   onUpdate: (payload: Dictionary) => void;
-  onDone?: () => void;
+  onDone?: (transition: RuntimeTransition) => void;
 };
 
 export class RzTransition extends StatefulComponent<RzTransitionProps> {
@@ -41,7 +41,7 @@ export class RzTransition extends StatefulComponent<RzTransitionProps> {
 
         if (this.props.onDone) {
           player.done$.pipe(
-            map(() => this.props.onDone())
+            map(() => this.props.onDone(player.config))
           ).subscribe();
         }
 

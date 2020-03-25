@@ -1,6 +1,7 @@
-import { Style, FONT_STYLES } from '@app/game-mechanics';
+import { Style } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import { baseTemplate, composeCommonFormContext, composeFromObject } from '../helpers';
+import { FONT_STYLES } from '@app/render-kit';
 
 export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};

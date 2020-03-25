@@ -1,5 +1,5 @@
 import { Subject } from "rxjs";
-import { TweenMax, TimelineMax, TweenConfig } from 'gsap';
+import { TweenMax, TimelineMax, gsap } from 'gsap';
 import { map } from "rxjs/operators";
 
 import { Dictionary } from '@app/shared';
@@ -145,7 +145,7 @@ export class AnimationPlayer {
             const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
             const target = {};
 
-            const toVars: TweenConfig = {
+            const toVars: gsap.AnimationVars = {
                 ...end,
                 ease: mapEasing(easing),
                 delay: delay > 1 ? delay / 1000 : 0,
@@ -153,7 +153,7 @@ export class AnimationPlayer {
                 duration: duration / 1000,
                 repeat
             };
-            timeline.fromTo(target, start, toVars);
+            timeline.fromTo(target, start as any, toVars);
 
             timeline.eventCallback('onUpdate', (...args) => {
                 if (output_transformer) {
@@ -181,7 +181,7 @@ export class AnimationPlayer {
         const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
         const target = {};
 
-        const toVars: TweenConfig = {
+        const toVars: gsap.AnimationVars = {
             ...end,
             ease: mapEasing(easing),
             delay: delay > 1 ? delay / 1000 : 0,
@@ -190,7 +190,7 @@ export class AnimationPlayer {
             repeat
         };
 
-        const tween = TweenMax.fromTo(target, toVars.duration, start, toVars);
+        const tween = TweenMax.fromTo(target, toVars.duration, start as any, toVars);
 
         tween.eventCallback('onUpdate', () => {
             if (output_transformer) {
