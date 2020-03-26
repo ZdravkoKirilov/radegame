@@ -1,9 +1,9 @@
-import { createElement, Memo, StatefulComponent, RzElementPrimitiveProps } from "@app/render-kit";
+import { createElement, StatefulComponent, RzElementPrimitiveProps } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { selectSlotText, selectSlotHandlers, selectExpressionContext } from '../../state';
+import { selectSlotHandlers, selectExpressionContext } from '../../state';
 import {
-    TextSlotProps, TextSlot, RuntimeSlot, connectToStore, RuntimeText,
-    combineStyles, RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync
+    TextSlotProps, TextSlot, RuntimeSlot, connectToStore,
+    combineStyles, RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync, selectSlotTextSync
 } from "@app/game-mechanics";
 import { assignHandlers } from "../../helpers";
 
@@ -12,7 +12,6 @@ export type EnhancedTextSlotProps = {
 };
 
 type StoreProps = {
-    text: RuntimeText;
     handlers: RuntimeSlotHandler[];
     context: ExpressionContext;
 };
@@ -22,7 +21,8 @@ type Props = EnhancedTextSlotProps & StoreProps;
 class EnhancedTextSlot extends StatefulComponent<Props> {
     render() {
         const self = this;
-        const { text, data, handlers, context } = this.props;
+        const { data, handlers, context } = this.props;
+        const text = selectSlotTextSync(data, context, self);
         const style = selectSlotStyleSync(data, self);
         const composedStyle = combineStyles(text, style);
 
@@ -42,7 +42,6 @@ class EnhancedTextSlot extends StatefulComponent<Props> {
 };
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
-    text: selectSlotText(ownProps.data)(state),
     handlers: selectSlotHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
 });

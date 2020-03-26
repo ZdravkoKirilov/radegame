@@ -7,12 +7,13 @@ import {
 
 import {
   RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot, StoreProviderProps,
-  StoreProvider, StageRenderer, StageRendererProps, connectToStore, RuntimeImageFrame, GameTemplate, ExpressionContext,
+  StoreProvider, StageRenderer, StageRendererProps, connectToStore, RuntimeImageFrame, ExpressionContext,
   selectStageSlotsSync,
+  selectStageFrameSync,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import {
-  SaveItemAction, selectRuntimeStage, selectStageFrame, selectEntitiesDictionary, selectExpressionContext,
+  SaveItemAction, selectRuntimeStage, selectExpressionContext,
 } from "../state";
 
 import DraggableSlot, { Props as NodeProps } from './node/DraggableSlot';
@@ -28,8 +29,6 @@ type OwnProps = {
 
 type StoreProps = {
   runtimeStage: RuntimeStage;
-  frame: RuntimeImageFrame;
-  entities: GameTemplate;
   context: ExpressionContext;
 }
 
@@ -87,10 +86,12 @@ export class RootComponent extends StatefulComponent<Props, State> {
   // non-engine related bringToFront()
 
   render() {
+    const self = this;
     const { handleDragEnd, selectSlot } = this;
     const { selectedSlot, runtimeStage } = this.state;
-    const { frame, entities, context } = this.props;
-    const slots = selectStageSlotsSync(entities, context, this.state.runtimeStage, this.state);
+    const { context } = this.props;
+    const slots = selectStageSlotsSync(runtimeStage, context, self);
+    const frame = selectStageFrameSync(runtimeStage, context, self);
     const loaded = !!runtimeStage && slots;
 
     return loaded ?
@@ -131,8 +132,6 @@ export class RootComponent extends StatefulComponent<Props, State> {
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
   runtimeStage: selectRuntimeStage(ownProps.stage)(state),
-  frame: selectStageFrame(ownProps.stage)(state),
-  entities: selectEntitiesDictionary(state),
   context: selectExpressionContext(state),
 });
 

@@ -1,11 +1,11 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransitionProps, RzTransition, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-    RuntimeSlot, connectToStore, StageRendererProps, StageRenderer, RuntimeStage, RuntimeImageFrame,
-    RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync, RuntimeTransition
+    RuntimeSlot, connectToStore, StageRendererProps, StageRenderer, RuntimeStage,
+    RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync, RuntimeTransition, selectStageFrameSync, selectStageSlotsSync
 } from "@app/game-mechanics";
 import {
-    selectRuntimeStage, selectStageSlots, selectStageFrame, selectSlotHandlers, selectExpressionContext,
+    selectRuntimeStage, selectSlotHandlers, selectExpressionContext,
     selectSlotTransitions
 } from '../../state';
 
@@ -20,8 +20,6 @@ export type EnhancedStageSlotProps = {
 
 type StoreProps = {
     stage: RuntimeStage;
-    slots: RuntimeSlot[];
-    frame: RuntimeImageFrame;
     handlers: RuntimeSlotHandler[];
     context: ExpressionContext;
     transitions: RuntimeTransition[];
@@ -36,9 +34,11 @@ class EnhancedStageSlot extends StatefulComponent<Props, State> {
 
     render() {
         const self = this;
-        const { data, stage, slots, frame, handlers, context, transitions } = this.props;
+        const { data, stage, handlers, context, transitions } = this.props;
         const { animated } = this.state;
         const style = selectSlotStyleSync(data, self);
+        const frame = selectStageFrameSync(stage, context, self);
+        const slots = selectStageSlotsSync(stage, context, self);
         const styleWithTransitionOverrides = { ...style, ...animated };
 
         return createElement<RzElementPrimitiveProps>(
@@ -49,7 +49,8 @@ class EnhancedStageSlot extends StatefulComponent<Props, State> {
                     dispatcher: null,
                     handlers,
                     context
-                })
+                }),
+                styles: { z_order: style.z_order }
             },
             createElement<RzTransitionProps>(
                 RzTransition,
@@ -95,8 +96,6 @@ class EnhancedStageSlot extends StatefulComponent<Props, State> {
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedStageSlotProps): StoreProps => ({
     stage: selectRuntimeStage(ownProps.data.board)(state),
-    slots: selectStageSlots(ownProps.data.board)(state),
-    frame: selectStageFrame(ownProps.data.board)(state),
     handlers: selectSlotHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
     transitions: selectSlotTransitions(ownProps.data)(state),

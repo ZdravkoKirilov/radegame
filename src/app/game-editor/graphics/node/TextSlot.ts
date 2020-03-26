@@ -1,25 +1,38 @@
-import { createElement, Memo } from "@app/render-kit";
+import { createElement, StatefulComponent } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { selectSlotStyle, selectSlotText } from '../../state';
-import { TextSlotProps, TextSlot, Style, RuntimeSlot, connectToStore, RuntimeText, combineStyles } from "@app/game-mechanics";
+import { selectExpressionContext } from '../../state';
+import {
+    TextSlotProps, TextSlot, RuntimeSlot, connectToStore, combineStyles, selectSlotTextSync, ExpressionContext,
+    selectSlotStyleSync
+} from "@app/game-mechanics";
 
 export type EnhancedTextSlotProps = {
     data: RuntimeSlot;
 };
 
 type StoreProps = {
-    style: Style;
-    text: RuntimeText;
+    context: ExpressionContext;
 };
 
-const EnhancedTextSlot = Memo<EnhancedTextSlotProps & StoreProps>(({ text, style }) => {
-    const composedStyle = combineStyles(text, style);
-    return createElement<TextSlotProps>(TextSlot, { text: text.computed_value, style: composedStyle });
-});
+type Props = EnhancedTextSlotProps & StoreProps;
 
-const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
-    style: selectSlotStyle(ownProps.data),
-    text: selectSlotText(ownProps.data)(state),
+class EnhancedTextSlot extends StatefulComponent<Props> {
+
+    render() {
+        const self = this;
+        const { data, context } = this.props;
+
+        const text = selectSlotTextSync(data, context, self);
+        const slotStyle = selectSlotStyleSync(data, self);
+
+        const composedStyle = combineStyles(text, slotStyle);
+        return createElement<TextSlotProps>(TextSlot, { text: text.computed_value, style: composedStyle });
+    }
+
+};
+
+const mapStateToProps = (state: AppState): StoreProps => ({
+    context: selectExpressionContext(state),
 });
 
 export default connectToStore(mapStateToProps)(EnhancedTextSlot);

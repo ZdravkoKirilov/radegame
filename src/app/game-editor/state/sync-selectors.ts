@@ -1,14 +1,11 @@
 import { createSelector } from "reselect";
-import get from 'lodash/get';
 
 import {
-    Stage, GameTemplate,
-    enrichSlot, RuntimeSlot, Shape, RuntimeText, createExpressionContext, enrichFrame, enrichStage, enrichShape, enrichText
+    Stage, GameTemplate, RuntimeSlot, Shape, createExpressionContext, enrichStage, enrichShape
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
 import { StatefulComponent } from "@app/render-kit";
-import { State } from "@ngrx/store";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -47,71 +44,11 @@ export const selectRuntimeStage = (stage: Stage) => createSelector(
     }
 );
 
-export const selectStageSlots = (stage: Stage) => createSelector(
-    selectRuntimeStage(stage),
-    selectEntitiesDictionary,
-    selectExpressionContext,
-    (runtimeStage, entities, context) => {
-        const { slot_getter } = runtimeStage;
-        if (typeof slot_getter === 'function') {
-            return slot_getter(runtimeStage).map(elem => enrichSlot(entities, context, elem));
-        }
-        return runtimeStage.slots.map(elem => enrichSlot(entities, context, elem));
-    }
-);
-
-export const selectStageFrame = (stage: Stage) => createSelector(
-    selectRuntimeStage(stage),
-    selectEntitiesDictionary,
-    selectExpressionContext,
-    (runtimeStage, entities, context) => {
-        const { frame_getter } = runtimeStage;
-        if (typeof frame_getter === 'function') {
-            const frame = frame_getter(runtimeStage);
-            return enrichFrame(entities, context, frame);
-        }
-        const frame = runtimeStage.frames[0];
-        return enrichFrame(entities, context, frame);
-    }
-);
-
 export const selectRuntimeShape = (shape: Shape) => createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
     (entities, context) => {
         return enrichShape(entities, context, shape);
-    }
-);
-
-export const selectSlotStyle = (slot: RuntimeSlot, component = {} as StatefulComponent) => {
-    if (slot.style) {
-        const style = slot.style({ slot, component });
-        return style;
-    }
-    return slot.style_inline;
-};
-
-export const selectSlotText = (slot_data: RuntimeSlot) => createSelector(
-    selectEntitiesDictionary,
-    selectExpressionContext,
-    (entities, context) => {
-        let runtimeText: RuntimeText = null;
-
-        if (slot_data.display_text_inline) {
-            runtimeText = enrichText(entities, context, slot_data.display_text_inline);
-        }
-        if (slot_data.display_text) {
-            const text = slot_data.display_text(slot_data);
-            runtimeText = enrichText(entities, context, text);
-        }
-
-        if (runtimeText) {
-            const selectedLanguage = 2;
-            const translation = runtimeText.translations.find(elem => elem.language === selectedLanguage);
-            runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
-        }
-
-        return runtimeText;
     }
 );
 

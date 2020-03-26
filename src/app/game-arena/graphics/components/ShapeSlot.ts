@@ -44,7 +44,8 @@ export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
                     dispatcher: null,
                     handlers,
                     context
-                })
+                }),
+                styles: { z_order: composedStyle.z_order, }
             },
             createElement<RzTransitionProps>(
                 RzTransition,

@@ -33,7 +33,7 @@ export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item'
     style_inline: Style;
     item: RuntimeSlotItem;
     shape: Shape;
-    display_text: ParamedExpressionFunc<RuntimeSlot, Text>;
+    display_text: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, Text>;
     display_text_inline: Text;
 };
 

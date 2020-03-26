@@ -9,6 +9,7 @@ import {
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary } from "@app/shared";
+import { StatefulComponent } from "@app/render-kit";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -87,7 +88,10 @@ export const selectCurrentRoundStageSlots = createSelector(
     (config, context, stage) => {
         const { slot_getter } = stage;
         if (typeof slot_getter === 'function') {
-            return slot_getter(stage).map(elem => enrichSlot(config, context, elem));
+            return slot_getter({
+                stage,
+                component: {} as StatefulComponent,
+            }).map(elem => enrichSlot(config, context, elem));
         }
         return stage.slots.map(elem => enrichSlot(config, context, elem));
     }
@@ -100,7 +104,7 @@ export const selectCurrentRoundStageFrame = createSelector(
     (config, context, stage) => {
         const { frame_getter } = stage;
         if (typeof frame_getter === 'function') {
-            const frame = frame_getter(stage);
+            const frame = frame_getter({ stage, component: {} as StatefulComponent });
             return enrichFrame(config, context, frame);
         }
         const frame = stage.frames[0];
@@ -132,62 +136,11 @@ export const selectRuntimeStage = (stage: Stage) => createSelector(
     }
 );
 
-export const selectStageSlots = (stage: Stage) => createSelector(
-    selectRuntimeStage(stage),
-    selectConfig,
-    selectExpressionContext,
-    (runtimeStage, entities, context) => {
-        const { slot_getter } = runtimeStage;
-        if (typeof slot_getter === 'function') {
-            return slot_getter(runtimeStage).map(elem => enrichSlot(entities, context, elem));
-        }
-        return runtimeStage.slots.map(elem => enrichSlot(entities, context, elem));
-    }
-);
-
 export const selectSlotTransitions = (slot: RuntimeSlot) => createSelector(
     selectExpressionContext,
     context => {
         return slot.transitions.map(transitionId => enrichTransition(context.conf, context, context.conf.transitions[transitionId]))
     },
-);
-
-export const selectStageFrame = (stage: Stage) => createSelector(
-    selectRuntimeStage(stage),
-    selectConfig,
-    selectExpressionContext,
-    (runtimeStage, entities, context) => {
-        const { frame_getter } = runtimeStage;
-        if (typeof frame_getter === 'function') {
-            const frame = frame_getter(runtimeStage);
-            return enrichFrame(entities, context, frame);
-        }
-        const frame = runtimeStage.frames[0];
-        return enrichFrame(entities, context, frame);
-    }
-);
-
-export const selectSlotText = (slot_data: RuntimeSlot) => createSelector(
-    selectConfig,
-    selectExpressionContext,
-    (entities, context) => {
-        let runtimeText: RuntimeText = null;
-
-        if (slot_data.display_text_inline) {
-            runtimeText = enrichText(entities, context, slot_data.display_text_inline);
-        }
-        if (slot_data.display_text) {
-            const text = slot_data.display_text(slot_data);
-            runtimeText = enrichText(entities, context, text);
-        }
-
-        if (runtimeText) {
-            const selectedLanguage = 2;
-            const translation = runtimeText.translations.find(elem => elem.language === selectedLanguage);
-            runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
-        }
-        return runtimeText;
-    }
 );
 
 export const selectTurnOrder = createSelector(

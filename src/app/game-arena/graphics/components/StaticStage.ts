@@ -1,7 +1,10 @@
-import { createElement, RenderFunction, RzElementPrimitiveProps, } from "@app/render-kit";
+import { createElement, RzElementPrimitiveProps, StatefulComponent, } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { connectToStore, Style, RuntimeSlot, Stage, StageRenderer, StageRendererProps, RuntimeStage, RuntimeImageFrame, combineStyles } from "@app/game-mechanics";
-import { selectStageSlots, selectRuntimeStage, selectStageFrame } from "../../state";
+import {
+  connectToStore, Style, RuntimeSlot, Stage, StageRenderer, StageRendererProps, RuntimeStage,
+  selectStageFrameSync, selectStageSlotsSync, ExpressionContext,
+} from "@app/game-mechanics";
+import { selectRuntimeStage, selectExpressionContext } from "../../state";
 import NodeFactory, { NodeFactoryProps } from "./Factory";
 
 export type StaticStageProps = {
@@ -10,36 +13,43 @@ export type StaticStageProps = {
 }
 
 type StoreProps = {
-  slots: RuntimeSlot[];
   runtimeStage: RuntimeStage;
-  frame: RuntimeImageFrame;
+  context: ExpressionContext;
 };
 
-const StaticStage: RenderFunction<StaticStageProps & StoreProps> = ({ style, slots, runtimeStage, frame }) => {
+type Props = StaticStageProps & StoreProps;
 
-  return createElement<StageRendererProps>(StageRenderer, {
-    stage: runtimeStage, slots, style, frame,
-    renderChild: (slot: RuntimeSlot) => {
-      const composedStyle = combineStyles(slot, style);
+export class StaticStage extends StatefulComponent<Props> {
 
-      return createElement<RzElementPrimitiveProps>(
-        'container',
-        {
-          styles: { x: slot.x, y: slot.y, z_order: composedStyle.z_order },
-          id: slot.id,
-          name: `node_${slot.id}`
-        },
-        createElement<NodeFactoryProps>(NodeFactory, { data: slot }),
-      );
-    },
-    renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
-  });
+  render() {
+    const self = this;
+    const { runtimeStage, context, style } = this.props;
+
+    const frame = selectStageFrameSync(runtimeStage, context, self);
+    const slots = selectStageSlotsSync(runtimeStage, context, self);
+
+    return createElement<StageRendererProps>(StageRenderer, {
+      stage: runtimeStage, slots, style, frame,
+      renderChild: (slot: RuntimeSlot) => {
+
+        return createElement<RzElementPrimitiveProps>(
+          'container',
+          {
+            styles: { x: slot.x, y: slot.y },
+            id: slot.id,
+            name: `node_${slot.id}`
+          },
+          createElement<NodeFactoryProps>(NodeFactory, { data: slot }),
+        );
+      },
+      renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
+    });
+  }
 };
 
 const mapStateToProps = (state: AppState, ownProps: StaticStageProps): StoreProps => ({
-  slots: selectStageSlots(ownProps.stage)(state),
   runtimeStage: selectRuntimeStage(ownProps.stage)(state),
-  frame: selectStageFrame(ownProps.stage)(state),
+  context: selectExpressionContext(state),
 });
 
 export default connectToStore(mapStateToProps)(StaticStage);
