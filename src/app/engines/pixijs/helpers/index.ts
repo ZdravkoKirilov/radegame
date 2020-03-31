@@ -23,25 +23,25 @@ export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: str
 
     if (prop === 'anchor') {
         const [x, y] = result.split(' ').map(elem => Number(elem));
-        return (graphic as Sprite).anchor.set(x, y);
+        return (graphic as Sprite).anchor.set(x, y || x);
     }
 
     if (prop === 'pivot') {
         const [x, y] = result.split(' ').map(elem => Number(elem));
         graphic.pivot.x = x;
-        graphic.pivot.y = y;
+        graphic.pivot.y = y || x;
         return;
     }
 
     if (prop === 'skew') {
         const [x, y] = result.split(' ');
-        return (graphic as Sprite).skew.set(x, y);
+        return (graphic as Sprite).skew.set(x, y || x);
     }
 
     if (prop === 'scale') {
         const [x, y] = result.split(' ').map(elem => Number(elem));
         graphic.scale.x = x;
-        graphic.scale.y = y;
+        graphic.scale.y = y || x; // when just one number is provided
         return;
     }
 

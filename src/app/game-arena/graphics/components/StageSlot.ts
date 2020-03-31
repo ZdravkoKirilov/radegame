@@ -12,7 +12,7 @@ import {
 import NodeFactory, { NodeFactoryProps } from './Factory';
 import StaticStage, { StaticStageProps } from "./StaticStage";
 import { assignHandlers } from "../../helpers";
-import { Dictionary } from "@app/shared";
+import { Dictionary, WithSubscriptions } from "@app/shared";
 
 export type EnhancedStageSlotProps = {
     data: RuntimeSlot;
@@ -28,7 +28,7 @@ type StoreProps = {
 type Props = EnhancedStageSlotProps & StoreProps;
 
 type State = { animated: Dictionary };
-
+@WithSubscriptions
 class EnhancedStageSlot extends StatefulComponent<Props, State> {
     state: State = { animated: {} };
 
@@ -72,24 +72,24 @@ class EnhancedStageSlot extends StatefulComponent<Props, State> {
                         }
                     }
                 },
-                createElement<StageRendererProps>(StageRenderer, {
-                    stage, slots, style: styleWithTransitionOverrides, frame,
-                    renderChild: (slot: RuntimeSlot) => {
-                        const childSlotStyle = selectSlotStyleSync(slot, {} as StatefulComponent);
+            ),
+            createElement<StageRendererProps>(StageRenderer, {
+                stage, slots, style: styleWithTransitionOverrides, frame,
+                renderChild: (slot: RuntimeSlot) => {
+                    const childSlotStyle = selectSlotStyleSync(slot, {} as StatefulComponent);
 
-                        return createElement<RzElementPrimitiveProps>(
-                            'container',
-                            {
-                                styles: { x: slot.x, y: slot.y, z_order: childSlotStyle.z_order },
-                                id: slot.id,
-                                name: `node_${slot.id}`
-                            },
-                            createElement<NodeFactoryProps>(NodeFactory, { data: slot })
-                        );
-                    },
-                    renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
-                }),
-            )
+                    return createElement<RzElementPrimitiveProps>(
+                        'container',
+                        {
+                            styles: { x: slot.x, y: slot.y, z_order: childSlotStyle.z_order },
+                            id: slot.id,
+                            name: `node_${slot.id}`
+                        },
+                        createElement<NodeFactoryProps>(NodeFactory, { data: slot })
+                    );
+                },
+                renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
+            }),
         );
     }
 };

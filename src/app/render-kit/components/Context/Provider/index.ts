@@ -1,32 +1,20 @@
 import { StatefulComponent } from "../../../bases";
 import { RzElement } from "../../../models";
+import { WithSubscriptions, GenericSubscription, SubscribableBase } from "@app/shared";
 
 type Props<T = any> = {
     children?: RzElement;
     value: T;
 };
 
-type Callback<T = any> = (value: T) => void;
+export interface ContextSubscription extends GenericSubscription { };
 
-export interface ContextSubscription {
-    unsubscribe(): void;
-}
+@WithSubscriptions
+export class ContextProvider<T = {}> extends StatefulComponent<Props<T>> implements SubscribableBase<T> {
 
-export class ContextProvider<T = {}> extends StatefulComponent<Props<T>> {
-
-    subscribe = (callback: Callback<T>) => {
-        if (!this.handlers.has(callback)) {
-            this.handlers.add(callback);
-        }
-        callback(this.props.value);
-        return {
-            unsubscribe() {
-                this.handlers.delete(callback);
-            }
-        }
+    provideValueToSubscribers() {
+        return this.props.value;
     }
-
-    private handlers: Set<(value: T) => void>
 
     shouldUpdate(nextProps: Props) {
         return nextProps.value !== this.props.value;
@@ -34,7 +22,7 @@ export class ContextProvider<T = {}> extends StatefulComponent<Props<T>> {
 
     willReceiveProps(nextProps: Props) {
         if (nextProps.value !== this.props.value) {
-            this.handlers.forEach(cb => cb(nextProps.value));
+            this['handlers'].forEach(cb => cb(nextProps.value));
         }
     }
 

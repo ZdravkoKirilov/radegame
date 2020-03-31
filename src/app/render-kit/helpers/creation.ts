@@ -11,12 +11,8 @@ export const createComponent = (
     meta: MetaProps,
     parent: Component,
 ): Component => {
-    if (!element) {
+    if (!element || !element.type) {
         return null;
-    }
-
-    if (!element.type) {
-        debugger;
     }
 
     let component: Component;

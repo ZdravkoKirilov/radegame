@@ -23,6 +23,7 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
         <TextInput name='rotation' label='Rotate'>{data.rotation}</TextInput>
         <NumberInput name='opacity' label='Opacity'>{data.opacity}</NumberInput>
         <TextInput name='skew' label='Skew'>{data.skew}</TextInput>
+        <TextInput name='scale' label='Scale'>{data.scale}</TextInput>
         <TextInput name='border_radius' label='Border radius'>{data.border_radius}</TextInput>
 
         <TextInput name='font_size' label='Font size'>{data.font_size}</TextInput>

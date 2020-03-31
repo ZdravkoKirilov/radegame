@@ -1,5 +1,5 @@
 import { Style } from "./Style.model";
-import { AnimationEasing, DidUpdatePayload, AnimationPayload } from "@app/render-kit";
+import { AnimationEasing, AnimationPayload } from "@app/render-kit";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { Omit, Dictionary } from "@app/shared";
 import { WithKeywords } from "./Base.model";
@@ -50,7 +50,7 @@ export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value'
     from_style_inline: Style;
     to_style_inline: Style;
 
-    output_transformer: ParamedExpressionFunc<AnimationPayload, Dictionary>;
+    output_transformer: ParamedExpressionFunc<Dictionary, Dictionary>;
 }>
 
 export const ANIMATION_PLAY_TYPE = {

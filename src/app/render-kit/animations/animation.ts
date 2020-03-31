@@ -145,6 +145,8 @@ export class AnimationPlayer {
             const end = to_value ? { ...to_value(this.data) } : { ...to_style_inline };
             const target = {};
 
+            // TODO: support scale: "1.2 1.2" and so on
+
             const toVars: gsap.AnimationVars = {
                 ...end,
                 ease: mapEasing(easing),
@@ -157,7 +159,9 @@ export class AnimationPlayer {
 
             timeline.eventCallback('onUpdate', (...args) => {
                 if (output_transformer) {
-                    onUpdate(output_transformer(this.data));
+                    const copy = { ...target };
+                    delete copy['_gsap'];
+                    onUpdate(output_transformer(copy));
                 } else {
                     const copy = { ...target };
                     delete copy['_gsap'];
@@ -194,9 +198,13 @@ export class AnimationPlayer {
 
         tween.eventCallback('onUpdate', () => {
             if (output_transformer) {
-                onUpdate(output_transformer(this.data));
+                const copy = { ...target };
+                delete copy['_gsap'];
+                onUpdate(output_transformer(copy));
             } else {
-                onUpdate(target);
+                const copy = { ...target };
+                delete copy['_gsap'];
+                onUpdate(copy);
             }
         });
 

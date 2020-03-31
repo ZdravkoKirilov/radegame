@@ -8,7 +8,7 @@ import {
     selectSlotTransitions
 } from '../../state';
 import { assignHandlers } from "../../helpers";
-import { Dictionary } from "@app/shared";
+import { Dictionary, WithSubscriptions } from "@app/shared";
 
 export type EnhancedShapeSlotProps = {
     data: RuntimeSlot;
@@ -24,7 +24,7 @@ type StoreProps = {
 type Props = EnhancedShapeSlotProps & StoreProps;
 
 type State = { animated: Dictionary };
-
+@WithSubscriptions
 export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
     state: State = { animated: {} };
 
@@ -67,11 +67,11 @@ export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
                         }
                     }
                 },
-                createElement<ShapeSlotProps>(
-                    ShapeSlot,
-                    { style: styleWithTransitionOverrides, shape }
-                ),
-            )
+            ),
+            createElement<ShapeSlotProps>(
+                ShapeSlot,
+                { style: styleWithTransitionOverrides, shape }
+            ),
         );
     }
 }
