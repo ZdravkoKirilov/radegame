@@ -1,11 +1,11 @@
 import { createSelector } from "reselect";
 
 import {
-    Stage, GameTemplate, RuntimeSlot, Shape, createExpressionContext, enrichStage, enrichShape
+    Stage, GameTemplate, Shape, createExpressionContext, enrichStage, enrichShape, SlotItem, enrichItem
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
-import { StatefulComponent } from "@app/render-kit";
+import { config } from "rxjs";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -43,6 +43,16 @@ export const selectRuntimeStage = (stage: Stage) => createSelector(
         return enrichStage(entities, context, stage);
     }
 );
+
+export const selectItemTemplate = (item: SlotItem) => createSelector(
+    selectExpressionContext,
+    context => {
+        const runtimeItem = enrichItem(context.conf, context, item);
+        const attachedEntity = runtimeItem.action || runtimeItem.condition || runtimeItem.choice || runtimeItem.token;
+        const stage: Stage = attachedEntity.template;
+        return enrichStage(context.conf, context, stage);
+    }
+)
 
 export const selectRuntimeShape = (shape: Shape) => createSelector(
     selectEntitiesDictionary,

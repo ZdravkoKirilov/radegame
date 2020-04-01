@@ -15,12 +15,10 @@ export function WithSubscriptions<TBase extends Constructor, ValueType = any>(Ba
     handlers = new Set();
 
     subscribe = (callback: Callback<ValueType>) => {
-      if (!this.handlers.has(callback)) {
-        this.handlers.add(callback);
-      }
-  
+      this.handlers.add(callback);
+
       callback(this.provideValueToSubscribers());
-  
+
       return {
         unsubscribe() {
           this.handlers.delete(callback);

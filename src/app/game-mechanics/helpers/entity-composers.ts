@@ -1,7 +1,7 @@
 import {
     Slot, RuntimeSlot, GameEntity,
     SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
-    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep
+    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, SlotItem, RuntimeSlotItem, GameAction, RuntimeGameAction, Token, RuntimeToken, Choice, RuntimeChoice, Condition, RuntimeCondition
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
@@ -72,6 +72,51 @@ export const enrichText = (config: Dictionary<GameEntity>, context: Dictionary, 
         style_inline: src => safeJSON(src, {}),
         style: src => parseAndBind(context)(src)
     }, text)
+};
+
+export const enrichItem = (config: Dictionary<GameEntity>, context: Dictionary, item: SlotItem) => {
+    return enrichEntity<SlotItem, RuntimeSlotItem>(config, {
+        action: actionId => enrichAction(config, context, config.actions[actionId]),
+        token: tokenId => enrichToken(config, config.tokens[tokenId]),
+        condition: conditionId => enrichCondition(config, context, config.conditions[conditionId]),
+        choice: choiceId => enrichChoice(config, context, config.choices[choiceId]),
+    }, item);
+};
+
+export const enrichAction = (config: Dictionary<GameEntity>, context: Dictionary, action: GameAction) => {
+    if (action) {
+        return enrichEntity<GameAction, RuntimeGameAction>(config, {
+            template: 'stages',
+        }, action);
+    }
+    return null;
+};
+
+export const enrichToken = (config: Dictionary<GameEntity>, token: Token) => {
+    if (token) {
+        return enrichEntity<Token, RuntimeToken>(config, {
+            template: 'stages',
+        }, token);
+    }
+    return null;
+};
+
+export const enrichChoice = (config: Dictionary<GameEntity>, context: Dictionary, choice: Choice) => {
+    if (choice) {
+        return enrichEntity<Choice, RuntimeChoice>(config, {
+            template: 'stages',
+        }, choice);
+    }
+    return null;
+};
+
+export const enrichCondition = (config: Dictionary<GameEntity>, context: Dictionary, condition: Condition) => {
+    if (condition) {
+        return enrichEntity<Condition, RuntimeCondition>(config, {
+            template: 'stages',
+        }, condition);
+    }
+    return null;
 };
 
 export const enrichRound = (config: Dictionary<GameEntity>, context: Dictionary, round: Round) => {

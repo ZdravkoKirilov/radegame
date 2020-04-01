@@ -35,7 +35,7 @@ export class ContextConsumer<T = any> extends StatefulComponent<ContextConsumerP
         } else {
             matcher = this.key;
         }
-        const providerContext = findInAncestors<ContextProvider>(this)(matcher);
+        const providerContext = findInAncestors<typeof ContextProvider.prototype>(this)(matcher);
         if (providerContext) {
             providerContext.subscribe(newValue => this.setState({ value: newValue }));
         }

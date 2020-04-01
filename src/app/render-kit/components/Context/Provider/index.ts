@@ -9,8 +9,7 @@ type Props<T = any> = {
 
 export interface ContextSubscription extends GenericSubscription { };
 
-@WithSubscriptions
-export class ContextProvider<T = {}> extends StatefulComponent<Props<T>> implements SubscribableBase<T> {
+class RawContextProvider<T = {}> extends StatefulComponent<Props<T>> implements SubscribableBase<T> {
 
     provideValueToSubscribers() {
         return this.props.value;
@@ -30,3 +29,5 @@ export class ContextProvider<T = {}> extends StatefulComponent<Props<T>> impleme
         return this.props.children;
     }
 }
+
+export const ContextProvider = WithSubscriptions(RawContextProvider);

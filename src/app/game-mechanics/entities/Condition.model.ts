@@ -1,7 +1,7 @@
 import { BaseModel, WithTemplate, WithFrames } from './Base.model';
 import { Omit } from '@app/shared';
 import { ExpressionFunc } from './Expression.model';
-import { RuntimeStage } from './Stage.model';
+import { Stage } from './Stage.model';
 
 export type Condition = BaseModel & WithTemplate & WithFrames & Partial<{
     clause: string;
@@ -13,7 +13,7 @@ export type RuntimeCondition = Omit<Condition, 'clause' | 'passes' | 'fails' | '
     clause: ExpressionFunc;
     passes: ExpressionFunc;
     fails: ExpressionFunc;
-    template: RuntimeStage;
+    template: Stage;
 };
 
 

@@ -1,4 +1,6 @@
 import { BaseModel, WithTemplate } from "./Base.model";
+import { Omit } from "@app/shared";
+import { Stage } from "./Stage.model";
 
 export type GameAction = BaseModel & WithTemplate & Partial<{
     configs: ActionConfig[];
@@ -27,5 +29,8 @@ export const ACTION_TYPE = {
 
 export type ActionType = keyof typeof ACTION_TYPE;
 
+export type RuntimeGameAction = Omit<GameAction, 'template'> & {
+    template: Stage;
+}
 
 

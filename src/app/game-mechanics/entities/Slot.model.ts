@@ -1,9 +1,9 @@
 import { BaseModel, WithBoard, WithStyle } from "./Base.model";
 import { Shape } from "./Shape.model";
-import { GameAction } from "./Action.model";
-import { Condition } from "./Condition.model";
-import { Choice } from "./Choice.model";
-import { Token } from "./Token.model";
+import { GameAction, RuntimeGameAction } from "./Action.model";
+import { Condition, RuntimeCondition } from "./Condition.model";
+import { Choice, RuntimeChoice } from "./Choice.model";
+import { Token, RuntimeToken } from "./Token.model";
 import { Stage } from "./Stage.model";
 import { ParamedExpressionFunc, EventHandlingExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
@@ -53,15 +53,15 @@ export type RuntimeSlotHandler = Omit<SlotHandler, 'effect' | 'sound' | 'static_
 };
 
 export type SlotItem = Partial<{
-    action: GameAction;
-    condition: Condition;
-    choice: Choice;
-    token: Token;
+    action: number;
+    condition: number;
+    choice: number;
+    token: number;
 }>;
 
-export type RuntimeSlotItem = Omit<SlotItem, 'action' | 'condition' | 'choice' | 'token'> & {
-    action: GameAction;
-    condition: Condition;
-    choice: Choice;
-    token: Token;
-};
+export type RuntimeSlotItem = Omit<SlotItem, 'action' | 'condition' | 'choice' | 'token'> & Partial<{
+    action: RuntimeGameAction;
+    condition: RuntimeCondition;
+    choice: RuntimeChoice;
+    token: RuntimeToken;
+}>;
