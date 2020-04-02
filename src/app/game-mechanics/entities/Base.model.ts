@@ -1,7 +1,8 @@
 import { ImageFrame, ImageAsset } from "./ImageAsset.model";
 import { Stage } from "./Stage.model";
-import { Expression, ParamedExpressionFunc } from "./Expression.model";
+import { ParamedExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
+import { Text, TextFrame } from "./Text.model";
 
 export type BaseModel = WithKeywords & Partial<{
     id: number;
@@ -23,6 +24,10 @@ export type WithFrames = Partial<{
     frames: ImageFrame[];
 }>;
 
+export type WithTexts = Partial<{
+    texts: TextFrame[];
+}>;
+
 export type WithBoard = Partial<{
     board: number;
 }>
@@ -31,10 +36,6 @@ export type WithStyle = Partial<{
     style: string; // Expression -> Style
     style_inline: Style;
 }>
-
-export type WithState = Partial<{
-    state: number | Expression;
-}>;
 
 export type WithTemplate = Partial<{
     template: number | Stage;

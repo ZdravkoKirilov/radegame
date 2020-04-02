@@ -73,24 +73,8 @@ export const imageTemplate = `
     <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{data.image}</Dropdown>
 `;
 
-export const interactiveTemplate = `
+export const UITemplate = `
     <Dropdown name='template' label='Template' options='{stage_options}' showImage='{true}'>{data.template}</Dropdown>
-`;
-
-export const doneTemplate = `
-    <Dropdown name='done' label='Done if' options='{expression_options}'>
-        {data.done}
-    </Dropdown>
-`;
-
-export const stateTemplate = `
-    <Dropdown name='state' label='Get state from' options='{expression_options}'>
-        {data.state}
-    </Dropdown>
-`;
-
-export const displayNameTemplate = `
-    <TextInput name='display_name' label='Displayed name'>{data.display_name}</TextInput>
 `;
 
 export const inlineStyleTemplate = `
@@ -122,6 +106,8 @@ export const framesTemplate = `
         <Form>
             <NumberInput name='id' hidden='{true}'>{@frame.id}</NumberInput>
 
+            <TextInput name='name' label='Name'>{@frame.name}</TextInput>
+
             <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>
                 {@frame.image}
             </Dropdown>
@@ -137,6 +123,32 @@ export const framesTemplate = `
                 childrenDefinition='{composeStyleForm}' 
             >
                 {@frame.style_inline}
+            </EmbeddedData>
+            
+        </Form>
+
+    </Group>
+`;
+
+export const textsTemplate = `
+    <Group name='texts' label='Texts' children='{texts}' item='@text' addButtonText='Add'>
+
+        <Form>
+            <NumberInput name='id' hidden='{true}'>{@text.id}</NumberInput>
+
+            <TextInput name='name' label='Name'>{@text.name}</TextInput>
+
+            <Dropdown name='text' label='Text' options='{text_options}'>{@text.text}</Dropdown>
+
+            <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{@text.style}</Dropdown>
+
+            <EmbeddedData 
+                name='style_inline' 
+                label='Inline style'
+                connectedEntities='{entities}' 
+                childrenDefinition='{composeStyleForm}' 
+            >
+                {@text.style_inline}
             </EmbeddedData>
             
         </Form>

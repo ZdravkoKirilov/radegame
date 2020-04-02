@@ -1,6 +1,6 @@
-import { GameEntity, Setup } from '@app/game-mechanics';
+import { Setup } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { composeCommonFormContext, baseTemplate, displayNameTemplate } from '../helpers';
+import { composeCommonFormContext, baseTemplate } from '../helpers';
 
 export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
@@ -10,8 +10,6 @@ export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseContr
     <Form>
 
         ${baseTemplate}
-
-        ${displayNameTemplate}
 
         <NumberInput name='min_players' label='Min players'>{data.min_players}</NumberInput>
 

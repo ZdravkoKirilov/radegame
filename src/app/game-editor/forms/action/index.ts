@@ -6,7 +6,7 @@ import {
     GameAction, ACTION_TYPE as types, ActionParam,
 } from '@app/game-mechanics';
 import {
-    composeFromObject, baseTemplate, composeCommonFormContext, interactiveTemplate
+    composeFromObject, baseTemplate, composeCommonFormContext, UITemplate
 } from '../helpers';
 
 export const composeActivityForm: FormDefinition = (data: GameAction, ent: ConnectedEntities) => {
@@ -41,7 +41,7 @@ export const composeActivityForm: FormDefinition = (data: GameAction, ent: Conne
 
             </Group>
 
-            ${interactiveTemplate}
+            ${UITemplate}
 
         </Form>
     `;
