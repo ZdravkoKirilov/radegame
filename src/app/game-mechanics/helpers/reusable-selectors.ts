@@ -50,7 +50,6 @@ export const selectStageSlotsSync = withMemo(_selectStageSlotsSync);
 const _selectSlotTextSync = (slot: RuntimeSlot, context: ExpressionContext, component: StatefulComponent, language = 2) => {
   if (slot) {
     let runtimeText: RuntimeText = null;
-
     if (slot.display_text_inline) {
       runtimeText = enrichText(context.conf, context, slot.display_text_inline);
     }
@@ -60,7 +59,7 @@ const _selectSlotTextSync = (slot: RuntimeSlot, context: ExpressionContext, comp
     }
 
     if (runtimeText) {
-      const translation = runtimeText.translations.find(elem => elem.language === language);
+      const translation = (runtimeText.translations || []).find(elem => elem.language === language);
       runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
     }
     return runtimeText;

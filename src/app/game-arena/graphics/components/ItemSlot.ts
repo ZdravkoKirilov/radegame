@@ -28,7 +28,7 @@ class EnhancedItemSlot extends StatefulComponent<Props> {
     const slots = selectStageSlotsSync(stage, context, self);
     const frame = selectStageFrameSync(stage, context, self);
     const style = selectSlotStyleSync(data, self);
-  
+
     return createElement<StageRendererProps>(StageRenderer, {
       stage, slots, style, frame,
       renderChild: (slot: RuntimeSlot) => {

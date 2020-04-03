@@ -4,7 +4,7 @@ import get from "lodash/get";
 import { FEATURE_NAME } from "../../config";
 import {
     Round, Setup, Stage, RuntimeSlot, enrichSlot, createExpressionContext, enrichRound, enrichStage,
-    enrichFrame, enrichShape, Shape, RuntimeText, enrichText, enrichHandler, enrichTransition
+    enrichFrame, enrichShape, Shape, RuntimeText, enrichText, enrichHandler, enrichTransition, SlotItem, enrichItem
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
@@ -157,4 +157,14 @@ export const selectActivePlayerData = createSelector(
     selectPlayers,
     selectActivePlayer,
     (players, playerId) => players.find(player => player.id === playerId),
+);
+
+export const selectItemTemplate = (item: SlotItem) => createSelector(
+    selectExpressionContext,
+    context => {
+        const runtimeItem = enrichItem(context.conf, context, item);
+        const attachedEntity = runtimeItem.action || runtimeItem.condition || runtimeItem.choice || runtimeItem.token;
+        const stage: Stage = attachedEntity.template;
+        return enrichStage(context.conf, context, stage);
+    }
 );

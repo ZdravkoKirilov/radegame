@@ -1,8 +1,8 @@
 import { ImageFrame, ImageAsset } from "./ImageAsset.model";
 import { Stage } from "./Stage.model";
 import { ParamedExpressionFunc } from "./Expression.model";
-import { Style } from "./Style.model";
-import { Text, TextFrame } from "./Text.model";
+import { TextFrame } from "./Text.model";
+import { RzStyles } from "@app/render-kit";
 
 export type BaseModel = WithKeywords & Partial<{
     id: number;
@@ -34,7 +34,7 @@ export type WithBoard = Partial<{
 
 export type WithStyle = Partial<{
     style: string; // Expression -> Style
-    style_inline: Style;
+    style_inline: RzStyles;
 }>
 
 export type WithTemplate = Partial<{
@@ -42,6 +42,6 @@ export type WithTemplate = Partial<{
 }>;
 
 export type WithRuntimeStyle<T = any> = {
-    style_inline: Style;
-    style: ParamedExpressionFunc<T, Style>;
+    style_inline: RzStyles;
+    style: ParamedExpressionFunc<T, RzStyles>;
 };

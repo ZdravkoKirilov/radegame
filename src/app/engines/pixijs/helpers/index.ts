@@ -17,43 +17,45 @@ export const getValue = (value: any, prop: keyof RzStyles, comp: Component): any
 export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: string | number | number[]) => {
     let result = value as any;
 
-    if (prop === 'opacity') {
-        return graphic.alpha = Number(result);
-    }
+    if (result) {
+        if (prop === 'opacity') {
+            return graphic.alpha = Number(result);
+        }
 
-    if (prop === 'anchor') {
-        const [x, y] = result.split(' ').map(elem => Number(elem));
-        return (graphic as Sprite).anchor.set(x, y || x);
-    }
+        if (prop === 'anchor') {
+            const [x, y] = result.split(' ').map(elem => Number(elem));
+            return (graphic as Sprite).anchor.set(x, y || x);
+        }
 
-    if (prop === 'pivot') {
-        const [x, y] = result.split(' ').map(elem => Number(elem));
-        graphic.pivot.x = x;
-        graphic.pivot.y = y || x;
-        return;
-    }
+        if (prop === 'pivot') {
+            const [x, y] = result.split(' ').map(elem => Number(elem));
+            graphic.pivot.x = x;
+            graphic.pivot.y = y || x;
+            return;
+        }
 
-    if (prop === 'skew') {
-        const [x, y] = result.split(' ');
-        return (graphic as Sprite).skew.set(x, y || x);
-    }
+        if (prop === 'skew') {
+            const [x, y] = result.split(' ');
+            return (graphic as Sprite).skew.set(x, y || x);
+        }
 
-    if (prop === 'scale') {
-        const [x, y] = result.split(' ').map(elem => Number(elem));
-        graphic.scale.x = x;
-        graphic.scale.y = y || x; // when just one number is provided
-        return;
-    }
+        if (prop === 'scale') {
+            const [x, y] = result.split(' ').map(elem => Number(elem));
+            graphic.scale.x = x;
+            graphic.scale.y = y || x; // when just one number is provided
+            return;
+        }
 
-    if (prop === 'mask') {
-        return applyMask(graphic['component'], value as number[]);
-    }
+        if (prop === 'mask') {
+            return applyMask(graphic['component'], value as number[]);
+        }
 
-    if (prop === 'stroke_color' || prop === 'fill') {
-        result = toHexColor(result);
-    }
+        if (prop === 'stroke_color' || prop === 'fill') {
+            result = toHexColor(result);
+        }
 
-    graphic[prop] = result;
+        graphic[prop] = result;
+    }
     return result;
 };
 
@@ -102,7 +104,7 @@ const centeredRotation = (style: Partial<RzStyles>): Partial<RzStyles> => {
 export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyles> => {
     styles = styles || {};
     let copy = { ...styles };
-    
+
     if (styles.rotation) {
         copy.rotation = copy.rotation * Math.PI / 180;
         copy = { ...copy, ...centeredRotation(styles) };

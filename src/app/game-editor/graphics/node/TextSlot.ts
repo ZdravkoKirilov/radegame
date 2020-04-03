@@ -24,7 +24,6 @@ class EnhancedTextSlot extends StatefulComponent<Props> {
 
         const text = selectSlotTextSync(data, context, self);
         const slotStyle = selectSlotStyleSync(data, self);
-
         const composedStyle = combineStyles(text, slotStyle);
         return createElement<TextSlotProps>(TextSlot, { text: text.computed_value, style: composedStyle });
     }

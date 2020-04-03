@@ -1,8 +1,7 @@
-import { BaseModel, WithStyle } from "./Base.model";
+import { BaseModel, WithStyle, WithRuntimeStyle } from "./Base.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from '@app/shared';
-import { RzStyles } from "@app/render-kit";
 
 export type Text = BaseModel & WithStyle & Partial<{
     default_value: string;
@@ -32,8 +31,6 @@ export type TextFrame = WithStyle & {
     text: number;
 };
 
-export type RuntimeTextFrame = Omit<TextFrame, 'text' | 'style' | 'style_inline'> & {
+export type RuntimeTextFrame = Omit<TextFrame, 'text' | 'style' | 'style_inline'> & WithRuntimeStyle & {
     text: Text;
-    style: ParamedExpressionFunc<any, Style>;
-    style_inline: RzStyles;
 };

@@ -52,7 +52,7 @@ export const selectItemTemplate = (item: SlotItem) => createSelector(
         const stage: Stage = attachedEntity.template;
         return enrichStage(context.conf, context, stage);
     }
-)
+);
 
 export const selectRuntimeShape = (shape: Shape) => createSelector(
     selectEntitiesDictionary,

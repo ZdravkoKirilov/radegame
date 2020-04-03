@@ -8,6 +8,6 @@ export type RuntimeToken = Omit<Token, 'template'> & {
   template: Stage;
 }
 
-// the template Stage will use those frames[] not only for displaying "front" and "back" but also for
+// the template Stage will use those frames[] not only for displaying "front" and "back" but also
 // may turn them into virtual "slots" and place them somewhere on the card
 // same goes for texts[]

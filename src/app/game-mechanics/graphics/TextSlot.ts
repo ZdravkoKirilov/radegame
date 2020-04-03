@@ -9,6 +9,7 @@ export type TextSlotProps = {
 export const TextSlot = Memo<TextSlotProps>(({ style, text }) => {
     style = style || {};
     text = text || 'Default value';
+
     return createElement<RzElementPrimitiveProps>(
         'container',
         {

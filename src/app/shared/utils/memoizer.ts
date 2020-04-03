@@ -1,3 +1,3 @@
 import memoizeOne from 'memoize-one';
 
-export const withMemo = memoizeOne;
+export const withMemo = (func: Function) => func;
