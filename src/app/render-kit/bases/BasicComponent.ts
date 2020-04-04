@@ -11,7 +11,6 @@ export class BasicComponent<T extends RzElementPrimitiveProps = {}> {
 
     constructor(public props: T & Partial<RzElementPrimitiveProps>, public graphic: any, public meta: MetaProps) {
         this.props = { ...BasicComponent.defaultProps, ...(props as any) };
-        this.meta.engine.enhancer.assignEnhancers(this);
         this.meta.engine.event.assignEvents(this);
     }
 

@@ -4,6 +4,7 @@ import { StatefulComponent, createElement, MetaProps } from "@app/render-kit";
 import { AppState } from "@app/core";
 import { MainStage } from "../main-stage";
 import { GameBroadcastService } from "../../../services/game-broadcast/game-broadcast.service";
+import { HomeMadeEventEmitter } from "@app/shared";
 
 type Props = {
     store: Store<AppState>;
@@ -13,6 +14,7 @@ export class GameArenaRoot extends StatefulComponent<Props> {
     constructor(props: Props, meta: MetaProps) {
         super(props, meta);
         this.meta.context.set('store', this.props.store);
+        this.meta.context.set('eventBus', new HomeMadeEventEmitter());
         this.meta.context.set('dispatcher', this.props.dispatcher);
     }
 
@@ -24,7 +26,3 @@ export class GameArenaRoot extends StatefulComponent<Props> {
         return createElement(MainStage);
     }
 }
-// todo
-  // transform selectors to use state where necessary
-  // redo transitions
-  // test how context will work

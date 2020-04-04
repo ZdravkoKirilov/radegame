@@ -3,7 +3,6 @@ import { Container, Application } from 'pixi.js';
 
 import { AbstractRenderEngine, AbstractMountManager, MountConfig, createRenderer, createElement, RzElementType, unmountComponent } from "@app/render-kit";
 import { PixiFactory } from "./factory";
-import { PixiEnhancer } from "./enhancers";
 import { PixiMutator } from "./mutator";
 import { PixiLoader } from "./loader";
 import { PixiDelegationEventsManager } from './events/DelegationEventsManager';
@@ -15,13 +14,11 @@ ticker.stop();
 export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine => {
     const factory = new PixiFactory();
     const mutator = new PixiMutator();
-    const enhancer = new PixiEnhancer();
     const event = new PixiDelegationEventsManager(app.renderer.plugins.interaction);
 
     return {
         factory,
         mutator,
-        enhancer,
         event,
         loader: () => new PixiLoader(),
         app,
