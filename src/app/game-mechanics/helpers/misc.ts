@@ -2,9 +2,8 @@ import clone from 'immer';
 import isArray from 'lodash/isArray';
 import get from 'lodash/get';
 
-import { Player, GameState, GameTemplate, ExpressionContext } from '../models';
 import { Points } from '@app/render-kit';
-import { GameEntity, Expression, WithRuntimeStyle, Style } from '../entities';
+import { GameEntity, WithRuntimeStyle, Style } from '../entities';
 import { Dictionary } from '@app/shared';
 
 export const enrichEntity = <T = GameEntity, P = any>(
@@ -74,37 +73,6 @@ export const combineStyles = (...args: (Style | WithRuntimeStyle)[]): Style => {
 
 const isEntityWithRuntimeStyle = (item: any): item is WithRuntimeStyle => {
     return 'style' in item && 'style_inline' in item;
-};
-
-type CreateExpressionParams = {
-    state: GameState;
-    conf: GameTemplate;
-    players: Dictionary<Player>;
-    self: number;
-    loaded_chunks: string[];
-}
-
-export const createExpressionContext = ({ state, conf, self, players, loaded_chunks }: CreateExpressionParams): ExpressionContext => {
-    const helpers = Object.values<Expression>(conf.expressions);
-    const ctx = {
-        state, conf, players, loaded_chunks,
-        helpers: composeHelpers(helpers),
-        get $self(): Player {
-            return Object.values(players).find(player => player.user === self);
-        },
-        $get: get,
-    };
-    return ctx;
-};
-
-const composeHelpers = (expressions: Expression[]) => {
-    return expressions.reduce((result, item) => {
-        result[item.name] = parseFromString({} as any)(item.code);
-        return result;
-    }, {
-        compute: parseFromString
-    }
-    );
 };
 
 const computePolygon = (sprite, text): Points => {

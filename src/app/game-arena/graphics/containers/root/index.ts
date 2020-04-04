@@ -14,7 +14,6 @@ export class GameArenaRoot extends StatefulComponent<Props> {
     constructor(props: Props, meta: MetaProps) {
         super(props, meta);
         this.meta.context.set('store', this.props.store);
-        this.meta.context.set('eventBus', new HomeMadeEventEmitter());
         this.meta.context.set('dispatcher', this.props.dispatcher);
     }
 
