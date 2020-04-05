@@ -1,4 +1,4 @@
-import { OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { OnInit, ViewChild, TemplateRef, Directive } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
@@ -10,10 +10,11 @@ import {
     SaveItemAction, DeleteItemAction, getItems, getEntities, getEditorState, getSelectedEntity, ChangeSelectedItemAction, ToggleEditorAction
 } from '../state';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
+@Directive()
 @AutoUnsubscribe()
 export abstract class SmartBase implements OnInit {
 
-    @ViewChild('template', { static: false }) template: TemplateRef<any>;
+    @ViewChild('template') template: TemplateRef<any>;
 
     abstract key: AllEntity;
 

@@ -20,7 +20,7 @@ const routes: Routes = [
     },
     {
         path: 'signin/social',
-        loadChildren: 'app/social-auth/social-auth.module#SocialAuthModule'
+        loadChildren: () => import('app/social-auth/social-auth.module').then(m => m.SocialAuthModule)
     }, {
         path: '**',
         component: NotFoundComponent

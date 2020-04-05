@@ -12,7 +12,7 @@ export const initialState: CoreFeature = {
     activeGames: [],
 }
 
-export const coreReducer = (state: CoreFeature = initialState, action: CoreAction): CoreFeature => {
+export function coreReducer(state: CoreFeature = initialState, action: CoreAction): CoreFeature {
     switch (action.type) {
         case actionTypes.SET_CURRENT_USER:
             return {

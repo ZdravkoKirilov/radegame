@@ -12,7 +12,7 @@ import { BaseControl } from '../../models';
 })
 export class TagsInputComponent implements OnInit {
 
-  @ViewChild('mainInput', { static: false }) input: ElementRef;
+  @ViewChild('mainInput') input: ElementRef;
   @Input() form: FormGroup;
   @Input() data: BaseControl;
   @Output() change: EventEmitter<any> = new EventEmitter();

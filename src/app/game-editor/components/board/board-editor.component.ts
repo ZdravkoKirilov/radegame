@@ -20,7 +20,7 @@ export class BoardEditorComponent {
 
 	@Output() deleteSlot = new EventEmitter<Slot>();
 
-	@ViewChild('slots', { static: false }) slotEditor: any;
+	@ViewChild('slots') slotEditor: any;
 
 	showSlotEditor = false;
 

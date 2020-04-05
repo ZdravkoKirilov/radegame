@@ -1,5 +1,6 @@
 import { Params, RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
+import { Injectable } from "@angular/core";
 
 export interface RouterStateUrl {
   url: string;
@@ -13,6 +14,7 @@ export type CustomRouteData = Partial<{
   hide_game_warning: boolean;
 }>;
 
+@Injectable()
 export class CustomRouterSerializer implements RouterStateSerializer<RouterStateUrl> {
   serialize(routerState: RouterStateSnapshot): RouterStateUrl {
     let route = routerState.root;
