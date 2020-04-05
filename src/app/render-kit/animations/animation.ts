@@ -1,5 +1,5 @@
 import { Subject } from "rxjs";
-import { TweenMax, TimelineMax, gsap } from 'gsap';
+import { TweenMax, TimelineMax } from 'gsap';
 import { map } from "rxjs/operators";
 
 import { Dictionary } from '@app/shared';

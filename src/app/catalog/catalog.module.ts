@@ -27,7 +27,6 @@ import { SetupDetailsPageComponent } from './pages/setup-details/setup-details-p
 		EffectsModule.forFeature([CatalogEffects]),
 		RouterModule.forChild(routes)
 	],
-	entryComponents: [],
 	exports: [RouterModule]
 })
 export class CatalogModule { }

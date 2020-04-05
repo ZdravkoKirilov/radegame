@@ -34,9 +34,6 @@ import { LobbyChatComponent } from './components/lobby/chat/lobby-chat.component
 		StoreModule.forFeature(FEATURE_NAME, mainReducer),
 		EffectsModule.forFeature([LobbyEffects])
 	],
-	entryComponents: [
-		LobbyFormComponent
-	],
 	exports: [RouterModule, LobbyFormComponent],
 	providers: [LiveLobbyService]
 })

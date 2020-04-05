@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { NgScrollbarModule } from 'ngx-scrollbar';
 import { RouterModule } from '@angular/router';
 import { ColorPickerModule } from 'ngx-color-picker';
 
@@ -18,8 +17,7 @@ import { AppOverlayService } from './services/overlay/app-overlay.service';
 
 @NgModule({
     imports: [
-        CommonModule, NgMaterialModule, FormsModule, ReactiveFormsModule, HttpClientModule,
-        NgScrollbarModule, RouterModule, ColorPickerModule,
+        CommonModule, NgMaterialModule, FormsModule, ReactiveFormsModule, HttpClientModule, RouterModule, ColorPickerModule,
     ],
     exports: [
         CommonModule,
@@ -27,7 +25,6 @@ import { AppOverlayService } from './services/overlay/app-overlay.service';
         FormsModule,
         ReactiveFormsModule,
         DividerComponent, MainMenuComponent, SocialButtonComponent,
-        NgScrollbarModule,
         ServeImagePipe,
         OverlayComponent,
         NotificationComponent,
@@ -37,9 +34,6 @@ import { AppOverlayService } from './services/overlay/app-overlay.service';
     declarations: [
         DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe, OverlayComponent, NotificationComponent,
         ProfileMenuComponent
-    ],
-    entryComponents: [
-        OverlayComponent,
     ],
     providers: [
         AppOverlayService

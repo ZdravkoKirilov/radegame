@@ -22,11 +22,12 @@ export class StatefulComponent<P = {}, S = {}> {
     }
 
     setState(state: Partial<S>) {
-        setTimeout(() => {
-            const current = this.state as any || {} as any;
-            const next = { ...current, ...(state as any) || {} } as S;
-            if (this.shouldRerender(this.props, next)) {
-                this.state = next as S;
+
+        const current = this.state as any || {} as any;
+        const next = { ...current, ...(state as any) || {} } as S;
+        if (this.shouldRerender(this.props, next)) {
+            this.state = next as S;
+            setTimeout(() => {
                 updateComponent(this, this.render());
                 if ('didUpdate' in this) {
                     this.didUpdate({
@@ -34,10 +35,10 @@ export class StatefulComponent<P = {}, S = {}> {
                         next: { state: next, props: this.props },
                     });
                 }
-            } else {
-                this.state = next as S;
-            }
-        });
+            });
+        } else {
+            this.state = next as S;
+        }
     }
 
     updateProps(props: Partial<P>) {

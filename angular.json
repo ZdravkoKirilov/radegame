@@ -26,9 +26,7 @@
               "node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/hammerjs/hammer.js"
-            ]
+            "scripts": []
           },
           "configurations": {
             "production": {
@@ -80,9 +78,7 @@
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
-            "scripts": [
-              "node_modules/hammerjs/hammer.js"
-            ],
+            "scripts": [],
             "styles": [
               "src/assets/material-icons/material-icons.css",
               "node_modules/font-awesome/css/font-awesome.min.css",
@@ -143,5 +139,8 @@
     "@schematics/angular:directive": {
       "prefix": "rg"
     }
+  },
+  "cli": {
+    "analytics": "14f42d85-8bd0-466f-83dd-6b4014be5db6"
   }
 }
