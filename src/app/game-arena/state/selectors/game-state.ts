@@ -3,13 +3,14 @@ import get from "lodash/get";
 
 import { FEATURE_NAME } from "../../config";
 import {
-    Round, Setup, Stage, RuntimeSlot, enrichSlot, createExpressionContext, enrichRound, enrichStage,
-    enrichFrame, enrichShape, Shape, RuntimeText, enrichText, enrichHandler, enrichTransition, SlotItem, enrichItem
+    Round, Setup, Stage, RuntimeSlot, enrichSlot, enrichRound, enrichStage,
+    enrichFrame, enrichShape, Shape, enrichHandler, enrichTransition, SlotItem, enrichItem
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { selectPlayers } from "./general";
 import { toDictionary } from "@app/shared";
 import { StatefulComponent } from "@app/render-kit";
+import { createArenaExpressionContext } from "../../helpers";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -51,7 +52,7 @@ export const selectExpressionContext = createSelector(
     selectPlayers,
     selectLoadedChunks,
     (user, conf, state, players, loaded_chunks) => {
-        return createExpressionContext({
+        return createArenaExpressionContext({
             self: user.id, loaded_chunks,
             conf, state, players: toDictionary(players, 'id')
         });
@@ -141,22 +142,6 @@ export const selectSlotTransitions = (slot: RuntimeSlot) => createSelector(
     context => {
         return slot.transitions.map(transitionId => enrichTransition(context.conf, context, context.conf.transitions[transitionId]))
     },
-);
-
-export const selectTurnOrder = createSelector(
-    selectGameState,
-    state => state.turn_order,
-);
-
-const selectActivePlayer = createSelector(
-    selectGameState,
-    state => state.active_player,
-);
-
-export const selectActivePlayerData = createSelector(
-    selectPlayers,
-    selectActivePlayer,
-    (players, playerId) => players.find(player => player.id === playerId),
 );
 
 export const selectItemTemplate = (item: SlotItem) => createSelector(

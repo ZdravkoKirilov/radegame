@@ -1,11 +1,11 @@
 import { createSelector } from "reselect";
 
 import {
-    Stage, GameTemplate, Shape, createExpressionContext, enrichStage, enrichShape, SlotItem, enrichItem
+    Stage, GameTemplate, Shape, enrichStage, enrichShape, SlotItem, enrichItem
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
-import { config } from "rxjs";
+import { createEditorExpressionContext } from "./initializers";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
@@ -32,7 +32,7 @@ export const selectExpressionContext = createSelector(
             total[key] = value.items;
             return total;
         }, {}) as GameTemplate;
-        return createExpressionContext({ conf, self: 1, players: {}, state: {} as any, loaded_chunks: [] });
+        return createEditorExpressionContext({ conf, self: 1, players: {}, state: {} as any, loaded_chunks: [] });
     }
 );
 

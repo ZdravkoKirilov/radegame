@@ -7,7 +7,6 @@ import { ARENA_URLS, AppState } from '@app/core';
 import { ActionProcessorService } from '../action-processor/action-processor.service';
 import { GameActionsPayload } from 'app/game-mechanics/models/Payloads';
 import { AutoUnsubscribe } from '@app/shared';
-import { selectActivePlayerData } from '@app/game-arena';
 import { Player, GameAction } from '@app/game-mechanics';
 
 @Injectable()
@@ -15,9 +14,9 @@ import { Player, GameAction } from '@app/game-mechanics';
 export class GameBroadcastService {
 
   constructor(private store: Store<AppState>, private processor: ActionProcessorService) {
-    this.self$ = this.store.pipe(select(selectActivePlayerData), map(player => {
-      this.self = player;
-    })).subscribe();
+    // this.self$ = this.store.pipe(select(selectActivePlayerData), map(player => {
+    //   this.self = player;
+    // })).subscribe();
   }
 
   private stream$ = new Subject<any>();

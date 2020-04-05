@@ -18,14 +18,6 @@ function cleanMetaReducer(anyReducer: ActionReducer<any>) {
 export const gameStateMetaReducer = (anyReducer: ActionReducer<any>) => {
     return function gameStateReducer(state: ArenaState, action: MutatorAction) {
         switch (action.type) {
-            case MutatorTypes.CHANGE_TURN:
-                return immer(state, draft => {
-                    draft.state.active_player = action.payload;
-                });
-            case MutatorTypes.CHANGE_ROUND:
-                return immer(state, draft => {
-                    draft.state.round = action.payload;
-                });
             case MutatorTypes.MUTATE_STATE:
                 return immer(state, draft => {
                     const { key, value } = action.payload;

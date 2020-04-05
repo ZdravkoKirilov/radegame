@@ -29,7 +29,7 @@ export class ArenaEffectsService {
     map(action => {
       const { instance, conf, round } = action.payload;
       const state = get(instance, 'state', createGameState({
-        setup: get(instance, 'setup'), conf, players: get(instance, 'players', []), round,
+        setup: get(instance, 'setup'), conf, round,
       }));
       return new SetGameState(state);
     }),

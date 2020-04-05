@@ -32,12 +32,8 @@ export type GameState = {
     global_state: Partial<GameConfig>;
     local_state?: Dictionary;
 
-    turn_order: number[]; // player ids determining turn order
-    active_player: number; //
-
     setup: number;
     round: number; //
-    phase: number; //
 };
 
 export type CreateGamePayload = {

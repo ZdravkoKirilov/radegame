@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import { Action } from '@ngrx/store';
 
 import { Player, GameState, GameTemplate } from "../models";
 import { Expression } from "../entities";
@@ -7,7 +8,40 @@ import { Dictionary, HomeMadeEventEmitter } from '@app/shared';
 
 const eventBus = new HomeMadeEventEmitter();
 
-export const createExpressionContext = ({ state, conf, self, players, loaded_chunks }: CreateExpressionParams): ExpressionContext => {
+type ActionCreator<T> = (payload: T) => {
+  type: string;
+  payload: T;
+};
+
+export type CreateExpressionParams = {
+  state: GameState;
+  conf: GameTemplate;
+  players: Dictionary<Player>;
+  self: number;
+  loaded_chunks: string[];
+
+  mutateState: ActionCreator<{ path: string; value: any; broadcastTo?: number[] }>;
+  mutateStateAndSave: ActionCreator<{ path: string; value: any; broadcastTo?: number[] }>;
+
+  listenTo: ActionCreator<{}>;
+  sendMessage: ActionCreator<{}>;
+};
+
+export type ExpressionContext = {
+  loaded_chunks: string[];
+  state: GameState;
+  conf: GameTemplate;
+  players: Dictionary<Player>;
+  helpers: {
+    [key: string]: Function;
+  },
+  $self: Player,
+  $get: typeof get,
+
+  eventBus: HomeMadeEventEmitter;
+};
+
+export const createExpressionContext = ({ state, conf, self, players, loaded_chunks, ...actions }: CreateExpressionParams): ExpressionContext => {
   const helpers = Object.values<Expression>(conf.expressions);
 
   const ctx = {
@@ -18,15 +52,11 @@ export const createExpressionContext = ({ state, conf, self, players, loaded_chu
     },
     $get: get,
     eventBus,
-
-    // mutateState
-    // mutateStateAndBroadcast
-    // websocket connect. Chat / lobby / in-game
-    // sendMessage / start game / delete game
+    ...actions,
   };
 
   ctx['helpers'] = composeHelpers(helpers, ctx);
-  
+
   return ctx;
 };
 
@@ -38,26 +68,4 @@ const composeHelpers = (expressions: Expression[], context: ExpressionContext) =
     },
     {}
   );
-};
-
-type CreateExpressionParams = {
-  state: GameState;
-  conf: GameTemplate;
-  players: Dictionary<Player>;
-  self: number;
-  loaded_chunks: string[];
-}
-
-export type ExpressionContext = {
-  loaded_chunks: string[];
-  state: GameState;
-  conf: GameTemplate;
-  players: Dictionary<Player>;
-  helpers: {
-      [key: string]: Function;
-  },
-  $self: Player,
-  $get: typeof get,
-
-  eventBus: HomeMadeEventEmitter;
 };
