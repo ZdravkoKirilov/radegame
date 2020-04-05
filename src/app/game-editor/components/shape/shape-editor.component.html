@@ -2,13 +2,13 @@
     (cancel)="hideItemEditor()" (save)="handleSave()">
 </rg-edit-header>
 
-<ng-scrollbar [ngClass]="{'hidden': showEditor}">
+<div [ngClass]="{'hidden': showEditor}">
     <rg-entity-list [template]="template" [items]="items" [connectedEntities]="connectedEntities"
         (editItem)="editItem.emit($event)" (removeItem)="removeItem.emit($event)">
     </rg-entity-list>
-</ng-scrollbar>
+</div>
 
-<ng-scrollbar *ngIf="showEditor">
+<div *ngIf="showEditor">
     <div class="edit-area">
         <rg-entity-editor #editor *ngIf="showEditor" [formDefinition]="formDefinition"
             [connectedEntities]="connectedEntities" [selectedItem]="selectedItem" (update)="handleDraftUpdate($event)">
@@ -16,4 +16,4 @@
 
         <rg-shape-preview [data]="draft"></rg-shape-preview>
     </div>
-</ng-scrollbar>
+</div>

@@ -1,13 +1,11 @@
 <rg-lobby-list-layout *ngIf="game">
 
-	<ng-scrollbar>
-		<div class="list rg-container mat-elevation-z2" role="list">
-			<ng-container *ngFor="let item of lobbies">
-				<rg-lobby-list-item [game]="game" [lobby]="item">
-				</rg-lobby-list-item>
-			</ng-container>
-		</div>
-	</ng-scrollbar>
+	<div class="list rg-container mat-elevation-z2" role="list">
+		<ng-container *ngFor="let item of lobbies">
+			<rg-lobby-list-item [game]="game" [lobby]="item">
+			</rg-lobby-list-item>
+		</ng-container>
+	</div>
 
 
 	<div class="create-btn" matTooltip="Create new game">

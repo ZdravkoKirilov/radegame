@@ -7,70 +7,68 @@
 	Header works!
 </mat-toolbar>
 
-<ng-scrollbar>
-	<article *ngIf="data?.lobby && data.setup && data.game" class="rg-container mat-elevation-z2">
-		<mat-card>
-			<header>
-				<img [src]="data.game.image" />
-				<section class="details">
 
-					<div class="info">
-						{{data.game.title}}
+<article *ngIf="data?.lobby && data.setup && data.game" class="rg-container mat-elevation-z2">
+	<mat-card>
+		<header>
+			<img [src]="data.game.image" />
+			<section class="details">
 
-						<br>
+				<div class="info">
+					{{data.game.title}}
 
-						{{data.lobby.players.length}} / {{data.setup.min_players}}-{{data.setup.max_players}}
-					</div>
+					<br>
 
-					<div class="actions">
-						<a [routerLink]="['../']">
-							<button mat-stroked-button color="warn">Leave</button>
-						</a>
-
-						<a *ngIf="data.isOwner">
-							<button mat-stroked-button color="primary" (click)="startGame.emit()">
-								Start
-							</button>
-						</a>
-
-						<mat-checkbox *ngIf="!data.isOwner" (change)="onStatusChange($event)" [checked]="self?.ready">
-							Ready</mat-checkbox>
-					</div>
-				</section>
-			</header>
-		</mat-card>
-
-		<div class="players mat-elevation-z2">
-			<div *ngFor="let item of data.lobby.players" class="player">
-				{{item.name}}
-
-				<mat-form-field>
-					<mat-label>Faction</mat-label>
-					<mat-select (valueChange)="onPlayerUpdate(item, {faction: $event})"
-						[disabled]="item.user !== this.data.user.id" [value]="item.faction">
-						<mat-option *ngFor="let faction of data.factions" [value]="faction.id">
-							{{faction.name}}
-						</mat-option>
-					</mat-select>
-				</mat-form-field>
-
-				<div>
-					<button mat-stroked-button *ngIf="data.isOwner && item.user !== data.user.id"
-						(click)="kickPlayer.emit(item)">
-						Kick
-					</button>
+					{{data.lobby.players.length}} / {{data.setup.min_players}}-{{data.setup.max_players}}
 				</div>
 
-				<div *ngIf="item.ready" class="ready-status">
-					<mat-icon color="primary" matTooltip="Player is ready">check</mat-icon>
-				</div>
+				<div class="actions">
+					<a [routerLink]="['../']">
+						<button mat-stroked-button color="warn">Leave</button>
+					</a>
 
+					<a *ngIf="data.isOwner">
+						<button mat-stroked-button color="primary" (click)="startGame.emit()">
+							Start
+						</button>
+					</a>
+
+					<mat-checkbox *ngIf="!data.isOwner" (change)="onStatusChange($event)" [checked]="self?.ready">
+						Ready</mat-checkbox>
+				</div>
+			</section>
+		</header>
+	</mat-card>
+
+	<div class="players mat-elevation-z2">
+		<div *ngFor="let item of data.lobby.players" class="player">
+			{{item.name}}
+
+			<mat-form-field>
+				<mat-label>Faction</mat-label>
+				<mat-select (valueChange)="onPlayerUpdate(item, {faction: $event})" [disabled]="item.user !== this.data.user.id"
+					[value]="item.faction">
+					<mat-option *ngFor="let faction of data.factions" [value]="faction.id">
+						{{faction.name}}
+					</mat-option>
+				</mat-select>
+			</mat-form-field>
+
+			<div>
+				<button mat-stroked-button *ngIf="data.isOwner && item.user !== data.user.id" (click)="kickPlayer.emit(item)">
+					Kick
+				</button>
 			</div>
-		</div>
 
-		<mat-card class="chat">
-			<rg-lobby-chat [messages]="data.messages" [user]="data.user" (send)="sendMessage.emit($event)">
-			</rg-lobby-chat>
-		</mat-card>
-	</article>
-</ng-scrollbar>
+			<div *ngIf="item.ready" class="ready-status">
+				<mat-icon color="primary" matTooltip="Player is ready">check</mat-icon>
+			</div>
+
+		</div>
+	</div>
+
+	<mat-card class="chat">
+		<rg-lobby-chat [messages]="data.messages" [user]="data.user" (send)="sendMessage.emit($event)">
+		</rg-lobby-chat>
+	</mat-card>
+</article>

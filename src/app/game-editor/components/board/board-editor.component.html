@@ -1,48 +1,25 @@
 <rg-editor-layout>
 
-    <rg-edit-header 
-        title="Edit board" 
-        [saveEnabled]="saveEnabled()" 
-        [showButtons]="visibleEditor" 
-        [showEditor]="visibleEditor" 
-        (cancel)="closeEditors()" 
-        (save)="saveEntity()">
+    <rg-edit-header title="Edit board" [saveEnabled]="saveEnabled()" [showButtons]="visibleEditor"
+        [showEditor]="visibleEditor" (cancel)="closeEditors()" (save)="saveEntity()">
     </rg-edit-header>
 
-    <rg-board-toolbar
-        [class.hidden]="visibleEditor"
-        [selectedSlot]="!!selectedSlot"
-        (showSlotEditor)="toggleSlotEditor(true)"
-        (deleteSlot)="handleDeleteSlot()"
-        (changeView)="changeViewMode($event)"
-    ></rg-board-toolbar>
+    <rg-board-toolbar [class.hidden]="visibleEditor" [selectedSlot]="!!selectedSlot"
+        (showSlotEditor)="toggleSlotEditor(true)" (deleteSlot)="handleDeleteSlot()"
+        (changeView)="changeViewMode($event)"></rg-board-toolbar>
 
-    <ng-scrollbar>
-        <rg-entity-editor 
-            *ngIf="showSlotEditor" 
-            [formDefinition]="slotForm"
-            [selectedItem]="selectedSlot"
-            [connectedEntities]="entities"
-            (cancel)="toggleSlotEditor(false)"
-            (save)="handleSaveSlot($event)"
-            #slots
-        ></rg-entity-editor>
 
-        <rg-board-main 
-            [ngClass]="{'hidden': visibleEditor || viewMode === 'list'}"
-            [images]="images" 
-            [stage]="stage"
-            (selectSlot)="selectSlot($event)" 
-        ></rg-board-main>
+    <rg-entity-editor *ngIf="showSlotEditor" [formDefinition]="slotForm" [selectedItem]="selectedSlot"
+        [connectedEntities]="entities" (cancel)="toggleSlotEditor(false)" (save)="handleSaveSlot($event)" #slots>
+    </rg-entity-editor>
 
-        <rg-entity-list
-            [ngClass]="{'hidden': visibleEditor || viewMode === 'board'}"
-            [items]="slots"
-            [connectedEntities]="entities"
-            (editItem)="editSlot($event)"
-            (removeItem)="deleteSlot.emit($event)"
-        ></rg-entity-list>
-        
-    </ng-scrollbar>
+    <rg-board-main [ngClass]="{'hidden': visibleEditor || viewMode === 'list'}" [images]="images" [stage]="stage"
+        (selectSlot)="selectSlot($event)"></rg-board-main>
+
+    <rg-entity-list [ngClass]="{'hidden': visibleEditor || viewMode === 'board'}" [items]="slots"
+        [connectedEntities]="entities" (editItem)="editSlot($event)" (removeItem)="deleteSlot.emit($event)">
+    </rg-entity-list>
+
+
 
 </rg-editor-layout>
