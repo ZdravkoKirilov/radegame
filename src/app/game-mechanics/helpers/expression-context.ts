@@ -1,5 +1,4 @@
 import get from 'lodash/get';
-import { Action } from '@ngrx/store';
 
 import { Player, GameState, GameTemplate } from "../models";
 import { Expression } from "../entities";
@@ -8,11 +7,6 @@ import { Dictionary, HomeMadeEventEmitter } from '@app/shared';
 
 const eventBus = new HomeMadeEventEmitter();
 
-type ActionCreator<T> = (payload: T) => {
-  type: string;
-  payload: T;
-};
-
 export type CreateExpressionParams = {
   state: GameState;
   conf: GameTemplate;
@@ -20,11 +14,11 @@ export type CreateExpressionParams = {
   self: number;
   loaded_chunks: string[];
 
-  mutateState: ActionCreator<{ path: string; value: any; broadcastTo?: number[] }>;
-  mutateStateAndSave: ActionCreator<{ path: string; value: any; broadcastTo?: number[] }>;
+  mutateState: (payload: { path: string; value: any; broadcastTo?: number[] }) => void;
+  mutateStateAndSave: (payload: { path: string; value: any; broadcastTo?: number[] }) => void;
 
-  listenTo: ActionCreator<{}>;
-  sendMessage: ActionCreator<{}>;
+  listenTo: Function;
+  sendMessage: Function;
 };
 
 export type ExpressionContext = {
@@ -41,23 +35,23 @@ export type ExpressionContext = {
   eventBus: HomeMadeEventEmitter;
 };
 
-export const createExpressionContext = ({ state, conf, self, players, loaded_chunks, ...actions }: CreateExpressionParams): ExpressionContext => {
+export const createExpressionContext = ({ self, conf, players, ...rest }: CreateExpressionParams): ExpressionContext => {
   const helpers = Object.values<Expression>(conf.expressions);
 
   const ctx = {
-    state, conf, players, loaded_chunks,
+    conf, players,
     helpers: {},
     get $self(): Player {
       return Object.values(players).find(player => player.user === self);
     },
     $get: get,
     eventBus,
-    ...actions,
+    ...rest,
   };
 
   ctx['helpers'] = composeHelpers(helpers, ctx);
 
-  return ctx;
+  return ctx as ExpressionContext;
 };
 
 const composeHelpers = (expressions: Expression[], context: ExpressionContext) => {

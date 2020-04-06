@@ -3,7 +3,7 @@ import immer from 'immer';
 import set from 'lodash/set';
 
 import { ArenaState } from "./arenaReducer";
-import { GameArenaAction, MutatorAction, MutatorTypes } from "../actions";
+import { GameArenaAction, InGameAction, GameActionTypes } from "../actions";
 
 function cleanMetaReducer(anyReducer: ActionReducer<any>) {
     return function newReducer(state: ArenaState, action: GameArenaAction) {
@@ -16,12 +16,12 @@ function cleanMetaReducer(anyReducer: ActionReducer<any>) {
 };
 
 export const gameStateMetaReducer = (anyReducer: ActionReducer<any>) => {
-    return function gameStateReducer(state: ArenaState, action: MutatorAction) {
+    return function gameStateReducer(state: ArenaState, action: InGameAction) {
         switch (action.type) {
-            case MutatorTypes.MUTATE_STATE:
+            case GameActionTypes.MUTATE_STATE:
                 return immer(state, draft => {
-                    const { key, value } = action.payload;
-                    set(draft.state, key, value);
+                    const { path, value } = action.payload;
+                    set(draft.state, path, value);
                 });
             default:
                 return anyReducer(state, action);
