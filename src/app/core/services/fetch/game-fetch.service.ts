@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { API_URLS } from '../../config';
 import {
-	GameAction, Stage, Condition, Round,
+	Stage, Round,
 	Token, Choice, ImageAsset,
 	Game, Faction, Expression, Animation, Setup, GameTemplate
 } from '@app/game-mechanics';
@@ -22,16 +22,8 @@ export class GameFetchService {
 		return this.http.get<GameTemplate>(url);
 	}
 
-	getActions(gameId: number) {
-		return this.http.get<GameAction[]>(API_URLS.ACTIONS(gameId));
-	}
-
 	getStages(gameId: number) {
 		return this.http.get<Stage[]>(API_URLS.STAGES(gameId));
-	}
-
-	getConditions(gameId: number) {
-		return this.http.get<Condition[]>(API_URLS.CONDITIONS(gameId));
 	}
 
 	getRounds(gameId: number) {

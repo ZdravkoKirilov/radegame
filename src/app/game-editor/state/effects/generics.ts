@@ -5,7 +5,7 @@ import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
-    GameEntity, GameAction, Condition, Round,
+    GameEntity, Round,
     Faction, Token, Choice, Game, ImageAsset, Stage, Slot, Style, Setup,
     AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
 } from '@app/game-mechanics';
@@ -120,12 +120,8 @@ export class GenericEffectsService {
     fetchRequest(key: AllEntity, data: number): Observable<any[]> {
         switch (key) {
 
-            case ALL_ENTITIES.actions:
-                return this.fetcher.getActions(data);
             case ALL_ENTITIES.factions:
                 return this.fetcher.getFactions(data);
-            case ALL_ENTITIES.conditions:
-                return this.fetcher.getConditions(data);
             case ALL_ENTITIES.rounds:
                 return this.fetcher.getRounds(data);
             case ALL_ENTITIES.stages:
@@ -145,12 +141,8 @@ export class GenericEffectsService {
 
     saveRequest(key: AllEntity, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
-            case ALL_ENTITIES.actions:
-                return this.api.saveAction(<GameAction>entity);
             case ALL_ENTITIES.factions:
                 return this.api.saveFaction(<Faction>entity);
-            case ALL_ENTITIES.conditions:
-                return this.api.saveCondition(<Condition>entity);
             case ALL_ENTITIES.rounds:
                 return this.api.saveRound(<Round>entity);
             case ALL_ENTITIES.stages:
@@ -191,12 +183,8 @@ export class GenericEffectsService {
 
     deleteRequest(key: AllEntity, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
-            case ALL_ENTITIES.actions:
-                return this.api.deleteAction(<GameAction>entity);
             case ALL_ENTITIES.factions:
                 return this.api.deleteFaction(<Faction>entity);
-            case ALL_ENTITIES.conditions:
-                return this.api.deleteCondition(<Condition>entity);
             case ALL_ENTITIES.rounds:
                 return this.api.deleteRound(<Round>entity);
             case ALL_ENTITIES.stages:

@@ -148,7 +148,7 @@ export const selectItemTemplate = (item: SlotItem) => createSelector(
     selectExpressionContext,
     context => {
         const runtimeItem = enrichItem(context.conf, context, item);
-        const attachedEntity = runtimeItem.action || runtimeItem.condition || runtimeItem.choice || runtimeItem.token;
+        const attachedEntity = runtimeItem.choice || runtimeItem.token;
         const stage: Stage = attachedEntity.template;
         return enrichStage(context.conf, context, stage);
     }

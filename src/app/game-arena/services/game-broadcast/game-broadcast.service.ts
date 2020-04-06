@@ -1,19 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Subject, Observable, Subscription } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
-import { Store, select } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
+import { Store } from '@ngrx/store';
 
 import { ARENA_URLS, AppState } from '@app/core';
-import { ActionProcessorService } from '../action-processor/action-processor.service';
-import { GameActionsPayload } from 'app/game-mechanics/models/Payloads';
 import { AutoUnsubscribe } from '@app/shared';
-import { Player, GameAction } from '@app/game-mechanics';
+import { Player } from '@app/game-mechanics';
 
 @Injectable()
 @AutoUnsubscribe()
 export class GameBroadcastService {
 
-  constructor(private store: Store<AppState>, private processor: ActionProcessorService) {
+  constructor(private store: Store<AppState>) {
     // this.self$ = this.store.pipe(select(selectActivePlayerData), map(player => {
     //   this.self = player;
     // })).subscribe();
@@ -40,11 +38,11 @@ export class GameBroadcastService {
     };
 
     this.socket.onmessage = (e: MessageEvent) => {
-      const data: GameActionsPayload = JSON.parse(e.data);
-      const actions = this.processor.toMutators(data.actions);
-      if (data.initiator !== this.self.id) {
-        actions.filter(Boolean).forEach(action => this.store.dispatch(action));
-      }
+      // const data: GameActionsPayload = JSON.parse(e.data);
+      // const actions = this.processor.toMutators(data.actions);
+      // if (data.initiator !== this.self.id) {
+      //   actions.filter(Boolean).forEach(action => this.store.dispatch(action));
+      // }
     };
 
     this.socket.onclose = (e: CloseEvent) => {
@@ -59,19 +57,19 @@ export class GameBroadcastService {
     this.socket.close();
   }
 
-  dispatch = (actions: GameAction[], shared = true) => {
-    const mutators = this.processor.toMutators(actions);
-    mutators.filter(Boolean).forEach(mutator => this.store.dispatch(mutator));
-    if (shared) {
-      this.sendActions({
-        actions, initiator: this.self.id
-      });
-    }
-  }
+  // dispatch = (actions: GameAction[], shared = true) => {
+  //   const mutators = this.processor.toMutators(actions);
+  //   mutators.filter(Boolean).forEach(mutator => this.store.dispatch(mutator));
+  //   if (shared) {
+  //     this.sendActions({
+  //       actions, initiator: this.self.id
+  //     });
+  //   }
+  // }
 
-  private sendActions(actions: GameActionsPayload) {
-    if (this.socket) {
-      this.socket.send(JSON.stringify(actions));
-    }
-  }
+  // private sendActions(actions: GameActionsPayload) {
+  //   if (this.socket) {
+  //     this.socket.send(JSON.stringify(actions));
+  //   }
+  // }
 }

@@ -1,5 +1,4 @@
 import {
-  GameAction,
   RuntimeSlotHandler, ExpressionContext, enrichSonata,
 } from "@app/game-mechanics";
 import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
@@ -16,11 +15,8 @@ export const assignHandlers = ({ self, handlers, dispatcher, context }: HandlerP
   const all_handlers = handlers.reduce(
     (acc, handler) => {
       acc[handler.type] = (event: GenericEvent) => {
-        const actions: GameAction[] = handler.effect(self, event);
+        handler.effect(self, event);
         playSoundIfNeeded(handler, self, context);
-        if (actions) {
-          dispatcher.dispatch(actions);
-        }
       };
       return acc;
     },

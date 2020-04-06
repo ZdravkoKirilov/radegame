@@ -1,9 +1,7 @@
 import { BaseModel, WithBoard, WithStyle } from "./Base.model";
 import { Shape } from "./Shape.model";
-import { GameAction, RuntimeGameAction } from "./Action.model";
-import { Condition, RuntimeCondition } from "./Condition.model";
-import { Choice, RuntimeChoice } from "./Choice.model";
-import { Token, RuntimeToken } from "./Token.model";
+import { RuntimeChoice } from "./Choice.model";
+import { RuntimeToken } from "./Token.model";
 import { Stage } from "./Stage.model";
 import { ParamedExpressionFunc, EventHandlingExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
@@ -41,7 +39,7 @@ export type SlotHandler = {
     owner: number;
 
     type: RzEventTypes;
-    effect: string; // Expression -> GameAction[]
+    effect: string; // Expression
     sound: string; // Expression -> Sonata
     static_sound: number; // Sonata
 };
@@ -53,15 +51,11 @@ export type RuntimeSlotHandler = Omit<SlotHandler, 'effect' | 'sound' | 'static_
 };
 
 export type SlotItem = Partial<{
-    action: number;
-    condition: number;
     choice: number;
     token: number;
 }>;
 
-export type RuntimeSlotItem = Omit<SlotItem, 'action' | 'condition' | 'choice' | 'token'> & Partial<{
-    action: RuntimeGameAction;
-    condition: RuntimeCondition;
+export type RuntimeSlotItem = Omit<SlotItem, 'choice' | 'token'> & Partial<{
     choice: RuntimeChoice;
     token: RuntimeToken;
 }>;

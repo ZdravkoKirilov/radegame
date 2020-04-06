@@ -91,14 +91,6 @@ export function composeSlotItemForm(data: SlotItem, ent: ConnectedEntities): Bas
     const template = `
     <Form>
 
-        <Dropdown name='action' label='Action' options='{action_options}'>
-            {data.action}
-        </Dropdown>
-
-        <Dropdown name='condition' label='Condition' options='{condition_options}'>
-            {data.condition}
-        </Dropdown>
-
         <Dropdown name='choice' label='Choice' options='{choice_options}'>
             {data.choice}
         </Dropdown>

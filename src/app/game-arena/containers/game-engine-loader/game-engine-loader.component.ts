@@ -6,14 +6,13 @@ import { AppState } from '@app/core';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
 import { GameBroadcastService } from '../../services/game-broadcast/game-broadcast.service';
-import { ActionProcessorService } from '../../services/action-processor/action-processor.service';
 import { GameArenaRoot } from '../../graphics/containers/root';
 
 @Component({
   selector: 'rg-game-engine-loader',
   templateUrl: './game-engine-loader.component.html',
   styleUrls: ['./game-engine-loader.component.scss'],
-  providers: [GameBroadcastService, ActionProcessorService],
+  providers: [GameBroadcastService],
 })
 export class GameEngineLoaderComponent implements OnInit, OnDestroy {
 

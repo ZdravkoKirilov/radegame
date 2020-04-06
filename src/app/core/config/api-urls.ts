@@ -30,10 +30,6 @@ export const API_URLS = {
     GAME_DATA: (gameId: number, query = '') => {
         return `${API_BASE_URL}/games/${gameId}/data` + (query ? '?' + query : '');
     },
-    ACTIONS: (gameId: number, actionId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/actions/`;
-        return actionId ? `${base}${actionId}/` : base;
-    },
     TEXTS: (gameId: number, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/texts/`;
         return itemId ? `${base}${itemId}/` : base;
@@ -53,10 +49,6 @@ export const API_URLS = {
     FACTIONS: (gameId: number, factionId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/factions/`;
         return factionId ? `${base}${factionId}/` : base;
-    },
-    CONDITIONS: (gameId: number, conditionId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/conditions/`;
-        return conditionId ? `${base}${conditionId}/` : base;
     },
     ROUNDS: (gameId: number, roundId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/rounds/`;

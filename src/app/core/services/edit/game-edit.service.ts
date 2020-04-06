@@ -4,8 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
     Faction,
-    Game,
-    GameAction, Condition, Round,
+    Game, Round,
     Choice, Stage,
     Token, Animation, ImageAsset, Style,
     Sound, Expression, Setup, Transition, Text, Sonata, Shape,
@@ -42,18 +41,6 @@ export class GameEditService {
 
     deleteFaction(data: Faction): Observable<any> {
         return this.http.delete(API_URLS.FACTIONS(data.game, data.id));
-    }
-
-    saveAction(data: GameAction): Observable<any> {
-        if (data.id) {
-            return this.http.patch(API_URLS.ACTIONS(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.ACTIONS(data.game), data);
-        }
-    }
-
-    deleteAction(data: GameAction): Observable<any> {
-        return this.http.delete(API_URLS.ACTIONS(data.game, data.id));
     }
 
     saveStage(data: Stage): Observable<any> {
@@ -93,19 +80,6 @@ export class GameEditService {
 
     deleteSonata(data: Text): Observable<any> {
         return this.http.delete(API_URLS.TEXTS(data.game, data.id));
-    }
-
-    saveCondition(data: Condition): Observable<any> {
-
-        if (data.id) {
-            return this.http.patch(API_URLS.CONDITIONS(data.game, data.id), data);
-        } else {
-            return this.http.post(API_URLS.CONDITIONS(data.game), data);
-        }
-    }
-
-    deleteCondition(data: Condition): Observable<any> {
-        return this.http.delete(API_URLS.CONDITIONS(data.game, data.id));
     }
 
     saveRound(data: Round): Observable<any> {

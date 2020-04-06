@@ -3,8 +3,8 @@ import { Routes } from '@angular/router';
 import { ROUTER_PARAMS } from '@app/shared';
 
 import {
-    EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent,
-    GamesContainerComponent, ConditionsContainerComponent,
+    EditorContainerComponent, FactionsContainerComponent,
+    GamesContainerComponent,
     RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent,
     TokensContainerComponent,
     BoardContainerComponent, ImageAssetContainerComponent,
@@ -55,20 +55,12 @@ export const routes: Routes = [
                 component: ChoicesContainerComponent
             },
             {
-                path: 'conditions',
-                component: ConditionsContainerComponent
-            },
-            {
                 path: 'rounds',
                 component: RoundsContainerComponent
             },
             {
                 path: 'expressions',
                 component: ExpressionsContainerComponent
-            },
-            {
-                path: 'actions',
-                component: ActionsContainerComponent
             },
             {
                 path: 'factions',
@@ -112,7 +104,7 @@ export const routes: Routes = [
             },
             {
                 path: '**',
-                redirectTo: 'actions'
+                redirectTo: 'stages'
             }
         ]
     }

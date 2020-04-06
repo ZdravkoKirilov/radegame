@@ -12,7 +12,7 @@ const dataLoader: RenderFunction<DataLoaderProps> = ({ preload, load_done, fallb
     useEffect(() => {
         if (preload && load_done && !load_done()) {
             const actions = preload();
-            dispatcher.dispatch(actions, false);
+            // dispatcher.dispatch(actions, false);
         }
     }, [preload, load_done]);
 

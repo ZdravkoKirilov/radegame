@@ -163,11 +163,9 @@ export const composeInlineStyleFormContext = (ent: ConnectedEntities) => {
 export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => {
     return {
         setup_options: composeEntityOptions(ent, 'setups'),
-        condition_options: composeEntityOptions(ent, 'conditions'),
         token_options: composeEntityOptions(ent, 'tokens'),
         stage_options: composeEntityOptions(ent, 'stages'),
         image_options: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
-        action_options: composeEntityOptions(ent, 'actions'),
         style_options: composeEntityOptions(ent, 'styles'),
         choice_options: composeEntityOptions(ent, 'choices'),
         sound_options: composeEntityOptions(ent, 'sounds'),

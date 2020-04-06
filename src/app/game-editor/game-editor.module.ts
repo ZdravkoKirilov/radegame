@@ -18,8 +18,8 @@ import {
 } from './components';
 
 import {
-    EditorContainerComponent, ActionsContainerComponent, FactionsContainerComponent,
-    GamesContainerComponent, ConditionsContainerComponent, RoundsContainerComponent,
+    EditorContainerComponent, FactionsContainerComponent,
+    GamesContainerComponent, RoundsContainerComponent,
     StagesContainerComponent, ChoicesContainerComponent, TokensContainerComponent, BoardContainerComponent
 } from './containers';
 
@@ -62,11 +62,9 @@ import { ShapePreviewComponent } from './components/shape/preview/shape-preview.
         EntityComponent,
         EntityEditorComponent,
         EntityViewComponent,
-        ActionsContainerComponent,
         FactionsContainerComponent,
         EditorContainerComponent,
         GamesContainerComponent,
-        ConditionsContainerComponent,
         RoundsContainerComponent,
         StagesContainerComponent,
         ChoicesContainerComponent,

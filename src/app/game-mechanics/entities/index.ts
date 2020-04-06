@@ -1,5 +1,3 @@
-export * from './Action.model';
-export * from './Condition.model';
 export * from './Round.model';
 export * from './Choice.model';
 export * from './Stage.model';
@@ -21,8 +19,6 @@ export * from './Shape.model';
 
 export * from './types';
 
-import { GameAction } from './Action.model';
-import { Condition } from './Condition.model';
 import { Round } from './Round.model';
 import { Choice } from './Choice.model';
 import { Stage } from './Stage.model';
@@ -42,7 +38,7 @@ import { Text } from './Text.model';
 import { Sonata } from './Sonata.model';
 import { Shape } from './Shape.model';
 
-export type GameEntity = Game | GameAction | Slot | Condition |
+export type GameEntity = Game | Slot |
     Round | Choice | Stage | Faction | Token |
     Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape;
 
