@@ -1,7 +1,7 @@
 import { createElement, StatefulComponent, RzElementPrimitiveProps, RzTransition, RzTransitionProps, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-    ShapeSlotProps, ShapeSlot, RuntimeSlot, connectToStore, RuntimeShape, combineStyles, RuntimeSlotHandler, ExpressionContext, RuntimeTransition, selectSlotStyleSync
+    ShapeSlotProps, ShapeSlot, RuntimeSlot, connectToStore, RuntimeShape, combineStyles, RuntimeSlotHandler, ExpressionContext, RuntimeTransition, selectSlotStyleSync, AddedStoreProps
 } from "@app/game-mechanics";
 import {
     selectRuntimeShape, selectSlotHandlers, selectExpressionContext,
@@ -21,7 +21,7 @@ type StoreProps = {
     transitions: RuntimeTransition[];
 };
 
-type Props = EnhancedShapeSlotProps & StoreProps;
+type Props = EnhancedShapeSlotProps & StoreProps & AddedStoreProps;
 
 type State = { animated: Dictionary };
 @WithSubscriptions
@@ -30,7 +30,7 @@ export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
 
     render() {
         const self = this;
-        const { shape, handlers, context, transitions, data } = this.props;
+        const { shape, handlers, context, transitions, data, dispatch } = this.props;
         const { animated } = this.state;
         const style = selectSlotStyleSync(data, self);
         const composedStyle = combineStyles(shape, style);
@@ -39,12 +39,7 @@ export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
         return createElement<RzElementPrimitiveProps>(
             'container',
             {
-                ...assignHandlers({
-                    self,
-                    dispatcher: null,
-                    handlers,
-                    context
-                }),
+                ...assignHandlers({ self, dispatch, handlers, context }),
                 styles: { z_order: composedStyle.z_order, }
             },
             createElement<RzTransitionProps>(

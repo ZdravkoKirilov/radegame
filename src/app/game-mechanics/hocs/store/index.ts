@@ -1,4 +1,4 @@
-import { Store } from "@ngrx/store";
+import { Store, Action } from "@ngrx/store";
 import { Subscription } from "rxjs";
 import { map, filter } from "rxjs/operators";
 
@@ -21,10 +21,14 @@ export class StoreProvider extends StatefulComponent<StoreProviderProps> {
 
 type MapStateToProps<T> = (storeState: AppState, componentProps: T) => any;
 
+export type AddedStoreProps = {
+    dispatch: (action: Action) => void;
+}
+
 export const connectToStore = <OwnProps = any, StoreProps = any>(mapStateToProps: MapStateToProps<OwnProps>) =>
     (component: RzElementType<OwnProps>) => {
         type State = { fromStore?: AppState };
-        type Props = OwnProps & Partial<StoreProps>;
+        type Props = OwnProps & Partial<StoreProps> & Partial<AddedStoreProps>;
         return class WithStore extends StatefulComponent<Props, State> {
             private sub: Subscription;
             state = {} as State;

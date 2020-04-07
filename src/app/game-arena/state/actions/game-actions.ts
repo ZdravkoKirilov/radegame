@@ -8,6 +8,7 @@ export class MutateState {
         path: string;
         value: any;
         broadcastTo?: number[];
+        save?: boolean;
     }) {}
 }
 

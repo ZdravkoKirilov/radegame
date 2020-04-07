@@ -8,11 +8,12 @@ export interface GenericSubscription {
 
 export interface SubscribableBase<T> {
   provideValueToSubscribers(): T;
+  subscribe?(callback: Callback<T>): GenericSubscription;
 }
 
 export function WithSubscriptions<TBase extends Constructor, ValueType = any>(Base: TBase) {
   return class extends Base implements SubscribableBase<any> {
-    handlers = new Set();
+    private handlers = new Set();
 
     subscribe = (callback: Callback<ValueType>) => {
       this.handlers.add(callback);

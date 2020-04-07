@@ -26,4 +26,4 @@ export type EventOptionalProps = {
     position: RzPoint;
 }
 
-export type GenericEventHandler = (event: GenericEvent) => void;
+export type GenericEventHandler<T = unknown> = (event: GenericEvent) => T | T[];

@@ -3,6 +3,7 @@ import { MetaProps, RzElement, ComponentConstructor, RzElementType } from "../..
 import { ContextSubscription, ContextProvider } from "../Provider";
 import { Dictionary } from "@app/shared";
 import { findInAncestors } from "../../../helpers";
+import { findContextProvider } from "../helpers";
 
 type RenderCallback<T> = (data: T) => RzElement;
 
@@ -29,13 +30,7 @@ export class ContextConsumer<T = any> extends StatefulComponent<ContextConsumerP
     }
 
     didMount() {
-        let matcher: Dictionary | RzElementType;
-        if (this.props.parentName) {
-            matcher = { name: this.props.parentName };
-        } else {
-            matcher = this.key;
-        }
-        const providerContext = findInAncestors<typeof ContextProvider.prototype>(this)(matcher);
+        const providerContext = findContextProvider(this, this.props.parentName, this.key);
         if (providerContext) {
             providerContext.subscribe(newValue => this.setState({ value: newValue }));
         }

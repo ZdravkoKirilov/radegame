@@ -1,21 +1,29 @@
+import { Action } from "@ngrx/store";
+
 import {
   RuntimeSlotHandler, ExpressionContext, enrichSonata,
 } from "@app/game-mechanics";
-import { GameBroadcastService } from "../services/game-broadcast/game-broadcast.service";
 import { SoundPlayer, GenericEvent, StatefulComponent } from "@app/render-kit";
 
 type HandlerParams = {
   self: StatefulComponent,
   context: ExpressionContext;
-  dispatcher: GameBroadcastService,
+  dispatch: (payload: Action) => void,
   handlers: RuntimeSlotHandler[],
 }
 
-export const assignHandlers = ({ self, handlers, dispatcher, context }: HandlerParams) => {
+export const assignHandlers = ({ self, handlers, context, dispatch }: HandlerParams) => {
   const all_handlers = handlers.reduce(
     (acc, handler) => {
       acc[handler.type] = (event: GenericEvent) => {
-        handler.effect(self, event);
+        const actionOrActions = handler.effect(self, event);
+        if (actionOrActions) {
+          if (Array.isArray(actionOrActions)) {
+            actionOrActions.forEach(action => dispatch(action));
+          } else {
+            dispatch(actionOrActions);
+          }
+        }
         playSoundIfNeeded(handler, self, context);
       };
       return acc;
