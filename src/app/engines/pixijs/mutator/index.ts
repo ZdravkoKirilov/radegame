@@ -99,11 +99,10 @@ const updatePrimitive = (component: BasicComponent<any>) => {
             break;
     }
 
-    applyZOrder(component);
-    updateZOrder(component.container as Container);
     if (component.graphic) {
         component.graphic.interactive = true;
     }
+    applyZOrder(component);
 };
 
 const applyZOrder = (comp: BasicComponent) => {
@@ -142,24 +141,6 @@ const updateGeneric = (comp: BasicComponent) => {
     if (graphic && styles) {
         Object.keys(styles).forEach((key: keyof RzStyles) => {
             setProp(graphic, key, props.styles[key] as any);
-        });
-    }
-};
-
-const updateZOrder = (graphic: Container) => {
-    if (graphic) {
-        graphic.children = graphic.children.sort((a, b) => {
-            const order1 = a['zOrder'];
-            const order2 = b['zOrder'];
-
-            if (order1 || order2) {
-                if (order1 === order2) {
-                    return 0;
-                }
-                return order1 > order2 ? -1 : 1;
-            }
-
-            return 0;
         });
     }
 };

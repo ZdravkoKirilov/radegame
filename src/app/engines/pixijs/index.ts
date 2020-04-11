@@ -1,4 +1,5 @@
 import * as Pixi from 'pixi.js';
+import { Ticker } from 'pixi.js';
 import { Container, Application } from 'pixi.js';
 
 import { AbstractRenderEngine, AbstractMountManager, MountConfig, createRenderer, createElement, RzElementType, unmountComponent } from "@app/render-kit";
@@ -7,9 +8,9 @@ import { PixiMutator } from "./mutator";
 import { PixiLoader } from "./loader";
 import { PixiDelegationEventsManager } from './events/DelegationEventsManager';
 
-const ticker = Pixi.ticker.shared;
-ticker.autoStart = false;
-ticker.stop();
+// const ticker = Ticker.shared;
+// ticker.autoStart = false;
+// ticker.stop();
 
 export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine => {
     const factory = new PixiFactory();
@@ -39,8 +40,8 @@ export const mountPixi: AbstractMountManager = async (
         transparent: true,
         antialias: true,
         resolution: 1,
-        autoResize: true,
-        backgroundColor: config.backgroundColor || 0xffffff
+        backgroundColor: config.backgroundColor || 0xffffff,
+        autoDensity: true,
     });
 
     DOMHost.appendChild(app.renderer.view);

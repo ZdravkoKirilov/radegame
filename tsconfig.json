@@ -13,6 +13,7 @@
     "noUnusedParameters": false,
     "target": "es5",
     "allowSyntheticDefaultImports": true,
+    "types": ["pixi.js"],
     "typeRoots": [
       "node_modules/@types"
     ],

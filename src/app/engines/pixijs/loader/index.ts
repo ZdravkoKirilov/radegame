@@ -1,14 +1,14 @@
 import { AbstractLoader, LoaderResources, LoaderResource } from "@app/render-kit";
-import { loaders } from "pixi.js";
+import { Loader } from "pixi.js";
 
 export class PixiLoader implements AbstractLoader {
-    loader: loaders.Loader;
+    loader: Loader;
 
     get isBusy() {
         return this.loader.loading;
     }
     constructor() {
-        this.loader = new loaders.Loader;
+        this.loader = new Loader();
     }
     loadAll(assets: Set<string>): Promise<LoaderResources> {
         return new Promise((resolve, reject) => {

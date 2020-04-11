@@ -69,4 +69,9 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 /**
  * Need toLoc import at least one locale-data with intl.
  */
+
 // import 'intl/locale-data/jsonp/en';
+
+import * as PIXI from 'pixi.js';
+
+window.PIXI = PIXI;

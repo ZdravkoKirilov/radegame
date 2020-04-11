@@ -1,4 +1,4 @@
-import { DisplayObject, Sprite, Graphics, TextStyleOptions } from "pixi.js";
+import { DisplayObject, Sprite, Graphics, TextStyle } from "pixi.js";
 
 import { Component, RzStyles, BasicComponent, toHexColor, RzTextStyles } from "@app/render-kit";
 
@@ -137,9 +137,10 @@ export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyle
     return copy;
 };
 
-export const applyTextTransformations = (styles: Partial<RzTextStyles>): Partial<TextStyleOptions> => {
+export const applyTextTransformations = (styles: Partial<RzTextStyles>): Partial<TextStyle> => {
     styles = styles || {};
-    let copy = {} as Partial<TextStyleOptions>;
+    let copy = {} as Partial<TextStyle>;
+    
     if (styles.stroke_color) {
         copy.stroke = toHexColor(styles.stroke_color);
     }
