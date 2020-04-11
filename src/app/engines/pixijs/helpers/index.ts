@@ -22,11 +22,6 @@ export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: str
             return graphic.alpha = Number(result);
         }
 
-        if (prop === 'anchor') {
-            const [x, y] = result.split(' ').map(elem => Number(elem));
-            return (graphic as Sprite).anchor.set(x, y || x);
-        }
-
         if (prop === 'pivot') {
             const [x, y] = result.split(' ').map(elem => Number(elem));
             graphic.pivot.x = x;
@@ -50,7 +45,7 @@ export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: str
             return applyMask(graphic['component'], value as number[]);
         }
 
-        if (prop === 'stroke_color' || prop === 'fill') {
+        if (prop === 'stroke_color' || prop === 'fill' || prop === 'tint') {
             result = toHexColor(result);
         }
 

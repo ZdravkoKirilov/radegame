@@ -81,6 +81,7 @@ export type RzStyles = Partial<{
 
     opacity: number;
     fill: number | string | string[];
+    tint: number | string;
     radius: number;
     border_radius: number;
 

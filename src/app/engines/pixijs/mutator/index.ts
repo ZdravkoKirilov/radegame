@@ -173,11 +173,15 @@ const updateRectangle = (props: RzElementPrimitiveProps, graphic: Graphics) => {
 };
 
 const updateSprite = (comp: PrimitiveSprite) => {
-    const { props, graphic, container, meta } = comp;
+    const { props, container, meta } = comp;
+    const graphic: Sprite = comp.graphic;
+    const styles = props.styles || {};
+    const anchor = styles.anchor ? styles.anchor.split(' ').map(elem => Number(elem)) : [0.5, 0.5];
+
     const assetManager = meta.assets;
     const image = assetManager.getTexture(props.image);
 
-    if (image) {
+    if (graphic && !graphic.texture.textureCacheIds.includes(image)) {
         const newGraphic = new Sprite(image);
         comp.graphic = newGraphic;
         const isMounted = container.children.indexOf(graphic) !== -1;
@@ -189,6 +193,8 @@ const updateSprite = (comp: PrimitiveSprite) => {
             container.addChild(newGraphic);
         }
     }
+
+    graphic.anchor.set(anchor[0], anchor[1]);
 }
 
 export const updateText = (comp: PrimitiveText) => {
@@ -224,7 +230,6 @@ const updateLine = (props: LineProps, line: Graphics) => {
 
         line.moveTo(x + dash, y + dash);
     });
-
 
     const polygon = new Polygon(points.map(elem => new Point(elem[0], elem[1])));
     line.hitArea = polygon;
