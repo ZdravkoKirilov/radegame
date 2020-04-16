@@ -20,6 +20,10 @@ export const actionTypes = {
     FETCH_ITEMS_FAIL: 'FETCH_ITEMS_FAIL',
     SET_ITEMS: 'SET_ITEMS',
 
+    FETCH_ITEM: 'FETCH_ITEM',
+    FETCH_ITEM_SUCCESS: 'FETCH_ITEM_SUCCESS',
+    FETCH_ITEM_FAIL: 'FETCH_ITEM_FAIL',
+
     TOGGLE_EDITOR: 'TOGGLE_EDITOR',
     CHANGE_SELECTED_ITEM: 'CHANGE_SELECTED_ITEM',
 
@@ -28,14 +32,9 @@ export const actionTypes = {
     FETCH_GAME_DATA: 'FETCH_GAME_DATA',
     FETCH_GAME_DATA_SUCCESS: 'FETCH_GAME_DATA_SUCCESS',
     FETCH_GAME_DATA_FAIL: 'FETCH_GAME_DATA_FAIL',
-}
+} as const;
 
-export type EditorActionType = typeof actionTypes.SAVE_ITEM | typeof actionTypes.REMOVE_ITEM |
-    typeof actionTypes.SET_ITEMS | typeof actionTypes.TOGGLE_EDITOR |
-    typeof actionTypes.CHANGE_SELECTED_ITEM | typeof actionTypes.SAVE_ITEM_SUCCESS |
-    typeof actionTypes.SAVE_ITEM_FAIL | typeof actionTypes.DELETE_ITEM |
-    typeof actionTypes.SET_ITEM | typeof actionTypes.DELETE_ITEM_SUCCESS |
-    typeof actionTypes.DELETE_ITEM_FAIL | typeof actionTypes.SET_ALL_ITEMS;
+export type EditorActionType = keyof typeof actionTypes;
 
 
 

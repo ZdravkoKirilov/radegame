@@ -1,5 +1,6 @@
 import { ActionReducer, combineReducers } from '@ngrx/store';
 import produce from 'immer';
+import get from 'lodash/get';
 
 import { actionTypes, FILL_FORM } from '../actions/actionTypes';
 
@@ -30,7 +31,7 @@ export const createEntityReducer = (allowedKey: AllEntity | string): ActionReduc
     const entityReducer = (
         state: EntityFeature = { ...entityFeatureState },
         action: EditorGenericAction): EntityFeature => {
-        const key = action.payload ? action.payload.key : '' ;
+        const key = get(action, ['payload', 'key'], '');
         let data;
         if (key === allowedKey) {
             switch (action.type) {

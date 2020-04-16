@@ -2,7 +2,6 @@ import { Component } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { map, filter } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
-import clone from 'immer';
 
 import { AppState } from '@app/core';
 import {

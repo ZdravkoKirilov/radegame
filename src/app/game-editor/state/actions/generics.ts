@@ -80,10 +80,26 @@ export class FetchItemsSuccessAction implements Action {
 
 export class FetchItemsFailAction implements Action {
     readonly type = actionTypes.FETCH_ITEMS_FAIL;
+    constructor() { }
+}
+
+export class FetchItemAction implements Action {
+    readonly type = actionTypes.FETCH_ITEM;
     constructor(public payload: GenericActionPayload) { }
+}
+
+export class FetchItemSuccessAction implements Action {
+    readonly type = actionTypes.FETCH_ITEM_SUCCESS;
+    constructor(public payload: GenericActionPayload) { }
+}
+
+export class FetchItemFailAction implements Action {
+    readonly type = actionTypes.FETCH_ITEM_FAIL;
+    constructor() { }
 }
 
 export type EditorGenericAction = SaveItemAction | SaveItemSuccessAction |
     SaveItemFailAction | SetItemAction | DeleteItemAction | DeleteItemSuccessAction |
     DeleteItemFailAction | RemoveItemAction | SetItemAction | ToggleEditorAction | ChangeSelectedItemAction | SetAllItemsAction |
-    FetchItemsAction | FetchItemsSuccessAction | FetchItemsFailAction;
+    FetchItemsAction | FetchItemsSuccessAction | FetchItemsFailAction | FetchItemAction | FetchItemSuccessAction |
+    FetchItemFailAction | SetItemsAction;

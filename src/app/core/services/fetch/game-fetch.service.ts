@@ -26,6 +26,10 @@ export class GameFetchService {
 		return this.http.get<Stage[]>(API_URLS.STAGES(gameId));
 	}
 
+	getStage(gameId: number, stageId: number) {
+		return this.http.get<Stage>(API_URLS.STAGES(gameId, stageId));
+	}
+
 	getRounds(gameId: number) {
 		return this.http.get<Round[]>(API_URLS.ROUNDS(gameId));
 	}

@@ -9,7 +9,7 @@ import {
     Faction, Token, Choice, Game, ImageAsset, Stage, Slot, Style, Setup,
     AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
 } from '@app/game-mechanics';
-import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess } from '../actions';
+import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess, FetchItemAction, FetchItemSuccessAction, FetchItemFailAction, FetchItemsFailAction } from '../actions';
 import {
     GenericActionPayload,
     SaveItemAction, SaveItemSuccessAction, SaveItemFailAction, SetItemAction, DeleteItemAction,
@@ -44,6 +44,33 @@ export class GenericEffectsService {
             })
         )
 
+    @Effect() fetchItem: Observable<any> = this.actions$.pipe(
+        ofType(actionTypes.FETCH_ITEM),
+        map((action: FetchItemAction) => {
+            const payload = <GenericActionPayload>{ ...action.payload };
+            return payload;
+        }),
+        mergeMap(payload => {
+            const { data, key } = payload;
+
+            return this.fetchSingleItem(key, data as GameEntity).pipe(
+                mergeMap((res: GameEntity) => {
+                    const response: GenericActionPayload = {
+                        key, data: res,
+                    };
+                    return [
+                        new SetItemAction(response),
+                        new FetchItemSuccessAction(response),
+                    ];
+                }),
+                catchError(() => {
+                    return [new FetchItemFailAction()];
+                })
+            );
+
+        })
+    )
+
     @Effect() fetchItems: Observable<any> = this.actions$.pipe(
         ofType(actionTypes.FETCH_ITEMS),
         map((action: FetchItemsAction) => {
@@ -64,7 +91,7 @@ export class GenericEffectsService {
                     ];
                 }),
                 catchError(() => {
-                    return [new SaveItemFailAction()];
+                    return [new FetchItemsFailAction()];
                 })
             );
 
@@ -88,7 +115,12 @@ export class GenericEffectsService {
                     return [
                         new SetItemAction(response),
                         new SaveItemSuccessAction(response),
-                        key === 'slots' ? new FetchItemsAction({ key: ALL_ENTITIES.stages, data: res['game'] }) : null
+                        key === 'slots' ? new FetchItemAction({
+                            key: ALL_ENTITIES.stages, data: {
+                                game: res['game'],
+                                id: res['owner']
+                            }
+                        }) : null
                     ].filter(Boolean);
                 }),
                 catchError(() => {
@@ -109,7 +141,12 @@ export class GenericEffectsService {
                     return [
                         new DeleteItemSuccessAction(payload),
                         new RemoveItemAction(payload),
-                        key === 'slots' ? new FetchItemsAction({ key: ALL_ENTITIES.stages, data: data['game'] }) : null,
+                        key === 'slots' ? new FetchItemAction({
+                            key: ALL_ENTITIES.stages, data: {
+                                game: data['game'],
+                                id: data['owner'],
+                            }
+                        }) : null,
                     ].filter(Boolean);
                 }),
                 catchError(() => {
@@ -118,6 +155,15 @@ export class GenericEffectsService {
             );
         })
     );
+
+    fetchSingleItem(key: AllEntity, data: GameEntity) {
+        switch (key) {
+            case ALL_ENTITIES.stages:
+                return this.fetcher.getStage(data['game'], data.id);
+            default:
+                return of(null);
+        }
+    }
 
     fetchRequest(key: AllEntity, data: number): Observable<any[]> {
         switch (key) {
