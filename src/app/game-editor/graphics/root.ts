@@ -77,8 +77,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
     this.props.selectSlot(null);
 
     this.props.store.dispatch(new SaveItemAction({
-      key: ALL_ENTITIES.stages,
-      data: newStageData,
+      key: ALL_ENTITIES.slots,
+      data: newStageData.slots[slotIndex],
     }));
   }
 

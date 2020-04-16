@@ -42,10 +42,6 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/sonatas/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    MAPS: (gameId: number, mapId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/maps/`;
-        return mapId ? `${base}${mapId}/` : base;
-    },
     FACTIONS: (gameId: number, factionId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/factions/`;
         return factionId ? `${base}${factionId}/` : base;
@@ -61,6 +57,10 @@ export const API_URLS = {
     STAGES: (gameId: number, stageId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/stages/`;
         return stageId ? `${base}${stageId}/` : base;
+    },
+    SLOTS: (gameId: number, stageId: number, slotId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/stages/${stageId}/slots/`;
+        return slotId ? `${base}${slotId}/` : base;
     },
     TOKENS: (gameId: number, tokenId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/tokens/`;

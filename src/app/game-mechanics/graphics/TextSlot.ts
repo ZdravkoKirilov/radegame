@@ -21,7 +21,7 @@ export const TextSlot = Memo<TextSlotProps>(({ style, text }) => {
                 font_size: style.font_size || 18,
                 font_family: style.font_family,
                 font_style: style.font_style,
-                stroke_color: style.stroke_color || '#1a1b1c',
+                stroke_color: style.stroke_color,
                 fill: style.fill || '#1a1b1c',
             }
         }),

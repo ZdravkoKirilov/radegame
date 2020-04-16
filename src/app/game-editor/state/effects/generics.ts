@@ -53,7 +53,7 @@ export class GenericEffectsService {
         mergeMap(payload => {
             const { data, key } = payload;
 
-            return this.fetchRequest(key, data as any).pipe(
+            return this.fetchRequest(key, data as number).pipe(
                 mergeMap((res: GameEntity[]) => {
                     const response: GenericActionPayload = {
                         key, data: toDictionary(res, 'id'),
@@ -88,7 +88,8 @@ export class GenericEffectsService {
                     return [
                         new SetItemAction(response),
                         new SaveItemSuccessAction(response),
-                    ];
+                        key === 'slots' ? new FetchItemsAction({ key: ALL_ENTITIES.stages, data: res['game'] }) : null
+                    ].filter(Boolean);
                 }),
                 catchError(() => {
                     return [new SaveItemFailAction()];
@@ -107,8 +108,9 @@ export class GenericEffectsService {
                 mergeMap(() => {
                     return [
                         new DeleteItemSuccessAction(payload),
-                        new RemoveItemAction(payload)
-                    ];
+                        new RemoveItemAction(payload),
+                        key === 'slots' ? new FetchItemsAction({ key: ALL_ENTITIES.stages, data: data['game'] }) : null,
+                    ].filter(Boolean);
                 }),
                 catchError(() => {
                     return of(new DeleteItemFailAction());
@@ -147,6 +149,8 @@ export class GenericEffectsService {
                 return this.api.saveRound(<Round>entity);
             case ALL_ENTITIES.stages:
                 return this.api.saveStage(<Stage>entity);
+            case ALL_ENTITIES.slots:
+                return this.api.saveSlot(<Slot>entity);
             case ALL_ENTITIES.choices:
                 return this.api.saveChoice(<Choice>entity);
             case ALL_ENTITIES.tokens:
@@ -189,6 +193,8 @@ export class GenericEffectsService {
                 return this.api.deleteRound(<Round>entity);
             case ALL_ENTITIES.stages:
                 return this.api.deleteStage(<Stage>entity);
+            case ALL_ENTITIES.slots:
+                return this.api.deleteSlot(<Slot>entity);
             case ALL_ENTITIES.choices:
                 return this.api.deleteChoice(<Choice>entity);
             case ALL_ENTITIES.tokens:

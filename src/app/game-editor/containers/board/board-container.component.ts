@@ -6,7 +6,7 @@ import clone from 'immer';
 
 import { AppState } from '@app/core';
 import {
-	getActiveStage, getItems, getEntities, SaveItemAction,
+	getActiveStage, getItems, getEntities, SaveItemAction, DeleteItemAction,
 } from '../../state';
 import { Stage, Slot, ImageAsset, ALL_ENTITIES } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
@@ -58,28 +58,22 @@ export class BoardContainerComponent {
 	)
 
 	saveSlot = (slot: Slot) => {
-		const index = this.stage.slots.findIndex(childSlot => childSlot.id === slot.id);
-		const stage = clone(this.stage, draft => {
-			if (index === -1) {
-				draft.slots.push(slot);
-			} else {
-				draft.slots[index] = slot;
-			}
-		});
+		slot.owner = this.stage.id;
+		slot.game = this.stage.game;
 
 		this.store.dispatch(new SaveItemAction({
-			key: ALL_ENTITIES.stages,
-			data: stage,
+			key: ALL_ENTITIES.slots,
+			data: slot,
 		}));
 	}
 
 	deleteSlot = (slot: Slot) => {
-		const stage = clone(this.stage, draft => {
-			draft.slots = draft.slots.filter(childSlot => childSlot.id !== slot.id);
-		});
-		this.store.dispatch(new SaveItemAction({
-			key: ALL_ENTITIES.stages,
-			data: stage,
+		slot.owner = this.stage.id;
+		slot.game = this.stage.game;
+
+		this.store.dispatch(new DeleteItemAction({
+			key: ALL_ENTITIES.slots,
+			data: slot,
 		}));
 	}
 }
