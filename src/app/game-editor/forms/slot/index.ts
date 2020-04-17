@@ -1,5 +1,5 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Slot, SlotItem } from "@app/game-mechanics";
+import { Slot, SlotItem, SLOT_LIFECYCLES } from "@app/game-mechanics";
 import {
     baseTemplate,
     boardTemplate,
@@ -13,6 +13,7 @@ import { RzEventTypes } from "@app/render-kit";
 export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
     data = data || {};
     const handlers = data.handlers || [];
+    const lifecycles = data.lifecycles || [];
     const transitions = data.transitions || [];
 
     const template = `
@@ -48,11 +49,15 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             ${styleTemplate}
 
+            <CodeEditor name='provide_context' label='Provide context'>{data.provide_context}</CodeEditor>
+
+            <CodeEditor name='consume_context' label='Consume context'>{data.consume_context}</CodeEditor>
+
             <Group name='handlers' label='Handlers' children='{handlers}' item='@handler' addButtonText='Add'>
                 <Form>
                     <NumberInput name='id' hidden='{true}'>{@handler.id}</NumberInput>
 
-                    <Dropdown name='type' label='Type' options='{types}'>{@handler.type}</Dropdown>
+                    <Dropdown name='type' label='Type' options='{handlerTypes}'>{@handler.type}</Dropdown>
 
                     <CodeEditor name='effect' label='Effect'>
                         {@handler.effect}
@@ -61,6 +66,30 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
                     <CodeEditor name='sound' label='Sound'>
                         {@handler.sound}
                     </CodeEditor>
+
+                    <Dropdown name='static_sound' label='Static sound' options='{sonata_options}'>
+                        {@handler.static_sound}
+                    </Dropdown>
+                </Form>
+            </Group>
+
+            <Group name='lifecycles' label='Lifecycles' children='{lifecycles}' item='@lifecycle' addButtonText='Add'>
+                <Form>
+                    <NumberInput name='id' hidden='{true}'>{@lifecycle.id}</NumberInput>
+
+                    <Dropdown name='type' label='Type' options='{lifecycleTypes}'>{@lifecycle.type}</Dropdown>
+
+                    <CodeEditor name='effect' label='Effect'>
+                        {@lifecycle.effect}
+                    </CodeEditor>
+
+                    <CodeEditor name='sound' label='Sound'>
+                        {@lifecycle.sound}
+                    </CodeEditor>
+
+                    <Dropdown name='static_sound' label='Static sound' options='{sonata_options}'>
+                        {@lifecycle.static_sound}
+                    </Dropdown>
                 </Form>
             </Group>
             
@@ -76,8 +105,9 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
         context: {
             ...composeCommonFormContext(data, ent),
             ...composeInlineStyleFormContext(ent),
-            types: composeFromObject(RzEventTypes),
-            data, handlers, transitions,
+            handlerTypes: composeFromObject(RzEventTypes),
+            lifecycleTypes: composeFromObject(SLOT_LIFECYCLES),
+            data, handlers, transitions, lifecycles,
             entities: ent, composeSlotItemForm
         },
     }, true);
