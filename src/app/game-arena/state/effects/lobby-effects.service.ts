@@ -1,9 +1,9 @@
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Injectable } from '@angular/core';
-import { map } from 'rxjs/operators';
+import { map, mergeMap } from 'rxjs/operators';
 
 import { LiveLobbyService } from '../../services';
-import { AddMessage, LobbyActionTypes, SendMessage, CreateLobby, AddLobby, AddLobbies, DeleteLobby, RemoveLobby, SavePlayer, AddPlayer, DeletePlayer, RemovePlayer, FetchLobbies } from '../actions';
+import { AddMessage, LobbyActionTypes, SendMessage, CreateLobby, AddLobby, AddLobbies, DeleteLobby, RemoveLobby, SavePlayer, AddPlayer, DeletePlayer, RemovePlayer, FetchLobbies, RemoveMessages, RemovePlayers } from '../actions';
 
 @Injectable()
 export class LobbyEffects {
@@ -58,7 +58,11 @@ export class LobbyEffects {
     @Effect()
     onLobbyDeleted = this.sockets$.pipe(
         ofType<RemoveLobby>(LobbyActionTypes.REMOVE_LOBBY),
-        map(action => new RemoveLobby(action.payload)),
+        mergeMap(action => [
+            new RemoveLobby(action.payload),
+            new RemoveMessages({ messageIds: action.payload.messages.map(message => message.id) }),
+            new RemovePlayers({ playerNames: action.payload.players.map(player => player.name) }),
+        ]),
     )
 
 

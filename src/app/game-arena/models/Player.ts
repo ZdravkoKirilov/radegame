@@ -2,7 +2,6 @@ export type LobbyPlayer = {
     name: string;
     lobby: string;
     user: number;
-    game: number;
 
-    data?: {}
+    data?: {}; // arbitrary data, depending on the game. Color, Team and so on
 }

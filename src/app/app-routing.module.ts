@@ -7,9 +7,6 @@ const routes: Routes = [
         path: 'editor', loadChildren: () => import('./game-editor').then(m => m.GameEditorModule)
     },
     {
-        path: 'lobby', loadChildren: () => import('./lobby').then(m => m.GameLobbyModule)
-    },
-    {
         path: 'profile', loadChildren: () => import('./profile').then(m => m.ProfileModule)
     },
     {

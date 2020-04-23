@@ -18,6 +18,15 @@ export enum LobbyActionTypes {
 
   SEND_MESSAGE = '[Lobby] SEND_MESSAGE',
   ADD_MESSAGE = '[Lobby] SAVE_MESSAGE',
+
+  /* used when a lobby entity is removed */
+  REMOVE_PLAYERS = '[Lobby] REMOVE_PLAYERS',
+  REMOVE_MESSAGES = '[Lobby] REMOVE_MESSAGES',
+  /* used when a lobby entity is removed */
+
+  /* used when lobby view is destroyed */
+  CLEAR_STATE = '[Lobby] CLEAR_STATE',
+  /* used when lobby view is destroyed */
 };
 
 export class FetchLobbies {
@@ -42,12 +51,12 @@ export class AddLobby {
 
 export class DeleteLobby {
   readonly type = LobbyActionTypes.DELETE_LOBBY;
-  constructor(public payload: { lobbyName: string }) { }
+  constructor(public payload: Lobby) { }
 }
 
 export class RemoveLobby {
   readonly type = LobbyActionTypes.REMOVE_LOBBY;
-  constructor(public payload: { lobbyName: string }) { }
+  constructor(public payload: Lobby) { }
 }
 
 export class SavePlayer {
@@ -70,6 +79,11 @@ export class RemovePlayer {
   constructor(public payload: { playerName: string }) { }
 }
 
+export class RemovePlayers {
+  readonly type = LobbyActionTypes.REMOVE_PLAYERS;
+  constructor(public payload: { playerNames: string[] }) { }
+}
+
 export class SendMessage {
   readonly type = LobbyActionTypes.SEND_MESSAGE;
   constructor(public payload: ChatMessage) { }
@@ -80,5 +94,15 @@ export class AddMessage {
   constructor(public payload: ChatMessage) { }
 }
 
+export class RemoveMessages {
+  readonly type = LobbyActionTypes.REMOVE_MESSAGES;
+  constructor(public payload: { messageIds: string[] }) { }
+}
+
+export class ClearLobbyState {
+  readonly type = LobbyActionTypes.CLEAR_STATE;
+}
+
 export type LobbyAction = FetchLobbies | AddLobbies | CreateLobby | AddLobby | DeleteLobby | RemoveLobby |
-  SavePlayer | AddPlayer | DeletePlayer | RemovePlayer | SendMessage | AddMessage;
+  SavePlayer | AddPlayer | DeletePlayer | RemovePlayer | SendMessage | AddMessage | RemovePlayers | ClearLobbyState |
+  RemovePlayers | RemoveMessages;
