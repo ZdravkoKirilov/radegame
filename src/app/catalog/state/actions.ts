@@ -4,7 +4,6 @@ import {
 } from "./actionTypes";
 import { Dictionary } from "@app/shared";
 import { Game, ImageAsset, Setup } from "@app/game-mechanics";
-import { Lobby } from "../../lobby/models";
 
 export class FetchGames {
     readonly type = FETCH_GAMES;

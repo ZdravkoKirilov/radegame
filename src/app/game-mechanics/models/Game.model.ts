@@ -1,8 +1,8 @@
-import { GameEntityList, ALL_ENTITIES, WithImage, Round } from '../entities';
+import { GameEntityList, ALL_ENTITIES, WithImage } from '../entities';
 import { WithKeysAs, Omit, Dictionary } from '@app/shared';
 
 import { WithBoard } from '../entities';
-import { LobbyPlayer } from '@app/lobby';
+import { LobbyPlayer } from '@app/game-arena';
 
 export type Game = WithBoard & Partial<{
     id: number;

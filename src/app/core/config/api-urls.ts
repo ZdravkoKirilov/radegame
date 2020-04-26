@@ -3,15 +3,7 @@ import { environment } from '../../../environments/environment';
 const { API_BASE_URL, BASE_URL, WS_BROWSE_LOBBIES_BASE_URL, WS_ARENA_BASE_URL } = environment;
 
 export const LOBBY_URLS = {
-    LOBBIES: (lobbyName?: string) => {
-        const base = `${API_BASE_URL}/lobbies/`;
-        return lobbyName ? `${base}${lobbyName}` : base;
-    },
-    PLAYERS: (lobbyName: string, playerName?: string) => {
-        const base = `${API_BASE_URL}/lobbies/${lobbyName}/players`;
-        return playerName ? `${base}/${playerName}/` : base;
-    },
-    ALL_PLAYERS: API_BASE_URL + '/all_players',
+
     LIVE_LOBBIES: (gameId: number, lobbyName?: string) => {
         const base = `${WS_BROWSE_LOBBIES_BASE_URL}/${gameId}`;
         return lobbyName ? `${base}/${lobbyName}/` : base;
@@ -21,7 +13,6 @@ export const LOBBY_URLS = {
         return `${base}/${lobbyName}/create`;
     },
 };
-
 
 export const API_URLS = {
     GAMES: (gameId?: number) => {
