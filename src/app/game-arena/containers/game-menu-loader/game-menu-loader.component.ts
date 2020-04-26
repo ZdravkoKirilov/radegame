@@ -1,18 +1,17 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
-import { filter, map, tap } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
 import { Game, GameTemplate } from '@app/game-mechanics';
-import { selectGame, FetchGameConfig, selectGameConfig, FetchGame, isDownloadingGameMenuData, CreateGameState } from '../../state';
+import { selectGame, FetchGameConfig, selectGameConfig, FetchGame, isDownloadingGameMenuData, CreateGameState, selectGameState } from '../../state';
 
 @Component({
   selector: 'rg-game-menu-loader',
   templateUrl: './game-menu-loader.component.html',
   styleUrls: ['./game-menu-loader.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 @AutoUnsubscribe()
 export class GameMenuLoaderComponent implements OnInit {
@@ -20,10 +19,12 @@ export class GameMenuLoaderComponent implements OnInit {
   game$: Subscription;
   game_config$: Subscription;
   gameId$: Subscription;
-  isDownloading$: Observable<boolean>;
+  isDownloading$: Subscription;
+  loaded$: Subscription;
 
   game_config: GameTemplate;
   game: Game;
+  loaded = false;
 
   constructor(private store: Store<AppState>) { }
 
@@ -55,14 +56,21 @@ export class GameMenuLoaderComponent implements OnInit {
 
     this.isDownloading$ = this.store.pipe(
       select(isDownloadingGameMenuData),
-      tap(isDownloading => {
-        if (!isDownloading && this.game_config && this.game && this.game.menu) {
+      map(isDownloading => {
+        if (!isDownloading && this.game.menu) {
           this.store.dispatch(new CreateGameState({
             conf: this.game_config,
-            round: this.game.menu as number,
+            round: this.game.menu,
           }));
         }
       }),
-    );
+    ).subscribe();
+
+    this.loaded$ = this.store.pipe(
+      select(selectGameState),
+      map(state => {
+        return this.loaded = !!state;
+      })
+    ).subscribe();
   }
 }

@@ -1,5 +1,5 @@
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { ActionReducerMap } from '@ngrx/store';
+import { ActionReducerMap, combineReducers } from '@ngrx/store';
 
 import { Lobby, LobbyPlayer, ChatMessage } from '../../models';
 import { LobbyAction, LobbyActionTypes } from '../actions';
@@ -10,7 +10,7 @@ export type LobbyState = {
     messages: MessageEntityState;
 };
 
-export type LobbyFeatureEntity = Lobby | LobbyPlayer | ChatMessage;
+type LobbyFeatureEntity = Lobby | LobbyPlayer | ChatMessage;
 
 export type PlayerEntityState = EntityState<LobbyPlayer>;
 export type LobbyEntityState = EntityState<Lobby>;
@@ -67,6 +67,8 @@ const playerReducer = (
     switch (action.type) {
         case LobbyActionTypes.ADD_PLAYER:
             return playerAdapter.upsertOne(action.payload.player, state);
+        case LobbyActionTypes.ADD_LOBBIES:
+            return playerAdapter.addMany(action.payload.players, state);
         case LobbyActionTypes.REMOVE_PLAYER:
             return playerAdapter.removeOne(action.payload.player.name, state);
         case LobbyActionTypes.ADD_LOBBY:
@@ -87,7 +89,7 @@ const messageReducer = (
 ): MessageEntityState => {
     switch (action.type) {
         case LobbyActionTypes.ADD_MESSAGE:
-            return messageAdapter.addOne(action.payload, state);
+            return messageAdapter.addOne(action.payload.message, state);
         case LobbyActionTypes.REMOVE_LOBBY:
             const relatedMessages = Object.values(state.entities)
                 .filter(message => message.lobby === action.payload.lobby.name)
@@ -98,8 +100,8 @@ const messageReducer = (
     }
 }
 
-export const mainLobbyReducer: ActionReducerMap<LobbyState> = {
+export const mainLobbyReducer = combineReducers({
     lobbies: lobbyReducer,
     players: playerReducer,
     messages: messageReducer,
-};
+});

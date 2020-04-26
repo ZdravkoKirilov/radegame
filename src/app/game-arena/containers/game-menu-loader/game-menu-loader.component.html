@@ -1,4 +1,4 @@
-<h2 *ngIf="isDownloading$ | async; else game">
+<h2 *ngIf="!loaded; else game">
     Downloading game data...
 </h2>
 

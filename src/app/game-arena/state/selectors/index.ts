@@ -1,2 +1,1 @@
-export * from './general';
-export * from './game-state';
+export * from './selectors';

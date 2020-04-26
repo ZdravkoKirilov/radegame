@@ -1,4 +1,5 @@
 import { Lobby, LobbyPlayer, ChatMessage } from "../../models";
+import { Game } from "@app/game-mechanics";
 
 export enum LobbyActionTypes {
   FETCH_LOBBIES = '[Lobby] FETCH_LOBBIES', // remote command
@@ -21,6 +22,9 @@ export enum LobbyActionTypes {
   FETCH_MESSAGES = '[Lobby] FETCH_MESSAGES',
   ADD_MESSAGES = '[Lobby] ADD_MESSAGES',
 
+  CREATE_GAME = '[Lobby] CREATE_GAME',
+  ADD_GAME = '[Lobby] ADD_GAME',
+
   /* used when lobby view is destroyed */
   CLEAR_STATE = '[Lobby] CLEAR_STATE',
   /* used when lobby view is destroyed */
@@ -33,7 +37,7 @@ export class FetchLobbies {
 
 export class AddLobbies {
   readonly type = LobbyActionTypes.ADD_LOBBIES;
-  constructor(public payload: { lobbies: Lobby[] }) { }
+  constructor(public payload: { lobbies: Lobby[], players: LobbyPlayer[] }) { }
 }
 
 export class CreateLobby {
@@ -78,12 +82,22 @@ export class RemovePlayer {
 
 export class SendMessage {
   readonly type = LobbyActionTypes.SEND_MESSAGE;
-  constructor(public payload: ChatMessage) { }
+  constructor(public payload: { message: ChatMessage }) { }
 }
 
 export class AddMessage {
   readonly type = LobbyActionTypes.ADD_MESSAGE;
-  constructor(public payload: ChatMessage) { }
+  constructor(public payload: { message: ChatMessage }) { }
+}
+
+export class CreateGame {
+  readonly type = LobbyActionTypes.CREATE_GAME;
+  constructor(public payload: { game: Game }) { }
+}
+
+export class AddGame {
+  readonly type = LobbyActionTypes.ADD_GAME;
+  constructor(public payload: { game: Game }) { }
 }
 
 export class ClearLobbyState {

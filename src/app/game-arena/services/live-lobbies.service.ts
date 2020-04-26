@@ -2,7 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 
 import { LOBBY_URLS } from '@app/core';
-import { CreateLobby, DeleteLobby, SavePlayer, DeletePlayer, SendMessage, FetchLobbies, LobbyAction } from '../state';
+import { CreateLobby, DeleteLobby, SavePlayer, DeletePlayer, SendMessage, FetchLobbies, LobbyAction, CreateGame } from '../state';
 
 @Injectable()
 export class LiveLobbyService extends Subject<LobbyAction> implements OnDestroy {
@@ -62,6 +62,10 @@ export class LiveLobbyService extends Subject<LobbyAction> implements OnDestroy 
 	}
 
 	savePlayer(action: SavePlayer) {
+		this.lobbiesSocket.send(JSON.stringify(action));
+	}
+
+	updatePlayer(action: SavePlayer) {
 		this.singleLobbySocket.send(JSON.stringify(action));
 	}
 
@@ -70,6 +74,14 @@ export class LiveLobbyService extends Subject<LobbyAction> implements OnDestroy 
 	}
 
 	sendMessage(action: SendMessage) {
+		this.lobbiesSocket.send(JSON.stringify(action));
+	}
+
+	sendScopedMessage(action: SendMessage) {
 		this.singleLobbySocket.send(JSON.stringify(action));
+	}
+
+	createGame(action: CreateGame) {
+		this.singleLobbySocket.send(JSON.stringify(action))
 	}
 }

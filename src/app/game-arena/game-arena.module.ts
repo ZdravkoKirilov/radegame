@@ -7,7 +7,7 @@ import { SharedModule } from '@app/shared';
 import { routes } from './routing';
 import { GameArenaRootComponent } from './pages/game-arena-root.component';
 import { FEATURE_NAME } from './config';
-import { arenaReducer, metaReducers, ArenaEffectsService } from './state';
+import { ArenaEffectsService, arenaRootReducer } from './state';
 import { GameLoaderComponent } from './containers/game-data-loader/game-loader.component';
 import { GameEngineLoaderComponent } from './containers/game-engine-loader/game-engine-loader.component';
 import { GameMenuRootComponent } from './pages/game-menu-root.component';
@@ -17,8 +17,8 @@ import { GameMenuLoaderComponent } from './containers/game-menu-loader/game-menu
   declarations: [GameArenaRootComponent, GameLoaderComponent, GameEngineLoaderComponent, GameMenuRootComponent, GameMenuLoaderComponent],
   imports: [
     SharedModule,
-    StoreModule.forFeature(FEATURE_NAME, arenaReducer, { metaReducers }),
-		EffectsModule.forFeature([ArenaEffectsService]),
+    StoreModule.forFeature(FEATURE_NAME, arenaRootReducer),
+    EffectsModule.forFeature([ArenaEffectsService]),
     RouterModule.forChild(routes),
   ]
 })

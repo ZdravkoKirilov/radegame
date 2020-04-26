@@ -12,5 +12,4 @@ export const actionTypes = {
     FETCH_GAME_CONFIG_FAIL: '[Arena] FETCH_GAME_CONFIG_FAIL',
 
     INITIALIZE_GAME_STATE: '[Arena] CREATE_GAME_STATE',
-    SET_GAME_STATE: '[Arena] SET_GAME_STATE',
 } as const;

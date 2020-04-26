@@ -3,9 +3,9 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { LiveLobbyService } from '../../services';
-import { AddMessage, LobbyActionTypes, SendMessage, CreateLobby, AddLobby, AddLobbies, DeleteLobby, RemoveLobby, SavePlayer, AddPlayer, DeletePlayer, RemovePlayer, FetchLobbies } from '../actions';
+import { AddMessage, LobbyActionTypes, SendMessage, CreateLobby, AddLobby, AddLobbies, DeleteLobby, RemoveLobby, SavePlayer, AddPlayer, DeletePlayer, RemovePlayer, FetchLobbies, CreateGame, AddGame } from '../actions';
 
-const Receiver = Effect;
+const Receiver = Effect();
 const Sender = Effect({ dispatch: false });
 
 @Injectable()
@@ -15,12 +15,25 @@ export class LobbyEffects {
         private sockets$: LiveLobbyService,
     ) { }
 
+
+    @Sender
+    createGame = this.actions$.pipe(
+        ofType<CreateGame>(LobbyActionTypes.CREATE_GAME),
+        map(action => this.sockets$.createGame(action)),
+    )
+    @Receiver
+    onGameCreated = this.sockets$.pipe(
+        ofType<AddGame>(LobbyActionTypes.ADD_GAME),
+        map(action => new AddGame(action.payload))
+    )
+
+
     @Sender
     sendMessage = this.actions$.pipe(
         ofType<SendMessage>(LobbyActionTypes.SEND_MESSAGE),
-        map(action => this.sockets$.sendMessage(action)),
+        map(action => action.payload.message.lobby ? this.sockets$.sendScopedMessage(action) : this.sockets$.sendMessage(action)),
     );
-    @Receiver()
+    @Receiver
     onMessageReceive = this.sockets$.pipe(
         ofType<AddMessage>(LobbyActionTypes.ADD_MESSAGE),
         map(action => {
@@ -34,7 +47,7 @@ export class LobbyEffects {
         ofType<FetchLobbies>(LobbyActionTypes.FETCH_LOBBIES),
         map(action => this.sockets$.fetchLobbies(action))
     )
-    @Receiver()
+    @Receiver
     onLobbiesFetched = this.sockets$.pipe(
         ofType<AddLobbies>(LobbyActionTypes.ADD_LOBBIES),
         map(action => new AddLobbies(action.payload)),
@@ -46,7 +59,7 @@ export class LobbyEffects {
         ofType<CreateLobby>(LobbyActionTypes.CREATE_LOBBY),
         map(action => this.sockets$.createLobby(action)),
     );
-    @Receiver()
+    @Receiver
     onLobbyCreated = this.sockets$.pipe(
         ofType<AddLobby>(LobbyActionTypes.ADD_LOBBY),
         map(action => new AddLobby(action.payload)),
@@ -58,7 +71,7 @@ export class LobbyEffects {
         ofType<DeleteLobby>(LobbyActionTypes.DELETE_LOBBY),
         map(action => this.sockets$.deleteLobby(action)),
     )
-    @Receiver()
+    @Receiver
     onLobbyDeleted = this.sockets$.pipe(
         ofType<RemoveLobby>(LobbyActionTypes.REMOVE_LOBBY),
         map(action => [
@@ -70,9 +83,9 @@ export class LobbyEffects {
     @Sender
     savePlayer = this.actions$.pipe(
         ofType<SavePlayer>(LobbyActionTypes.SAVE_PLAYER),
-        map(action => this.sockets$.savePlayer(action))
+        map(action => action.payload.player.name ? this.sockets$.updatePlayer(action) : this.sockets$.savePlayer(action))
     )
-    @Receiver()
+    @Receiver
     onPlayerSaved = this.sockets$.pipe(
         ofType<AddPlayer>(LobbyActionTypes.ADD_PLAYER),
         map(action => new AddPlayer(action.payload))
@@ -84,7 +97,7 @@ export class LobbyEffects {
         ofType<DeletePlayer>(LobbyActionTypes.DELETE_PLAYER),
         map(action => this.sockets$.deletePlayer(action))
     )
-    @Receiver()
+    @Receiver
     onPlayerDeleted = this.sockets$.pipe(
         ofType<RemovePlayer>(LobbyActionTypes.REMOVE_PLAYER),
         map(action => new RemovePlayer(action.payload)),
