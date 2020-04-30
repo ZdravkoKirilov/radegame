@@ -6,7 +6,7 @@ import get from 'lodash/get';
 
 import { GameArenaService, GameFetchService } from '@app/core';
 import {
-  actionTypes, FetchGameInstance, FetchGameInstanceSuccess,
+  ArenaGeneralActionTypes, FetchGameInstance, FetchGameInstanceSuccess,
   FetchGameInstanceFail, FetchGameConfig, FetchGameConfigFail, FetchGameConfigSuccess, FetchGame, FetchGameSuccess, FetchGameFail, CreateGameState, SetGameState
 } from '../actions';
 import { formatGameConfigData } from '@app/shared';
@@ -25,7 +25,7 @@ export class ArenaEffectsService {
 
   @Effect()
   initializeGameState = this.actions$.pipe(
-    ofType<CreateGameState>(actionTypes.INITIALIZE_GAME_STATE),
+    ofType<CreateGameState>(ArenaGeneralActionTypes.INITIALIZE_GAME_STATE),
     map(action => {
       const { instance, conf, round } = action.payload;
       const state = get(instance, 'state', createGameState({
@@ -37,7 +37,7 @@ export class ArenaEffectsService {
 
   @Effect()
   getGame = this.actions$.pipe(
-    ofType<FetchGame>(actionTypes.FETCH_GAME),
+    ofType<FetchGame>(ArenaGeneralActionTypes.FETCH_GAME),
     mergeMap(action => {
       return this.fetchApi.getGame(action.payload).pipe(
         map(game => {
@@ -52,7 +52,7 @@ export class ArenaEffectsService {
 
   @Effect()
   getGameInstance = this.actions$.pipe(
-    ofType<FetchGameInstance>(actionTypes.FETCH_GAME_INSTANCE),
+    ofType<FetchGameInstance>(ArenaGeneralActionTypes.FETCH_GAME_INSTANCE),
     mergeMap(action => {
       return this.arenaApi.fetchActiveGame(action.payload).pipe(
         map(game => {
@@ -67,7 +67,7 @@ export class ArenaEffectsService {
 
   @Effect()
   getGameConfig = this.actions$.pipe(
-    ofType<FetchGameConfig>(actionTypes.FETCH_GAME_CONFIG),
+    ofType<FetchGameConfig>(ArenaGeneralActionTypes.FETCH_GAME_CONFIG),
     mergeMap(action => {
       const query = action.payload.keywords.length ? `keywords=${action.payload.keywords.join(',')}` : '';
       return this.fetchApi.getGameData(action.payload.gameId, query).pipe(

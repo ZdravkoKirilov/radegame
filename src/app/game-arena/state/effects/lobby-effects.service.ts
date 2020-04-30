@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { map } from 'rxjs/operators';
 
 import { LiveLobbyService } from '../../services';
-import { AddMessage, LobbyActionTypes, SendMessage, CreateLobby, AddLobby, AddLobbies, DeleteLobby, RemoveLobby, SavePlayer, AddPlayer, DeletePlayer, RemovePlayer, FetchLobbies, CreateGame, AddGame } from '../actions';
+import { AddMessage, LobbyActionTypes, SendMessage, CreateLobby, AddLobby, AddLobbies, DeleteLobby, RemoveLobby, SavePlayer, AddPlayer, DeletePlayer, RemovePlayer, FetchLobbies, CreateGame, StartGame } from '../actions';
 
 const Receiver = Effect();
 const Sender = Effect({ dispatch: false });
@@ -23,8 +23,8 @@ export class LobbyEffects {
     )
     @Receiver
     onGameCreated = this.sockets$.pipe(
-        ofType<AddGame>(LobbyActionTypes.ADD_GAME),
-        map(action => new AddGame(action.payload))
+        ofType<StartGame>(LobbyActionTypes.START_GAME),
+        map(action => new StartGame(action.payload))
     )
 
 

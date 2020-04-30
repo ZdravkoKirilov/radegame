@@ -1,5 +1,4 @@
-import { Lobby, LobbyPlayer, ChatMessage } from "../../models";
-import { Game } from "@app/game-mechanics";
+import { Lobby, LobbyPlayer, ChatMessage, GameInstance } from "../../models";
 
 export enum LobbyActionTypes {
   FETCH_LOBBIES = '[Lobby] FETCH_LOBBIES', // remote command
@@ -23,7 +22,7 @@ export enum LobbyActionTypes {
   ADD_MESSAGES = '[Lobby] ADD_MESSAGES',
 
   CREATE_GAME = '[Lobby] CREATE_GAME',
-  ADD_GAME = '[Lobby] ADD_GAME',
+  START_GAME = '[Lobby] START_GAME',
 
   /* used when lobby view is destroyed */
   CLEAR_STATE = '[Lobby] CLEAR_STATE',
@@ -92,12 +91,16 @@ export class AddMessage {
 
 export class CreateGame {
   readonly type = LobbyActionTypes.CREATE_GAME;
-  constructor(public payload: { game: Game }) { }
+  constructor(public payload: { game_data: {
+    game_id: number;
+    players: LobbyPlayer[];
+    setup: number;
+  } }) { }
 }
 
-export class AddGame {
-  readonly type = LobbyActionTypes.ADD_GAME;
-  constructor(public payload: { game: Game }) { }
+export class StartGame {
+  readonly type = LobbyActionTypes.START_GAME;
+  constructor(public payload: { game: GameInstance }) { }
 }
 
 export class ClearLobbyState {
@@ -105,4 +108,5 @@ export class ClearLobbyState {
 }
 
 export type LobbyAction = FetchLobbies | AddLobbies | CreateLobby | AddLobby | DeleteLobby | RemoveLobby |
-  SavePlayer | AddPlayer | DeletePlayer | RemovePlayer | SendMessage | AddMessage | ClearLobbyState;
+  SavePlayer | AddPlayer | DeletePlayer | RemovePlayer | SendMessage | AddMessage | ClearLobbyState |
+  CreateGame | StartGame;
