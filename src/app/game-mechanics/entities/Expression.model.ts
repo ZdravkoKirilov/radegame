@@ -1,6 +1,7 @@
 import { BaseModel } from "./Base.model";
 import { GenericEvent, StatefulComponent, DidUpdatePayload } from "@app/render-kit";
 import { Omit, SubscribableBase, GenericSubscription } from "@app/shared";
+import { Sonata } from "./Sonata.model";
 
 export type Expression = BaseModel & Partial<{
     code: string;
@@ -28,3 +29,5 @@ export type ContextSubscribingFunc = ParamedExpressionFunc<{
     contexts: { [contextName: string]: SubscribableBase<any> },
     component: StatefulComponent
 }, GenericSubscription | GenericSubscription[] | string | string[]>
+
+export type SonataGetterFunc = ParamedExpressionFunc<StatefulComponent, Sonata>;

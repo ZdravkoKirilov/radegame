@@ -3,7 +3,7 @@ import { Shape } from "./Shape.model";
 import { RuntimeChoice } from "./Choice.model";
 import { RuntimeToken } from "./Token.model";
 import { Stage, RuntimeStage } from "./Stage.model";
-import { ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc } from "./Expression.model";
+import { ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc, SonataGetterFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
 import { Text } from "./Text.model";
@@ -56,7 +56,7 @@ export type SlotHandler = {
 
 export type RuntimeSlotHandler = Omit<SlotHandler, 'effect' | 'sound' | 'static_sound'> & {
     effect: EventHandlingExpressionFunc;
-    sound: ParamedExpressionFunc<StatefulComponent, Sonata>;
+    sound: SonataGetterFunc;
     static_sound: Sonata;
 };
 
@@ -83,7 +83,7 @@ export type SlotLifecycle = {
 export type RuntimeSlotLifecycle = Omit<SlotLifecycle, 'effect' | 'sound' | 'static_sound'> & Partial<{
     effect: LifecycleExpressionFunc;
 
-    sound: ParamedExpressionFunc<StatefulComponent, Sonata>;
+    sound: SonataGetterFunc;
     static_sound: Sonata;
 }>;
 

@@ -5,7 +5,7 @@ import { ROUTER_PARAMS } from '../config';
 
 export const selectRouterFeature = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
 
-export const selectRouterState = createSelector(
+const selectRouterState = createSelector(
     selectRouterFeature,
     feature => feature ? feature.state : null,
 );

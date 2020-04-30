@@ -1,9 +1,8 @@
 import { Action } from "@ngrx/store";
 
-import {
-  RuntimeSlotHandler, ExpressionContext, enrichSonata,
-} from "@app/game-mechanics";
-import { SoundPlayer, GenericEvent, StatefulComponent } from "@app/render-kit";
+import { RuntimeSlotHandler, ExpressionContext } from "@app/game-mechanics";
+import { GenericEvent, StatefulComponent } from "@app/render-kit";
+import { playSoundIfNeeded } from "@app/shared";
 
 type HandlerParams = {
   self: StatefulComponent,
@@ -24,21 +23,11 @@ export const assignHandlers = ({ self, handlers, context, dispatch }: HandlerPar
             dispatch(actionOrActions);
           }
         }
-        playSoundIfNeeded(handler, self, context);
+        playSoundIfNeeded(handler.sound, handler.static_sound, self, context);
       };
       return acc;
     },
     {}
   );
   return all_handlers;
-};
-
-const playSoundIfNeeded = (handler: RuntimeSlotHandler, self: StatefulComponent, context: ExpressionContext) => {
-  const sonata = typeof handler.sound === 'function' ? handler.sound(self) : handler.static_sound;
-
-  if (sonata) {
-    const runtimeSonata = enrichSonata(context.conf, sonata);
-    const soundPlayer = new SoundPlayer();
-    soundPlayer.play(runtimeSonata);
-  }
 };
