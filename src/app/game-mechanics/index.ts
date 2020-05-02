@@ -6,3 +6,4 @@ export * from './helpers';
 export * from './graphics';
 
 export * from './hocs';
+export * from './mixins';

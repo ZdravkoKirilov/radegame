@@ -1,7 +1,5 @@
 import { StatefulComponent, DidUpdatePayload } from "@app/render-kit";
-import { RuntimeSlotLifecycle, SLOT_LIFECYCLES, ExpressionContext } from "@app/game-mechanics";
-
-import { playSoundIfNeeded } from "@app/shared";
+import { RuntimeSlotLifecycle, SLOT_LIFECYCLES, ExpressionContext, playSoundIfNeeded } from "@app/game-mechanics";
 
 type RequiredProps = {
   lifecycles: RuntimeSlotLifecycle;

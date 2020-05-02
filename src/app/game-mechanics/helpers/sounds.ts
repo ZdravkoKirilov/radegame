@@ -1,5 +1,7 @@
-import { SonataGetterFunc, Sonata, ExpressionContext, enrichSonata } from "@app/game-mechanics";
 import { StatefulComponent, SoundPlayer } from "@app/render-kit";
+import { SonataGetterFunc, Sonata } from "../entities";
+import { ExpressionContext } from "./expression-context";
+import { enrichSonata } from "./entity-composers";
 
 export const playSoundIfNeeded = (sound: SonataGetterFunc, static_sound: Sonata, self: StatefulComponent, context: ExpressionContext) => {
   const sonata = typeof sound === 'function' ? sound(self) : static_sound;

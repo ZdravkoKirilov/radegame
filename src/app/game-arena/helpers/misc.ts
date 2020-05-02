@@ -1,8 +1,7 @@
 import { Action } from "@ngrx/store";
 
-import { RuntimeSlotHandler, ExpressionContext } from "@app/game-mechanics";
+import { RuntimeSlotHandler, ExpressionContext, playSoundIfNeeded } from "@app/game-mechanics";
 import { GenericEvent, StatefulComponent } from "@app/render-kit";
-import { playSoundIfNeeded } from "@app/shared";
 
 type HandlerParams = {
   self: StatefulComponent,
