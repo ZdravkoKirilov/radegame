@@ -1,14 +1,16 @@
 import { createElement, StatefulComponent, RzElementPrimitiveProps, RzTransition, RzTransitionProps, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-    ShapeSlotProps, ShapeSlot, RuntimeSlot, connectToStore, RuntimeShape, combineStyles, RuntimeSlotHandler, ExpressionContext, RuntimeTransition, selectSlotStyleSync, AddedStoreProps
+    ShapeSlotProps, ShapeSlot, RuntimeSlot, connectToStore, RuntimeShape, combineStyles, RuntimeSlotHandler, ExpressionContext, RuntimeTransition, selectSlotStyleSync, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle
 } from "@app/game-mechanics";
+import { Dictionary } from "@app/shared";
+
 import {
     selectRuntimeShape, selectSlotHandlers, selectExpressionContext,
-    selectSlotTransitions
+    selectSlotTransitions,
+    selectSlotLifecycles
 } from '../../state';
 import { assignHandlers } from "../../helpers";
-import { Dictionary, WithSubscriptions } from "@app/shared";
 
 export type EnhancedShapeSlotProps = {
     data: RuntimeSlot;
@@ -19,12 +21,14 @@ type StoreProps = {
     handlers: RuntimeSlotHandler[];
     context: ExpressionContext;
     transitions: RuntimeTransition[];
+    lifecycles: RuntimeSlotLifecycle[];
 };
 
 type Props = EnhancedShapeSlotProps & StoreProps & AddedStoreProps;
 
 type State = { animated: Dictionary };
-@WithSubscriptions
+@GiveAndUseContext
+@WithSlotLifecycles
 export class EnhancedShapeSlot extends StatefulComponent<Props, State> {
     state: State = { animated: {} };
 
@@ -76,6 +80,7 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedShapeSlotProps): Sto
     handlers: selectSlotHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
     transitions: selectSlotTransitions(ownProps.data)(state),
+    lifecycles: selectSlotLifecycles(ownProps.data)(state),
 });
 
 export default connectToStore(mapStateToProps)(EnhancedShapeSlot);

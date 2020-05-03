@@ -1,7 +1,7 @@
 import {
     Slot, RuntimeSlot, GameEntity,
     SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
-    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, SlotItem, RuntimeSlotItem, Token, RuntimeToken, Choice, RuntimeChoice
+    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, SlotItem, RuntimeSlotItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeSlotLifecycle, SlotLifecycle
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
@@ -15,6 +15,8 @@ export const enrichSlot = (config: Dictionary<GameEntity>, context: Dictionary, 
             style_inline: (src: string) => safeJSON(src, {})
         }, config.shapes[shapeId]),
         display_text: src => parseAndBind(context)(src),
+        consume_context: src => parseAndBind(context)(src),
+        provide_context: src => parseAndBind(context)(src),
         display_text_inline: 'texts',
         board: 'stages',
     }, initialSlot);
@@ -28,6 +30,14 @@ export const enrichHandler = (config: Dictionary<GameEntity>, context: Dictionar
         sound: src => parseAndBind(context)(src),
         static_sound: 'sonatas',
     }, handler);
+};
+
+export const enrichLifecycle = (config: Dictionary<GameEntity>, context: Dictionary, lifecycle: SlotLifecycle) => {
+    return enrichEntity<SlotLifecycle, RuntimeSlotLifecycle>(config, {
+        effect: src => parseAndBind(context)(src),
+        sound: src => parseAndBind(context)(src),
+        static_sound: 'sonatas',
+    }, lifecycle);
 };
 
 export const enrichTransition = (config: Dictionary<GameEntity>, context: Dictionary, transition: Transition) => {

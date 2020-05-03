@@ -41,7 +41,7 @@ export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item'
     display_text: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, Text>;
     display_text_inline: Text;
 
-    provide_context: ParamedExpressionFunc<{ slot: RuntimeStage, component: StatefulComponent }, any>; // provideValueToSubscribers
+    provide_context: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, any>; // provideValueToSubscribers
     consume_context: ContextSubscribingFunc; // fires once, onMount: Returns string[] which are the names of contexts to which the component will subscribe which is a shortcut or it can return the Subscriptions[] directly as a lower level api. Return each subscription so it can be automatically unsubscribed on willUnmount
 };
 

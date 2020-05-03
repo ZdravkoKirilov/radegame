@@ -5,7 +5,7 @@ import groupBy from 'lodash/groupBy';
 import { FEATURE_NAME } from "../../config";
 import {
   Round, Setup, Stage, RuntimeSlot, enrichSlot, enrichRound, enrichStage,
-  enrichFrame, enrichShape, Shape, enrichHandler, enrichTransition, SlotItem, enrichItem
+  enrichFrame, enrichShape, Shape, enrichHandler, enrichTransition, SlotItem, enrichItem, enrichLifecycle
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { toDictionary, selectLobbyName } from "@app/shared";
@@ -132,6 +132,14 @@ export const selectSlotHandlers = (slot: RuntimeSlot) => createSelector(
   selectExpressionContext,
   (config, context) => {
     return slot.handlers.map(slot => enrichHandler(config, context, slot));
+  }
+);
+
+export const selectSlotLifecycles = (slot: RuntimeSlot) => createSelector(
+  selectConfig,
+  selectExpressionContext,
+  (config, context) => {
+    return slot.lifecycles.map(slot => enrichLifecycle(config, context, slot));
   }
 );
 

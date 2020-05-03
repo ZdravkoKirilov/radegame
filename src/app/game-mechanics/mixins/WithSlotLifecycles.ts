@@ -1,8 +1,9 @@
 import { StatefulComponent, DidUpdatePayload } from "@app/render-kit";
-import { RuntimeSlotLifecycle, SLOT_LIFECYCLES, ExpressionContext, playSoundIfNeeded } from "@app/game-mechanics";
+import { RuntimeSlotLifecycle, SLOT_LIFECYCLES } from "../entities";
+import { ExpressionContext, playSoundIfNeeded } from "../helpers";
 
 type RequiredProps = {
-  lifecycles: RuntimeSlotLifecycle;
+  lifecycles: RuntimeSlotLifecycle[];
   context: ExpressionContext;
 }
 
@@ -29,10 +30,10 @@ export function WithSlotLifecycles(constructor: Constructor<StatefulComponent<Re
   prototype.willUnmount = function () {
     const relatedLifecycles = getRelatedLifecycles(SLOT_LIFECYCLES.onUnmount, this.props['lifecycles']);
     relatedLifecycles.forEach(doLifecycleStuffBro(this, this.props['context']));
-
-    this.subscriptions ?? [].forEach(sub => sub.unsubscribe());
     originalwillUnmount && originalwillUnmount.apply(this, arguments);
   }
+
+  return constructor as typeof StatefulComponent;
 }
 
 const doLifecycleStuffBro = (component: StatefulComponent, context: ExpressionContext, payload?: DidUpdatePayload) =>

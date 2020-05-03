@@ -1,9 +1,11 @@
 import get from 'lodash/get';
 
+import { Dictionary } from '@app/shared';
+
 import { Player, GameState, GameTemplate } from "../models";
 import { Expression } from "../entities";
 import { parseAndBind } from './misc';
-import { Dictionary, HomeMadeEventEmitter } from '@app/shared';
+import { HomeMadeEventEmitter } from './HomeMadeEventEmitter';
 
 const eventBus = new HomeMadeEventEmitter();
 

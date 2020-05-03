@@ -2,14 +2,14 @@ import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransition
 import { AppState } from "@app/core";
 import {
   RuntimeSlot, connectToStore, StageRendererProps, StageRenderer, RuntimeStage,
-  combineStyles, ExpressionContext, selectStageSlotsSync, selectStageFrameSync, selectSlotStyleSync, RuntimeSlotHandler, RuntimeTransition, AddedStoreProps
+  combineStyles, ExpressionContext, selectStageSlotsSync, selectStageFrameSync, selectSlotStyleSync, RuntimeSlotHandler, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle
 } from "@app/game-mechanics";
-import { selectExpressionContext, selectItemTemplate, selectSlotHandlers, selectSlotTransitions } from '../../state';
+import { Dictionary } from "@app/shared";
 
+import { selectExpressionContext, selectItemTemplate, selectSlotHandlers, selectSlotTransitions, selectSlotLifecycles } from '../../state';
 import NodeFactory, { NodeFactoryProps } from './Factory';
 import StaticStage, { StaticStageProps } from "./StaticStage";
 import { assignHandlers } from "../../helpers";
-import { Dictionary } from "@app/shared";
 
 export type EnhancedItemSlotProps = {
   data: RuntimeSlot;
@@ -20,12 +20,14 @@ type StoreProps = {
   context: ExpressionContext;
   handlers: RuntimeSlotHandler[];
   transitions: RuntimeTransition[];
+  lifecycles: RuntimeSlotLifecycle[];
 };
 
 type Props = EnhancedItemSlotProps & StoreProps & AddedStoreProps;
 
 type State = { animated: Dictionary };
-
+@GiveAndUseContext
+@WithSlotLifecycles
 class EnhancedItemSlot extends StatefulComponent<Props, State> {
   state: State = { animated: {} };
 
@@ -91,6 +93,7 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedItemSlotProps): Stor
   handlers: selectSlotHandlers(ownProps.data)(state),
   context: selectExpressionContext(state),
   transitions: selectSlotTransitions(ownProps.data)(state),
+  lifecycles: selectSlotLifecycles(ownProps.data)(state),
 });
 
 export default connectToStore(mapStateToProps)(EnhancedItemSlot);

@@ -1,9 +1,10 @@
 import get from "lodash/get";
 
-import { RuntimeStage, RuntimeSlot, RuntimeText } from "../entities";
-import { enrichSlot, enrichFrame, enrichText } from "./entity-composers";
 import { withMemo } from "@app/shared";
 import { StatefulComponent } from "@app/render-kit";
+
+import { RuntimeStage, RuntimeSlot, RuntimeText } from "../entities";
+import { enrichSlot, enrichFrame, enrichText } from "./entity-composers";
 import { ExpressionContext } from "./expression-context";
 
 const _selectSlotStyleSync = (slot: RuntimeSlot, component: StatefulComponent) => {

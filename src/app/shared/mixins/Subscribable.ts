@@ -6,23 +6,23 @@ export interface GenericSubscription {
   unsubscribe(): void;
 }
 
-export interface SubscribableBase<T> {
+export interface SubscribableBase<T = any> {
   provideValueToSubscribers(): T;
   subscribe?(callback: Callback<T>): GenericSubscription;
 }
 
 export function WithSubscriptions<TBase extends Constructor, ValueType = any>(Base: TBase) {
   return class extends Base implements SubscribableBase<any> {
-    private handlers = new Set();
+    private callbacks = new Set();
 
     subscribe = (callback: Callback<ValueType>) => {
-      this.handlers.add(callback);
+      this.callbacks.add(callback);
 
       callback(this.provideValueToSubscribers());
 
       return {
         unsubscribe() {
-          this.handlers.delete(callback);
+          this.callbacks.delete(callback);
         }
       };
     };

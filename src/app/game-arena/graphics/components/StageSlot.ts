@@ -2,17 +2,18 @@ import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransition
 import { AppState } from "@app/core";
 import {
     RuntimeSlot, connectToStore, StageRendererProps, StageRenderer, RuntimeStage,
-    RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync, RuntimeTransition, selectStageFrameSync, selectStageSlotsSync, AddedStoreProps
+    RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync, RuntimeTransition, selectStageFrameSync, selectStageSlotsSync, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle
 } from "@app/game-mechanics";
 import {
     selectRuntimeStage, selectSlotHandlers, selectExpressionContext,
-    selectSlotTransitions
+    selectSlotTransitions,
+    selectSlotLifecycles
 } from '../../state';
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
 import StaticStage, { StaticStageProps } from "./StaticStage";
 import { assignHandlers } from "../../helpers";
-import { Dictionary, WithSubscriptions } from "@app/shared";
+import { Dictionary } from "@app/shared";
 
 export type EnhancedStageSlotProps = {
     data: RuntimeSlot;
@@ -23,12 +24,15 @@ type StoreProps = {
     handlers: RuntimeSlotHandler[];
     context: ExpressionContext;
     transitions: RuntimeTransition[];
+    lifecycles: RuntimeSlotLifecycle[];
 };
 
 type Props = EnhancedStageSlotProps & StoreProps & AddedStoreProps;
 
 type State = { animated: Dictionary };
-@WithSubscriptions
+
+@GiveAndUseContext
+@WithSlotLifecycles
 class EnhancedStageSlot extends StatefulComponent<Props, State> {
     state: State = { animated: {} };
 
@@ -94,6 +98,7 @@ const mapStateToProps = (state: AppState, ownProps: EnhancedStageSlotProps): Sto
     handlers: selectSlotHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
     transitions: selectSlotTransitions(ownProps.data)(state),
+    lifecycles: selectSlotLifecycles(ownProps.data)(state),
 });
 
 export default connectToStore(mapStateToProps)(EnhancedStageSlot);

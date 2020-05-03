@@ -4,7 +4,6 @@ import { StatefulComponent, createElement, MetaProps } from "@app/render-kit";
 import { AppState } from "@app/core";
 import { MainStage } from "../main-stage";
 import { GameBroadcastService } from "../../../services/game-broadcast/game-broadcast.service";
-import { HomeMadeEventEmitter } from "@app/shared";
 
 type Props = {
     store: Store<AppState>;
