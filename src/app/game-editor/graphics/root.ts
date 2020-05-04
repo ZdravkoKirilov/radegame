@@ -118,7 +118,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
             stage: runtimeStage,
             style: { width: runtimeStage.width, height: runtimeStage.height },
             frame,
-            renderStaticStage: stage => {
+            renderFrame: stage => {
               return createElement<StaticStageProps>(StaticStage, {
                 stage,
                 style: { width: runtimeStage.width, height: runtimeStage.height }

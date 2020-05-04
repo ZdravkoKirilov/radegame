@@ -26,11 +26,9 @@ export const RoundStage = Memo<Props>(({ stage, slots, frame }) => {
                 )
 
             },
-            slots,
-            stage,
+            slots, frame, stage,
             style: { width: stage.width, height: stage.height },
-            frame,
-            renderStaticStage: stage => {
+            renderFrame: stage => {
                 return createElement<StaticStageProps>(StaticStage, {
                     stage,
                     style: { width: stage.width, height: stage.height }

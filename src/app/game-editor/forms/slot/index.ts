@@ -53,6 +53,8 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
 
             <CodeEditor name='consume_context' label='Consume context'>{data.consume_context}</CodeEditor>
 
+            <CodeEditor name='pass_to_Children' label='Pass to children'>{data.pass_to_children}</CodeEditor>
+
             <Group name='handlers' label='Handlers' children='{handlers}' item='@handler' addButtonText='Add'>
                 <Form>
                     <NumberInput name='id' hidden='{true}'>{@handler.id}</NumberInput>

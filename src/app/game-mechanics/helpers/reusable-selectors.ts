@@ -7,6 +7,14 @@ import { RuntimeStage, RuntimeSlot, RuntimeText } from "../entities";
 import { enrichSlot, enrichFrame, enrichText } from "./entity-composers";
 import { ExpressionContext } from "./expression-context";
 
+export const selectChildPropsSync = (slot: RuntimeSlot, component: StatefulComponent) => {
+  const handler = slot.pass_to_children;
+  if (typeof handler === 'function') {
+    const result = handler({ slot, component });
+    return result;
+  }
+};
+
 const _selectSlotStyleSync = (slot: RuntimeSlot, component: StatefulComponent) => {
   if (slot) {
     if (slot.style) {

@@ -44,7 +44,7 @@ class EnhancedStageSlot extends StatefulComponent<Props> {
                     createElement<NodeFactoryProps>(NodeFactory, { data: slot })
                 );
             },
-            renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
+            renderFrame: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
         });
     }
 };

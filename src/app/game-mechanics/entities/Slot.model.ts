@@ -2,7 +2,7 @@ import { BaseModel, WithBoard, WithStyle } from "./Base.model";
 import { Shape } from "./Shape.model";
 import { RuntimeChoice } from "./Choice.model";
 import { RuntimeToken } from "./Token.model";
-import { Stage, RuntimeStage } from "./Stage.model";
+import { Stage } from "./Stage.model";
 import { ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc, SonataGetterFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
@@ -24,6 +24,8 @@ export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
     provide_context: string;
     consume_context: string;
 
+    pass_to_children: string;
+
     handlers: SlotHandler[];
     transitions: number[]; // TransitionId[]
     lifecycles: SlotLifecycle[];
@@ -42,7 +44,9 @@ export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item'
     display_text_inline: Text;
 
     provide_context: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, any>; // provideValueToSubscribers
-    consume_context: ContextSubscribingFunc; // fires once, onMount: Returns string[] which are the names of contexts to which the component will subscribe which is a shortcut or it can return the Subscriptions[] directly as a lower level api. Return each subscription so it can be automatically unsubscribed on willUnmount
+    consume_context: ContextSubscribingFunc;
+
+    pass_to_children: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, any>;
 };
 
 export type SlotHandler = {

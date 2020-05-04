@@ -2,7 +2,7 @@ import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransition
 import { AppState } from "@app/core";
 import {
   RuntimeSlot, connectToStore, StageRendererProps, StageRenderer, RuntimeStage,
-  combineStyles, ExpressionContext, selectStageSlotsSync, selectStageFrameSync, selectSlotStyleSync, RuntimeSlotHandler, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle
+  combineStyles, ExpressionContext, selectStageSlotsSync, selectStageFrameSync, selectSlotStyleSync, RuntimeSlotHandler, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle, selectChildPropsSync
 } from "@app/game-mechanics";
 import { Dictionary } from "@app/shared";
 
@@ -13,6 +13,7 @@ import { assignHandlers } from "../../helpers";
 
 export type EnhancedItemSlotProps = {
   data: RuntimeSlot;
+  fromParent: any;
 }
 
 type StoreProps = {
@@ -38,6 +39,7 @@ class EnhancedItemSlot extends StatefulComponent<Props, State> {
     const slots = selectStageSlotsSync(stage, context, self);
     const frame = selectStageFrameSync(stage, context, self);
     const style = selectSlotStyleSync(data, self);
+    const childProps = selectChildPropsSync(data, self);
     const styleWithTransitionOverrides = { ...style, ...animated };
 
     return createElement<RzElementPrimitiveProps>(
@@ -79,10 +81,10 @@ class EnhancedItemSlot extends StatefulComponent<Props, State> {
               id: slot.id,
               name: `node_${slot.id}`
             },
-            createElement<NodeFactoryProps>(NodeFactory, { data: slot })
+            createElement<NodeFactoryProps>(NodeFactory, { data: slot, fromParent: childProps })
           );
         },
-        renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
+        renderFrame: stage => createElement<StaticStageProps>(StaticStage, { stage, style, fromParent: childProps }),
       }),
     );
   }

@@ -7,11 +7,11 @@ export type StageRendererProps = {
     slots: RuntimeSlot[];
     frame: RuntimeImageFrame;
     renderChild: (slot: RuntimeSlot) => RzElement;
-    renderStaticStage: (stage: Stage, style: Style) => RzElement;
+    renderFrame: (stage: Stage, style: Style) => RzElement;
     style: Style;
 };
 
-export const StageRenderer = Memo<StageRendererProps>(({ stage, slots, renderChild, renderStaticStage, style, frame }) => {
+export const StageRenderer = Memo<StageRendererProps>(({ stage, slots, renderChild, renderFrame, style, frame }) => {
     slots = slots || [];
     const nodes = slots.map(slot => {
         return createElement('container', { key: slot.id },
@@ -33,7 +33,7 @@ export const StageRenderer = Memo<StageRendererProps>(({ stage, slots, renderChi
             { styles: { z_order: 2 } },
             createElement<FrameRendererProps>(FrameRenderer, {
                 frame,
-                renderStage: renderStaticStage,
+                renderStage: renderFrame,
                 style: {
                     width: stage.width,
                     height: stage.height

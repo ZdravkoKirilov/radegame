@@ -2,7 +2,7 @@ import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransition
 import { AppState } from "@app/core";
 import {
     RuntimeSlot, connectToStore, StageRendererProps, StageRenderer, RuntimeStage,
-    RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync, RuntimeTransition, selectStageFrameSync, selectStageSlotsSync, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle
+    RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync, RuntimeTransition, selectStageFrameSync, selectStageSlotsSync, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle, selectChildPropsSync
 } from "@app/game-mechanics";
 import {
     selectRuntimeStage, selectSlotHandlers, selectExpressionContext,
@@ -17,6 +17,7 @@ import { Dictionary } from "@app/shared";
 
 export type EnhancedStageSlotProps = {
     data: RuntimeSlot;
+    fromParent: any;
 }
 
 type StoreProps = {
@@ -39,6 +40,7 @@ class EnhancedStageSlot extends StatefulComponent<Props, State> {
     render() {
         const self = this;
         const { data, stage, handlers, context, transitions, dispatch } = this.props;
+        const childProps = selectChildPropsSync(data, self);
         const { animated } = this.state;
         const style = selectSlotStyleSync(data, self);
         const frame = selectStageFrameSync(stage, context, self);
@@ -84,10 +86,10 @@ class EnhancedStageSlot extends StatefulComponent<Props, State> {
                             id: slot.id,
                             name: `node_${slot.id}`
                         },
-                        createElement<NodeFactoryProps>(NodeFactory, { data: slot })
+                        createElement<NodeFactoryProps>(NodeFactory, { data: slot, fromParent: childProps })
                     );
                 },
-                renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
+                renderFrame: stage => createElement<StaticStageProps>(StaticStage, { stage, style, fromParent: childProps }),
             }),
         );
     }

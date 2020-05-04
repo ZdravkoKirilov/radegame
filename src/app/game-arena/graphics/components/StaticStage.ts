@@ -10,6 +10,7 @@ import NodeFactory, { NodeFactoryProps } from "./Factory";
 export type StaticStageProps = {
   stage: Stage;
   style: Style;
+  fromParent?: any;
 }
 
 type StoreProps = {
@@ -23,7 +24,7 @@ export class StaticStage extends StatefulComponent<Props> {
 
   render() {
     const self = this;
-    const { runtimeStage, context, style } = this.props;
+    const { runtimeStage, context, style, fromParent } = this.props;
 
     const frame = selectStageFrameSync(runtimeStage, context, self);
     const slots = selectStageSlotsSync(runtimeStage, context, self);
@@ -39,10 +40,10 @@ export class StaticStage extends StatefulComponent<Props> {
             id: slot.id,
             name: `node_${slot.id}`
           },
-          createElement<NodeFactoryProps>(NodeFactory, { data: slot }),
+          createElement<NodeFactoryProps>(NodeFactory, { data: slot, fromParent }),
         );
       },
-      renderStaticStage: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
+      renderFrame: stage => createElement<StaticStageProps>(StaticStage, { stage, style, fromParent }),
     });
   }
 };
