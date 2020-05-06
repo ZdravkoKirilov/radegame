@@ -1,6 +1,5 @@
 export * from './stage';
 export * from './round';
-export * from './faction';
 export * from './round';
 export * from './choice';
 export * from './game';

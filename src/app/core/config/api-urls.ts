@@ -34,10 +34,6 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/sonatas/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    FACTIONS: (gameId: number, factionId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/factions/`;
-        return factionId ? `${base}${factionId}/` : base;
-    },
     ROUNDS: (gameId: number, roundId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/rounds/`;
         return roundId ? `${base}${roundId}/` : base;

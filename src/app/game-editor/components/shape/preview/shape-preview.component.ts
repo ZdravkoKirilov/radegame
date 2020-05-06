@@ -20,8 +20,8 @@ export class ShapePreviewComponent implements OnInit {
   @OnChange<RuntimeShape>(function (shape) {
     const mount: MountRef = this.mount;
     const component = mount ? mount.component as StatefulComponent : null;
-    const shapeStyle = (typeof shape.style === 'function' ? shape.style(shape) : shape.style_inline) || {} as Style;
-    if (component) {
+    if (component && shape) {
+      const shapeStyle = (typeof shape.style === 'function' ? shape.style(shape) : shape.style_inline) || {} as Style;
       component.updateProps({ shape, style: shapeStyle });
     }
   })

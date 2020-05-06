@@ -1,5 +1,4 @@
 export * from './editor/editor.container';
-export * from './factions/factions.container';
 export * from './games/games.container';
 export * from './rounds/rounds.container';
 export * from './stages/stages.container';

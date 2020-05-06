@@ -5,8 +5,7 @@ import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
-    GameEntity, Round,
-    Faction, Token, Choice, Game, ImageAsset, Stage, Slot, Style, Setup,
+    GameEntity, Round, Token, Choice, Game, ImageAsset, Stage, Slot, Style, Setup,
     AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess, FetchItemAction, FetchItemSuccessAction, FetchItemFailAction, FetchItemsFailAction } from '../actions';
@@ -167,9 +166,6 @@ export class GenericEffectsService {
 
     fetchRequest(key: AllEntity, data: number): Observable<any[]> {
         switch (key) {
-
-            case ALL_ENTITIES.factions:
-                return this.fetcher.getFactions(data);
             case ALL_ENTITIES.rounds:
                 return this.fetcher.getRounds(data);
             case ALL_ENTITIES.stages:
@@ -189,8 +185,6 @@ export class GenericEffectsService {
 
     saveRequest(key: AllEntity, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
-            case ALL_ENTITIES.factions:
-                return this.api.saveFaction(<Faction>entity);
             case ALL_ENTITIES.rounds:
                 return this.api.saveRound(<Round>entity);
             case ALL_ENTITIES.stages:
@@ -233,8 +227,6 @@ export class GenericEffectsService {
 
     deleteRequest(key: AllEntity, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
-            case ALL_ENTITIES.factions:
-                return this.api.deleteFaction(<Faction>entity);
             case ALL_ENTITIES.rounds:
                 return this.api.deleteRound(<Round>entity);
             case ALL_ENTITIES.stages:

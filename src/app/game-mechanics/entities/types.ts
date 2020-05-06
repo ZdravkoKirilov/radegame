@@ -1,6 +1,3 @@
-import { Choice } from "./Choice.model";
-import { Token } from "./Token.model";
-
 export type InteractiveEntityType = keyof typeof INTERACTIVE_ENTITY;
 
 export const INTERACTIVE_ENTITY = {
@@ -12,7 +9,6 @@ export const ALL_ENTITIES = {
     choices: 'choices',
     rounds: 'rounds',
     stages: 'stages',
-    factions: 'factions',
     tokens: 'tokens',
     games: 'games',
     images: 'images',

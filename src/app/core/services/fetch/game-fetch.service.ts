@@ -3,9 +3,8 @@ import { HttpClient } from '@angular/common/http';
 
 import { API_URLS } from '../../config';
 import {
-	Stage, Round,
-	Token, Choice, ImageAsset,
-	Game, Faction, Expression, Animation, Setup, GameTemplate
+	Stage, Round, Token, Choice, ImageAsset,
+	Game, Expression, Animation, Setup, GameTemplate
 } from '@app/game-mechanics';
 
 
@@ -52,10 +51,6 @@ export class GameFetchService {
 
 	getGame(id: number) {
 		return this.http.get<Game>(API_URLS.GAMES(id));
-	}
-
-	getFactions(gameId: number) {
-		return this.http.get<Faction[]>(API_URLS.FACTIONS(gameId));
 	}
 
 	getExpressions(gameId: number) {
