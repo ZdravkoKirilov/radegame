@@ -1,6 +1,6 @@
 import { BaseModel, WithTemplate, WithKeywords, } from "./Base.model";
 import { Omit } from "@app/shared";
-import { Stage } from "./Stage.model";
+import { Widget } from "./Widget.model";
 
 export type Choice = BaseModel & WithTemplate & Partial<{
     chances: string; // retries. Expression
@@ -24,5 +24,5 @@ export type ChoiceTip = WithKeywords & Partial<{
 }>
 
 export type RuntimeChoice = Omit<Choice, 'template'> & {
-    template: Stage;
+    template: Widget;
 }

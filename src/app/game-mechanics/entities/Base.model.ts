@@ -1,5 +1,5 @@
 import { ImageFrame, ImageAsset } from "./ImageAsset.model";
-import { Stage } from "./Stage.model";
+import { Widget } from "./Widget.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { TextFrame } from "./Text.model";
 import { RzStyles } from "@app/render-kit";
@@ -38,7 +38,7 @@ export type WithStyle = Partial<{
 }>
 
 export type WithTemplate = Partial<{
-    template: number | Stage;
+    template: number | Widget;
 }>;
 
 export type WithRuntimeStyle<T = any> = {

@@ -10,7 +10,7 @@ import { ConnectedRootComponent } from '../../../graphics';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService, OnChange } from '@app/shared';
 import { MountRef, StatefulComponent, updateComponent, RenderFunction, prepareExtras } from '@app/render-kit';
-import { Slot, ImageAsset, Stage } from '@app/game-mechanics';
+import { Slot, ImageAsset, Widget } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-main',
@@ -24,19 +24,19 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 
 	@Input() images: ImageAsset[] = [];
 
-	@OnChange<Stage>(function (newStage) {
+	@OnChange<Widget>(function (newWidget) {
 		const mount: MountRef = this.mount;
 		if (mount && mount.component) {
 			const component = mount.component as RenderFunction;
 			const newProps = {
 				...component.props,
-				stage: newStage,
+				widget: newWidget,
 			};
 			const rendered = component(newProps);
 			updateComponent(component, rendered);
 		}
 	})
-	@Input() stage: Stage;
+	@Input() widget: Widget;
 
 	@ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
 	@Output() selectSlot = new EventEmitter<Slot>();
@@ -49,13 +49,13 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 	) { }
 
 	async ngOnInit() {
-		const { _selectSlot, stage } = this;
+		const { _selectSlot, widget } = this;
 		const domHost = this.canvasWrapper.nativeElement;
 		this.mount = await mountPixi(ConnectedRootComponent, domHost, {
 			width: this.windowRef.nativeWindow.innerWidth,
 			height: this.windowRef.nativeWindow.innerHeight,
 			props: {
-				store: this.store, selectSlot: _selectSlot, stage
+				store: this.store, selectSlot: _selectSlot, widget
 			},
 			assets: new Set(this.images.map(img => img.image))
 		});

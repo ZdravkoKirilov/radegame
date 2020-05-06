@@ -8,7 +8,7 @@ export const INTERACTIVE_ENTITY = {
 export const ALL_ENTITIES = {
     choices: 'choices',
     rounds: 'rounds',
-    stages: 'stages',
+    widgets: 'widgets',
     tokens: 'tokens',
     games: 'games',
     images: 'images',

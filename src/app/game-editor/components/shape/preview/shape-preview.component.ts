@@ -32,10 +32,10 @@ export class ShapePreviewComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.mountStage();
+    this.mountWidget();
   }
 
-  async mountStage() {
+  async mountWidget() {
     const domHost = this.canvasWrapper.nativeElement;
     this.mount = await mountPixi(RootComponent, domHost, {
       width: 500,

@@ -74,7 +74,7 @@ export const imageTemplate = `
 `;
 
 export const UITemplate = `
-    <Dropdown name='template' label='Template' options='{stage_options}' showImage='{true}'>{data.template}</Dropdown>
+    <Dropdown name='template' label='Template' options='{widget_options}' showImage='{true}'>{data.template}</Dropdown>
 `;
 
 export const inlineStyleTemplate = `
@@ -97,7 +97,7 @@ export const styleTemplate = `
 `;
 
 export const boardTemplate = `
-    <Dropdown name='board' label='Board' options='{stage_options}' showImage='{true}'>{data.board}</Dropdown>
+    <Dropdown name='board' label='Board' options='{widget_options}' showImage='{true}'>{data.board}</Dropdown>
 `;
 
 export const framesTemplate = `
@@ -112,7 +112,7 @@ export const framesTemplate = `
                 {@frame.image}
             </Dropdown>
 
-            <Dropdown name='stage' label='Stage' options='{stage_options}' showImage='{true}'>{@frame.stage}</Dropdown>
+            <Dropdown name='widget' label='Widget' options='{widget_options}' showImage='{true}'>{@frame.widget}</Dropdown>
 
             <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{@frame.style}</Dropdown>
 
@@ -164,7 +164,7 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
     return {
         setup_options: composeEntityOptions(ent, 'setups'),
         token_options: composeEntityOptions(ent, 'tokens'),
-        stage_options: composeEntityOptions(ent, 'stages'),
+        widget_options: composeEntityOptions(ent, 'widgets'),
         image_options: composeEntityOptions(ent, 'images', ['thumbnail', 'svg']),
         style_options: composeEntityOptions(ent, 'styles'),
         choice_options: composeEntityOptions(ent, 'choices'),

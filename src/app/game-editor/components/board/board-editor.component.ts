@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { composeSlotForm } from '../../forms';
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Slot, Stage, ImageAsset } from '@app/game-mechanics';
+import { Slot, Widget, ImageAsset } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-editor',
@@ -12,7 +12,7 @@ export class BoardEditorComponent {
 
 	@Input() entities: ConnectedEntities = {};
 	@Input() slots: Slot[];
-	@Input() stage: Stage;
+	@Input() widget: Widget;
 	@Input() gameId: number;
 	@Input() images: ImageAsset[];
 
@@ -67,7 +67,7 @@ export class BoardEditorComponent {
 	}
 
 	handleSaveSlot(payload: Slot) {
-		const slot = <Slot>{ ...payload, id: null, game: this.gameId, owner: this.stage.id };
+		const slot = <Slot>{ ...payload, id: null, game: this.gameId, owner: this.widget.id };
 		if (this.selectedSlot) {
 			slot.id = this.selectedSlot.id;
 		}

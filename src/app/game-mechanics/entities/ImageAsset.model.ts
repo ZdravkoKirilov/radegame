@@ -1,4 +1,4 @@
-import { Stage } from "./Stage.model";
+import { Widget } from "./Widget.model";
 import { WithStyle, BaseModel } from "./Base.model";
 import { Omit } from "@app/shared";
 import { ParamedExpressionFunc } from "./Expression.model";
@@ -18,12 +18,12 @@ export type ImageFrame = WithStyle & Partial<{
     name: string;
 
     image: number;
-    stage: number;
+    widget: number;
 }>
 
-export type RuntimeImageFrame = Omit<ImageFrame, 'image' | 'stage' | 'style' | 'style_inline'> & {
+export type RuntimeImageFrame = Omit<ImageFrame, 'image' | 'widget' | 'style' | 'style_inline'> & {
     image: ImageAsset;
-    stage: Stage;
+    widget: Widget;
     style: ParamedExpressionFunc<RuntimeImageFrame, Style>;
     style_inline: RzStyles;
 }

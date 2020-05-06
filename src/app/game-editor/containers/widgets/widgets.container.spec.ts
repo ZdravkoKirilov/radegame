@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { StagesContainerComponent } from './stages.container';
+import { WidgetsContainerComponent } from './widgets.container';
 
-describe('SmartStagesComponent', () => {
-  let component: StagesContainerComponent;
-  let fixture: ComponentFixture<StagesContainerComponent>;
+describe('SmartWidgetsComponent', () => {
+  let component: WidgetsContainerComponent;
+  let fixture: ComponentFixture<WidgetsContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ StagesContainerComponent ]
+      declarations: [ WidgetsContainerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(StagesContainerComponent);
+    fixture = TestBed.createComponent(WidgetsContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

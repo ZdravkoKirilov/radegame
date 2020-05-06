@@ -1,8 +1,8 @@
-import { Stage, GameEntity } from '@app/game-mechanics';
+import { Widget, GameEntity } from '@app/game-mechanics';
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
 import { baseTemplate, composeCommonFormContext, framesTemplate } from '../helpers';
 
-export function composeStageForm(data: Stage, ent: ConnectedEntities): BaseControl[] {
+export function composeWidgetForm(data: Widget, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
     const frames = data.frames || [];
 

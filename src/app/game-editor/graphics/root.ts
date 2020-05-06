@@ -6,33 +6,33 @@ import {
 } from "@app/render-kit";
 
 import {
-  RuntimeSlot, Stage, ALL_ENTITIES, RuntimeStage, Slot, StoreProviderProps,
-  StoreProvider, StageRenderer, StageRendererProps, connectToStore, RuntimeImageFrame, ExpressionContext,
-  selectStageSlotsSync,
-  selectStageFrameSync,
+  RuntimeSlot, Widget, ALL_ENTITIES, RuntimeWidget, Slot, StoreProviderProps,
+  StoreProvider, WidgetRenderer, WidgetRendererProps, connectToStore, ExpressionContext,
+  selectWidgetSlotsSync,
+  selectWidgetFrameSync,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import {
-  SaveItemAction, selectRuntimeStage, selectExpressionContext,
+  SaveItemAction, selectRuntimeWidget, selectExpressionContext,
 } from "../state";
 
 import DraggableSlot, { Props as NodeProps } from './node/DraggableSlot';
-import StaticStage, { StaticStageProps } from "./node/StaticStage";
+import StaticWidget, { StaticWidgetProps } from "./node/StaticWidget";
 
 type Props = OwnProps & StoreProps;
 
 type OwnProps = {
   store: Store<AppState>;
-  stage: Stage;
+  widget: Widget;
   selectSlot: (slot: Slot) => void;
 }
 
 type StoreProps = {
-  runtimeStage: RuntimeStage;
+  runtimeWidget: RuntimeWidget;
   context: ExpressionContext;
 }
 
-type State = { selectedSlot: Slot; runtimeStage: RuntimeStage };
+type State = { selectedSlot: Slot; runtimeWidget: RuntimeWidget };
 
 @AutoClean()
 export class RootComponent extends StatefulComponent<Props, State> {
@@ -45,40 +45,40 @@ export class RootComponent extends StatefulComponent<Props, State> {
   }
 
   willReceiveProps(nextProps: Props) {
-    if (nextProps.runtimeStage !== this.props.runtimeStage) {
-      this.setState({ runtimeStage: nextProps.runtimeStage });
+    if (nextProps.runtimeWidget !== this.props.runtimeWidget) {
+      this.setState({ runtimeWidget: nextProps.runtimeWidget });
     }
   }
 
   didMount() {
-    this.setState({ runtimeStage: this.props.runtimeStage });
+    this.setState({ runtimeWidget: this.props.runtimeWidget });
   }
 
   selectSlot = (slot: RuntimeSlot) => {
-    const selectedSlot = this.props.stage.slots.find(elem => elem.id === slot.id);
+    const selectedSlot = this.props.widget.slots.find(elem => elem.id === slot.id);
     this.setState({ selectedSlot });
     this.props.selectSlot(selectedSlot);
   }
 
   handleDragEnd = (id: number, coords: RzPoint) => {
-    const slotIndex = this.props.stage.slots.findIndex(elem => elem.id === id);
+    const slotIndex = this.props.widget.slots.findIndex(elem => elem.id === id);
 
-    const newStageData = clone(this.props.stage, draft => {
+    const newWidgetData = clone(this.props.widget, draft => {
       draft.slots[slotIndex].x = coords.x;
       draft.slots[slotIndex].y = coords.y;
     });
 
-    const newRuntimeStageData = clone(this.state.runtimeStage, draft => {
+    const newRuntimeWidgetData = clone(this.state.runtimeWidget, draft => {
       draft.slots[slotIndex].x = coords.x;
       draft.slots[slotIndex].y = coords.y;
     });
 
-    this.setState({ selectedSlot: null, runtimeStage: newRuntimeStageData });
+    this.setState({ selectedSlot: null, runtimeWidget: newRuntimeWidgetData });
     this.props.selectSlot(null);
 
     this.props.store.dispatch(new SaveItemAction({
       key: ALL_ENTITIES.slots,
-      data: newStageData.slots[slotIndex],
+      data: newWidgetData.slots[slotIndex],
     }));
   }
 
@@ -88,11 +88,11 @@ export class RootComponent extends StatefulComponent<Props, State> {
   render() {
     const self = this;
     const { handleDragEnd, selectSlot } = this;
-    const { selectedSlot, runtimeStage } = this.state;
+    const { selectedSlot, runtimeWidget } = this.state;
     const { context } = this.props;
-    const slots = selectStageSlotsSync(runtimeStage, context, self);
-    const frame = selectStageFrameSync(runtimeStage, context, self);
-    const loaded = !!runtimeStage && slots;
+    const slots = selectWidgetSlotsSync(runtimeWidget, context, self);
+    const frame = selectWidgetFrameSync(runtimeWidget, context, self);
+    const loaded = !!runtimeWidget && slots;
 
     return loaded ?
       createElement('container',
@@ -102,8 +102,8 @@ export class RootComponent extends StatefulComponent<Props, State> {
             selectSlot(null);
           },
         },
-        createElement<StageRendererProps>(
-          StageRenderer,
+        createElement<WidgetRendererProps>(
+          WidgetRenderer,
           {
             renderChild: (slot: RuntimeSlot) => {
               return createElement<NodeProps>(DraggableSlot, {
@@ -115,13 +115,13 @@ export class RootComponent extends StatefulComponent<Props, State> {
               });
             },
             slots,
-            stage: runtimeStage,
-            style: { width: runtimeStage.width, height: runtimeStage.height },
+            widget: runtimeWidget,
+            style: { width: runtimeWidget.width, height: runtimeWidget.height },
             frame,
-            renderFrame: stage => {
-              return createElement<StaticStageProps>(StaticStage, {
-                stage,
-                style: { width: runtimeStage.width, height: runtimeStage.height }
+            renderFrame: widget => {
+              return createElement<StaticWidgetProps>(StaticWidget, {
+                widget,
+                style: { width: runtimeWidget.width, height: runtimeWidget.height }
               });
             }
           }
@@ -131,7 +131,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
 }
 
 const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
-  runtimeStage: selectRuntimeStage(ownProps.stage)(state),
+  runtimeWidget: selectRuntimeWidget(ownProps.widget)(state),
   context: selectExpressionContext(state),
 });
 

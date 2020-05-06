@@ -5,7 +5,7 @@ import { ROUTER_PARAMS } from '@app/shared';
 import {
     EditorContainerComponent,
     GamesContainerComponent,
-    RoundsContainerComponent, StagesContainerComponent, ChoicesContainerComponent,
+    RoundsContainerComponent, WidgetsContainerComponent, ChoicesContainerComponent,
     TokensContainerComponent,
     BoardContainerComponent, ImageAssetContainerComponent,
 } from './containers';
@@ -35,7 +35,7 @@ export const routes: Routes = [
         },
         children: [
             {
-                path: `stages/:${ROUTER_PARAMS.STAGE_ID}/map`,
+                path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/map`,
                 component: BoardContainerComponent,
                 pathMatch: 'full'
             },
@@ -47,8 +47,8 @@ export const routes: Routes = [
                 }
             },
             {
-                path: 'stages',
-                component: StagesContainerComponent,
+                path: 'widgets',
+                component: WidgetsContainerComponent,
             },
             {
                 path: 'choices',
@@ -100,7 +100,7 @@ export const routes: Routes = [
             },
             {
                 path: '**',
-                redirectTo: 'stages'
+                redirectTo: 'widgets'
             }
         ]
     }

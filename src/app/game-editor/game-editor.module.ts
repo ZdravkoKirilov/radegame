@@ -19,7 +19,7 @@ import {
 
 import {
     EditorContainerComponent, GamesContainerComponent, RoundsContainerComponent,
-    StagesContainerComponent, ChoicesContainerComponent, TokensContainerComponent, BoardContainerComponent
+    WidgetsContainerComponent, ChoicesContainerComponent, TokensContainerComponent, BoardContainerComponent
 } from './containers';
 
 import { BoardEditorComponent } from './components/board/board-editor.component';
@@ -64,7 +64,7 @@ import { ShapePreviewComponent } from './components/shape/preview/shape-preview.
         EditorContainerComponent,
         GamesContainerComponent,
         RoundsContainerComponent,
-        StagesContainerComponent,
+        WidgetsContainerComponent,
         ChoicesContainerComponent,
         TokensContainerComponent,
         BoardEditorComponent,

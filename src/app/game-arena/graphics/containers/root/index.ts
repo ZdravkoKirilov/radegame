@@ -2,7 +2,7 @@ import { Store } from "@ngrx/store";
 
 import { StatefulComponent, createElement, MetaProps } from "@app/render-kit";
 import { AppState } from "@app/core";
-import { MainStage } from "../main-stage";
+import { MainWidget } from "../main-widget";
 import { GameBroadcastService } from "../../../services/game-broadcast/game-broadcast.service";
 
 type Props = {
@@ -21,6 +21,6 @@ export class GameArenaRoot extends StatefulComponent<Props> {
     }
 
     render() {
-        return createElement(MainStage);
+        return createElement(MainWidget);
     }
 }

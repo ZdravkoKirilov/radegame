@@ -3,7 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
-    Game, Round, Choice, Stage, Token, Animation, ImageAsset, Style,
+    Game, Round, Choice, Widget, Token, Animation, ImageAsset, Style,
     Sound, Expression, Setup, Transition, Text, Sonata, Shape, Slot,
 } from '@app/game-mechanics';
 
@@ -28,17 +28,17 @@ export class GameEditService {
         return this.http.delete(API_URLS.TRANSITIONS(data.game, data.id));
     }
 
-    saveStage(data: Stage): Observable<any> {
+    saveWidget(data: Widget): Observable<any> {
 
         if (data.id) {
-            return this.http.patch(API_URLS.STAGES(data.game, data.id), data);
+            return this.http.patch(API_URLS.WIDGETS(data.game, data.id), data);
         } else {
-            return this.http.post(API_URLS.STAGES(data.game), data);
+            return this.http.post(API_URLS.WIDGETS(data.game), data);
         }
     }
 
-    deleteStage(data: Stage): Observable<any> {
-        return this.http.delete(API_URLS.STAGES(data.game, data.id));
+    deleteWidget(data: Widget): Observable<any> {
+        return this.http.delete(API_URLS.WIDGETS(data.game, data.id));
     }
 
     saveSlot(data: Slot): Observable<any> {

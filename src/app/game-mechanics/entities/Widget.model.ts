@@ -5,7 +5,7 @@ import { ImageFrame } from "./ImageAsset.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { StatefulComponent } from "@app/render-kit";
 
-export type Stage = BaseModel & WithFrames & Partial<{
+export type Widget = BaseModel & WithFrames & Partial<{
     width: number;
     height: number;
 
@@ -15,14 +15,14 @@ export type Stage = BaseModel & WithFrames & Partial<{
     frame_getter: string;
 }>;
 
-type StageExpressionPayload = {
-    stage: RuntimeStage;
+type WidgetExpressionPayload = {
+    widget: RuntimeWidget;
     component: StatefulComponent;
 }
 
-export type RuntimeStage = Omit<Stage, 'slot_getter' | 'frame_getter'> & {
-    slot_getter: ParamedExpressionFunc<StageExpressionPayload, Slot[]>;
-    frame_getter: ParamedExpressionFunc<StageExpressionPayload, ImageFrame>;
+export type RuntimeWidget = Omit<Widget, 'slot_getter' | 'frame_getter'> & {
+    slot_getter: ParamedExpressionFunc<WidgetExpressionPayload, Slot[]>;
+    frame_getter: ParamedExpressionFunc<WidgetExpressionPayload, ImageFrame>;
 };
 
 

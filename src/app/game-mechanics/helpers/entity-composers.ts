@@ -1,7 +1,7 @@
 import {
     Slot, RuntimeSlot, GameEntity,
     SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
-    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Stage, RuntimeStage, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, SlotItem, RuntimeSlotItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeSlotLifecycle, SlotLifecycle
+    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Widget, RuntimeWidget, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, SlotItem, RuntimeSlotItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeSlotLifecycle, SlotLifecycle
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
@@ -18,7 +18,7 @@ export const enrichSlot = (config: Dictionary<GameEntity>, context: Dictionary, 
         consume_context: src => parseAndBind(context)(src),
         provide_context: src => parseAndBind(context)(src),
         display_text_inline: 'texts',
-        board: 'stages',
+        board: 'widgets',
     }, initialSlot);
 
     return slot;
@@ -57,17 +57,17 @@ export const enrichTransition = (config: Dictionary<GameEntity>, context: Dictio
 
 export const enrichFrame = (config: Dictionary<GameEntity>, context: Dictionary, frame: ImageFrame) => {
     return enrichEntity<ImageFrame, RuntimeImageFrame>(config, {
-        stage: 'stages',
+        widget: 'widgets',
         image: 'images',
         style: src => parseAndBind(context)(src)
     }, frame);
 };
 
-export const enrichStage = (config: Dictionary<GameEntity>, context: Dictionary, stage: Stage) => {
-    return enrichEntity<Stage, RuntimeStage>(config, {
+export const enrichWidget = (config: Dictionary<GameEntity>, context: Dictionary, widget: Widget) => {
+    return enrichEntity<Widget, RuntimeWidget>(config, {
         slot_getter: src => parseAndBind(context)(src),
         frame_getter: src => parseAndBind(context)(src),
-    }, stage);
+    }, widget);
 };
 
 export const enrichShape = (config: Dictionary<GameEntity>, context: Dictionary, shape: Shape) => {
@@ -94,7 +94,7 @@ export const enrichItem = (config: Dictionary<GameEntity>, context: Dictionary, 
 export const enrichToken = (config: Dictionary<GameEntity>, token: Token) => {
     if (token) {
         return enrichEntity<Token, RuntimeToken>(config, {
-            template: 'stages',
+            template: 'widgets',
         }, token);
     }
     return null;
@@ -103,7 +103,7 @@ export const enrichToken = (config: Dictionary<GameEntity>, token: Token) => {
 export const enrichChoice = (config: Dictionary<GameEntity>, context: Dictionary, choice: Choice) => {
     if (choice) {
         return enrichEntity<Choice, RuntimeChoice>(config, {
-            template: 'stages',
+            template: 'widgets',
         }, choice);
     }
     return null;
@@ -111,8 +111,8 @@ export const enrichChoice = (config: Dictionary<GameEntity>, context: Dictionary
 
 export const enrichRound = (config: Dictionary<GameEntity>, context: Dictionary, round: Round) => {
     return enrichEntity<Round, RuntimeRound>(config, {
-        board: 'stages',
-        loader: 'stages',
+        board: 'widgets',
+        loader: 'widgets',
         preload: src => parseAndBind(context)(src),
         load_done: src => parseAndBind(context)(src),
     }, round);

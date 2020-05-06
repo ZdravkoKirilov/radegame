@@ -1,11 +1,11 @@
 import {
-    ImageAsset, Round, Stage, Choice, Token, Setup, Style, Sound, Expression, Animation, Transition, GameLanguage, Text, Game, Shape,
+    ImageAsset, Round, Widget, Choice, Token, Setup, Style, Sound, Expression, Animation, Transition, GameLanguage, Text, Game, Shape,
 } from '@app/game-mechanics';
 
 export type ConnectedEntities = Partial<{
     tokens: Token[];
     rounds: Round[];
-    stages: Stage[];
+    widgets: Widget[];
     choices: Choice[];
     setups: Setup[];
     images: ImageAsset[];

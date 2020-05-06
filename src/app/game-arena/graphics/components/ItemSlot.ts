@@ -1,14 +1,14 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransitionProps, RzTransition, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-  RuntimeSlot, connectToStore, StageRendererProps, StageRenderer, RuntimeStage,
-  combineStyles, ExpressionContext, selectStageSlotsSync, selectStageFrameSync, selectSlotStyleSync, RuntimeSlotHandler, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle, selectChildPropsSync
+  RuntimeSlot, connectToStore, WidgetRendererProps, WidgetRenderer, RuntimeWidget,
+  combineStyles, ExpressionContext, selectWidgetSlotsSync, selectWidgetFrameSync, selectSlotStyleSync, RuntimeSlotHandler, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle, selectChildPropsSync
 } from "@app/game-mechanics";
 import { Dictionary } from "@app/shared";
 
 import { selectExpressionContext, selectItemTemplate, selectSlotHandlers, selectSlotTransitions, selectSlotLifecycles } from '../../state';
 import NodeFactory, { NodeFactoryProps } from './Factory';
-import StaticStage, { StaticStageProps } from "./StaticStage";
+import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
 import { assignHandlers } from "../../helpers";
 
 export type EnhancedItemSlotProps = {
@@ -17,7 +17,7 @@ export type EnhancedItemSlotProps = {
 }
 
 type StoreProps = {
-  stage: RuntimeStage;
+  widget: RuntimeWidget;
   context: ExpressionContext;
   handlers: RuntimeSlotHandler[];
   transitions: RuntimeTransition[];
@@ -34,10 +34,10 @@ class EnhancedItemSlot extends StatefulComponent<Props, State> {
 
   render() {
     const self = this;
-    const { stage, context, data, handlers, transitions, dispatch } = this.props;
+    const { widget, context, data, handlers, transitions, dispatch } = this.props;
     const { animated } = this.state;
-    const slots = selectStageSlotsSync(stage, context, self);
-    const frame = selectStageFrameSync(stage, context, self);
+    const slots = selectWidgetSlotsSync(widget, context, self);
+    const frame = selectWidgetFrameSync(widget, context, self);
     const style = selectSlotStyleSync(data, self);
     const childProps = selectChildPropsSync(data, self);
     const styleWithTransitionOverrides = { ...style, ...animated };
@@ -69,8 +69,8 @@ class EnhancedItemSlot extends StatefulComponent<Props, State> {
           }
         },
       ),
-      createElement<StageRendererProps>(StageRenderer, {
-        stage, slots, style, frame,
+      createElement<WidgetRendererProps>(WidgetRenderer, {
+        widget, slots, style, frame,
         renderChild: (slot: RuntimeSlot) => {
           const composedStyle = combineStyles(slot, style);
 
@@ -84,14 +84,14 @@ class EnhancedItemSlot extends StatefulComponent<Props, State> {
             createElement<NodeFactoryProps>(NodeFactory, { data: slot, fromParent: childProps })
           );
         },
-        renderFrame: stage => createElement<StaticStageProps>(StaticStage, { stage, style, fromParent: childProps }),
+        renderFrame: widget => createElement<StaticWidgetProps>(StaticWidget, { widget, style, fromParent: childProps }),
       }),
     );
   }
 };
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedItemSlotProps): StoreProps => ({
-  stage: selectItemTemplate(ownProps.data.item)(state),
+  widget: selectItemTemplate(ownProps.data.item)(state),
   handlers: selectSlotHandlers(ownProps.data)(state),
   context: selectExpressionContext(state),
   transitions: selectSlotTransitions(ownProps.data)(state),

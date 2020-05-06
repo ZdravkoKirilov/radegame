@@ -3,28 +3,28 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
-import { composeStageForm } from '../../forms';
+import { composeWidgetForm } from '../../forms';
 import { SmartBase } from '../../mixins';
-import { AllEntity, ALL_ENTITIES, Stage} from '@app/game-mechanics';
+import { AllEntity, ALL_ENTITIES, Widget} from '@app/game-mechanics';
 import { SaveItemAction } from '../../state';
 
 
 @Component({
-    selector: 'rg-stages-container',
-    templateUrl: './stages.container.html',
-    styleUrls: ['./stages.container.scss']
+    selector: 'rg-widgets-container',
+    templateUrl: './widgets.container.html',
+    styleUrls: ['./widgets.container.scss']
 })
-export class StagesContainerComponent extends SmartBase {
+export class WidgetsContainerComponent extends SmartBase {
 
-    public formDefinition: FormDefinition = composeStageForm;
-    public readonly key: AllEntity = ALL_ENTITIES.stages;
-    public selectedItem: Stage;
+    public formDefinition: FormDefinition = composeWidgetForm;
+    public readonly key: AllEntity = ALL_ENTITIES.widgets;
+    public selectedItem: Widget;
 
     constructor(public store: Store<AppState>) {
         super(store);
     }
 
-    saveItem(data: Stage) {
+    saveItem(data: Widget) {
         const payload = { ...data, game: this.gameId, slots: data.slots || [] };
         if (this.selectedItem) {
             payload.id = this.selectedItem.id;

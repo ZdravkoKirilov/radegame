@@ -1,4 +1,4 @@
-export * from './stage';
+export * from './widget';
 export * from './round';
 export * from './round';
 export * from './choice';

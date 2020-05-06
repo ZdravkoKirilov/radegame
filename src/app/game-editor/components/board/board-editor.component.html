@@ -13,7 +13,7 @@
         [connectedEntities]="entities" (cancel)="toggleSlotEditor(false)" (save)="handleSaveSlot($event)" #slots>
     </rg-entity-editor>
 
-    <rg-board-main [ngClass]="{'hidden': visibleEditor || viewMode === 'list'}" [images]="images" [stage]="stage"
+    <rg-board-main [ngClass]="{'hidden': visibleEditor || viewMode === 'list'}" [images]="images" [widget]="widget"
         (selectSlot)="selectSlot($event)"></rg-board-main>
 
     <rg-entity-list [ngClass]="{'hidden': visibleEditor || viewMode === 'board'}" [items]="slots"

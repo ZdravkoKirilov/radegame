@@ -1,16 +1,16 @@
 import { AppState } from "@app/core";
 import { Memo, createElement } from "@app/render-kit";
-import { RuntimeSlot, RuntimeRound, RuntimeStage, connectToStore, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeSlot, RuntimeRound, RuntimeWidget, connectToStore, RuntimeImageFrame } from "@app/game-mechanics";
 import {
-    selectCurrentRoundStage,
-    selectCurrentRoundStageSlots,
-    selectRoundData, selectCurrentRoundStageFrame,
+    selectCurrentRoundWidget,
+    selectCurrentRoundWidgetSlots,
+    selectRoundData, selectCurrentRoundWidgetFrame,
 } from "../../../state";
 import { DataLoader, DataLoaderProps } from "../data-loader";
-import { RoundStage, RoundStageProps } from "../../components/round-stage";
+import { RoundWidget, RoundWidgetProps } from "../../components/round-widget";
 
 type StoreProps = {
-    stage: RuntimeStage;
+    widget: RuntimeWidget;
     slots: RuntimeSlot[];
     round: RuntimeRound;
     frame: RuntimeImageFrame;
@@ -18,7 +18,7 @@ type StoreProps = {
 
 type Props = StoreProps;
 
-const mainStage = Memo<Props>(({ stage, slots, round, frame }) => {
+const mainWidget = Memo<Props>(({ widget, slots, round, frame }) => {
 
     return createElement<DataLoaderProps>(
         DataLoader,
@@ -35,18 +35,18 @@ const mainStage = Memo<Props>(({ stage, slots, round, frame }) => {
             load_done: round.load_done,
             preload: round.preload,
         },
-        createElement<RoundStageProps>(
-            RoundStage,
-            { stage, slots, frame }
+        createElement<RoundWidgetProps>(
+            RoundWidget,
+            { widget, slots, frame }
         )
     );
 });
 
 const mapStateToProps = (state: AppState): StoreProps => ({
-    stage: selectCurrentRoundStage(state),
-    slots: selectCurrentRoundStageSlots(state),
-    frame: selectCurrentRoundStageFrame(state),
+    widget: selectCurrentRoundWidget(state),
+    slots: selectCurrentRoundWidgetSlots(state),
+    frame: selectCurrentRoundWidgetFrame(state),
     round: selectRoundData(state),
 });
 
-export const MainStage = connectToStore(mapStateToProps)(mainStage);
+export const MainWidget = connectToStore(mapStateToProps)(mainWidget);

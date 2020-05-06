@@ -3,7 +3,7 @@ import get from "lodash/get";
 import { withMemo } from "@app/shared";
 import { StatefulComponent } from "@app/render-kit";
 
-import { RuntimeStage, RuntimeSlot, RuntimeText } from "../entities";
+import { RuntimeWidget, RuntimeSlot, RuntimeText } from "../entities";
 import { enrichSlot, enrichFrame, enrichText } from "./entity-composers";
 import { ExpressionContext } from "./expression-context";
 
@@ -28,32 +28,32 @@ const _selectSlotStyleSync = (slot: RuntimeSlot, component: StatefulComponent) =
 export const selectSlotStyleSync = withMemo(_selectSlotStyleSync);
 
 
-const _selectStageFrameSync = (stage: RuntimeStage, context: ExpressionContext, component: StatefulComponent) => {
-  if (stage) {
-    const { frame_getter } = stage;
+const _selectWidgetFrameSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
+  if (widget) {
+    const { frame_getter } = widget;
     if (typeof frame_getter === 'function') {
-      const frame = frame_getter({ stage, component, });
+      const frame = frame_getter({ widget, component, });
       return enrichFrame(context.conf, context, frame);
     }
-    const frame = stage.frames[0];
+    const frame = widget.frames[0];
     return enrichFrame(context.conf, context, frame);
   }
   return null;
 }
-export const selectStageFrameSync = withMemo(_selectStageFrameSync);
+export const selectWidgetFrameSync = withMemo(_selectWidgetFrameSync);
 
 
-const _selectStageSlotsSync = (stage: RuntimeStage, context: ExpressionContext, component: StatefulComponent) => {
-  if (stage) {
-    const { slot_getter } = stage;
+const _selectWidgetSlotsSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
+  if (widget) {
+    const { slot_getter } = widget;
     if (typeof slot_getter === 'function') {
-      return slot_getter({ stage, component }).map(elem => enrichSlot(context.conf, context, elem));
+      return slot_getter({ widget, component }).map(elem => enrichSlot(context.conf, context, elem));
     }
-    return stage.slots.map(elem => enrichSlot(context.conf, context, elem));
+    return widget.slots.map(elem => enrichSlot(context.conf, context, elem));
   }
   return [];
 };
-export const selectStageSlotsSync = withMemo(_selectStageSlotsSync);
+export const selectWidgetSlotsSync = withMemo(_selectWidgetSlotsSync);
 
 
 const _selectSlotTextSync = (slot: RuntimeSlot, context: ExpressionContext, component: StatefulComponent, language = 2) => {

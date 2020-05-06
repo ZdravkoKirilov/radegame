@@ -4,7 +4,7 @@ import groupBy from 'lodash/groupBy';
 
 import { FEATURE_NAME } from "../../config";
 import {
-  Round, Setup, Stage, RuntimeSlot, enrichSlot, enrichRound, enrichStage,
+  Round, Setup, Widget, RuntimeSlot, enrichSlot, enrichRound, enrichWidget,
   enrichFrame, enrichShape, Shape, enrichHandler, enrichTransition, SlotItem, enrichItem, enrichLifecycle
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
@@ -87,42 +87,42 @@ export const selectRoundData = createSelector(
   }
 );
 
-export const selectCurrentRoundStage = createSelector(
+export const selectCurrentRoundWidget = createSelector(
   selectConfig,
   selectExpressionContext,
   selectRoundData,
   (config, context, round) => {
-    return round ? enrichStage(config, context, round.board) : null;
+    return round ? enrichWidget(config, context, round.board) : null;
   }
 );
 
-export const selectCurrentRoundStageSlots = createSelector(
+export const selectCurrentRoundWidgetSlots = createSelector(
   selectConfig,
   selectExpressionContext,
-  selectCurrentRoundStage,
-  (config, context, stage) => {
-    const { slot_getter } = stage;
+  selectCurrentRoundWidget,
+  (config, context, widget) => {
+    const { slot_getter } = widget;
     if (typeof slot_getter === 'function') {
       return slot_getter({
-        stage,
+        widget: widget,
         component: {} as StatefulComponent,
       }).map(elem => enrichSlot(config, context, elem));
     }
-    return stage.slots.map(elem => enrichSlot(config, context, elem));
+    return widget.slots.map(elem => enrichSlot(config, context, elem));
   }
 );
 
-export const selectCurrentRoundStageFrame = createSelector(
+export const selectCurrentRoundWidgetFrame = createSelector(
   selectConfig,
   selectExpressionContext,
-  selectCurrentRoundStage,
-  (config, context, stage) => {
-    const { frame_getter } = stage;
+  selectCurrentRoundWidget,
+  (config, context, widget) => {
+    const { frame_getter } = widget;
     if (typeof frame_getter === 'function') {
-      const frame = frame_getter({ stage, component: {} as StatefulComponent });
+      const frame = frame_getter({ widget: widget, component: {} as StatefulComponent });
       return enrichFrame(config, context, frame);
     }
-    const frame = stage.frames[0];
+    const frame = widget.frames[0];
     return enrichFrame(config, context, frame);
   }
 );
@@ -151,11 +151,11 @@ export const selectRuntimeShape = (shape: Shape) => createSelector(
   }
 );
 
-export const selectRuntimeStage = (stage: Stage) => createSelector(
+export const selectRuntimeWidget = (widget: Widget) => createSelector(
   selectConfig,
   selectExpressionContext,
   (entities, context) => {
-    return enrichStage(entities, context, stage);
+    return enrichWidget(entities, context, widget);
   }
 );
 
@@ -171,8 +171,8 @@ export const selectItemTemplate = (item: SlotItem) => createSelector(
   context => {
     const runtimeItem = enrichItem(context.conf, context, item);
     const attachedEntity = runtimeItem.choice || runtimeItem.token;
-    const stage: Stage = attachedEntity.template;
-    return enrichStage(context.conf, context, stage);
+    const widget: Widget = attachedEntity.template;
+    return enrichWidget(context.conf, context, widget);
   }
 );
 

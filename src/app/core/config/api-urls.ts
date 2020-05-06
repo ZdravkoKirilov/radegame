@@ -42,12 +42,12 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/choices/`;
         return choiceId ? `${base}${choiceId}/` : base;
     },
-    STAGES: (gameId: number, stageId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/stages/`;
-        return stageId ? `${base}${stageId}/` : base;
+    WIDGETS: (gameId: number, widgetId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/widgets/`;
+        return widgetId ? `${base}${widgetId}/` : base;
     },
-    SLOTS: (gameId: number, stageId: number, slotId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/stages/${stageId}/slots/`;
+    SLOTS: (gameId: number, widgetId: number, slotId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/widgets/${widgetId}/slots/`;
         return slotId ? `${base}${slotId}/` : base;
     },
     TOKENS: (gameId: number, tokenId?: number) => {

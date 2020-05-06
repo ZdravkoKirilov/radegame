@@ -4,7 +4,7 @@ import { values } from 'lodash';
 import { FEATURE_NAME } from '../utils/config';
 import { GameEditorFeature } from './reducers';
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Stage, Game, GameEntity, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
+import { Widget, Game, GameEntity, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, selectGameId, Dictionary } from '@app/shared';
 
 const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
@@ -24,18 +24,18 @@ export const getItems = <T = GameEntity>(key: AllEntity | string) => createSelec
     form => form[key] && form[key].items ? values(form[key].items as Dictionary<T>) : null,
 );
 
-export const selectStageId = createSelector(
+export const selectWidgetId = createSelector(
     selectRouterFeature,
     (routerState) => {
-        return Number(routerState.state.params[ROUTER_PARAMS.STAGE_ID]);
+        return Number(routerState.state.params[ROUTER_PARAMS.WIDGET_ID]);
     }
 );
 
-export const getActiveStage = createSelector(
-    selectStageId,
-    getItems<Stage>(ALL_ENTITIES.stages),
-    (stageId, stages) => {
-        return stages && stages.find(elem => elem.id === stageId) as Stage;
+export const getActiveWidget = createSelector(
+    selectWidgetId,
+    getItems<Widget>(ALL_ENTITIES.widgets),
+    (widgetId, widgets) => {
+        return widgets && widgets.find(elem => elem.id === widgetId) as Widget;
     }
 );
 

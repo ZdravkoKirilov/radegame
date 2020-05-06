@@ -3,7 +3,7 @@ import { Memo, createElement } from "@app/render-kit";
 
 import EnhancedTextSlot, { EnhancedTextSlotProps } from './TextSlot';
 import EnhancedShapeSlot, { EnhancedShapeSlotProps } from './ShapeSlot';
-import EnhancedStageSlot, { EnhancedStageSlotProps } from "./StageSlot";
+import EnhancedWidgetSlot, { EnhancedWidgetSlotProps } from "./WidgetSlot";
 import EnhancedItemSlot, { EnhancedItemSlotProps } from './ItemSlot';
 
 export type NodeFactoryProps = {
@@ -18,7 +18,7 @@ const NodeFactory = Memo<NodeFactoryProps>(({ data }) => {
         return createElement<EnhancedShapeSlotProps>(EnhancedShapeSlot, { data });
     }
     if (data.board) {
-        return createElement<EnhancedStageSlotProps>(EnhancedStageSlot, { data });
+        return createElement<EnhancedWidgetSlotProps>(EnhancedWidgetSlot, { data });
     }
     if (data.item) {
         return createElement<EnhancedItemSlotProps>(EnhancedItemSlot, { data });

@@ -1,20 +1,20 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-  RuntimeSlot, connectToStore, StageRendererProps, StageRenderer, RuntimeStage,
-  combineStyles, ExpressionContext, selectStageSlotsSync, selectStageFrameSync, selectSlotStyleSync
+  RuntimeSlot, connectToStore, WidgetRendererProps, WidgetRenderer, RuntimeWidget,
+  combineStyles, ExpressionContext, selectWidgetSlotsSync, selectWidgetFrameSync, selectSlotStyleSync
 } from "@app/game-mechanics";
 import { selectExpressionContext, selectItemTemplate } from '../../state';
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
-import StaticStage, { StaticStageProps } from "./StaticStage";
+import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
 
 export type EnhancedItemSlotProps = {
   data: RuntimeSlot;
 }
 
 type StoreProps = {
-  stage: RuntimeStage;
+  widget: RuntimeWidget;
   context: ExpressionContext;
 };
 
@@ -24,13 +24,13 @@ class EnhancedItemSlot extends StatefulComponent<Props> {
 
   render() {
     const self = this;
-    const { stage, context, data } = this.props;
-    const slots = selectStageSlotsSync(stage, context, self);
-    const frame = selectStageFrameSync(stage, context, self);
+    const { widget, context, data } = this.props;
+    const slots = selectWidgetSlotsSync(widget, context, self);
+    const frame = selectWidgetFrameSync(widget, context, self);
     const style = selectSlotStyleSync(data, self);
   
-    return createElement<StageRendererProps>(StageRenderer, {
-      stage, slots, style, frame,
+    return createElement<WidgetRendererProps>(WidgetRenderer, {
+      widget, slots, style, frame,
       renderChild: (slot: RuntimeSlot) => {
         const composedStyle = combineStyles(slot, style);
 
@@ -44,13 +44,13 @@ class EnhancedItemSlot extends StatefulComponent<Props> {
           createElement<NodeFactoryProps>(NodeFactory, { data: slot })
         );
       },
-      renderFrame: stage => createElement<StaticStageProps>(StaticStage, { stage, style }),
+      renderFrame: widget => createElement<StaticWidgetProps>(StaticWidget, { widget, style }),
     });
   }
 };
 
 const mapStateToProps = (state: AppState, ownProps: EnhancedItemSlotProps): StoreProps => ({
-  stage: selectItemTemplate(ownProps.data.item)(state),
+  widget: selectItemTemplate(ownProps.data.item)(state),
   context: selectExpressionContext(state),
 });
 

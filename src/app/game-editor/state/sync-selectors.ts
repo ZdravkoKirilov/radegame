@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import {
-    Stage, GameTemplate, Shape, enrichStage, enrichShape, SlotItem, enrichItem
+    Widget, GameTemplate, Shape, enrichWidget, enrichShape, SlotItem, enrichItem
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -36,11 +36,11 @@ export const selectExpressionContext = createSelector(
     }
 );
 
-export const selectRuntimeStage = (stage: Stage) => createSelector(
+export const selectRuntimeWidget = (widget: Widget) => createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
     (entities, context) => {
-        return enrichStage(entities, context, stage);
+        return enrichWidget(entities, context, widget);
     }
 );
 
@@ -49,8 +49,8 @@ export const selectItemTemplate = (item: SlotItem) => createSelector(
     context => {
         const runtimeItem = enrichItem(context.conf, context, item);
         const attachedEntity = runtimeItem.choice || runtimeItem.token;
-        const stage: Stage = attachedEntity.template;
-        return enrichStage(context.conf, context, stage);
+        const widget: Widget = attachedEntity.template;
+        return enrichWidget(context.conf, context, widget);
     }
 );
 

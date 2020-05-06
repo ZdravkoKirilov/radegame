@@ -2,7 +2,7 @@ import { BaseModel, WithBoard, WithStyle } from "./Base.model";
 import { Shape } from "./Shape.model";
 import { RuntimeChoice } from "./Choice.model";
 import { RuntimeToken } from "./Token.model";
-import { Stage } from "./Stage.model";
+import { Widget } from "./Widget.model";
 import { ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc, SonataGetterFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { Omit } from "@app/shared";
@@ -11,7 +11,7 @@ import { Sonata } from "./Sonata.model";
 import { RzEventTypes, StatefulComponent } from "@app/render-kit";
 
 export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
-    owner: number; // Stage;
+    owner: number; // Widget;
 
     y: number;
     x: number;
@@ -35,7 +35,7 @@ export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item'
 
     item: RuntimeSlotItem;
     shape: Shape;
-    board: Stage;
+    board: Widget;
 
     style: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, Style>;
     style_inline: Style;
