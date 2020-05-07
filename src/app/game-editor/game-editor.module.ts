@@ -18,7 +18,7 @@ import {
 } from './components';
 
 import {
-    EditorContainerComponent, GamesContainerComponent, RoundsContainerComponent,
+    EditorContainerComponent, GamesContainerComponent, ModulesContainerComponent,
     WidgetsContainerComponent, ChoicesContainerComponent, TokensContainerComponent, BoardContainerComponent
 } from './containers';
 
@@ -63,7 +63,7 @@ import { ShapePreviewComponent } from './components/shape/preview/shape-preview.
         EntityViewComponent,
         EditorContainerComponent,
         GamesContainerComponent,
-        RoundsContainerComponent,
+        ModulesContainerComponent,
         WidgetsContainerComponent,
         ChoicesContainerComponent,
         TokensContainerComponent,

@@ -72,7 +72,6 @@ export class GameLoaderComponent implements OnInit {
         if (!isDownloading && this.game_config && this.game_instance) {
           this.store.dispatch(new CreateGameState({
             instance: this.game_instance,
-            conf: this.game_config,
           }));
         }
       }),

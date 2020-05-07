@@ -33,7 +33,7 @@ export type GameState = {
     local_state?: Dictionary;
 
     setup: number;
-    round: number; //
+    module: number; //
 };
 
 export type CreateGamePayload = {

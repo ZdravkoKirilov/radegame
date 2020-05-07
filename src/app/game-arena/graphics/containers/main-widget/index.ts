@@ -1,24 +1,24 @@
 import { AppState } from "@app/core";
 import { Memo, createElement } from "@app/render-kit";
-import { RuntimeSlot, RuntimeRound, RuntimeWidget, connectToStore, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeSlot, RuntimeModule, RuntimeWidget, connectToStore, RuntimeImageFrame } from "@app/game-mechanics";
 import {
-    selectCurrentRoundWidget,
-    selectCurrentRoundWidgetSlots,
-    selectRoundData, selectCurrentRoundWidgetFrame,
+    selectCurrentModuleWidget,
+    selectCurrentModuleWidgetSlots,
+    selectModuleData, selectCurrentModuleWidgetFrame,
 } from "../../../state";
 import { DataLoader, DataLoaderProps } from "../data-loader";
-import { RoundWidget, RoundWidgetProps } from "../../components/round-widget";
+import { ModuleWidget, ModuleWidgetProps } from "../../components/module-widget";
 
 type StoreProps = {
     widget: RuntimeWidget;
     slots: RuntimeSlot[];
-    round: RuntimeRound;
+    module: RuntimeModule;
     frame: RuntimeImageFrame;
 }
 
 type Props = StoreProps;
 
-const mainWidget = Memo<Props>(({ widget, slots, round, frame }) => {
+const mainWidget = Memo<Props>(({ widget, slots, module, frame }) => {
 
     return createElement<DataLoaderProps>(
         DataLoader,
@@ -32,21 +32,21 @@ const mainWidget = Memo<Props>(({ widget, slots, round, frame }) => {
                     fill: ['#333231'], stroke: '#333231'
                 }
             }),
-            load_done: round.load_done,
-            preload: round.preload,
+            load_done: module.load_done,
+            preload: module.preload,
         },
-        createElement<RoundWidgetProps>(
-            RoundWidget,
+        createElement<ModuleWidgetProps>(
+            ModuleWidget,
             { widget, slots, frame }
         )
     );
 });
 
 const mapStateToProps = (state: AppState): StoreProps => ({
-    widget: selectCurrentRoundWidget(state),
-    slots: selectCurrentRoundWidgetSlots(state),
-    frame: selectCurrentRoundWidgetFrame(state),
-    round: selectRoundData(state),
+    widget: selectCurrentModuleWidget(state),
+    slots: selectCurrentModuleWidgetSlots(state),
+    frame: selectCurrentModuleWidgetFrame(state),
+    module: selectModuleData(state),
 });
 
 export const MainWidget = connectToStore(mapStateToProps)(mainWidget);

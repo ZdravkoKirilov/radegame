@@ -27,9 +27,9 @@ export class ArenaEffectsService {
   initializeGameState = this.actions$.pipe(
     ofType<CreateGameState>(ArenaGeneralActionTypes.INITIALIZE_GAME_STATE),
     map(action => {
-      const { instance, conf, round } = action.payload;
+      const { instance, module } = action.payload;
       const state = get(instance, 'state', createGameState({
-        setup: get(instance, 'setup'), conf, round,
+        setup: get(instance, 'setup'), module,
       }));
       return new SetGameState(state);
     }),

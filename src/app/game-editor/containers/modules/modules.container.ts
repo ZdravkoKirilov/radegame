@@ -3,20 +3,19 @@ import { Store } from '@ngrx/store';
 
 import { AppState } from '@app/core';
 import { FormDefinition } from '@app/dynamic-forms';
-import { composeRoundForm } from '../../forms';
+import { composeModuleForm } from '../../forms';
 import { SmartBase } from '../../mixins';
 import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
 
-
 @Component({
-    selector: 'rg-rounds-container',
-    templateUrl: './rounds.container.html',
-    styleUrls: ['./rounds.container.scss']
+    selector: 'rg-modules-container',
+    templateUrl: './modules.container.html',
+    styleUrls: ['./modules.container.scss']
 })
-export class RoundsContainerComponent extends SmartBase {
+export class ModulesContainerComponent extends SmartBase {
 
-    public formDefinition: FormDefinition = composeRoundForm;
-    public readonly key: AllEntity = ALL_ENTITIES.rounds ;
+    public formDefinition: FormDefinition = composeModuleForm;
+    public readonly key: AllEntity = ALL_ENTITIES.modules ;
 
 
     constructor(public store: Store<AppState>) {

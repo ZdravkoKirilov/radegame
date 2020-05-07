@@ -1,7 +1,7 @@
 import {
     Slot, RuntimeSlot, GameEntity,
     SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
-    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Widget, RuntimeWidget, Shape, RuntimeShape, RuntimeText, Text, Round, RuntimeRound, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, SlotItem, RuntimeSlotItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeSlotLifecycle, SlotLifecycle
+    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Widget, RuntimeWidget, Shape, RuntimeShape, RuntimeText, Text, Module, RuntimeModule, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, SlotItem, RuntimeSlotItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeSlotLifecycle, SlotLifecycle
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
@@ -109,13 +109,13 @@ export const enrichChoice = (config: Dictionary<GameEntity>, context: Dictionary
     return null;
 };
 
-export const enrichRound = (config: Dictionary<GameEntity>, context: Dictionary, round: Round) => {
-    return enrichEntity<Round, RuntimeRound>(config, {
+export const enrichModule = (config: Dictionary<GameEntity>, context: Dictionary, module: Module) => {
+    return enrichEntity<Module, RuntimeModule>(config, {
         board: 'widgets',
         loader: 'widgets',
         preload: src => parseAndBind(context)(src),
         load_done: src => parseAndBind(context)(src),
-    }, round);
+    }, module);
 };
 
 export const enrichSonata = (config: Dictionary<GameEntity>, sonata: Sonata) => {

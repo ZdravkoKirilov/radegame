@@ -5,7 +5,7 @@ import { ROUTER_PARAMS } from '@app/shared';
 import {
     EditorContainerComponent,
     GamesContainerComponent,
-    RoundsContainerComponent, WidgetsContainerComponent, ChoicesContainerComponent,
+    ModulesContainerComponent, WidgetsContainerComponent, ChoicesContainerComponent,
     TokensContainerComponent,
     BoardContainerComponent, ImageAssetContainerComponent,
 } from './containers';
@@ -55,8 +55,8 @@ export const routes: Routes = [
                 component: ChoicesContainerComponent
             },
             {
-                path: 'rounds',
-                component: RoundsContainerComponent
+                path: 'modules',
+                component: ModulesContainerComponent
             },
             {
                 path: 'expressions',

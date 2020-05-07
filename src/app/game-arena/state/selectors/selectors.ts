@@ -4,7 +4,7 @@ import groupBy from 'lodash/groupBy';
 
 import { FEATURE_NAME } from "../../config";
 import {
-  Round, Setup, Widget, RuntimeSlot, enrichSlot, enrichRound, enrichWidget,
+  Module, Setup, Widget, RuntimeSlot, enrichSlot, enrichModule, enrichWidget,
   enrichFrame, enrichShape, Shape, enrichHandler, enrichTransition, SlotItem, enrichItem, enrichLifecycle
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
@@ -43,9 +43,9 @@ export const selectLoadedChunks = createSelector(
   feature => feature.loaded_chunks
 );
 
-export const selectRound = createSelector(
+export const selectModule = createSelector(
   selectGameState,
-  state => state.round,
+  state => state.module,
 );
 
 const selectSetup = createSelector(
@@ -73,33 +73,29 @@ export const selectExpressionContext = createSelector(
   }
 );
 
-export const selectRoundData = createSelector(
-  selectRound,
-  selectSetupData,
+export const selectModuleData = createSelector(
+  selectModule,
   selectConfig,
   selectExpressionContext,
-  (roundSlotId, setup, config, context) => {
-    const round = get(setup, 'rounds', []).find(elem => elem.id === roundSlotId);
-    const roundId = round ? round.round : roundSlotId;
-    const roundData = config.rounds[roundId] as Round;
+  (moduleId, config, context) => {
 
-    return enrichRound(config, context, roundData);
+    return enrichModule(config, context, config.modules[moduleId]);
   }
 );
 
-export const selectCurrentRoundWidget = createSelector(
+export const selectCurrentModuleWidget = createSelector(
   selectConfig,
   selectExpressionContext,
-  selectRoundData,
-  (config, context, round) => {
-    return round ? enrichWidget(config, context, round.board) : null;
+  selectModuleData,
+  (config, context, module) => {
+    return module ? enrichWidget(config, context, module.board) : null;
   }
 );
 
-export const selectCurrentRoundWidgetSlots = createSelector(
+export const selectCurrentModuleWidgetSlots = createSelector(
   selectConfig,
   selectExpressionContext,
-  selectCurrentRoundWidget,
+  selectCurrentModuleWidget,
   (config, context, widget) => {
     const { slot_getter } = widget;
     if (typeof slot_getter === 'function') {
@@ -112,10 +108,10 @@ export const selectCurrentRoundWidgetSlots = createSelector(
   }
 );
 
-export const selectCurrentRoundWidgetFrame = createSelector(
+export const selectCurrentModuleWidgetFrame = createSelector(
   selectConfig,
   selectExpressionContext,
-  selectCurrentRoundWidget,
+  selectCurrentModuleWidget,
   (config, context, widget) => {
     const { frame_getter } = widget;
     if (typeof frame_getter === 'function') {

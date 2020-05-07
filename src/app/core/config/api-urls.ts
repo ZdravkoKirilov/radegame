@@ -34,9 +34,9 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/sonatas/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    ROUNDS: (gameId: number, roundId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/rounds/`;
-        return roundId ? `${base}${roundId}/` : base;
+    MODULES: (gameId: number, moduleId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/modules/`;
+        return moduleId ? `${base}${moduleId}/` : base;
     },
     CHOICES: (gameId: number, choiceId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/choices/`;

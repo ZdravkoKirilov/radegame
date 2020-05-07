@@ -70,7 +70,7 @@ export class FetchGameConfigFail {
 
 export class CreateGameState {
     readonly type = ArenaGeneralActionTypes.INITIALIZE_GAME_STATE;
-    constructor(public payload: { conf: GameTemplate; instance?: GameInstance; round?: number; }) { }
+    constructor(public payload: { instance?: GameInstance; module?: number; }) { }
 }
 
 export type GameArenaAction = FetchGameInstance | FetchGameInstanceSuccess | FetchGameInstanceFail | FetchGameConfig |

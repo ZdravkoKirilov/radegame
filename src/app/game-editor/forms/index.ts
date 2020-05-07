@@ -1,6 +1,5 @@
 export * from './widget';
-export * from './round';
-export * from './round';
+export * from './module';
 export * from './choice';
 export * from './game';
 export * from './slot';

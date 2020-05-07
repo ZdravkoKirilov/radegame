@@ -4,7 +4,6 @@ import { composeCommonFormContext, baseTemplate } from '../helpers';
 
 export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseControl[] => {
     data = data || {};
-    const rounds = data.rounds || [];
 
     const template = `
     <Form>
@@ -17,15 +16,6 @@ export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseContr
 
         <TextInput name='recommended_age' label='Recommended age'>{data.recommended_age}</TextInput>
 
-        <Group name='rounds' label='Rounds' children='{rounds}' item='@item' addButtonText='Add'>
-            <Form>
-                <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
-
-                <Dropdown name='round' label='Round' options='{round_options}' required='{true}'>{@item.round}</Dropdown>
-
-            </Form>
-        </Group>
-
     </Form>
     `;
 
@@ -33,7 +23,7 @@ export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseContr
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, rounds,
+            data
         }
     }, true) as BaseControl[];
 

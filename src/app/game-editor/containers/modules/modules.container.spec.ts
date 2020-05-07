@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RoundsContainerComponent } from './rounds.container';
+import { ModulesContainerComponent } from './rounds.container';
 
 describe('SmartRoundsComponent', () => {
-  let component: RoundsContainerComponent;
-  let fixture: ComponentFixture<RoundsContainerComponent>;
+  let component: ModulesContainerComponent;
+  let fixture: ComponentFixture<ModulesContainerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ RoundsContainerComponent ]
+      declarations: [ ModulesContainerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RoundsContainerComponent);
+    fixture = TestBed.createComponent(ModulesContainerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

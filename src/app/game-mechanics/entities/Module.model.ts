@@ -3,7 +3,7 @@ import { Omit } from '@app/shared';
 import { ExpressionFunc } from './Expression.model';
 import { Widget } from './Widget.model';
 
-export type Round = BaseModel & WithBoard & Partial<{
+export type Module = BaseModel & WithBoard & Partial<{
     phases: Phase[]; // Phase[]
 
     preload: string;
@@ -11,7 +11,7 @@ export type Round = BaseModel & WithBoard & Partial<{
     loader: number;
 }>;
 
-export type RuntimeRound = Round & Omit<Round, 'preload' | 'load_done'> & {
+export type RuntimeModule = Module & Omit<Module, 'preload' | 'load_done'> & {
     preload: ExpressionFunc<void>;
     load_done: ExpressionFunc<boolean>;
     loader: Widget;

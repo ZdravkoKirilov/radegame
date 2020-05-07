@@ -1,10 +1,10 @@
-import { Round } from '@app/game-mechanics';
+import { Module } from '@app/game-mechanics';
 import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
 import {
     baseTemplate, boardTemplate, composeCommonFormContext
 } from '../helpers';
 
-export function composeRoundForm(data: Round, ent: ConnectedEntities): BaseControl[] {
+export function composeModuleForm(data: Module, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
     const phases = data.phases || [];
 

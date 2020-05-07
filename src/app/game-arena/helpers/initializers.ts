@@ -5,19 +5,16 @@ import { MutateState } from '../state';
 
 export type CreateStateParams = {
     setup: number;
-    conf: GameTemplate;
-    round?: number;
+    module?: number;
 };
 
 export const createGameState = (payload: CreateStateParams): GameState => {
-    const { setup, conf, round } = payload;
-    const setup_data: Setup = conf.setups[setup];
-    const first_round = get(setup_data, ['rounds', 0, 'id']);
+    const { setup, module } = payload;
 
     return {
         global_state: {},
         setup,
-        round: round || first_round,
+        module,
     };
 };
 

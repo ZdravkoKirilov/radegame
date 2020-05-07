@@ -3,15 +3,15 @@ import { Memo, createElement, RzElementPrimitiveProps } from "@app/render-kit";
 import NodeFactory, { NodeFactoryProps } from "../Factory";
 import StaticWidget, { StaticWidgetProps } from "../StaticWidget";
 
-export type RoundWidgetProps = {
+export type ModuleWidgetProps = {
     widget: RuntimeWidget;
     slots: RuntimeSlot[];
     frame: RuntimeImageFrame;
 }
 
-type Props = RoundWidgetProps;
+type Props = ModuleWidgetProps;
 
-export const RoundWidget = Memo<Props>(({ widget, slots, frame }) => {
+export const ModuleWidget = Memo<Props>(({ widget, slots, frame }) => {
     return createElement<WidgetRendererProps>(
         WidgetRenderer,
         {

@@ -18,7 +18,7 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
 
             <TagsInput name='core_data' label="Always load: ">{data.core_data}</TagsInput>
 
-            <Dropdown name='menu' label='Menu' options='{round_options}'>
+            <Dropdown name='menu' label='Menu' options='{module_options}'>
                 {data.menu}
             </Dropdown>
 

@@ -59,8 +59,7 @@ export class GameMenuLoaderComponent implements OnInit {
       map(isDownloading => {
         if (!isDownloading && this.game.menu) {
           this.store.dispatch(new CreateGameState({
-            conf: this.game_config,
-            round: this.game.menu,
+            module: this.game.menu,
           }));
         }
       }),

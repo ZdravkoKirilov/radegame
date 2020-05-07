@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { API_URLS } from '../../config';
 import {
-	Widget, Round, Token, Choice, ImageAsset,
+	Widget, Module, Token, Choice, ImageAsset,
 	Game, Expression, Animation, Setup, GameTemplate
 } from '@app/game-mechanics';
 
@@ -29,8 +29,8 @@ export class GameFetchService {
 		return this.http.get<Widget>(API_URLS.WIDGETS(gameId, widgetId));
 	}
 
-	getRounds(gameId: number) {
-		return this.http.get<Round[]>(API_URLS.ROUNDS(gameId));
+	getModules(gameId: number) {
+		return this.http.get<Module[]>(API_URLS.MODULES(gameId));
 	}
 
 	getTokens(gameId: number) {

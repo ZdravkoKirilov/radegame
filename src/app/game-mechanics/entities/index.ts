@@ -1,4 +1,4 @@
-export * from './Round.model';
+export * from './Module.model';
 export * from './Choice.model';
 export * from './Widget.model';
 export * from './Token.model';
@@ -18,7 +18,7 @@ export * from './Shape.model';
 
 export * from './types';
 
-import { Round } from './Round.model';
+import { Module } from './Module.model';
 import { Choice } from './Choice.model';
 import { Widget } from './Widget.model';
 import { Token } from './Token.model';
@@ -36,8 +36,7 @@ import { Text } from './Text.model';
 import { Sonata } from './Sonata.model';
 import { Shape } from './Shape.model';
 
-export type GameEntity = Game | Slot |
-    Round | Choice | Widget | Token |
+export type GameEntity = Game | Slot | Module | Choice | Widget | Token |
     Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape;
 
 export type GameEntityList = Dictionary<GameEntity>;
