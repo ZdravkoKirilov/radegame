@@ -5,7 +5,7 @@ import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
-    GameEntity, Module, Token, Choice, Game, ImageAsset, Widget, Slot, Style, Setup,
+    GameEntity, Module, Token, Choice, Game, ImageAsset, Widget, WidgetNode, Style, Setup,
     AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess, FetchItemAction, FetchItemSuccessAction, FetchItemFailAction, FetchItemsFailAction } from '../actions';
@@ -114,7 +114,7 @@ export class GenericEffectsService {
                     return [
                         new SetItemAction(response),
                         new SaveItemSuccessAction(response),
-                        key === 'slots' ? new FetchItemAction({
+                        key === 'nodes' ? new FetchItemAction({
                             key: ALL_ENTITIES.widgets, data: {
                                 game: res['game'],
                                 id: res['owner']
@@ -141,7 +141,7 @@ export class GenericEffectsService {
                     return [
                         new DeleteItemSuccessAction(payload),
                         new RemoveItemAction(payload),
-                        key === 'slots' ? new FetchItemAction({
+                        key === 'nodes' ? new FetchItemAction({
                             key: ALL_ENTITIES.widgets, data: {
                                 game: data['game'],
                                 id: data['owner'],
@@ -190,8 +190,8 @@ export class GenericEffectsService {
                 return this.api.saveModule(<Module>entity);
             case ALL_ENTITIES.widgets:
                 return this.api.saveWidget(<Widget>entity);
-            case ALL_ENTITIES.slots:
-                return this.api.saveSlot(<Slot>entity);
+            case ALL_ENTITIES.nodes:
+                return this.api.saveNode(<WidgetNode>entity);
             case ALL_ENTITIES.choices:
                 return this.api.saveChoice(<Choice>entity);
             case ALL_ENTITIES.tokens:
@@ -232,8 +232,8 @@ export class GenericEffectsService {
                 return this.api.deleteModule(<Module>entity);
             case ALL_ENTITIES.widgets:
                 return this.api.deleteWidget(<Widget>entity);
-            case ALL_ENTITIES.slots:
-                return this.api.deleteSlot(<Slot>entity);
+            case ALL_ENTITIES.nodes:
+                return this.api.deleteNode(<WidgetNode>entity);
             case ALL_ENTITIES.choices:
                 return this.api.deleteChoice(<Choice>entity);
             case ALL_ENTITIES.tokens:

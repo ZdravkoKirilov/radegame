@@ -10,7 +10,7 @@ import { Text } from "./Text.model";
 import { Sonata } from "./Sonata.model";
 import { RzEventTypes, StatefulComponent } from "@app/render-kit";
 
-export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
+export type WidgetNode = BaseModel & WithBoard & WithStyle & Partial<{
     owner: number; // Widget;
 
     y: number;
@@ -26,30 +26,30 @@ export type Slot = BaseModel & WithBoard & WithStyle & Partial<{
 
     pass_to_children: string;
 
-    handlers: SlotHandler[];
+    handlers: NodeHandler[];
     transitions: number[]; // TransitionId[]
-    lifecycles: SlotLifecycle[];
+    lifecycles: NodeLifecycle[];
 }>;
 
-export type RuntimeSlot = Omit<Slot, 'board' | 'style' | 'style_inline' | 'item' | 'shape' | 'display_text' | 'provide_context' | 'consume_context'> & {
+export type RuntimeWidgetNode = Omit<WidgetNode, 'board' | 'style' | 'style_inline' | 'item' | 'shape' | 'display_text' | 'provide_context' | 'consume_context'> & {
 
-    item: RuntimeSlotItem;
+    item: RuntimeNodeItem;
     shape: Shape;
     board: Widget;
 
-    style: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, Style>;
+    style: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, Style>;
     style_inline: Style;
 
-    display_text: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, Text>;
+    display_text: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, Text>;
     display_text_inline: Text;
 
-    provide_context: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, any>; // provideValueToSubscribers
+    provide_context: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, any>; // provideValueToSubscribers
     consume_context: ContextSubscribingFunc;
 
-    pass_to_children: ParamedExpressionFunc<{ slot: RuntimeSlot, component: StatefulComponent }, any>;
+    pass_to_children: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, any>;
 };
 
-export type SlotHandler = {
+export type NodeHandler = {
     owner: number;
 
     type: RzEventTypes;
@@ -58,25 +58,25 @@ export type SlotHandler = {
     static_sound: number; // Sonata
 };
 
-export type RuntimeSlotHandler = Omit<SlotHandler, 'effect' | 'sound' | 'static_sound'> & {
+export type RuntimeNodeHandler = Omit<NodeHandler, 'effect' | 'sound' | 'static_sound'> & {
     effect: EventHandlingExpressionFunc;
     sound: SonataGetterFunc;
     static_sound: Sonata;
 };
 
-export type SlotItem = Partial<{
+export type NodeItem = Partial<{
     choice: number;
     token: number;
 }>;
 
-export type RuntimeSlotItem = Omit<SlotItem, 'choice' | 'token'> & Partial<{
+export type RuntimeNodeItem = Omit<NodeItem, 'choice' | 'token'> & Partial<{
     choice: RuntimeChoice;
     token: RuntimeToken;
 }>;
 
-export type SlotLifecycle = {
+export type NodeLifecycle = {
     owner: number;
-    type: SLOT_LIFECYCLES;
+    type: NODE_LIFECYCLES;
 
     effect: string;
 
@@ -84,14 +84,14 @@ export type SlotLifecycle = {
     static_sound: number; // Sonata
 };
 
-export type RuntimeSlotLifecycle = Omit<SlotLifecycle, 'effect' | 'sound' | 'static_sound'> & Partial<{
+export type RuntimeNodeLifecycle = Omit<NodeLifecycle, 'effect' | 'sound' | 'static_sound'> & Partial<{
     effect: LifecycleExpressionFunc;
 
     sound: SonataGetterFunc;
     static_sound: Sonata;
 }>;
 
-export enum SLOT_LIFECYCLES {
+export enum NODE_LIFECYCLES {
     'onUpdate' = 'onUpdate',
     'onMount' = 'onMount',
     'onUnmount' = 'onUnmount',

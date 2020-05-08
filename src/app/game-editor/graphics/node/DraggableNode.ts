@@ -1,16 +1,16 @@
 import { createElement, RenderFunction, RzDraggable, RzDraggableProps, RzPoint, RzElementPrimitiveProps } from "@app/render-kit";
-import { RuntimeSlot } from "@app/game-mechanics";
+import { RuntimeWidgetNode } from "@app/game-mechanics";
 
 import NodeFactory, { NodeFactoryProps } from "./Factory";
 
 export type Props = {
-  data: RuntimeSlot;
+  data: RuntimeWidgetNode;
   selected: boolean;
   onDragEnd: (id: number, coords: RzPoint) => void;
-  onSelect: (item: RuntimeSlot) => void;
+  onSelect: (item: RuntimeWidgetNode) => void;
 };
 
-export const DraggableSlot: RenderFunction<Props> = (props) => {
+export const DraggableNode: RenderFunction<Props> = (props) => {
   const { data, onDragEnd, onSelect, selected } = props;
 
   return (
@@ -44,4 +44,4 @@ export const DraggableSlot: RenderFunction<Props> = (props) => {
   )
 };
 
-export default DraggableSlot;
+export default DraggableNode;

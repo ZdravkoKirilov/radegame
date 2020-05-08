@@ -1,2 +1,2 @@
-export * from './WithSlotLifecycles';
+export * from './WithNodeLifecycles';
 export * from './GiveAndUseContext';

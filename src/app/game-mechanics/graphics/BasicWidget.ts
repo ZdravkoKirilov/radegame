@@ -1,21 +1,21 @@
-import { RuntimeSlot, Style, RuntimeImageFrame, RuntimeWidget, Widget } from "../entities";
+import { RuntimeWidgetNode, Style, RuntimeImageFrame, RuntimeWidget, Widget } from "../entities";
 import { Memo, createElement, calculateScaling, RzElement, RzElementPrimitiveProps } from "@app/render-kit";
-import { FrameRendererProps, FrameRenderer } from "./Frame";
+import { FrameRendererProps, FrameRenderer } from "./BasicFrame";
 
 export type WidgetRendererProps = {
     widget: RuntimeWidget;
-    slots: RuntimeSlot[];
+    nodes: RuntimeWidgetNode[];
     frame: RuntimeImageFrame;
-    renderChild: (slot: RuntimeSlot) => RzElement;
+    renderChild: (node: RuntimeWidgetNode) => RzElement;
     renderFrame: (widget: Widget, style: Style) => RzElement;
     style: Style;
 };
 
-export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, slots, renderChild, renderFrame, style, frame }) => {
-    slots = slots || [];
-    const nodes = slots.map(slot => {
-        return createElement('container', { key: slot.id },
-            renderChild(slot),
+export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, nodes, renderChild, renderFrame, style, frame }) => {
+    nodes = nodes || [];
+    const children = nodes.map(node => {
+        return createElement('container', { key: node.id },
+            renderChild(node),
         );
     });
 
@@ -40,6 +40,6 @@ export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, slots, render
                 }
             }),
         ) : null,
-        createElement('collection', { styles: { z_order: 1 } }, nodes),
+        createElement('collection', { styles: { z_order: 1 } }, children),
     );
 });

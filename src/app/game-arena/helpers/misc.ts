@@ -1,13 +1,13 @@
 import { Action } from "@ngrx/store";
 
-import { RuntimeSlotHandler, ExpressionContext, playSoundIfNeeded } from "@app/game-mechanics";
+import { RuntimeNodeHandler, ExpressionContext, playSoundIfNeeded } from "@app/game-mechanics";
 import { GenericEvent, StatefulComponent } from "@app/render-kit";
 
 type HandlerParams = {
   self: StatefulComponent,
   context: ExpressionContext;
   dispatch: (payload: Action) => void,
-  handlers: RuntimeSlotHandler[],
+  handlers: RuntimeNodeHandler[],
 }
 
 export const assignHandlers = ({ self, handlers, context, dispatch }: HandlerParams) => {

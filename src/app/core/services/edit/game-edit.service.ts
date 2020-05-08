@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
     Game, Module, Choice, Widget, Token, Animation, ImageAsset, Style,
-    Sound, Expression, Setup, Transition, Text, Sonata, Shape, Slot,
+    Sound, Expression, Setup, Transition, Text, Sonata, Shape, WidgetNode,
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../../config';
@@ -41,17 +41,17 @@ export class GameEditService {
         return this.http.delete(API_URLS.WIDGETS(data.game, data.id));
     }
 
-    saveSlot(data: Slot): Observable<any> {
+    saveNode(data: WidgetNode): Observable<any> {
 
         if (data.id) {
-            return this.http.patch(API_URLS.SLOTS(data.game, data.owner, data.id), data);
+            return this.http.patch(API_URLS.NODES(data.game, data.owner, data.id), data);
         } else {
-            return this.http.post(API_URLS.SLOTS(data.game, data.owner), data);
+            return this.http.post(API_URLS.NODES(data.game, data.owner), data);
         }
     }
 
-    deleteSlot(data: Slot): Observable<any> {
-        return this.http.delete(API_URLS.SLOTS(data.game, data.owner, data.id));
+    deleteNode(data: WidgetNode): Observable<any> {
+        return this.http.delete(API_URLS.NODES(data.game, data.owner, data.id));
     }
 
     saveText(data: Text): Observable<any> {

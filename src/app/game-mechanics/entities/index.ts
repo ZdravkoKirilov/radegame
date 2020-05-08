@@ -2,7 +2,7 @@ export * from './Module.model';
 export * from './Choice.model';
 export * from './Widget.model';
 export * from './Token.model';
-export * from './Slot.model';
+export * from './WidgetNode.model';
 
 export * from './Setup.model';
 export * from './ImageAsset.model';
@@ -22,7 +22,7 @@ import { Module } from './Module.model';
 import { Choice } from './Choice.model';
 import { Widget } from './Widget.model';
 import { Token } from './Token.model';
-import { Slot } from './Slot.model';
+import { WidgetNode } from './WidgetNode.model';
 import { Setup } from './Setup.model';
 import { Dictionary } from '@app/shared';
 import { ImageAsset } from './ImageAsset.model';
@@ -36,7 +36,7 @@ import { Text } from './Text.model';
 import { Sonata } from './Sonata.model';
 import { Shape } from './Shape.model';
 
-export type GameEntity = Game | Slot | Module | Choice | Widget | Token |
+export type GameEntity = Game | WidgetNode | Module | Choice | Widget | Token |
     Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape;
 
 export type GameEntityList = Dictionary<GameEntity>;

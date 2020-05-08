@@ -9,5 +9,5 @@ export type RuntimeToken = Omit<Token, 'template'> & {
 }
 
 // the template Widget will use those frames[] not only for displaying "front" and "back" but also
-// may turn them into virtual "slots" and place them somewhere on the card
+// may turn them into virtual "nodes" and place them somewhere on the card
 // same goes for texts[]

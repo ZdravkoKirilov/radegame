@@ -1,5 +1,5 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Slot, SlotItem, SLOT_LIFECYCLES } from "@app/game-mechanics";
+import { WidgetNode, NodeItem, NODE_LIFECYCLES } from "@app/game-mechanics";
 import {
     baseTemplate,
     boardTemplate,
@@ -10,7 +10,7 @@ import {
 } from "../helpers";
 import { RzEventTypes } from "@app/render-kit";
 
-export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntities) => {
+export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: ConnectedEntities) => {
     data = data || {};
     const handlers = data.handlers || [];
     const lifecycles = data.lifecycles || [];
@@ -108,7 +108,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
             ...composeCommonFormContext(data, ent),
             ...composeInlineStyleFormContext(ent),
             handlerTypes: composeFromObject(RzEventTypes),
-            lifecycleTypes: composeFromObject(SLOT_LIFECYCLES),
+            lifecycleTypes: composeFromObject(NODE_LIFECYCLES),
             data, handlers, transitions, lifecycles,
             entities: ent, composeSlotItemForm
         },
@@ -117,7 +117,7 @@ export const composeSlotForm: FormDefinition = (data: Slot, ent?: ConnectedEntit
     return result as BaseControl[];
 };
 
-export function composeSlotItemForm(data: SlotItem, ent: ConnectedEntities): BaseControl[] {
+export function composeSlotItemForm(data: NodeItem, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
 
     const template = `

@@ -1,34 +1,34 @@
 import { StatefulComponent, DidUpdatePayload } from "@app/render-kit";
-import { RuntimeSlotLifecycle, SLOT_LIFECYCLES } from "../entities";
+import { RuntimeNodeLifecycle, NODE_LIFECYCLES } from "../entities";
 import { ExpressionContext, playSoundIfNeeded } from "../helpers";
 
 type RequiredProps = {
-  lifecycles: RuntimeSlotLifecycle[];
+  lifecycles: RuntimeNodeLifecycle[];
   context: ExpressionContext;
 }
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 
-export function WithSlotLifecycles(constructor: Constructor<StatefulComponent<RequiredProps>>) {
+export function WithNodeLifecycles(constructor: Constructor<StatefulComponent<RequiredProps>>) {
   const prototype = constructor.prototype;
   const originalDidMount = prototype.didMount;
   const originalDidUpdate = prototype.didUpdate;
   const originalwillUnmount = prototype.willUnmount;
 
   prototype.didMount = function () {
-    const relatedLifecycles = getRelatedLifecycles(SLOT_LIFECYCLES.onMount, this.props['lifecycles']);
+    const relatedLifecycles = getRelatedLifecycles(NODE_LIFECYCLES.onMount, this.props['lifecycles']);
     relatedLifecycles.forEach(doLifecycleStuffBro(this, this.props['context']));
     originalDidMount && originalDidMount.apply(this, arguments);
   }
 
   prototype.didUpdate = function (payload: DidUpdatePayload) {
-    const relatedLifecycles = getRelatedLifecycles(SLOT_LIFECYCLES.onUpdate, this.props['lifecycles']);
+    const relatedLifecycles = getRelatedLifecycles(NODE_LIFECYCLES.onUpdate, this.props['lifecycles']);
     relatedLifecycles.forEach(doLifecycleStuffBro(this, this.props['context'], payload));
     originalDidUpdate && originalDidUpdate.apply(this, arguments);
   }
 
   prototype.willUnmount = function () {
-    const relatedLifecycles = getRelatedLifecycles(SLOT_LIFECYCLES.onUnmount, this.props['lifecycles']);
+    const relatedLifecycles = getRelatedLifecycles(NODE_LIFECYCLES.onUnmount, this.props['lifecycles']);
     relatedLifecycles.forEach(doLifecycleStuffBro(this, this.props['context']));
     originalwillUnmount && originalwillUnmount.apply(this, arguments);
   }
@@ -37,10 +37,10 @@ export function WithSlotLifecycles(constructor: Constructor<StatefulComponent<Re
 }
 
 const doLifecycleStuffBro = (component: StatefulComponent, context: ExpressionContext, payload?: DidUpdatePayload) =>
-  (elem: RuntimeSlotLifecycle) => {
+  (elem: RuntimeNodeLifecycle) => {
     elem.effect(component, payload);
     playSoundIfNeeded(elem.sound, elem.static_sound, component, context);
   };
 
-const getRelatedLifecycles = (forType: SLOT_LIFECYCLES, fromPool: RuntimeSlotLifecycle[]) =>
-  fromPool?.filter((elem: RuntimeSlotLifecycle) => elem.type === forType) ?? [];
+const getRelatedLifecycles = (forType: NODE_LIFECYCLES, fromPool: RuntimeNodeLifecycle[]) =>
+  fromPool?.filter((elem: RuntimeNodeLifecycle) => elem.type === forType) ?? [];

@@ -7,7 +7,7 @@ import { AppState } from '@app/core';
 import {
 	getActiveWidget, getItems, getEntities, SaveItemAction, DeleteItemAction,
 } from '../../state';
-import { Widget, Slot, ImageAsset, ALL_ENTITIES } from '@app/game-mechanics';
+import { Widget, WidgetNode, ImageAsset, ALL_ENTITIES } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId } from '@app/shared';
 
@@ -17,12 +17,12 @@ import { selectGameId } from '@app/shared';
     <ng-container *ngIf="data$ | async as data">
         <rg-board-editor 
 					[widget]="data.widget"
-					[slots]="data.slots"
+					[nodes]="data.nodes"
 					[entities]="data.entities"
 					[gameId]="data.gameId"
 					[images]="data.images"
-					(saveSlot)="saveSlot($event)"
-					(deleteSlot)="deleteSlot($event)"
+					(saveNode)="saveNode($event)"
+					(deleteNode)="deleteNode($event)"
         ></rg-board-editor>
     </ng-container>
     `,
@@ -36,7 +36,7 @@ export class BoardContainerComponent {
 
 	data$: Observable<{
 		widget: Widget,
-		slots: Slot[],
+		nodes: WidgetNode[],
 		entities: ConnectedEntities,
 		gameId: number,
 		images: ImageAsset[],
@@ -51,28 +51,28 @@ export class BoardContainerComponent {
 			this.widget = widget;
 			return {
 				widget, entities, gameId, images,
-				slots: widget.slots,
+				nodes: widget.nodes,
 			};
 		}),
 	)
 
-	saveSlot = (slot: Slot) => {
-		slot.owner = this.widget.id;
-		slot.game = this.widget.game;
+	saveNode = (node: WidgetNode) => {
+		node.owner = this.widget.id;
+		node.game = this.widget.game;
 
 		this.store.dispatch(new SaveItemAction({
-			key: ALL_ENTITIES.slots,
-			data: slot,
+			key: ALL_ENTITIES.nodes,
+			data: node,
 		}));
 	}
 
-	deleteSlot = (slot: Slot) => {
-		slot.owner = this.widget.id;
-		slot.game = this.widget.game;
+	deleteNode = (node: WidgetNode) => {
+		node.owner = this.widget.id;
+		node.game = this.widget.game;
 
 		this.store.dispatch(new DeleteItemAction({
-			key: ALL_ENTITIES.slots,
-			data: slot,
+			key: ALL_ENTITIES.nodes,
+			data: node,
 		}));
 	}
 }

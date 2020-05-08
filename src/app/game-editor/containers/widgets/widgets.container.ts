@@ -25,10 +25,10 @@ export class WidgetsContainerComponent extends SmartBase {
     }
 
     saveItem(data: Widget) {
-        const payload = { ...data, game: this.gameId, slots: data.slots || [] };
+        const payload = { ...data, game: this.gameId, nodes: data.nodes || [] };
         if (this.selectedItem) {
             payload.id = this.selectedItem.id;
-            payload.slots = this.selectedItem.slots;
+            payload.nodes = this.selectedItem.nodes;
         }
         this.store.dispatch(new SaveItemAction({
             key: this.key,

@@ -2,7 +2,7 @@ import { BaseModel } from "./Base.model";
 import { GenericEvent, StatefulComponent, DidUpdatePayload } from "@app/render-kit";
 import { Omit, GenericSubscription } from "@app/shared";
 import { Sonata } from "./Sonata.model";
-import { RuntimeSlot } from "./Slot.model";
+import { RuntimeWidgetNode } from "./WidgetNode.model";
 
 export type Expression = BaseModel & Partial<{
     code: string;
@@ -27,7 +27,7 @@ export type LifecycleExpressionFunc<T = any> = (
 ) => T | T[];
 
 export type ContextSubscribingFunc = ParamedExpressionFunc<{
-    slot: RuntimeSlot,
+    node: RuntimeWidgetNode,
     component: StatefulComponent
 }, GenericSubscription[] | string[]>
 

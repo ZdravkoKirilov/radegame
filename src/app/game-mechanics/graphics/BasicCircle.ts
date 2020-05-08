@@ -1,11 +1,11 @@
 import { Style } from "../entities";
 import { RenderFunction, createElement, CircleProps } from "@app/render-kit";
 
-export type CircleSlotProps = {
+export type BasicCircleNodeProps = {
     style: Style;
 }
 
-const Circle: RenderFunction<CircleSlotProps> = ({ style }) => {
+const BasicCircle: RenderFunction<BasicCircleNodeProps> = ({ style }) => {
     return createElement<CircleProps>('circle', {
         styles: {
             stroke_thickness: style.stroke_thickness,
@@ -18,4 +18,4 @@ const Circle: RenderFunction<CircleSlotProps> = ({ style }) => {
     });
 };
 
-export default Circle; 
+export default BasicCircle; 

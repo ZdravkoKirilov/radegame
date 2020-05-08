@@ -1,14 +1,14 @@
 import { RuntimeShape, Style } from "../entities";
-import { RenderFunction, createElement, LineProps } from "@app/render-kit";
+import { RenderFunction, createElement, PolygonProps } from "@app/render-kit";
 
-export type LineSlotProps = {
+export type PolygonNodeProps = {
     style: Style;
     shape: RuntimeShape;
 }
 
-const LineSlot: RenderFunction<LineSlotProps> = ({ style, shape }) => {
+const BasicPolygon: RenderFunction<PolygonNodeProps> = ({ style, shape }) => {
 
-    return createElement<LineProps>('line', {
+    return createElement<PolygonProps>('polygon', {
         styles: {
             stroke_thickness: style.stroke_thickness,
             stroke_color: style.stroke_color,
@@ -21,4 +21,4 @@ const LineSlot: RenderFunction<LineSlotProps> = ({ style, shape }) => {
     });
 };
 
-export default LineSlot; 
+export default BasicPolygon; 

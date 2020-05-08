@@ -1,16 +1,16 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-  RuntimeSlot, connectToStore, WidgetRendererProps, WidgetRenderer, RuntimeWidget,
-  combineStyles, ExpressionContext, selectWidgetSlotsSync, selectWidgetFrameSync, selectSlotStyleSync
+  RuntimeWidgetNode, connectToStore, WidgetRendererProps, WidgetRenderer, RuntimeWidget,
+  combineStyles, ExpressionContext, selectWidgetNodesSync, selectWidgetFrameSync, selectNodeStyleSync
 } from "@app/game-mechanics";
 import { selectExpressionContext, selectItemTemplate } from '../../state';
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
 import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
 
-export type EnhancedItemSlotProps = {
-  data: RuntimeSlot;
+export type EnhancedItemNodeProps = {
+  data: RuntimeWidgetNode;
 }
 
 type StoreProps = {
@@ -18,30 +18,30 @@ type StoreProps = {
   context: ExpressionContext;
 };
 
-type Props = EnhancedItemSlotProps & StoreProps;
+type Props = EnhancedItemNodeProps & StoreProps;
 
-class EnhancedItemSlot extends StatefulComponent<Props> {
+class EnhancedItemNode extends StatefulComponent<Props> {
 
   render() {
     const self = this;
     const { widget, context, data } = this.props;
-    const slots = selectWidgetSlotsSync(widget, context, self);
+    const nodes = selectWidgetNodesSync(widget, context, self);
     const frame = selectWidgetFrameSync(widget, context, self);
-    const style = selectSlotStyleSync(data, self);
+    const style = selectNodeStyleSync(data, self);
   
     return createElement<WidgetRendererProps>(WidgetRenderer, {
-      widget, slots, style, frame,
-      renderChild: (slot: RuntimeSlot) => {
-        const composedStyle = combineStyles(slot, style);
+      widget, nodes: nodes, style, frame,
+      renderChild: (node: RuntimeWidgetNode) => {
+        const composedStyle = combineStyles(node, style);
 
         return createElement<RzElementPrimitiveProps>(
           'container',
           {
-            styles: { x: slot.x, y: slot.y, z_order: composedStyle.z_order },
-            id: slot.id,
-            name: `node_${slot.id}`
+            styles: { x: node.x, y: node.y, z_order: composedStyle.z_order },
+            id: node.id,
+            name: `node_${node.id}`
           },
-          createElement<NodeFactoryProps>(NodeFactory, { data: slot })
+          createElement<NodeFactoryProps>(NodeFactory, { data: node })
         );
       },
       renderFrame: widget => createElement<StaticWidgetProps>(StaticWidget, { widget, style }),
@@ -49,9 +49,9 @@ class EnhancedItemSlot extends StatefulComponent<Props> {
   }
 };
 
-const mapStateToProps = (state: AppState, ownProps: EnhancedItemSlotProps): StoreProps => ({
+const mapStateToProps = (state: AppState, ownProps: EnhancedItemNodeProps): StoreProps => ({
   widget: selectItemTemplate(ownProps.data.item)(state),
   context: selectExpressionContext(state),
 });
 
-export default connectToStore(mapStateToProps)(EnhancedItemSlot);
+export default connectToStore(mapStateToProps)(EnhancedItemNode);

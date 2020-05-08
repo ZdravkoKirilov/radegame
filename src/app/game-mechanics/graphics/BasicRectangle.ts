@@ -1,11 +1,11 @@
 import { Style } from "../entities";
 import { RenderFunction, createElement, PrimitiveRectangleProps } from "@app/render-kit";
 
-export type RectangleProps = {
+export type BasicRectangleProps = {
     style: Style;
 }
 
-const Rectangle: RenderFunction<RectangleProps> = ({ style }) => {
+const BasicRectangle: RenderFunction<BasicRectangleProps> = ({ style }) => {
 
     return createElement<PrimitiveRectangleProps>('rectangle', {
         styles: {
@@ -23,4 +23,4 @@ const Rectangle: RenderFunction<RectangleProps> = ({ style }) => {
     });
 };
 
-export default Rectangle; 
+export default BasicRectangle; 

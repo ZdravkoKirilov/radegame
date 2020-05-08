@@ -3,29 +3,29 @@ import get from "lodash/get";
 import { withMemo } from "@app/shared";
 import { StatefulComponent } from "@app/render-kit";
 
-import { RuntimeWidget, RuntimeSlot, RuntimeText } from "../entities";
-import { enrichSlot, enrichFrame, enrichText } from "./entity-composers";
+import { RuntimeWidget, RuntimeWidgetNode, RuntimeText } from "../entities";
+import { enrichNode, enrichFrame, enrichText } from "./entity-composers";
 import { ExpressionContext } from "./expression-context";
 
-export const selectChildPropsSync = (slot: RuntimeSlot, component: StatefulComponent) => {
-  const handler = slot.pass_to_children;
+export const selectChildPropsSync = (node: RuntimeWidgetNode, component: StatefulComponent) => {
+  const handler = node.pass_to_children;
   if (typeof handler === 'function') {
-    const result = handler({ slot, component });
+    const result = handler({ node: node, component });
     return result;
   }
 };
 
-const _selectSlotStyleSync = (slot: RuntimeSlot, component: StatefulComponent) => {
-  if (slot) {
-    if (slot.style) {
-      const style = slot.style({ slot, component });
+const _selectNodeStyleSync = (node: RuntimeWidgetNode, component: StatefulComponent) => {
+  if (node) {
+    if (node.style) {
+      const style = node.style({ node: node, component });
       return style;
     }
-    return slot.style_inline;
+    return node.style_inline;
   }
   return {};
 };
-export const selectSlotStyleSync = withMemo(_selectSlotStyleSync);
+export const selectNodeStyleSync = withMemo(_selectNodeStyleSync);
 
 
 const _selectWidgetFrameSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
@@ -43,27 +43,27 @@ const _selectWidgetFrameSync = (widget: RuntimeWidget, context: ExpressionContex
 export const selectWidgetFrameSync = withMemo(_selectWidgetFrameSync);
 
 
-const _selectWidgetSlotsSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
+const _selectWidgetNodesSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
   if (widget) {
-    const { slot_getter } = widget;
-    if (typeof slot_getter === 'function') {
-      return slot_getter({ widget, component }).map(elem => enrichSlot(context.conf, context, elem));
+    const { node_getter } = widget;
+    if (typeof node_getter === 'function') {
+      return node_getter({ widget, component }).map(elem => enrichNode(context.conf, context, elem));
     }
-    return widget.slots.map(elem => enrichSlot(context.conf, context, elem));
+    return widget.nodes.map(elem => enrichNode(context.conf, context, elem));
   }
   return [];
 };
-export const selectWidgetSlotsSync = withMemo(_selectWidgetSlotsSync);
+export const selectWidgetNodesSync = withMemo(_selectWidgetNodesSync);
 
 
-const _selectSlotTextSync = (slot: RuntimeSlot, context: ExpressionContext, component: StatefulComponent, language = 2) => {
-  if (slot) {
+const _selectNodeTextSync = (node: RuntimeWidgetNode, context: ExpressionContext, component: StatefulComponent, language = 2) => {
+  if (node) {
     let runtimeText: RuntimeText = null;
-    if (slot.display_text_inline) {
-      runtimeText = enrichText(context.conf, context, slot.display_text_inline);
+    if (node.display_text_inline) {
+      runtimeText = enrichText(context.conf, context, node.display_text_inline);
     }
-    if (slot.display_text) {
-      const text = slot.display_text({ slot, component });
+    if (node.display_text) {
+      const text = node.display_text({ node: node, component });
       runtimeText = enrichText(context.conf, context, text);
     }
 
@@ -75,4 +75,4 @@ const _selectSlotTextSync = (slot: RuntimeSlot, context: ExpressionContext, comp
   }
   return null;
 }
-export const selectSlotTextSync = withMemo(_selectSlotTextSync);
+export const selectNodeTextSync = withMemo(_selectNodeTextSync);

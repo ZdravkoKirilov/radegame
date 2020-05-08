@@ -1,5 +1,5 @@
 import { BaseModel, WithFrames } from "./Base.model";
-import { Slot } from "./Slot.model";
+import { WidgetNode } from "./WidgetNode.model";
 import { Omit } from "@app/shared";
 import { ImageFrame } from "./ImageAsset.model";
 import { ParamedExpressionFunc } from "./Expression.model";
@@ -9,8 +9,8 @@ export type Widget = BaseModel & WithFrames & Partial<{
     width: number;
     height: number;
 
-    slot_getter: string; // Expression => Slot[]
-    slots: Slot[];
+    node_getter: string; // Expression => WidgetNode[]
+    nodes: WidgetNode[];
 
     frame_getter: string;
 }>;
@@ -20,8 +20,8 @@ type WidgetExpressionPayload = {
     component: StatefulComponent;
 }
 
-export type RuntimeWidget = Omit<Widget, 'slot_getter' | 'frame_getter'> & {
-    slot_getter: ParamedExpressionFunc<WidgetExpressionPayload, Slot[]>;
+export type RuntimeWidget = Omit<Widget, 'node_getter' | 'frame_getter'> & {
+    node_getter: ParamedExpressionFunc<WidgetExpressionPayload, WidgetNode[]>;
     frame_getter: ParamedExpressionFunc<WidgetExpressionPayload, ImageFrame>;
 };
 

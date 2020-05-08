@@ -21,7 +21,7 @@ export const ALL_ENTITIES = {
     texts: 'texts',
     sonatas: 'sonatas',
     shapes: 'shapes',
-    slots: 'slots',
+    nodes: 'nodes',
 } as const;
 
 export type AllEntity = keyof typeof ALL_ENTITIES;

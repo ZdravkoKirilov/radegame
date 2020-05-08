@@ -1,9 +1,9 @@
 import { AppState } from "@app/core";
 import { Memo, createElement } from "@app/render-kit";
-import { RuntimeSlot, RuntimeModule, RuntimeWidget, connectToStore, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeWidgetNode, RuntimeModule, RuntimeWidget, connectToStore, RuntimeImageFrame } from "@app/game-mechanics";
 import {
     selectCurrentModuleWidget,
-    selectCurrentModuleWidgetSlots,
+    selectCurrentModuleWidgetNodes,
     selectModuleData, selectCurrentModuleWidgetFrame,
 } from "../../../state";
 import { DataLoader, DataLoaderProps } from "../data-loader";
@@ -11,14 +11,14 @@ import { ModuleWidget, ModuleWidgetProps } from "../../components/module-widget"
 
 type StoreProps = {
     widget: RuntimeWidget;
-    slots: RuntimeSlot[];
+    nodes: RuntimeWidgetNode[];
     module: RuntimeModule;
     frame: RuntimeImageFrame;
 }
 
 type Props = StoreProps;
 
-const mainWidget = Memo<Props>(({ widget, slots, module, frame }) => {
+const mainWidget = Memo<Props>(({ widget, nodes, module, frame }) => {
 
     return createElement<DataLoaderProps>(
         DataLoader,
@@ -37,14 +37,14 @@ const mainWidget = Memo<Props>(({ widget, slots, module, frame }) => {
         },
         createElement<ModuleWidgetProps>(
             ModuleWidget,
-            { widget, slots, frame }
+            { widget, nodes: nodes, frame }
         )
     );
 });
 
 const mapStateToProps = (state: AppState): StoreProps => ({
     widget: selectCurrentModuleWidget(state),
-    slots: selectCurrentModuleWidgetSlots(state),
+    nodes: selectCurrentModuleWidgetNodes(state),
     frame: selectCurrentModuleWidgetFrame(state),
     module: selectModuleData(state),
 });

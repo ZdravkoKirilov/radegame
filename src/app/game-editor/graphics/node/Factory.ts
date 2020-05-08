@@ -1,30 +1,30 @@
-import { RuntimeSlot } from "@app/game-mechanics";
+import { RuntimeWidgetNode } from "@app/game-mechanics";
 import { Memo, createElement } from "@app/render-kit";
 
-import EnhancedTextSlot, { EnhancedTextSlotProps } from './TextSlot';
-import EnhancedShapeSlot, { EnhancedShapeSlotProps } from './ShapeSlot';
-import EnhancedWidgetSlot, { EnhancedWidgetSlotProps } from "./WidgetSlot";
-import EnhancedItemSlot, { EnhancedItemSlotProps } from './ItemSlot';
+import EnhancedTextNode, { EnhancedTextNodeProps } from './TextNode';
+import EnhancedShapeNode, { EnhancedShapeNodeProps } from './ShapeNode';
+import EnhancedWidgetNode, { EnhancedWidgetNodeProps } from "./WidgetNode";
+import EnhancedItemNode, { EnhancedItemNodeProps } from './ItemNode';
 
 export type NodeFactoryProps = {
-    data: RuntimeSlot;
+    data: RuntimeWidgetNode;
 }
 
 const NodeFactory = Memo<NodeFactoryProps>(({ data }) => {
     if (data.display_text || data.display_text_inline) {
-        return createElement<EnhancedTextSlotProps>(EnhancedTextSlot, { data });
+        return createElement<EnhancedTextNodeProps>(EnhancedTextNode, { data });
     }
     if (data.shape) {
-        return createElement<EnhancedShapeSlotProps>(EnhancedShapeSlot, { data });
+        return createElement<EnhancedShapeNodeProps>(EnhancedShapeNode, { data });
     }
     if (data.board) {
-        return createElement<EnhancedWidgetSlotProps>(EnhancedWidgetSlot, { data });
+        return createElement<EnhancedWidgetNodeProps>(EnhancedWidgetNode, { data });
     }
     if (data.item) {
-        return createElement<EnhancedItemSlotProps>(EnhancedItemSlot, { data });
+        return createElement<EnhancedItemNodeProps>(EnhancedItemNode, { data });
     }
 
-    throw new Error('Undetermined slot type: ' + data.name);
+    throw new Error('Undetermined node type: ' + data.name);
 
 }, ['data']);
 

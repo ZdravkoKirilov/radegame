@@ -4,8 +4,8 @@ import groupBy from 'lodash/groupBy';
 
 import { FEATURE_NAME } from "../../config";
 import {
-  Module, Setup, Widget, RuntimeSlot, enrichSlot, enrichModule, enrichWidget,
-  enrichFrame, enrichShape, Shape, enrichHandler, enrichTransition, SlotItem, enrichItem, enrichLifecycle
+  Setup, Widget, RuntimeWidgetNode, enrichNode, enrichModule, enrichWidget,
+  enrichFrame, enrichShape, Shape, enrichHandler, enrichTransition, NodeItem, enrichItem, enrichLifecycle
 } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { toDictionary, selectLobbyName } from "@app/shared";
@@ -92,19 +92,19 @@ export const selectCurrentModuleWidget = createSelector(
   }
 );
 
-export const selectCurrentModuleWidgetSlots = createSelector(
+export const selectCurrentModuleWidgetNodes = createSelector(
   selectConfig,
   selectExpressionContext,
   selectCurrentModuleWidget,
   (config, context, widget) => {
-    const { slot_getter } = widget;
-    if (typeof slot_getter === 'function') {
-      return slot_getter({
+    const { node_getter } = widget;
+    if (typeof node_getter === 'function') {
+      return node_getter({
         widget: widget,
         component: {} as StatefulComponent,
-      }).map(elem => enrichSlot(config, context, elem));
+      }).map(elem => enrichNode(config, context, elem));
     }
-    return widget.slots.map(elem => enrichSlot(config, context, elem));
+    return widget.nodes.map(elem => enrichNode(config, context, elem));
   }
 );
 
@@ -123,19 +123,19 @@ export const selectCurrentModuleWidgetFrame = createSelector(
   }
 );
 
-export const selectSlotHandlers = (slot: RuntimeSlot) => createSelector(
+export const selectNodeHandlers = (node: RuntimeWidgetNode) => createSelector(
   selectConfig,
   selectExpressionContext,
   (config, context) => {
-    return slot.handlers.map(slot => enrichHandler(config, context, slot));
+    return node.handlers.map(node => enrichHandler(config, context, node));
   }
 );
 
-export const selectSlotLifecycles = (slot: RuntimeSlot) => createSelector(
+export const selectNodeLifecycles = (node: RuntimeWidgetNode) => createSelector(
   selectConfig,
   selectExpressionContext,
   (config, context) => {
-    return slot.lifecycles.map(slot => enrichLifecycle(config, context, slot));
+    return node.lifecycles.map(node => enrichLifecycle(config, context, node));
   }
 );
 
@@ -155,14 +155,14 @@ export const selectRuntimeWidget = (widget: Widget) => createSelector(
   }
 );
 
-export const selectSlotTransitions = (slot: RuntimeSlot) => createSelector(
+export const selectNodeTransitions = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
   context => {
-    return slot.transitions.map(transitionId => enrichTransition(context.conf, context, context.conf.transitions[transitionId]))
+    return node.transitions.map(transitionId => enrichTransition(context.conf, context, context.conf.transitions[transitionId]))
   },
 );
 
-export const selectItemTemplate = (item: SlotItem) => createSelector(
+export const selectItemTemplate = (item: NodeItem) => createSelector(
   selectExpressionContext,
   context => {
     const runtimeItem = enrichItem(context.conf, context, item);

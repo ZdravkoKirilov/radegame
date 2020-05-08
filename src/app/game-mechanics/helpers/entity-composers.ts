@@ -1,13 +1,13 @@
 import {
-    Slot, RuntimeSlot, GameEntity,
-    SlotHandler, Transition, RuntimeTransition, RuntimeAnimation,
-    AnimationStep, RuntimeAnimationStep, Animation, RuntimeSlotHandler, ImageFrame, RuntimeImageFrame, Widget, RuntimeWidget, Shape, RuntimeShape, RuntimeText, Text, Module, RuntimeModule, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, SlotItem, RuntimeSlotItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeSlotLifecycle, SlotLifecycle
+    WidgetNode, RuntimeWidgetNode, GameEntity,
+    NodeHandler, Transition, RuntimeTransition, RuntimeAnimation,
+    AnimationStep, RuntimeAnimationStep, Animation, RuntimeNodeHandler, ImageFrame, RuntimeImageFrame, Widget, RuntimeWidget, Shape, RuntimeShape, RuntimeText, Text, Module, RuntimeModule, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, NodeItem, RuntimeNodeItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeNodeLifecycle, NodeLifecycle
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
 
-export const enrichSlot = (config: Dictionary<GameEntity>, context: Dictionary, initialSlot: Slot) => {
-    const slot = enrichEntity<Slot, RuntimeSlot>(config, {
+export const enrichNode = (config: Dictionary<GameEntity>, context: Dictionary, initialNode: WidgetNode) => {
+    const node = enrichEntity<WidgetNode, RuntimeWidgetNode>(config, {
         style: src => parseAndBind(context)(src),
         style_inline: value => safeJSON(value, null),
         item: (value: string) => safeJSON(value, null),
@@ -19,21 +19,21 @@ export const enrichSlot = (config: Dictionary<GameEntity>, context: Dictionary, 
         provide_context: src => parseAndBind(context)(src),
         display_text_inline: 'texts',
         board: 'widgets',
-    }, initialSlot);
+    }, initialNode);
 
-    return slot;
+    return node;
 };
 
-export const enrichHandler = (config: Dictionary<GameEntity>, context: Dictionary, handler: SlotHandler) => {
-    return enrichEntity<SlotHandler, RuntimeSlotHandler>(config, {
+export const enrichHandler = (config: Dictionary<GameEntity>, context: Dictionary, handler: NodeHandler) => {
+    return enrichEntity<NodeHandler, RuntimeNodeHandler>(config, {
         effect: src => parseAndBind(context)(src),
         sound: src => parseAndBind(context)(src),
         static_sound: 'sonatas',
     }, handler);
 };
 
-export const enrichLifecycle = (config: Dictionary<GameEntity>, context: Dictionary, lifecycle: SlotLifecycle) => {
-    return enrichEntity<SlotLifecycle, RuntimeSlotLifecycle>(config, {
+export const enrichLifecycle = (config: Dictionary<GameEntity>, context: Dictionary, lifecycle: NodeLifecycle) => {
+    return enrichEntity<NodeLifecycle, RuntimeNodeLifecycle>(config, {
         effect: src => parseAndBind(context)(src),
         sound: src => parseAndBind(context)(src),
         static_sound: 'sonatas',
@@ -65,7 +65,7 @@ export const enrichFrame = (config: Dictionary<GameEntity>, context: Dictionary,
 
 export const enrichWidget = (config: Dictionary<GameEntity>, context: Dictionary, widget: Widget) => {
     return enrichEntity<Widget, RuntimeWidget>(config, {
-        slot_getter: src => parseAndBind(context)(src),
+        node_getter: src => parseAndBind(context)(src),
         frame_getter: src => parseAndBind(context)(src),
     }, widget);
 };
@@ -84,8 +84,8 @@ export const enrichText = (config: Dictionary<GameEntity>, context: Dictionary, 
     }, text)
 };
 
-export const enrichItem = (config: Dictionary<GameEntity>, context: Dictionary, item: SlotItem) => {
-    return enrichEntity<SlotItem, RuntimeSlotItem>(config, {
+export const enrichItem = (config: Dictionary<GameEntity>, context: Dictionary, item: NodeItem) => {
+    return enrichEntity<NodeItem, RuntimeNodeItem>(config, {
         token: tokenId => enrichToken(config, config.tokens[tokenId]),
         choice: choiceId => enrichChoice(config, context, config.choices[choiceId]),
     }, item);

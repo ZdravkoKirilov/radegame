@@ -4,9 +4,9 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
   selector: 'rg-board-toolbar',
   template: `
 
-    <button mat-button color="primary" (click)="showSlotEditor.emit()">Add slot</button>
-    <button *ngIf="selectedSlot" mat-button color="primary" (click)="showSlotEditor.emit()">Edit slot</button>
-    <button *ngIf="selectedSlot" mat-button color="warn" (click)="deleteSlot.emit()">Delete slot</button>
+    <button mat-button color="primary" (click)="showNodeEditor.emit()">Add node</button>
+    <button *ngIf="selectedNode" mat-button color="primary" (click)="showNodeEditor.emit()">Edit node</button>
+    <button *ngIf="selectedNode" mat-button color="warn" (click)="deleteNode.emit()">Delete node</button>
 
     <div class="view-mode">
       <button mat-button color="primary" (click)="changeView.emit('board')">Board</button>
@@ -26,12 +26,12 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
 })
 export class BoardToolbarComponent {
 
-  @Output() showSlotEditor = new EventEmitter();
+  @Output() showNodeEditor = new EventEmitter();
 
-  @Output() deleteSlot = new EventEmitter();
+  @Output() deleteNode = new EventEmitter();
 
   @Output() changeView = new EventEmitter<'list' | 'board'>();
 
-  @Input() selectedSlot: boolean;
+  @Input() selectedNode: boolean;
 
 }

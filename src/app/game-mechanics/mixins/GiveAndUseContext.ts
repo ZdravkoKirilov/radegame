@@ -1,13 +1,13 @@
 import { StatefulComponent, findContextProvider } from "@app/render-kit";
 import { SubscribableBase, GenericSubscription, WithSubscriptions } from "@app/shared";
 
-import { RuntimeSlot } from "../entities";
+import { RuntimeWidgetNode } from "../entities";
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 type Callback<T = any> = (value: T) => void;
 
 type RequiredProps = {
-  data: RuntimeSlot;
+  data: RuntimeWidgetNode;
 }
 
 export function GiveAndUseContext(constructor: Constructor<StatefulComponent<RequiredProps>>) {
@@ -17,9 +17,9 @@ export function GiveAndUseContext(constructor: Constructor<StatefulComponent<Req
   const originalDidUpdate = prototype.didUpdate;
 
   prototype.didMount = function () {
-    const slot: RuntimeSlot = this.props.data;
-    if (slot.consume_context) {
-      const result: any[] = slot.consume_context({ slot, component: this });
+    const node: RuntimeWidgetNode = this.props.data;
+    if (node.consume_context) {
+      const result: any[] = node.consume_context({ node: node, component: this });
       if (result.length) {
         this.subscriptions = new Set(result.map(contextName => {
           if (typeof contextName === 'string') {
@@ -50,8 +50,8 @@ export function GiveAndUseContext(constructor: Constructor<StatefulComponent<Req
   };
 
   prototype.provideValueToSubscribers = () => {
-    const slot: RuntimeSlot = this.props.data;
-    return slot.provide_context ? slot.provide_context({ slot, component: this }) : null;
+    const node: RuntimeWidgetNode = this.props.data;
+    return node.provide_context ? node.provide_context({ node: node, component: this }) : null;
   };
 
   return WithSubscriptions<any>(constructor) as typeof StatefulComponent;

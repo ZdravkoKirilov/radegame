@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
-import { composeSlotForm } from '../../forms';
+import { composeNodeForm } from '../../forms';
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Slot, Widget, ImageAsset } from '@app/game-mechanics';
+import { WidgetNode, Widget, ImageAsset } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-editor',
@@ -11,31 +11,31 @@ import { Slot, Widget, ImageAsset } from '@app/game-mechanics';
 export class BoardEditorComponent {
 
 	@Input() entities: ConnectedEntities = {};
-	@Input() slots: Slot[];
+	@Input() nodes: WidgetNode[];
 	@Input() widget: Widget;
 	@Input() gameId: number;
 	@Input() images: ImageAsset[];
 
-	@Output() saveSlot = new EventEmitter<Slot>();
+	@Output() saveNode = new EventEmitter<WidgetNode>();
 
-	@Output() deleteSlot = new EventEmitter<Slot>();
+	@Output() deleteNode = new EventEmitter<WidgetNode>();
 
-	@ViewChild('slots') slotEditor: any;
+	@ViewChild('nodes') nodeEditor: any;
 
-	showSlotEditor = false;
+	showNodeEditor = false;
 
-	slotForm = composeSlotForm;
+	nodeForm = composeNodeForm;
 
-	selectedSlot: Slot;
+	selectedNode: WidgetNode;
 
 	viewMode: 'board' | 'list' = 'board';
 
 	get visibleEditor() {
-		return this.showSlotEditor;
+		return this.showNodeEditor;
 	}
 
-	toggleSlotEditor(isVisible: boolean) {
-		this.showSlotEditor = isVisible;
+	toggleNodeEditor(isVisible: boolean) {
+		this.showNodeEditor = isVisible;
 	}
 
 	changeViewMode(mode: 'board' | 'list') {
@@ -46,40 +46,40 @@ export class BoardEditorComponent {
 		return true;
 	}
 
-	editSlot(payload: Slot) {
-		this.selectSlot(payload);
-		this.toggleSlotEditor(true);
+	editNode(payload: WidgetNode) {
+		this.selectNode(payload);
+		this.toggleNodeEditor(true);
 	}
 
 	closeEditors() {
-		this.toggleSlotEditor(false);
-		this.selectedSlot = null;
+		this.toggleNodeEditor(false);
+		this.selectedNode = null;
 	}
 
-	selectSlot = (slot: Slot) => {
-		this.selectedSlot = slot;
+	selectNode = (node: WidgetNode) => {
+		this.selectedNode = node;
 	}
 
 	saveEntity() {
-		if (this.slotEditor) {
-			return this.handleSaveSlot(this.slotEditor.form.value);
+		if (this.nodeEditor) {
+			return this.handleSaveNode(this.nodeEditor.form.value);
 		}
 	}
 
-	handleSaveSlot(payload: Slot) {
-		const slot = <Slot>{ ...payload, id: null, game: this.gameId, owner: this.widget.id };
-		if (this.selectedSlot) {
-			slot.id = this.selectedSlot.id;
+	handleSaveNode(payload: WidgetNode) {
+		const node = <WidgetNode>{ ...payload, id: null, game: this.gameId, owner: this.widget.id };
+		if (this.selectedNode) {
+			node.id = this.selectedNode.id;
 		}
-		this.showSlotEditor = false;
-		this.selectedSlot = null;
-		this.saveSlot.emit(slot);
+		this.showNodeEditor = false;
+		this.selectedNode = null;
+		this.saveNode.emit(node);
 	}
 
-	handleDeleteSlot() {
-		if (this.selectedSlot) {
-			this.deleteSlot.emit({ ...this.selectedSlot });
-			this.selectedSlot = null;
+	handleDeleteNode() {
+		if (this.selectedNode) {
+			this.deleteNode.emit({ ...this.selectedNode });
+			this.selectedNode = null;
 		}
 	}
 }

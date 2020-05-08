@@ -14,8 +14,8 @@ export function composeWidgetForm(data: Widget, ent: ConnectedEntities): BaseCon
 
             <NumberInput name='height' label='Height' required='{true}'>{data.height}</NumberInput>
 
-            <CodeEditor name="slot_getter" label="Get slots via">
-                {data.slot_getter}
+            <CodeEditor name="node_getter" label="Create nodes">
+                {data.node_getter}
             </CodeEditor>
 
             ${framesTemplate}

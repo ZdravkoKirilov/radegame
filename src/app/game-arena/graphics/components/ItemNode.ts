@@ -1,44 +1,44 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransitionProps, RzTransition, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-  RuntimeSlot, connectToStore, WidgetRendererProps, WidgetRenderer, RuntimeWidget,
-  combineStyles, ExpressionContext, selectWidgetSlotsSync, selectWidgetFrameSync, selectSlotStyleSync, RuntimeSlotHandler, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle, selectChildPropsSync
+  RuntimeWidgetNode, connectToStore, WidgetRendererProps, WidgetRenderer, RuntimeWidget,
+  combineStyles, ExpressionContext, selectWidgetNodesSync, selectWidgetFrameSync, selectNodeStyleSync, RuntimeNodeHandler, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithNodeLifecycles, RuntimeNodeLifecycle, selectChildPropsSync
 } from "@app/game-mechanics";
 import { Dictionary } from "@app/shared";
 
-import { selectExpressionContext, selectItemTemplate, selectSlotHandlers, selectSlotTransitions, selectSlotLifecycles } from '../../state';
+import { selectExpressionContext, selectItemTemplate, selectNodeHandlers, selectNodeTransitions, selectNodeLifecycles } from '../../state';
 import NodeFactory, { NodeFactoryProps } from './Factory';
 import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
 import { assignHandlers } from "../../helpers";
 
-export type EnhancedItemSlotProps = {
-  data: RuntimeSlot;
+export type EnhancedItemNodeProps = {
+  data: RuntimeWidgetNode;
   fromParent: any;
 }
 
 type StoreProps = {
   widget: RuntimeWidget;
   context: ExpressionContext;
-  handlers: RuntimeSlotHandler[];
+  handlers: RuntimeNodeHandler[];
   transitions: RuntimeTransition[];
-  lifecycles: RuntimeSlotLifecycle[];
+  lifecycles: RuntimeNodeLifecycle[];
 };
 
-type Props = EnhancedItemSlotProps & StoreProps & AddedStoreProps;
+type Props = EnhancedItemNodeProps & StoreProps & AddedStoreProps;
 
 type State = { animated: Dictionary };
 @GiveAndUseContext
-@WithSlotLifecycles
-class EnhancedItemSlot extends StatefulComponent<Props, State> {
+@WithNodeLifecycles
+class EnhancedItemNode extends StatefulComponent<Props, State> {
   state: State = { animated: {} };
 
   render() {
     const self = this;
     const { widget, context, data, handlers, transitions, dispatch } = this.props;
     const { animated } = this.state;
-    const slots = selectWidgetSlotsSync(widget, context, self);
+    const nodes = selectWidgetNodesSync(widget, context, self);
     const frame = selectWidgetFrameSync(widget, context, self);
-    const style = selectSlotStyleSync(data, self);
+    const style = selectNodeStyleSync(data, self);
     const childProps = selectChildPropsSync(data, self);
     const styleWithTransitionOverrides = { ...style, ...animated };
 
@@ -70,18 +70,18 @@ class EnhancedItemSlot extends StatefulComponent<Props, State> {
         },
       ),
       createElement<WidgetRendererProps>(WidgetRenderer, {
-        widget, slots, style, frame,
-        renderChild: (slot: RuntimeSlot) => {
-          const composedStyle = combineStyles(slot, style);
+        widget, nodes: nodes, style, frame,
+        renderChild: (node: RuntimeWidgetNode) => {
+          const composedStyle = combineStyles(node, style);
 
           return createElement<RzElementPrimitiveProps>(
             'container',
             {
-              styles: { x: slot.x, y: slot.y, z_order: composedStyle.z_order },
-              id: slot.id,
-              name: `node_${slot.id}`
+              styles: { x: node.x, y: node.y, z_order: composedStyle.z_order },
+              id: node.id,
+              name: `node_${node.id}`
             },
-            createElement<NodeFactoryProps>(NodeFactory, { data: slot, fromParent: childProps })
+            createElement<NodeFactoryProps>(NodeFactory, { data: node, fromParent: childProps })
           );
         },
         renderFrame: widget => createElement<StaticWidgetProps>(StaticWidget, { widget, style, fromParent: childProps }),
@@ -90,12 +90,12 @@ class EnhancedItemSlot extends StatefulComponent<Props, State> {
   }
 };
 
-const mapStateToProps = (state: AppState, ownProps: EnhancedItemSlotProps): StoreProps => ({
+const mapStateToProps = (state: AppState, ownProps: EnhancedItemNodeProps): StoreProps => ({
   widget: selectItemTemplate(ownProps.data.item)(state),
-  handlers: selectSlotHandlers(ownProps.data)(state),
+  handlers: selectNodeHandlers(ownProps.data)(state),
   context: selectExpressionContext(state),
-  transitions: selectSlotTransitions(ownProps.data)(state),
-  lifecycles: selectSlotLifecycles(ownProps.data)(state),
+  transitions: selectNodeTransitions(ownProps.data)(state),
+  lifecycles: selectNodeLifecycles(ownProps.data)(state),
 });
 
-export default connectToStore(mapStateToProps)(EnhancedItemSlot);
+export default connectToStore(mapStateToProps)(EnhancedItemNode);

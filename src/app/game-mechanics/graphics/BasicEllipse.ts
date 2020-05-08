@@ -1,11 +1,11 @@
 import {  Style } from "../entities";
 import { RenderFunction, createElement, EllipseProps } from "@app/render-kit";
 
-export type EllipseSlotProps = {
+export type BasicEllipseNodeProps = {
     style: Style;
 }
 
-const Ellipse: RenderFunction<EllipseSlotProps> = ({ style }) => {
+const BasicEllipse: RenderFunction<BasicEllipseNodeProps> = ({ style }) => {
     
     return createElement<EllipseProps>('ellipse', {
         styles: {
@@ -19,4 +19,4 @@ const Ellipse: RenderFunction<EllipseSlotProps> = ({ style }) => {
     });
 };
 
-export default Ellipse; 
+export default BasicEllipse; 

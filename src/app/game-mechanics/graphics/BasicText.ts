@@ -1,12 +1,12 @@
 import { Style } from "../entities";
 import { Memo, createElement, PrimitiveTextProps, RzElementPrimitiveProps } from "@app/render-kit";
 
-export type TextSlotProps = {
+export type BasicTextNodeProps = {
     style: Style;
     text: string;
 };
 
-export const TextSlot = Memo<TextSlotProps>(({ style, text }) => {
+export const BasicTextNode = Memo<BasicTextNodeProps>(({ style, text }) => {
     style = style || {};
     text = text || 'Default value';
 

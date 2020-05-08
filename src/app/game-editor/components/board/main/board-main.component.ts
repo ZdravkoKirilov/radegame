@@ -10,7 +10,7 @@ import { ConnectedRootComponent } from '../../../graphics';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService, OnChange } from '@app/shared';
 import { MountRef, StatefulComponent, updateComponent, RenderFunction, prepareExtras } from '@app/render-kit';
-import { Slot, ImageAsset, Widget } from '@app/game-mechanics';
+import { WidgetNode, ImageAsset, Widget } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-main',
@@ -39,7 +39,7 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 	@Input() widget: Widget;
 
 	@ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
-	@Output() selectSlot = new EventEmitter<Slot>();
+	@Output() selectNode = new EventEmitter<WidgetNode>();
 
 	mount: MountRef;
 
@@ -49,21 +49,21 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 	) { }
 
 	async ngOnInit() {
-		const { _selectSlot, widget } = this;
+		const { _selectNode, widget } = this;
 		const domHost = this.canvasWrapper.nativeElement;
 		this.mount = await mountPixi(ConnectedRootComponent, domHost, {
 			width: this.windowRef.nativeWindow.innerWidth,
 			height: this.windowRef.nativeWindow.innerHeight,
 			props: {
-				store: this.store, selectSlot: _selectSlot, widget
+				store: this.store, selectNode: _selectNode, widget
 			},
 			assets: new Set(this.images.map(img => img.image))
 		});
 		window['pixiroot'] = this.mount.component;
 	}
 
-	_selectSlot = (slot: Slot) => {
-		this.selectSlot.emit(slot);
+	_selectNode = (node: WidgetNode) => {
+		this.selectNode.emit(node);
 	}
 
 	ngOnDestroy() {

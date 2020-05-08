@@ -1,16 +1,16 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-    RuntimeSlot, Style, connectToStore, WidgetRendererProps, WidgetRenderer, RuntimeWidget,
-    combineStyles, ExpressionContext, selectWidgetSlotsSync, selectWidgetFrameSync, selectSlotStyleSync
+    RuntimeWidgetNode, Style, connectToStore, WidgetRendererProps, WidgetRenderer, RuntimeWidget,
+    combineStyles, ExpressionContext, selectWidgetNodesSync, selectWidgetFrameSync, selectNodeStyleSync
 } from "@app/game-mechanics";
 import { selectRuntimeWidget, selectExpressionContext } from '../../state';
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
 import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
 
-export type EnhancedWidgetSlotProps = {
-    data: RuntimeSlot;
+export type EnhancedWidgetNodeProps = {
+    data: RuntimeWidgetNode;
 }
 
 type StoreProps = {
@@ -18,30 +18,30 @@ type StoreProps = {
     context: ExpressionContext;
 };
 
-type Props = EnhancedWidgetSlotProps & StoreProps;
+type Props = EnhancedWidgetNodeProps & StoreProps;
 
-class EnhancedWidgetSlot extends StatefulComponent<Props> {
+class EnhancedWidgetNode extends StatefulComponent<Props> {
 
     render() {
         const self = this;
         const { widget, context, data } = this.props;
-        const slots = selectWidgetSlotsSync(widget, context, self);
+        const nodes = selectWidgetNodesSync(widget, context, self);
         const frame = selectWidgetFrameSync(widget, context, self);
-        const style = selectSlotStyleSync(data, self);
+        const style = selectNodeStyleSync(data, self);
 
         return createElement<WidgetRendererProps>(WidgetRenderer, {
-            widget, slots, style, frame,
-            renderChild: (slot: RuntimeSlot) => {
-                const composedStyle = combineStyles(slot, style);
+            widget, nodes: nodes, style, frame,
+            renderChild: (node: RuntimeWidgetNode) => {
+                const composedStyle = combineStyles(node, style);
 
                 return createElement<RzElementPrimitiveProps>(
                     'container',
                     {
-                        styles: { x: slot.x, y: slot.y, z_order: composedStyle.z_order },
-                        id: slot.id,
-                        name: `node_${slot.id}`
+                        styles: { x: node.x, y: node.y, z_order: composedStyle.z_order },
+                        id: node.id,
+                        name: `node_${node.id}`
                     },
-                    createElement<NodeFactoryProps>(NodeFactory, { data: slot })
+                    createElement<NodeFactoryProps>(NodeFactory, { data: node })
                 );
             },
             renderFrame: widget => createElement<StaticWidgetProps>(StaticWidget, { widget, style }),
@@ -49,9 +49,9 @@ class EnhancedWidgetSlot extends StatefulComponent<Props> {
     }
 };
 
-const mapStateToProps = (state: AppState, ownProps: EnhancedWidgetSlotProps): StoreProps => ({
+const mapStateToProps = (state: AppState, ownProps: EnhancedWidgetNodeProps): StoreProps => ({
     widget: selectRuntimeWidget(ownProps.data.board)(state),
     context: selectExpressionContext(state),
 });
 
-export default connectToStore(mapStateToProps)(EnhancedWidgetSlot);
+export default connectToStore(mapStateToProps)(EnhancedWidgetNode);

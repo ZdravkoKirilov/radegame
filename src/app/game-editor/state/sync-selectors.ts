@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import {
-    Widget, GameTemplate, Shape, enrichWidget, enrichShape, SlotItem, enrichItem
+    Widget, GameTemplate, Shape, enrichWidget, enrichShape, NodeItem, enrichItem
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -44,7 +44,7 @@ export const selectRuntimeWidget = (widget: Widget) => createSelector(
     }
 );
 
-export const selectItemTemplate = (item: SlotItem) => createSelector(
+export const selectItemTemplate = (item: NodeItem) => createSelector(
     selectExpressionContext,
     context => {
         const runtimeItem = enrichItem(context.conf, context, item);

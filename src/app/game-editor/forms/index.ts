@@ -2,7 +2,7 @@ export * from './widget';
 export * from './module';
 export * from './choice';
 export * from './game';
-export * from './slot';
+export * from './node';
 export * from './token';
 export * from './image';
 export * from './style';

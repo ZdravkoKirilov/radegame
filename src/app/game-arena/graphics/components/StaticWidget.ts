@@ -1,8 +1,8 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-  connectToStore, Style, RuntimeSlot, Widget, WidgetRenderer, WidgetRendererProps, RuntimeWidget,
-  selectWidgetFrameSync, selectWidgetSlotsSync, ExpressionContext,
+  connectToStore, Style, RuntimeWidgetNode, Widget, WidgetRenderer, WidgetRendererProps, RuntimeWidget,
+  selectWidgetFrameSync, selectWidgetNodesSync, ExpressionContext,
 } from "@app/game-mechanics";
 import { selectRuntimeWidget, selectExpressionContext } from "../../state";
 import NodeFactory, { NodeFactoryProps } from "./Factory";
@@ -27,20 +27,20 @@ export class StaticWidget extends StatefulComponent<Props> {
     const { runtimeWidget, context, style, fromParent } = this.props;
 
     const frame = selectWidgetFrameSync(runtimeWidget, context, self);
-    const slots = selectWidgetSlotsSync(runtimeWidget, context, self);
+    const nodes = selectWidgetNodesSync(runtimeWidget, context, self);
 
     return createElement<WidgetRendererProps>(WidgetRenderer, {
-      widget: runtimeWidget, slots, style, frame,
-      renderChild: (slot: RuntimeSlot) => {
+      widget: runtimeWidget, nodes: nodes, style, frame,
+      renderChild: (node: RuntimeWidgetNode) => {
 
         return createElement<RzElementPrimitiveProps>(
           'container',
           {
-            styles: { x: slot.x, y: slot.y },
-            id: slot.id,
-            name: `node_${slot.id}`
+            styles: { x: node.x, y: node.y },
+            id: node.id,
+            name: `node_${node.id}`
           },
-          createElement<NodeFactoryProps>(NodeFactory, { data: slot, fromParent }),
+          createElement<NodeFactoryProps>(NodeFactory, { data: node, fromParent }),
         );
       },
       renderFrame: widget => createElement<StaticWidgetProps>(StaticWidget, { widget, style, fromParent }),

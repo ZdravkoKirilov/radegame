@@ -4,20 +4,20 @@
         [showEditor]="visibleEditor" (cancel)="closeEditors()" (save)="saveEntity()">
     </rg-edit-header>
 
-    <rg-board-toolbar [class.hidden]="visibleEditor" [selectedSlot]="!!selectedSlot"
-        (showSlotEditor)="toggleSlotEditor(true)" (deleteSlot)="handleDeleteSlot()"
+    <rg-board-toolbar [class.hidden]="visibleEditor" [selectedNode]="!!selectedNode"
+        (showNodeEditor)="toggleNodeEditor(true)" (deleteNode)="handleDeleteNode()"
         (changeView)="changeViewMode($event)"></rg-board-toolbar>
 
 
-    <rg-entity-editor *ngIf="showSlotEditor" [formDefinition]="slotForm" [selectedItem]="selectedSlot"
-        [connectedEntities]="entities" (cancel)="toggleSlotEditor(false)" (save)="handleSaveSlot($event)" #slots>
+    <rg-entity-editor *ngIf="showNodeEditor" [formDefinition]="nodeForm" [selectedItem]="selectedNode"
+        [connectedEntities]="entities" (cancel)="toggleNodeEditor(false)" (save)="handleSaveNode($event)" #nodes>
     </rg-entity-editor>
 
     <rg-board-main [ngClass]="{'hidden': visibleEditor || viewMode === 'list'}" [images]="images" [widget]="widget"
-        (selectSlot)="selectSlot($event)"></rg-board-main>
+        (selectNode)="selectNode($event)"></rg-board-main>
 
-    <rg-entity-list [ngClass]="{'hidden': visibleEditor || viewMode === 'board'}" [items]="slots"
-        [connectedEntities]="entities" (editItem)="editSlot($event)" (removeItem)="deleteSlot.emit($event)">
+    <rg-entity-list [ngClass]="{'hidden': visibleEditor || viewMode === 'board'}" [items]="nodes"
+        [connectedEntities]="entities" (editItem)="editNode($event)" (removeItem)="deleteNode.emit($event)">
     </rg-entity-list>
 
 

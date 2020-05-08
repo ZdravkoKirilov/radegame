@@ -6,9 +6,9 @@ import {
 } from "@app/render-kit";
 
 import {
-  RuntimeSlot, Widget, ALL_ENTITIES, RuntimeWidget, Slot, StoreProviderProps,
+  RuntimeWidgetNode, Widget, ALL_ENTITIES, RuntimeWidget, WidgetNode, StoreProviderProps,
   StoreProvider, WidgetRenderer, WidgetRendererProps, connectToStore, ExpressionContext,
-  selectWidgetSlotsSync,
+  selectWidgetNodesSync,
   selectWidgetFrameSync,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
@@ -16,7 +16,7 @@ import {
   SaveItemAction, selectRuntimeWidget, selectExpressionContext,
 } from "../state";
 
-import DraggableSlot, { Props as NodeProps } from './node/DraggableSlot';
+import DraggableNode, { Props as NodeProps } from './node/DraggableNode';
 import StaticWidget, { StaticWidgetProps } from "./node/StaticWidget";
 
 type Props = OwnProps & StoreProps;
@@ -24,7 +24,7 @@ type Props = OwnProps & StoreProps;
 type OwnProps = {
   store: Store<AppState>;
   widget: Widget;
-  selectSlot: (slot: Slot) => void;
+  selectNode: (node: WidgetNode) => void;
 }
 
 type StoreProps = {
@@ -32,7 +32,7 @@ type StoreProps = {
   context: ExpressionContext;
 }
 
-type State = { selectedSlot: Slot; runtimeWidget: RuntimeWidget };
+type State = { selectedNode: WidgetNode; runtimeWidget: RuntimeWidget };
 
 @AutoClean()
 export class RootComponent extends StatefulComponent<Props, State> {
@@ -54,31 +54,31 @@ export class RootComponent extends StatefulComponent<Props, State> {
     this.setState({ runtimeWidget: this.props.runtimeWidget });
   }
 
-  selectSlot = (slot: RuntimeSlot) => {
-    const selectedSlot = this.props.widget.slots.find(elem => elem.id === slot.id);
-    this.setState({ selectedSlot });
-    this.props.selectSlot(selectedSlot);
+  selectNode = (node: RuntimeWidgetNode) => {
+    const selectedNode = this.props.widget.nodes.find(elem => elem.id === node.id);
+    this.setState({ selectedNode });
+    this.props.selectNode(selectedNode);
   }
 
   handleDragEnd = (id: number, coords: RzPoint) => {
-    const slotIndex = this.props.widget.slots.findIndex(elem => elem.id === id);
+    const nodeIndex = this.props.widget.nodes.findIndex(elem => elem.id === id);
 
     const newWidgetData = clone(this.props.widget, draft => {
-      draft.slots[slotIndex].x = coords.x;
-      draft.slots[slotIndex].y = coords.y;
+      draft.nodes[nodeIndex].x = coords.x;
+      draft.nodes[nodeIndex].y = coords.y;
     });
 
     const newRuntimeWidgetData = clone(this.state.runtimeWidget, draft => {
-      draft.slots[slotIndex].x = coords.x;
-      draft.slots[slotIndex].y = coords.y;
+      draft.nodes[nodeIndex].x = coords.x;
+      draft.nodes[nodeIndex].y = coords.y;
     });
 
-    this.setState({ selectedSlot: null, runtimeWidget: newRuntimeWidgetData });
-    this.props.selectSlot(null);
+    this.setState({ selectedNode: null, runtimeWidget: newRuntimeWidgetData });
+    this.props.selectNode(null);
 
     this.props.store.dispatch(new SaveItemAction({
-      key: ALL_ENTITIES.slots,
-      data: newWidgetData.slots[slotIndex],
+      key: ALL_ENTITIES.nodes,
+      data: newWidgetData.nodes[nodeIndex],
     }));
   }
 
@@ -87,34 +87,34 @@ export class RootComponent extends StatefulComponent<Props, State> {
 
   render() {
     const self = this;
-    const { handleDragEnd, selectSlot } = this;
-    const { selectedSlot, runtimeWidget } = this.state;
+    const { handleDragEnd, selectNode } = this;
+    const { selectedNode: selectedNode, runtimeWidget } = this.state;
     const { context } = this.props;
-    const slots = selectWidgetSlotsSync(runtimeWidget, context, self);
+    const nodes = selectWidgetNodesSync(runtimeWidget, context, self);
     const frame = selectWidgetFrameSync(runtimeWidget, context, self);
-    const loaded = !!runtimeWidget && slots;
+    const loaded = !!runtimeWidget && nodes;
 
     return loaded ?
       createElement('container',
         {
           name: 'background',
           onClick: () => {
-            selectSlot(null);
+            selectNode(null);
           },
         },
         createElement<WidgetRendererProps>(
           WidgetRenderer,
           {
-            renderChild: (slot: RuntimeSlot) => {
-              return createElement<NodeProps>(DraggableSlot, {
-                data: slot,
-                key: slot.id,
+            renderChild: (node: RuntimeWidgetNode) => {
+              return createElement<NodeProps>(DraggableNode, {
+                data: node,
+                key: node.id,
                 onDragEnd: handleDragEnd,
-                onSelect: selectSlot,
-                selected: selectedSlot && selectedSlot.id === slot.id,
+                onSelect: selectNode,
+                selected: selectedNode && selectedNode.id === node.id,
               });
             },
-            slots,
+            nodes: nodes,
             widget: runtimeWidget,
             style: { width: runtimeWidget.width, height: runtimeWidget.height },
             frame,

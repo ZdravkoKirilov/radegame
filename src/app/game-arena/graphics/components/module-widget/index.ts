@@ -1,32 +1,32 @@
-import { RuntimeWidget, RuntimeSlot, WidgetRendererProps, WidgetRenderer, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeWidget, RuntimeWidgetNode, WidgetRendererProps, WidgetRenderer, RuntimeImageFrame } from "@app/game-mechanics";
 import { Memo, createElement, RzElementPrimitiveProps } from "@app/render-kit";
 import NodeFactory, { NodeFactoryProps } from "../Factory";
 import StaticWidget, { StaticWidgetProps } from "../StaticWidget";
 
 export type ModuleWidgetProps = {
     widget: RuntimeWidget;
-    slots: RuntimeSlot[];
+    nodes: RuntimeWidgetNode[];
     frame: RuntimeImageFrame;
 }
 
 type Props = ModuleWidgetProps;
 
-export const ModuleWidget = Memo<Props>(({ widget, slots, frame }) => {
+export const ModuleWidget = Memo<Props>(({ widget, nodes, frame }) => {
     return createElement<WidgetRendererProps>(
         WidgetRenderer,
         {
-            renderChild: (slot: RuntimeSlot) => {
+            renderChild: (node: RuntimeWidgetNode) => {
                 return createElement<RzElementPrimitiveProps>(
                     'container',
-                    { styles: { x: slot.x, y: slot.y } },
+                    { styles: { x: node.x, y: node.y } },
                     createElement<NodeFactoryProps>(
                         NodeFactory,
-                        { data: slot }
+                        { data: node }
                     )
                 )
 
             },
-            slots, frame, widget,
+            nodes: nodes, frame, widget,
             style: { width: widget.width, height: widget.height },
             renderFrame: widget => {
                 return createElement<StaticWidgetProps>(StaticWidget, {
@@ -36,4 +36,4 @@ export const ModuleWidget = Memo<Props>(({ widget, slots, frame }) => {
             }
         }
     )
-}, ['widget', 'slots', 'frame']);
+}, ['widget', 'nodes', 'frame']);

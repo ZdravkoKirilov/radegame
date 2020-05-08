@@ -1,40 +1,40 @@
 import { createElement, StatefulComponent, RzElementPrimitiveProps, RzTransitionProps, RzTransition } from "@app/render-kit";
 import { AppState } from "@app/core";
 import {
-    TextSlotProps, TextSlot, RuntimeSlot, connectToStore,
-    combineStyles, RuntimeSlotHandler, ExpressionContext, selectSlotStyleSync, selectSlotTextSync, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithSlotLifecycles, RuntimeSlotLifecycle
+    BasicTextNodeProps, BasicTextNode, RuntimeWidgetNode, connectToStore,
+    combineStyles, RuntimeNodeHandler, ExpressionContext, selectNodeStyleSync, selectNodeTextSync, RuntimeTransition, AddedStoreProps, GiveAndUseContext, WithNodeLifecycles, RuntimeNodeLifecycle
 } from "@app/game-mechanics";
 import { Dictionary } from "@app/shared";
 
-import { selectSlotHandlers, selectExpressionContext, selectSlotTransitions, selectSlotLifecycles } from '../../state';
+import { selectNodeHandlers, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles } from '../../state';
 import { assignHandlers } from "../../helpers";
 
-export type EnhancedTextSlotProps = {
-    data: RuntimeSlot;
+export type EnhancedTextNodeProps = {
+    data: RuntimeWidgetNode;
 };
 
 type StoreProps = {
-    handlers: RuntimeSlotHandler[];
+    handlers: RuntimeNodeHandler[];
     context: ExpressionContext;
     transitions: RuntimeTransition[];
-    lifecycles: RuntimeSlotLifecycle[];
+    lifecycles: RuntimeNodeLifecycle[];
 };
 
-type Props = EnhancedTextSlotProps & StoreProps & AddedStoreProps;
+type Props = EnhancedTextNodeProps & StoreProps & AddedStoreProps;
 
 type State = { animated: Dictionary };
 
-@WithSlotLifecycles
+@WithNodeLifecycles
 @GiveAndUseContext
-class EnhancedTextSlot extends StatefulComponent<Props, State> {
+class EnhancedTextNode extends StatefulComponent<Props, State> {
     state: State = { animated: {} };
 
     render() {
         const self = this;
         const { data, handlers, context, transitions, dispatch } = this.props;
         const { animated } = this.state;
-        const text = selectSlotTextSync(data, context, self);
-        const style = selectSlotStyleSync(data, self);
+        const text = selectNodeTextSync(data, context, self);
+        const style = selectNodeStyleSync(data, self);
         const composedStyle = combineStyles(text, style);
         const styleWithTransitionOverrides = { ...composedStyle, ...animated };
 
@@ -65,16 +65,16 @@ class EnhancedTextSlot extends StatefulComponent<Props, State> {
                     }
                 },
             ),
-            createElement<TextSlotProps>(TextSlot, { text: text.computed_value, style: styleWithTransitionOverrides }),
+            createElement<BasicTextNodeProps>(BasicTextNode, { text: text.computed_value, style: styleWithTransitionOverrides }),
         );
     }
 };
 
-const mapStateToProps = (state: AppState, ownProps: EnhancedTextSlotProps): StoreProps => ({
-    handlers: selectSlotHandlers(ownProps.data)(state),
+const mapStateToProps = (state: AppState, ownProps: EnhancedTextNodeProps): StoreProps => ({
+    handlers: selectNodeHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
-    transitions: selectSlotTransitions(ownProps.data)(state),
-    lifecycles: selectSlotLifecycles(ownProps.data)(state),
+    transitions: selectNodeTransitions(ownProps.data)(state),
+    lifecycles: selectNodeLifecycles(ownProps.data)(state),
 });
 
-export default connectToStore(mapStateToProps)(EnhancedTextSlot);
+export default connectToStore(mapStateToProps)(EnhancedTextNode);

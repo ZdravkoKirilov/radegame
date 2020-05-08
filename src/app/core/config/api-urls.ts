@@ -46,9 +46,9 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/widgets/`;
         return widgetId ? `${base}${widgetId}/` : base;
     },
-    SLOTS: (gameId: number, widgetId: number, slotId?: number) => {
-        const base = `${API_BASE_URL}/games/${gameId}/widgets/${widgetId}/slots/`;
-        return slotId ? `${base}${slotId}/` : base;
+    NODES: (gameId: number, widgetId: number, nodeId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/widgets/${widgetId}/nodes/`;
+        return nodeId ? `${base}${nodeId}/` : base;
     },
     TOKENS: (gameId: number, tokenId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/tokens/`;
