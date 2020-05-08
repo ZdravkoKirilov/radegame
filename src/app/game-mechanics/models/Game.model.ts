@@ -1,4 +1,4 @@
-import { GameEntityList, ALL_ENTITIES, WithImage } from '../entities';
+import { GameEntityList, ALL_ENTITIES, WithImage, Module, ExpressionFunc } from '../entities';
 import { WithKeysAs, Omit, Dictionary } from '@app/shared';
 
 import { WithBoard } from '../entities';
@@ -15,7 +15,13 @@ export type Game = WithBoard & Partial<{
 
     languages: GameLanguage[];
     menu: number;
+    get_active_module: string;
 }>
+
+export type RuntimeGame = Omit<Game, 'menu' | 'get_active_module'> & {
+    menu: Module;
+    get_active_module: ExpressionFunc<number>;
+}
 
 export type GameLanguage = WithImage & Partial<{
     id: number;

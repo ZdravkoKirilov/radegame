@@ -1,29 +1,26 @@
 @import '../../styles/colors';
+
 :host {
-    display: block;
-    height: 100%;
     mat-sidenav {
         background: $primary;
     }
+
     .main {
-        height: 100%;
         overflow: auto;
     }
+
     ::ng-deep {
         mat-sidenav-content {
             overflow: hidden;
         }
+
         rg-entity-view,
         .wrapper,
         rg-entity-list,
-        .cards-container {
-            display: block;
-            height: 100%;
-        }
-        rg-entity-editor {
-            display: block;
-            padding-bottom: 100px;
-        }
+        .cards-container {}
+
+        rg-entity-editor {}
+
         .mat-drawer-inner-container {
             overflow: hidden;
         }

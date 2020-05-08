@@ -5,25 +5,14 @@
 @import './app/styles/theme.scss';
 @import './app/styles/breakpoints';
 @import '~monaco-editor/min/vs/editor/editor.main';
-html,
-body {
-    height: 100%;
-    overflow: hidden;
-}
 
 .rg-container {
     display: block;
     max-width: 1024px;
     margin: 0 auto;
-    height: 100%;
     @include phone {
         width: 96%;
     }
-}
-
-.block {
-    display: block;
-    height: 100%;
 }
 
 .spacer {

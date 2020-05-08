@@ -26,7 +26,12 @@
               "node_modules/font-awesome/css/font-awesome.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {
@@ -79,6 +84,11 @@
             "polyfills": "src/polyfills.ts",
             "tsConfig": "src/tsconfig.spec.json",
             "scripts": [],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/app/styles"
+              ]
+            },
             "styles": [
               "src/assets/material-icons/material-icons.css",
               "node_modules/font-awesome/css/font-awesome.min.css",

@@ -12,7 +12,6 @@ import { Component } from '@angular/core';
   styles: [`
     :host {
       display: block;
-      height: 100%;
       position: relative;
     }
   `]

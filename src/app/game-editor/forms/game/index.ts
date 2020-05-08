@@ -22,6 +22,10 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
                 {data.menu}
             </Dropdown>
 
+            <CodeEditor name='get_active_module' label='Get active module' required='{true}'>
+                {data.get_active_module}
+            </CodeEditor>
+
             <Group name='languages' label='Languages' children='{languages}' item='@item' addButtonText='Add'>
                 <Form>
                     <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>

@@ -10,3 +10,8 @@
         width: 100%;
     }
 }
+
+@mixin block {
+    display: block;
+    height: 100%;
+}
