@@ -25,7 +25,7 @@ const selectEntitiesDictionary = createSelector(
     }
 )
 
-const selectExpressionContext = createSelector(
+export const selectExpressionContext = createSelector(
     selectForm,
     form => {
         const conf = Object.entries(form).reduce((total, [key, value]) => {

@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { GameEntity } from '@app/game-mechanics';
+import { GameEntity, ExpressionContext } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { WithTimeout } from '@app/shared';
 
@@ -22,6 +22,7 @@ export class ShapeEditorComponent {
   @Input() items: GameEntity[];
   @Input() formDefinition: FormDefinition;
   @Input() connectedEntities: ConnectedEntities;
+  @Input() expressionContext: ExpressionContext;
 
   @Output() toggleEditor: EventEmitter<boolean> = new EventEmitter();
   @Output() editItem: EventEmitter<GameEntity> = new EventEmitter();

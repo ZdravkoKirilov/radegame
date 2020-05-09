@@ -14,6 +14,6 @@
             [connectedEntities]="connectedEntities" [selectedItem]="selectedItem" (update)="handleDraftUpdate($event)">
         </rg-entity-editor>
 
-        <rg-shape-preview [data]="draft"></rg-shape-preview>
+        <rg-shape-preview [data]="draft" [context]="expressionContext"></rg-shape-preview>
     </div>
 </div>

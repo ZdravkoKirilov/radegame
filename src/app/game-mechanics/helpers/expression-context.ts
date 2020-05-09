@@ -24,7 +24,7 @@ export type CreateExpressionParams = {
 };
 
 export const createExpressionContext = ({ self, conf, players, ...rest }: CreateExpressionParams): ExpressionContext => {
-  const helpers = Object.values<Expression>(conf.expressions);
+  const helpers = Object.values<Expression>(conf.expressions || {});
 
   const ctx = {
     conf, players,
