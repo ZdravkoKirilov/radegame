@@ -2,7 +2,7 @@ import get from 'lodash/get';
 
 import { Dictionary } from '@app/shared';
 
-import { Player, GameState, GameTemplate } from "../models";
+import { Player, GameState, GameTemplate, ExpressionContext } from "../models";
 import { Expression } from "../entities";
 import { parseAndBind } from './misc';
 import { HomeMadeEventEmitter } from './HomeMadeEventEmitter';
@@ -21,20 +21,6 @@ export type CreateExpressionParams = {
 
   listenTo: Function;
   sendMessage: Function;
-};
-
-export type ExpressionContext = {
-  loaded_chunks: string[];
-  state: GameState;
-  conf: GameTemplate;
-  players: Dictionary<Player>;
-  helpers: {
-    [key: string]: Function;
-  },
-  $self: Player,
-  $get: typeof get,
-
-  eventBus: HomeMadeEventEmitter;
 };
 
 export const createExpressionContext = ({ self, conf, players, ...rest }: CreateExpressionParams): ExpressionContext => {

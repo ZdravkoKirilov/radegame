@@ -1,5 +1,5 @@
 import { RenderFunction, createElement } from "@app/render-kit";
-import { Style, RuntimeShape } from "../entities";
+import { Style, RuntimeShape } from "../../entities";
 import BasicCircle, { BasicCircleNodeProps } from "./BasicCircle";
 import BasicRectangle, { BasicRectangleProps } from "./BasicRectangle";
 import BasicPolygon, { PolygonNodeProps } from "./BasicPolygon";

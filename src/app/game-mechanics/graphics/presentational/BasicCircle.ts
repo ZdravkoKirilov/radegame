@@ -1,4 +1,4 @@
-import { Style } from "../entities";
+import { Style } from "../../entities";
 import { RenderFunction, createElement, CircleProps } from "@app/render-kit";
 
 export type BasicCircleNodeProps = {

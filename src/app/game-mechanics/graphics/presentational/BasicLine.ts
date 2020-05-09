@@ -1,4 +1,4 @@
-import { RuntimeShape, Style } from "../entities";
+import { RuntimeShape, Style } from "../../entities";
 import { RenderFunction, createElement, LineProps } from "@app/render-kit";
 
 export type BasicLineNodeProps = {

@@ -1,4 +1,4 @@
-import { RuntimeWidgetNode, Style, RuntimeImageFrame, RuntimeWidget, Widget } from "../entities";
+import { RuntimeWidgetNode, Style, RuntimeImageFrame, RuntimeWidget, Widget } from "../../entities";
 import { Memo, createElement, calculateScaling, RzElement, RzElementPrimitiveProps } from "@app/render-kit";
 import { FrameRendererProps, FrameRenderer } from "./BasicFrame";
 

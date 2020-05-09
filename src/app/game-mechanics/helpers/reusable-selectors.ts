@@ -5,7 +5,7 @@ import { StatefulComponent } from "@app/render-kit";
 
 import { RuntimeWidget, RuntimeWidgetNode, RuntimeText } from "../entities";
 import { enrichNode, enrichFrame, enrichText } from "./entity-composers";
-import { ExpressionContext } from "./expression-context";
+import { ExpressionContext } from "../models";
 
 export const selectChildPropsSync = (node: RuntimeWidgetNode, component: StatefulComponent) => {
   const handler = node.pass_to_children;

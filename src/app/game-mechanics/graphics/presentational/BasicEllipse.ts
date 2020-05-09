@@ -1,4 +1,4 @@
-import {  Style } from "../entities";
+import {  Style } from "../../entities";
 import { RenderFunction, createElement, EllipseProps } from "@app/render-kit";
 
 export type BasicEllipseNodeProps = {

@@ -1,6 +1,6 @@
-import { RuntimeImageFrame, Style, Widget } from "../entities";
+import { RuntimeImageFrame, Style, Widget } from "../../entities";
 import { RenderFunction, createElement, SpriteProps, DynamicSprite, RzElement } from "@app/render-kit";
-import { combineStyles } from "../helpers";
+import { combineStyles } from "../../helpers";
 
 export type FrameRendererProps = {
     renderWidget: (widget: Widget, style: Style) => RzElement;

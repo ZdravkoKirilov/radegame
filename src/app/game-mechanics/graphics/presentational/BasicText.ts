@@ -1,4 +1,4 @@
-import { Style } from "../entities";
+import { Style } from "../../entities";
 import { Memo, createElement, PrimitiveTextProps, RzElementPrimitiveProps } from "@app/render-kit";
 
 export type BasicTextNodeProps = {

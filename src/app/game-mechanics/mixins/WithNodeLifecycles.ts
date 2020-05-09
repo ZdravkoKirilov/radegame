@@ -1,6 +1,7 @@
 import { StatefulComponent, DidUpdatePayload } from "@app/render-kit";
 import { RuntimeNodeLifecycle, NODE_LIFECYCLES } from "../entities";
-import { ExpressionContext, playSoundIfNeeded } from "../helpers";
+import { playSoundIfNeeded } from "../helpers";
+import { ExpressionContext } from "../models";
 
 type RequiredProps = {
   lifecycles: RuntimeNodeLifecycle[];
