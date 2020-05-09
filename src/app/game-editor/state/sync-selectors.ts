@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
 import {
-    Widget, GameTemplate, Shape, enrichWidget, enrichShape, NodeItem, enrichItem
+    GameTemplate, CommonGameStore,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
@@ -14,7 +14,7 @@ const selectForm = createSelector(
     feature => feature.form,
 );
 
-export const selectEntitiesDictionary = createSelector(
+const selectEntitiesDictionary = createSelector(
     selectForm,
     form => {
         const result = {} as GameTemplate;
@@ -25,7 +25,7 @@ export const selectEntitiesDictionary = createSelector(
     }
 )
 
-export const selectExpressionContext = createSelector(
+const selectExpressionContext = createSelector(
     selectForm,
     form => {
         const conf = Object.entries(form).reduce((total, [key, value]) => {
@@ -36,29 +36,9 @@ export const selectExpressionContext = createSelector(
     }
 );
 
-export const selectRuntimeWidget = (widget: Widget) => createSelector(
+export const selectCommonGameStore = createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
-    (entities, context) => {
-        return enrichWidget(entities, context, widget);
-    }
-);
-
-export const selectItemTemplate = (item: NodeItem) => createSelector(
-    selectExpressionContext,
-    context => {
-        const runtimeItem = enrichItem(context.conf, context, item);
-        const attachedEntity = runtimeItem.choice || runtimeItem.token;
-        const widget: Widget = attachedEntity.template;
-        return enrichWidget(context.conf, context, widget);
-    }
-);
-
-export const selectRuntimeShape = (shape: Shape) => createSelector(
-    selectEntitiesDictionary,
-    selectExpressionContext,
-    (entities, context) => {
-        return enrichShape(entities, context, shape);
-    }
+    (config, context) => ({ config, context }) as CommonGameStore
 );
 

@@ -4,20 +4,16 @@ import clone from 'immer';
 import {
   StatefulComponent, createElement, AutoClean, RzPoint, RenderFunction
 } from "@app/render-kit";
-
 import {
   RuntimeWidgetNode, Widget, ALL_ENTITIES, RuntimeWidget, WidgetNode, StoreProviderProps,
   StoreProvider, WidgetRenderer, WidgetRendererProps, connectToStore, ExpressionContext,
-  selectWidgetNodesSync,
-  selectWidgetFrameSync,
+  selectWidgetNodesSync, selectWidgetFrameSync, CommonGameStore, StaticWidgetProps, StaticWidget, selectRuntimeWidget, selectExpressionContext,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
-import {
-  SaveItemAction, selectRuntimeWidget, selectExpressionContext,
-} from "../state";
+
+import { SaveItemAction, selectCommonGameStore } from "../state";
 
 import DraggableNode, { Props as NodeProps } from './node/DraggableNode';
-import StaticWidget, { StaticWidgetProps } from "./node/StaticWidget";
 
 type Props = OwnProps & StoreProps;
 
@@ -130,7 +126,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
   }
 }
 
-const mapStateToProps = (state: AppState, ownProps: OwnProps): StoreProps => ({
+const mapStateToProps = (state: CommonGameStore, ownProps: OwnProps): StoreProps => ({
   runtimeWidget: selectRuntimeWidget(ownProps.widget)(state),
   context: selectExpressionContext(state),
 });
@@ -139,6 +135,10 @@ const rootComponentWithStore = connectToStore(mapStateToProps)(RootComponent);
 
 export const ConnectedRootComponent: RenderFunction<Props> = (props: Props) => {
   return (
-    createElement<StoreProviderProps>(StoreProvider, { store: props.store }, createElement(rootComponentWithStore, { ...props }))
+    createElement<StoreProviderProps>(
+      StoreProvider,
+      { store: props.store, selectCommonGameStore },
+      createElement(rootComponentWithStore, { ...props })
+    )
   );
 };

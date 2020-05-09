@@ -14,11 +14,6 @@ export const selectForm = createSelector(
     feature => feature.form
 );
 
-export const getItemById = (key: AllEntity, id: number) => createSelector(
-    selectForm,
-    form => form[key].items[id],
-);
-
 export const getItems = <T = GameEntity>(key: AllEntity | string) => createSelector(
     selectForm,
     form => form[key] && form[key].items ? values(form[key].items as Dictionary<T>) : null,
@@ -62,19 +57,6 @@ export const getEntities = createSelector(
         }
         result.languages = game ? game.languages : [];
         return result;
-    }
-);
-
-export const getEntitiesDict = createSelector(
-    selectForm,
-    form => {
-        if (form) {
-            const result = {};
-            for (let key in form) {
-                result[key] = form[key].items;
-            }
-            return result;
-        }
     }
 );
 

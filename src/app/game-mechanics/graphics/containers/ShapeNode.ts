@@ -5,11 +5,8 @@ import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLi
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
-import { assignHandlers } from "../../helpers/event-handlers";
-import { selectNodeStyleSync } from "../../helpers/reusable-selectors";
-import { combineStyles } from "../../helpers/misc";
-import { selectNodeHandlers, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectRuntimeShape, CommonGameStore } from "../../helpers/common-selectors";
 import { BasicShapeNode, BasicShapeNodeProps } from "../presentational";
+import { assignHandlers, selectNodeStyleSync, selectNodeHandlers, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectRuntimeShape, CommonGameStore, combineStyles } from '../../helpers';
 
 export type EnhancedShapeNodeProps = {
     data: RuntimeWidgetNode;

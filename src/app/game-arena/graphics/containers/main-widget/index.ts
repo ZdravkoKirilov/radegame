@@ -1,13 +1,12 @@
-import { AppState } from "@app/core";
 import { Memo, createElement } from "@app/render-kit";
-import { RuntimeWidgetNode, RuntimeModule, RuntimeWidget, connectToStore, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeWidgetNode, RuntimeModule, RuntimeWidget, connectToStore, RuntimeImageFrame, CommonGameStore } from "@app/game-mechanics";
 import {
     selectCurrentModuleWidget,
     selectCurrentModuleWidgetNodes,
     selectModuleData, selectCurrentModuleWidgetFrame,
 } from "../../../state";
 import { DataLoader, DataLoaderProps } from "../data-loader";
-import { ModuleWidget, ModuleWidgetProps } from "../../components/module-widget";
+import { ModuleWidget, ModuleWidgetProps } from "../../components/ModuleWidget";
 
 type StoreProps = {
     widget: RuntimeWidget;
@@ -42,7 +41,7 @@ const mainWidget = Memo<Props>(({ widget, nodes, module, frame }) => {
     );
 });
 
-const mapStateToProps = (state: AppState): StoreProps => ({
+const mapStateToProps = (state: CommonGameStore): StoreProps => ({
     widget: selectCurrentModuleWidget(state),
     nodes: selectCurrentModuleWidgetNodes(state),
     frame: selectCurrentModuleWidgetFrame(state),

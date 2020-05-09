@@ -1,7 +1,5 @@
-import { RuntimeWidget, RuntimeWidgetNode, WidgetRendererProps, WidgetRenderer, RuntimeImageFrame } from "@app/game-mechanics";
+import { RuntimeWidget, RuntimeWidgetNode, WidgetRendererProps, WidgetRenderer, RuntimeImageFrame, NodeFactory, NodeFactoryProps, StaticWidgetProps, StaticWidget } from "@app/game-mechanics";
 import { Memo, createElement, RzElementPrimitiveProps } from "@app/render-kit";
-import NodeFactory, { NodeFactoryProps } from "../Factory";
-import StaticWidget, { StaticWidgetProps } from "../StaticWidget";
 
 export type ModuleWidgetProps = {
     widget: RuntimeWidget;

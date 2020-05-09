@@ -1,7 +1,5 @@
 import { createElement, RenderFunction, RzDraggable, RzDraggableProps, RzPoint, RzElementPrimitiveProps } from "@app/render-kit";
-import { RuntimeWidgetNode } from "@app/game-mechanics";
-
-import NodeFactory, { NodeFactoryProps } from "./Factory";
+import { RuntimeWidgetNode, NodeFactory, NodeFactoryProps } from "@app/game-mechanics";
 
 export type Props = {
   data: RuntimeWidgetNode;

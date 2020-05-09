@@ -11,7 +11,7 @@ export type NodeFactoryProps = {
     fromParent?: any;
 }
 
-const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
+export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
     if (data.display_text || data.display_text_inline) {
         return createElement<EnhancedTextNodeProps>(EnhancedTextNode, { data });
     }

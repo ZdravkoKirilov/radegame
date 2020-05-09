@@ -4,9 +4,8 @@ import NodeFactory, { NodeFactoryProps } from './Factory';
 import { RuntimeWidget, RuntimeWidgetNode, Widget, Style } from "../../entities";
 import { ExpressionContext } from "../../models";
 import { connectToStore } from "../../hocs";
-import { selectWidgetNodesSync, selectWidgetFrameSync } from "../../helpers/reusable-selectors";
+import { selectWidgetNodesSync, selectWidgetFrameSync, selectExpressionContext, selectRuntimeWidget, CommonGameStore } from "../../helpers";
 import { WidgetRendererProps, WidgetRenderer } from "../presentational";
-import { selectExpressionContext, selectRuntimeWidget, CommonGameStore } from "../../helpers/common-selectors";
 
 export type StaticWidgetProps = {
   widget: Widget;
@@ -21,7 +20,7 @@ type StoreProps = {
 
 type Props = StaticWidgetProps & StoreProps;
 
-export class StaticWidget extends StatefulComponent<Props> {
+class StaticWidgetClass extends StatefulComponent<Props> {
 
   render() {
     const self = this;
@@ -54,4 +53,5 @@ const mapStateToProps = (state: CommonGameStore, ownProps: StaticWidgetProps): S
   context: selectExpressionContext(state),
 });
 
-export default connectToStore(mapStateToProps)(StaticWidget);
+export const StaticWidget = connectToStore(mapStateToProps)(StaticWidgetClass);
+export default StaticWidget;

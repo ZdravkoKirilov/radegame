@@ -7,10 +7,11 @@ import { RuntimeWidget, RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
-import { assignHandlers } from "../../helpers/event-handlers";
-import { selectWidgetNodesSync, selectWidgetFrameSync, selectNodeStyleSync, selectChildPropsSync } from "../../helpers/reusable-selectors";
 import { WidgetRendererProps, WidgetRenderer } from "../presentational";
-import { selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectRuntimeWidget } from "../../helpers/common-selectors";
+import {
+    selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectRuntimeWidget,
+    selectWidgetNodesSync, selectWidgetFrameSync, selectNodeStyleSync, selectChildPropsSync, assignHandlers
+} from "../../helpers";
 
 export type EnhancedWidgetNodeProps = {
     data: RuntimeWidgetNode;

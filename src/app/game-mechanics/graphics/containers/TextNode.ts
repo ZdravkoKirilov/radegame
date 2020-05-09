@@ -6,10 +6,8 @@ import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
 import { assignHandlers } from "../../helpers/event-handlers";
-import { selectNodeStyleSync, selectNodeTextSync } from "../../helpers/reusable-selectors";
+import { selectNodeStyleSync, selectNodeTextSync, combineStyles, selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles } from "../../helpers";
 import { BasicTextNodeProps, BasicTextNode } from "../presentational";
-import { combineStyles } from "../../helpers/misc";
-import { selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles } from "../../helpers/common-selectors";
 
 export type EnhancedTextNodeProps = {
     data: RuntimeWidgetNode;

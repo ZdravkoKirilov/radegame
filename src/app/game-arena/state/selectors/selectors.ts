@@ -3,10 +3,7 @@ import get from "lodash/get";
 import groupBy from 'lodash/groupBy';
 
 import { FEATURE_NAME } from "../../config";
-import {
-  Setup, Widget, RuntimeWidgetNode, enrichNode, enrichModule, enrichWidget,
-  enrichFrame, enrichShape, Shape, enrichHandler, enrichTransition, NodeItem, enrichItem, enrichLifecycle
-} from "@app/game-mechanics";
+import { Setup, enrichNode, enrichModule, enrichWidget, enrichFrame, CommonGameStore, } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { toDictionary, selectLobbyName } from "@app/shared";
 import { StatefulComponent } from "@app/render-kit";
@@ -73,6 +70,12 @@ export const selectExpressionContext = createSelector(
   }
 );
 
+export const selectCommonGameStore = createSelector(
+  selectConfig,
+  selectExpressionContext,
+  (config, context) => ({ config, context }) as CommonGameStore
+);
+
 export const selectModuleData = createSelector(
   selectModule,
   selectConfig,
@@ -120,55 +123,6 @@ export const selectCurrentModuleWidgetFrame = createSelector(
     }
     const frame = widget.frames[0];
     return enrichFrame(config, context, frame);
-  }
-);
-
-export const selectNodeHandlers = (node: RuntimeWidgetNode) => createSelector(
-  selectConfig,
-  selectExpressionContext,
-  (config, context) => {
-    return node.handlers.map(node => enrichHandler(config, context, node));
-  }
-);
-
-export const selectNodeLifecycles = (node: RuntimeWidgetNode) => createSelector(
-  selectConfig,
-  selectExpressionContext,
-  (config, context) => {
-    return node.lifecycles.map(node => enrichLifecycle(config, context, node));
-  }
-);
-
-export const selectRuntimeShape = (shape: Shape) => createSelector(
-  selectConfig,
-  selectExpressionContext,
-  (entities, context) => {
-    return enrichShape(entities, context, shape);
-  }
-);
-
-export const selectRuntimeWidget = (widget: Widget) => createSelector(
-  selectConfig,
-  selectExpressionContext,
-  (entities, context) => {
-    return enrichWidget(entities, context, widget);
-  }
-);
-
-export const selectNodeTransitions = (node: RuntimeWidgetNode) => createSelector(
-  selectExpressionContext,
-  context => {
-    return node.transitions.map(transitionId => enrichTransition(context.conf, context, context.conf.transitions[transitionId]))
-  },
-);
-
-export const selectItemTemplate = (item: NodeItem) => createSelector(
-  selectExpressionContext,
-  context => {
-    const runtimeItem = enrichItem(context.conf, context, item);
-    const attachedEntity = runtimeItem.choice || runtimeItem.token;
-    const widget: Widget = attachedEntity.template;
-    return enrichWidget(context.conf, context, widget);
   }
 );
 

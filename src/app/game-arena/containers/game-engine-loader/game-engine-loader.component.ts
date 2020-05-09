@@ -5,6 +5,7 @@ import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
+
 import { GameBroadcastService } from '../../services/game-broadcast/game-broadcast.service';
 import { GameArenaRoot } from '../../graphics/containers/root';
 
@@ -46,7 +47,7 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
     this.mount = await mountPixi(GameArenaRoot, domHost, {
       width: this.windowRef.nativeWindow.innerWidth,
       height: this.windowRef.nativeWindow.innerHeight,
-      props: { store: this.store, dispatcher: this.broadcast },
+      props: { store: this.store },
       assets: this.imageAssets
     });
   }
