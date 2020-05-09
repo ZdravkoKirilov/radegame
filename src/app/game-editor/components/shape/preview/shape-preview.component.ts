@@ -1,5 +1,5 @@
 import { Component, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { RuntimeShape, combineStyles, Shape, enrichShape, ExpressionContext } from '@app/game-mechanics';
+import { combineStyles, Shape, enrichShape, ExpressionContext } from '@app/game-mechanics';
 import { MountRef, StatefulComponent } from '@app/render-kit';
 import { mountPixi } from '@app/engines/pixi';
 import { OnChange } from '@app/shared';
@@ -28,7 +28,7 @@ export class ShapePreviewComponent implements OnInit {
     }
   })
   @Input() data: Shape;
-  
+
   @Input() context: ExpressionContext;
 
   mount: MountRef;

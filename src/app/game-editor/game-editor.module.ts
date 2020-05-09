@@ -39,6 +39,8 @@ import { SonatasContainerComponent } from './containers/sonata/sonatas-container
 import { ShapesContainerComponent } from './containers/shapes/shapes-container.component';
 import { ShapeEditorComponent } from './components/shape/shape-editor.component';
 import { ShapePreviewComponent } from './components/shape/preview/shape-preview.component';
+import { TextEditorComponent } from './components/text/text-editor.component';
+import { TextPreviewComponent } from './components/text/preview/text-preview.component';
 
 @NgModule({
     imports: [
@@ -89,6 +91,8 @@ import { ShapePreviewComponent } from './components/shape/preview/shape-preview.
         ShapesContainerComponent,
         ShapeEditorComponent,
         ShapePreviewComponent,
+        TextEditorComponent,
+        TextPreviewComponent,
     ]
 })
 export class GameEditorModule {
