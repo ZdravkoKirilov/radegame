@@ -5,6 +5,7 @@ import {
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
+import { Game, RuntimeGame } from "../models";
 
 export const enrichNode = (config: Dictionary<GameEntity>, context: Dictionary, initialNode: WidgetNode) => {
     const node = enrichEntity<WidgetNode, RuntimeWidgetNode>(config, {
@@ -96,6 +97,16 @@ export const enrichToken = (config: Dictionary<GameEntity>, token: Token) => {
         return enrichEntity<Token, RuntimeToken>(config, {
             template: 'widgets',
         }, token);
+    }
+    return null;
+};
+
+export const enrichGame = (config: Dictionary<GameEntity>, context: Dictionary, game: Game) => {
+    if (game) {
+        return enrichEntity<Game, RuntimeGame>(config, {
+            menu: 'modules',
+            get_active_module: src => parseAndBind(context)(src),
+        }, game);
     }
     return null;
 };

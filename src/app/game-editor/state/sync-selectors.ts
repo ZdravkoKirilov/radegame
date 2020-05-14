@@ -39,6 +39,6 @@ export const selectExpressionContext = createSelector(
 export const selectCommonGameStore = createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
-    (config, context) => ({ config, context }) as CommonGameStore
+    (config, context) => ({ config, context, remove_transitions: true, remove_lifecycles: true, remove_handlers: true }) as CommonGameStore
 );
 

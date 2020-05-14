@@ -1,11 +1,11 @@
 import { Component, RzElementType } from "../models";
 
-export type MountConfig = {
+export type MountConfig<T = any> = {
     width?: number;
     height?: number;
     backgroundColor?: number;
     assets?: Set<string>;
-    props?: object;
+    props?: T;
 }
 
 export type MountRef = {
@@ -13,8 +13,8 @@ export type MountRef = {
     destroy: () => void;
 }
 
-export type AbstractMountManager = (
+export type AbstractMountManager<> = (
     rootComponent: RzElementType,
     DOMHost: HTMLElement,
-    config: MountConfig
+    config: MountConfig,
 ) => Promise<MountRef>;

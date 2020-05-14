@@ -29,9 +29,7 @@ export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine =>
     };
 }
 
-export const mountPixi: AbstractMountManager = async (
-    component: RzElementType, DOMHost: HTMLElement, config: MountConfig
-) => {
+export async function mountPixi<T>(component: RzElementType, DOMHost: HTMLElement, config: MountConfig<T>) {
     let renderLoop: number;
     const stage = new Container();
     const app = new Application({

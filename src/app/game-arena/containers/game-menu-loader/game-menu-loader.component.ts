@@ -1,12 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Subscription, Observable } from 'rxjs';
+import { Subscription } from 'rxjs';
 import { filter, map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
-import { Game, GameTemplate } from '@app/game-mechanics';
-import { selectGame, FetchGameConfig, selectGameConfig, FetchGame, isDownloadingGameMenuData, CreateGameState, selectGameState } from '../../state';
+import { Game, GameTemplate, ImageAsset } from '@app/game-mechanics';
+import {
+  selectGame, FetchGameConfig, selectGameConfig, FetchGame, isDownloadingGameMenuData, CreateGameState,
+  selectGameState
+} from '../../state';
 
 @Component({
   selector: 'rg-game-menu-loader',
@@ -71,5 +74,13 @@ export class GameMenuLoaderComponent implements OnInit {
         return this.loaded = !!state;
       })
     ).subscribe();
+  }
+
+  get imageAssets() {
+    if (this.game_config) {
+      const asArray = Object.values(this.game_config.images).map((elem: ImageAsset) => elem.image);
+      return new Set(asArray);
+    }
+    return new Set();
   }
 }

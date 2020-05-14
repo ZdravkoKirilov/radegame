@@ -5,49 +5,45 @@ import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
+import { Module } from '@app/game-mechanics';
 
-import { GameBroadcastService } from '../../services/game-broadcast/game-broadcast.service';
-import { GameArenaRoot } from '../../graphics/containers/root';
+import { GameArenaRoot, GameArenaRootProps } from '../../graphics';
 
 @Component({
   selector: 'rg-game-engine-loader',
   templateUrl: './game-engine-loader.component.html',
   styleUrls: ['./game-engine-loader.component.scss'],
-  providers: [GameBroadcastService],
+  providers: [],
 })
 export class GameEngineLoaderComponent implements OnInit, OnDestroy {
 
   @ViewChild('canvas', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
+
   @Input() imageAssets: Set<string>;
-  @Input() gameName: string;
+  @Input() module: Module;
 
   mount: MountRef;
 
   constructor(
     private store: Store<AppState>,
     private windowRef: WindowRefService,
-    private broadcast: GameBroadcastService,
   ) { }
 
   ngOnInit() {
-    if (this.gameName) {
-      this.broadcast.initConnection(this.gameName);
-    }
     this.initializeGame();
   }
 
   ngOnDestroy() {
-    this.broadcast.closeConnection();
     this.mount.destroy();
   }
 
   async initializeGame() {
     const domHost = this.canvasWrapper.nativeElement;
 
-    this.mount = await mountPixi(GameArenaRoot, domHost, {
+    this.mount = await mountPixi<GameArenaRootProps>(GameArenaRoot, domHost, {
       width: this.windowRef.nativeWindow.innerWidth,
       height: this.windowRef.nativeWindow.innerHeight,
-      props: { store: this.store },
+      props: { store: this.store, module: this.module },
       assets: this.imageAssets
     });
   }

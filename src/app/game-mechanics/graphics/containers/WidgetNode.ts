@@ -3,7 +3,7 @@ import { Dictionary } from "@app/shared";
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
 import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
-import { RuntimeWidget, RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle } from "../../entities";
+import { RuntimeWidget, RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle, Widget, Style } from "../../entities";
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
@@ -74,20 +74,8 @@ class EnhancedWidgetNode extends StatefulComponent<Props, State> {
             ),
             createElement<WidgetRendererProps>(WidgetRenderer, {
                 widget, nodes: nodes, style: styleWithTransitionOverrides, frame,
-                renderChild: (node: RuntimeWidgetNode) => {
-                    const childNodeStyle = selectNodeStyleSync(node, {} as StatefulComponent);
-
-                    return createElement<RzElementPrimitiveProps>(
-                        'container',
-                        {
-                            styles: { x: node.x, y: node.y, z_order: childNodeStyle.z_order },
-                            id: node.id,
-                            name: `node_${node.id}`
-                        },
-                        createElement<NodeFactoryProps>(NodeFactory, { data: node, fromParent: childProps })
-                    );
-                },
-                renderFrame: widget => createElement<StaticWidgetProps>(StaticWidget, { widget, style, fromParent: childProps }),
+                renderChild: defaultChildRenderFunc(childProps),
+                renderFrame: defaultFrameRenderFunc(childProps),
             }),
         );
     }
@@ -102,3 +90,26 @@ const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedWidgetNodePro
 });
 
 export default connectToStore(mapStateToProps)(EnhancedWidgetNode);
+
+export const defaultChildRenderFunc = (childProps: {}) => (node: RuntimeWidgetNode) => {
+    const childNodeStyle = selectNodeStyleSync(node, {} as StatefulComponent);
+
+    return createElement<RzElementPrimitiveProps>(
+        'container',
+        {
+            styles: { x: node.x, y: node.y, z_order: childNodeStyle.z_order },
+            id: node.id,
+            name: `node_${node.id}`
+        },
+        createElement<NodeFactoryProps>(NodeFactory, { data: node, fromParent: childProps })
+    );
+};
+
+export const defaultFrameRenderFunc =
+    (childProps: {}) =>
+        (widget: Widget) =>
+            createElement<StaticWidgetProps>(StaticWidget, {
+                widget,
+                style: { width: widget.width, height: widget.height },
+                fromParent: childProps
+            });

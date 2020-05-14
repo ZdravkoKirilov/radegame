@@ -11,7 +11,7 @@ export type Module = BaseModel & WithBoard & Partial<{
     loader: number;
 }>;
 
-export type RuntimeModule = Module & Omit<Module, 'preload' | 'load_done'> & {
+export type RuntimeModule = Module & Omit<Module, 'preload' | 'load_done' | 'loader'> & {
     preload: ExpressionFunc<void>;
     load_done: ExpressionFunc<boolean>;
     loader: Widget;

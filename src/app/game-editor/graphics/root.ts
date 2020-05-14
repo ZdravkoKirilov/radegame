@@ -6,8 +6,7 @@ import {
 } from "@app/render-kit";
 import {
   RuntimeWidgetNode, Widget, ALL_ENTITIES, RuntimeWidget, WidgetNode, StoreProviderProps,
-  StoreProvider, WidgetRenderer, WidgetRendererProps, connectToStore, ExpressionContext,
-  selectWidgetNodesSync, selectWidgetFrameSync, CommonGameStore, StaticWidgetProps, StaticWidget, selectRuntimeWidget, selectExpressionContext,
+  StoreProvider, ExpressionContext, RootWidgetProps, RootWidget,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 
@@ -82,63 +81,42 @@ export class RootComponent extends StatefulComponent<Props, State> {
   // non-engine related bringToFront()
 
   render() {
-    const self = this;
     const { handleDragEnd, selectNode } = this;
-    const { selectedNode: selectedNode, runtimeWidget } = this.state;
-    const { context } = this.props;
-    const nodes = selectWidgetNodesSync(runtimeWidget, context, self);
-    const frame = selectWidgetFrameSync(runtimeWidget, context, self);
-    const loaded = !!runtimeWidget && nodes;
+    const { selectedNode: selectedNode } = this.state;
+    const { widget } = this.props;
 
-    return loaded ?
-      createElement('container',
-        {
-          name: 'background',
-          onClick: () => {
-            selectNode(null);
-          },
+    return createElement('container',
+      {
+        name: 'background',
+        onClick: () => {
+          selectNode(null);
         },
-        createElement<WidgetRendererProps>(
-          WidgetRenderer,
-          {
-            renderChild: (node: RuntimeWidgetNode) => {
-              return createElement<NodeProps>(DraggableNode, {
-                data: node,
-                key: node.id,
-                onDragEnd: handleDragEnd,
-                onSelect: selectNode,
-                selected: selectedNode && selectedNode.id === node.id,
-              });
-            },
-            nodes: nodes,
-            widget: runtimeWidget,
-            style: { width: runtimeWidget.width, height: runtimeWidget.height },
-            frame,
-            renderFrame: widget => {
-              return createElement<StaticWidgetProps>(StaticWidget, {
-                widget,
-                style: { width: runtimeWidget.width, height: runtimeWidget.height }
-              });
-            }
-          }
-        )
-      ) : null;
+      },
+      createElement<RootWidgetProps>(
+        RootWidget,
+        {
+          renderChild: (node: RuntimeWidgetNode) => {
+            return createElement<NodeProps>(DraggableNode, {
+              data: node,
+              key: node.id,
+              onDragEnd: handleDragEnd,
+              onSelect: selectNode,
+              selected: selectedNode && selectedNode.id === node.id,
+            });
+          },
+          widget,
+        }
+      )
+    );
   }
 }
-
-const mapStateToProps = (state: CommonGameStore, ownProps: OwnProps): StoreProps => ({
-  runtimeWidget: selectRuntimeWidget(ownProps.widget)(state),
-  context: selectExpressionContext(state),
-});
-
-const rootComponentWithStore = connectToStore(mapStateToProps)(RootComponent);
 
 export const ConnectedRootComponent: RenderFunction<Props> = (props: Props) => {
   return (
     createElement<StoreProviderProps>(
       StoreProvider,
       { store: props.store, selectCommonGameStore },
-      createElement(rootComponentWithStore, { ...props })
+      createElement(RootComponent, { ...props })
     )
   );
 };

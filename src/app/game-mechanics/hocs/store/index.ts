@@ -53,9 +53,10 @@ export const connectToStore = <OwnProps = any, StoreProps = any>(
                 this.sub.unsubscribe();
             }
             render() {
+                const fromStore = this.state.fromStore;
                 const selectCommonGameStore: CommonStoreSelector = this.meta.context.get('selectCommonGameStore');
-                const commonStoreState = selectCommonGameStore(this.state.fromStore);
-                const computedProps: StoreProps = this.state.fromStore ? mapStateToProps(commonStoreState, this.props) : null;
+                const commonStoreState = fromStore ? selectCommonGameStore(fromStore) : null;
+                const computedProps: StoreProps = fromStore ? mapStateToProps(commonStoreState, this.props) : null;
                 return computedProps ? createElement(
                     component,
                     {

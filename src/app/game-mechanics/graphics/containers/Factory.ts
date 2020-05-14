@@ -1,5 +1,6 @@
-import { RuntimeWidgetNode } from "@app/game-mechanics";
 import { Memo, createElement } from "@app/render-kit";
+
+import { RuntimeWidgetNode } from "../../entities";
 
 import EnhancedTextNode, { EnhancedTextNodeProps } from './TextNode';
 import EnhancedShapeNode, { EnhancedShapeNodeProps } from './ShapeNode';
