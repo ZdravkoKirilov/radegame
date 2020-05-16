@@ -39,6 +39,9 @@ import { Shape } from './Shape.model';
 export type GameEntity = Game | WidgetNode | Module | Choice | Widget | Token |
     Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape;
 
+export type GameEntityUnion = Game & WidgetNode & Module & Choice & Widget & Token | Setup & ImageAsset &
+    Style & Sound & Expression & Animation & Transition & Text & Sonata & Shape;
+
 export type GameEntityList = Dictionary<GameEntity>;
 
 export * from './types';

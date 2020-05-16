@@ -40,11 +40,6 @@ export const selectLoadedChunks = createSelector(
   feature => feature.loaded_chunks
 );
 
-export const selectModule = createSelector(
-  selectGameState,
-  state => state.module,
-);
-
 const selectSetup = createSelector(
   selectGameState,
   state => state ? state.setup : null,
@@ -74,56 +69,6 @@ export const selectCommonGameStore = createSelector(
   selectConfig,
   selectExpressionContext,
   (config, context) => ({ config, context }) as CommonGameStore
-);
-
-export const selectModuleData = createSelector(
-  selectModule,
-  selectConfig,
-  selectExpressionContext,
-  (moduleId, config, context) => {
-
-    return enrichModule(config, context, config.modules[moduleId]);
-  }
-);
-
-export const selectCurrentModuleWidget = createSelector(
-  selectConfig,
-  selectExpressionContext,
-  selectModuleData,
-  (config, context, module) => {
-    return module ? enrichWidget(config, context, module.board) : null;
-  }
-);
-
-export const selectCurrentModuleWidgetNodes = createSelector(
-  selectConfig,
-  selectExpressionContext,
-  selectCurrentModuleWidget,
-  (config, context, widget) => {
-    const { node_getter } = widget;
-    if (typeof node_getter === 'function') {
-      return node_getter({
-        widget: widget,
-        component: {} as StatefulComponent,
-      }).map(elem => enrichNode(config, context, elem));
-    }
-    return widget.nodes.map(elem => enrichNode(config, context, elem));
-  }
-);
-
-export const selectCurrentModuleWidgetFrame = createSelector(
-  selectConfig,
-  selectExpressionContext,
-  selectCurrentModuleWidget,
-  (config, context, widget) => {
-    const { frame_getter } = widget;
-    if (typeof frame_getter === 'function') {
-      const frame = frame_getter({ widget: widget, component: {} as StatefulComponent });
-      return enrichFrame(config, context, frame);
-    }
-    const frame = widget.frames[0];
-    return enrichFrame(config, context, frame);
-  }
 );
 
 export const selectGameInstance = createSelector(

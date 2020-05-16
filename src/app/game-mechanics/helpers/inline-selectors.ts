@@ -1,11 +1,13 @@
 import get from "lodash/get";
+import isFunction from 'lodash/isFunction';
 
 import { withMemo } from "@app/shared";
 import { StatefulComponent } from "@app/render-kit";
 
-import { RuntimeWidget, RuntimeWidgetNode, RuntimeText } from "../entities";
+import { RuntimeWidget, RuntimeWidgetNode, RuntimeText, Module } from "../entities";
 import { enrichNode, enrichFrame, enrichText } from "./entity-composers";
-import { ExpressionContext } from "../models";
+import { ExpressionContext, RuntimeGame } from "../models";
+import { findFirstEntityBy } from "./misc";
 
 export const selectChildPropsSync = (node: RuntimeWidgetNode, component: StatefulComponent) => {
   const handler = node.pass_to_children;
@@ -13,6 +15,14 @@ export const selectChildPropsSync = (node: RuntimeWidgetNode, component: Statefu
     const result = handler({ node: node, component });
     return result;
   }
+};
+
+export const selectModuleFromGameSync = (game: RuntimeGame, context: ExpressionContext) => {
+  if (game && isFunction(game.get_active_module)) {
+    const moduleName = game.get_active_module();
+    return moduleName ? findFirstEntityBy<Module>(context.conf, 'modules', { name: moduleName }) : null;
+  }
+  return null;
 };
 
 const _selectNodeStyleSync = (node: RuntimeWidgetNode, component: StatefulComponent) => {

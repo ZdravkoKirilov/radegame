@@ -83,4 +83,11 @@ export class GameMenuLoaderComponent implements OnInit {
     }
     return new Set();
   }
+
+  get menuModule() {
+    if (this.game_config && this.game) {
+      return this.game_config.modules[this.game.menu];
+    }
+    return null;
+  }
 }

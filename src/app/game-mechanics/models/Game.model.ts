@@ -20,7 +20,7 @@ export type Game = WithBoard & Partial<{
 
 export type RuntimeGame = Omit<Game, 'menu' | 'get_active_module'> & {
     menu: Module;
-    get_active_module: ExpressionFunc<number>;
+    get_active_module: ExpressionFunc<string>;
 }
 
 export type GameLanguage = WithImage & Partial<{

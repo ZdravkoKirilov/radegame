@@ -5,7 +5,7 @@ import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
-import { Module } from '@app/game-mechanics';
+import { Module, Game } from '@app/game-mechanics';
 
 import { GameArenaRoot, GameArenaRootProps } from '../../graphics';
 
@@ -21,6 +21,7 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
 
   @Input() imageAssets: Set<string>;
   @Input() module: Module;
+  @Input() game: Game;
 
   mount: MountRef;
 
@@ -43,7 +44,7 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
     this.mount = await mountPixi<GameArenaRootProps>(GameArenaRoot, domHost, {
       width: this.windowRef.nativeWindow.innerWidth,
       height: this.windowRef.nativeWindow.innerHeight,
-      props: { store: this.store, module: this.module },
+      props: { store: this.store, module: this.module, game: this.game },
       assets: this.imageAssets
     });
   }

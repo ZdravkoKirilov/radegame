@@ -1,4 +1,5 @@
 import { createSelector } from 'reselect';
+
 import { GameTemplate, ExpressionContext, Game } from '../models';
 import { RuntimeWidgetNode, Shape, Widget, NodeItem, Module } from '../entities';
 import { enrichHandler, enrichLifecycle, enrichShape, enrichWidget, enrichTransition, enrichItem, enrichModule, enrichGame } from './entity-composers';
