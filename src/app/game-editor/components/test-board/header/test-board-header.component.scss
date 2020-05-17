@@ -1,0 +1,12 @@
+:host {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 10px 15px 10px;
+  border-bottom: 1px solid gray;
+
+  .group {
+    & > div:first-of-type {
+      margin-right: 20px;
+    }
+  }
+}

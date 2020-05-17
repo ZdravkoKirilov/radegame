@@ -11,6 +11,8 @@ import { Component, Output, EventEmitter, Input } from '@angular/core';
     <div class="view-mode">
       <button mat-button color="primary" (click)="changeView.emit('board')">Board</button>
       <button mat-button color="primary" (click)="changeView.emit('list')">List</button>
+
+      <a [routerLink]="['../live-test']">Live test</a>
     </div>
     
   `,

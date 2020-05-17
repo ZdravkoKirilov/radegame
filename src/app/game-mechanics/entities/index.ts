@@ -3,7 +3,6 @@ export * from './Choice.model';
 export * from './Widget.model';
 export * from './Token.model';
 export * from './WidgetNode.model';
-
 export * from './Setup.model';
 export * from './ImageAsset.model';
 export * from './Base.model';
@@ -15,6 +14,8 @@ export * from './Transition.model';
 export * from './Text.model';
 export * from './Sonata.model';
 export * from './Shape.model';
+
+export * from './Sandbox.model';
 
 export * from './types';
 
@@ -35,12 +36,13 @@ import { Transition } from './Transition.model';
 import { Text } from './Text.model';
 import { Sonata } from './Sonata.model';
 import { Shape } from './Shape.model';
+import { Sandbox } from './Sandbox.model';
 
 export type GameEntity = Game | WidgetNode | Module | Choice | Widget | Token |
-    Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape;
+    Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape | Sandbox;
 
 export type GameEntityUnion = Game & WidgetNode & Module & Choice & Widget & Token | Setup & ImageAsset &
-    Style & Sound & Expression & Animation & Transition & Text & Sonata & Shape;
+    Style & Sound & Expression & Animation & Transition & Text & Sonata & Shape & Sandbox;
 
 export type GameEntityList = Dictionary<GameEntity>;
 

@@ -18,6 +18,7 @@ import { TransitionsContainerComponent } from './containers/transitions/transiti
 import { TextsContainerComponent } from './containers/texts/texts-container.component';
 import { SonatasContainerComponent } from './containers/sonata/sonatas-container.component';
 import { ShapesContainerComponent } from './containers/shapes/shapes-container.component';
+import { TestBoardContainerComponent } from './containers/test-board/test-board-container.component';
 
 export const routes: Routes = [
     {
@@ -38,6 +39,11 @@ export const routes: Routes = [
                 path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/map`,
                 component: BoardContainerComponent,
                 pathMatch: 'full'
+            },
+            {
+                path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/live-test`,
+                component: TestBoardContainerComponent,
+                pathMatch: 'full',
             },
             {
                 path: 'images',

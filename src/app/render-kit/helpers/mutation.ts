@@ -33,6 +33,17 @@ export const updateComponent = (component: Component, rendered: RzNode) => {
     }
 };
 
+export const updateWithNewProps = (component: Component, newProps: {} & RzElementProps) => {
+
+    if (isFunctional(component)) {
+        const newRenderedOutput = component(newProps);
+        updateRegularFunctionalComponent(component, newRenderedOutput);
+    }
+    if (isStateful(component)) {
+        callWithErrorPropagation(component.parent, () => component.updateProps(newProps));
+    }
+};
+
 export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => {
     updated = updated || {} as RzElement;
     const shouldUpdate = memoComp.shouldUpdate;
@@ -62,59 +73,19 @@ export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => 
     memoComp.props = updated.props;
 }
 
-export const reconcileChildSlot = (currentChild: Component, incomingChild: RzElement, component: Component, container: AbstractContainer) => {
-    let newChildren = [null];
-
-    if (currentChild && incomingChild) {
-
-        const sameType = currentChild.type === incomingChild.type;
-        if (sameType) {
-            updateByType(currentChild, incomingChild);
-            newChildren = [currentChild];
-        } else {
-            const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta, component);
-            newChildren = [newInstance];
-            mountComponent(newInstance, container);
-            unmountComponent(currentChild);
-        }
-    }
-
-    if (currentChild && !incomingChild) {
-        newChildren = [null];
-        unmountComponent(currentChild);
-    }
-
-    if (!currentChild && incomingChild) {
-        const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta, component);
-        newChildren = [newInstance];
-        mountComponent(newInstance, container);
-    }
-    return newChildren;
-}
-
 export const updateFunctionalComponent = (target: RenderFunction, updated: RzElement) => {
     if (isMemo(target) && updated) {
         return updateMemo(target, updated);
     } else if (updated) {
-        target.props = updated.props;
-        const extras = prepareExtras(target, target.meta);
-        const rendered = callWithErrorPropagation(target.parent, () => target(updated.props, extras))
-        updateComponent(target, rendered);
+        updateRegularFunctionalComponent(target, updated);
     }
 };
 
-export const updateByType = (target: Component<RzElementProps>, updated: RzElement) => {
-    if (isFunctional(target)) {
-        updateFunctionalComponent(target, updated);
-    }
-
-    if (isStateful(target)) {
-        callWithErrorPropagation(target.parent, () => target.updateProps(updated.props));
-    }
-
-    if (isPrimitive(target)) {
-        target.updateProps(updated.props);
-    }
+const updateRegularFunctionalComponent = (target: RenderFunction, updated: RzElement) => {
+    target.props = updated.props;
+    const extras = prepareExtras(target, target.meta);
+    const rendered = callWithErrorPropagation(target.parent, () => target(updated.props, extras))
+    updateComponent(target, rendered);
 };
 
 export const updateContainer = (newProps: RzElementProps, component: PrimitiveContainer) => {
@@ -167,6 +138,50 @@ export const updateCollection = (newProps: RzElementProps, component: PrimitiveC
     });
 
     component.children = Object.values(newChildren);//sort here if needed
+};
+
+export const reconcileChildSlot = (currentChild: Component, incomingChild: RzElement, component: Component, container: AbstractContainer) => {
+    let newChildren = [null];
+
+    if (currentChild && incomingChild) {
+
+        const sameType = currentChild.type === incomingChild.type;
+        if (sameType) {
+            updateByType(currentChild, incomingChild);
+            newChildren = [currentChild];
+        } else {
+            const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta, component);
+            newChildren = [newInstance];
+            mountComponent(newInstance, container);
+            unmountComponent(currentChild);
+        }
+    }
+
+    if (currentChild && !incomingChild) {
+        newChildren = [null];
+        unmountComponent(currentChild);
+    }
+
+    if (!currentChild && incomingChild) {
+        const newInstance = createComponent(incomingChild, component.meta.engine.factory, component.meta, component);
+        newChildren = [newInstance];
+        mountComponent(newInstance, container);
+    }
+    return newChildren;
+}
+
+export const updateByType = (target: Component<RzElementProps>, updated: RzElement) => {
+    if (isFunctional(target)) {
+        updateFunctionalComponent(target, updated);
+    }
+
+    if (isStateful(target)) {
+        callWithErrorPropagation(target.parent, () => target.updateProps(updated.props));
+    }
+
+    if (isPrimitive(target)) {
+        target.updateProps(updated.props);
+    }
 };
 
 

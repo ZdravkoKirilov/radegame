@@ -41,6 +41,10 @@ import { ShapeEditorComponent } from './components/shape/shape-editor.component'
 import { ShapePreviewComponent } from './components/shape/preview/shape-preview.component';
 import { TextEditorComponent } from './components/text/text-editor.component';
 import { TextPreviewComponent } from './components/text/preview/text-preview.component';
+import { TestBoardContainerComponent } from './containers/test-board/test-board-container.component';
+import { TestBoardHeaderComponent } from './components/test-board/header/test-board-header.component';
+import { TestBoardStateComponent } from './components/test-board/state-mocks/test-board-state.component';
+import { TestBoardPresentationComponent } from './components/test-board/presentation/test-board-presentation.component';
 
 @NgModule({
     imports: [
@@ -93,6 +97,10 @@ import { TextPreviewComponent } from './components/text/preview/text-preview.com
         ShapePreviewComponent,
         TextEditorComponent,
         TextPreviewComponent,
+        TestBoardContainerComponent,
+        TestBoardHeaderComponent,
+        TestBoardStateComponent,
+        TestBoardPresentationComponent,
     ]
 })
 export class GameEditorModule {

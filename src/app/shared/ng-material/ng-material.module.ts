@@ -20,6 +20,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatExpansionModule } from '@angular/material/expansion';
 
 @NgModule({
     imports: [
@@ -42,7 +43,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatChipsModule,
         MatSidenavModule,
         MatListModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatExpansionModule,
     ],
     exports: [
         MatButtonModule,
@@ -63,7 +65,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         MatChipsModule,
         MatSidenavModule,
         MatListModule,
-        MatTooltipModule
+        MatTooltipModule,
+        MatExpansionModule,
     ],
     declarations: [],
     providers: [

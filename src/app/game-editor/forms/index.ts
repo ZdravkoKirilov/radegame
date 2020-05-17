@@ -14,3 +14,4 @@ export * from './transition.ts';
 export * from './text';
 export * from './sonata';
 export * from './shape';
+export * from './sandbox';
