@@ -1,5 +1,6 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { FormGroup } from '@angular/forms';
+import { map, debounceTime } from 'rxjs/operators';
 
 import { ControlsService, FormDefinition, BaseControl } from '@app/dynamic-forms';
 import { Sandbox } from '@app/game-mechanics';
@@ -32,7 +33,10 @@ export class TestBoardStateComponent {
     this.controls = this.formDefinition(sandbox);
     this.form = this.cs.toFormGroup(this.controls);
 
-    this.form.valueChanges.subscribe(formValue => this.onChange.emit(formValue));
+    this.form.valueChanges.pipe(
+      debounceTime(2000),
+      map(formValue => this.onChange.emit(formValue))
+    ).subscribe();
   }
 
 }

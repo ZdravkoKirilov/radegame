@@ -22,14 +22,14 @@ const matchByType = (type: RzElementType) => (target: Component) => {
     return get(target, 'type') === type;
 };
 
-export const findInDescendants = (startPoint: Component) => (criteria: Dictionary | RzElementType) => {
+export const findInDescendants = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T => {
     if (isRzElementType(criteria)) {
         const matcher = matchByType(criteria);
-        return iterateUntil('child', matcher)(startPoint);
+        return iterateUntil('child', matcher)(startPoint) as any;
     }
     if (typeof criteria === 'object' && Object.keys(criteria).length > 0) {
         const matcher = matchByProp(criteria);
-        return iterateUntil('child', matcher)(startPoint);
+        return iterateUntil('child', matcher)(startPoint) as any;
     }
     return null;
 };

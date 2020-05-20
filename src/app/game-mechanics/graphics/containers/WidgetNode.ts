@@ -3,7 +3,7 @@ import { Dictionary } from "@app/shared";
 
 import NodeFactory, { NodeFactoryProps } from './Factory';
 import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
-import { RuntimeWidget, RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle, Widget, Style } from "../../entities";
+import { RuntimeWidget, RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle, Widget } from "../../entities";
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
@@ -20,8 +20,9 @@ export type EnhancedWidgetNodeProps = {
 
 type StoreProps = {
     widget: RuntimeWidget;
-    handlers: RuntimeNodeHandler[];
     context: ExpressionContext;
+    
+    handlers: RuntimeNodeHandler[];
     transitions: RuntimeTransition[];
     lifecycles: RuntimeNodeLifecycle[];
 };
@@ -83,8 +84,9 @@ class EnhancedWidgetNode extends StatefulComponent<Props, State> {
 
 const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedWidgetNodeProps): StoreProps => ({
     widget: selectRuntimeWidget(ownProps.data.board)(state),
-    handlers: selectNodeHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
+
+    handlers: selectNodeHandlers(ownProps.data)(state),
     transitions: selectNodeTransitions(ownProps.data)(state),
     lifecycles: selectNodeLifecycles(ownProps.data)(state),
 });

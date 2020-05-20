@@ -1,7 +1,7 @@
 import {
     WidgetNode, RuntimeWidgetNode, GameEntity,
     NodeHandler, Transition, RuntimeTransition, RuntimeAnimation,
-    AnimationStep, RuntimeAnimationStep, Animation, RuntimeNodeHandler, ImageFrame, RuntimeImageFrame, Widget, RuntimeWidget, Shape, RuntimeShape, RuntimeText, Text, Module, RuntimeModule, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, NodeItem, RuntimeNodeItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeNodeLifecycle, NodeLifecycle
+    AnimationStep, RuntimeAnimationStep, Animation, RuntimeNodeHandler, ImageFrame, RuntimeImageFrame, Widget, RuntimeWidget, Shape, RuntimeShape, RuntimeText, Text, Module, RuntimeModule, Sonata, RuntimeSonata, SonataStep, RuntimeSonataStep, NodeItem, RuntimeNodeItem, Token, RuntimeToken, Choice, RuntimeChoice, RuntimeNodeLifecycle, NodeLifecycle, RuntimeSandbox, Sandbox
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
@@ -107,6 +107,22 @@ export const enrichGame = (config: Dictionary<GameEntity>, context: Dictionary, 
             menu: 'modules',
             get_active_module: src => parseAndBind(context)(src),
         }, game);
+    }
+    return null;
+};
+
+export const enrichSandbox = (context: Dictionary, sandbox: Sandbox) => {
+    if (sandbox) {
+        return enrichEntity<Sandbox, RuntimeSandbox>(context.config, {
+            global_state: src => parseAndBind(context)(src),
+            own_data: src => parseAndBind(context)(src),
+            on_init: src => parseAndBind(context)(src),
+            preload: src => parseAndBind(context)(src),
+            from_parent: src => parseAndBind(context)(src),
+            widget: 'widgets',
+            module: 'modules',
+            node: 'slots',
+        }, sandbox);
     }
     return null;
 };

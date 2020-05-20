@@ -9,3 +9,13 @@ export const createEditorExpressionContext = (params: Partial<CreateExpressionPa
     sendMessage: () => null,
   } as CreateExpressionParams);
 };
+
+export const createSandboxExpressionContext = (params: Partial<CreateExpressionParams>) => {
+  return createExpressionContext({
+    ...params,
+    mutateState: () => null,
+    mutateStateAndSave: () => null,
+    listenTo: () => null,
+    sendMessage: () => null,
+  } as CreateExpressionParams);
+};

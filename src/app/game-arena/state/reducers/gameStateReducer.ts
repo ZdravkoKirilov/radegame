@@ -1,7 +1,7 @@
 import immer from 'immer';
 import set from 'lodash/set';
 
-import { InGameAction, GameActionTypes } from "../actions";
+import { GameActionTypes, InGameAction } from "../actions";
 import { GameState } from "@app/game-mechanics";
 
 export type ArenaGameState = GameState;

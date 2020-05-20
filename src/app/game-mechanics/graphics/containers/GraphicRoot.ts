@@ -7,41 +7,52 @@ import { connectToStore } from "../../hocs";
 
 import { RootWidgetProps, RootWidget } from "./RootWidget";
 import { ModuleRenderer, ModuleRendererProps } from "./ModuleRenderer";
+import WidgetNode, { defaultChildRenderFunc, EnhancedWidgetNodeProps } from "./WidgetNode";
 
 type StoreProps = {
   runtimeGame: RuntimeGame;
   context: ExpressionContext;
 }
 
-export type GraphicRootRendererProps = {
+export type GraphicRootRendererProps = Partial<{
   game: Game;
-  module?: Module;
-  widget?: Widget;
+  module: Module;
+  widget: Widget;
+  node: RuntimeWidgetNode;
+
+  fromParent: {},
   renderWidgetChild?: (node: RuntimeWidgetNode) => RzElement;
-}
+}>
 
 type Props = StoreProps & GraphicRootRendererProps;
 
 const graphicRootRenderer = Memo<Props>(props => {
-  const { module, widget, runtimeGame, renderWidgetChild, context } = props;
-
-  if (widget) { // ignore modules if the widget is passed already
+  const { module, widget, node, fromParent, runtimeGame, renderWidgetChild = defaultChildRenderFunc(null), context } = props;
+  console.log(node);
+  if (widget) {
     return createElement<RootWidgetProps>(
       RootWidget,
       {
-        widget,
+        widget, fromParent,
         renderChild: renderWidgetChild,
       }
     )
   }
 
+  if (node) {
+    return createElement<EnhancedWidgetNodeProps>(
+      WidgetNode,
+      { data: node, fromParent }
+    )
+  }
+
   let currentModule = module;
-  if (!currentModule) { // ignore dynamic module calculation if it is passed statically already
+  if (!currentModule && runtimeGame) { // ignore dynamic module calculation if it is passed statically already
     currentModule = selectModuleFromGameSync(runtimeGame, context);
   }
 
   if (currentModule) {
-    return createElement<ModuleRendererProps>(ModuleRenderer, { module: currentModule });
+    return createElement<ModuleRendererProps>(ModuleRenderer, { module: currentModule, fromParent });
   }
 
   console.error(props);

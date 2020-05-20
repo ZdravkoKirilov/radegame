@@ -2,11 +2,11 @@ import { createSelector } from "reselect";
 import get from "lodash/get";
 import groupBy from 'lodash/groupBy';
 
-import { FEATURE_NAME } from "../../config";
-import { Setup, enrichNode, enrichModule, enrichWidget, enrichFrame, CommonGameStore, } from "@app/game-mechanics";
+import { Setup, CommonGameStore, } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { toDictionary, selectLobbyName } from "@app/shared";
-import { StatefulComponent } from "@app/render-kit";
+
+import { FEATURE_NAME } from "../../config";
 import { createArenaExpressionContext } from "../../helpers";
 import { lobbyAdapter, playerAdapter, messageAdapter, LobbyState } from "../reducers";
 import { Lobby } from "../../models";
@@ -51,7 +51,7 @@ export const selectSetupData = createSelector(
   (setup, config) => config && setup ? config.setups[setup] as Setup : null,
 );
 
-export const selectExpressionContext = createSelector(
+const selectExpressionContext = createSelector(
   selectUser,
   selectConfig,
   selectGameState,
@@ -60,7 +60,7 @@ export const selectExpressionContext = createSelector(
   (user, conf, state, players, loaded_chunks) => {
     return createArenaExpressionContext({
       self: user.id, loaded_chunks,
-      conf, state, players: toDictionary(players, 'id')
+      conf, state, players: toDictionary(players, 'id'),
     });
   }
 );

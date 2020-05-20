@@ -15,11 +15,12 @@ type StoreProps = {
 
 export type ModuleRendererProps = {
   module: Module;
+  fromParent?: {};
 }
 
-type Props = StoreProps;
+type Props = StoreProps & ModuleRendererProps;
 
-const moduleRenderer = Memo<Props>(({ runtimeModule }) => {
+const moduleRenderer = Memo<Props>(({ runtimeModule, fromParent }) => {
   const fallback = runtimeModule.loader ? createElement<RootWidgetProps>(
     RootWidget,
     { widget: runtimeModule.loader, renderChild: defaultChildRenderFunc(null) },
@@ -35,7 +36,7 @@ const moduleRenderer = Memo<Props>(({ runtimeModule }) => {
     createElement<RootWidgetProps>(
       RootWidget,
       {
-        widget: runtimeModule.board,
+        widget: runtimeModule.board, fromParent,
         renderChild: defaultChildRenderFunc(null),
       }
     )

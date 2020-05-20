@@ -1,14 +1,23 @@
+import { RzEventTypes, StatefulComponent } from "@app/render-kit";
+import { Omit } from "@app/shared";
+
 import { BaseModel, WithBoard, WithStyle } from "./Base.model";
 import { Shape } from "./Shape.model";
 import { RuntimeChoice } from "./Choice.model";
 import { RuntimeToken } from "./Token.model";
 import { Widget } from "./Widget.model";
-import { ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc, SonataGetterFunc } from "./Expression.model";
+import {
+    ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc,
+    SonataGetterFunc
+} from "./Expression.model";
 import { Style } from "./Style.model";
-import { Omit } from "@app/shared";
 import { Text } from "./Text.model";
 import { Sonata } from "./Sonata.model";
-import { RzEventTypes, StatefulComponent } from "@app/render-kit";
+
+// TODO: think about expression context and how to empower it. It should be a part of commonGameStore
+// think about making nodes, lifecycles, handlers m2m again - it will provide easier testing and composing
+// think about a Node hosting another lazy Module
+// should test view have active dropdowns to change the entity being tested? Widget / Module / Node
 
 export type WidgetNode = BaseModel & WithBoard & WithStyle & Partial<{
     owner: number; // Widget;

@@ -33,7 +33,7 @@ export const updateComponent = (component: Component, rendered: RzNode) => {
     }
 };
 
-export const updateWithNewProps = (component: Component, newProps: {} & RzElementProps) => {
+export const updateWithNewProps = <T = any>(component: Component, newProps: {} & RzElementProps & T) => {
 
     if (isFunctional(component)) {
         const newRenderedOutput = component(newProps);

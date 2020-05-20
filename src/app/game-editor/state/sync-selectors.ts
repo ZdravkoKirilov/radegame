@@ -5,13 +5,18 @@ import {
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 import { FEATURE_NAME } from "../utils";
-import { createEditorExpressionContext } from "./initializers";
+import { createEditorExpressionContext, createSandboxExpressionContext } from "./initializers";
 
 const selectFeature = (state: AppState) => state[FEATURE_NAME];
 
 const selectForm = createSelector(
     selectFeature,
     feature => feature.form,
+);
+
+const selectContextOverrides = createSelector(
+    selectFeature,
+    feature => feature.context_overrides,
 );
 
 const selectEntitiesDictionary = createSelector(
@@ -34,6 +39,14 @@ export const selectExpressionContext = createSelector(
         }, {}) as GameTemplate;
         return createEditorExpressionContext({ conf, self: 1, players: {}, state: {} as any, loaded_chunks: [] });
     }
+);
+
+export const selectSandboxExpressionContext = createSelector(
+    selectEntitiesDictionary,
+    selectContextOverrides,
+    (conf, context_overrides) => createSandboxExpressionContext({
+        conf, self: 1, players: {}, state: {} as any, loaded_chunks: [], ...context_overrides
+    })
 );
 
 export const selectCommonGameStore = createSelector(

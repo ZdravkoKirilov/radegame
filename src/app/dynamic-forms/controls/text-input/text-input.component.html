@@ -2,6 +2,6 @@
     <mat-form-field>
         <mat-placeholder *ngIf="data.label">{{data.label}}</mat-placeholder>
         <mat-error *ngIf="!isValid">{{data.errorMessage}}</mat-error>
-        <input matInput [value]="value" [required]="data.required" (change)="handleChange($event)"/>
+        <input matInput [disabled]="data.readonly" [value]="value" [required]="data.required" (change)="handleChange($event)"/>
     </mat-form-field>
 </div>

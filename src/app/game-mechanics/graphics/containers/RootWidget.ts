@@ -13,6 +13,7 @@ type Props = RootWidgetProps & StoreProps;
 
 export type RootWidgetProps = {
   widget: Widget;
+  fromParent?: {},
   renderChild: (node: RuntimeWidgetNode) => RzElement;
 }
 

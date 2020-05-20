@@ -1,6 +1,5 @@
-import { get } from 'lodash';
-
-import { GameTemplate, Setup, GameState, CreateExpressionParams, createExpressionContext } from "@app/game-mechanics";
+import {  GameState, CreateExpressionParams, createExpressionContext } from "@app/game-mechanics"
+;
 import { MutateState } from '../state';
 
 export type CreateStateParams = {
