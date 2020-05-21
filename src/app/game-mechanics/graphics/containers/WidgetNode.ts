@@ -1,17 +1,14 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransitionProps, RzTransition, } from "@app/render-kit";
 import { Dictionary } from "@app/shared";
 
-import NodeFactory, { NodeFactoryProps } from './Factory';
-import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
-import { RuntimeWidget, RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle, Widget } from "../../entities";
+import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle } from "../../entities";
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
-import { WidgetRendererProps, WidgetRenderer } from "../presentational";
 import {
-    selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectRuntimeWidget,
-    selectWidgetNodesSync, selectWidgetFrameSync, selectNodeStyleSync, selectChildPropsSync, assignHandlers
+    selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectNodeStyleSync, selectChildPropsSync, assignHandlers
 } from "../../helpers";
+import { RootWidgetProps, RootWidget } from "./RootWidget";
 
 export type EnhancedWidgetNodeProps = {
     data: RuntimeWidgetNode;
@@ -19,9 +16,8 @@ export type EnhancedWidgetNodeProps = {
 }
 
 type StoreProps = {
-    widget: RuntimeWidget;
     context: ExpressionContext;
-    
+
     handlers: RuntimeNodeHandler[];
     transitions: RuntimeTransition[];
     lifecycles: RuntimeNodeLifecycle[];
@@ -38,12 +34,10 @@ class EnhancedWidgetNode extends StatefulComponent<Props, State> {
 
     render() {
         const self = this;
-        const { data, widget, handlers, context, transitions, dispatch } = this.props;
+        const { data, handlers, context, transitions, dispatch } = this.props;
         const childProps = selectChildPropsSync(data, self);
         const { animated } = this.state;
         const style = selectNodeStyleSync(data, self);
-        const frame = selectWidgetFrameSync(widget, context, self);
-        const nodes = selectWidgetNodesSync(widget, context, self);
         const styleWithTransitionOverrides = { ...style, ...animated };
 
         return createElement<RzElementPrimitiveProps>(
@@ -73,17 +67,19 @@ class EnhancedWidgetNode extends StatefulComponent<Props, State> {
                     }
                 },
             ),
-            createElement<WidgetRendererProps>(WidgetRenderer, {
-                widget, nodes: nodes, style: styleWithTransitionOverrides, frame,
-                renderChild: defaultChildRenderFunc(childProps),
-                renderFrame: defaultFrameRenderFunc(childProps),
-            }),
+            createElement<RootWidgetProps>(
+                RootWidget,
+                {
+                    widget: data.board,
+                    fromParent: childProps,
+                    style: styleWithTransitionOverrides,
+                }
+            )
         );
     }
 };
 
 const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedWidgetNodeProps): StoreProps => ({
-    widget: selectRuntimeWidget(ownProps.data.board)(state),
     context: selectExpressionContext(state),
 
     handlers: selectNodeHandlers(ownProps.data)(state),
@@ -92,26 +88,3 @@ const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedWidgetNodePro
 });
 
 export default connectToStore(mapStateToProps)(EnhancedWidgetNode);
-
-export const defaultChildRenderFunc = (childProps: {}) => (node: RuntimeWidgetNode) => {
-    const childNodeStyle = selectNodeStyleSync(node, {} as StatefulComponent);
-
-    return createElement<RzElementPrimitiveProps>(
-        'container',
-        {
-            styles: { x: node.x, y: node.y, z_order: childNodeStyle.z_order },
-            id: node.id,
-            name: `node_${node.id}`
-        },
-        createElement<NodeFactoryProps>(NodeFactory, { data: node, fromParent: childProps })
-    );
-};
-
-export const defaultFrameRenderFunc =
-    (childProps: {}) =>
-        (widget: Widget) =>
-            createElement<StaticWidgetProps>(StaticWidget, {
-                widget,
-                style: { width: widget.width, height: widget.height },
-                fromParent: childProps
-            });

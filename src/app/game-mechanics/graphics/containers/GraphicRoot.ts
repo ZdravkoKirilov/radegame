@@ -7,7 +7,7 @@ import { connectToStore } from "../../hocs";
 
 import { RootWidgetProps, RootWidget } from "./RootWidget";
 import { ModuleRenderer, ModuleRendererProps } from "./ModuleRenderer";
-import WidgetNode, { defaultChildRenderFunc, EnhancedWidgetNodeProps } from "./WidgetNode";
+import WidgetNode, { EnhancedWidgetNodeProps } from "./WidgetNode";
 
 type StoreProps = {
   runtimeGame: RuntimeGame;
@@ -27,8 +27,8 @@ export type GraphicRootRendererProps = Partial<{
 type Props = StoreProps & GraphicRootRendererProps;
 
 const graphicRootRenderer = Memo<Props>(props => {
-  const { module, widget, node, fromParent, runtimeGame, renderWidgetChild = defaultChildRenderFunc(null), context } = props;
-  console.log(node);
+  const { module, widget, node, fromParent, runtimeGame, renderWidgetChild, context } = props;
+
   if (widget) {
     return createElement<RootWidgetProps>(
       RootWidget,

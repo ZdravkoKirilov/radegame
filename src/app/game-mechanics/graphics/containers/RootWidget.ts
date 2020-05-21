@@ -1,20 +1,24 @@
 import {
-  StatefulComponent, createElement, RzElement
+  StatefulComponent, createElement, RzElement, RzElementPrimitiveProps
 } from "@app/render-kit";
 
-import { defaultFrameRenderFunc } from "./WidgetNode";
-import { RuntimeWidget, RuntimeWidgetNode, Widget } from "../../entities";
+import { RuntimeWidget, RuntimeWidgetNode, Widget, Style } from "../../entities";
 import { ExpressionContext } from "../../models";
-import { selectWidgetNodesSync, selectWidgetFrameSync, CommonGameStore, selectRuntimeWidget, selectExpressionContext } from "../../helpers";
+import { selectWidgetNodesSync, selectWidgetFrameSync, CommonGameStore, selectRuntimeWidget, selectExpressionContext, selectNodeStyleSync } from "../../helpers";
 import { WidgetRendererProps, WidgetRenderer } from "../presentational";
 import { connectToStore } from "../../hocs";
+import NodeFactory, { NodeFactoryProps } from "./Factory";
+import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
 
 type Props = RootWidgetProps & StoreProps;
 
 export type RootWidgetProps = {
   widget: Widget;
   fromParent?: {},
-  renderChild: (node: RuntimeWidgetNode) => RzElement;
+
+  renderChild?: (node: RuntimeWidgetNode) => RzElement;
+  renderFrame?: (widget: Widget, style: Style) => RzElement;
+  style?: Style;
 }
 
 type StoreProps = {
@@ -25,7 +29,7 @@ type StoreProps = {
 class _RootWidget extends StatefulComponent<Props> {
 
   render() {
-    const { context, runtimeWidget, renderChild } = this.props;
+    const { context, runtimeWidget, renderChild, renderFrame, fromParent, style } = this.props;
     const nodes = selectWidgetNodesSync(runtimeWidget, context, self);
     const frame = selectWidgetFrameSync(runtimeWidget, context, self);
 
@@ -33,10 +37,10 @@ class _RootWidget extends StatefulComponent<Props> {
       createElement<WidgetRendererProps>(
         WidgetRenderer,
         {
-          renderChild, nodes, frame,
+          renderChild: renderChild || defaultChildRenderFunc(fromParent), nodes, frame,
           widget: runtimeWidget,
-          style: { width: runtimeWidget.width, height: runtimeWidget.height },
-          renderFrame: defaultFrameRenderFunc(null),
+          style: style || { width: runtimeWidget.width, height: runtimeWidget.height },
+          renderFrame: renderFrame || defaultFrameRenderFunc(fromParent),
         }
       )
     )
@@ -49,3 +53,26 @@ const mapStateToProps = (state: CommonGameStore, ownProps: RootWidgetProps): Sto
 });
 
 export const RootWidget = connectToStore(mapStateToProps)(_RootWidget);
+
+export const defaultChildRenderFunc = (childProps: {}) => (node: RuntimeWidgetNode) => {
+  const childNodeStyle = selectNodeStyleSync(node, {} as StatefulComponent);
+
+  return createElement<RzElementPrimitiveProps>(
+      'container',
+      {
+          styles: { x: node.x, y: node.y, z_order: childNodeStyle.z_order },
+          id: node.id,
+          name: `node_${node.id}`
+      },
+      createElement<NodeFactoryProps>(NodeFactory, { data: node, fromParent: childProps })
+  );
+};
+
+export const defaultFrameRenderFunc =
+  (childProps: {}) =>
+      (widget: Widget) =>
+          createElement<StaticWidgetProps>(StaticWidget, {
+              widget,
+              style: { width: widget.width, height: widget.height },
+              fromParent: childProps
+          });

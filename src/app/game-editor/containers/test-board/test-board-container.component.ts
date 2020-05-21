@@ -28,6 +28,7 @@ import { getActiveWidget, selectExpressionContext } from '../../state';
       [rerunId]="rerunId" 
       [updateId]="updateId"
       [assets]="context?.conf?.images"
+      [sandbox]="runtimeDraftSandbox"
     ></rg-test-board-presentation>
 
     <ng-template #loadingTemp><strong>Loading...</ strong></ng-template>

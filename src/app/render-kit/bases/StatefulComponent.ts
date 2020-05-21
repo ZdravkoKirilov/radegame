@@ -21,7 +21,7 @@ export class StatefulComponent<P = {}, S = {}> {
         this.meta = meta;
     }
 
-    setState(state: Partial<S>) {
+    setState(state: Partial<S>, callback?: Function) {
 
         const current = this.state as any || {} as any;
         const next = { ...current, ...(state as any) || {} } as S;
@@ -29,6 +29,9 @@ export class StatefulComponent<P = {}, S = {}> {
             this.state = next as S;
             setTimeout(() => {
                 updateComponent(this, this.render());
+                if (callback) {
+                    callback();
+                }
                 if ('didUpdate' in this) {
                     this.didUpdate({
                         prev: { state: current, props: this.props },
@@ -38,10 +41,13 @@ export class StatefulComponent<P = {}, S = {}> {
             });
         } else {
             this.state = next as S;
+            if (callback) {
+                callback();
+            }
         }
     }
 
-    updateProps(props: Partial<P>) {
+    updateProps(props: Partial<P>, callback?: Function) {
         setTimeout(() => {
             const current = this.props || {} as P;
             const next = { ...(current as any), ...(props as any) } as P;
@@ -52,6 +58,9 @@ export class StatefulComponent<P = {}, S = {}> {
                 }
                 this.props = next;
                 updateComponent(this, this.render());
+                if (callback) {
+                    callback();
+                }
                 if ('didUpdate' in this) {
                     this.didUpdate({
                         prev: { state: this.state, props: current },
@@ -60,6 +69,9 @@ export class StatefulComponent<P = {}, S = {}> {
                 }
             } else {
                 this.props = next;
+                if (callback) {
+                    callback();
+                }
             }
         });
     }

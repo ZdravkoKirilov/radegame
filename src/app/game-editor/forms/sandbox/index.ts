@@ -14,15 +14,15 @@ export const composeSandboxLimitedForm = (data: Sandbox, type: SandboxType, canS
       <TextInput name='node' label='Node' readonly='{true}' hidden='{${!canSwitchTypes}}'>{data.node}</TextInput>
       <TextInput name='module' label='Module' readonly='{true}' hidden='{${!canSwitchTypes}}'>{data.module}</TextInput>
 
-      <CodeEditor name='preload' label='Load data' hidden='{${type !== SandboxType.module}}'>{data.preload}</CodeEditor>
-      <CodeEditor name='load_done' label='Is load done' hidden='{${type !== SandboxType.module}}'>{data.load_done}</CodeEditor>
+      <CodeEditor name='on_init' label='On init'>{data.on_init}</CodeEditor>
 
       <CodeEditor name='global_state' label='Global state'>{data.global_state}</CodeEditor>
       <CodeEditor name='own_data' label='Own data'>{data.own_data}</CodeEditor>
-      <CodeEditor name='on_init' label='On init'>{data.on_init}</CodeEditor>
+
+      <CodeEditor name='preload' label='Load data' hidden='{${type !== SandboxType.module}}'>{data.preload}</CodeEditor>
+      <CodeEditor name='load_done' label='Is load done' hidden='{${type !== SandboxType.module}}'>{data.load_done}</CodeEditor>
 
       <CodeEditor name='from_parent' label='From parent' hidden='{${type === SandboxType.module}}'>{data.from_parent}</CodeEditor>
-      <CodeEditor name='emulated_node' label='Emulated node' hidden='{${type !== SandboxType.widget}}'>{data.emulated_node}</CodeEditor>
 
     </Form>
     `;

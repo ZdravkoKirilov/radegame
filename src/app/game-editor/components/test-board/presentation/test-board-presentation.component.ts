@@ -1,10 +1,11 @@
 import { Component, Input, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
+import isFunction from 'lodash/isFunction';
 
-import { MountRef, updateWithNewProps, findInDescendants, StatefulComponent } from '@app/render-kit';
+import { MountRef, updateWithNewProps } from '@app/render-kit';
 import { OnChange, WindowRefService, Dictionary } from '@app/shared';
 import { AppState } from '@app/core';
-import { Widget, Module, RuntimeSandbox, RuntimeWidgetNode, GraphicWidgetNode, } from '@app/game-mechanics';
+import { Widget, Module, RuntimeSandbox, RuntimeWidgetNode, } from '@app/game-mechanics';
 import { mountPixi } from '@app/engines/pixi';
 
 import { EditorSandboxRoot, EditorSandboxRootProps } from '../../../graphics';
@@ -37,48 +38,34 @@ export class TestBoardPresentationComponent {
     const self: TestBoardPresentationComponent = this;
     const { mountRef, sandbox } = self;
     if (mountRef && !meta.firstChange && sandbox) {
-      let newProps = { fromParent: sandbox?.from_parent() || {} };
-      updateWithNewProps<UpdatableProps>(mountRef.component, newProps);
-      self.updateEmulatedNode();
+      if (sandbox.from_parent) {
+        let newProps = { fromParent: sandbox?.from_parent() };
+        updateWithNewProps<UpdatableProps>(mountRef.component, newProps);
+      }
     }
   })
   @Input() updateId: number;
 
   @OnChange(async function () {
     const self: TestBoardPresentationComponent = this;
+    const domHost = this.canvasWrapper.nativeElement;
+    const fromParent = isFunction(self.sandbox?.from_parent) ? self.sandbox.from_parent() : null;
+
     if (self.mountRef) {
       self.mountRef.destroy();
     }
-    const domHost = this.canvasWrapper.nativeElement;
-    const { widget, module, node } = self;
-    const fromParent = self.sandbox?.from_parent();
+
     self.mountRef = await mountPixi<EditorSandboxRootProps>(EditorSandboxRoot, domHost, {
       width: self.windowRef.nativeWindow.innerWidth,
       height: self.windowRef.nativeWindow.innerHeight,
       props: {
-        widget, module, node, fromParent, store: self.store,
+        widget: self.widget, module: self.module, node: self.node, fromParent, store: self.store,
         selectCommonGameStore,
       },
       assets: new Set(Object.values(self.assets || {})),
     });
-    self.updateEmulatedNode();
     window['pixiroot'] = self.mountRef.component;
   })
   @Input() rerunId: number;
-
-  updateEmulatedNode() {
-    const { widget, sandbox, mountRef } = this;
-    if (widget && sandbox && mountRef) {
-      const emulated_node = sandbox.emulated_node();
-      if (emulated_node) {
-        const widgetNode = findInDescendants<StatefulComponent>(mountRef.component)(GraphicWidgetNode);
-        if (widgetNode) {
-          widgetNode.updateProps({
-            data: emulated_node
-          });
-        }
-      }
-    }
-  }
 
 }

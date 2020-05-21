@@ -6,7 +6,6 @@ import { connectToStore } from "../../hocs";
 
 import { DataLoader, DataLoaderProps } from "./DataLoader";
 import { RootWidgetProps, RootWidget } from "./RootWidget";
-import { defaultChildRenderFunc } from "./WidgetNode";
 import { DefaultLoader } from "../presentational";
 
 type StoreProps = {
@@ -23,7 +22,7 @@ type Props = StoreProps & ModuleRendererProps;
 const moduleRenderer = Memo<Props>(({ runtimeModule, fromParent }) => {
   const fallback = runtimeModule.loader ? createElement<RootWidgetProps>(
     RootWidget,
-    { widget: runtimeModule.loader, renderChild: defaultChildRenderFunc(null) },
+    { widget: runtimeModule.loader },
   ) : createElement(DefaultLoader);
 
   return createElement<DataLoaderProps>(
@@ -37,7 +36,6 @@ const moduleRenderer = Memo<Props>(({ runtimeModule, fromParent }) => {
       RootWidget,
       {
         widget: runtimeModule.board, fromParent,
-        renderChild: defaultChildRenderFunc(null),
       }
     )
   );
