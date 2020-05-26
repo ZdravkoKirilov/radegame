@@ -38,6 +38,10 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/modules/`;
         return moduleId ? `${base}${moduleId}/` : base;
     },
+    SANDBOXES: (gameId: number, sandboxId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/sandboxes/`;
+        return sandboxId ? `${base}${sandboxId}/` : base;
+    },
     CHOICES: (gameId: number, choiceId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/choices/`;
         return choiceId ? `${base}${choiceId}/` : base;

@@ -45,6 +45,7 @@ import { TestBoardContainerComponent } from './containers/test-board/test-board-
 import { TestBoardHeaderComponent } from './components/test-board/header/test-board-header.component';
 import { TestBoardStateComponent } from './components/test-board/state-mocks/test-board-state.component';
 import { TestBoardPresentationComponent } from './components/test-board/presentation/test-board-presentation.component';
+import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-container.component';
 
 @NgModule({
     imports: [
@@ -101,6 +102,7 @@ import { TestBoardPresentationComponent } from './components/test-board/presenta
         TestBoardHeaderComponent,
         TestBoardStateComponent,
         TestBoardPresentationComponent,
+        SandboxesContainerComponent,
     ]
 })
 export class GameEditorModule {

@@ -4,7 +4,7 @@
         [showEditor]="visibleEditor" (cancel)="closeEditors()" (save)="saveEntity()">
     </rg-edit-header>
 
-    <rg-board-toolbar [class.hidden]="visibleEditor" [selectedNode]="!!selectedNode"
+    <rg-board-toolbar [class.hidden]="visibleEditor" [selectedNode]="selectedNode"
         (showNodeEditor)="toggleNodeEditor(true)" (deleteNode)="handleDeleteNode()"
         (changeView)="changeViewMode($event)"></rg-board-toolbar>
 
@@ -19,7 +19,5 @@
     <rg-entity-list [ngClass]="{'hidden': visibleEditor || viewMode === 'board'}" [items]="nodes"
         [connectedEntities]="entities" (editItem)="editNode($event)" (removeItem)="deleteNode.emit($event)">
     </rg-entity-list>
-
-
 
 </rg-editor-layout>

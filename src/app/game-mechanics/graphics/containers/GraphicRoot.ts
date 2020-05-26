@@ -1,13 +1,13 @@
 import { Memo, createElement, RzElement } from "@app/render-kit";
 
 import { CommonGameStore, selectRuntimeGame, selectExpressionContext, selectModuleFromGameSync } from "../../helpers";
-import { Module, Widget, RuntimeWidgetNode } from "../../entities";
+import { Module, Widget, WidgetNode, RuntimeWidgetNode } from "../../entities";
 import { Game, RuntimeGame, ExpressionContext } from "../../models";
 import { connectToStore } from "../../hocs";
 
 import { RootWidgetProps, RootWidget } from "./RootWidget";
 import { ModuleRenderer, ModuleRendererProps } from "./ModuleRenderer";
-import WidgetNode, { EnhancedWidgetNodeProps } from "./WidgetNode";
+import { RootNode, RootNodeProps } from './RootNode';
 
 type StoreProps = {
   runtimeGame: RuntimeGame;
@@ -18,7 +18,7 @@ export type GraphicRootRendererProps = Partial<{
   game: Game;
   module: Module;
   widget: Widget;
-  node: RuntimeWidgetNode;
+  node: WidgetNode;
 
   fromParent: {},
   renderWidgetChild?: (node: RuntimeWidgetNode) => RzElement;
@@ -40,9 +40,9 @@ const graphicRootRenderer = Memo<Props>(props => {
   }
 
   if (node) {
-    return createElement<EnhancedWidgetNodeProps>(
-      WidgetNode,
-      { data: node, fromParent }
+    return createElement<RootNodeProps>(
+      RootNode,
+      { node, fromParent }
     )
   }
 

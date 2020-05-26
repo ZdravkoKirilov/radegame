@@ -36,7 +36,7 @@ export class TextPreviewComponent {
     const context: ExpressionContext = this.context;
     const component = mount ? mount.component as RootComponent : null;
     if (component && text && context) {
-      const runtimeText = enrichText(context.conf, context, text);
+      const runtimeText = enrichText(context, text);
       const textStyle = combineStyles(runtimeText);
       component.updateProps({ text: runtimeText, style: textStyle, translation: this.translationId });
     }

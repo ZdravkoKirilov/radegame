@@ -4,7 +4,6 @@ import { ExpressionFunc } from './Expression.model';
 import { Widget } from './Widget.model';
 
 export type Module = BaseModel & WithBoard & Partial<{
-    phases: Phase[]; // Phase[]
 
     preload: string;
     load_done: string;
@@ -17,15 +16,3 @@ export type RuntimeModule = Module & Omit<Module, 'preload' | 'load_done' | 'loa
     loader: Widget;
     board: Widget;
 };
-
-export type Phase = Partial<{
-    id: number;
-    owner: number;
-    
-    name: string;
-    description: string;
-    keywords: string;
-
-    done: string; // Expression
-    image: number; // ImageAsset
-}>;

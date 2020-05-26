@@ -6,7 +6,6 @@ import {
 
 export function composeModuleForm(data: Module, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
-    const phases = data.phases || [];
 
     const template = `
     <Form>
@@ -21,22 +20,6 @@ export function composeModuleForm(data: Module, ent: ConnectedEntities): BaseCon
             {data.load_done}
         </CodeEditor>
 
-        <Group name='phases' label='Phases' children='{phases}' item='@item' addButtonText='Add'>
-            <Form>
-                <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
-
-                <TextInput name='name' required='{true}' label='Name'>{@item.name}</TextInput>
-                <TextInput name='description' label='Description'>{@item.description}</TextInput>
-
-                <CodeEditor name='done' label='Done if'>
-                    {@item.done}
-                </CodeEditor>
-
-                <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>{@item.image}</Dropdown>
-
-            </Form>
-        </Group>
-
     </Form>
 `;
 
@@ -44,7 +27,7 @@ export function composeModuleForm(data: Module, ent: ConnectedEntities): BaseCon
         source: template,
         context: {
             ...composeCommonFormContext(data, ent),
-            data, phases
+            data
         },
     }, true);
 

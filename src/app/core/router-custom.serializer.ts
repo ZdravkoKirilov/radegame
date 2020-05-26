@@ -2,6 +2,8 @@ import { Params, RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
 import { Injectable } from "@angular/core";
 
+import { SandboxType } from '@app/game-mechanics';
+
 export interface RouterStateUrl {
   url: string;
   params: Params;
@@ -12,6 +14,7 @@ export interface RouterStateUrl {
 export type CustomRouteData = Partial<{
   title: string;
   hide_game_warning: boolean;
+  sandbox_type: SandboxType;
 }>;
 
 @Injectable()

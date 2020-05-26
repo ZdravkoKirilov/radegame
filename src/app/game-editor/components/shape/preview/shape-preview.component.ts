@@ -22,7 +22,7 @@ export class ShapePreviewComponent implements OnInit {
     const context: ExpressionContext = this.context;
     const component = mount ? mount.component as StatefulComponent : null;
     if (component && shape && context) {
-      const runtimeShape = enrichShape(context.conf, context, shape);
+      const runtimeShape = enrichShape(context, shape);
       const shapeStyle = combineStyles(runtimeShape);
       component.updateProps({ shape: runtimeShape, style: shapeStyle });
     }

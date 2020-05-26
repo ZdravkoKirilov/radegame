@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { API_URLS } from '../../config';
 import {
 	Widget, Module, Token, Choice, ImageAsset,
-	Game, Expression, Animation, Setup, GameTemplate
+	Game, Expression, Animation, Setup, GameTemplate, Sandbox
 } from '@app/game-mechanics';
 
 
@@ -63,5 +63,9 @@ export class GameFetchService {
 
 	getSetups(gameId: number) {
 		return this.http.get<Setup[]>(API_URLS.SETUPS(gameId));
+	}
+
+	getSandboxes(gameId: number) {
+		return this.http.get<Sandbox[]>(API_URLS.SANDBOXES(gameId));
 	}
 }

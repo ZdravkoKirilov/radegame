@@ -1,6 +1,8 @@
 import { Routes } from '@angular/router';
 
 import { ROUTER_PARAMS } from '@app/shared';
+import { CustomRouteData } from '@app/core';
+import { SandboxType } from '@app/game-mechanics';
 
 import {
     EditorContainerComponent,
@@ -19,6 +21,7 @@ import { TextsContainerComponent } from './containers/texts/texts-container.comp
 import { SonatasContainerComponent } from './containers/sonata/sonatas-container.component';
 import { ShapesContainerComponent } from './containers/shapes/shapes-container.component';
 import { TestBoardContainerComponent } from './containers/test-board/test-board-container.component';
+import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-container.component';
 
 export const routes: Routes = [
     {
@@ -36,12 +39,36 @@ export const routes: Routes = [
         },
         children: [
             {
-                path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/map`,
+                path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/stage`,
                 component: BoardContainerComponent,
                 pathMatch: 'full'
             },
             {
                 path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/live-test`,
+                component: TestBoardContainerComponent,
+                pathMatch: 'full',
+                data: <CustomRouteData>{
+                    sandbox_type: SandboxType.widget
+                }
+            },
+            {
+                path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/nodes/:${ROUTER_PARAMS.NODE_ID}/live-test`,
+                component: TestBoardContainerComponent,
+                pathMatch: 'full',
+                data: <CustomRouteData>{
+                    sandbox_type: SandboxType.node
+                }
+            },
+            {
+                path: `modules/:${ROUTER_PARAMS.MODULE_ID}/live-test`,
+                component: TestBoardContainerComponent,
+                pathMatch: 'full',
+                data: <CustomRouteData>{
+                    sandbox_type: SandboxType.module
+                }
+            },
+            {
+                path: `sandboxes/:${ROUTER_PARAMS.SANDBOX_ID}/live-test`,
                 component: TestBoardContainerComponent,
                 pathMatch: 'full',
             },
@@ -55,6 +82,10 @@ export const routes: Routes = [
             {
                 path: 'widgets',
                 component: WidgetsContainerComponent,
+            },
+            {
+                path: 'sandboxes',
+                component: SandboxesContainerComponent,
             },
             {
                 path: 'choices',

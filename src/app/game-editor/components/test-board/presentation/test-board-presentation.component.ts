@@ -5,7 +5,7 @@ import isFunction from 'lodash/isFunction';
 import { MountRef, updateWithNewProps } from '@app/render-kit';
 import { OnChange, WindowRefService, Dictionary } from '@app/shared';
 import { AppState } from '@app/core';
-import { Widget, Module, RuntimeSandbox, RuntimeWidgetNode, } from '@app/game-mechanics';
+import { Widget, Module, RuntimeSandbox, WidgetNode, } from '@app/game-mechanics';
 import { mountPixi } from '@app/engines/pixi';
 
 import { EditorSandboxRoot, EditorSandboxRootProps } from '../../../graphics';
@@ -13,7 +13,6 @@ import { selectCommonGameStore } from "../../../state";
 
 type UpdatableProps = Partial<{
   fromParent: {},
-  data: Partial<RuntimeWidgetNode>,
 }>
 @Component({
   selector: 'rg-test-board-presentation',
@@ -28,7 +27,7 @@ export class TestBoardPresentationComponent {
 
   @Input() widget: Widget;
   @Input() module: Module;
-  @Input() node: RuntimeWidgetNode;
+  @Input() node: WidgetNode;
 
   @Input() assets: Dictionary;
 
@@ -54,12 +53,16 @@ export class TestBoardPresentationComponent {
     if (self.mountRef) {
       self.mountRef.destroy();
     }
-
+ 
     self.mountRef = await mountPixi<EditorSandboxRootProps>(EditorSandboxRoot, domHost, {
       width: self.windowRef.nativeWindow.innerWidth,
       height: self.windowRef.nativeWindow.innerHeight,
       props: {
-        widget: self.widget, module: self.module, node: self.node, fromParent, store: self.store,
+        widget: self.widget,
+        module: self.module,
+        node: self.node,
+        fromParent,
+        store: self.store,
         selectCommonGameStore,
       },
       assets: new Set(Object.values(self.assets || {})),

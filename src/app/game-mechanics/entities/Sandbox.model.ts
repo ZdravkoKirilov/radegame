@@ -15,7 +15,6 @@ export enum SandboxType {
 
 export type Sandbox = BaseModel & WithKeywords & Partial<{
   /* shared */
-  type: SandboxType;
   global_state: string;
   own_data: string; // player data, preferences
   on_init: string; // assertions may go here

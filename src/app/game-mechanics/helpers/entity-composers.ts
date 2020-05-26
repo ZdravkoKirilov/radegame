@@ -5,9 +5,10 @@ import {
 } from "../entities";
 import { Dictionary, safeJSON } from "@app/shared";
 import { enrichEntity, parseAndBind } from "./misc";
-import { Game, RuntimeGame } from "../models";
+import { Game, RuntimeGame, ExpressionContext } from "../models";
 
-export const enrichNode = (config: Dictionary<GameEntity>, context: Dictionary, initialNode: WidgetNode) => {
+export const enrichNode = (context: ExpressionContext, initialNode: WidgetNode) => {
+    const config = context.conf;
     const node = enrichEntity<WidgetNode, RuntimeWidgetNode>(config, {
         style: src => parseAndBind(context)(src),
         style_inline: value => safeJSON(value, null),
@@ -25,7 +26,8 @@ export const enrichNode = (config: Dictionary<GameEntity>, context: Dictionary, 
     return node;
 };
 
-export const enrichHandler = (config: Dictionary<GameEntity>, context: Dictionary, handler: NodeHandler) => {
+export const enrichHandler = (context: ExpressionContext, handler: NodeHandler) => {
+    const config = context.conf;
     return enrichEntity<NodeHandler, RuntimeNodeHandler>(config, {
         effect: src => parseAndBind(context)(src),
         sound: src => parseAndBind(context)(src),
@@ -33,15 +35,16 @@ export const enrichHandler = (config: Dictionary<GameEntity>, context: Dictionar
     }, handler);
 };
 
-export const enrichLifecycle = (config: Dictionary<GameEntity>, context: Dictionary, lifecycle: NodeLifecycle) => {
-    return enrichEntity<NodeLifecycle, RuntimeNodeLifecycle>(config, {
+export const enrichLifecycle = (context: ExpressionContext, lifecycle: NodeLifecycle) => {
+    return enrichEntity<NodeLifecycle, RuntimeNodeLifecycle>(context.conf, {
         effect: src => parseAndBind(context)(src),
         sound: src => parseAndBind(context)(src),
         static_sound: 'sonatas',
     }, lifecycle);
 };
 
-export const enrichTransition = (config: Dictionary<GameEntity>, context: Dictionary, transition: Transition) => {
+export const enrichTransition = (context: ExpressionContext, transition: Transition) => {
+    const config = context.conf;
     return enrichEntity<Transition, RuntimeTransition>(config, {
         animation: (animationId: string) => enrichEntity<Animation, RuntimeAnimation>(config, {
             steps: (item: AnimationStep) => enrichEntity<AnimationStep, RuntimeAnimationStep>(config, {
@@ -56,39 +59,40 @@ export const enrichTransition = (config: Dictionary<GameEntity>, context: Dictio
     }, transition);
 };
 
-export const enrichFrame = (config: Dictionary<GameEntity>, context: Dictionary, frame: ImageFrame) => {
-    return enrichEntity<ImageFrame, RuntimeImageFrame>(config, {
+export const enrichFrame = (context: ExpressionContext, frame: ImageFrame) => {
+    return enrichEntity<ImageFrame, RuntimeImageFrame>(context.conf, {
         widget: 'widgets',
         image: 'images',
         style: src => parseAndBind(context)(src)
     }, frame);
 };
 
-export const enrichWidget = (config: Dictionary<GameEntity>, context: Dictionary, widget: Widget) => {
-    return enrichEntity<Widget, RuntimeWidget>(config, {
+export const enrichWidget = (context: ExpressionContext, widget: Widget) => {
+    return enrichEntity<Widget, RuntimeWidget>(context.conf, {
         node_getter: src => parseAndBind(context)(src),
         frame_getter: src => parseAndBind(context)(src),
     }, widget);
 };
 
-export const enrichShape = (config: Dictionary<GameEntity>, context: Dictionary, shape: Shape) => {
-    return enrichEntity<Shape, RuntimeShape>(config, {
+export const enrichShape = (context: ExpressionContext, shape: Shape) => {
+    return enrichEntity<Shape, RuntimeShape>(context.conf, {
         style: src => parseAndBind(context)(src),
         style_inline: src => safeJSON(src, {}),
     }, shape);
 };
 
-export const enrichText = (config: Dictionary<GameEntity>, context: Dictionary, text: Text) => {
-    return enrichEntity<Text, RuntimeText>(config, {
+export const enrichText = (context: ExpressionContext, text: Text) => {
+    return enrichEntity<Text, RuntimeText>(context.conf, {
         style_inline: src => safeJSON(src, {}),
         style: src => parseAndBind(context)(src)
     }, text)
 };
 
-export const enrichItem = (config: Dictionary<GameEntity>, context: Dictionary, item: NodeItem) => {
+export const enrichItem = (context: ExpressionContext, item: NodeItem) => {
+    const config = context.conf;
     return enrichEntity<NodeItem, RuntimeNodeItem>(config, {
         token: tokenId => enrichToken(config, config.tokens[tokenId]),
-        choice: choiceId => enrichChoice(config, context, config.choices[choiceId]),
+        choice: choiceId => enrichChoice(context, config.choices[choiceId]),
     }, item);
 };
 
@@ -101,9 +105,9 @@ export const enrichToken = (config: Dictionary<GameEntity>, token: Token) => {
     return null;
 };
 
-export const enrichGame = (config: Dictionary<GameEntity>, context: Dictionary, game: Game) => {
+export const enrichGame = (context: ExpressionContext, game: Game) => {
     if (game) {
-        return enrichEntity<Game, RuntimeGame>(config, {
+        return enrichEntity<Game, RuntimeGame>(context.conf, {
             menu: 'modules',
             get_active_module: src => parseAndBind(context)(src),
         }, game);
@@ -111,33 +115,41 @@ export const enrichGame = (config: Dictionary<GameEntity>, context: Dictionary, 
     return null;
 };
 
-export const enrichSandbox = (context: Dictionary, sandbox: Sandbox) => {
+export const enrichSandbox = (context: ExpressionContext, sandbox: Sandbox) => {
     if (sandbox) {
-        return enrichEntity<Sandbox, RuntimeSandbox>(context.config, {
+        return enrichEntity<Sandbox, RuntimeSandbox>(context.conf, {
             global_state: src => parseAndBind(context)(src),
             own_data: src => parseAndBind(context)(src),
             on_init: src => parseAndBind(context)(src),
             preload: src => parseAndBind(context)(src),
             from_parent: src => parseAndBind(context)(src),
+            node: nodeId => {
+                const widgets: Widget[] = Object.values(context?.conf?.widgets || {});
+                const result = widgets
+                    .reduce((total, widget) => {
+                        return [...total, ...widget.nodes];
+                    }, [])
+                    .find(elem => elem.id === nodeId);
+                return result;
+            },
             widget: 'widgets',
             module: 'modules',
-            node: 'slots',
         }, sandbox);
     }
     return null;
 };
 
-export const enrichChoice = (config: Dictionary<GameEntity>, context: Dictionary, choice: Choice) => {
+export const enrichChoice = (context: ExpressionContext, choice: Choice) => {
     if (choice) {
-        return enrichEntity<Choice, RuntimeChoice>(config, {
+        return enrichEntity<Choice, RuntimeChoice>(context.conf, {
             template: 'widgets',
         }, choice);
     }
     return null;
 };
 
-export const enrichModule = (config: Dictionary<GameEntity>, context: Dictionary, module: Module) => {
-    return enrichEntity<Module, RuntimeModule>(config, {
+export const enrichModule = (context: ExpressionContext, module: Module) => {
+    return enrichEntity<Module, RuntimeModule>(context.conf, {
         board: 'widgets',
         loader: 'widgets',
         preload: src => parseAndBind(context)(src),

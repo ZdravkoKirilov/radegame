@@ -3,13 +3,13 @@ import { Store, select } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { Sandbox, ExpressionContext, Widget, RuntimeSandbox, enrichSandbox } from '@app/game-mechanics';
+import { Sandbox, ExpressionContext, Widget, RuntimeSandbox, enrichSandbox, SandboxType, WidgetNode, Module, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
 import { FormDefinition } from '@app/dynamic-forms';
 import { AppState } from '@app/core';
-import { AutoUnsubscribe, OnChange } from '@app/shared';
+import { AutoUnsubscribe, OnChange, selectRouteData, selectGameId } from '@app/shared';
 
 import { composeSandboxLimitedForm } from '../../forms';
-import { getActiveWidget, selectExpressionContext } from '../../state';
+import { getActiveWidget, selectExpressionContext, getActiveNode, getActiveModule, getActiveSandbox, FetchItemsAction } from '../../state';
 
 @AutoUnsubscribe()
 @Component({
@@ -24,7 +24,9 @@ import { getActiveWidget, selectExpressionContext } from '../../state';
     </rg-test-board-state>
     <rg-test-board-presentation 
       *ngIf="rerunId > 0; else loadingTemp" 
-      [widget]="widget" 
+      [widget]="widget || runtimeDraftSandbox?.widget"
+      [node]="node || runtimeDraftSandbox?.node"
+      [module]="module || runtimeDraftSandbox?.module"
       [rerunId]="rerunId" 
       [updateId]="updateId"
       [assets]="context?.conf?.images"
@@ -50,6 +52,9 @@ import { getActiveWidget, selectExpressionContext } from '../../state';
 })
 export class TestBoardContainerComponent implements OnInit {
   data$: Subscription;
+  gameId$: Subscription;
+
+  sandboxType: SandboxType;
 
   form: FormDefinition = composeSandboxLimitedForm;
   savedSandbox: Sandbox;
@@ -64,6 +69,8 @@ export class TestBoardContainerComponent implements OnInit {
 
   context: ExpressionContext;
   widget: Widget;
+  node: WidgetNode;
+  module: Module;
 
   updateId = 0;
   rerunId = 0;
@@ -74,16 +81,33 @@ export class TestBoardContainerComponent implements OnInit {
 
     this.data$ = combineLatest(
       this.store.pipe(select(getActiveWidget)),
+      this.store.pipe(select(getActiveNode)),
+      this.store.pipe(select(getActiveModule)),
+      this.store.pipe(select(getActiveSandbox)),
       this.store.pipe(map(state => selectExpressionContext(state))), // TODO: we probably don't need the limited editor context),
+      this.store.pipe(select(selectRouteData), map(data => data.sandbox_type))
     ).pipe(
-      filter(results => results.every(Boolean)),
-      map(([widget, context]) => {
+      filter(([widget, node, module, sandbox, context]) => {
+        return (widget || node || module || sandbox) && !!context;
+      }),
+      map(([widget, node, module, sandbox, context, sandboxType]) => {
         this.context = context;
-        this.widget = widget;
+        this.widget = sandboxType === SandboxType.widget ? widget : null;
+        this.node = node;
+        this.module = module;
 
-        this.savedSandbox = {};
+        this.savedSandbox = { ...(sandbox || {}) };
         this.draftSandbox = { ...this.savedSandbox };
       })
+    ).subscribe();
+
+    this.gameId$ = this.store.pipe(
+      select(selectGameId),
+      map(gameId => {
+        this.store.dispatch(
+          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: gameId })
+        );
+      }),
     ).subscribe();
   }
 

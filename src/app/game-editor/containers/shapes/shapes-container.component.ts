@@ -7,7 +7,7 @@ import { ALL_ENTITIES } from '@app/game-mechanics';
 
 import { SmartBase } from '../../mixins';
 import { composeShapeForm } from '../../forms';
-import { selectExpressionContext } from '../../state'
+import { selectExpressionContext } from '../../state';
 
 @Component({
   selector: 'rg-shapes-container',

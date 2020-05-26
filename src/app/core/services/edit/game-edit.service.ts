@@ -4,7 +4,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
     Game, Module, Choice, Widget, Token, Animation, ImageAsset, Style,
-    Sound, Expression, Setup, Transition, Text, Sonata, Shape, WidgetNode,
+    Sound, Expression, Setup, Transition, Text, Sonata, Shape, WidgetNode, Sandbox,
 } from '@app/game-mechanics';
 
 import { API_URLS } from '../../config';
@@ -14,6 +14,18 @@ import { toMultipartFormData } from '@app/shared';
 export class GameEditService {
 
     constructor(private http: HttpClient) {
+    }
+
+    saveSandbox(data: Sandbox) {
+        if (data.id) {
+            return this.http.patch<Sandbox>(API_URLS.SANDBOXES(data.game, data.id), data);
+        } else {
+            return this.http.post<Sandbox>(API_URLS.SANDBOXES(data.game), data);
+        }
+    }
+
+    deleteSandbox(data: Sandbox): Observable<any> {
+        return this.http.delete(API_URLS.SANDBOXES(data.game, data.id));
     }
 
     saveTransition(data: Transition): Observable<any> {

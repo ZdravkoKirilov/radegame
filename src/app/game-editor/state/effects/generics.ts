@@ -6,7 +6,7 @@ import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, Module, Token, Choice, Game, ImageAsset, Widget, WidgetNode, Style, Setup,
-    AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape
+    AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape, Sandbox
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess, FetchItemAction, FetchItemSuccessAction, FetchItemFailAction, FetchItemsFailAction } from '../actions';
 import {
@@ -133,7 +133,6 @@ export class GenericEffectsService {
         ofType(actionTypes.DELETE_ITEM),
         map((action: DeleteItemAction) => action.payload),
         mergeMap((payload: GenericActionPayload) => {
-            debugger;
             const data = <GameEntity>payload.data;
             const key = <AllEntity>payload.key;
             return this.deleteRequest(key, data).pipe(
@@ -177,6 +176,8 @@ export class GenericEffectsService {
                 return this.fetcher.getTokens(data);
             case ALL_ENTITIES.images:
                 return this.fetcher.getImages(data);
+            case ALL_ENTITIES.sandboxes:
+                return this.fetcher.getSandboxes(data);
             case ALL_ENTITIES.games:
                 return this.fetcher.getGames();
             default:
@@ -186,6 +187,8 @@ export class GenericEffectsService {
 
     saveRequest(key: AllEntity, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
+            case ALL_ENTITIES.sandboxes:
+                return this.api.saveSandbox(<Sandbox>entity);
             case ALL_ENTITIES.modules:
                 return this.api.saveModule(<Module>entity);
             case ALL_ENTITIES.widgets:
@@ -228,6 +231,8 @@ export class GenericEffectsService {
 
     deleteRequest(key: AllEntity, entity: GameEntity): Observable<GameEntity> {
         switch (key) {
+            case ALL_ENTITIES.sandboxes:
+                return this.api.deleteSandbox(<Sandbox>entity);
             case ALL_ENTITIES.modules:
                 return this.api.deleteModule(<Module>entity);
             case ALL_ENTITIES.widgets:
