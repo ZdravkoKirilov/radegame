@@ -6,7 +6,6 @@ import { MountRef, updateWithNewProps } from '@app/render-kit';
 import { OnChange, WindowRefService, Dictionary } from '@app/shared';
 import { AppState } from '@app/core';
 import { Widget, Module, RuntimeSandbox, WidgetNode, } from '@app/game-mechanics';
-import { mountPixi } from '@app/engines/pixi';
 
 import { EditorSandboxRoot, EditorSandboxRootProps } from '../../../graphics';
 import { selectCommonGameStore } from "../../../state";
@@ -53,8 +52,9 @@ export class TestBoardPresentationComponent {
     if (self.mountRef) {
       self.mountRef.destroy();
     }
- 
-    self.mountRef = await mountPixi<EditorSandboxRootProps>(EditorSandboxRoot, domHost, {
+
+    const pixiEngine = await import('@app/engines/pixi');
+    self.mountRef = await pixiEngine.mountPixi<EditorSandboxRootProps>(EditorSandboxRoot, domHost, {
       width: self.windowRef.nativeWindow.innerWidth,
       height: self.windowRef.nativeWindow.innerHeight,
       props: {

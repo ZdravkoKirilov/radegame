@@ -2,7 +2,6 @@ import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 
 import { combineStyles, ExpressionContext, Text, enrichText } from '@app/game-mechanics';
 import { MountRef } from '@app/render-kit';
-import { mountPixi } from '@app/engines/pixi';
 import { OnChange } from '@app/shared';
 
 import RootComponent from '../graphics/root';
@@ -66,7 +65,8 @@ export class TextPreviewComponent {
 
   async mountWidget() {
     const domHost = this.canvasWrapper.nativeElement;
-    this.mount = await mountPixi(RootComponent, domHost, {
+    const pixiEngine = await import('@app/engines/pixi');
+    this.mount = await pixiEngine.mountPixi(RootComponent, domHost, {
       width: 500,
       height: 500,
       props: {

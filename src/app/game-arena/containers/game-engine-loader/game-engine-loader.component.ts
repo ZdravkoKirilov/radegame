@@ -3,7 +3,6 @@ import { Store } from '@ngrx/store';
 
 import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
-import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService } from '@app/shared';
 import { Module, Game } from '@app/game-mechanics';
 
@@ -40,8 +39,8 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
 
   async initializeGame() {
     const domHost = this.canvasWrapper.nativeElement;
-
-    this.mount = await mountPixi<GameArenaRootProps>(GameArenaRoot, domHost, {
+		const pixiEngine = await import('@app/engines/pixi');
+    this.mount = await pixiEngine.mountPixi<GameArenaRootProps>(GameArenaRoot, domHost, {
       width: this.windowRef.nativeWindow.innerWidth,
       height: this.windowRef.nativeWindow.innerHeight,
       props: { store: this.store, module: this.module, game: this.game },

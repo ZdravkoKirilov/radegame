@@ -6,7 +6,6 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
-import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService, OnChange } from '@app/shared';
 import { MountRef, updateComponent, RenderFunction } from '@app/render-kit';
 import { WidgetNode, ImageAsset, Widget } from '@app/game-mechanics';
@@ -52,7 +51,9 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 	async ngOnInit() {
 		const { _selectNode, widget } = this;
 		const domHost = this.canvasWrapper.nativeElement;
-		this.mount = await mountPixi(ConnectedRootComponent, domHost, {
+		const pixiEngine = await import('@app/engines/pixi');
+
+		this.mount = await pixiEngine.mountPixi(ConnectedRootComponent, domHost, {
 			width: this.windowRef.nativeWindow.innerWidth,
 			height: this.windowRef.nativeWindow.innerHeight,
 			props: {

@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
+
 import { combineStyles, Shape, enrichShape, ExpressionContext } from '@app/game-mechanics';
 import { MountRef, StatefulComponent } from '@app/render-kit';
-import { mountPixi } from '@app/engines/pixi';
 import { OnChange } from '@app/shared';
 
 import RootComponent from '../graphics/root';
@@ -41,7 +41,8 @@ export class ShapePreviewComponent implements OnInit {
 
   async mountWidget() {
     const domHost = this.canvasWrapper.nativeElement;
-    this.mount = await mountPixi(RootComponent, domHost, {
+    const pixiEngine = await import('@app/engines/pixi');
+    this.mount = await pixiEngine.mountPixi(RootComponent, domHost, {
       width: 500,
       height: 500,
       props: {
