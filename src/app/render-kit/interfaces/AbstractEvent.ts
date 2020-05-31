@@ -1,10 +1,10 @@
-import { BasicComponent } from "../bases";
-import { Component, RzPoint } from "../models";
-import { RzEventTypes } from "../helpers";
+import { BasicComponent, Component, RzPoint, RzEventTypes } from "../internal";
 
 export abstract class AbstractEventManager {
     abstract assignEvents(comp: BasicComponent): void;
     abstract removeListeners(comp: BasicComponent): void;
+
+    abstract focusComponent(comp: BasicComponent, event?: unknown): void;
 };
 
 export interface GenericEvent extends Partial<EventOptionalProps> {

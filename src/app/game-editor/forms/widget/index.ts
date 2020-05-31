@@ -18,6 +18,10 @@ export function composeWidgetForm(data: Widget, ent: ConnectedEntities): BaseCon
                 {data.node_getter}
             </CodeEditor>
 
+            <CodeEditor name="render" label="Render">
+                {data.render}
+            </CodeEditor>
+
             ${framesTemplate}
 
             <CodeEditor name="frame_getter" label="Get frame via">

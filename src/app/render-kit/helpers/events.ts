@@ -1,6 +1,4 @@
-import { GenericEvent, GenericEventHandler } from "../interfaces";
-import { Component } from "../models";
-import { callWithErrorPropagation } from "./error";
+import { GenericEvent, GenericEventHandler, Component, callWithErrorPropagation } from "../internal";
 
 export const propagateEvent = (event: GenericEvent, handlerName: RzEventTypes) => {
     if (!event.propagationStopped) {

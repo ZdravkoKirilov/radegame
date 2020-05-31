@@ -1,6 +1,4 @@
-import { RenderFunction, RzPoint, RzElementPrimitiveProps } from "../../models";
-import { createElement } from "../../helpers";
-import { RzDraggableProps, RzDraggable } from "../Draggable";
+import { RenderFunction, RzPoint, RzElementPrimitiveProps, createElement, RzDraggableProps, RzDraggable } from "../../internal";
 
 export type ScrollingContentProps = {
   startPosition: RzPoint;

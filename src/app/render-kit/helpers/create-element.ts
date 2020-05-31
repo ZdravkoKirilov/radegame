@@ -1,6 +1,6 @@
-import { RzElementProps, RzNode, RzElement, RzElementType, RenderFunction } from "../models";
+import { RzElementProps, RzNode, RzElement, RzElementType } from "../internal";
 
-export const createElement = <T = {} & Partial<RzElementProps>>(
+export const createElement = <T = RzElementProps>(
     type: RzElementType<T>,
     props?: T & RzElementProps,
     ...children: RzNode[]
@@ -21,7 +21,7 @@ export const createElement = <T = {} & Partial<RzElementProps>>(
         computedChildren[index] = elem;
     });
 
-    props.children = computedChildren;
+    props['children'] = computedChildren;
 
     return { type, props, children: computedChildren };
 };

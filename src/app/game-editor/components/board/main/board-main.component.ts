@@ -6,11 +6,12 @@ import {
 } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
-import { ConnectedRootComponent } from '../../../graphics';
 import { mountPixi } from '@app/engines/pixi';
 import { WindowRefService, OnChange } from '@app/shared';
-import { MountRef, StatefulComponent, updateComponent, RenderFunction, prepareExtras } from '@app/render-kit';
+import { MountRef, updateComponent, RenderFunction } from '@app/render-kit';
 import { WidgetNode, ImageAsset, Widget } from '@app/game-mechanics';
+
+import { ConnectedRootComponent } from '../../../graphics';
 
 @Component({
 	selector: 'rg-board-main',

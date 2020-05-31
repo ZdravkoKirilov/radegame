@@ -1,9 +1,10 @@
-import { BaseModel, WithFrames } from "./Base.model";
-import { WidgetNode } from "./WidgetNode.model";
 import { Omit } from "@app/shared";
+import { StatefulComponent, RzNode } from "@app/render-kit";
+
 import { ImageFrame } from "./ImageAsset.model";
 import { ParamedExpressionFunc } from "./Expression.model";
-import { StatefulComponent } from "@app/render-kit";
+import { BaseModel, WithFrames } from "./Base.model";
+import { WidgetNode } from "./WidgetNode.model";
 
 export type Widget = BaseModel & WithFrames & Partial<{
     width: number;
@@ -13,6 +14,8 @@ export type Widget = BaseModel & WithFrames & Partial<{
     nodes: WidgetNode[];
 
     frame_getter: string;
+
+    render: string;
 }>;
 
 type WidgetExpressionPayload = {
@@ -20,9 +23,10 @@ type WidgetExpressionPayload = {
     component: StatefulComponent;
 }
 
-export type RuntimeWidget = Omit<Widget, 'node_getter' | 'frame_getter'> & {
+export type RuntimeWidget = Omit<Widget, 'node_getter' | 'frame_getter' | 'render'> & {
     node_getter: ParamedExpressionFunc<WidgetExpressionPayload, WidgetNode[]>;
     frame_getter: ParamedExpressionFunc<WidgetExpressionPayload, ImageFrame>;
+    render: ParamedExpressionFunc<WidgetExpressionPayload, RzNode>;
 };
 
 

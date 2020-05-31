@@ -1,5 +1,6 @@
 import { Subject } from "rxjs";
 import { Howl } from 'howler';
+
 import { Sonata, SONATA_PLAY_TYPE, Sound } from "@app/game-mechanics";
 
 export class SoundPlayer {

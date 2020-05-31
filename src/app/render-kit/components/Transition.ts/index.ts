@@ -1,10 +1,9 @@
 import { map } from "rxjs/operators";
 
-import { StatefulComponent } from "../../bases";
-import { DidUpdatePayload, RzElement } from "../../models";
 import { RuntimeTransition } from "@app/game-mechanics";
-import { TransitionAnimationsPlayer, AnimationPayload } from "../../animations/animation";
 import { Dictionary } from "@app/shared";
+
+import { StatefulComponent, DidUpdatePayload, TransitionAnimationsPlayer, AnimationPayload } from "../../internal";
 
 export type RzTransitionProps = {
   transitions: RuntimeTransition[];

@@ -1,5 +1,4 @@
-import { RzElementPrimitiveProps, MetaProps } from "../../models";
-import { BasicComponent } from "../../bases";
+import { RzElementPrimitiveProps, MetaProps, BasicComponent } from "../../internal";
 
 export class PrimitiveCollection extends BasicComponent<RzElementPrimitiveProps> {
 

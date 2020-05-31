@@ -19,7 +19,7 @@ export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, nodes, render
         );
     });
 
-    return createElement('container', {
+    return createElement<RzElementPrimitiveProps>('container', {
         styles: {
             ...style,
             scale: calculateScaling(

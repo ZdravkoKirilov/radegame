@@ -2,7 +2,7 @@ import * as Pixi from 'pixi.js';
 import { Ticker } from 'pixi.js';
 import { Container, Application } from 'pixi.js';
 
-import { AbstractRenderEngine, AbstractMountManager, MountConfig, createRenderer, createElement, RzElementType, unmountComponent } from "@app/render-kit";
+import { AbstractRenderEngine, MountConfig, createRenderer, createElement, RzElementType, unmountComponent } from "@app/render-kit";
 import { PixiFactory } from "./factory";
 import { PixiMutator } from "./mutator";
 import { PixiLoader } from "./loader";

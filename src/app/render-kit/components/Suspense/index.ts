@@ -1,5 +1,4 @@
-import { StatefulComponent } from "../../bases";
-import { RzElement } from "../../models";
+import { StatefulComponent, RzElement } from "../../internal";
 
 type State = {
     suspended: boolean;

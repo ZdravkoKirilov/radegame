@@ -1,4 +1,4 @@
-import { RenderFunction, ShouldUpdateCheck, RzElementProps } from "../models";
+import { RenderFunction, ShouldUpdateCheck, RzElementProps } from "../internal";
 
 export const Memo = <T>(original: RenderFunction<T>, checker?: ShouldUpdateCheck<T>): MemoRenderFunction<T> => {
     // const MemoComponent = memoize(original) as any;

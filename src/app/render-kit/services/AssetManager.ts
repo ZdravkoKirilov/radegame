@@ -1,4 +1,4 @@
-import { LoaderResources, LoaderResource, AbstractLoader } from "../interfaces";
+import { LoaderResources, LoaderResource, AbstractLoader } from "../internal";
 
 type Callback = (resource: LoaderResource, allResources?: LoaderResources) => void;
 

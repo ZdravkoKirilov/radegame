@@ -1,5 +1,4 @@
-import { RzElementPrimitiveProps, MetaProps, RzTextStyles } from "../../models";
-import { BasicComponent } from "../../bases";
+import { RzElementPrimitiveProps, MetaProps, RzTextStyles, BasicComponent } from "../../internal";
 
 export type PrimitiveTextProps = RzElementPrimitiveProps & {
     value: string;

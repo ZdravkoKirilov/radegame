@@ -1,5 +1,4 @@
-import { BasicComponent } from '../../bases';
-import { RzElementPrimitiveProps, MetaProps, Points, RzStyles } from '../../models';
+import { BasicComponent, RzElementPrimitiveProps, MetaProps, Points, RzStyles } from '../../internal';
 
 export type PolygonProps = RzElementPrimitiveProps & {
     points: Points;

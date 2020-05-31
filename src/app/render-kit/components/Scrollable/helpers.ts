@@ -1,4 +1,4 @@
-import { RzPoint } from "../../models";
+import { RzPoint } from "../../internal";
 
 export type RzScrollBoundary = {
   maxX: number;
@@ -12,7 +12,7 @@ export const enforceBoundary = (source: RzPoint, boundary: RzScrollBoundary): Rz
   if (boundary) {
     const { x, y } = source;
     const appliedX = x < boundary.minX ? boundary.minX : x > boundary.maxX ? boundary.maxX : x;
-    const appliedY = y < boundary.minY ? boundary.minY : Y > boundary.maxY ? boundary.maxY : y;
+    const appliedY = y < boundary.minY ? boundary.minY : y > boundary.maxY ? boundary.maxY : y;
 
     return { x: appliedX, y: appliedY };
   }

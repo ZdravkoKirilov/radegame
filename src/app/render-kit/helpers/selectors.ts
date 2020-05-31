@@ -1,7 +1,8 @@
 import get from 'lodash/get';
 
-import { Component, RzElementType, RzElementProps, isRzElementType } from "../models";
 import { Dictionary } from "@app/shared";
+
+import { Component, RzElementType, isRzElementType } from "../internal";
 
 export const isDescendantOf = (target: Component, potentialParent: Component) => {
     if (target && potentialParent) {

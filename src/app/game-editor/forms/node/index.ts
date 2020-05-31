@@ -30,6 +30,10 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
                 {data.shape}
             </Dropdown>
 
+            <Dropdown name='module' label='Module' options='{module_options}'>
+                {data.module}
+            </Dropdown>
+
             <EmbeddedData 
                 name='item' 
                 label='Item'

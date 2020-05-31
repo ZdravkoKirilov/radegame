@@ -4,8 +4,8 @@ import { map } from "rxjs/operators";
 
 import { Dictionary } from '@app/shared';
 import { ANIMATION_PLAY_TYPE, RuntimeAnimation, RuntimeAnimationStep, RuntimeTransition } from "@app/game-mechanics";
-import { mapEasing } from "./easings";
-import { StatefulComponent } from "../bases";
+
+import { mapEasing, StatefulComponent } from "../internal";
 
 export type AnimationPayloadSegment<Props = any, State = any> = {
     state: State,

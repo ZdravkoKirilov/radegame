@@ -1,7 +1,4 @@
-import { AbstractFactory } from "./AbstractFactory";
-import { AbstractMutator } from "./AbstractMutator";
-import { AbstractEventManager } from "./AbstractEvent";
-import { AbstractLoader } from "./AbstractLoader";
+import { AbstractFactory, AbstractMutator, AbstractEventManager, AbstractLoader } from "../internal";
 
 export interface AbstractRenderEngine {
     factory: AbstractFactory;

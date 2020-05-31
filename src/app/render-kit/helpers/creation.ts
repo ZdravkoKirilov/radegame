@@ -1,9 +1,8 @@
-import { RzElement, MetaProps, Component, RenderFunction, isOfPrimitiveType, isStatefulType, isRenderFunction } from "../models";
-import { AbstractFactory } from "../interfaces";
-import { BasicComponent, StatefulComponent } from "../bases";
-import { getRealType, flatRender, cloneRenderFunction } from './misc';
-import { prepareExtras } from "./hooks";
-import { callWithErrorPropagation } from "./error";
+import {
+    RzElement, MetaProps, Component, RenderFunction, isOfPrimitiveType, isStatefulType, isRenderFunction,
+    AbstractFactory, BasicComponent, StatefulComponent, getRealType, flatRender, cloneRenderFunction,
+    prepareExtras, callWithErrorPropagation
+} from "../internal";
 
 export const createComponent = (
     element: RzElement,
@@ -40,7 +39,7 @@ export const createComponent = (
             let realType = getRealType(factory, type);
 
             if (realType) {
-                return createComponent({ ...element, type: realType as any }, factory, meta, component);
+                return createComponent({ ...element, type: realType }, factory, meta, component);
             }
         }
     }

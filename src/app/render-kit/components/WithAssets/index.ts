@@ -1,8 +1,7 @@
 import difference from 'lodash/difference';
 import isEqual from 'lodash/isEqual';
 
-import { StatefulComponent } from "../../bases";
-import { AssetManagerSubscription } from "../../services";
+import { StatefulComponent, AssetManagerSubscription } from "../../internal";
 
 export type WithAssetProps = {
     urls: string[];

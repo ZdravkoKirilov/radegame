@@ -1,11 +1,7 @@
-import { CompositeComponent, Component } from "../models";
-import { AbstractContainer } from "../interfaces";
-import { StatefulComponent, BasicComponent } from "../bases";
-import { PRIMS } from "../primitives";
-import { RenderFunction } from "../models/Component";
-import { isStateful, isPrimitive, isFunctional } from "./misc";
-import { cleanAllHooks } from "./hooks";
-import { callWithErrorPropagation } from "./error";
+import {
+    CompositeComponent, Component, AbstractContainer, StatefulComponent, BasicComponent, PRIMS, RenderFunction,
+    isStateful, isPrimitive, isFunctional, cleanAllHooks, callWithErrorPropagation
+} from "../internal";
 
 export const unmountComponent = (component: Component) => {
     if (component && (component as any).__mounted__ === true) {

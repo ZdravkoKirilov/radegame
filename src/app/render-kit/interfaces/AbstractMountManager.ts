@@ -1,4 +1,4 @@
-import { Component, RzElementType } from "../models";
+import { Component, RzElementType } from "../internal";
 
 export type MountConfig<T = any> = {
     width?: number;

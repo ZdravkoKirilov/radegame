@@ -1,9 +1,7 @@
-import { AbstractRenderEngine, GenericEventHandler } from "../interfaces";
-import { ComponentConstructor, RenderFunction, Component } from "./Component";
-import { ContextManager, AssetManager } from "../services";
-import { PRIMS } from "../primitives";
-import { StateHooks, EffectHooks, MemoHooks, RefHooks, RzEventTypes } from "../helpers";
-import { StatefulComponent } from "../bases";
+import {
+    AbstractRenderEngine, GenericEventHandler, ComponentConstructor, RenderFunction, Component,
+    ContextManager, AssetManager, PRIMS, StateHooks, EffectHooks, MemoHooks, RefHooks, RzEventTypes, StatefulComponent
+} from "../internal";
 
 export type RzElement<T extends RzElementProps = {}> = {
     type: RzElementType;
@@ -24,27 +22,8 @@ export type RzElementProps = Partial<{
     id: string | number;
     name: string;
     points: Points;
+    ref: (ref: Component) => void;
     children: RzElement[] | RenderFunction[];
-    draggable: DraggableConfig;
-    scrollable: ScrollableConfig;
-}>;
-
-export type DraggableConfig = Partial<{
-    xAxis: boolean;
-    yAxis: boolean;
-    maxX: number;
-    minX: number;
-    maxY: number;
-    minY: number;
-}>;
-
-export type ScrollableConfig = Partial<{
-    xThreshold: number;
-    yThreshold: number;
-    maxX: string;
-    minX: string;
-    maxY: string;
-    minY: string;
 }>;
 
 export type RzElementType<T extends RzElementProps = {}> = PrimitiveType | ComponentConstructor<T> | RenderFunction;
@@ -148,6 +127,7 @@ type FontStyle = keyof typeof FONT_STYLES;
 
 export type Points = Array<[number, number]>;
 export type RzPoint = { x: number, y: number };
+export type RzSize = { width: number, height: number };
 
 export type MetaProps = {
     engine?: AbstractRenderEngine;

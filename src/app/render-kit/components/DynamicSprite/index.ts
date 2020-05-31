@@ -1,7 +1,4 @@
-import { createElement } from '../../helpers/create-element';
-import { RenderFunction } from '../../models';
-import { SpriteProps } from '../../primitives';
-import { WithAssets, WithAssetProps } from '../WithAssets';
+import { createElement, RenderFunction, SpriteProps, WithAssets, WithAssetProps } from '../../internal';
 
 export const DynamicSprite: RenderFunction<SpriteProps> = props => {
     return props.image ? createElement<WithAssetProps>(

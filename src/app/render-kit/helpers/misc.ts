@@ -2,7 +2,8 @@ import * as Color from 'color';
 
 import {
     Component, RenderFunction, CompositeComponent, RzElement,
-    MetaProps
+    MetaProps,
+    RzElementType
 } from '../models';
 import { AbstractFactory } from '../interfaces';
 import { StatefulComponent, BasicComponent, MemoRenderFunction } from '../bases';
@@ -16,7 +17,7 @@ export const getRealType = (factory: AbstractFactory, type: string) => {
         },
         null
     );
-    return realType as Component;
+    return realType as RzElementType;
 }
 
 export const isComposite = (component: Component): component is CompositeComponent => isStateful(component) || isFunctional(component);

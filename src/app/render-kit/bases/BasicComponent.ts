@@ -1,6 +1,4 @@
-import { RzElementPrimitiveProps, MetaProps, RzElementType, Component, } from "../models";
-import { AbstractContainer } from "../interfaces";
-import { updateComponent } from "../helpers";
+import { RzElementPrimitiveProps, MetaProps, RzElementType, Component, RzSize, AbstractContainer, updateComponent } from "../internal";
 
 export class BasicComponent<T extends RzElementPrimitiveProps = {}> {
     static defaultProps = {};
@@ -12,6 +10,9 @@ export class BasicComponent<T extends RzElementPrimitiveProps = {}> {
     constructor(public props: T & Partial<RzElementPrimitiveProps>, public graphic: any, public meta: MetaProps) {
         this.props = { ...BasicComponent.defaultProps, ...(props as any) };
         this.meta.engine.event.assignEvents(this);
+        if (typeof this.props.ref === 'function') {
+            this.props.ref(this);
+        }
     }
 
     render() {
@@ -34,6 +35,14 @@ export class BasicComponent<T extends RzElementPrimitiveProps = {}> {
         this.meta.engine.mutator.updateComponent(this);
         this.meta.engine.event.removeListeners(this);
         this.meta.engine.event.assignEvents(this);
+
+        if (typeof this.props.ref === 'function') {
+            this.props.ref(this);
+        }
+    }
+
+    getSize(): RzSize {
+        return this.meta.engine.mutator.getSize(this);
     }
 
     remove() {

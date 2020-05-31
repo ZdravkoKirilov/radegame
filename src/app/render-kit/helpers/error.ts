@@ -1,6 +1,6 @@
 import { get } from 'lodash';
 
-import { Component } from "../models";
+import { Component } from "../internal";
 
 export const callWithErrorPropagation = <T = any>(parent: Component, callback: Function): T => {
     try {

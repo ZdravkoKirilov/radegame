@@ -1,18 +1,13 @@
 import { get } from 'lodash';
 
-import { RzElement, RzElementKey, RzElementProps, RzNode, RenderFunction } from "../models";
-import { CompositeComponent, Component } from "../models";
-import { createComponent } from "./creation";
 import { toDictionary } from "@app/shared";
+
 import {
-    PrimitiveContainer, PrimitiveCollection,
-} from "../primitives";
-import { mountComponent, unmountComponent, unmountChildren } from "./mounting";
-import { isFunctional, isPrimitive, isStateful, isMemo, flatRender } from "./misc";
-import { AbstractContainer } from "../interfaces";
-import { MemoRenderFunction } from "../bases";
-import { prepareExtras } from "./hooks";
-import { callWithErrorPropagation } from './error';
+    RzElement, RzElementKey, RzElementProps, RzNode, RenderFunction, CompositeComponent, Component,
+    createComponent, PrimitiveContainer, PrimitiveCollection, mountComponent, unmountComponent, unmountChildren,
+    isFunctional, isPrimitive, isStateful, isMemo, flatRender, AbstractContainer,
+    MemoRenderFunction, prepareExtras, callWithErrorPropagation
+} from "../internal";
 
 export const updateComposite = (element: RzElement, component: CompositeComponent) => {
     const currentChild: Component = (component.children || [])[0];

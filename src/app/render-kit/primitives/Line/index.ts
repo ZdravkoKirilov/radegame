@@ -1,5 +1,4 @@
-import { BasicComponent } from '../../bases';
-import { RzElementPrimitiveProps, MetaProps, Points } from '../../models';
+import { BasicComponent, RzElementPrimitiveProps, MetaProps, Points } from '../../internal';
 
 export type LineProps = RzElementPrimitiveProps & {
     points: Points;

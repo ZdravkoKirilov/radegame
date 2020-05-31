@@ -32,9 +32,10 @@ class _RootWidget extends StatefulComponent<Props> {
     const { context, runtimeWidget, renderChild, renderFrame, fromParent, style } = this.props;
     const nodes = selectWidgetNodesSync(runtimeWidget, context, self);
     const frame = selectWidgetFrameSync(runtimeWidget, context, self);
+    const customRenderFunc = runtimeWidget?.render;
 
     return (
-      createElement<WidgetRendererProps>(
+      customRenderFunc ? customRenderFunc({ widget: runtimeWidget, component: this }) : createElement<WidgetRendererProps>(
         WidgetRenderer,
         {
           renderChild: renderChild || defaultChildRenderFunc(fromParent), nodes, frame,
@@ -58,21 +59,21 @@ export const defaultChildRenderFunc = (childProps: {}) => (node: RuntimeWidgetNo
   const childNodeStyle = selectNodeStyleSync(node, {} as StatefulComponent);
 
   return createElement<RzElementPrimitiveProps>(
-      'container',
-      {
-          styles: { x: node.x, y: node.y, z_order: childNodeStyle.z_order },
-          id: node.id,
-          name: `node_${node.id}`
-      },
-      createElement<NodeFactoryProps>(NodeFactory, { data: node, fromParent: childProps })
+    'container',
+    {
+      styles: { x: node.x, y: node.y, z_order: childNodeStyle.z_order },
+      id: node.id,
+      name: `node_${node.id}`
+    },
+    createElement<NodeFactoryProps>(NodeFactory, { data: node, fromParent: childProps })
   );
 };
 
 export const defaultFrameRenderFunc =
   (childProps: {}) =>
-      (widget: Widget) =>
-          createElement<StaticWidgetProps>(StaticWidget, {
-              widget,
-              style: { width: widget.width, height: widget.height },
-              fromParent: childProps
-          });
+    (widget: Widget) =>
+      createElement<StaticWidgetProps>(StaticWidget, {
+        widget,
+        style: { width: widget.width, height: widget.height },
+        fromParent: childProps
+      });

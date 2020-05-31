@@ -1,12 +1,9 @@
-import { Component } from "../models";
-import { BasicComponent } from "../bases";
+import { RzSize, BasicComponent } from "../internal";
 
 export abstract class AbstractMutator {
     abstract updateComponent(component: BasicComponent): void;
 
     abstract removeComponent(component: BasicComponent): void;
 
-    abstract getProp: PropGetter;
+    abstract getSize(component: BasicComponent): RzSize;
 };
-
-export type PropGetter = (comp: Component, prop: string) => any;

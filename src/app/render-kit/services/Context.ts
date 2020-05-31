@@ -31,7 +31,3 @@ export class ContextManager {
         }
     }
 }
-
-export interface ContextSubscription {
-    unsubscribe(): void;
-}

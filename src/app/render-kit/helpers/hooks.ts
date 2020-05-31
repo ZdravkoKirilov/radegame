@@ -1,7 +1,6 @@
 import { isEqual } from 'lodash';
-import { RenderFunctionExtras, RenderFunction, MetaProps } from "../models";
-import { updateComponent } from "./mutation";
-import { callWithErrorPropagation } from './error';
+
+import { RenderFunctionExtras, RenderFunction, MetaProps, updateComponent, callWithErrorPropagation } from "../internal";
 
 export type StateHook = <T = any>(initialValue?: T) => [T, UseStateUpdater<T>];
 export type EffectHook = (callback: () => FuncOrVoid, dependencies?: any[]) => void;

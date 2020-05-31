@@ -1,9 +1,7 @@
 import {
-    RzElementProps, RzElement, MetaProps,
-    DidUpdatePayload, RzElementType, Component
-} from "../models";
-import { updateComponent } from "../helpers";
-import { AbstractContainer } from "../interfaces";
+    RzElementProps, RzElement, MetaProps, updateComponent,
+    DidUpdatePayload, RzElementType, Component, AbstractContainer
+} from "../internal";
 
 export class StatefulComponent<P = {}, S = {}> {
     static defaultProps: Partial<RzElementProps>;
@@ -19,6 +17,9 @@ export class StatefulComponent<P = {}, S = {}> {
     constructor(props: P, meta: MetaProps) {
         this.props = { ...((this.constructor as any).defaultProps || {}) as any, ...props as any };
         this.meta = meta;
+        if (typeof this.props.ref === 'function') {
+            this.props.ref(this);
+        }
     }
 
     setState(state: Partial<S>, callback?: Function) {
@@ -38,11 +39,17 @@ export class StatefulComponent<P = {}, S = {}> {
                         next: { state: next, props: this.props },
                     });
                 }
+                if (typeof this.props.ref === 'function') {
+                    this.props.ref(this);
+                }
             });
         } else {
             this.state = next as S;
             if (callback) {
                 callback();
+            }
+            if (typeof this.props.ref === 'function') {
+                this.props.ref(this);
             }
         }
     }
@@ -72,6 +79,9 @@ export class StatefulComponent<P = {}, S = {}> {
                 if (callback) {
                     callback();
                 }
+            }
+            if (typeof this.props.ref === 'function') {
+                this.props.ref(this);
             }
         });
     }

@@ -1,10 +1,14 @@
-import { AbstractContainer, AbstractRenderEngine } from "../interfaces";
-import { Component, MetaProps, RzElement } from "../models";
-import { mountComponent } from "./mounting";
-import { createComponent } from "./creation";
-import { ContextManager, AssetManager } from "../services";
+import {
+    AbstractContainer, AbstractRenderEngine, Component, MetaProps, RzElement, mountComponent, createComponent,
+    ContextManager, AssetManager, RzDraggable, RzScrollable
+} from "../internal";
 
 export const createRenderer = (engine: AbstractRenderEngine, resources: Set<string>, metaProps?: MetaProps) => {
+    engine.factory.addCustomResolver({
+        Draggable: RzDraggable,
+        Scrollable: RzScrollable,
+    });
+
     const renderFunc = (elem: RzElement, container: AbstractContainer): Promise<Component> => {
         return new Promise(async (resolve) => {
             const assetManager = new AssetManager(engine.loader);

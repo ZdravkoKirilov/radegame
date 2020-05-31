@@ -1,8 +1,10 @@
-import { createElement } from "../../helpers";
-import { RzElementPrimitiveProps, RzPoint, RzNode, RenderFunction } from "../../models";
+import {
+  BasicComponent, createElement, RzElementPrimitiveProps, RzPoint, RzNode, RenderFunction,
+} from '../../internal';
+
+import {  RzScrollBoundary, enforceBoundary, scrollWasReal } from './helpers';
 import { ScrollHandleBar, ScrollHandleBarProps } from "./ScrollHandleBar";
 import { ScrollingContentProps, ScrollingContent } from "./ScrollingContent";
-import { RzScrollBoundary, enforceBoundary, scrollWasReal } from "./helpers";
 
 export type RzScrollableProps = {
   width: number;
@@ -30,6 +32,7 @@ export const RzScrollable: RenderFunction<RzScrollableProps> = (
     x: boundary?.minX || 0,
     y: boundary?.minY || 0,
   });
+  const [totalHeight, setTotalHeight] = useState(height);
 
   useEffect(() => {
     if (controlledPosition) {
@@ -39,10 +42,8 @@ export const RzScrollable: RenderFunction<RzScrollableProps> = (
   }, [controlledPosition]);
 
   const handleBarProps: ScrollHandleBarProps = {
-    viewportWidth: width,
-    viewportHeight: height, horizontal,
-    totalWidth: 0,
-    totalHeight: 0,
+    viewportHeight: height,
+    totalHeight,
     startPosition: controlledStartPosition || { x: 0, y: 0 },
     currentPosition: currentScrollPosition,
     onScroll: point => {
@@ -57,25 +58,39 @@ export const RzScrollable: RenderFunction<RzScrollableProps> = (
 
   return createElement<RzElementPrimitiveProps>(
     'container',
-    { styles: { x: 0, y: 0, mask: [0, 0, width, height] }, name: 'OuterScrollWrapper' },
-    createElement<ScrollingContentProps>(
-      ScrollingContent,
+    {
+      styles: { x: 0, y: 0, mask: [0, 0, width, height] },
+      name: 'OuterScrollWrapper'
+    },
+    createElement<RzElementPrimitiveProps>(
+      'container',
       {
-        startPosition: controlledStartPosition || { x: 0, y: 0 },
-        currentPosition: currentScrollPosition,
-        onScroll: swipeContent ? point => {
-          const withBoundary = enforceBoundary(point, boundary);
-          if (scrollWasReal(withBoundary, lastScrollPosition.current)) {
-            onScroll(withBoundary);
-            setScrollPosition(withBoundary);
-            lastScrollPosition.current = withBoundary;
+        ref: component => {
+          const dimensions = (component as BasicComponent).getSize();
+          if (dimensions) {
+            setTotalHeight(dimensions.height);
           }
-        } : null,
+        },
       },
-      children,
+      createElement<ScrollingContentProps>(
+        ScrollingContent,
+        {
+          startPosition: controlledStartPosition || { x: 0, y: 0 },
+          currentPosition: currentScrollPosition,
+          onScroll: swipeContent ? point => {
+            const withBoundary = enforceBoundary(point, boundary);
+            if (scrollWasReal(withBoundary, lastScrollPosition.current)) {
+              onScroll(withBoundary);
+              setScrollPosition(withBoundary);
+              lastScrollPosition.current = withBoundary;
+            }
+          } : null,
+        },
+        children,
+      ),
     ),
     createElement<RzElementPrimitiveProps>(
-      'rectangle',
+      'container',
       { styles: { x: width, y: 0 } },
       renderBar ? renderBar(handleBarProps) : createElement<ScrollHandleBarProps>(
         ScrollHandleBar,

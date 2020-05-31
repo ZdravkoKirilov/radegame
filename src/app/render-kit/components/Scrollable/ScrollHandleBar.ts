@@ -1,17 +1,12 @@
-import { RenderFunction, RzPoint, RzElementPrimitiveProps } from "../../models";
-import { createElement } from "../../helpers";
-import { PrimitiveRectangleProps } from "../../primitives";
-
-import { RzDraggableProps, RzDraggable } from "../Draggable";
+import {
+  RenderFunction, RzPoint, RzElementPrimitiveProps, createElement, PrimitiveRectangleProps, RzDraggableProps,
+  RzDraggable
+} from "../../internal";
 
 export type ScrollHandleBarProps = {
-  viewportWidth: number;
   viewportHeight: number;
 
-  totalWidth: number;
   totalHeight: number;
-
-  horizontal: boolean;
 
   startPosition: RzPoint;
   currentPosition: RzPoint;
@@ -19,7 +14,9 @@ export type ScrollHandleBarProps = {
   onScroll: (point: RzPoint) => void;
 }
 
-export const ScrollHandleBar: RenderFunction<ScrollHandleBarProps> = ({ viewportWidth, viewportHeight, totalHeight, totalWidth, startPosition, currentPosition, onScroll, horizontal }) => {
+export const ScrollHandleBar: RenderFunction<ScrollHandleBarProps> = (
+  { viewportHeight, totalHeight, startPosition, currentPosition, onScroll },
+) => {
 
   const globalRatio = viewportHeight / totalHeight;
   const gripHeight = viewportHeight * globalRatio;

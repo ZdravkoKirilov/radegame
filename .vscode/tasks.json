@@ -17,6 +17,13 @@
             "type": "npm",
             "script": "start2",
             "problemMatcher": []
+        },
+        {
+            "type": "npm",
+            "script": "circular-dep",
+            "problemMatcher": [],
+            "label": "npm: circular-dep",
+            "detail": "dpdm --tree=false --warning=false app/*"
         }
     ]
 }

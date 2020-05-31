@@ -1,9 +1,6 @@
-import { StatefulComponent } from "../../../bases";
-import { MetaProps, RzElement, ComponentConstructor, RzElementType } from "../../../models";
-import { ContextSubscription, ContextProvider } from "../Provider";
-import { Dictionary } from "@app/shared";
-import { findInAncestors } from "../../../helpers";
-import { findContextProvider } from "../helpers";
+import {
+    StatefulComponent, MetaProps, RzElement, ComponentConstructor, ContextSubscription, findContextProvider,
+} from "../../../internal";
 
 type RenderCallback<T> = (data: T) => RzElement;
 

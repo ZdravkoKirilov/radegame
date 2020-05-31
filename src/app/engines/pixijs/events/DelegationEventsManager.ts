@@ -80,26 +80,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     onGraphicClick = (event: interaction.InteractionEvent) => {
         if (event.currentTarget) {
             const targetComponent = event.currentTarget['component'] as BasicComponent;
-            const focused = this.focusedComponent;
-
-            if (targetComponent !== focused && !isDescendantOf(targetComponent, focused)) {
-                if (focused && focused.props.onBlur) {
-                    const genericEvent = createGenericEventFromPixiEvent(
-                        event, RzEventTypes.onBlur, focused
-                    );
-                    callWithErrorPropagation(focused, () => focused.props.onBlur(genericEvent));
-                    propagateEvent(genericEvent, RzEventTypes.onBlur);
-                }
-            }
-            if (targetComponent.props.onFocus) {
-                const genericEvent = createGenericEventFromPixiEvent(
-                    event, RzEventTypes.onFocus, focused
-                );
-                callWithErrorPropagation(targetComponent, () => targetComponent.props.onFocus(genericEvent));
-                propagateEvent(genericEvent, RzEventTypes.onFocus);
-            }
-
-            this.focusedComponent = targetComponent;
+            this.focusComponent(targetComponent, event);
         }
     }
 
@@ -123,6 +104,29 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
             callWithErrorPropagation(this.focusedComponent, () => this.focusedComponent.props.onKeypress(genericEvent));
             propagateEvent(genericEvent, RzEventTypes.onKeypress);
         }
+    }
+
+    focusComponent = (targetComponent: BasicComponent, event?: interaction.InteractionEvent) => {
+        const focused = this.focusedComponent;
+
+        if (targetComponent !== focused && !isDescendantOf(targetComponent, focused)) {
+            if (focused && focused.props.onBlur) {
+                const genericEvent = createGenericEventFromPixiEvent(
+                    event, RzEventTypes.onBlur, focused
+                );
+                callWithErrorPropagation(focused, () => focused.props.onBlur(genericEvent));
+                propagateEvent(genericEvent, RzEventTypes.onBlur);
+            }
+        }
+        if (targetComponent.props.onFocus) {
+            const genericEvent = createGenericEventFromPixiEvent(
+                event, RzEventTypes.onFocus, focused
+            );
+            callWithErrorPropagation(targetComponent, () => targetComponent.props.onFocus(genericEvent));
+            propagateEvent(genericEvent, RzEventTypes.onFocus);
+        }
+
+        this.focusedComponent = targetComponent;
     }
 
     removeListeners(comp: BasicComponent) {

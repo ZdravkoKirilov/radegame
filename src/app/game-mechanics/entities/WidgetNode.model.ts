@@ -13,11 +13,11 @@ import {
 import { Style } from "./Style.model";
 import { Text } from "./Text.model";
 import { Sonata } from "./Sonata.model";
+import { Module } from "./Module.model";
 
 // TODO: think about expression context and how to empower it. It should be a part of commonGameStore
 // think about making nodes, lifecycles, handlers m2m again - it will provide easier testing and composing
 // think about a Node hosting another lazy Module
-// should test view have active dropdowns to change the entity being tested? Widget / Module / Node
 
 export type WidgetNode = BaseModel & WithBoard & WithStyle & Partial<{
     owner: number; // Widget;
@@ -25,10 +25,11 @@ export type WidgetNode = BaseModel & WithBoard & WithStyle & Partial<{
     y: number;
     x: number;
 
-    display_text: string; // Expression -> Text
+    display_text: string;
     display_text_inline: number;
     item: string;
-    shape: number; // Shape
+    shape: number;
+    module: number;
 
     provide_context: string;
     consume_context: string;
@@ -40,11 +41,12 @@ export type WidgetNode = BaseModel & WithBoard & WithStyle & Partial<{
     lifecycles: NodeLifecycle[];
 }>;
 
-export type RuntimeWidgetNode = Omit<WidgetNode, 'board' | 'style' | 'style_inline' | 'item' | 'shape' | 'display_text' | 'provide_context' | 'consume_context'> & {
+export type RuntimeWidgetNode = Omit<WidgetNode, 'board' | 'style' | 'style_inline' | 'item' | 'shape' | 'display_text' | 'provide_context' | 'consume_context' | 'module'> & {
 
     item: RuntimeNodeItem;
     shape: Shape;
     board: Widget;
+    module: Module;
 
     style: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, Style>;
     style_inline: Style;

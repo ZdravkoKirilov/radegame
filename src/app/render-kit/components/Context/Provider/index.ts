@@ -1,6 +1,6 @@
-import { StatefulComponent } from "../../../bases";
-import { RzElement } from "../../../models";
 import { WithSubscriptions, GenericSubscription, SubscribableBase } from "@app/shared";
+
+import { StatefulComponent, RzElement } from "../../../internal";
 
 type Props<T = any> = {
     children?: RzElement;

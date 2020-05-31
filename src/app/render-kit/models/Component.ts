@@ -1,8 +1,7 @@
-import { BasicComponent, StatefulComponent } from "../bases";
-import { RzElementProps, MetaProps, RzElement } from "./RzElement";
-import { AbstractContainer } from "../interfaces";
-import { StateHook, EffectHook, MemoHook, RefHook } from '../helpers/hooks';
-import { Dictionary } from "@app/shared";
+import {
+    BasicComponent, StatefulComponent, RzElementProps, MetaProps, RzElement, AbstractContainer, StateHook,
+    EffectHook, MemoHook, RefHook
+} from "../internal";
 
 export type CompositeComponent = StatefulComponent | RenderFunction;
 

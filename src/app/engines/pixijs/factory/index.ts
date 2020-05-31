@@ -4,7 +4,7 @@ import {
     AbstractFactory, RzElement, MetaProps,
     PrimitiveContainer, PrimitiveCollection,
     PrimitiveText, PrimitiveSprite, PrimitiveLine, PrimitiveFragment, PrimitivePolygon, PrimitiveRectangle, PrimitiveCircle,
-    PrimitiveEllipse, Component, PRIMS,
+    PrimitiveEllipse, PRIMS, RzElementType,
 } from "@app/render-kit";
 
 import { Dictionary } from '@app/shared';
@@ -84,7 +84,7 @@ export class PixiFactory implements AbstractFactory {
 
     customResolvers = [];
 
-    addCustomResolver(config: Dictionary<Component>) {
+    addCustomResolver(config: Dictionary<RzElementType>) {
         this.customResolvers.push(config);
     }
 }

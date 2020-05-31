@@ -1,7 +1,4 @@
-import { Memo } from "../../bases";
-import { createElement } from "../../helpers/create-element";
-import { RzElementPrimitiveProps, RzPoint, RzNode } from "../../models";
-import { GenericEventHandler } from "../../interfaces";
+import { Memo, createElement,  RzElementPrimitiveProps, RzPoint, RzNode, GenericEventHandler} from "../../internal";
 
 export type RzDraggableProps = {
     onDragEnd?: (position: RzPoint) => void;
