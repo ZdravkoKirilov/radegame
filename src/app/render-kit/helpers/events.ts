@@ -33,6 +33,8 @@ export enum RzEventTypes {
     onKeypress = 'onKeypress',
     onFocus = 'onFocus',
     onBlur = 'onBlur',
+
+    onChange = 'onChange',
 };
 
 export const isGenericEventType = (name: string): name is RzEventTypes => {

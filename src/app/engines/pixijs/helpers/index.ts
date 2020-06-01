@@ -1,6 +1,6 @@
 import { DisplayObject, Sprite, Graphics, TextStyle } from "pixi.js";
 
-import { Component, RzStyles, BasicComponent, toHexColor, RzTextStyles } from "@app/render-kit";
+import { Component, RzStyles, BasicComponent, toHexColor, RzTextStyles, toHexColorString } from "@app/render-kit";
 
 export const bringToFront = (obj: DisplayObject) => {
     const parent = obj.parent;
@@ -135,7 +135,7 @@ export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyle
 export const applyTextTransformations = (styles: Partial<RzTextStyles>): Partial<TextStyle> => {
     styles = styles || {};
     let copy = {} as Partial<TextStyle>;
-    
+
     if (styles.stroke_color) {
         copy.stroke = toHexColor(styles.stroke_color);
     }
@@ -153,6 +153,38 @@ export const applyTextTransformations = (styles: Partial<RzTextStyles>): Partial
     }
     if (styles.font_style) {
         copy.fontStyle = styles.font_style;
+    }
+
+    return copy;
+};
+
+export const applyCSSTransformations = (styles: Partial<RzTextStyles>): Partial<CSSStyleDeclaration> => {
+    styles = styles || {};
+    let copy = {} as Partial<CSSStyleDeclaration>;
+
+    if (styles.stroke_color) {
+        copy.color = toHexColorString(styles.stroke_color);
+    }
+    if (styles.fill) {
+        copy.backgroundColor = toHexColorString(styles.fill);
+    }
+    if (styles.stroke_thickness && typeof styles.stroke_thickness === 'string') {
+        copy.fontWeight = styles.stroke_thickness;
+    }
+    if (styles.font_size && typeof styles.font_size === 'string') {
+        copy.fontSize = styles.font_size;
+    }
+    if (styles.font_family) {
+        copy.fontFamily = styles.font_family;
+    }
+    if (styles.font_style) {
+        copy.fontStyle = styles.font_style;
+    }
+    if (styles.x) {
+        copy.left = String(styles.x);
+    }
+    if (styles.y) {
+        copy.top = String(styles.y);
     }
 
     return copy;

@@ -77,7 +77,7 @@ export type RzStyles = Partial<{
     font_style: FontStyle;
 }>;
 
-export type RzTextStyles = Partial<Pick<RzStyles, 'stroke_color' | 'stroke_thickness' | 'fill' | 'font_family' | 'font_size' | 'font_style'>>
+export type RzTextStyles = Partial<Pick<RzStyles, 'stroke_color' | 'stroke_thickness' | 'fill' | 'font_family' | 'font_size' | 'font_style' | 'x' | 'y'>>
 
 export const FONT_STYLES = {
     bold: 'bold',

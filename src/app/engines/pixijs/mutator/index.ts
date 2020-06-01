@@ -1,18 +1,18 @@
 import {
-  Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text,
-  TextMetrics, DisplayObject
+  Graphics, Point, Polygon, Rectangle, Sprite, Circle, Ellipse, TextStyle, Text, DisplayObject
 } from "pixi.js";
 import { get } from 'lodash';
 
-import { setProp, getValue, applyTransformations, applyTextTransformations } from "../helpers";
+import { setProp, getValue, applyTransformations, applyTextTransformations, applyCSSTransformations } from "../helpers";
 import {
   AbstractMutator,
   RzElementPrimitiveProps, PRIMS, Points,
   updateCollection, updateContainer, BasicComponent,
   PrimitiveText, PrimitiveSprite, PrimitiveFragment, PrimitiveCircle, RzStyles,
-  PrimitiveEllipse, LineProps, unmountComponent,
+  PrimitiveEllipse, LineProps, unmountComponent, PrimitiveInput, AbstractContainer,
 } from "@app/render-kit";
 export class PixiMutator implements AbstractMutator {
+
   updateComponent(component: BasicComponent) {
     updatePrimitive(component);
   }
@@ -37,6 +37,8 @@ const unmountPrimitive = (component: BasicComponent) => {
     case PRIMS.fragment:
       unmountChildren(component);
       break;
+    case PRIMS.input:
+      component.container.removeChild(component);
     default:
       unmountGeneric(component);
       unmountChildren(component);
@@ -101,6 +103,8 @@ const updatePrimitive = (component: BasicComponent<any>) => {
       updateEllipse(component, styles);
       updateContainer(props, component);
       break;
+    case PRIMS.input:
+      updateHTMLInput(component);
     default:
       updateGeneric(component);
       break;
@@ -110,6 +114,29 @@ const updatePrimitive = (component: BasicComponent<any>) => {
     component.graphic.interactive = true;
   }
   applyZOrder(component);
+};
+
+const updateHTMLInput = (comp: PrimitiveInput, ) => {
+  const input: HTMLInputElement = comp.graphic;
+  const parentContainer: AbstractContainer = input['paretContainer'];
+  const parentPosition = parentContainer?.getGlobalPosition();
+  const style = applyCSSTransformations(comp.props.styles);
+  const totalLeft = style.left + parentPosition?.x ?? 0;
+  const totalTop = style.top + parentPosition?.y ?? 0;
+
+  const CSS: Partial<CSSStyleDeclaration> = {
+    ...style,
+    position: 'absolute',
+    border: 'none',
+    resize: 'none',
+    background: 'none',
+    left: totalLeft.toString(),
+    top: totalTop.toString(),
+  };
+
+  for (let key in CSS) {
+    input[key] = CSS[key];
+  }
 };
 
 const applyZOrder = (comp: BasicComponent) => {

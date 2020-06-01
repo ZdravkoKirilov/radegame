@@ -12,10 +12,10 @@ const ticker = Ticker.shared;
 ticker.autoStart = false;
 ticker.stop();
 
-export const createPixiEngine = (app: Pixi.Application): AbstractRenderEngine => {
-    const factory = new PixiFactory();
+export const createPixiEngine = (app: Pixi.Application, document: Document): AbstractRenderEngine => {
+    const factory = new PixiFactory(document);
     const mutator = new PixiMutator();
-    const event = new PixiDelegationEventsManager(app.renderer.plugins.interaction);
+    const event = new PixiDelegationEventsManager(app.renderer.plugins.interaction, document);
 
     return {
         factory,
@@ -44,7 +44,7 @@ export async function mountPixi<T>(component: RzElementType, DOMHost: HTMLElemen
 
     DOMHost.appendChild(app.renderer.view);
 
-    const PixiEngine = createPixiEngine(app);
+    const PixiEngine = createPixiEngine(app, DOMHost.ownerDocument);
     const render = createRenderer(PixiEngine, config.assets || new Set());
     const renderedComponent = await render(createElement(component, config.props), stage);
     const startRenderLoop = () => {

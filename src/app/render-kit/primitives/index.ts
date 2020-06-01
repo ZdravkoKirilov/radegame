@@ -8,6 +8,7 @@ export * from './Polygon';
 export * from './Rectangle';
 export * from './Circle';
 export * from './Ellipse';
+export * from './Input';
 
 export const PRIMS = {
     sprite: 'sprite',
@@ -20,4 +21,5 @@ export const PRIMS = {
     container: 'container',
     fragment: 'fragment',
     polygon: 'polygon',
+    input: 'input',
 } as const;

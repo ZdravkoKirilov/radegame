@@ -24,6 +24,7 @@ export type EventOptionalProps = {
     shiftKey: boolean;
     ctrlKey: boolean;
     position: RzPoint;
+    value: string;
 }
 
 export type GenericEventHandler<T = unknown> = (event: GenericEvent) => T | T[];

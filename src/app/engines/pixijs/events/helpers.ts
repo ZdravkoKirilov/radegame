@@ -75,3 +75,24 @@ export const createGenericEventFromPixiEvent = (
     };
     return genericEvent;
 }
+
+export const createGenericEventFromDOMEvent = (
+    event: Event,
+    genericEventName: RzEventTypes,
+    currentTarget: BasicComponent,
+    other?: Partial<EventOptionalProps>
+): GenericEvent => {
+
+    const genericEvent: GenericEvent = {
+        type: genericEventName,
+        originalTarget: currentTarget,
+        currentTarget,
+        stopPropagation() {
+            event && event.stopPropagation();
+            genericEvent.propagationStopped = true;
+        },
+        propagationStopped: false,
+        ...(other || {}),
+    };
+    return genericEvent;
+}

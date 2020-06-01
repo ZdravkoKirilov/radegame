@@ -5,9 +5,13 @@ import {
     callWithErrorPropagation,
     isGenericEventType,
     RzEventTypes,
-    isDescendantOf
+    isDescendantOf,
+    PrimitiveInput
 } from "@app/render-kit";
-import { PixiSupportedEvents, toPixiEvent, toGenericEvent, createGenericEventFromPixiEvent } from "./helpers";
+import {
+    PixiSupportedEvents, toPixiEvent, toGenericEvent, createGenericEventFromPixiEvent,
+    createGenericEventFromDOMEvent
+} from "./helpers";
 
 export class PixiDelegationEventsManager implements AbstractEventManager {
 
@@ -17,9 +21,10 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
         [key in RzEventTypes]: Map<BasicComponent, GenericEventHandler>
     } = {} as any;
 
-    constructor(private interactionManager: interaction.InteractionManager) {
-        window.addEventListener("wheel", this.onMouseWheel, { passive: true });
-        window.addEventListener("keypress", this.onKeypress);
+    constructor(private interactionManager: interaction.InteractionManager, private document: Document) {
+        this.document.addEventListener("wheel", this.onMouseWheel, { passive: true });
+        this.document.addEventListener("keypress", this.onKeypress);
+        this.document.addEventListener('pointerdown', this.onInputClick);
         this.interactionManager.on('pointerdown', this.onGraphicClick);
     }
 
@@ -35,6 +40,12 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
                 graphic.interactive = true;
                 const handler: GenericEventHandler = comp.props[genericEventType];
                 const pixiEventName = toPixiEvent(genericEventType);
+
+                /* that event only works with PrimitiveInput, its ignored otherwise */
+                if (genericEventType === 'onChange' && comp instanceof PrimitiveInput) {
+                    return this.handleOnChangeDOM(comp, handler);
+                }
+
                 if (pixiEventName) {
                     const branch = this.createEventBranchForType(genericEventType);
                     branch.set(comp, handler);
@@ -42,6 +53,18 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
                 }
             }
         });
+    }
+
+    handleOnChangeDOM = (component: PrimitiveInput, handler: GenericEventHandler) => {
+        const input: HTMLInputElement | HTMLTextAreaElement = component.graphic;
+        /* I don't think onChange will work for controlled components thus oninput is used*/
+        input.oninput = event => {
+            const genericEvent = createGenericEventFromDOMEvent(
+                event, RzEventTypes.onChange, component, { value: event.target['value'] }
+            );
+            callWithErrorPropagation(component, () => handler(genericEvent));
+            propagateEvent(genericEvent, RzEventTypes.onChange);
+        };
     }
 
     createEventTracking = (pixiEventType: PixiSupportedEvents, graphic: DisplayObject, handler: GenericEventHandler) => {
@@ -81,6 +104,13 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
         if (event.currentTarget) {
             const targetComponent = event.currentTarget['component'] as BasicComponent;
             this.focusComponent(targetComponent, event);
+        }
+    }
+
+    onInputClick = (event: PointerEvent) => {
+        if (event.target && event.target['component'] instanceof PrimitiveInput) {
+            const targetComponent = event.target['component'];
+            this.focusComponent(targetComponent, event as any); // I'm dishonest
         }
     }
 
@@ -137,8 +167,9 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     }
 
     onDestroy() {
-        window.removeEventListener('wheel', this.onMouseWheel);
-        window.removeEventListener('keypress', this.onKeypress);
+        this.document.removeEventListener('wheel', this.onMouseWheel);
+        this.document.removeEventListener('keypress', this.onKeypress);
+        this.document.removeEventListener('pointerdown', this.onInputClick);
         this.interactionManager.removeAllListeners();
     }
 

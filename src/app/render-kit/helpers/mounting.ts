@@ -81,7 +81,7 @@ const mountFunctionalComponent = (component: RenderFunction, container: Abstract
 };
 
 const mountPrimitiveComponent = (component: BasicComponent, container: AbstractContainer) => {
-    component.container = container;
+    component.container = component.container || container; // PrimitiveInput will have predefined container
     switch (component.type) {
         case PRIMS.container:
         case PRIMS.collection:
@@ -100,6 +100,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
             break;
         case PRIMS.text:
         case PRIMS.line:
+        case PRIMS.input:
             container.addChild(component.graphic);
             component.update();
             break;
@@ -107,6 +108,10 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
             component.children = component.children.map(child => mountComponent(child, container));
             component.update();
             break;
+        case PRIMS.input:
+            component.container.addChild(component.graphic);
+            component.graphic.parentContainer = container;
+            component.update();
         default:
             break;
     }
