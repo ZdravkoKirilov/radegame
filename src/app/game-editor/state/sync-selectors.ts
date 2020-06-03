@@ -31,21 +31,27 @@ const selectEntitiesDictionary = createSelector(
 )
 
 export const selectExpressionContext = createSelector(
-    selectForm,
-    form => {
-        const conf = Object.entries(form).reduce((total, [key, value]) => {
-            total[key] = value.items;
-            return total;
-        }, {}) as GameTemplate;
-        return createEditorExpressionContext({ conf, self: 1, players: {}, state: {} as any, loaded_chunks: [] });
+    selectEntitiesDictionary,
+    config => {
+        return createEditorExpressionContext({
+            conf: config,
+            players: [],
+            self: null,
+            state: null,
+            loaded_modules: [],
+        });
     }
 );
 
 export const selectSandboxExpressionContext = createSelector(
     selectEntitiesDictionary,
     selectContextOverrides,
-    (conf, context_overrides) => createSandboxExpressionContext({
-        conf, self: 1, players: {}, state: {} as any, loaded_chunks: [], ...context_overrides
+    (conf) => createSandboxExpressionContext({
+        conf,
+        players: [],
+        self: null,
+        state: null,
+        loaded_modules: [],
     })
 );
 

@@ -35,9 +35,6 @@ export type GameTemplate = Omit<WithKeysAs<typeof ALL_ENTITIES, GameEntityList>,
 export type GameConfig = GameTemplate;
 
 export type GameState = {
-    global_state: Partial<GameConfig>;
-    local_state?: Dictionary;
-
     setup: number;
     module: number; //
 };

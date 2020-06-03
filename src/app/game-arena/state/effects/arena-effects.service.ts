@@ -5,12 +5,13 @@ import { of } from 'rxjs';
 import get from 'lodash/get';
 
 import { GameArenaService, GameFetchService } from '@app/core';
+import { formatGameConfigData } from '@app/shared';
+import { createGameState } from '@app/game-mechanics';
+
 import {
   ArenaGeneralActionTypes, FetchGameInstance, FetchGameInstanceSuccess,
   FetchGameInstanceFail, FetchGameConfig, FetchGameConfigFail, FetchGameConfigSuccess, FetchGame, FetchGameSuccess, FetchGameFail, CreateGameState, SetGameState
 } from '../actions';
-import { formatGameConfigData } from '@app/shared';
-import { createGameState } from '../../helpers';
 
 @Injectable({
   providedIn: 'root'

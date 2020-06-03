@@ -2,7 +2,7 @@ import { createSelector } from "reselect";
 import get from "lodash/get";
 import groupBy from 'lodash/groupBy';
 
-import { Setup, CommonGameStore, } from "@app/game-mechanics";
+import { Setup, CommonGameStore, Player, } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
 import { toDictionary, selectLobbyName } from "@app/shared";
 
@@ -32,7 +32,7 @@ export const selectConfig = createSelector(
 
 export const selectPlayers = createSelector(
   selectGeneralFeature,
-  general => get(general, ['game_instance', 'players'], []),
+  general => get(general, ['game_instance', 'players'], []) as Player[],
 );
 
 export const selectLoadedChunks = createSelector(
@@ -59,8 +59,11 @@ const selectExpressionContext = createSelector(
   selectLoadedChunks,
   (user, conf, state, players, loaded_chunks) => {
     return createArenaExpressionContext({
-      self: user.id, loaded_chunks,
-      conf, state, players: toDictionary(players, 'id'),
+      conf,
+      state,
+      players,
+      self: players?.find(player => player.user === user.id),
+      loaded_modules: loaded_chunks
     });
   }
 );

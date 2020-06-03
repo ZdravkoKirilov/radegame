@@ -1,32 +1,28 @@
-import {  GameState, CreateExpressionParams, createExpressionContext } from "@app/game-mechanics"
-;
+import {
+  ExpressionContext, Expression, composeHelpers, composeStaticMembers,
+  MutateStatePayload,
+  CreateExpressionParams
+} from "@app/game-mechanics"
+  ;
 import { MutateState } from '../state';
 
-export type CreateStateParams = {
-    setup: number;
-    module?: number;
-};
+export const createArenaExpressionContext = (params: CreateExpressionParams): ExpressionContext => {
+  const { conf, state, loaded_modules, players, self } = params;
+  const helpers = Object.values<Expression>(conf.expressions || {});
 
-export const createGameState = (payload: CreateStateParams): GameState => {
-    const { setup, module } = payload;
+  let context = {
+    ...composeStaticMembers(),
+    conf, state, loaded_modules, self, players,
 
-    return {
-        global_state: {},
-        setup,
-        module,
-    };
-};
+    mutateState: (payload: MutateStatePayload) => new MutateState(payload),
+    listenTo: () => null,
+    sendMessage: () => null,
+    helpers: null,
+    saveToProfile: null,
 
-export const createArenaExpressionContext = (params: Partial<CreateExpressionParams>) => {
-    return createExpressionContext({
-        ...params,
-        mutateState: (payload: {
-            path: string;
-            value: any;
-            broadcastTo?: number[];
-            save?: boolean;
-        }) => new MutateState(payload),
-        listenTo: () => null,
-        sendMessage: () => null,
-    } as CreateExpressionParams);
+  } as ExpressionContext;
+
+  context.helpers = composeHelpers(helpers, context);
+
+  return context;
 };

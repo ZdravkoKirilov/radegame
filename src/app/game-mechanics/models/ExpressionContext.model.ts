@@ -1,21 +1,32 @@
 import get from "lodash/get";
 
-import { Dictionary } from "@app/shared";
-
 import { GameState, GameTemplate } from "./Game.model";
 import { Player } from "./Player";
 import { HomeMadeEventEmitter } from "../helpers/HomeMadeEventEmitter";
 
 export type ExpressionContext = {
-  loaded_chunks: string[];
   state: GameState;
   conf: GameTemplate;
-  players: Dictionary<Player>;
-  helpers: {
-    [key: string]: Function;
-  },
-  $self: Player,
-  $get: typeof get,
+  loaded_modules: number[];
+
+  players: Player[];
+  self: Player,
+
+  helpers: { [key: string]: Function; }, // predefined expressions + html5 apis
+  get: typeof get,
+  createElement: Function; // render-kit
 
   eventBus: HomeMadeEventEmitter;
+
+  mutateState: (payload: MutateStatePayload) => void; // game state
+  saveToProfile: Function; // player settings
+  listenTo: Function; // connect to sockets
+  sendMessage: Function;  // send through sockets
 };
+
+export type MutateStatePayload = {
+  path: string;
+  value: any;
+  broadcastTo?: number[];
+  save?: boolean;
+}
