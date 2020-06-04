@@ -8,7 +8,7 @@ import { AppState } from '@app/core';
 import { Widget, Module, RuntimeSandbox, WidgetNode, } from '@app/game-mechanics';
 
 import { EditorSandboxRoot, EditorSandboxRootProps } from '../../../graphics';
-import { selectCommonGameStore } from "../../../state";
+import { selectCommonGameStoreWithOverrides } from "../../../state";
 
 type UpdatableProps = Partial<{
   fromParent: {},
@@ -37,7 +37,14 @@ export class TestBoardPresentationComponent {
     const { mountRef, sandbox } = self;
     if (mountRef && !meta.firstChange && sandbox) {
       if (sandbox.from_parent) {
-        let newProps = { fromParent: sandbox?.from_parent() };
+        const newProps = {
+          fromParent: sandbox?.from_parent(),
+          selectCommonGameStore: selectCommonGameStoreWithOverrides({
+            state: self.sandbox?.global_state() || {},
+            private_data: self.sandbox?.own_data() || {},
+            other: {},
+          }),
+        };
         updateWithNewProps<UpdatableProps>(mountRef.component, newProps);
       }
     }
@@ -63,7 +70,11 @@ export class TestBoardPresentationComponent {
         node: self.node,
         fromParent,
         store: self.store,
-        selectCommonGameStore,
+        selectCommonGameStore: selectCommonGameStoreWithOverrides({
+          state: self.sandbox?.global_state() || {},
+          private_data: self.sandbox?.own_data() || {},
+          other: {},
+        }),
       },
       assets: new Set(Object.values(self.assets || {})),
     });

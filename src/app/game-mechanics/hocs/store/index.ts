@@ -21,6 +21,9 @@ export class StoreProvider extends StatefulComponent<StoreProviderProps> {
         this.meta.context.set('store', this.props.store);
         this.meta.context.set('selectCommonGameStore', this.props.selectCommonGameStore);
     }
+    didUpdate() {
+        this.meta.context.set('selectCommonGameStore', this.props.selectCommonGameStore);
+    }
     render() {
         return this.props.children;
     }

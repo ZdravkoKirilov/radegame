@@ -7,31 +7,21 @@ import { enrichHandler, enrichLifecycle, enrichShape, enrichWidget, enrichTransi
 export type CommonGameStore = {
   config: GameTemplate;
   context: ExpressionContext;
-  remove_transitions?: boolean;
-  remove_handlers?: boolean;
-  remove_lifecycles?: boolean;
 };
 
-const selectConfig = (feature: CommonGameStore) => feature.config;
 export const selectExpressionContext = (feature: CommonGameStore) => feature.context;
-const selectFeatureFlags = (feature: CommonGameStore) => {
-  const { remove_handlers, remove_lifecycles, remove_transitions } = feature;
-  return { remove_handlers, remove_lifecycles, remove_transitions };
-}
 
 export const selectNodeHandlers = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
-  selectFeatureFlags,
-  (context, flags) => {
-    return flags.remove_handlers ? [] : node.handlers.map(node => enrichHandler(context, node));
+  context => {
+    return node.handlers.map(node => enrichHandler(context, node));
   }
 );
 
 export const selectNodeLifecycles = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
-  selectFeatureFlags,
-  (context, flags) => {
-    return flags.remove_lifecycles ? [] : node.lifecycles.map(node => enrichLifecycle(context, node));
+  context => {
+    return node.lifecycles.map(node => enrichLifecycle(context, node));
   }
 );
 
@@ -56,9 +46,8 @@ export const selectRuntimeNode = (node: WidgetNode) => createSelector(
 
 export const selectNodeTransitions = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
-  selectFeatureFlags,
-  (context, flags) => {
-    return flags.remove_transitions ? [] : node.transitions.map(transitionId => enrichTransition(
+  (context) => {
+    return node.transitions.map(transitionId => enrichTransition(
       context,
       context.conf.transitions[transitionId])
     )

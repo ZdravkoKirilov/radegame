@@ -1,9 +1,10 @@
 import { createSelector } from "reselect";
 
 import {
-    GameTemplate, CommonGameStore,
+    GameTemplate, CommonGameStore, GameState,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
+
 import { FEATURE_NAME } from "../utils";
 import { createEditorExpressionContext, createSandboxExpressionContext } from "./initializers";
 
@@ -58,6 +59,34 @@ export const selectSandboxExpressionContext = createSelector(
 export const selectCommonGameStore = createSelector(
     selectEntitiesDictionary,
     selectExpressionContext,
-    (config, context) => ({ config, context, remove_transitions: true, remove_lifecycles: true, remove_handlers: true }) as CommonGameStore
+    (config, context) => ({ config, context }) as CommonGameStore
 );
 
+type ContextOverrides = {
+    state?: Partial<GameState>;
+    private_data?: {};
+    other?: {};
+}
+
+export const selectCommonGameStoreWithOverrides =
+    ({ state = {}, private_data = {}, other = {} }: ContextOverrides) => createSelector(
+        selectEntitiesDictionary,
+        selectExpressionContext,
+        (config, context) => {
+            return {
+                config,
+                context: {
+                    ...context,
+                    ...other,
+                    state: {
+                        ...(context.state || {}),
+                        ...state,
+                    },
+                    private_data: {
+                        ...(context.private_data || {}),
+                        ...private_data,
+                    }
+                }
+            } as CommonGameStore;
+        }
+    );

@@ -7,6 +7,8 @@ import { HomeMadeEventEmitter } from "../helpers/HomeMadeEventEmitter";
 export type ExpressionContext = {
   state: GameState;
   conf: GameTemplate;
+  private_data: {};
+
   loaded_modules: number[];
 
   players: Player[];
