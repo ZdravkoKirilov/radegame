@@ -36,17 +36,17 @@ export class TestBoardPresentationComponent {
     const self: TestBoardPresentationComponent = this;
     const { mountRef, sandbox } = self;
     if (mountRef && !meta.firstChange && sandbox) {
-      if (sandbox.from_parent) {
-        const newProps = {
-          fromParent: sandbox?.from_parent(),
-          selectCommonGameStore: selectCommonGameStoreWithOverrides({
-            state: self.sandbox?.global_state() || {},
-            private_data: self.sandbox?.own_data() || {},
-            other: {},
-          }),
-        };
-        updateWithNewProps<UpdatableProps>(mountRef.component, newProps);
-      }
+
+      const newProps = {
+        fromParent: isFunction(sandbox?.from_parent) ? sandbox.from_parent() || {} : {},
+        selectCommonGameStore: selectCommonGameStoreWithOverrides({
+          state: isFunction(self.sandbox?.global_state) ? self.sandbox?.global_state() || {} : {},
+          private_data: isFunction(self.sandbox?.own_data) ? self.sandbox?.own_data() || {} : {},
+          other: {},
+        }),
+      };
+      updateWithNewProps<UpdatableProps>(mountRef.component, newProps);
+
     }
   })
   @Input() updateId: number;
@@ -54,7 +54,7 @@ export class TestBoardPresentationComponent {
   @OnChange(async function () {
     const self: TestBoardPresentationComponent = this;
     const domHost = this.canvasWrapper.nativeElement;
-    const fromParent = isFunction(self.sandbox?.from_parent) ? self.sandbox.from_parent() : null;
+    const { sandbox } = this;
 
     if (self.mountRef) {
       self.mountRef.destroy();
@@ -68,11 +68,11 @@ export class TestBoardPresentationComponent {
         widget: self.widget,
         module: self.module,
         node: self.node,
-        fromParent,
+        fromParent: isFunction(sandbox?.from_parent) ? sandbox.from_parent() || {} : {},
         store: self.store,
         selectCommonGameStore: selectCommonGameStoreWithOverrides({
-          state: self.sandbox?.global_state() || {},
-          private_data: self.sandbox?.own_data() || {},
+          state: isFunction(self.sandbox?.global_state) ? self.sandbox?.global_state() || {} : {},
+          private_data: isFunction(self.sandbox?.own_data) ? self.sandbox?.own_data() || {} : {},
           other: {},
         }),
       },

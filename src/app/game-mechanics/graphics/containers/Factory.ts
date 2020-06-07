@@ -15,10 +15,10 @@ export type NodeFactoryProps = {
 
 export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
     if (data.display_text || data.display_text_inline) {
-        return createElement<EnhancedTextNodeProps>(EnhancedTextNode, { data });
+        return createElement<EnhancedTextNodeProps>(EnhancedTextNode, { data, fromParent });
     }
     if (data.shape) {
-        return createElement<EnhancedShapeNodeProps>(EnhancedShapeNode, { data });
+        return createElement<EnhancedShapeNodeProps>(EnhancedShapeNode, { data, fromParent });
     }
     if (data.board) {
         return createElement<EnhancedWidgetNodeProps>(EnhancedWidgetNode, { data, fromParent });
@@ -27,7 +27,7 @@ export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
         return createElement<EnhancedItemNodeProps>(EnhancedItemNode, { data, fromParent });
     }
     if (data.module) {
-        return createElement<ModuleNodeProps>(EnhancedModuleNode, { data });
+        return createElement<ModuleNodeProps>(EnhancedModuleNode, { data, fromParent });
     }
 
     throw new Error('Undetermined node type: ' + data.name);

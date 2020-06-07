@@ -11,6 +11,7 @@ import { BasicTextNodeProps, BasicTextNode } from "../presentational";
 
 export type EnhancedTextNodeProps = {
     data: RuntimeWidgetNode;
+    fromParent: {};
 };
 
 type StoreProps = {

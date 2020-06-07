@@ -29,10 +29,15 @@ export const updateComponent = (component: Component, rendered: RzNode) => {
 };
 
 export const updateWithNewProps = <T = any>(component: Component, newProps: {} & RzElementProps & T) => {
-
     if (isFunctional(component)) {
-        const newRenderedOutput = component(newProps);
-        updateRegularFunctionalComponent(component, newRenderedOutput);
+        const mergedProps = {
+            ...(component.props || {}),
+            ...(newProps || {}),
+        };
+        const extras = prepareExtras(component, component.meta);
+        component.props = mergedProps;
+        const newRenderedOutput = callWithErrorPropagation(component.parent, () => component(mergedProps, extras));
+        updateComponent(component, newRenderedOutput);
     }
     if (isStateful(component)) {
         callWithErrorPropagation(component.parent, () => component.updateProps(newProps));
@@ -68,19 +73,19 @@ export const updateMemo = (memoComp: MemoRenderFunction, updated: RzElement) => 
     memoComp.props = updated.props;
 }
 
+const updateRegularFunctionalComponent = (target: RenderFunction, updated: RzElement) => {
+    target.props = updated.props;
+    const extras = prepareExtras(target, target.meta);
+    const rendered = callWithErrorPropagation(target.parent, () => target(updated.props, extras))
+    updateComponent(target, rendered);
+};
+
 export const updateFunctionalComponent = (target: RenderFunction, updated: RzElement) => {
     if (isMemo(target) && updated) {
         return updateMemo(target, updated);
     } else if (updated) {
         updateRegularFunctionalComponent(target, updated);
     }
-};
-
-const updateRegularFunctionalComponent = (target: RenderFunction, updated: RzElement) => {
-    target.props = updated.props;
-    const extras = prepareExtras(target, target.meta);
-    const rendered = callWithErrorPropagation(target.parent, () => target(updated.props, extras))
-    updateComponent(target, rendered);
 };
 
 export const updateContainer = (newProps: RzElementProps, component: PrimitiveContainer) => {

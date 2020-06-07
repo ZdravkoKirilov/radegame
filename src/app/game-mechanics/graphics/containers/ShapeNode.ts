@@ -10,6 +10,7 @@ import { assignHandlers, selectNodeStyleSync, selectNodeHandlers, selectExpressi
 
 export type EnhancedShapeNodeProps = {
     data: RuntimeWidgetNode;
+    fromParent?: {};
 }
 
 type StoreProps = {
