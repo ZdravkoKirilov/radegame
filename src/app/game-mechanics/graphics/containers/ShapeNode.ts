@@ -1,12 +1,12 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransitionProps, RzTransition, } from "@app/render-kit";
 import { Dictionary } from "@app/shared";
 
-import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle, RuntimeShape } from "../../entities";
+import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle } from "../../entities";
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
-import { BasicShapeNode, BasicShapeNodeProps } from "../presentational";
-import { assignHandlers, selectNodeStyleSync, selectNodeHandlers, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectRuntimeShape, CommonGameStore, combineStyles } from '../../helpers';
+import { assignHandlers, selectNodeStyleSync, selectNodeHandlers, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, CommonGameStore, selectChildPropsSync } from '../../helpers';
+import { RootShapeProps, RootShape } from "./RootShape";
 
 export type EnhancedShapeNodeProps = {
     data: RuntimeWidgetNode;
@@ -14,7 +14,6 @@ export type EnhancedShapeNodeProps = {
 }
 
 type StoreProps = {
-    shape: RuntimeShape;
     handlers: RuntimeNodeHandler[];
     context: ExpressionContext;
     transitions: RuntimeTransition[];
@@ -31,17 +30,17 @@ export class EnhancedShapeNode extends StatefulComponent<Props, State> {
 
     render() {
         const self = this;
-        const { shape, handlers, context, transitions, data, dispatch } = this.props;
+        const { handlers, context, transitions, data, dispatch } = this.props;
         const { animated } = this.state;
         const style = selectNodeStyleSync(data, self);
-        const composedStyle = combineStyles(shape, style);
-        const styleWithTransitionOverrides = { ...composedStyle, ...animated };
+        const childProps = selectChildPropsSync(data, self);
+        const styleWithTransitionOverrides = { ...style, ...animated };
 
         return createElement<RzElementPrimitiveProps>(
             'container',
             {
                 ...assignHandlers({ self, dispatch, handlers, context }),
-                styles: { z_order: composedStyle.z_order, }
+                styles: { z_order: style.z_order, }
             },
             createElement<RzTransitionProps>(
                 RzTransition,
@@ -64,16 +63,19 @@ export class EnhancedShapeNode extends StatefulComponent<Props, State> {
                     }
                 },
             ),
-            createElement<BasicShapeNodeProps>(
-                BasicShapeNode,
-                { style: styleWithTransitionOverrides, shape }
-            ),
+            createElement<RootShapeProps>(
+                RootShape,
+                {
+                    shape: data.shape,
+                    style: styleWithTransitionOverrides,
+                    fromParent: childProps,
+                }
+            )
         );
     }
 }
 
 const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedShapeNodeProps): StoreProps => ({
-    shape: selectRuntimeShape(ownProps.data.shape)(state),
     handlers: selectNodeHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
     transitions: selectNodeTransitions(ownProps.data)(state),

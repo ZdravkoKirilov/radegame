@@ -2,7 +2,7 @@ import { RenderFunction, createElement } from "@app/render-kit";
 
 import { connectToStore } from "../../hocs";
 import { Text, RuntimeText, Style } from "../../entities";
-import { CommonGameStore, selectRuntimeText } from "../../helpers";
+import { CommonGameStore, selectRuntimeText, combineStyles } from "../../helpers";
 import { BasicTextNode, BasicTextNodeProps } from "../presentational";
 
 export type RootTextProps = {
@@ -18,7 +18,8 @@ type StoreProps = {
 type Props = RootTextProps & StoreProps;
 
 const rootText: RenderFunction<Props> = ({ runtimeText, style }) => {
-  return createElement<BasicTextNodeProps>(BasicTextNode, { text: runtimeText.computed_value, style });
+  const composedStyle = combineStyles(runtimeText, style);
+  return createElement<BasicTextNodeProps>(BasicTextNode, { text: runtimeText.computed_value, style: composedStyle });
 };
 
 const mapStateToProps = (state: CommonGameStore, ownProps: RootTextProps): StoreProps => ({
