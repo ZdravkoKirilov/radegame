@@ -1,11 +1,10 @@
-import get from "lodash/get";
 import isFunction from 'lodash/isFunction';
 
 import { withMemo } from "@app/shared";
 import { StatefulComponent } from "@app/render-kit";
 
 import { RuntimeWidget, RuntimeWidgetNode, RuntimeText, Module } from "../entities";
-import { enrichNode, enrichFrame, enrichText } from "./entity-composers";
+import { enrichNode, enrichFrame } from "./entity-composers";
 import { ExpressionContext, RuntimeGame } from "../models";
 import { findFirstEntityBy } from "./misc";
 
@@ -68,20 +67,7 @@ export const selectWidgetNodesSync = withMemo(_selectWidgetNodesSync);
 
 const _selectNodeTextSync = (node: RuntimeWidgetNode, context: ExpressionContext, component: StatefulComponent, language = 2) => {
   if (node) {
-    let runtimeText: RuntimeText = null;
-    if (node.display_text_inline) {
-      runtimeText = enrichText(context, node.display_text_inline);
-    }
-    if (node.display_text) {
-      const text = node.display_text({ node: node, component });
-      runtimeText = enrichText(context, text);
-    }
-
-    if (runtimeText) {
-      const translation = (runtimeText.translations || []).find(elem => elem.language === language);
-      runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
-    }
-    return runtimeText;
+    return node?.display_text_inline || node?.display_text({ node: node, component });
   }
   return null;
 }

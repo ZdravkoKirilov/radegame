@@ -1,8 +1,8 @@
 import { createSelector } from 'reselect';
 
 import { GameTemplate, ExpressionContext, Game } from '../models';
-import { RuntimeWidgetNode, Shape, Widget, NodeItem, Module, WidgetNode } from '../entities';
-import { enrichHandler, enrichLifecycle, enrichShape, enrichWidget, enrichTransition, enrichItem, enrichModule, enrichGame, enrichNode } from './entity-composers';
+import { RuntimeWidgetNode, Shape, Widget, NodeItem, Module, WidgetNode, Text } from '../entities';
+import { enrichHandler, enrichLifecycle, enrichShape, enrichWidget, enrichTransition, enrichItem, enrichModule, enrichGame, enrichNode, enrichText } from './entity-composers';
 
 export type CommonGameStore = {
   config: GameTemplate;
@@ -68,6 +68,13 @@ export const selectRuntimeModule = (module: Module) => createSelector(
   selectExpressionContext,
   context => {
     return enrichModule(context, module);
+  }
+);
+
+export const selectRuntimeText = (text: Text, language?: number) => createSelector(
+  selectExpressionContext,
+  context => {
+    return enrichText(context, text, language);
   }
 );
 

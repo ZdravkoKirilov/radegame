@@ -6,8 +6,8 @@ import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
 import { assignHandlers } from "../../helpers/event-handlers";
-import { selectNodeStyleSync, selectNodeTextSync, combineStyles, selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles } from "../../helpers";
-import { BasicTextNodeProps, BasicTextNode } from "../presentational";
+import { selectNodeStyleSync, selectNodeTextSync, selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectChildPropsSync } from "../../helpers";
+import { RootText, RootTextProps } from "./RootText";
 
 export type EnhancedTextNodeProps = {
     data: RuntimeWidgetNode;
@@ -35,15 +35,15 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
         const { data, handlers, context, transitions, dispatch } = this.props;
         const { animated } = this.state;
         const text = selectNodeTextSync(data, context, self);
+        const childProps = selectChildPropsSync(data, self);
         const style = selectNodeStyleSync(data, self);
-        const composedStyle = combineStyles(text, style);
-        const styleWithTransitionOverrides = { ...composedStyle, ...animated };
+        const styleWithTransitionOverrides = { ...style, ...animated };
 
         return createElement<RzElementPrimitiveProps>(
             'container',
             {
                 ...assignHandlers({ self, dispatch, handlers, context }),
-                styles: { z_order: composedStyle.z_order }
+                styles: { z_order: style.z_order }
             },
             createElement<RzTransitionProps>(
                 RzTransition,
@@ -66,7 +66,14 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
                     }
                 },
             ),
-            createElement<BasicTextNodeProps>(BasicTextNode, { text: text.computed_value, style: styleWithTransitionOverrides }),
+            createElement<RootTextProps>(
+                RootText,
+                {
+                    text,
+                    style: styleWithTransitionOverrides,
+                    fromParent: childProps,
+                }
+            )
         );
     }
 };

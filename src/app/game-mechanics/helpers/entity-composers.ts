@@ -1,3 +1,5 @@
+import get from 'lodash/get';
+
 import {
     WidgetNode, RuntimeWidgetNode, GameEntity,
     NodeHandler, Transition, RuntimeTransition, RuntimeAnimation,
@@ -81,11 +83,16 @@ export const enrichShape = (context: ExpressionContext, shape: Shape) => {
     }, shape);
 };
 
-export const enrichText = (context: ExpressionContext, text: Text) => {
-    return enrichEntity<Text, RuntimeText>(context.conf, {
+export const enrichText = (context: ExpressionContext, text: Text, language?: number) => {
+    let runtimeText = enrichEntity<Text, RuntimeText>(context.conf, {
         style_inline: src => safeJSON(src, {}),
-        style: src => parseAndBind(context)(src)
-    }, text)
+        style: src => parseAndBind(context)(src),
+    }, text);
+
+    const translation = (runtimeText.translations || []).find(elem => elem.language === language);
+    runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
+
+    return runtimeText;
 };
 
 export const enrichItem = (context: ExpressionContext, item: NodeItem) => {

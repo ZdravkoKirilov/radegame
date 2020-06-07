@@ -1,5 +1,3 @@
-import get from 'lodash/get';
-
 import { Style, BasicTextNodeProps, BasicTextNode, RuntimeText } from "@app/game-mechanics";
 import { StatefulComponent, createElement } from "@app/render-kit";
 
@@ -20,11 +18,7 @@ export default class RootComponent extends StatefulComponent<Props> {
     } as Style;
 
     if (this.props.text) {
-      let runtimeText = this.props.text;
-      const translation = (runtimeText.translations || []).find(elem => elem.id === this.props.translation);
-      runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
-
-      return createElement<BasicTextNodeProps>(BasicTextNode, { style, text: runtimeText.computed_value });
+      return createElement<BasicTextNodeProps>(BasicTextNode, { style, text: this.props.text.computed_value });
     }
     return createElement(null);
   }

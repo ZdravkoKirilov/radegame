@@ -34,17 +34,15 @@ class EnhancedModuleNode extends StatefulComponent<Props, State> {
     const self = this;
     const { data, handlers, context, transitions, dispatch } = this.props;
     const { animated } = this.state;
-    const text = selectNodeTextSync(data, context, self);
     const style = selectNodeStyleSync(data, self);
     const childProps = selectChildPropsSync(data, self);
-    const composedStyle = combineStyles(text, style);
-    const styleWithTransitionOverrides = { ...composedStyle, ...animated };
+    const styleWithTransitionOverrides = { ...style, ...animated };
 
     return createElement<RzElementPrimitiveProps>(
       'container',
       {
         ...assignHandlers({ self, dispatch, handlers, context }),
-        styles: { z_order: composedStyle.z_order }
+        styles: { z_order: style.z_order }
       },
       createElement<RzTransitionProps>(
         RzTransition,
