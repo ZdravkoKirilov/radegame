@@ -35,8 +35,8 @@ class EnhancedWidgetNode extends StatefulComponent<Props, State> {
     render() {
         const self = this;
         const { data, handlers, context, transitions, dispatch } = this.props;
-        const childProps = selectChildPropsSync(data, self);
         const { animated } = this.state;
+        const childProps = selectChildPropsSync(data, self);
         const style = selectNodeStyleSync(data, self);
         const styleWithTransitionOverrides = { ...style, ...animated };
 

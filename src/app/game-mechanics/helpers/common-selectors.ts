@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { GameTemplate, ExpressionContext, Game } from '../models';
-import { RuntimeWidgetNode, Shape, Widget, NodeItem, Module, WidgetNode, Text } from '../entities';
+import { RuntimeWidgetNode, Shape, Widget, NodeItem, WidgetNode, Text, Module } from '../entities';
 import { enrichHandler, enrichLifecycle, enrichShape, enrichWidget, enrichTransition, enrichItem, enrichModule, enrichGame, enrichNode, enrichText } from './entity-composers';
 
 export type CommonGameStore = {
@@ -59,8 +59,8 @@ export const selectItemTemplate = (item: NodeItem) => createSelector(
   context => {
     const runtimeItem = enrichItem(context, item);
     const attachedEntity = runtimeItem.choice || runtimeItem.token;
-    const widget: Widget = attachedEntity.template;
-    return enrichWidget(context, widget);
+    const widget = attachedEntity.template;
+    return widget
   }
 );
 
@@ -68,6 +68,13 @@ export const selectRuntimeModule = (module: Module) => createSelector(
   selectExpressionContext,
   context => {
     return enrichModule(context, module);
+  }
+);
+
+export const selectRuntimeItem = (item: NodeItem) => createSelector(
+  selectExpressionContext,
+  context => {
+    return enrichItem(context, item);
   }
 );
 
