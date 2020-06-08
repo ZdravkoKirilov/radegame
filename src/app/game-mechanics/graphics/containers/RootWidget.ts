@@ -8,7 +8,6 @@ import { selectWidgetNodesSync, selectWidgetFrameSync, CommonGameStore, selectRu
 import { WidgetRendererProps, WidgetRenderer } from "../presentational";
 import { connectToStore } from "../../hocs";
 import NodeFactory, { NodeFactoryProps } from "./Factory";
-import StaticWidget, { StaticWidgetProps } from "./StaticWidget";
 
 type Props = RootWidgetProps & StoreProps;
 
@@ -29,6 +28,7 @@ type StoreProps = {
 class _RootWidget extends StatefulComponent<Props> {
 
   render() {
+    const self = this;
     const { context, runtimeWidget, renderChild, renderFrame, fromParent, style } = this.props;
     const nodes = selectWidgetNodesSync(runtimeWidget, context, self);
     const frame = selectWidgetFrameSync(runtimeWidget, context, self);
@@ -72,7 +72,7 @@ export const defaultChildRenderFunc = (childProps: {}) => (node: RuntimeWidgetNo
 export const defaultFrameRenderFunc =
   (childProps: {}) =>
     (widget: Widget) =>
-      createElement<StaticWidgetProps>(StaticWidget, {
+      createElement<RootWidgetProps>(RootWidget, {
         widget,
         style: { width: widget.width, height: widget.height },
         fromParent: childProps

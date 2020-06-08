@@ -18,14 +18,15 @@ export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, nodes, render
             renderChild(node),
         );
     });
+    const scale = calculateScaling(
+        [Number(style.width), Number(style.height)],
+        [Number(widget.width), Number(widget.height)],
+    );
 
     return createElement<RzElementPrimitiveProps>('container', {
         styles: {
             ...style,
-            scale: calculateScaling(
-                [Number(style.width), Number(style.height)],
-                [Number(widget.width), Number(widget.height)],
-            ),
+            scale,
         }
     },
         frame ? createElement<RzElementPrimitiveProps>(

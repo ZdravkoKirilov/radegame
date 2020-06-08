@@ -85,6 +85,9 @@ export const toHexColorString = (value: string | number | string[] | number[]) =
 };
 
 export const calculateScaling = (target: [number, number], original: [number, number]) => {
-  return `${target[0] / original[0]} ${target[1] / original[1]}`;
+  return `${target[0] / original[0]} ${target[1] / original[1]}`
+    .split(' ')
+    .map(elem => isNaN(Number(elem)) ? 1 : elem)
+    .join(' ');
 };
 

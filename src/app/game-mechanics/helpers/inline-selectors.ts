@@ -1,9 +1,8 @@
 import isFunction from 'lodash/isFunction';
 
-import { withMemo } from "@app/shared";
 import { StatefulComponent } from "@app/render-kit";
 
-import { RuntimeWidget, RuntimeWidgetNode, RuntimeText, Module } from "../entities";
+import { RuntimeWidget, RuntimeWidgetNode, Module } from "../entities";
 import { enrichNode, enrichFrame } from "./entity-composers";
 import { ExpressionContext, RuntimeGame } from "../models";
 import { findFirstEntityBy } from "./misc";
@@ -34,7 +33,7 @@ const _selectNodeStyleSync = (node: RuntimeWidgetNode, component: StatefulCompon
   }
   return {};
 };
-export const selectNodeStyleSync = withMemo(_selectNodeStyleSync);
+export const selectNodeStyleSync = _selectNodeStyleSync;
 
 
 const _selectWidgetFrameSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
@@ -49,7 +48,7 @@ const _selectWidgetFrameSync = (widget: RuntimeWidget, context: ExpressionContex
   }
   return null;
 }
-export const selectWidgetFrameSync = withMemo(_selectWidgetFrameSync);
+export const selectWidgetFrameSync = _selectWidgetFrameSync;
 
 
 const _selectWidgetNodesSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
@@ -62,7 +61,7 @@ const _selectWidgetNodesSync = (widget: RuntimeWidget, context: ExpressionContex
   }
   return [];
 };
-export const selectWidgetNodesSync = withMemo(_selectWidgetNodesSync);
+export const selectWidgetNodesSync = _selectWidgetNodesSync;
 
 
 const _selectNodeTextSync = (node: RuntimeWidgetNode, context: ExpressionContext, component: StatefulComponent, language = 2) => {
@@ -71,4 +70,4 @@ const _selectNodeTextSync = (node: RuntimeWidgetNode, context: ExpressionContext
   }
   return null;
 }
-export const selectNodeTextSync = withMemo(_selectNodeTextSync);
+export const selectNodeTextSync = _selectNodeTextSync;

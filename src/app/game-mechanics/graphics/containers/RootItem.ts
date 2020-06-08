@@ -8,6 +8,7 @@ import { RootWidgetProps, RootWidget } from "./RootWidget";
 export type RootItemProps = {
   item: NodeItem;
   style?: Style;
+  fromParent?: {};
 }
 
 type StoreProps = {
@@ -17,12 +18,13 @@ type StoreProps = {
 
 type Props = RootItemProps & StoreProps;
 
-const rootItem: RenderFunction<Props> = ({ template, runtimeItem, style }) => {
+const rootItem: RenderFunction<Props> = ({ template, runtimeItem, style, fromParent }) => {
   return createElement<RootWidgetProps>(
     RootWidget,
     {
       widget: template,
       fromParent: {
+        ...fromParent,
         item: runtimeItem.choice || runtimeItem.token
       },
       style,

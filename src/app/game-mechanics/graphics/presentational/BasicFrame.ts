@@ -10,7 +10,6 @@ export type FrameRendererProps = {
 
 export const FrameRenderer: RenderFunction<FrameRendererProps> = ({ frame, renderWidget, style }) => {
     const composedStyle = combineStyles(style, frame);
-
     if (frame.widget) {
         return renderWidget(frame.widget, style);
     }
