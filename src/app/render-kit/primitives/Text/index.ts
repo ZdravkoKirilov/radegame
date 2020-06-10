@@ -7,7 +7,7 @@ export type PrimitiveTextProps = RzElementPrimitiveProps & {
 export class PrimitiveText extends BasicComponent<PrimitiveTextProps> {
 
     static defaultTextStyle = {
-        fontFamily: 'Arial', fontSize: 24, stroke: '#ffffff', fill: ['#ffffff'], align: 'center', strokeThickness: 1,
+        fontFamily: 'Arial', fontSize: 24, fill: ['#1a1b1c'], align: 'center', strokeThickness: 1,
     };
 
     style: any;

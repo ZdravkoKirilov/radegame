@@ -6,3 +6,4 @@ export * from './sounds';
 
 export * from './event-handlers';
 export * from './common-selectors';
+export * from './register-components';

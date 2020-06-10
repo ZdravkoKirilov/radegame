@@ -1,3 +1,5 @@
+import isFunction from 'lodash/isFunction';
+
 import {
   StatefulComponent, createElement, RzElement, RzElementPrimitiveProps
 } from "@app/render-kit";
@@ -35,7 +37,7 @@ class _RootWidget extends StatefulComponent<Props> {
     const customRenderFunc = runtimeWidget?.render;
 
     return (
-      customRenderFunc ? customRenderFunc({ widget: runtimeWidget, component: this }) : createElement<WidgetRendererProps>(
+      isFunction(customRenderFunc) ? customRenderFunc({ widget: runtimeWidget, component: this }) : createElement<WidgetRendererProps>(
         WidgetRenderer,
         {
           renderChild: renderChild || defaultChildRenderFunc(fromParent), nodes, frame,

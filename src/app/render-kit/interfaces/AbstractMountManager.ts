@@ -1,4 +1,4 @@
-import { Component, RzElementType } from "../internal";
+import { Component, RzElementType, AbstractRenderEngine } from "../internal";
 
 export type MountConfig<T = any> = {
     width?: number;
@@ -6,6 +6,7 @@ export type MountConfig<T = any> = {
     backgroundColor?: number;
     assets?: Set<string>;
     props?: T;
+    registerComponents?: (engine: AbstractRenderEngine) => void;
 }
 
 export type MountRef = {

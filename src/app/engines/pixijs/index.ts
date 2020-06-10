@@ -3,6 +3,7 @@ import { Ticker } from 'pixi.js';
 import { Container, Application } from 'pixi.js';
 
 import { AbstractRenderEngine, MountConfig, createRenderer, createElement, RzElementType, unmountComponent } from "@app/render-kit";
+
 import { PixiFactory } from "./factory";
 import { PixiMutator } from "./mutator";
 import { PixiLoader } from "./loader";
@@ -12,7 +13,7 @@ const ticker = Ticker.shared;
 ticker.autoStart = false;
 ticker.stop();
 
-export const createPixiEngine = (app: Pixi.Application, document: Document): AbstractRenderEngine => {
+const createPixiEngine = (app: Pixi.Application, document: Document): AbstractRenderEngine => {
     const factory = new PixiFactory(document);
     const mutator = new PixiMutator();
     const event = new PixiDelegationEventsManager(app.renderer.plugins.interaction, document);
@@ -29,7 +30,11 @@ export const createPixiEngine = (app: Pixi.Application, document: Document): Abs
     };
 }
 
-export async function mountPixi<T>(component: RzElementType, DOMHost: HTMLElement, config: MountConfig<T>) {
+export async function mountPixi<T>(
+    component: RzElementType,
+    DOMHost: HTMLElement,
+    config: MountConfig<T>
+) {
     let renderLoop: number;
     const stage = new Container();
     const app = new Application({
@@ -45,6 +50,7 @@ export async function mountPixi<T>(component: RzElementType, DOMHost: HTMLElemen
     DOMHost.appendChild(app.renderer.view);
 
     const PixiEngine = createPixiEngine(app, DOMHost.ownerDocument);
+    config.registerComponents && config.registerComponents(PixiEngine);
     const render = createRenderer(PixiEngine, config.assets || new Set());
     const renderedComponent = await render(createElement(component, config.props), stage);
     const startRenderLoop = () => {

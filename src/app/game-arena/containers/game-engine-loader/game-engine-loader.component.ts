@@ -4,7 +4,7 @@ import { Store } from '@ngrx/store';
 import { MountRef } from '@app/render-kit';
 import { AppState } from '@app/core';
 import { WindowRefService } from '@app/shared';
-import { Module, Game } from '@app/game-mechanics';
+import { Module, Game, registerComponents } from '@app/game-mechanics';
 
 import { GameArenaRoot, GameArenaRootProps } from '../../graphics';
 
@@ -44,7 +44,8 @@ export class GameEngineLoaderComponent implements OnInit, OnDestroy {
       width: this.windowRef.nativeWindow.innerWidth,
       height: this.windowRef.nativeWindow.innerHeight,
       props: { store: this.store, module: this.module, game: this.game },
-      assets: this.imageAssets
+      assets: this.imageAssets,
+      registerComponents,
     });
   }
 

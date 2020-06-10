@@ -21,6 +21,7 @@ export const enrichNode = (context: ExpressionContext, initialNode: WidgetNode) 
         display_text: src => parseAndBind(context)(src),
         consume_context: src => parseAndBind(context)(src),
         provide_context: src => parseAndBind(context)(src),
+        pass_to_children: src => parseAndBind(context)(src),
         display_text_inline: 'texts',
         board: 'widgets',
     }, initialNode);
@@ -73,6 +74,7 @@ export const enrichWidget = (context: ExpressionContext, widget: Widget) => {
     return enrichEntity<Widget, RuntimeWidget>(context.conf, {
         node_getter: src => parseAndBind(context)(src),
         frame_getter: src => parseAndBind(context)(src),
+        render: src => parseAndBind(context)(src),
     }, widget);
 };
 

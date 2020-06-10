@@ -17,9 +17,9 @@ type StoreProps = {
 
 type Props = RootShapeProps & StoreProps;
 
-const rootShape: RenderFunction<Props> = ({ runtimeShape, style }) => {
+const rootShape: RenderFunction<Props> = ({ runtimeShape, style, shape }) => {
   const composedStyle = combineStyles(runtimeShape, style);
-  return createElement<BasicShapeNodeProps>(BasicShapeNode, { style: composedStyle, shape: runtimeShape });
+  return createElement<BasicShapeNodeProps>(BasicShapeNode, { style: composedStyle, shape });
 };
 
 const mapStateToProps = (state: CommonGameStore, ownProps: RootShapeProps): StoreProps => ({

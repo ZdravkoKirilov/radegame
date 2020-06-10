@@ -1,5 +1,5 @@
 import { RenderFunction, createElement } from "@app/render-kit";
-import { Style, RuntimeShape } from "../../entities";
+import { Style, Shape } from "../../entities";
 import BasicCircle, { BasicCircleNodeProps } from "./BasicCircle";
 import BasicRectangle, { BasicRectangleProps } from "./BasicRectangle";
 import BasicPolygon, { PolygonNodeProps } from "./BasicPolygon";
@@ -8,7 +8,7 @@ import BasicEllipse, { BasicEllipseNodeProps } from "./BasicEllipse";
 
 export type BasicShapeNodeProps = {
     style: Style;
-    shape: RuntimeShape;
+    shape: Shape;
 }
 
 export const BasicShapeNode: RenderFunction<BasicShapeNodeProps> = ({ style, shape }) => {

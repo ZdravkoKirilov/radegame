@@ -5,7 +5,7 @@ import isFunction from 'lodash/isFunction';
 import { MountRef, updateWithNewProps } from '@app/render-kit';
 import { OnChange, WindowRefService, Dictionary } from '@app/shared';
 import { AppState } from '@app/core';
-import { Widget, Module, RuntimeSandbox, WidgetNode, } from '@app/game-mechanics';
+import { Widget, Module, RuntimeSandbox, WidgetNode, registerComponents } from '@app/game-mechanics';
 
 import { EditorSandboxRoot, EditorSandboxRootProps } from '../../../graphics';
 import { selectCommonGameStoreWithOverrides } from "../../../state";
@@ -77,6 +77,7 @@ export class TestBoardPresentationComponent {
         }),
       },
       assets: new Set(Object.values(self.assets || {})),
+      registerComponents,
     });
     window['pixiroot'] = self.mountRef.component;
   })

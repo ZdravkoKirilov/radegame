@@ -17,13 +17,7 @@ export const BasicTextNode = Memo<BasicTextNodeProps>(({ style, text }) => {
         },
         createElement<PrimitiveTextProps>('text', {
             value: text,
-            textStyle: {
-                font_size: style.font_size || 18,
-                font_family: style.font_family,
-                font_style: style.font_style,
-                stroke_color: style.stroke_color,
-                fill: style.fill || '#1a1b1c',
-            }
+            textStyle: style,
         }),
     );
 

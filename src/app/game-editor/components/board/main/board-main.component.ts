@@ -1,14 +1,12 @@
 import {
-	Component, OnInit, ViewChild, ElementRef,
-	OnDestroy,
-	Output, Input,
-	EventEmitter
+	Component, OnInit, ViewChild, ElementRef, OnDestroy, Output, Input, EventEmitter
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+
 import { AppState } from '@app/core';
 import { WindowRefService, OnChange } from '@app/shared';
 import { MountRef, updateComponent, RenderFunction } from '@app/render-kit';
-import { WidgetNode, ImageAsset, Widget } from '@app/game-mechanics';
+import { WidgetNode, ImageAsset, Widget, registerComponents } from '@app/game-mechanics';
 
 import { ConnectedRootComponent } from '../../../graphics';
 
@@ -59,7 +57,8 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 			props: {
 				store: this.store, selectNode: _selectNode, widget
 			},
-			assets: new Set(this.images.map(img => img.image))
+			assets: new Set(this.images.map(img => img.image)),
+			registerComponents,
 		});
 		window['pixiroot'] = this.mount.component;
 	}
