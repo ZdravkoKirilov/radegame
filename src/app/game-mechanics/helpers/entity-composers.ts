@@ -75,6 +75,8 @@ export const enrichWidget = (context: ExpressionContext, widget: Widget) => {
         node_getter: src => parseAndBind(context)(src),
         frame_getter: src => parseAndBind(context)(src),
         render: src => parseAndBind(context)(src),
+        style: src => parseAndBind(context)(src),
+        style_inline: src => safeJSON(src, {}),
     }, widget);
 };
 

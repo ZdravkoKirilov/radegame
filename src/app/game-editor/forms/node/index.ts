@@ -20,10 +20,6 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
         <Form>
             ${baseTemplate}
 
-            <NumberInput name='x' label='Left' defaultValue='{100}'>{data.x}</NumberInput>
-
-            <NumberInput name='y' label='Top' defaultValue='{100}'>{data.y}</NumberInput>
-
             ${boardTemplate}
 
             <Dropdown name='shape' label='Shape' options='{shape_options}'>

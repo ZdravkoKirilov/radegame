@@ -15,15 +15,8 @@ import { Text } from "./Text.model";
 import { Sonata } from "./Sonata.model";
 import { Module } from "./Module.model";
 
-// TODO: think about expression context and how to empower it. It should be a part of commonGameStore
-// think about making nodes, lifecycles, handlers m2m again - it will provide easier testing and composing
-// think about a Node hosting another lazy Module
-
 export type WidgetNode = BaseModel & WithBoard & WithStyle & Partial<{
     owner: number; // Widget;
-
-    y: number;
-    x: number;
 
     display_text: string;
     display_text_inline: number;

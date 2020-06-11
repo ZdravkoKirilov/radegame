@@ -1,5 +1,5 @@
 import { createElement, RenderFunction, RzDraggable, RzDraggableProps, RzPoint, RzElementPrimitiveProps } from "@app/render-kit";
-import { RuntimeWidgetNode, NodeFactory, NodeFactoryProps } from "@app/game-mechanics";
+import { RuntimeWidgetNode, NodeFactory, NodeFactoryProps, combineStyles } from "@app/game-mechanics";
 
 export type Props = {
   data: RuntimeWidgetNode;
@@ -10,6 +10,7 @@ export type Props = {
 
 export const DraggableNode: RenderFunction<Props> = (props) => {
   const { data, onDragEnd, onSelect, selected } = props;
+  const nodeStyle = combineStyles(data);
 
   return (
     createElement<RzDraggableProps>(
@@ -18,7 +19,7 @@ export const DraggableNode: RenderFunction<Props> = (props) => {
         onDragEnd: (coords) => {
           onDragEnd(data.id, coords);
         },
-        startPosition: { x: data.x, y: data.y },
+        startPosition: { x: nodeStyle.x, y: nodeStyle.y },
         render: (coords => {
 
           return (

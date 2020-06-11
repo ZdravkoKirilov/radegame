@@ -1,5 +1,6 @@
 import { Store } from "@ngrx/store";
 import clone from 'immer';
+import isString from 'lodash/isString';
 
 import {
   StatefulComponent, createElement, AutoClean, RzPoint, RenderFunction
@@ -59,14 +60,12 @@ export class rootComponent extends StatefulComponent<EditorRootProps, State> {
 
   handleDragEnd = (id: number, coords: RzPoint) => {
     const nodeIndex = this.props.widget.nodes.findIndex(elem => elem.id === id);
-    const newWidgetData = clone(this.props.widget, draft => {
-      draft.nodes[nodeIndex].x = coords.x;
-      draft.nodes[nodeIndex].y = coords.y;
-    });
 
     const newRuntimeWidgetData = clone(this.state.runtimeWidget, draft => {
-      draft.nodes[nodeIndex].x = coords.x;
-      draft.nodes[nodeIndex].y = coords.y;
+      const targetNode = draft.nodes[nodeIndex];
+      targetNode.style_inline = isString(targetNode.style_inline) ?  JSON.parse(targetNode.style_inline) : {};
+      targetNode.style_inline.x = coords.x;
+      targetNode.style_inline.y = coords.y;
     });
 
     this.setState({ selectedNode: null, runtimeWidget: newRuntimeWidgetData });
@@ -74,12 +73,12 @@ export class rootComponent extends StatefulComponent<EditorRootProps, State> {
 
     this.props.store.dispatch(new SaveItemAction({
       key: ALL_ENTITIES.nodes,
-      data: newWidgetData.nodes[nodeIndex],
+      data: {
+        ...newRuntimeWidgetData.nodes[nodeIndex],
+        style_inline: JSON.stringify(newRuntimeWidgetData.nodes[nodeIndex].style_inline) as any
+      },
     }));
   }
-
-  // todo
-  // non-engine related bringToFront()
 
   render() {
     const { handleDragEnd, selectNode } = this;
