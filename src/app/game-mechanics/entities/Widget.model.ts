@@ -3,12 +3,10 @@ import { StatefulComponent, RzNode } from "@app/render-kit";
 
 import { ImageFrame } from "./ImageAsset.model";
 import { ParamedExpressionFunc } from "./Expression.model";
-import { BaseModel, WithFrames } from "./Base.model";
+import { BaseModel, WithFrames, WithStyle } from "./Base.model";
 import { WidgetNode } from "./WidgetNode.model";
 
-export type Widget = BaseModel & WithFrames & Partial<{
-    width: number;
-    height: number;
+export type Widget = BaseModel & WithFrames & WithStyle & Partial<{
 
     node_getter: string; // Expression => WidgetNode[]
     nodes: WidgetNode[];

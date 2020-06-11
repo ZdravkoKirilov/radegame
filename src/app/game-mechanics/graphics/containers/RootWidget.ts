@@ -6,7 +6,7 @@ import {
 
 import { RuntimeWidget, RuntimeWidgetNode, Widget, Style } from "../../entities";
 import { ExpressionContext } from "../../models";
-import { selectWidgetNodesSync, selectWidgetFrameSync, CommonGameStore, selectRuntimeWidget, selectExpressionContext, selectNodeStyleSync } from "../../helpers";
+import { selectWidgetNodesSync, selectWidgetFrameSync, CommonGameStore, selectRuntimeWidget, selectExpressionContext, selectNodeStyleSync, combineStyles } from "../../helpers";
 import { WidgetRendererProps, WidgetRenderer } from "../presentational";
 import { connectToStore } from "../../hocs";
 import NodeFactory, { NodeFactoryProps } from "./Factory";
@@ -35,6 +35,7 @@ class _RootWidget extends StatefulComponent<Props> {
     const nodes = selectWidgetNodesSync(runtimeWidget, context, self);
     const frame = selectWidgetFrameSync(runtimeWidget, context, self);
     const customRenderFunc = runtimeWidget?.render;
+    const widgetStyle = combineStyles(runtimeWidget);
 
     return (
       isFunction(customRenderFunc) ? customRenderFunc({ widget: runtimeWidget, component: this }) : createElement<WidgetRendererProps>(
@@ -42,7 +43,7 @@ class _RootWidget extends StatefulComponent<Props> {
         {
           renderChild: renderChild || defaultChildRenderFunc(fromParent), nodes, frame,
           widget: runtimeWidget,
-          style: style || { width: runtimeWidget.width, height: runtimeWidget.height },
+          style: style || { width: widgetStyle.width, height: widgetStyle.height },
           renderFrame: renderFrame || defaultFrameRenderFunc(fromParent),
         }
       )
@@ -73,9 +74,9 @@ export const defaultChildRenderFunc = (childProps: {}) => (node: RuntimeWidgetNo
 
 export const defaultFrameRenderFunc =
   (childProps: {}) =>
-    (widget: Widget) =>
-      createElement<RootWidgetProps>(RootWidget, {
+    (widget: Widget) => {
+      return createElement<RootWidgetProps>(RootWidget, {
         widget,
-        style: { width: widget.width, height: widget.height },
         fromParent: childProps
       });
+    }

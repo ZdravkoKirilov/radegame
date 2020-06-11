@@ -15,7 +15,7 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
         <TextInput name='height' label='Height'>{data.height}</TextInput>
         <TextInput name='x' label='Left'>{data.x}</TextInput>
         <TextInput name='y' label='Top'>{data.y}</TextInput>
-        <NumberInput name='z' label='Z order'>{data.z}</NumberInput>
+        <NumberInput name='z' label='z'>{data.z}</NumberInput>
 
         <TextInput name='stroke_color' label='Stroke color'>{data.stroke_color}</TextInput>
         <TextInput name='stroke_thickness' label='Stroke thickness'>{data.stroke_thickness}</TextInput>

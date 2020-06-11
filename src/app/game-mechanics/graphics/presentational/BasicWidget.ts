@@ -1,6 +1,8 @@
-import { RuntimeWidgetNode, Style, RuntimeImageFrame, RuntimeWidget, Widget } from "../../entities";
 import { Memo, createElement, calculateScaling, RzElement, RzElementPrimitiveProps } from "@app/render-kit";
+import { combineStyles } from "@app/game-mechanics";
+
 import { FrameRendererProps, FrameRenderer } from "./BasicFrame";
+import { RuntimeWidgetNode, Style, RuntimeImageFrame, RuntimeWidget, Widget } from "../../entities";
 
 export type WidgetRendererProps = {
     widget: RuntimeWidget;
@@ -13,14 +15,11 @@ export type WidgetRendererProps = {
 
 export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, nodes, renderChild, renderFrame, style, frame }) => {
     nodes = nodes || [];
-    const children = nodes.map(node => {
-        return createElement('container', { key: node.id },
-            renderChild(node),
-        );
-    });
+    const children = nodes.map(node => createElement('container', { key: node.id }, renderChild(node)));
+    const widgetStyle = combineStyles(widget);
     const scale = calculateScaling(
         [Number(style.width), Number(style.height)],
-        [Number(widget.width), Number(widget.height)],
+        [Number(widgetStyle.width), Number(widgetStyle.height)],
     );
 
     return createElement<RzElementPrimitiveProps>('container', {
@@ -36,8 +35,8 @@ export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, nodes, render
                 frame,
                 renderWidget: renderFrame,
                 style: {
-                    width: widget.width,
-                    height: widget.height
+                    width: widgetStyle.width,
+                    height: widgetStyle.height
                 }
             }),
         ) : null,

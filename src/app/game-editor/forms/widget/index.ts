@@ -1,6 +1,10 @@
 import { Widget, GameEntity } from '@app/game-mechanics';
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
-import { baseTemplate, composeCommonFormContext, framesTemplate } from '../helpers';
+
+import {
+    baseTemplate, composeCommonFormContext, framesTemplate, styleTemplate,
+    composeInlineStyleFormContext
+} from '../helpers';
 
 export function composeWidgetForm(data: Widget, ent: ConnectedEntities): BaseControl[] {
     data = data || {};
@@ -10,16 +14,14 @@ export function composeWidgetForm(data: Widget, ent: ConnectedEntities): BaseCon
         <Form>
             ${baseTemplate}
 
-            <NumberInput name='width' label='Width' required='{true}'>{data.width}</NumberInput>
+            <CodeEditor name="render" label="Render">
+                {data.render}
+            </CodeEditor>
 
-            <NumberInput name='height' label='Height' required='{true}'>{data.height}</NumberInput>
+            ${styleTemplate}
 
             <CodeEditor name="node_getter" label="Create nodes">
                 {data.node_getter}
-            </CodeEditor>
-
-            <CodeEditor name="render" label="Render">
-                {data.render}
             </CodeEditor>
 
             ${framesTemplate}
@@ -35,6 +37,7 @@ export function composeWidgetForm(data: Widget, ent: ConnectedEntities): BaseCon
         source: template,
         context: {
             ...composeCommonFormContext(data as GameEntity, ent),
+            ...composeInlineStyleFormContext(ent),
             data, frames,
         },
     }, true);
