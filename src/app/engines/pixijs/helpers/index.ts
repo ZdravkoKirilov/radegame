@@ -125,9 +125,6 @@ export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyle
     if (styles.height && typeof styles.height === 'string') {
         copy.height = Number(styles.height);
     }
-    if (styles.interactive) {
-        copy.interactive = Boolean(styles.interactive);
-    }
 
     return copy;
 };

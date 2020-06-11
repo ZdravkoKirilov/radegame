@@ -13,7 +13,6 @@ const BasicCircle: RenderFunction<BasicCircleNodeProps> = ({ style }) => {
             x: style.x,
             y: style.y,
             width: style.width,
-            interactive: style.interactive,
         }
     });
 };

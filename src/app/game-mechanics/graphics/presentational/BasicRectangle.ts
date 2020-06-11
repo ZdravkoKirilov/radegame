@@ -17,7 +17,6 @@ const BasicRectangle: RenderFunction<BasicRectangleProps> = ({ style }) => {
             width: Number(style.width),
             height: Number(style.height),
             border_radius: style.border_radius,
-            interactive: style.interactive,
             opacity: style.opacity,
         }
     });

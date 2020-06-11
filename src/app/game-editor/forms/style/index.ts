@@ -15,6 +15,7 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
         <TextInput name='height' label='Height'>{data.height}</TextInput>
         <TextInput name='x' label='Left'>{data.x}</TextInput>
         <TextInput name='y' label='Top'>{data.y}</TextInput>
+        <NumberInput name='z' label='Z order'>{data.z}</NumberInput>
 
         <TextInput name='stroke_color' label='Stroke color'>{data.stroke_color}</TextInput>
         <TextInput name='stroke_thickness' label='Stroke thickness'>{data.stroke_thickness}</TextInput>
@@ -32,12 +33,6 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
         <Dropdown name='font_style' label='Font style' options='{font_styles}'>
             {data.font_style}
         </Dropdown>
-
-        <ButtonGroup name='interactive' label='Interactive' options='{boolean_options}' default_value='{false}'>
-            {data.interactive}
-        </ButtonGroup>
-
-        <NumberInput name='z_order' label='Z order'>{data.z_order}</NumberInput>
 
     </Form>
     `;

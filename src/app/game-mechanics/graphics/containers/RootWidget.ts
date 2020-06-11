@@ -63,7 +63,7 @@ export const defaultChildRenderFunc = (childProps: {}) => (node: RuntimeWidgetNo
   return createElement<RzElementPrimitiveProps>(
     'container',
     {
-      styles: { x: node.x, y: node.y, z_order: childNodeStyle.z_order },
+      styles: { x: node.x, y: node.y, z: childNodeStyle.z },
       id: node.id,
       name: `node_${node.id}`
     },

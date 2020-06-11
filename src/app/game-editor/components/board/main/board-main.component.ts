@@ -50,7 +50,6 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 		const { _selectNode, widget } = this;
 		const domHost = this.canvasWrapper.nativeElement;
 		const pixiEngine = await import('@app/engines/pixi');
-
 		this.mount = await pixiEngine.mountPixi(ConnectedRootComponent, domHost, {
 			width: this.windowRef.nativeWindow.innerWidth,
 			height: this.windowRef.nativeWindow.innerHeight,

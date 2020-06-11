@@ -6,7 +6,9 @@ import {
 } from "@app/render-kit";
 import {
   RuntimeWidgetNode, Widget, ALL_ENTITIES, RuntimeWidget, WidgetNode, StoreProviderProps,
-  StoreProvider, ExpressionContext, RootWidgetProps, RootWidget,
+  StoreProvider, ExpressionContext, RootWidgetProps, RootWidget, CommonGameStore, selectRuntimeWidget,
+  selectExpressionContext,
+  connectToStore,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 
@@ -14,7 +16,7 @@ import { SaveItemAction, selectCommonGameStore } from "../state";
 
 import DraggableNode, { Props as NodeProps } from './node/DraggableNode';
 
-type Props = OwnProps & StoreProps;
+export type EditorRootProps = OwnProps & StoreProps;
 
 type OwnProps = {
   store: Store<AppState>;
@@ -30,7 +32,7 @@ type StoreProps = {
 type State = { selectedNode: WidgetNode; runtimeWidget: RuntimeWidget };
 
 @AutoClean()
-export class RootComponent extends StatefulComponent<Props, State> {
+export class rootComponent extends StatefulComponent<EditorRootProps, State> {
 
   state: State = {} as State;
 
@@ -39,7 +41,7 @@ export class RootComponent extends StatefulComponent<Props, State> {
     console.error(stack);
   }
 
-  willReceiveProps(nextProps: Props) {
+  willReceiveProps(nextProps: EditorRootProps) {
     if (nextProps.runtimeWidget !== this.props.runtimeWidget) {
       this.setState({ runtimeWidget: nextProps.runtimeWidget });
     }
@@ -57,7 +59,6 @@ export class RootComponent extends StatefulComponent<Props, State> {
 
   handleDragEnd = (id: number, coords: RzPoint) => {
     const nodeIndex = this.props.widget.nodes.findIndex(elem => elem.id === id);
-
     const newWidgetData = clone(this.props.widget, draft => {
       draft.nodes[nodeIndex].x = coords.x;
       draft.nodes[nodeIndex].y = coords.y;
@@ -111,7 +112,14 @@ export class RootComponent extends StatefulComponent<Props, State> {
   }
 }
 
-export const ConnectedRootComponent: RenderFunction<Props> = (props: Props) => {
+const mapStateToProps = (state: CommonGameStore, ownProps: OwnProps): StoreProps => ({
+  runtimeWidget: selectRuntimeWidget(ownProps.widget)(state),
+  context: selectExpressionContext(state),
+});
+
+const RootComponent = connectToStore(mapStateToProps)(rootComponent);
+
+export const ConnectedRootComponent: RenderFunction<EditorRootProps> = (props: EditorRootProps) => {
   return (
     createElement<StoreProviderProps>(
       StoreProvider,

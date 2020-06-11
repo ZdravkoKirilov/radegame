@@ -31,7 +31,7 @@ export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, nodes, render
     },
         frame ? createElement<RzElementPrimitiveProps>(
             'container',
-            { styles: { z_order: 2 } },
+            { styles: { z: 2 } },
             createElement<FrameRendererProps>(FrameRenderer, {
                 frame,
                 renderWidget: renderFrame,
@@ -41,6 +41,6 @@ export const WidgetRenderer = Memo<WidgetRendererProps>(({ widget, nodes, render
                 }
             }),
         ) : null,
-        createElement('collection', { styles: { z_order: 1 } }, children),
+        createElement<RzElementPrimitiveProps>('collection', { styles: { z: 1 } }, children),
     );
 });

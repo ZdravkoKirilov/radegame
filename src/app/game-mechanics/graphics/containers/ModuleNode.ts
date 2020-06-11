@@ -42,7 +42,7 @@ class EnhancedModuleNode extends StatefulComponent<Props, State> {
       'container',
       {
         ...assignHandlers({ self, dispatch, handlers, context }),
-        styles: { z_order: style.z_order }
+        styles: { z: style.z }
       },
       createElement<RzTransitionProps>(
         RzTransition,

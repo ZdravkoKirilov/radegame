@@ -1,6 +1,6 @@
 import { RzElementProps, RzNode, RzElement, RzElementType } from "../internal";
 
-export const createElement = <T = RzElementProps>(
+export const createElement = <T>(
     type: RzElementType<T>,
     props?: T & RzElementProps,
     ...children: RzNode[]

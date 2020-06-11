@@ -110,9 +110,6 @@ const updatePrimitive = (component: BasicComponent<any>) => {
       break;
   }
 
-  if (component.graphic) {
-    component.graphic.interactive = true;
-  }
   applyZOrder(component);
 };
 
@@ -142,7 +139,7 @@ const updateHTMLInput = (comp: PrimitiveInput, ) => {
 const applyZOrder = (comp: BasicComponent) => {
   const { graphic } = comp;
   let { props } = comp;
-  const zOrder = get(props, ['styles', 'z_order']);
+  const zOrder = get(props, ['styles', 'z']);
 
   if (graphic && Number(zOrder)) {
     graphic.zOrder = Number(zOrder);

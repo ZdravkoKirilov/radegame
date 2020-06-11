@@ -51,6 +51,7 @@ export type RzStyles = Partial<{
     height: number;
     x: number;
     y: number;
+    z: number;
 
     rotation: number;  // degrees
     skew: string; // "xValue yValue"
@@ -68,9 +69,6 @@ export type RzStyles = Partial<{
     stroke_color: string | number;
 
     mask: number[];
-
-    interactive: boolean;
-    z_order: number;
 
     font_size: number;
     font_family: string;
