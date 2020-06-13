@@ -30,7 +30,7 @@ class EnhancedItemNode extends StatefulComponent<Props, State> {
 
   render() {
     const self = this;
-    const { context, data, handlers, transitions, dispatch } = this.props;
+    const { context, data, handlers, transitions } = this.props;
     const { animated } = this.state;
     const style = selectNodeStyleSync(data, self);
     const childProps = selectChildPropsSync(data, self);
@@ -39,8 +39,9 @@ class EnhancedItemNode extends StatefulComponent<Props, State> {
     return createElement<RzElementPrimitiveProps>(
       'container',
       {
-        ...assignHandlers({ self, dispatch, handlers, context }),
-        styles: { z: style.z }
+        ...assignHandlers({ self, handlers, context }),
+        styles: { z: style.z },
+        name: `ItemNode_${data.name}`,
       },
       createElement<RzTransitionProps>(
         RzTransition,

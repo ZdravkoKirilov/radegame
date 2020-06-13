@@ -71,7 +71,7 @@ type ContextOverrides = {
 export const selectCommonGameStoreWithOverrides =
     ({ state = {}, private_data = {}, other = {} }: ContextOverrides) => createSelector(
         selectEntitiesDictionary,
-        selectExpressionContext,
+        selectSandboxExpressionContext,
         (config, context) => {
             return {
                 config,

@@ -32,6 +32,6 @@ export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
 
     throw new Error('Undetermined node type: ' + data.name);
 
-}, ['data']);
+});
 
 export default NodeFactory;

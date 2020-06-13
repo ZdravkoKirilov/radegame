@@ -32,7 +32,7 @@ class EnhancedModuleNode extends StatefulComponent<Props, State> {
 
   render() {
     const self = this;
-    const { data, handlers, context, transitions, dispatch } = this.props;
+    const { data, handlers, context, transitions } = this.props;
     const { animated } = this.state;
     const style = selectNodeStyleSync(data, self);
     const childProps = selectChildPropsSync(data, self);
@@ -41,8 +41,9 @@ class EnhancedModuleNode extends StatefulComponent<Props, State> {
     return createElement<RzElementPrimitiveProps>(
       'container',
       {
-        ...assignHandlers({ self, dispatch, handlers, context }),
-        styles: { z: style.z }
+        ...assignHandlers({ self, handlers, context }),
+        styles: { z: style.z },
+        name: `ModuleNode_${data.name}`,
       },
       createElement<RzTransitionProps>(
         RzTransition,

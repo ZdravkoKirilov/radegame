@@ -17,6 +17,8 @@ export const createEditorExpressionContext = (params: CreateExpressionParams) =>
     helpers: null,
     saveToProfile: null,
 
+    disableInteractions: true,
+
   } as ExpressionContext;
 
   context.helpers = composeHelpers(helpers, context);

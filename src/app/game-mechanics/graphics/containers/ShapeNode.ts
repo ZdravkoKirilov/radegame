@@ -30,7 +30,7 @@ export class EnhancedShapeNode extends StatefulComponent<Props, State> {
 
     render() {
         const self = this;
-        const { handlers, context, transitions, data, dispatch } = this.props;
+        const { handlers, context, transitions, data } = this.props;
         const { animated } = this.state;
         const style = selectNodeStyleSync(data, self);
         const childProps = selectChildPropsSync(data, self);
@@ -39,8 +39,9 @@ export class EnhancedShapeNode extends StatefulComponent<Props, State> {
         return createElement<RzElementPrimitiveProps>(
             'container',
             {
-                ...assignHandlers({ self, dispatch, handlers, context }),
-                styles: { z: style.z, }
+                ...assignHandlers({ self, handlers, context }),
+                styles: { z: style.z, },
+                name: `ShapeNode_${data.name}`,
             },
             createElement<RzTransitionProps>(
                 RzTransition,

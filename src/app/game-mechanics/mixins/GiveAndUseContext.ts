@@ -19,7 +19,7 @@ export function GiveAndUseContext(constructor: Constructor<StatefulComponent<Req
   prototype.didMount = function () {
     const node: RuntimeWidgetNode = this.props.data;
     if (node.consume_context) {
-      const result: any[] = node.consume_context({ node: node, component: this });
+      const result: Array<string | GenericSubscription> = node.consume_context({ node: node, component: this });
       if (result.length) {
         this.subscriptions = new Set(result.map(contextName => {
           if (typeof contextName === 'string') {

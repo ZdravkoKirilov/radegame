@@ -9,7 +9,7 @@ import { AppState } from '@app/core';
 import { AutoUnsubscribe, OnChange, selectRouteData, selectGameId } from '@app/shared';
 
 import { composeSandboxLimitedForm } from '../../forms';
-import { getActiveWidget, selectExpressionContext, getActiveNode, getActiveModule, getActiveSandbox, FetchItemsAction } from '../../state';
+import { getActiveWidget, getActiveNode, getActiveModule, getActiveSandbox, FetchItemsAction, selectSandboxExpressionContext } from '../../state';
 
 @AutoUnsubscribe()
 @Component({
@@ -84,7 +84,7 @@ export class TestBoardContainerComponent implements OnInit {
       this.store.pipe(select(getActiveNode)),
       this.store.pipe(select(getActiveModule)),
       this.store.pipe(select(getActiveSandbox)),
-      this.store.pipe(map(state => selectExpressionContext(state))), // TODO: we probably don't need the limited editor context),
+      this.store.pipe(map(state => selectSandboxExpressionContext(state))),
       this.store.pipe(select(selectRouteData), map(data => data.sandbox_type))
     ).pipe(
       filter(([widget, node, module, sandbox, context]) => {

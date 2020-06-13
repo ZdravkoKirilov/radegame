@@ -14,14 +14,14 @@ export const selectExpressionContext = (feature: CommonGameStore) => feature.con
 export const selectNodeHandlers = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
   context => {
-    return node.handlers.map(node => enrichHandler(context, node));
+    return context.disableInteractions ? [] : node.handlers.map(node => enrichHandler(context, node));
   }
 );
 
 export const selectNodeLifecycles = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
   context => {
-    return node.lifecycles.map(node => enrichLifecycle(context, node));
+    return context.disableInteractions ? [] : node.lifecycles.map(node => enrichLifecycle(context, node));
   }
 );
 
@@ -47,7 +47,7 @@ export const selectRuntimeNode = (node: WidgetNode) => createSelector(
 export const selectNodeTransitions = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
   (context) => {
-    return node.transitions.map(transitionId => enrichTransition(
+    return  context.disableInteractions ? [] : node.transitions.map(transitionId => enrichTransition(
       context,
       context.conf.transitions[transitionId])
     )

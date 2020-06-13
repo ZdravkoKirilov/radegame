@@ -18,6 +18,8 @@ export type ExpressionContext = {
   get: typeof get,
   createElement: Function; // render-kit
 
+  disableInteractions?: boolean;
+
   eventBus: HomeMadeEventEmitter;
 
   mutateState: (payload: MutateStatePayload) => void; // game state

@@ -1,6 +1,9 @@
 import { AbstractRenderEngine } from "@app/render-kit";
 
-import { ModuleRenderer, RootWidget, RootShape, RootText, RootItem, BasicTextNode, BasicShapeNode } from "../graphics";
+import {
+  ModuleRenderer, RootWidget, RootShape, RootText, RootItem, BasicTextNode, BasicShapeNode,
+  RootNode
+} from "../graphics";
 
 export const registerComponents = (engine: AbstractRenderEngine) => {
   engine.factory.addCustomResolver({
@@ -9,6 +12,7 @@ export const registerComponents = (engine: AbstractRenderEngine) => {
     Shape: RootShape,
     Text: RootText,
     Item: RootItem,
+    Node: RootNode,
 
     BasicText: BasicTextNode,
     BasicShape: BasicShapeNode,

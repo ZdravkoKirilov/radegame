@@ -29,7 +29,7 @@ export const DraggableNode: RenderFunction<Props> = (props) => {
                 styles: { x: coords.x, y: coords.y },
                 id: data.id,
                 onPointerDown: () => onSelect(data),
-                name: `node_${data.id}`
+                name: `dragNode_${data.id}`
               },
               createElement<NodeFactoryProps>(
                 NodeFactory,
