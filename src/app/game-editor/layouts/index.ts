@@ -1,2 +1,1 @@
-export * from './sidebar';
-export * from './editor-layout.component';
+export * from './with-sidebar';

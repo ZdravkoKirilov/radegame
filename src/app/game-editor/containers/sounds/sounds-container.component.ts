@@ -2,14 +2,13 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '@app/core';
 import { SmartBase } from '../../mixins';
-import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
+import { AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
 import { composeSoundForm } from '../../forms';
 
 
 @Component({
   selector: 'rg-sounds-container',
   template: `
-  <rg-editor-layout>
       <rg-entity-view
           [formDefinition]="formDefinition"
           [items]="items$ | async"
@@ -21,14 +20,13 @@ import { composeSoundForm } from '../../forms';
           (editItem)="editItem($event)"
           (removeItem)="removeItem($event)">
       </rg-entity-view>
-  </rg-editor-layout>
   `,
   styles: []
 })
 export class SoundsContainerComponent extends SmartBase {
 
   formDefinition = composeSoundForm;
-  readonly key = ALL_ENTITIES.sounds ;
+  readonly key = ALL_ENTITIES.sounds;
 
   constructor(public store: Store<AppState>) { super(store) }
 

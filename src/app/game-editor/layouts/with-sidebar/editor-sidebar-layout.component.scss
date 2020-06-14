@@ -1,4 +1,4 @@
-@import '../../styles/colors';
+@import 'colors.scss';
 
 :host {
     mat-sidenav {
@@ -14,13 +14,6 @@
         mat-sidenav-content {
             overflow: hidden;
         }
-
-        rg-entity-view,
-        .wrapper,
-        rg-entity-list,
-        .cards-container {}
-
-        rg-entity-editor {}
 
         .mat-drawer-inner-container {
             overflow: hidden;

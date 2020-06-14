@@ -14,19 +14,19 @@ import { DynamicFormsModule } from '@app/dynamic-forms';
 import { SharedModule } from '@app/shared';
 
 import {
-    EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent
+  EntityListComponent, EntityComponent, EntityEditorComponent, EntityViewComponent
 } from './components';
 
 import {
-    EditorContainerComponent, GamesContainerComponent, ModulesContainerComponent,
-    WidgetsContainerComponent, ChoicesContainerComponent, TokensContainerComponent, BoardContainerComponent
+  EditorContainerComponent, GamesContainerComponent, ModulesContainerComponent,
+  WidgetsContainerComponent, ChoicesContainerComponent, TokensContainerComponent, BoardContainerComponent
 } from './containers';
 
 import { BoardEditorComponent } from './components/board/board-editor.component';
 import { BoardToolbarComponent } from './components/board/toolbar/board-toolbar.component';
 import { BoardMainComponent } from './components/board/main/board-main.component';
 import { ImageAssetContainerComponent } from './containers/images/image-asset-container.component';
-import { EditorLayoutComponent, EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent, EditSidebarLinkComponent } from './layouts';
+import { EditorSidebarLayoutComponent, } from './layouts';
 import { EditHeaderComponent } from './components/header/edit-header.component';
 import { StylesContainerComponent } from './containers/styles/styles-container.component';
 import { SoundsContainerComponent } from './containers/sounds/sounds-container.component';
@@ -46,64 +46,64 @@ import { TestBoardHeaderComponent } from './components/test-board/header/test-bo
 import { TestBoardStateComponent } from './components/test-board/state-mocks/test-board-state.component';
 import { TestBoardPresentationComponent } from './components/test-board/presentation/test-board-presentation.component';
 import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-container.component';
+import { EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent } from './components/sidebar';
 
 @NgModule({
-    imports: [
-        CommonModule,
-        SharedModule,
-        StoreModule.forFeature(FEATURE_NAME, reducers, { metaReducers }),
-        EffectsModule.forFeature([
-            GenericEffectsService
-        ]),
-        FormsModule,
-        ReactiveFormsModule,
-        DynamicFormsModule,
-        RouterModule.forChild(routes),
-    ],
-    exports: [
-        RouterModule
-    ],
-    declarations: [
-        EntityListComponent,
-        EntityComponent,
-        EntityEditorComponent,
-        EntityViewComponent,
-        EditorContainerComponent,
-        GamesContainerComponent,
-        ModulesContainerComponent,
-        WidgetsContainerComponent,
-        ChoicesContainerComponent,
-        TokensContainerComponent,
-        BoardEditorComponent,
-        BoardContainerComponent,
-        BoardToolbarComponent,
-        BoardMainComponent,
-        ImageAssetContainerComponent,
-        EditorLayoutComponent,
-        EditHeaderComponent,
-        EditSidebarComponent,
-        EditSidebarNavComponent,
-        EditSidebarHeaderComponent,
-        EditSidebarLinkComponent,
-        StylesContainerComponent,
-        SoundsContainerComponent,
-        ExpressionsContainerComponent,
-        AnimationsContainerComponent,
-        SetupsContainerComponent,
-        TransitionsContainerComponent,
-        TextsContainerComponent,
-        SonatasContainerComponent,
-        ShapesContainerComponent,
-        ShapeEditorComponent,
-        ShapePreviewComponent,
-        TextEditorComponent,
-        TextPreviewComponent,
-        TestBoardContainerComponent,
-        TestBoardHeaderComponent,
-        TestBoardStateComponent,
-        TestBoardPresentationComponent,
-        SandboxesContainerComponent,
-    ]
+  imports: [
+    CommonModule,
+    SharedModule,
+    StoreModule.forFeature(FEATURE_NAME, reducers, { metaReducers }),
+    EffectsModule.forFeature([
+      GenericEffectsService
+    ]),
+    FormsModule,
+    ReactiveFormsModule,
+    DynamicFormsModule,
+    RouterModule.forChild(routes),
+  ],
+  exports: [
+    RouterModule
+  ],
+  declarations: [
+    EntityListComponent,
+    EntityComponent,
+    EntityEditorComponent,
+    EntityViewComponent,
+    EditorContainerComponent,
+    GamesContainerComponent,
+    ModulesContainerComponent,
+    WidgetsContainerComponent,
+    ChoicesContainerComponent,
+    TokensContainerComponent,
+    BoardEditorComponent,
+    BoardContainerComponent,
+    BoardToolbarComponent,
+    BoardMainComponent,
+    ImageAssetContainerComponent,
+    EditorSidebarLayoutComponent,
+    EditHeaderComponent,
+    EditSidebarComponent,
+    EditSidebarNavComponent,
+    EditSidebarHeaderComponent,
+    StylesContainerComponent,
+    SoundsContainerComponent,
+    ExpressionsContainerComponent,
+    AnimationsContainerComponent,
+    SetupsContainerComponent,
+    TransitionsContainerComponent,
+    TextsContainerComponent,
+    SonatasContainerComponent,
+    ShapesContainerComponent,
+    ShapeEditorComponent,
+    ShapePreviewComponent,
+    TextEditorComponent,
+    TextPreviewComponent,
+    TestBoardContainerComponent,
+    TestBoardHeaderComponent,
+    TestBoardStateComponent,
+    TestBoardPresentationComponent,
+    SandboxesContainerComponent,
+  ]
 })
 export class GameEditorModule {
 }

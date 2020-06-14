@@ -1,7 +1,5 @@
-<rg-editor-layout>
-    <rg-shape-editor [expressionContext]="expressionContext$ | async" [formDefinition]="formDefinition" [items]="items$ | async"
-        [showEditor]="showEditor$ | async" [selectedItem]="selectedItem$ | async"
-        [connectedEntities]="connectedEntities$ | async" (toggleEditor)="toggleEditor($event)"
-        (saveItem)="saveItem($event)" (editItem)="editItem($event)" (removeItem)="removeItem($event)">
-    </rg-shape-editor>
-</rg-editor-layout>
+<rg-shape-editor [expressionContext]="expressionContext$ | async" [formDefinition]="formDefinition"
+    [items]="items$ | async" [showEditor]="showEditor$ | async" [selectedItem]="selectedItem$ | async"
+    [connectedEntities]="connectedEntities$ | async" (toggleEditor)="toggleEditor($event)" (saveItem)="saveItem($event)"
+    (editItem)="editItem($event)" (removeItem)="removeItem($event)">
+</rg-shape-editor>

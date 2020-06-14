@@ -8,7 +8,6 @@ import { composeSonataForm } from '../../forms';
 @Component({
   selector: 'rg-sonatas-container',
   template: `
-<rg-editor-layout>
   <rg-entity-view
       [formDefinition]="formDefinition"
       [items]="items$ | async"
@@ -20,7 +19,6 @@ import { composeSonataForm } from '../../forms';
       (editItem)="editItem($event)"
       (removeItem)="removeItem($event)">
   </rg-entity-view>
-</rg-editor-layout>
   `,
   styles: []
 })

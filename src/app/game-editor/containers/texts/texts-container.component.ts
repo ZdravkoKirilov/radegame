@@ -12,7 +12,6 @@ import { selectExpressionContext } from '../../state';
 @Component({
   selector: 'rg-texts-container',
   template: `
-<rg-editor-layout>
   <rg-text-editor 
     [expressionContext]="expressionContext$ | async" 
     [formDefinition]="formDefinition" 
@@ -25,7 +24,6 @@ import { selectExpressionContext } from '../../state';
     (editItem)="editItem($event)" 
     (removeItem)="removeItem($event)">
   </rg-text-editor>
-</rg-editor-layout>
   `,
   styles: []
 })

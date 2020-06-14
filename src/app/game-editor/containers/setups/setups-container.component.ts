@@ -9,7 +9,6 @@ import { AppState } from '@app/core';
 @Component({
   selector: 'rg-setups-container',
   template: `
-  <rg-editor-layout>
     <rg-entity-view
         [formDefinition]="formDefinition"
         [items]="items$ | async"
@@ -21,7 +20,6 @@ import { AppState } from '@app/core';
         (editItem)="editItem($event)"
         (removeItem)="removeItem($event)">
     </rg-entity-view>
-  </rg-editor-layout>
   `,
   styles: []
 })

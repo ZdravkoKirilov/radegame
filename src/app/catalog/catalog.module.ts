@@ -14,12 +14,11 @@ import { GamesListComponent } from './components/games-list/games-list.component
 import { FEATURE_NAME } from './config';
 import { mainReducer, CatalogEffects } from './state';
 import { GameDetailsComponent } from './components/game-details/game-details.component';
-import { SetupLinkComponent } from './components/game-details/setup/setup-link.component';
 import { SetupDetailsPageComponent } from './pages/setup-details/setup-details-page.component';
 
 
 @NgModule({
-	declarations: [GamesListPage, GameDetailsPage, CatalogLayoutComponent, CatalogHeaderComponent, GamesListComponent, GameDetailsComponent, SetupLinkComponent, SetupDetailsPageComponent],
+	declarations: [GamesListPage, GameDetailsPage, CatalogLayoutComponent, CatalogHeaderComponent, GamesListComponent, GameDetailsComponent, SetupDetailsPageComponent],
 	imports: [
 		CommonModule,
 		SharedModule,

@@ -1,11 +1,10 @@
 <ng-container *ngIf="connectedEntities$ | async as connectedEntities">
-    <rg-editor-layout>
-        <rg-entity-view [formDefinition]="formDefinition" [items]="items$ | async" [showEditor]="showEditor$ | async"
-            [selectedItem]="selectedItem$ | async" [connectedEntities]="connectedEntities" [template]="template"
-            (toggleEditor)="toggleEditor($event)" (saveItem)="saveItem($event)" (editItem)="editItem($event)"
-            (removeItem)="removeItem($event)">
-        </rg-entity-view>
-    </rg-editor-layout>
+
+    <rg-entity-view [formDefinition]="formDefinition" [items]="items$ | async" [showEditor]="showEditor$ | async"
+        [selectedItem]="selectedItem$ | async" [connectedEntities]="connectedEntities" [template]="template"
+        (toggleEditor)="toggleEditor($event)" (saveItem)="saveItem($event)" (editItem)="editItem($event)"
+        (removeItem)="removeItem($event)">
+    </rg-entity-view>
 
     <ng-template #template let-item>
         <mat-card>

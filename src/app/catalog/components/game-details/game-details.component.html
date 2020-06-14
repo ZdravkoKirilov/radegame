@@ -5,16 +5,6 @@
 		</header>
 
 		<mat-card-content>
-			<div class="setups">
-				<img class="image" [src]="game.image" />
-				<div class="links">
-					<ng-container *ngFor="let item of setups">
-						<rg-setup-link [data]="item" [images]="images">
-						</rg-setup-link>
-					</ng-container>
-
-				</div>
-			</div>
 
 			<div class="actions">
 				<a [routerLink]="['/arena', game.id, 'menu']">

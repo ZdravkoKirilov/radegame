@@ -10,7 +10,6 @@ import { composeStyleForm } from '../../forms';
 @Component({
   selector: 'rg-styles-container',
   template: `
-  <rg-editor-layout>
     <rg-entity-view
         [formDefinition]="formDefinition"
         [items]="items$ | async"
@@ -22,7 +21,6 @@ import { composeStyleForm } from '../../forms';
         (editItem)="editItem($event)"
         (removeItem)="removeItem($event)">
     </rg-entity-view>
-  </rg-editor-layout>
   `,
   styles: []
 })

@@ -13,8 +13,7 @@ import { FetchItemsAction, getItems, getSelectedEntity, getEntities, getEditorSt
 @Component({
   selector: 'rg-sandboxes-container',
   template: `
-  <rg-editor-layout>
-      <rg-entity-view
+    <rg-entity-view
           [formDefinition]="formDefinition"
           [items]="items$ | async"
           [showEditor]="showEditor$ | async"
@@ -25,8 +24,7 @@ import { FetchItemsAction, getItems, getSelectedEntity, getEntities, getEditorSt
           (saveItem)="saveItem($event)"
           (editItem)="editItem($event)"
           (removeItem)="removeItem($event)">
-      </rg-entity-view>
-  </rg-editor-layout>
+    </rg-entity-view>
 
   <ng-template #template let-item>
     <mat-card>
@@ -46,8 +44,7 @@ import { FetchItemsAction, getItems, getSelectedEntity, getEntities, getEditorSt
     </mat-card>
   </ng-template>
   `,
-  styles: [
-  ]
+  styles: []
 })
 export class SandboxesContainerComponent extends SmartBase implements OnInit {
 
@@ -65,8 +62,8 @@ export class SandboxesContainerComponent extends SmartBase implements OnInit {
       map(gameId => {
         this.gameId = gameId;
         this.store.dispatch(
-					new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: gameId })
-				);
+          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: gameId })
+        );
       }),
     ).subscribe();
 
