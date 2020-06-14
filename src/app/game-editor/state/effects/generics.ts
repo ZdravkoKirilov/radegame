@@ -6,7 +6,7 @@ import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
     GameEntity, Module, Token, Choice, Game, ImageAsset, Widget, WidgetNode, Style, Setup,
-    AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape, Sandbox
+    AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape, Sandbox, Sound, Expression
 } from '@app/game-mechanics';
 import { actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchGameDataAction, FetchGameDataFail, FillFormAction, FetchGameDataSuccess, FetchItemAction, FetchItemSuccessAction, FetchItemFailAction, FetchItemsFailAction } from '../actions';
 import {
@@ -204,9 +204,9 @@ export class GenericEffectsService {
             case ALL_ENTITIES.styles:
                 return this.api.saveStyle(<Style>entity);
             case ALL_ENTITIES.sounds:
-                return this.api.saveSound(entity);
+                return this.api.saveSound(<Sound>entity);
             case ALL_ENTITIES.expressions:
-                return this.api.saveExpression(entity);
+                return this.api.saveExpression(<Expression>entity);
             case ALL_ENTITIES.animations:
                 return this.api.saveAnimation(<Animation>entity);
             case ALL_ENTITIES.setups:
@@ -248,9 +248,9 @@ export class GenericEffectsService {
             case ALL_ENTITIES.styles:
                 return this.api.deleteStyle(<Style>entity);
             case ALL_ENTITIES.sounds:
-                return this.api.deleteSound(entity);
+                return this.api.deleteSound(<Sound>entity);
             case ALL_ENTITIES.expressions:
-                return this.api.deleteExpression(entity);
+                return this.api.deleteExpression(<Expression>entity);
             case ALL_ENTITIES.animations:
                 return this.api.deleteAnimation(<Animation>entity);
             case ALL_ENTITIES.setups:
@@ -258,11 +258,11 @@ export class GenericEffectsService {
             case ALL_ENTITIES.transitions:
                 return this.api.deleteTransition(<Setup>entity);
             case ALL_ENTITIES.texts:
-                return this.api.deleteText(entity);
+                return this.api.deleteText(<Text>entity);
             case ALL_ENTITIES.shapes:
                 return this.api.deleteShape(<Shape>entity);
             case ALL_ENTITIES.sonatas:
-                return this.api.deleteSonata(entity);
+                return this.api.deleteSonata(<Sonata>entity);
             case ALL_ENTITIES.games:
                 return this.api.deleteGame(<Game>entity);
             default:

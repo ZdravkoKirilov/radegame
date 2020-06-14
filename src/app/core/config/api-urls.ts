@@ -19,6 +19,10 @@ export const API_URLS = {
         const base = `${API_BASE_URL}/games/`;
         return gameId ? `${base}${gameId}/` : base;
     },
+    VERSIONS: (gameId: number, versionId?: number) => {
+        const base = `${API_BASE_URL}/games/${gameId}/versions/`;
+        return versionId ? `${base}${versionId}/` : base;
+    },
     GAME_DATA: (gameId: number, query = '') => {
         return `${API_BASE_URL}/games/${gameId}/data` + (query ? '?' + query : '');
     },
