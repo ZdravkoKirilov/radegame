@@ -30,21 +30,6 @@ export const enrichEntity = <T = GameEntity, P = any>(
                     draft[key] = parser(currentPropertyValue);
                 }
             }
-
-            // if (isArray(currentPropertyValue) || typeof currentPropertyValue !== 'object') {
-            //     if (typeof parser === 'string') {
-            //         draft[key] = get(config, [parser, source[key] as any], null);
-            //     }
-            //     if (typeof parser === 'function') {
-            //         if (isArray(currentPropertyValue)) {
-            //             draft[key] = currentPropertyValue.map(elem => {
-            //                 return parser(elem);
-            //             }) as any;
-            //         } else {
-            //             draft[key] = parser(currentPropertyValue);
-            //         }
-            //     }
-            // }
         }
     }) : null;
 };

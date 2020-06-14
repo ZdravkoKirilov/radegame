@@ -46,7 +46,7 @@ import { TestBoardHeaderComponent } from './components/test-board/header/test-bo
 import { TestBoardStateComponent } from './components/test-board/state-mocks/test-board-state.component';
 import { TestBoardPresentationComponent } from './components/test-board/presentation/test-board-presentation.component';
 import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-container.component';
-import { EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderComponent } from './components/sidebar';
+import { EditSidebarComponent } from './components/sidebar';
 
 @NgModule({
   imports: [
@@ -83,8 +83,6 @@ import { EditSidebarComponent, EditSidebarNavComponent, EditSidebarHeaderCompone
     EditorSidebarLayoutComponent,
     EditHeaderComponent,
     EditSidebarComponent,
-    EditSidebarNavComponent,
-    EditSidebarHeaderComponent,
     StylesContainerComponent,
     SoundsContainerComponent,
     ExpressionsContainerComponent,

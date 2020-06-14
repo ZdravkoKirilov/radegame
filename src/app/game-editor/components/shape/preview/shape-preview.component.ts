@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, ElementRef, OnInit } from '@angular/core';
 
-import { combineStyles, Shape, enrichShape, ExpressionContext } from '@app/game-mechanics';
+import { combineStyles, Shape, ExpressionContext } from '@app/game-mechanics';
 import { MountRef, StatefulComponent } from '@app/render-kit';
 import { OnChange } from '@app/shared';
 
@@ -22,7 +22,7 @@ export class ShapePreviewComponent implements OnInit {
     const context: ExpressionContext = this.context;
     const component = mount ? mount.component as StatefulComponent : null;
     if (component && shape && context) {
-      const runtimeShape = enrichShape(context, shape);
+      const runtimeShape = Shape.toRuntime(context, shape);
       const shapeStyle = combineStyles(runtimeShape);
       component.updateProps({ shape: runtimeShape, style: shapeStyle });
     }

@@ -14,6 +14,7 @@ export * from './Transition.model';
 export * from './Text.model';
 export * from './Sonata.model';
 export * from './Shape.model';
+export * from './Version.model';
 
 export * from './Sandbox.model';
 
@@ -37,8 +38,9 @@ import { Text } from './Text.model';
 import { Sonata } from './Sonata.model';
 import { Shape } from './Shape.model';
 import { Sandbox } from './Sandbox.model';
+import { Version } from './Version.model';
 
-export type GameEntity = Game | WidgetNode | Module | Choice | Widget | Token |
+export type GameEntity = Game | WidgetNode | Module | Choice | Widget | Token | Version |
     Setup | ImageAsset | Style | Sound | Expression | Animation | Transition | Text | Sonata | Shape | Sandbox;
 
 export type GameEntityUnion = Game & WidgetNode & Module & Choice & Widget & Token | Setup & ImageAsset &

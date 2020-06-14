@@ -6,6 +6,8 @@ import { ExpressionFunc, ParamedExpressionFunc } from './Expression.model';
 import { Widget } from './Widget.model';
 import { Module } from './Module.model';
 import { WidgetNode } from './WidgetNode.model';
+import { ExpressionContext } from '../models';
+import { enrichEntity, parseAndBind } from '../helpers';
 
 export enum SandboxType {
   'widget' = 'widget',
@@ -29,6 +31,32 @@ export type Sandbox = BaseModel & WithKeywords & Partial<{
   load_done: string; // checks if data has been downloaded
   from_parent: string;
 }>;
+
+export const Sandbox = {
+  toRuntime(context: ExpressionContext, sandbox: Sandbox) {
+    if (sandbox) {
+      return enrichEntity<Sandbox, RuntimeSandbox>(context.conf, {
+        global_state: src => parseAndBind(context)(src),
+        own_data: src => parseAndBind(context)(src),
+        on_init: src => parseAndBind(context)(src),
+        preload: src => parseAndBind(context)(src),
+        from_parent: src => parseAndBind(context)(src),
+        node: nodeId => {
+          const widgets: Widget[] = Object.values(context?.conf?.widgets || {});
+          const result = widgets
+            .reduce((total, widget) => {
+              return [...total, ...widget.nodes];
+            }, [])
+            .find(elem => elem.id === nodeId);
+          return result;
+        },
+        widget: 'widgets',
+        module: 'modules',
+      }, sandbox);
+    }
+    return null;
+  }
+}
 
 export type RuntimeSandbox = Omit<Sandbox, 'global_state' | 'own_data' | 'on_init' | 'preload' | 'from_parent' | 'widget' | 'module'> & Partial<{
   global_state: ExpressionFunc<{}>;

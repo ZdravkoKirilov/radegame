@@ -1,8 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { GameTemplate, ExpressionContext, Game } from '../models';
-import { RuntimeWidgetNode, Shape, Widget, NodeItem, WidgetNode, Text, Module } from '../entities';
-import { enrichHandler, enrichLifecycle, enrichShape, enrichWidget, enrichTransition, enrichItem, enrichModule, enrichGame, enrichNode, enrichText } from './entity-composers';
+import { RuntimeWidgetNode, Shape, Widget, NodeItem, WidgetNode, Text, Module, NodeHandler, NodeLifecycle, Transition } from '../entities';
 
 export type CommonGameStore = {
   config: GameTemplate;
@@ -14,50 +13,48 @@ export const selectExpressionContext = (feature: CommonGameStore) => feature.con
 export const selectNodeHandlers = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
   context => {
-    return context.disableInteractions ? [] : node.handlers.map(node => enrichHandler(context, node));
+    return context.disableInteractions ? [] : node.handlers.map(node => NodeHandler.toRuntime(context, node));
   }
 );
 
 export const selectNodeLifecycles = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
   context => {
-    return context.disableInteractions ? [] : node.lifecycles.map(node => enrichLifecycle(context, node));
+    return context.disableInteractions ? [] : node.lifecycles.map(node => NodeLifecycle.toRuntime(context, node));
   }
 );
 
 export const selectRuntimeShape = (shape: Shape) => createSelector(
   selectExpressionContext,
   context => {
-    return enrichShape(context, shape);
+    return Shape.toRuntime(context, shape);
   }
 );
 
 export const selectRuntimeWidget = (widget: Widget) => createSelector(
   selectExpressionContext,
   context => {
-    return enrichWidget(context, widget);
+    return Widget.toRuntime(context, widget);
   }
 );
 
 export const selectRuntimeNode = (node: WidgetNode) => createSelector(
   selectExpressionContext,
-  context => enrichNode(context, node)
+  context => WidgetNode.toRuntime(context, node)
 );
 
 export const selectNodeTransitions = (node: RuntimeWidgetNode) => createSelector(
   selectExpressionContext,
   (context) => {
-    return  context.disableInteractions ? [] : node.transitions.map(transitionId => enrichTransition(
-      context,
-      context.conf.transitions[transitionId])
-    )
+    return context.disableInteractions ? [] : node.transitions
+      .map(transitionId => Transition.toRuntime(context, context.conf.transitions[transitionId]))
   },
 );
 
 export const selectItemTemplate = (item: NodeItem) => createSelector(
   selectExpressionContext,
   context => {
-    const runtimeItem = enrichItem(context, item);
+    const runtimeItem = NodeItem.toRuntime(context, item);
     const attachedEntity = runtimeItem.choice || runtimeItem.token;
     const widget = attachedEntity.template;
     return widget
@@ -67,25 +64,25 @@ export const selectItemTemplate = (item: NodeItem) => createSelector(
 export const selectRuntimeModule = (module: Module) => createSelector(
   selectExpressionContext,
   context => {
-    return enrichModule(context, module);
+    return Module.toRuntime(context, module);
   }
 );
 
 export const selectRuntimeItem = (item: NodeItem) => createSelector(
   selectExpressionContext,
   context => {
-    return enrichItem(context, item);
+    return NodeItem.toRuntime(context, item);
   }
 );
 
 export const selectRuntimeText = (text: Text, language?: number) => createSelector(
   selectExpressionContext,
   context => {
-    return enrichText(context, text, language);
+    return Text.toRuntime(context, text, language);
   }
 );
 
 export const selectRuntimeGame = (game: Game) => createSelector(
   selectExpressionContext,
-  context => enrichGame(context, game)
+  context => Game.toRuntime(context, game)
 );

@@ -1,4 +1,3 @@
-export * from './entity-composers';
 export * from './misc';
 export * from './inline-selectors';
 export * from './expression-context';

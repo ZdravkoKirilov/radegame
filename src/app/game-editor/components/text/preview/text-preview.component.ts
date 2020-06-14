@@ -1,6 +1,6 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 
-import { combineStyles, ExpressionContext, Text, enrichText } from '@app/game-mechanics';
+import { combineStyles, ExpressionContext, Text } from '@app/game-mechanics';
 import { MountRef } from '@app/render-kit';
 import { OnChange } from '@app/shared';
 
@@ -35,7 +35,7 @@ export class TextPreviewComponent {
     const context: ExpressionContext = this.context;
     const component = mount ? mount.component as RootComponent : null;
     if (component && text && context) {
-      const runtimeText = enrichText(context, text);
+      const runtimeText = Text.toRuntime(context, text);
       const textStyle = combineStyles(runtimeText);
       component.updateProps({ text: runtimeText, style: textStyle, translation: this.translationId });
     }

@@ -2,8 +2,7 @@ import isFunction from 'lodash/isFunction';
 
 import { StatefulComponent } from "@app/render-kit";
 
-import { RuntimeWidget, RuntimeWidgetNode, Module } from "../entities";
-import { enrichNode, enrichFrame } from "./entity-composers";
+import { RuntimeWidget, RuntimeWidgetNode, Module, WidgetNode, ImageFrame } from "../entities";
 import { ExpressionContext, RuntimeGame } from "../models";
 import { findFirstEntityBy } from "./misc";
 
@@ -41,10 +40,10 @@ const _selectWidgetFrameSync = (widget: RuntimeWidget, context: ExpressionContex
     const { frame_getter } = widget;
     if (typeof frame_getter === 'function') {
       const frame = frame_getter({ widget, component, });
-      return enrichFrame(context, frame);
+      return ImageFrame.toRuntime(context, frame);
     }
     const frame = widget.frames[0];
-    return enrichFrame(context, frame);
+    return ImageFrame.toRuntime(context, frame);
   }
   return null;
 }
@@ -55,9 +54,9 @@ const _selectWidgetNodesSync = (widget: RuntimeWidget, context: ExpressionContex
   if (widget) {
     const { node_getter } = widget;
     if (typeof node_getter === 'function') {
-      return node_getter({ widget, component }).map(elem => enrichNode(context, elem));
+      return node_getter({ widget, component }).map(elem => WidgetNode.toRuntime(context, elem));
     }
-    return widget.nodes.map(elem => enrichNode(context, elem));
+    return widget.nodes.map(elem => WidgetNode.toRuntime(context, elem));
   }
   return [];
 };

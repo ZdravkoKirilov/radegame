@@ -1,27 +1,40 @@
-import { RuntimeAnimation } from "./Animation.model";
-import { ParamedExpressionFunc } from "./Expression.model";
-import { AnimationPayload, AnimationPayloadSegment, StatefulComponent, RzStyles } from "@app/render-kit";
-import { Sonata } from "./Sonata.model";
 import { Dictionary, Omit } from "@app/shared";
+import { AnimationPayload, AnimationPayloadSegment, StatefulComponent, RzStyles } from "@app/render-kit";
+
+import { RuntimeAnimation, Animation } from "./Animation.model";
+import { ParamedExpressionFunc } from "./Expression.model";
+import { Sonata } from "./Sonata.model";
 import { BaseModel } from "./Base.model";
+import { ExpressionContext } from "../models";
+import { enrichEntity, parseAndBind } from "../helpers";
 
 export type Transition = BaseModel & Partial<{
-    trigger: string; // Expression -> boolean
+  trigger: string; // Expression -> boolean
 
-    enabled: string; // Expression -> boolean
+  enabled: string; // Expression -> boolean
 
-    animation: number;
-    sound: string; // Expression
+  animation: number;
+  sound: string; // Expression
 
-    onDone: string;
+  onDone: string;
 }>
 
+export const Transition = {
+  toRuntime(context: ExpressionContext, transition: Transition) {
+    const config = context.conf;
+    return enrichEntity<Transition, RuntimeTransition>(config, {
+      animation: animationId => Animation.toRuntime(context, config.animations[animationId] as Animation),
+      trigger: src => parseAndBind(context)(src)
+    }, transition);
+  }
+}
+
 export type RuntimeTransition = Omit<Transition, 'trigger' | 'enabled' | 'animation' | 'sound' | 'onDone'> & {
-    trigger: ParamedExpressionFunc<AnimationPayload, boolean>;
-    enabled: ParamedExpressionFunc<AnimationPayloadSegment, boolean>;
+  trigger: ParamedExpressionFunc<AnimationPayload, boolean>;
+  enabled: ParamedExpressionFunc<AnimationPayloadSegment, boolean>;
 
-    animation: RuntimeAnimation;
-    sound: ParamedExpressionFunc<Dictionary, Sonata>;
+  animation: RuntimeAnimation;
+  sound: ParamedExpressionFunc<Dictionary, Sonata>;
 
-    onDone: ParamedExpressionFunc<{ component: StatefulComponent, transition: RuntimeTransition, styles?: RzStyles }, void>
+  onDone: ParamedExpressionFunc<{ component: StatefulComponent, transition: RuntimeTransition, styles?: RzStyles }, void>
 }

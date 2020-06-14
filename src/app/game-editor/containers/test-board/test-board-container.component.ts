@@ -3,7 +3,7 @@ import { Store, select } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { Sandbox, ExpressionContext, Widget, RuntimeSandbox, enrichSandbox, SandboxType, WidgetNode, Module, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
+import { Sandbox, ExpressionContext, Widget, RuntimeSandbox, SandboxType, WidgetNode, Module, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
 import { FormDefinition } from '@app/dynamic-forms';
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, OnChange, selectRouteData, selectGameId } from '@app/shared';
@@ -61,7 +61,7 @@ export class TestBoardContainerComponent implements OnInit {
 
   @OnChange<Sandbox>(function (sandbox) {
     const self: TestBoardContainerComponent = this;
-    self.runtimeDraftSandbox = enrichSandbox(self.context, sandbox);
+    self.runtimeDraftSandbox = Sandbox.toRuntime(self.context, sandbox);
   })
   draftSandbox: Sandbox;
 
