@@ -50,11 +50,11 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
                 if (!this.hasLoadedDependencies) {
                     games.forEach(elem => {
                         this.store.dispatch(new FetchItemsAction({
-                            key: ALL_ENTITIES.modules as AllEntity,
+                            key: ALL_ENTITIES.modules,
                             data: elem.id
                         }));
                         this.store.dispatch(new FetchItemsAction({
-                            key: ALL_ENTITIES.images as AllEntity,
+                            key: ALL_ENTITIES.images,
                             data: elem.id
                         }));
                     });

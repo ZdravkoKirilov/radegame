@@ -1,8 +1,12 @@
+import { Nominal } from 'simplytyped';
+
 import { Omit } from '@app/shared';
 
 import { enrichEntity } from "../helpers";
 import { Module } from "./Module.model";
 import { ExpressionContext } from "../models";
+
+export type VersionId = Nominal<string, 'VersionId'>;
 
 export type Version = {
   id: number;

@@ -26,12 +26,6 @@ export const actionTypes = {
 
     TOGGLE_EDITOR: 'TOGGLE_EDITOR',
     CHANGE_SELECTED_ITEM: 'CHANGE_SELECTED_ITEM',
-
-    SET_ALL_ITEMS: 'SET_ALL_ITEMS',
-
-    FETCH_GAME_DATA: 'FETCH_GAME_DATA',
-    FETCH_GAME_DATA_SUCCESS: 'FETCH_GAME_DATA_SUCCESS',
-    FETCH_GAME_DATA_FAIL: 'FETCH_GAME_DATA_FAIL',
 } as const;
 
 export type EditorActionType = keyof typeof actionTypes;

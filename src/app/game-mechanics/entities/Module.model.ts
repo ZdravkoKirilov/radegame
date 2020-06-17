@@ -1,4 +1,4 @@
-import { Omit } from '@app/shared';
+import { Omit, Nominal } from 'simplytyped';
 
 import { BaseModel, WithBoard } from './Base.model';
 import { ExpressionFunc } from './Expression.model';
@@ -6,7 +6,9 @@ import { Widget } from './Widget.model';
 import { ExpressionContext } from '../models';
 import { enrichEntity, parseAndBind } from '../helpers';
 
-export type Module = BaseModel & WithBoard & Partial<{
+export type ModuleId = Nominal<string, 'ModuleId'>;
+
+export type Module = BaseModel<ModuleId> & WithBoard & Partial<{
 
   preload: string;
   load_done: string;

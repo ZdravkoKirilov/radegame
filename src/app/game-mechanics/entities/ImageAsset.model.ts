@@ -1,5 +1,6 @@
+import { Omit, Nominal } from 'simplytyped';
+
 import { RzStyles } from "@app/render-kit";
-import { Omit } from "@app/shared";
 
 import { Widget } from "./Widget.model";
 import { WithStyle, BaseModel } from "./Base.model";
@@ -8,7 +9,9 @@ import { Style } from "./Style.model";
 import { enrichEntity, parseAndBind } from "../helpers";
 import { ExpressionContext } from "../models";
 
-export type ImageAsset = BaseModel & Partial<{
+export type ImageAssetId = Nominal<string, 'ImageAssetId'>;
+
+export type ImageAsset = BaseModel<ImageAssetId> & Partial<{
   image: string;
   thumbnail: string;
   svg: string;

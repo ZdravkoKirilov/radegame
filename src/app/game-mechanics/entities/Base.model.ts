@@ -1,11 +1,16 @@
+import { Nominal } from 'simplytyped';
+
+import { RzStyles } from "@app/render-kit";
+
 import { ImageFrame, ImageAsset } from "./ImageAsset.model";
 import { Widget } from "./Widget.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { TextFrame } from "./Text.model";
-import { RzStyles } from "@app/render-kit";
 
-export type BaseModel = WithKeywords & Partial<{
-    id: number;
+export type EntityId = Nominal<string, 'id'>;
+
+export type BaseModel<T = EntityId> = WithKeywords & Partial<{
+    id: T;
     game: number;
 
     name: string;

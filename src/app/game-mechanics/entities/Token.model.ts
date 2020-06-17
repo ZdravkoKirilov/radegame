@@ -1,14 +1,18 @@
+import { Nominal } from "simplytyped";
+
 import { Omit } from "@app/shared";
 
 import { BaseModel, WithTemplate, WithFrames, WithTexts } from "./Base.model";
 import { Widget } from "./Widget.model";
-import { GameConfig } from "../models";
+import { GameTemplate } from "../models";
 import { enrichEntity } from "../helpers";
 
-export type Token = BaseModel & WithTemplate & WithFrames & WithTexts;
+export type TokenId = Nominal<string, 'TokenId'>;
+
+export type Token = BaseModel<TokenId> & WithTemplate & WithFrames & WithTexts;
 
 export const Token = {
-  toRuntime(config: GameConfig, token: Token) {
+  toRuntime(config: GameTemplate, token: Token) {
     if (token) {
       return enrichEntity<Token, RuntimeToken>(config, {
         template: 'widgets',

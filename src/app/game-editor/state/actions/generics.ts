@@ -1,105 +1,118 @@
 import { Action } from '@ngrx/store';
 
-import { GameEntity, GameEntityList, GameTemplate, AllEntity } from '@app/game-mechanics';
+import { GameEntity, AllEntity, GameId, EntityId } from '@app/game-mechanics';
+import { Dictionary } from '@app/shared';
+
 import { actionTypes } from './actionTypes';
 
-export interface GenericActionPayload {
-    key: AllEntity;
-    data?: GameEntity | GameEntityList | GameTemplate | boolean | number;
+type PayloadWithEntity<T> = {
+  key: AllEntity;
+  data: T;
+};
+
+type PayloadWithGameId = {
+  key: AllEntity;
+  data: {
+    gameId: GameId;
+  }
+};
+
+export type FetchItemPayload<T extends EntityId> = {
+  key: AllEntity,
+  data: {
+    gameId: GameId;
+    itemId: T;
+  }
+};
+
+export type ResponseWithEntities<T> = {
+  key: AllEntity;
+  data: {
+    entities: Dictionary<T>;
+  }
+};
+
+export type PayloadWithItem<T> = {
+  key: AllEntity;
+  data: T;
 }
 
-export class SaveItemAction implements Action {
-    readonly type = actionTypes.SAVE_ITEM;
-    constructor(public payload: GenericActionPayload) { }
+export class SaveItemAction<T> implements Action {
+  readonly type = actionTypes.SAVE_ITEM;
+  constructor(public payload: PayloadWithEntity<T>) { }
+};
+
+export class SetItemAction<T> implements Action {
+  readonly type = actionTypes.SET_ITEM;
+  constructor(public payload: PayloadWithEntity<T>) { }
 }
 
-export class SetItemAction implements Action {
-    readonly type = actionTypes.SET_ITEM;
-    constructor(public payload: GenericActionPayload) { }
+export class SaveItemSuccessAction<T> implements Action {
+  readonly type = actionTypes.SAVE_ITEM_SUCCESS;
+  constructor(public payload: PayloadWithEntity<T>) { }
 }
 
-export class SaveItemSuccessAction implements Action {
-    readonly type = actionTypes.SAVE_ITEM_SUCCESS;
-    constructor(public payload?: GenericActionPayload) { }
+export class SaveItemFailAction<T> implements Action {
+  readonly type = actionTypes.SAVE_ITEM_FAIL;
+  constructor(public payload: PayloadWithEntity<T>) { }
 }
 
-export class SaveItemFailAction implements Action {
-    readonly type = actionTypes.SAVE_ITEM_FAIL;
-    constructor(public payload?: GenericActionPayload) { }
+export class DeleteItemAction<T> implements Action {
+  readonly type = actionTypes.DELETE_ITEM;
+  constructor(public payload: PayloadWithEntity<T>) { }
 }
 
-export class DeleteItemAction implements Action {
-    readonly type = actionTypes.DELETE_ITEM;
-    constructor(public payload: GenericActionPayload) { }
+export class DeleteItemSuccessAction<T> implements Action {
+  readonly type = actionTypes.DELETE_ITEM_SUCCESS;
+  constructor(public payload: PayloadWithEntity<T>) { }
 }
 
-export class DeleteItemSuccessAction implements Action {
-    readonly type = actionTypes.DELETE_ITEM_SUCCESS;
-    constructor(public payload?: GenericActionPayload) { }
+export class DeleteItemFailAction<T> implements Action {
+  readonly type = actionTypes.DELETE_ITEM_FAIL;
+  constructor(public payload: PayloadWithEntity<T>) { }
 }
 
-export class DeleteItemFailAction implements Action {
-    readonly type = actionTypes.DELETE_ITEM_FAIL;
-    constructor(public payload?: GenericActionPayload) { }
+export class RemoveItemAction<T> implements Action {
+  readonly type = actionTypes.REMOVE_ITEM;
+  constructor(public payload: PayloadWithEntity<T>) { }
 }
 
-export class RemoveItemAction implements Action {
-    readonly type = actionTypes.REMOVE_ITEM;
-    constructor(public payload: GenericActionPayload) { }
-}
-
-export class SetItemsAction implements Action {
-    readonly type = actionTypes.SET_ITEMS;
-    constructor(public payload: GenericActionPayload) { }
+export class SetItemsAction<T> implements Action {
+  readonly type = actionTypes.SET_ITEMS;
+  constructor(public payload: ResponseWithEntities<T>) { }
 }
 
 export class ToggleEditorAction implements Action {
-    readonly type = actionTypes.TOGGLE_EDITOR;
-    constructor(public payload: GenericActionPayload) { }
+  readonly type = actionTypes.TOGGLE_EDITOR;
+  constructor(public payload: { key: AllEntity; data: { showEditor: boolean } }) { }
 }
 
-export class ChangeSelectedItemAction implements Action {
-    readonly type = actionTypes.CHANGE_SELECTED_ITEM;
-    constructor(public payload: GenericActionPayload) { }
-}
-
-export class SetAllItemsAction implements Action {
-    readonly type = actionTypes.SET_ALL_ITEMS;
-    constructor(public payload: GenericActionPayload) { }
+export class ChangeSelectedItemAction<T> implements Action {
+  readonly type = actionTypes.CHANGE_SELECTED_ITEM;
+  constructor(public payload: PayloadWithItem<T>) { }
 }
 
 export class FetchItemsAction implements Action {
-    readonly type = actionTypes.FETCH_ITEMS;
-    constructor(public payload: GenericActionPayload) { }
+  readonly type = actionTypes.FETCH_ITEMS;
+  constructor(public payload: PayloadWithGameId) { }
 }
 
-export class FetchItemsSuccessAction implements Action {
-    readonly type = actionTypes.FETCH_ITEMS_SUCCESS;
-    constructor(public payload: GenericActionPayload) { }
+export class FetchItemsSuccessAction<T> implements Action {
+  readonly type = actionTypes.FETCH_ITEMS_SUCCESS;
+  constructor(public payload: ResponseWithEntities<T>) { }
 }
 
-export class FetchItemsFailAction implements Action {
-    readonly type = actionTypes.FETCH_ITEMS_FAIL;
-    constructor() { }
+export class FetchItemAction<T extends EntityId> implements Action {
+  readonly type = actionTypes.FETCH_ITEM;
+  constructor(public payload: FetchItemPayload<T>) { }
 }
 
-export class FetchItemAction implements Action {
-    readonly type = actionTypes.FETCH_ITEM;
-    constructor(public payload: GenericActionPayload) { }
+export class FetchItemSuccessAction<T> implements Action {
+  readonly type = actionTypes.FETCH_ITEM_SUCCESS;
+  constructor(public payload: PayloadWithItem<T>) { }
 }
 
-export class FetchItemSuccessAction implements Action {
-    readonly type = actionTypes.FETCH_ITEM_SUCCESS;
-    constructor(public payload: GenericActionPayload) { }
-}
-
-export class FetchItemFailAction implements Action {
-    readonly type = actionTypes.FETCH_ITEM_FAIL;
-    constructor() { }
-}
-
-export type EditorGenericAction = SaveItemAction | SaveItemSuccessAction |
-    SaveItemFailAction | SetItemAction | DeleteItemAction | DeleteItemSuccessAction |
-    DeleteItemFailAction | RemoveItemAction | SetItemAction | ToggleEditorAction | ChangeSelectedItemAction | SetAllItemsAction |
-    FetchItemsAction | FetchItemsSuccessAction | FetchItemsFailAction | FetchItemAction | FetchItemSuccessAction |
-    FetchItemFailAction | SetItemsAction;
+export type EditorGenericAction<T = GameEntity> = SaveItemAction<T> | SaveItemSuccessAction<T> |
+  SaveItemFailAction<T> | SetItemAction<T> | DeleteItemAction<T> | DeleteItemSuccessAction<T> |
+  DeleteItemFailAction<T> | RemoveItemAction<T> | SetItemAction<T> | ToggleEditorAction | ChangeSelectedItemAction<T> |
+  FetchItemsAction | FetchItemsSuccessAction<T> | FetchItemAction<EntityId> | FetchItemSuccessAction<T> | SetItemsAction<T>;

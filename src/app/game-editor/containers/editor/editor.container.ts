@@ -3,11 +3,11 @@ import { Store, select } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-import { AppState } from '@app/core';
-import { FetchItemsAction, FetchGameDataAction } from '../../state';
-import { selectUser } from '@app/core';
+import { AppState, selectUser } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
-import { AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
+import { AllEntity, ALL_ENTITIES, toGameId } from '@app/game-mechanics';
+
+import { FetchItemsAction, FetchGameDataAction } from '../../state';
 
 @Component({
 	selector: 'rg-editor-container',
@@ -35,9 +35,9 @@ export class EditorContainerComponent implements OnInit {
 				this.gameId = gameId;
 
 				this.store.dispatch(
-					new FetchItemsAction({ key: ALL_ENTITIES.games as AllEntity, data: user ? user.id : null })
+					new FetchItemsAction({ key: ALL_ENTITIES.games, data: { gameId: toGameId(gameId) } })
 				);
-				this.store.dispatch(new FetchGameDataAction(gameId));
+				this.store.dispatch(new FetchGameDataAction({ gameId: toGameId(gameId) }));
 
 			})
 		).subscribe();

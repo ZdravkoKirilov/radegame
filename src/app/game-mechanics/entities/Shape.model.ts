@@ -1,4 +1,6 @@
-import { Omit, safeJSON } from "@app/shared";
+import { Nominal, Omit } from "simplytyped";
+
+import { safeJSON } from "@app/shared";
 
 import { ParamedExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
@@ -6,7 +8,9 @@ import { ExpressionContext } from "../models";
 import { enrichEntity, parseAndBind } from "../helpers";
 import { WithStyle, BaseModel } from "./Base.model";
 
-export type Shape = WithStyle & BaseModel & Partial<{
+export type ShapeId = Nominal<string, 'ShapeId'>;
+
+export type Shape = WithStyle & BaseModel<ShapeId> & Partial<{
   type: ShapeType;
   points: ShapePoint[];
 }>;

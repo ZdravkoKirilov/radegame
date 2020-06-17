@@ -10,7 +10,6 @@ export const ALL_ENTITIES = {
     modules: 'modules',
     widgets: 'widgets',
     tokens: 'tokens',
-    games: 'games',
     images: 'images',
     styles: 'styles',
     sounds: 'sounds',

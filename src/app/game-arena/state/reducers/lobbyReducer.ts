@@ -1,5 +1,5 @@
 import { EntityState, createEntityAdapter } from '@ngrx/entity';
-import { ActionReducerMap, combineReducers } from '@ngrx/store';
+import { combineReducers } from '@ngrx/store';
 
 import { Lobby, LobbyPlayer, ChatMessage } from '../../models';
 import { LobbyAction, LobbyActionTypes } from '../actions';

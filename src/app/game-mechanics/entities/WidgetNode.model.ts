@@ -1,5 +1,7 @@
+import { Omit, Nominal } from 'simplytyped';
+
 import { RzEventTypes, StatefulComponent } from "@app/render-kit";
-import { Omit, safeJSON } from "@app/shared";
+import { safeJSON } from "@app/shared";
 
 import { BaseModel, WithBoard, WithStyle } from "./Base.model";
 import { Shape } from "./Shape.model";
@@ -17,7 +19,9 @@ import { Module } from "./Module.model";
 import { enrichEntity, parseAndBind } from "../helpers";
 import { ExpressionContext } from "../models";
 
-export type WidgetNode = BaseModel & WithBoard & WithStyle & Partial<{
+export type WidgetNodeId = Nominal<string, 'WidgetNodeId'>;
+
+export type WidgetNode = BaseModel<WidgetNodeId> & WithBoard & WithStyle & Partial<{
   owner: number; // Widget;
 
   display_text: string;

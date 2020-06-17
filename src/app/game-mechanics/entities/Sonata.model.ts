@@ -1,11 +1,15 @@
+import { Nominal } from 'simplytyped';
+
 import { Omit } from "@app/shared";
 
 import { Sound } from "./Sound.model";
 import { BaseModel } from "./Base.model";
 import { enrichEntity } from "../helpers";
-import { GameConfig } from "../models";
+import { GameTemplate } from "../models";
 
-export type Sonata = BaseModel & Partial<{
+export type SonataId = Nominal<string, 'SonataId'>;
+
+export type Sonata = BaseModel<SonataId> & Partial<{
   type: SonataPlayType;
   steps: SonataStep[];
 
@@ -13,7 +17,7 @@ export type Sonata = BaseModel & Partial<{
 }>;
 
 export const Sonata = {
-  toRuntime(config: GameConfig, sonata: Sonata) {
+  toRuntime(config: GameTemplate, sonata: Sonata) {
     return enrichEntity<Sonata, RuntimeSonata>(config, {
       steps: step => enrichEntity<SonataStep, RuntimeSonataStep>(config, {
         sound: 'sounds'

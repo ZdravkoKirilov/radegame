@@ -1,3 +1,5 @@
+import { Nominal } from 'simplytyped';
+
 import { Omit, safeJSON } from "@app/shared";
 import { StatefulComponent, RzNode } from "@app/render-kit";
 
@@ -8,7 +10,9 @@ import { WidgetNode } from "./WidgetNode.model";
 import { ExpressionContext } from "../models";
 import { enrichEntity, parseAndBind } from "../helpers";
 
-export type Widget = BaseModel & WithFrames & WithStyle & Partial<{
+export type WidgetId = Nominal<string, 'WidgetId'>;
+
+export type Widget = BaseModel<WidgetId> & WithFrames & WithStyle & Partial<{
 
   node_getter: string; // Expression => WidgetNode[]
   nodes: WidgetNode[];

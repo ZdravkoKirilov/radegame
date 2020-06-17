@@ -1,4 +1,5 @@
-import { Omit } from '@app/shared';
+import { Omit, Nominal } from 'simplytyped';
+
 import { StatefulComponent } from '@app/render-kit';
 
 import { BaseModel, WithKeywords } from "./Base.model";
@@ -13,9 +14,11 @@ export enum SandboxType {
   'widget' = 'widget',
   'module' = 'module',
   'node' = 'node',
-}
+};
 
-export type Sandbox = BaseModel & WithKeywords & Partial<{
+export type SandboxId = Nominal<string, 'SandboxId'>;
+
+export type Sandbox = BaseModel<SandboxId> & WithKeywords & Partial<{
   /* shared */
   global_state: string;
   own_data: string; // player data, preferences

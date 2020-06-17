@@ -1,12 +1,17 @@
-import { WithKeysAs, Omit } from '@app/shared';
+import { Nominal } from 'simplytyped';
+
+import { Omit, Dictionary } from '@app/shared';
 import { LobbyPlayer } from '@app/game-arena';
 
-import { GameEntityList, ALL_ENTITIES, WithImage, Module, ExpressionFunc, WithBoard } from '../entities';
+import { WithImage, Module, ExpressionFunc, WithBoard, Token, Expression, Choice, Sonata, Sound, Widget, Text, Setup, ImageAsset, Sandbox, Shape, Style, Transition, Version, Animation } from '../entities';
 import { ExpressionContext } from './ExpressionContext.model';
 import { enrichEntity, parseAndBind } from '../helpers';
 
+export type GameId = Nominal<string, 'GameId'>;
+export const toGameId = (source: unknown) => String(source) as GameId;
+
 export type Game = WithBoard & Partial<{
-  id: number;
+  id: GameId;
 
   title: string;
   description: string;
@@ -43,9 +48,26 @@ export type GameLanguage = WithImage & Partial<{
   display_name: string;
 }>
 
-export type GameTemplate = Omit<WithKeysAs<typeof ALL_ENTITIES, GameEntityList>, 'games'>;
+// export type GameTemplate = Omit<WithKeysAs<typeof ALL_ENTITIES, GameEntityList>, 'games'>;
 
-export type GameConfig = GameTemplate;
+export type GameTemplate = {
+  tokens: Dictionary<Token>;
+  expressions: Dictionary<Expression>;
+  choices: Dictionary<Choice>;
+  sonatas: Dictionary<Sonata>;
+  sounds: Dictionary<Sound>;
+  widgets: Dictionary<Widget>;
+  texts: Dictionary<Text>;
+  modules: Dictionary<Module>;
+  setups: Dictionary<Setup>;
+  images: Dictionary<ImageAsset>;
+  sandboxes: Dictionary<Sandbox>;
+  shapes: Dictionary<Shape>;
+  styles: Dictionary<Style>;
+  transitions: Dictionary<Transition>;
+  versions: Dictionary<Version>;
+  animations: Dictionary<Animation>;
+}
 
 export type GameState = {
   setup: number;

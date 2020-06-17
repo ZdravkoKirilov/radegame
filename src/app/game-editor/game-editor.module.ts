@@ -8,7 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { FEATURE_NAME } from './utils';
 
 import { routes } from './routing';
-import { reducers, metaReducers, GenericEffectsService } from './state';
+import { reducers, metaReducers, GameEffectsService, GenericEffectsService } from './state';
 
 import { DynamicFormsModule } from '@app/dynamic-forms';
 import { SharedModule } from '@app/shared';
@@ -54,7 +54,8 @@ import { EditSidebarComponent } from './components/sidebar';
     SharedModule,
     StoreModule.forFeature(FEATURE_NAME, reducers, { metaReducers }),
     EffectsModule.forFeature([
-      GenericEffectsService
+      GameEffectsService,
+      GenericEffectsService,
     ]),
     FormsModule,
     ReactiveFormsModule,

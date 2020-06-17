@@ -1,11 +1,13 @@
-import { Omit } from "@app/shared";
+import { Nominal, Omit } from 'simplytyped';
 
 import { BaseModel, WithTemplate, WithKeywords, } from "./Base.model";
 import { Widget } from "./Widget.model";
 import { ExpressionContext } from "../models";
 import { enrichEntity } from "../helpers";
 
-export type Choice = BaseModel & WithTemplate & Partial<{
+export type ChoiceId = Nominal<string, 'ChoiceId'>;
+
+export type Choice = BaseModel<ChoiceId> & WithTemplate & Partial<{
   chances: string; // retries. Expression
   time: string; // Expression
 

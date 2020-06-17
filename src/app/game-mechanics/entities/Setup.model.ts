@@ -1,3 +1,5 @@
+import { Nominal } from 'simplytyped';
+
 import { Omit } from '@app/shared';
 
 import { BaseModel } from "./Base.model";
@@ -5,7 +7,9 @@ import { GameLanguage, ExpressionContext } from "../models";
 import { ExpressionFunc } from "./Expression.model";
 import { enrichEntity, parseAndBind } from "../helpers";
 
-export type Setup = BaseModel & {
+export type SetupId = Nominal<string, 'SetupId'>;
+
+export type Setup = BaseModel<SetupId> & {
   min_players: number;
   max_players: number;
   recommended_age: number;

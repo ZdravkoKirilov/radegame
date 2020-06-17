@@ -1,4 +1,6 @@
-import { Omit, Dictionary, safeJSON } from "@app/shared";
+import { Nominal, Omit } from 'simplytyped';
+
+import { Dictionary, safeJSON } from "@app/shared";
 import { AnimationEasing, AnimationPayload } from "@app/render-kit";
 
 import { Style } from "./Style.model";
@@ -7,8 +9,10 @@ import { WithKeywords } from "./Base.model";
 import { ExpressionContext } from "../models";
 import { enrichEntity, parseAndBind } from "../helpers";
 
+export type AnimationId = Nominal<string, 'AnimationId'>;
+
 export type Animation = WithKeywords & Partial<{
-  id: number;
+  id: AnimationId;
   game: number;
 
   name: string;

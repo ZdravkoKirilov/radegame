@@ -1,4 +1,5 @@
 import get from 'lodash/get';
+import { Nominal } from 'simplytyped';
 
 import { Omit, safeJSON } from '@app/shared';
 
@@ -8,7 +9,9 @@ import { Style } from "./Style.model";
 import { enrichEntity, parseAndBind } from '../helpers';
 import { ExpressionContext } from '../models';
 
-export type Text = BaseModel & WithStyle & Partial<{
+export type TextId = Nominal<string, 'TextId'>;
+
+export type Text = BaseModel<TextId> & WithStyle & Partial<{
   default_value: string;
   translations: Translation[];
 }>

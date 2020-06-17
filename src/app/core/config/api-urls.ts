@@ -1,10 +1,12 @@
+import { GameId, VersionId, TextId, ShapeId } from '@app/game-mechanics';
+
 import { environment } from '../../../environments/environment';
 
 const { API_BASE_URL, BASE_URL, WS_BROWSE_LOBBIES_BASE_URL, WS_ARENA_BASE_URL } = environment;
 
 export const LOBBY_URLS = {
 
-    LIVE_LOBBIES: (gameId: number, lobbyName?: string) => {
+    LIVE_LOBBIES: (gameId: GameId, lobbyName?: string) => {
         const base = `${WS_BROWSE_LOBBIES_BASE_URL}/${gameId}`;
         return lobbyName ? `${base}/${lobbyName}/` : base;
     },
@@ -14,79 +16,79 @@ export const LOBBY_URLS = {
     },
 };
 
-export const API_URLS = {
-    GAMES: (gameId?: number) => {
+export const EDITOR_URLS = {
+    GAMES: (gameId?: GameId) => {
         const base = `${API_BASE_URL}/games/`;
         return gameId ? `${base}${gameId}/` : base;
     },
-    VERSIONS: (gameId: number, versionId?: number) => {
+    VERSIONS: (gameId: GameId, versionId?: VersionId) => {
         const base = `${API_BASE_URL}/games/${gameId}/versions/`;
         return versionId ? `${base}${versionId}/` : base;
     },
-    GAME_DATA: (gameId: number, query = '') => {
+    GAME_DATA: (gameId: GameId, query = '') => {
         return `${API_BASE_URL}/games/${gameId}/data` + (query ? '?' + query : '');
     },
-    TEXTS: (gameId: number, itemId?: number) => {
+    TEXTS: (gameId: GameId, textId?: TextId) => {
         const base = `${API_BASE_URL}/games/${gameId}/texts/`;
-        return itemId ? `${base}${itemId}/` : base;
+        return textId ? `${base}${textId}/` : base;
     },
-    SHAPES: (gameId: number, itemId?: number) => {
+    SHAPES: (gameId: GameId, shapeId?: ShapeId) => {
         const base = `${API_BASE_URL}/games/${gameId}/shapes/`;
-        return itemId ? `${base}${itemId}/` : base;
+        return shapeId ? `${base}${shapeId}/` : base;
     },
-    SONATAS: (gameId: number, itemId?: number) => {
+    SONATAS: (gameId: GameId, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/sonatas/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    MODULES: (gameId: number, moduleId?: number) => {
+    MODULES: (gameId: GameId, moduleId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/modules/`;
         return moduleId ? `${base}${moduleId}/` : base;
     },
-    SANDBOXES: (gameId: number, sandboxId?: number) => {
+    SANDBOXES: (gameId: GameId, sandboxId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/sandboxes/`;
         return sandboxId ? `${base}${sandboxId}/` : base;
     },
-    CHOICES: (gameId: number, choiceId?: number) => {
+    CHOICES: (gameId: GameId, choiceId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/choices/`;
         return choiceId ? `${base}${choiceId}/` : base;
     },
-    WIDGETS: (gameId: number, widgetId?: number) => {
+    WIDGETS: (gameId: GameId, widgetId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/widgets/`;
         return widgetId ? `${base}${widgetId}/` : base;
     },
-    NODES: (gameId: number, widgetId: number, nodeId?: number) => {
+    NODES: (gameId: GameId, widgetId: number, nodeId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/widgets/${widgetId}/nodes/`;
         return nodeId ? `${base}${nodeId}/` : base;
     },
-    TOKENS: (gameId: number, tokenId?: number) => {
+    TOKENS: (gameId: GameId, tokenId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/tokens/`;
         return tokenId ? `${base}${tokenId}/` : base;
     },
-    IMAGES: (gameId: number, itemId?: number) => {
+    IMAGES: (gameId: GameId, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/imageassets/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    STYLES: (gameId: number, itemId?: number) => {
+    STYLES: (gameId: GameId, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/styles/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    SOUNDS: (gameId: number, itemId?: number) => {
+    SOUNDS: (gameId: GameId, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/sounds/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    TRANSITIONS: (gameId: number, itemId?: number) => {
+    TRANSITIONS: (gameId: GameId, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/transitions/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    EXPRESSIONS: (gameId: number, itemId?: number) => {
+    EXPRESSIONS: (gameId: GameId, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/expressions/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    ANIMATIONS: (gameId: number, itemId?: number) => {
+    ANIMATIONS: (gameId: GameId, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/animations/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    SETUPS: (gameId: number, itemId?: number) => {
+    SETUPS: (gameId: GameId, itemId?: number) => {
         const base = `${API_BASE_URL}/games/${gameId}/setups/`;
         return itemId ? `${base}${itemId}/` : base;
     },
@@ -102,7 +104,7 @@ export const ARENA_URLS = {
     GET_ACTIVE_GAMES: (userId: number) => {
         return API_BASE_URL + `/arena/active-games/${userId}`;
     },
-    ACTIVE_GAME: (publicGameId: number) => {
+    ACTIVE_GAME: (publicGameId: GameId) => {
         return API_BASE_URL + `/arena/active-game/${publicGameId}`;
     },
     LIVE_ARENA: (game_name: string) => {

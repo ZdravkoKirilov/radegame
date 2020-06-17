@@ -1,3 +1,5 @@
+import { Nominal } from 'simplytyped';
+
 import { Dictionary, Omit } from "@app/shared";
 import { AnimationPayload, AnimationPayloadSegment, StatefulComponent, RzStyles } from "@app/render-kit";
 
@@ -8,7 +10,9 @@ import { BaseModel } from "./Base.model";
 import { ExpressionContext } from "../models";
 import { enrichEntity, parseAndBind } from "../helpers";
 
-export type Transition = BaseModel & Partial<{
+export type TransitionId = Nominal<string, 'TransitionId'>;
+
+export type Transition = BaseModel<TransitionId> & Partial<{
   trigger: string; // Expression -> boolean
 
   enabled: string; // Expression -> boolean
