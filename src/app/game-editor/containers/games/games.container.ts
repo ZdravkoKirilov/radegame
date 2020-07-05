@@ -9,7 +9,7 @@ import { FormDefinition } from '@app/dynamic-forms';
 import { composeGameForm } from '../../forms';
 import { FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities } from '../../state';
 import { SmartBase } from '../../mixins';
-import { AllEntity, ALL_ENTITIES} from '@app/game-mechanics';
+import { AllEntity, ALL_ENTITIES, Game } from '@app/game-mechanics';
 import { AutoUnsubscribe } from '@app/shared';
 
 @Component({
@@ -20,7 +20,7 @@ import { AutoUnsubscribe } from '@app/shared';
 @AutoUnsubscribe()
 export class GamesContainerComponent extends SmartBase implements OnInit {
 
-    readonly key = ALL_ENTITIES.games ;
+    readonly key = null;
     private user$: Subscription;
 
     showEditor$: Observable<boolean>;
@@ -38,24 +38,24 @@ export class GamesContainerComponent extends SmartBase implements OnInit {
             .pipe(
                 select(selectUser),
                 map(user => {
-                    this.store.dispatch(new FetchItemsAction({ key: this.key, data: user && user.id }));
+                    // this.store.dispatch(new FetchItemsAction({ key: this.key, data: user && user.id }));
                 })
             )
             .subscribe();
 
         this.items$ = this.store.pipe(
             select(getItems(this.key)),
-            filter(games => !!games),
+            filter<Game[]>(games => !!games),
             map(games => {
                 if (!this.hasLoadedDependencies) {
                     games.forEach(elem => {
                         this.store.dispatch(new FetchItemsAction({
                             key: ALL_ENTITIES.modules,
-                            data: elem.id
+                            data: { gameId: elem.id }
                         }));
                         this.store.dispatch(new FetchItemsAction({
                             key: ALL_ENTITIES.images,
-                            data: elem.id
+                            data: { gameId: elem.id }
                         }));
                     });
                     this.hasLoadedDependencies = true;

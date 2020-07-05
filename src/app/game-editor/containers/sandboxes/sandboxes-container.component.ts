@@ -3,7 +3,7 @@ import { map } from 'rxjs/operators';
 import { Store, select } from '@ngrx/store';
 
 import { AppState } from '@app/core';
-import { ALL_ENTITIES, AllEntity } from '@app/game-mechanics';
+import { ALL_ENTITIES } from '@app/game-mechanics';
 import { selectGameId } from '@app/shared';
 
 import { SmartBase } from '../../mixins';
@@ -62,7 +62,7 @@ export class SandboxesContainerComponent extends SmartBase implements OnInit {
       map(gameId => {
         this.gameId = gameId;
         this.store.dispatch(
-          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: gameId })
+          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes, data: { gameId } })
         );
       }),
     ).subscribe();

@@ -1,9 +1,10 @@
+import { Dictionary } from "@app/shared";
+import { Game, ImageAsset, Setup, GameId } from "@app/game-mechanics";
+
 import {
     FETCH_GAMES, FETCH_GAMES_SUCCESS, FETCH_GAMES_FAIL, FETCH_GAME, FETCH_IMAGES,
     FETCH_IMAGES_SUCCESS, FETCH_IMAGES_FAIL, FETCH_SETUPS, FETCH_SETUPS_SUCCESS, FETCH_SETUPS_FAIL,
 } from "./actionTypes";
-import { Dictionary } from "@app/shared";
-import { Game, ImageAsset, Setup } from "@app/game-mechanics";
 
 export class FetchGames {
     readonly type = FETCH_GAMES;
@@ -19,12 +20,12 @@ export class FetchGamesFail {
 }
 export class FetchGame {
     readonly type = FETCH_GAME;
-    constructor(public payload: number) { }
+    constructor(public payload: GameId) { }
 }
 
 export class FetchImages {
     readonly type = FETCH_IMAGES;
-    constructor(public payload: number) { }
+    constructor(public payload: { gameId: GameId }) { }
 }
 
 export class FetchImagesSuccess {
@@ -38,7 +39,7 @@ export class FetchImagesFail {
 
 export class FetchSetups {
     readonly type = FETCH_SETUPS;
-    constructor(public payload: number) { }
+    constructor(public payload: { gameId: GameId }) { }
 }
 
 export class FetchSetupsSuccess {

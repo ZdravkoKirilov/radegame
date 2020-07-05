@@ -2,7 +2,7 @@ import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { values } from 'lodash';
 
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Widget, Game, GameEntity, AllEntity, ALL_ENTITIES, Module, toGameId } from '@app/game-mechanics';
+import { Widget, Game, GameEntity, AllEntity, ALL_ENTITIES, Module, toGameId, WidgetId, Sandbox } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, selectGameId, Dictionary } from '@app/shared';
 
 import { FEATURE_NAME } from '../utils/config';
@@ -29,18 +29,18 @@ export const getItems = <T = GameEntity>(key: AllEntity) => createSelector(
 export const selectWidgetId = createSelector(
   selectRouterFeature,
   (routerState) => {
-    return Number(routerState.state.params[ROUTER_PARAMS.WIDGET_ID]);
+    return Number(routerState.state.params[ROUTER_PARAMS.WIDGET_ID]) as any;
   }
 );
 
 export const selectNodeId = createSelector(
   selectRouterFeature,
-  router => Number(router.state.params[ROUTER_PARAMS.NODE_ID])
+  router => Number(router.state.params[ROUTER_PARAMS.NODE_ID]) as any
 );
 
 export const selectModuleId = createSelector(
   selectRouterFeature,
-  router => Number(router.state.params[ROUTER_PARAMS.MODULE_ID])
+  router => Number(router.state.params[ROUTER_PARAMS.MODULE_ID]) as any
 );
 
 export const getActiveModule = createSelector(
@@ -51,12 +51,12 @@ export const getActiveModule = createSelector(
 
 export const selectSandboxId = createSelector(
   selectRouterFeature,
-  router => Number(router.state.params[ROUTER_PARAMS.SANDBOX_ID])
+  router => Number(router.state.params[ROUTER_PARAMS.SANDBOX_ID]) as any
 );
 
 export const getActiveSandbox = createSelector(
   selectSandboxId,
-  getItems<Module>(ALL_ENTITIES.sandboxes),
+  getItems<Sandbox>(ALL_ENTITIES.sandboxes),
   (sandboxId, sandboxes) => {
     return sandboxes?.find(elem => elem.id === sandboxId);
   }

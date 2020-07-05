@@ -7,7 +7,7 @@ import { BaseModel, WithBoard, WithStyle } from "./Base.model";
 import { Shape } from "./Shape.model";
 import { RuntimeChoice, Choice } from "./Choice.model";
 import { RuntimeToken, Token } from "./Token.model";
-import { Widget } from "./Widget.model";
+import { Widget, WidgetId } from "./Widget.model";
 import {
   ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc,
   SonataGetterFunc
@@ -22,7 +22,7 @@ import { ExpressionContext } from "../models";
 export type WidgetNodeId = Nominal<string, 'WidgetNodeId'>;
 
 export type WidgetNode = BaseModel<WidgetNodeId> & WithBoard & WithStyle & Partial<{
-  owner: number; // Widget;
+  owner: WidgetId;
 
   display_text: string;
   display_text_inline: number;

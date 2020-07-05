@@ -105,7 +105,7 @@ export class TestBoardContainerComponent implements OnInit {
       select(selectGameId),
       map(gameId => {
         this.store.dispatch(
-          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: gameId })
+          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: {gameId} })
         );
       }),
     ).subscribe();

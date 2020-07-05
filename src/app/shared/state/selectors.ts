@@ -2,6 +2,7 @@ import { RouterReducerState } from '@ngrx/router-store';
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 import { RouterStateUrl, AppState } from '@app/core';
 import { ROUTER_PARAMS } from '../config';
+import { GameId } from '@app/game-mechanics';
 
 export const selectRouterFeature = createFeatureSelector<RouterReducerState<RouterStateUrl>>('router');
 
@@ -10,7 +11,7 @@ const selectRouterState = createSelector(
     feature => feature ? feature.state : null,
 );
 
-export const selectGameId = createSelector<AppState, any, number>(
+export const selectGameId = createSelector<AppState, any, GameId>(
     selectRouterFeature,
     feature => feature.state.params[ROUTER_PARAMS.GAME_ID],
 );

@@ -3,6 +3,7 @@ import { Subject } from 'rxjs';
 
 import { LOBBY_URLS } from '@app/core';
 import { CreateLobby, DeleteLobby, SavePlayer, DeletePlayer, SendMessage, FetchLobbies, LobbyAction, CreateGame } from '../state';
+import { GameId } from '@app/game-mechanics';
 
 @Injectable()
 export class LiveLobbyService extends Subject<LobbyAction> implements OnDestroy {
@@ -23,7 +24,7 @@ export class LiveLobbyService extends Subject<LobbyAction> implements OnDestroy 
 		this.singleLobbySocket && this.singleLobbySocket.close();
 	}
 
-	listenForLobbies(gameId: number, autoFetch = true) {
+	listenForLobbies(gameId: GameId, autoFetch = true) {
 
 		this.lobbiesSocket = new WebSocket(LOBBY_URLS.LIVE_LOBBIES(gameId));
 
@@ -39,7 +40,7 @@ export class LiveLobbyService extends Subject<LobbyAction> implements OnDestroy 
 		}
 	}
 
-	listenInLobby(gameId: number, lobbyName: string) {
+	listenInLobby(gameId: GameId, lobbyName: string) {
 
 		this.singleLobbySocket = new WebSocket(LOBBY_URLS.LIVE_LOBBIES(gameId, lobbyName));
 

@@ -4,7 +4,7 @@ import get from 'lodash/get';
 
 import { Points } from '@app/render-kit';
 import { GameEntity, WithRuntimeStyle, Style, AllEntity, GameEntityUnion } from '../entities';
-import { Dictionary } from '@app/shared';
+import { Dictionary, Omit } from '@app/shared';
 import { GameTemplate } from '../models';
 
 export const enrichEntity = <T = GameEntity, P = any>(
@@ -64,7 +64,7 @@ type ParseConfig<T> = Partial<{
     [K in keyof T]: string | ((item: any) => any);
 }>;
 
-export const combineStyles = (...args: (Style | WithRuntimeStyle)[]): Style => {
+export const combineStyles = (...args: Array<WithRuntimeStyle | Omit<Style, 'id'>>): Style => {
     return args.reduce((total, item) => {
 
         if (isEntityWithRuntimeStyle(item)) {

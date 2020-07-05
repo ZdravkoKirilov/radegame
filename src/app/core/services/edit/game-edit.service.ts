@@ -1,10 +1,9 @@
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
   Game, Module, Choice, Widget, Token, Animation, ImageAsset, Style,
-  Sound, Expression, Setup, Transition, Text, Sonata, Shape, WidgetNode, Sandbox as Version,
+  Sound, Expression, Setup, Transition, Text, Sonata, Shape, WidgetNode, Version, Sandbox,
 } from '@app/game-mechanics';
 import { toMultipartFormData } from '@app/shared';
 
@@ -24,23 +23,23 @@ export class GameEditService {
     }
   }
 
-  deleteVersion(data: Version): Observable<any> {
-    return this.http.delete(EDITOR_URLS.SANDBOXES(data.game, data.id));
+  deleteVersion(data: Version) {
+    return this.http.delete(EDITOR_URLS.VERSIONS(data.game, data.id));
   }
 
-  saveSandbox(data: Version) {
+  saveSandbox(data: Sandbox) {
     if (data.id) {
-      return this.http.patch<Version>(EDITOR_URLS.SANDBOXES(data.game, data.id), data);
+      return this.http.patch<Sandbox>(EDITOR_URLS.SANDBOXES(data.game, data.id), data);
     } else {
-      return this.http.post<Version>(EDITOR_URLS.SANDBOXES(data.game), data);
+      return this.http.post<Sandbox>(EDITOR_URLS.SANDBOXES(data.game), data);
     }
   }
 
-  deleteSandbox(data: Version): Observable<any> {
+  deleteSandbox(data: Sandbox) {
     return this.http.delete(EDITOR_URLS.SANDBOXES(data.game, data.id));
   }
 
-  saveTransition(data: Transition): Observable<any> {
+  saveTransition(data: Transition) {
     if (data.id) {
       return this.http.patch(EDITOR_URLS.TRANSITIONS(data.game, data.id), data);
     } else {
@@ -48,11 +47,11 @@ export class GameEditService {
     }
   }
 
-  deleteTransition(data: Transition): Observable<any> {
+  deleteTransition(data: Transition) {
     return this.http.delete(EDITOR_URLS.TRANSITIONS(data.game, data.id));
   }
 
-  saveWidget(data: Widget): Observable<any> {
+  saveWidget(data: Widget) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.WIDGETS(data.game, data.id), data);
@@ -61,11 +60,11 @@ export class GameEditService {
     }
   }
 
-  deleteWidget(data: Widget): Observable<any> {
+  deleteWidget(data: Widget) {
     return this.http.delete(EDITOR_URLS.WIDGETS(data.game, data.id));
   }
 
-  saveNode(data: WidgetNode): Observable<any> {
+  saveNode(data: WidgetNode) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.NODES(data.game, data.owner, data.id), data);
@@ -74,11 +73,11 @@ export class GameEditService {
     }
   }
 
-  deleteNode(data: WidgetNode): Observable<any> {
+  deleteNode(data: WidgetNode) {
     return this.http.delete(EDITOR_URLS.NODES(data.game, data.owner, data.id));
   }
 
-  saveText(data: Text): Observable<any> {
+  saveText(data: Text) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.TEXTS(data.game, data.id), data);
@@ -87,11 +86,11 @@ export class GameEditService {
     }
   }
 
-  deleteText(data: Text): Observable<any> {
+  deleteText(data: Text) {
     return this.http.delete(EDITOR_URLS.TEXTS(data.game, data.id));
   }
 
-  saveSonata(data: Sonata): Observable<any> {
+  saveSonata(data: Sonata) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.SONATAS(data.game, data.id), data);
@@ -100,11 +99,11 @@ export class GameEditService {
     }
   }
 
-  deleteSonata(data: Text): Observable<any> {
-    return this.http.delete(EDITOR_URLS.TEXTS(data.game, data.id));
+  deleteSonata(data: Sonata) {
+    return this.http.delete(EDITOR_URLS.SONATAS(data.game, data.id));
   }
 
-  saveModule(data: Module): Observable<any> {
+  saveModule(data: Module) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.MODULES(data.game, data.id), data);
@@ -113,11 +112,11 @@ export class GameEditService {
     }
   }
 
-  deleteModule(data: Module): Observable<any> {
+  deleteModule(data: Module) {
     return this.http.delete(EDITOR_URLS.MODULES(data.game, data.id));
   }
 
-  saveToken(data: Token): Observable<any> {
+  saveToken(data: Token) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.TOKENS(data.game, data.id), data);
@@ -126,11 +125,11 @@ export class GameEditService {
     }
   }
 
-  deleteToken(data: Token): Observable<any> {
+  deleteToken(data: Token) {
     return this.http.delete(EDITOR_URLS.TOKENS(data.game, data.id));
   }
 
-  saveChoice(data: Choice): Observable<any> {
+  saveChoice(data: Choice) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.CHOICES(data.game, data.id), data);
@@ -139,11 +138,11 @@ export class GameEditService {
     }
   }
 
-  deleteChoice(data: Choice): Observable<any> {
+  deleteChoice(data: Choice) {
     return this.http.delete(EDITOR_URLS.CHOICES(data.game, data.id));
   }
 
-  saveAnimation(data: Animation): Observable<any> {
+  saveAnimation(data: Animation) {
     if (data.id) {
       return this.http.patch(EDITOR_URLS.ANIMATIONS(data.game, data.id), data);
     } else {
@@ -151,11 +150,11 @@ export class GameEditService {
     }
   }
 
-  deleteAnimation(data: Animation): Observable<any> {
+  deleteAnimation(data: Animation) {
     return this.http.delete(EDITOR_URLS.ANIMATIONS(data.game, data.id));
   }
 
-  saveImage(data: ImageAsset): Observable<any> {
+  saveImage(data: ImageAsset) {
     const formData = toMultipartFormData(data);
     const options = { headers: new HttpHeaders({}) };
 
@@ -166,11 +165,11 @@ export class GameEditService {
     }
   }
 
-  deleteImage(data: ImageAsset): Observable<any> {
+  deleteImage(data: ImageAsset) {
     return this.http.delete(EDITOR_URLS.IMAGES(data.game, data.id));
   }
 
-  saveSound(data: Sound): Observable<any> {
+  saveSound(data: Sound) {
     const formData = toMultipartFormData(data);
     const options = { headers: new HttpHeaders({}) };
 
@@ -181,7 +180,7 @@ export class GameEditService {
     }
   }
 
-  saveStyle(data: Style): Observable<any> {
+  saveStyle(data: Style) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.STYLES(data.game, data.id), data);
@@ -190,11 +189,11 @@ export class GameEditService {
     }
   }
 
-  deleteStyle(data: Style): Observable<any> {
+  deleteStyle(data: Style) {
     return this.http.delete(EDITOR_URLS.STYLES(data.game, data.id));
   }
 
-  saveExpression(data: Expression): Observable<any> {
+  saveExpression(data: Expression) {
     if (data.id) {
       return this.http.patch(EDITOR_URLS.EXPRESSIONS(data.game, data.id), data);
     } else {
@@ -202,11 +201,11 @@ export class GameEditService {
     }
   }
 
-  deleteExpression(data: Expression): Observable<any> {
+  deleteExpression(data: Expression) {
     return this.http.delete(EDITOR_URLS.EXPRESSIONS(data.game, data.id));
   }
 
-  saveShape(data: Shape): Observable<any> {
+  saveShape(data: Shape) {
     if (data.id) {
       return this.http.patch(EDITOR_URLS.SHAPES(data.game, data.id), data);
     } else {
@@ -214,11 +213,11 @@ export class GameEditService {
     }
   }
 
-  deleteShape(data: Shape): Observable<any> {
+  deleteShape(data: Shape) {
     return this.http.delete(EDITOR_URLS.SHAPES(data.game, data.id));
   }
 
-  saveSetup(data: Setup): Observable<any> {
+  saveSetup(data: Setup) {
     if (data.id) {
       return this.http.patch(EDITOR_URLS.SETUPS(data.game, data.id), data);
     } else {
@@ -226,15 +225,15 @@ export class GameEditService {
     }
   }
 
-  deleteSetup(data: Setup): Observable<any> {
+  deleteSetup(data: Setup) {
     return this.http.delete(EDITOR_URLS.SETUPS(data.game, data.id));
   }
 
-  deleteSound(data: Sound): Observable<any> {
+  deleteSound(data: Sound) {
     return this.http.delete(EDITOR_URLS.SOUNDS(data.game, data.id));
   }
 
-  saveGame(data: Game): Observable<any> {
+  saveGame(data: Game) {
 
     if (data.id) {
       return this.http.patch(EDITOR_URLS.GAMES(data.id), data);

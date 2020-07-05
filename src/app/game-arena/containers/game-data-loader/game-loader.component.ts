@@ -55,7 +55,7 @@ export class GameLoaderComponent implements OnInit {
       filter<GameInstance>(Boolean),
       map(instance => {
         this.game_instance = instance;
-        this.store.dispatch(new FetchGame(instance.game_id));
+        this.store.dispatch(new FetchGame({ gameId: instance.game_id }));
       })
     ).subscribe();
 

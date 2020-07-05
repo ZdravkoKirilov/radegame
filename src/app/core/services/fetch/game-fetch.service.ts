@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { EDITOR_URLS } from '../../config';
 import {
 	Widget, Module, Token, Choice, ImageAsset,
-	Game, Expression, Animation, Setup, GameTemplate, Sandbox, GameId, EntityId
+	Game, Expression, Animation, Setup, GameTemplate, Sandbox, GameId, EntityId, WidgetId
 } from '@app/game-mechanics';
 
 
@@ -25,7 +25,7 @@ export class GameFetchService {
 		return this.http.get<Widget[]>(EDITOR_URLS.WIDGETS(gameId));
 	}
 
-	getWidget(gameId: GameId, widgetId: EntityId) {
+	getWidget(gameId: GameId, widgetId: WidgetId) {
 		return this.http.get<Widget>(EDITOR_URLS.WIDGETS(gameId, widgetId));
 	}
 

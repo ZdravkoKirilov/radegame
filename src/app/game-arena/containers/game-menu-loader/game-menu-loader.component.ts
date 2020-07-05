@@ -5,7 +5,7 @@ import { filter, map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
-import { Game, GameTemplate, ImageAsset } from '@app/game-mechanics';
+import { Game, GameTemplate, ImageAsset, GameId } from '@app/game-mechanics';
 import {
   selectGame, FetchGameConfig, selectGameConfig, FetchGame, isDownloadingGameMenuData, CreateGameState,
   selectGameState
@@ -35,9 +35,9 @@ export class GameMenuLoaderComponent implements OnInit {
 
     this.gameId$ = this.store.pipe(
       select(selectGameId),
-      filter<number>(Boolean),
+      filter<GameId>(Boolean),
       map(gameId => {
-        this.store.dispatch(new FetchGame(gameId));
+        this.store.dispatch(new FetchGame({ gameId }));
       })
     ).subscribe();
 

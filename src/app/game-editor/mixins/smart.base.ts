@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
-import { GameEntity, AllEntity } from '@app/game-mechanics';
+import { GameEntity, AllEntity, GameId } from '@app/game-mechanics';
 import {
     SaveItemAction, DeleteItemAction, getItems, getEntities, getEditorState, getSelectedEntity, ChangeSelectedItemAction, ToggleEditorAction
 } from '../state';
@@ -22,7 +22,7 @@ export abstract class SmartBase implements OnInit {
     formDefinition: FormDefinition;
     selectedItem: GameEntity;
 
-    gameId: number;
+    gameId: GameId;
 
     connectedEntities$: Observable<ConnectedEntities>;
     items$: Observable<GameEntity[]>;
@@ -68,7 +68,7 @@ export abstract class SmartBase implements OnInit {
         }
         this.store.dispatch(new ToggleEditorAction({
             key: this.key,
-            data: isVisible
+            data: { showEditor: isVisible }
         }));
     }
 

@@ -3,14 +3,14 @@ import { Nominal } from 'simplytyped';
 import { Omit } from '@app/shared';
 
 import { enrichEntity } from "../helpers";
-import { Module } from "./Module.model";
-import { ExpressionContext } from "../models";
+import { Module, ModuleId } from "./Module.model";
+import { ExpressionContext, GameId } from "../models";
 
 export type VersionId = Nominal<string, 'VersionId'>;
 
 export type Version = {
-  id: number;
-  game: number;
+  id: VersionId;
+  game: GameId;
 
   name: string;
   description: string;
@@ -18,7 +18,7 @@ export type Version = {
   date_created: string;
   date_modified: string;
 
-  menu: number;
+  menu: ModuleId;
 };
 
 export type RuntimeVersion = Omit<Version, 'menu'> & {

@@ -12,6 +12,8 @@ import { enrichEntity, parseAndBind } from "../helpers";
 
 export type WidgetId = Nominal<string, 'WidgetId'>;
 
+export const toWidgetId = (source: string | number) => String(source) as WidgetId;
+
 export type Widget = BaseModel<WidgetId> & WithFrames & WithStyle & Partial<{
 
   node_getter: string; // Expression => WidgetNode[]

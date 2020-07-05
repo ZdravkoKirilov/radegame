@@ -5,9 +5,9 @@ import { tap } from 'rxjs/operators';
 
 import { AppState, selectUser } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
-import { AllEntity, ALL_ENTITIES, toGameId } from '@app/game-mechanics';
+import { ALL_ENTITIES, toGameId, GameId } from '@app/game-mechanics';
 
-import { FetchItemsAction, FetchGameDataAction } from '../../state';
+import { FetchItemsAction } from '../../state';
 
 @Component({
 	selector: 'rg-editor-container',
@@ -21,7 +21,7 @@ export class EditorContainerComponent implements OnInit {
 
 	private data$: Subscription;
 
-	gameId: number;
+	gameId: GameId;
 
 	constructor(private store: Store<AppState>) { }
 
@@ -34,10 +34,10 @@ export class EditorContainerComponent implements OnInit {
 			tap(([user, gameId]) => {
 				this.gameId = gameId;
 
-				this.store.dispatch(
-					new FetchItemsAction({ key: ALL_ENTITIES.games, data: { gameId: toGameId(gameId) } })
-				);
-				this.store.dispatch(new FetchGameDataAction({ gameId: toGameId(gameId) }));
+				// this.store.dispatch(
+				// 	new FetchItemsAction({ key: ALL_ENTITIES.games, data: { gameId: toGameId(gameId) } })
+				// );
+				// this.store.dispatch(new FetchGameDataAction({ gameId: toGameId(gameId) }));
 
 			})
 		).subscribe();

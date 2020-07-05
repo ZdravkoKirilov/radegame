@@ -5,18 +5,13 @@ import { AnimationEasing, AnimationPayload } from "@app/render-kit";
 
 import { Style } from "./Style.model";
 import { ParamedExpressionFunc } from "./Expression.model";
-import { WithKeywords } from "./Base.model";
+import { BaseModel } from "./Base.model";
 import { ExpressionContext } from "../models";
 import { enrichEntity, parseAndBind } from "../helpers";
 
 export type AnimationId = Nominal<string, 'AnimationId'>;
 
-export type Animation = WithKeywords & Partial<{
-  id: AnimationId;
-  game: number;
-
-  name: string;
-  description: string;
+export type Animation = BaseModel<AnimationId> & Partial<{
 
   type: AnimationPlayType;
   steps: AnimationStep[];
@@ -58,7 +53,7 @@ const AnimationStep = {
 
 export type AnimationStep = Partial<{
   id: number;
-  owner: number;
+  owner: AnimationId;
 
   from_value: string; // this is the place for dynamic styles as well, but also arbitrary values not part of RzStyle
   to_value: string;

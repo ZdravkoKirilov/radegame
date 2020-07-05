@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { composeNodeForm } from '../../forms';
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { WidgetNode, Widget, ImageAsset } from '@app/game-mechanics';
+import { WidgetNode, Widget, ImageAsset, GameId } from '@app/game-mechanics';
 
 @Component({
 	selector: 'rg-board-editor',
@@ -13,7 +13,7 @@ export class BoardEditorComponent {
 	@Input() entities: ConnectedEntities = {};
 	@Input() nodes: WidgetNode[];
 	@Input() widget: Widget;
-	@Input() gameId: number;
+	@Input() gameId: GameId;
 	@Input() images: ImageAsset[];
 
 	@Output() saveNode = new EventEmitter<WidgetNode>();

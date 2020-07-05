@@ -52,7 +52,7 @@ export class CatalogEffects {
     fetchImages = this.actions$.pipe(
         ofType<FetchImages>(FETCH_IMAGES),
         mergeMap(action => {
-            return this.fetcher.getImages(action.payload).pipe(
+            return this.fetcher.getImages(action.payload.gameId).pipe(
                 map(response => {
                     const asDict = toDictionary<ImageAsset>(response);
                     return new FetchImagesSuccess(asDict);
@@ -68,11 +68,11 @@ export class CatalogEffects {
     fetchSetups = this.actions$.pipe(
         ofType<FetchSetups>(FETCH_SETUPS),
         mergeMap(action => {
-            return this.fetcher.getSetups(action.payload).pipe(
+            return this.fetcher.getSetups(action.payload.gameId).pipe(
                 map(response => {
                     const asDict = toDictionary<Setup>(response);
                     return new FetchSetupsSuccess(asDict);
-                    
+
                 }),
                 catchError(() => {
                     return of(new FetchSetupsFail());

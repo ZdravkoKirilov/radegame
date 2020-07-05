@@ -1,10 +1,10 @@
 import { createElement, RenderFunction, RzDraggable, RzDraggableProps, RzPoint, RzElementPrimitiveProps } from "@app/render-kit";
-import { RuntimeWidgetNode, NodeFactory, NodeFactoryProps, combineStyles } from "@app/game-mechanics";
+import { RuntimeWidgetNode, NodeFactory, NodeFactoryProps, combineStyles, WidgetNodeId } from "@app/game-mechanics";
 
 export type Props = {
   data: RuntimeWidgetNode;
   selected: boolean;
-  onDragEnd: (id: number, coords: RzPoint) => void;
+  onDragEnd: (id: WidgetNodeId, coords: RzPoint) => void;
   onSelect: (item: RuntimeWidgetNode) => void;
 };
 

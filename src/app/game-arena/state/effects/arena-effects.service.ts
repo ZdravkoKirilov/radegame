@@ -40,7 +40,7 @@ export class ArenaEffectsService {
   getGame = this.actions$.pipe(
     ofType<FetchGame>(ArenaGeneralActionTypes.FETCH_GAME),
     mergeMap(action => {
-      return this.fetchApi.getGame(action.payload).pipe(
+      return this.fetchApi.getGame(action.payload.gameId).pipe(
         map(game => {
           return new FetchGameSuccess(game);
         }),
@@ -55,7 +55,7 @@ export class ArenaEffectsService {
   getGameInstance = this.actions$.pipe(
     ofType<FetchGameInstance>(ArenaGeneralActionTypes.FETCH_GAME_INSTANCE),
     mergeMap(action => {
-      return this.arenaApi.fetchActiveGame(action.payload).pipe(
+      return this.arenaApi.fetchActiveGame(action.payload.gameId).pipe(
         map(game => {
           return new FetchGameInstanceSuccess(game);
         }),

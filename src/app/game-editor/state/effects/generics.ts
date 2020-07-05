@@ -6,7 +6,7 @@ import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
   GameEntity, Module, Token, Choice, ImageAsset, Widget, WidgetNode, Style, Setup,
-  AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape, Sandbox, Sound, Expression, EntityId, GameId
+  AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape, Sandbox, Sound, Expression, EntityId, GameId, toWidgetId
 } from '@app/game-mechanics';
 import { toDictionary } from '@app/shared';
 
@@ -129,7 +129,7 @@ export class GenericEffectsService {
   fetchSingleItem(key: AllEntity, itemId: EntityId, gameId: GameId) {
     switch (key) {
       case ALL_ENTITIES.widgets:
-        return this.fetcher.getWidget(gameId, itemId);
+        return this.fetcher.getWidget(gameId, toWidgetId(itemId));
       default:
         return of(null);
     }
@@ -220,7 +220,7 @@ export class GenericEffectsService {
       case ALL_ENTITIES.setups:
         return this.api.deleteSetup(<Setup>entity);
       case ALL_ENTITIES.transitions:
-        return this.api.deleteTransition(<Setup>entity);
+        return this.api.deleteTransition(<Transition>entity);
       case ALL_ENTITIES.texts:
         return this.api.deleteText(<Text>entity);
       case ALL_ENTITIES.shapes:

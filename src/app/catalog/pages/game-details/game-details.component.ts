@@ -49,8 +49,8 @@ export class GameDetailsPage implements OnInit {
 			filter(gameId => !!gameId),
 			map(gameId => {
 				this.store.dispatch(new FetchGame(gameId));
-				this.store.dispatch(new FetchImages(gameId));
-				this.store.dispatch(new FetchSetups(gameId));
+				this.store.dispatch(new FetchImages({ gameId }));
+				this.store.dispatch(new FetchSetups({ gameId }));
 			}),
 		).subscribe();
 	}

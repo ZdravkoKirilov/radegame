@@ -10,6 +10,7 @@ import {
   StoreProvider, ExpressionContext, RootWidgetProps, RootWidget, CommonGameStore, selectRuntimeWidget,
   selectExpressionContext,
   connectToStore,
+  WidgetNodeId,
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 
@@ -58,7 +59,7 @@ export class rootComponent extends StatefulComponent<EditorRootProps, State> {
     this.props.selectNode(selectedNode);
   }
 
-  handleDragEnd = (id: number, coords: RzPoint) => {
+  handleDragEnd = (id: WidgetNodeId, coords: RzPoint) => {
     const nodeIndex = this.props.widget.nodes.findIndex(elem => elem.id === id);
 
     const newRuntimeWidgetData = clone(this.state.runtimeWidget, draft => {

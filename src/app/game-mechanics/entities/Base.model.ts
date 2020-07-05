@@ -6,12 +6,13 @@ import { ImageFrame, ImageAsset } from "./ImageAsset.model";
 import { Widget } from "./Widget.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { TextFrame } from "./Text.model";
+import { GameId } from '../models';
 
 export type EntityId = Nominal<string, 'id'>;
 
 export type BaseModel<T = EntityId> = WithKeywords & Partial<{
     id: T;
-    game: number;
+    game: GameId;
 
     name: string;
     description: string;
@@ -47,6 +48,6 @@ export type WithTemplate = Partial<{
 }>;
 
 export type WithRuntimeStyle<T = any> = {
-    style_inline: RzStyles;
-    style: ParamedExpressionFunc<T, RzStyles>;
+    style_inline?: RzStyles;
+    style?: ParamedExpressionFunc<T, RzStyles>;
 };

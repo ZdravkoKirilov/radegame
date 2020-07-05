@@ -1,4 +1,5 @@
 import { Lobby, LobbyPlayer, ChatMessage, GameInstance } from "../../models";
+import { GameId } from "@app/game-mechanics";
 
 export enum LobbyActionTypes {
   FETCH_LOBBIES = '[Lobby] FETCH_LOBBIES', // remote command
@@ -31,7 +32,7 @@ export enum LobbyActionTypes {
 
 export class FetchLobbies {
   readonly type = LobbyActionTypes.FETCH_LOBBIES;
-  constructor(public payload: { gameId: number }) { }
+  constructor(public payload: { gameId: GameId }) { }
 }
 
 export class AddLobbies {
