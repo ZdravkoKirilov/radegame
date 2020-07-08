@@ -1,5 +1,7 @@
+import { UserId } from "@app/core";
+
 export type Player = {
     id: number;
-    user: number;
+    user: UserId;
     name: string;
 };

@@ -8,6 +8,8 @@ export const selectUser = createSelector(
     core => core.user
 );
 
+export const selectUserId = createSelector(selectUser, user => user?.id);
+
 export const getActiveGames = createSelector(
     selectCoreFeature,
     core => core.activeGames,

@@ -63,7 +63,7 @@ export class CoreEffectsService {
     getActiveGames = this.actions$.pipe(
         ofType<FetchActiveGames>(actionTypes.FETCH_ACTIVE_GAMES),
         mergeMap(action => {
-            return this.arenaApi.fetchActiveGames(action.payload).pipe(
+            return this.arenaApi.fetchActiveGames(action.payload.userId).pipe(
                 map(games => {
                     return new FetchActiveGamesSuccess(games);
                 }),

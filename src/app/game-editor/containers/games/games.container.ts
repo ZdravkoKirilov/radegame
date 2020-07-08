@@ -1,77 +1,42 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
-import { AppState } from '@app/core';
-import { selectUser } from '@app/core';
-import { FormDefinition } from '@app/dynamic-forms';
-import { composeGameForm } from '../../forms';
-import { FetchItemsAction, getItems, getSelectedEntity, getEditorState, getEntities } from '../../state';
-import { SmartBase } from '../../mixins';
-import { AllEntity, ALL_ENTITIES, Game } from '@app/game-mechanics';
+import { AppState, selectUserId } from '@app/core';
+import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { AutoUnsubscribe } from '@app/shared';
+import { Game } from '@app/game-mechanics';
+
+import { composeGameForm } from '../../forms';
+import { FetchGamesAction, selectAllGames, getEntities } from '../../state';
 
 @Component({
-    selector: 'rg-games-container',
-    templateUrl: './games.container.html',
-    styleUrls: ['./games.container.scss']
+  selector: 'rg-games-container',
+  templateUrl: './games.container.html',
+  styleUrls: ['./games.container.scss']
 })
 @AutoUnsubscribe()
-export class GamesContainerComponent extends SmartBase implements OnInit {
+export class GamesContainerComponent implements OnInit {
+  private userId$: Subscription;
 
-    readonly key = null;
-    private user$: Subscription;
+  games$: Observable<Game[]>;
+  connectedEntities$: Observable<ConnectedEntities>;
+  formDefinition: FormDefinition = composeGameForm;
 
-    showEditor$: Observable<boolean>;
+  constructor(public store: Store<AppState>) { }
 
-    formDefinition: FormDefinition = composeGameForm;
+  ngOnInit() {
+    this.userId$ = this.store.pipe(
+      select(selectUserId),
+      map(userId => this.store.dispatch(new FetchGamesAction({ userId }))),
+    ).subscribe();
 
-    private hasLoadedDependencies = false;
+    this.games$ = this.store.pipe(select(selectAllGames));
+    this.connectedEntities$ = this.store.pipe(select(getEntities));
+  }
 
-    constructor(public store: Store<AppState>) {
-        super(store);
-    }
-
-    ngOnInit() {
-        this.user$ = this.store
-            .pipe(
-                select(selectUser),
-                map(user => {
-                    // this.store.dispatch(new FetchItemsAction({ key: this.key, data: user && user.id }));
-                })
-            )
-            .subscribe();
-
-        this.items$ = this.store.pipe(
-            select(getItems(this.key)),
-            filter<Game[]>(games => !!games),
-            map(games => {
-                if (!this.hasLoadedDependencies) {
-                    games.forEach(elem => {
-                        this.store.dispatch(new FetchItemsAction({
-                            key: ALL_ENTITIES.modules,
-                            data: { gameId: elem.id }
-                        }));
-                        this.store.dispatch(new FetchItemsAction({
-                            key: ALL_ENTITIES.images,
-                            data: { gameId: elem.id }
-                        }));
-                    });
-                    this.hasLoadedDependencies = true;
-                }
-                return games;
-            }),
-        );
-
-        this.showEditor$ = this.store.pipe(select(getEditorState(this.key)));
-        this.selectedItem$ = this.store.pipe(
-            select(getSelectedEntity(this.key)),
-            map(item => {
-                this.selectedItem = item;
-                return item;
-            }),
-        );
-        this.connectedEntities$ = this.store.pipe(select(getEntities));
-    }
+  deleteGame(game: Game) {
+    
+  }
 }

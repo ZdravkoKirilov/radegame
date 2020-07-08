@@ -3,10 +3,11 @@ import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map, filter } from 'rxjs/operators';
 
-import { AppState, selectUser, FetchActiveGames, getActiveGames } from '../../state';
 import { AutoUnsubscribe, selectRouteData } from '@app/shared';
-import { User, ActiveGame } from '../../models';
-import { CustomRouteData } from 'app/core/router-custom.serializer';
+
+import { AppState, FetchActiveGames, getActiveGames, selectUserId } from '../../state';
+import { ActiveGame, UserId } from '../../models';
+import { CustomRouteData } from '../../router-custom.serializer';
 
 @Component({
   selector: 'rg-active-games-provider',
@@ -30,10 +31,10 @@ export class ActiveGamesProviderComponent implements OnInit {
 
   ngOnInit() {
     this.user$ = this.store.pipe(
-      select(selectUser),
-      filter<User>(Boolean),
-      map(user => {
-        this.store.dispatch(new FetchActiveGames(user.id));
+      select(selectUserId),
+      filter<UserId>(Boolean),
+      map(userId => {
+        this.store.dispatch(new FetchActiveGames({ userId }));
       })
     ).subscribe();
 

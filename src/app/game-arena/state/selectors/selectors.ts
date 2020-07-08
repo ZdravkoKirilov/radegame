@@ -4,7 +4,7 @@ import groupBy from 'lodash/groupBy';
 
 import { Setup, CommonGameStore, Player, } from "@app/game-mechanics";
 import { selectUser, AppState } from "@app/core";
-import { toDictionary, selectLobbyName } from "@app/shared";
+import { selectLobbyName } from "@app/shared";
 
 import { FEATURE_NAME } from "../../config";
 import { createArenaExpressionContext } from "../../helpers";

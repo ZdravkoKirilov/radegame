@@ -25,7 +25,7 @@ export const createEntityReducer = (allowedKey: AllEntity): ActionReducer<Entity
   const entityReducer = (
     state: EntityFeature = { ...entityFeatureState },
     action: EditorGenericAction): EntityFeature => {
-    const key = action.payload.key;
+    const key = action?.payload?.key;
 
     if (key === allowedKey) {
       switch (action.type) {

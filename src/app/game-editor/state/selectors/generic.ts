@@ -1,25 +1,16 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
+import { createSelector } from '@ngrx/store';
 import { values } from 'lodash';
 
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Widget, Game, GameEntity, AllEntity, ALL_ENTITIES, Module, toGameId, WidgetId, Sandbox } from '@app/game-mechanics';
-import { ROUTER_PARAMS, selectRouterFeature, selectGameId, Dictionary } from '@app/shared';
+import { Widget, GameEntity, AllEntity, ALL_ENTITIES, Module, Sandbox } from '@app/game-mechanics';
+import { ROUTER_PARAMS, selectRouterFeature, Dictionary } from '@app/shared';
 
-import { FEATURE_NAME } from '../utils/config';
-import { GameEditorFeature } from './reducers';
-import { gameSelectors } from './reducers/gamesReducer';
-
-const selectFeature = createFeatureSelector<GameEditorFeature>(FEATURE_NAME);
+import { selectFeature } from './common';
 
 const selectForm = createSelector(
   selectFeature,
   feature => feature.form
 );
-
-const selectGamesFeature = createSelector(
-  selectFeature,
-  feature => feature.games,
-)
 
 export const getItems = <T = GameEntity>(key: AllEntity) => createSelector(
   selectForm,
@@ -74,19 +65,6 @@ export const getActiveNode = createSelector(
   selectNodeId,
   getActiveWidget,
   (nodeId, widget) => widget?.nodes.find(node => node.id === nodeId)
-);
-
-const selectAllGames = createSelector(
-  selectGamesFeature,
-  gameSelectors.selectAll,
-);
-
-export const selectGame = createSelector(
-  selectAllGames,
-  selectGameId,
-  (games, id) => {
-    return games ? games.find(elem => elem.id == toGameId(id)) : null;
-  }
 );
 
 export const getEntities = createSelector(

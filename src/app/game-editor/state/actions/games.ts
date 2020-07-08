@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { GameId, Game, GameTemplate } from '@app/game-mechanics';
+import { UserId } from '@app/core';
 
 export const gameActionTypes = {
   SAVE_GAME: 'SAVE_GAME',
@@ -51,6 +52,7 @@ export class ChangeSelectedGameAction implements Action {
 
 export class FetchGamesAction implements Action {
   readonly type = gameActionTypes.FETCH_GAMES;
+  constructor(public payload: { userId: UserId }) { }
 };
 
 export class SetGamesAction implements Action {
@@ -60,12 +62,12 @@ export class SetGamesAction implements Action {
 
 export class FetchGameData implements Action {
   readonly type = gameActionTypes.FETCH_GAME_DATA;
-  constructor(public payload: { gameId: GameId}) {}
+  constructor(public payload: { gameId: GameId }) { }
 };
 
 export class SetGameData implements Action {
   readonly type = gameActionTypes.SET_GAME_DATA;
-  constructor(public payload: { data: GameTemplate }) {}
+  constructor(public payload: { data: GameTemplate }) { }
 };
 
-export type EditorGameAction = SaveGameAction | SetGameAction | DeleteGameAction | RemoveGameAction | ToggleGameEditorAction | ChangeSelectedGameAction | FetchGamesAction | SetGamesAction| FetchGameData | SetGameData;
+export type EditorGameAction = SaveGameAction | SetGameAction | DeleteGameAction | RemoveGameAction | ToggleGameEditorAction | ChangeSelectedGameAction | FetchGamesAction | SetGamesAction | FetchGameData | SetGameData;

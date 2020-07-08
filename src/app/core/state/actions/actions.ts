@@ -1,8 +1,7 @@
 import { Action } from '@ngrx/store';
 
 import { actionTypes } from './actionTypes';
-import { User } from '@app/core';
-import { ActiveGame } from '../../models';
+import { ActiveGame, UserId, User } from '../../models';
 
 export class LogoutAction implements Action {
     readonly type = actionTypes.LOGOUT;
@@ -41,7 +40,7 @@ export class OperationFailAction implements Action {
 
 export class FetchActiveGames {
     readonly type = actionTypes.FETCH_ACTIVE_GAMES;
-    constructor(public payload: number) { }
+    constructor(public payload: { userId: UserId }) { }
 }
 
 export class FetchActiveGamesSuccess {

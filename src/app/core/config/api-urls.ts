@@ -1,6 +1,7 @@
 import { GameId, VersionId, TextId, ShapeId, SonataId, SandboxId, TransitionId, WidgetId, WidgetNodeId, ModuleId, ChoiceId, TokenId, ImageAssetId, StyleId, SoundId, ExpressionId, AnimationId, SetupId } from '@app/game-mechanics';
 
 import { environment } from '../../../environments/environment';
+import { UserId } from '../models';
 
 const { API_BASE_URL, BASE_URL, WS_BROWSE_LOBBIES_BASE_URL, WS_ARENA_BASE_URL } = environment;
 
@@ -101,7 +102,7 @@ export const AUTH_URLS = {
 };
 
 export const ARENA_URLS = {
-    GET_ACTIVE_GAMES: (userId: number) => {
+    GET_ACTIVE_GAMES: (userId: UserId) => {
         return API_BASE_URL + `/arena/active-games/${userId}`;
     },
     ACTIVE_GAME: (publicGameId: GameId) => {

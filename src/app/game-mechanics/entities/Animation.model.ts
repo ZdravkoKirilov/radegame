@@ -19,9 +19,12 @@ export type Animation = BaseModel<AnimationId> & Partial<{
   repeat: number;
   bidirectional: boolean;
   delay: number;
-}>
+}>;
+
+export type AnimationDTO = Animation;
 
 export const Animation = {
+  
   toRuntime(context: ExpressionContext, animation: Animation) {
     const config = context.conf;
 
@@ -34,6 +37,10 @@ export const Animation = {
         output_transformer: src => parseAndBind(context)(src),
       }, step),
     }, animation);
+  },
+
+  toDTO(source: Animation): AnimationDTO {
+    return source;
   }
 }
 

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, switchMap } from 'rxjs/operators';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import { formatGameConfigData } from '@app/shared';
@@ -30,13 +30,11 @@ export class GameEffectsService {
   @Effect()
   fetchGames = this.actions$.pipe(
     ofType<FetchGamesAction>(gameActionTypes.FETCH_GAMES),
-    map(action => this.fetcher.getGames().pipe(
+    switchMap(action => this.fetcher.getGames().pipe(
       map(games => new SetGamesAction({ games })),
-      catchError(err => {
-        return null;
-      })
+      catchError(err => null),
     ))
-  );
+  )
 
   @Effect()
   saveGame = this.actions$.pipe(
