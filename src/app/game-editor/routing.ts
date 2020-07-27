@@ -22,6 +22,7 @@ import { SonatasContainerComponent } from './containers/sonata/sonatas-container
 import { ShapesContainerComponent } from './containers/shapes/shapes-container.component';
 import { TestBoardContainerComponent } from './containers/test-board/test-board-container.component';
 import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-container.component';
+import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
 
 export const routes: Routes = [
     {
@@ -31,7 +32,15 @@ export const routes: Routes = [
         data: {
             title: 'Radegast: create a new game'
         },
-    }, {
+    },
+    {
+        path: `games/edit/:${ROUTER_PARAMS.GAME_ID}`,
+        component: GamesEditorContainerComponent,
+        data: <CustomRouteData>{
+            title: 'Radegast: edit game',
+        }
+    },
+    {
         path: `games/:${ROUTER_PARAMS.GAME_ID}`,
         component: EditorContainerComponent,
         data: {

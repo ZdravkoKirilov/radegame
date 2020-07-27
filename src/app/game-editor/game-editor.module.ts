@@ -47,6 +47,8 @@ import { TestBoardStateComponent } from './components/test-board/state-mocks/tes
 import { TestBoardPresentationComponent } from './components/test-board/presentation/test-board-presentation.component';
 import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-container.component';
 import { EditSidebarComponent } from './components/sidebar';
+import { EntityEditorContainerComponent } from './containers/entity-editor/entity-editor-container.component';
+import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
 
 @NgModule({
   imports: [
@@ -102,6 +104,8 @@ import { EditSidebarComponent } from './components/sidebar';
     TestBoardStateComponent,
     TestBoardPresentationComponent,
     SandboxesContainerComponent,
+    EntityEditorContainerComponent,
+    GamesEditorContainerComponent,
   ]
 })
 export class GameEditorModule {
