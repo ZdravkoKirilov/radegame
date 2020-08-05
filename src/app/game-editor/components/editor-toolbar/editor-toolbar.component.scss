@@ -1,0 +1,23 @@
+@import 'colors.scss';
+
+:host {
+  mat-toolbar {
+    display: flex;
+    background: $background-hover;
+    justify-content: space-between;
+
+    .buttons {
+      display: flex;
+
+      .save-btn,
+      .cancel-btn,
+      .add-btn {
+        color: $text-alternate;
+      }
+
+      .save-btn {
+        margin-right: 10px;
+      }
+    }
+  }
+}

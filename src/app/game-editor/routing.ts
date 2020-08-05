@@ -41,6 +41,13 @@ export const routes: Routes = [
         }
     },
     {
+        path: `games/add`,
+        component: GamesEditorContainerComponent,
+        data: <CustomRouteData>{
+            title: 'Radegast: add game',
+        }
+    },
+   /*  {
         path: `games/:${ROUTER_PARAMS.GAME_ID}`,
         component: EditorContainerComponent,
         data: {
@@ -149,6 +156,6 @@ export const routes: Routes = [
                 redirectTo: 'widgets'
             }
         ]
-    }
+    } */
 ];
 

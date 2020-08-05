@@ -49,6 +49,8 @@ import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-co
 import { EditSidebarComponent } from './components/sidebar';
 import { EntityEditorContainerComponent } from './containers/entity-editor/entity-editor-container.component';
 import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
+import { EditorToolbarComponent } from './components/editor-toolbar/editor-toolbar.component';
+import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
 
 @NgModule({
   imports: [
@@ -106,6 +108,8 @@ import { GamesEditorContainerComponent } from './containers/games-editor/games-e
     SandboxesContainerComponent,
     EntityEditorContainerComponent,
     GamesEditorContainerComponent,
+    EditorToolbarComponent,
+    ConfirmDeleteComponent,
   ]
 })
 export class GameEditorModule {

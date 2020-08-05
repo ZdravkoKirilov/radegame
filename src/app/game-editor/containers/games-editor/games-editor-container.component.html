@@ -1,1 +1,17 @@
-<p>games-editor-container works!</p>
+<div *ngIf="loading" class="loader-wrap">
+  <rg-loader></rg-loader>
+</div>
+
+<rg-editor-toolbar
+  [saveEnabled]="draftValid"
+  (save)="saveGame()"
+  (cancel)="closeEditor()"
+></rg-editor-toolbar>
+
+<rg-entity-editor 
+  [formDefinition]="formDefinition" 
+  [selectedItem]="game$ | async" 
+  (update)="updateGameDraft($event)"
+>
+</rg-entity-editor>
+

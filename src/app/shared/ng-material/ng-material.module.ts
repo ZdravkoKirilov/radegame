@@ -21,6 +21,8 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
     imports: [
@@ -45,6 +47,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatListModule,
         MatTooltipModule,
         MatExpansionModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
     ],
     exports: [
         MatButtonModule,
@@ -67,11 +71,9 @@ import { MatExpansionModule } from '@angular/material/expansion';
         MatListModule,
         MatTooltipModule,
         MatExpansionModule,
+        MatProgressSpinnerModule,
+        MatDialogModule,
     ],
-    declarations: [],
-    providers: [
-
-    ]
 })
 export class NgMaterialModule {
     constructor(public matIconRegistry: MatIconRegistry) {

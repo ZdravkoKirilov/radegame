@@ -21,7 +21,6 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
             data
         },
     }, true);

@@ -1,0 +1,25 @@
+<mat-toolbar>
+  <div class="content">
+    <ng-content></ng-content>
+  </div>
+
+  <section class="buttons">
+
+    <ng-container *ngIf="mode === 'edit'">
+      <button [disabled]="!saveEnabled" mat-mini-fab color="primary" class="save-btn" (click)="save.emit()">
+        <mat-icon>check</mat-icon>
+      </button>
+
+      <button mat-mini-fab color="primary" class="cancel-btn" (click)="cancel.emit()">
+        <mat-icon>close</mat-icon>
+      </button>
+    </ng-container>
+
+    <ng-container *ngIf="mode === 'add'">
+      <button mat-mini-fab color="primary" class="add-btn" (click)="add.emit()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </ng-container>
+
+  </section>
+</mat-toolbar>

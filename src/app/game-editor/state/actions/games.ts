@@ -18,6 +18,8 @@ export const gameActionTypes = {
 
   FETCH_GAME_DATA: 'FETCH_GAME_DATA',
   SET_GAME_DATA: 'SET_GAME_DATA',
+
+  FETCH_GAME_DETAILS: '[Editor] FETCH_GAME_DETAILS',
 } as const;
 
 export class SaveGameAction implements Action {
@@ -70,4 +72,9 @@ export class SetGameData implements Action {
   constructor(public payload: { data: GameTemplate }) { }
 };
 
-export type EditorGameAction = SaveGameAction | SetGameAction | DeleteGameAction | RemoveGameAction | ToggleGameEditorAction | ChangeSelectedGameAction | FetchGamesAction | SetGamesAction | FetchGameData | SetGameData;
+export class FetchGameDetails implements Action {
+  readonly type = gameActionTypes.FETCH_GAME_DETAILS;
+  constructor(public payload: { gameId: GameId }) { }
+}
+
+export type EditorGameAction = SaveGameAction | SetGameAction | DeleteGameAction | RemoveGameAction | ToggleGameEditorAction | ChangeSelectedGameAction | FetchGamesAction | SetGamesAction | FetchGameData | SetGameData | FetchGameDetails;

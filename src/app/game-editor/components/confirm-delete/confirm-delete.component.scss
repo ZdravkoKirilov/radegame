@@ -1,0 +1,22 @@
+@import 'colors.scss';
+
+:host {
+  .title {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+
+  .buttons {
+    min-width: 230px;
+    display: flex;
+    justify-content: space-between;
+
+    .btn-confirm {
+      color: $warn;
+    }
+
+    .label {
+      margin-right: 5px;
+    }
+  }
+}

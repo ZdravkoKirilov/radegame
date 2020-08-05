@@ -13,6 +13,7 @@ import { OverlayComponent } from './components/overlay/overlay.component';
 import { NotificationComponent } from './components/notification/notification.component';
 import { ProfileMenuComponent } from './components/profile-menu/profile-menu.component';
 import { AppOverlayService } from './services/overlay/app-overlay.service';
+import { LoaderComponent } from './components/loader/loader.component';
 
 
 @NgModule({
@@ -30,10 +31,12 @@ import { AppOverlayService } from './services/overlay/app-overlay.service';
         NotificationComponent,
         ColorPickerModule,
         ProfileMenuComponent,
+        LoaderComponent,
     ],
     declarations: [
         DividerComponent, MainMenuComponent, SocialButtonComponent, ServeImagePipe, OverlayComponent, NotificationComponent,
-        ProfileMenuComponent
+        ProfileMenuComponent,
+        LoaderComponent
     ],
     providers: [
         AppOverlayService

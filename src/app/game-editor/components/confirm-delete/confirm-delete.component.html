@@ -1,0 +1,13 @@
+<h2 class="title">Confirm delete?</h2>
+
+<p class="buttons">
+  <button mat-button class="btn btn-confirm" (click)="confirm.emit()">
+    <span class="label">Delete</span>
+    <mat-icon>delete</mat-icon>
+  </button>
+
+  <button mat-button class="btn btn-cancel" (click)="cancel.emit()">
+    <span class="label">Cancel</span>
+    <mat-icon>close</mat-icon>
+  </button>
+</p>

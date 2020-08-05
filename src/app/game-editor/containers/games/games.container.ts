@@ -1,15 +1,15 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Router, ActivatedRoute } from '@angular/router';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { AppState, selectUserId } from '@app/core';
-import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { AutoUnsubscribe } from '@app/shared';
 import { Game } from '@app/game-mechanics';
 
-import { composeGameForm } from '../../forms';
-import { FetchGamesAction, selectAllGames, getEntities } from '../../state';
+import { FetchGamesAction, selectAllGames, DeleteGameAction } from '../../state';
 
 @Component({
   selector: 'rg-games-container',
@@ -19,12 +19,13 @@ import { FetchGamesAction, selectAllGames, getEntities } from '../../state';
 @AutoUnsubscribe()
 export class GamesContainerComponent implements OnInit {
   private userId$: Subscription;
+  dialogRef: MatDialogRef<any>;
+
+  @ViewChild('confirmDelete') public confirm: TemplateRef<any>;
 
   games$: Observable<Game[]>;
-  connectedEntities$: Observable<ConnectedEntities>;
-  formDefinition: FormDefinition = composeGameForm;
 
-  constructor(public store: Store<AppState>) { }
+  constructor(public store: Store<AppState>, private router: Router, private route: ActivatedRoute, public dialog: MatDialog) { }
 
   ngOnInit() {
     this.userId$ = this.store.pipe(
@@ -33,10 +34,22 @@ export class GamesContainerComponent implements OnInit {
     ).subscribe();
 
     this.games$ = this.store.pipe(select(selectAllGames));
-    this.connectedEntities$ = this.store.pipe(select(getEntities));
+  }
+
+  addGame() {
+    this.router.navigate(['../', 'add'], { relativeTo: this.route });
   }
 
   deleteGame(game: Game) {
-    
+    this.dialogRef = this.dialog.open(this.confirm, { data: { game } });
+  }
+
+  onConfirmDelete(game: Game) {
+    this.store.dispatch(new DeleteGameAction({ game }));
+    this.dialogRef.close();
+  }
+
+  onCancelDelete() {
+    this.dialogRef.close();
   }
 }
