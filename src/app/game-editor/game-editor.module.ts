@@ -8,7 +8,7 @@ import { StoreModule } from '@ngrx/store';
 import { FEATURE_NAME } from './utils';
 
 import { routes } from './routing';
-import { reducers, metaReducers, GameEffectsService, GenericEffectsService } from './state';
+import { reducers, metaReducers, GameEffectsService, GenericEffectsService, VersionEffectsService } from './state';
 
 import { DynamicFormsModule } from '@app/dynamic-forms';
 import { SharedModule } from '@app/shared';
@@ -51,6 +51,8 @@ import { EntityEditorContainerComponent } from './containers/entity-editor/entit
 import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
 import { EditorToolbarComponent } from './components/editor-toolbar/editor-toolbar.component';
 import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
+import { VersionsListComponent } from './containers/versions-list/versions-list.component';
+import { VersionsEditorComponent } from './containers/versions-editor/versions-editor.component';
 
 @NgModule({
   imports: [
@@ -59,6 +61,7 @@ import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-dele
     StoreModule.forFeature(FEATURE_NAME, reducers, { metaReducers }),
     EffectsModule.forFeature([
       GameEffectsService,
+      VersionEffectsService,
       GenericEffectsService,
     ]),
     FormsModule,
@@ -110,6 +113,8 @@ import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-dele
     GamesEditorContainerComponent,
     EditorToolbarComponent,
     ConfirmDeleteComponent,
+    VersionsListComponent,
+    VersionsEditorComponent,
   ]
 })
 export class GameEditorModule {

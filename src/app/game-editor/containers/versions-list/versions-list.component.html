@@ -1,0 +1,30 @@
+<ng-template #template let-item>
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title>{{item.name}}</mat-card-title>
+    </mat-card-header>
+
+    <mat-card-content>
+
+    </mat-card-content>
+
+    <mat-card-actions>
+      <button mat-button (click)="deleteVersion(item)">Remove</button>
+      <a mat-button [routerLink]="['../edit', item.id]">Edit version</a>
+      <a mat-button [routerLink]="['../', item.id, 'entities', 'list']">Edit entities</a>
+    </mat-card-actions>
+  </mat-card>
+</ng-template>
+
+<div *ngIf="loading" class="loader-wrap">
+  <rg-loader></rg-loader>
+</div>
+
+<rg-editor-toolbar mode='add' (add)="addVersion()"></rg-editor-toolbar>
+
+<rg-entity-list [template]="template" [items]="versions$ | async">
+</rg-entity-list>
+
+<ng-template #confirmDelete let-data>
+  <rg-confirm-delete (confirm)="onConfirmDelete(data.version)" (cancel)="onCancelDelete()"></rg-confirm-delete>
+</ng-template>

@@ -7,6 +7,7 @@ import { Module, ModuleId } from "./Module.model";
 import { ExpressionContext, GameId } from "../models";
 
 export type VersionId = Nominal<string, 'VersionId'>;
+export const toVersionId = (source: unknown) => String(source) as VersionId;
 
 export type Version = {
   id: VersionId;

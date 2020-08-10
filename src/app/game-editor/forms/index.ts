@@ -15,3 +15,4 @@ export * from './text';
 export * from './sonata';
 export * from './shape';
 export * from './sandbox';
+export * from './version';

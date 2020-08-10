@@ -36,8 +36,7 @@ export class GamesEditorContainerComponent implements OnInit {
 
   ngOnInit(): void {
     this.game$ = this.store.pipe(
-      select(selectGameId),
-      tap(gameId => {
+      select(selectGameId), tap(gameId => {
         if (gameId) {
           this.loading = true;
           this.gameId = gameId;
@@ -56,7 +55,7 @@ export class GamesEditorContainerComponent implements OnInit {
       ofType<SetGameAction>(gameActionTypes.SET_GAME),
       map(() => {
         if (!this.gameId) {
-          this.router.navigate(['../', 'list'], { relativeTo: this.route});
+          this.router.navigate(['../', 'list'], { relativeTo: this.route });
         }
       })
     ).subscribe();
@@ -73,7 +72,11 @@ export class GamesEditorContainerComponent implements OnInit {
   }
 
   closeEditor() {
-    this.router.navigate(['/', 'editor', 'games', 'list']);
+    if (this.gameId) {
+      this.router.navigate(['../../', 'list'], { relativeTo: this.route });
+    } else {
+      this.router.navigate(['../', 'list'], { relativeTo: this.route });
+    }
   }
 
 }

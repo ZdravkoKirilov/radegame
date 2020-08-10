@@ -4,20 +4,17 @@ import { GameId, Game, GameTemplate } from '@app/game-mechanics';
 import { UserId } from '@app/core';
 
 export const gameActionTypes = {
-  SAVE_GAME: 'SAVE_GAME',
-  SET_GAME: 'SET_GAME',
+  SAVE_GAME: '[Editor] SAVE_GAME',
+  SET_GAME: '[Editor] SET_GAME',
 
-  DELETE_GAME: 'DELETE_GAME',
-  REMOVE_GAME: 'REMOVE_GAME',
+  DELETE_GAME: '[Editor] DELETE_GAME',
+  REMOVE_GAME: '[Editor] REMOVE_GAME',
 
-  FETCH_GAMES: 'FETCH_GAMES',
-  SET_GAMES: 'SET_GAMES',
+  FETCH_GAMES: '[Editor] FETCH_GAMES',
+  SET_GAMES: '[Editor] SET_GAMES',
 
-  TOGGLE_GAME_EDITOR: 'TOGGLE_GAME_EDITOR',
-  CHANGE_SELECTED_GAME: 'CHANGE_SELECTED_GAME',
-
-  FETCH_GAME_DATA: 'FETCH_GAME_DATA',
-  SET_GAME_DATA: 'SET_GAME_DATA',
+  FETCH_GAME_DATA: '[Editor] FETCH_GAME_DATA',
+  SET_GAME_DATA: '[Editor] SET_GAME_DATA',
 
   FETCH_GAME_DETAILS: '[Editor] FETCH_GAME_DETAILS',
 } as const;
@@ -39,16 +36,6 @@ export class DeleteGameAction implements Action {
 
 export class RemoveGameAction implements Action {
   readonly type = gameActionTypes.REMOVE_GAME;
-  constructor(public payload: { game: Game }) { }
-};
-
-export class ToggleGameEditorAction implements Action {
-  readonly type = gameActionTypes.TOGGLE_GAME_EDITOR;
-  constructor(public payload: { showEditor: boolean }) { }
-};
-
-export class ChangeSelectedGameAction implements Action {
-  readonly type = gameActionTypes.CHANGE_SELECTED_GAME;
   constructor(public payload: { game: Game }) { }
 };
 
@@ -77,4 +64,4 @@ export class FetchGameDetails implements Action {
   constructor(public payload: { gameId: GameId }) { }
 }
 
-export type EditorGameAction = SaveGameAction | SetGameAction | DeleteGameAction | RemoveGameAction | ToggleGameEditorAction | ChangeSelectedGameAction | FetchGamesAction | SetGamesAction | FetchGameData | SetGameData | FetchGameDetails;
+export type EditorGameAction = SaveGameAction | SetGameAction | DeleteGameAction | RemoveGameAction | FetchGamesAction | SetGamesAction | FetchGameData | SetGameData | FetchGameDetails;

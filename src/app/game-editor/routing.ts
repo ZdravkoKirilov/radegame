@@ -23,6 +23,8 @@ import { ShapesContainerComponent } from './containers/shapes/shapes-container.c
 import { TestBoardContainerComponent } from './containers/test-board/test-board-container.component';
 import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-container.component';
 import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
+import { VersionsListComponent } from './containers/versions-list/versions-list.component';
+import { VersionsEditorComponent } from './containers/versions-editor/versions-editor.component';
 
 export const routes: Routes = [
     {
@@ -30,7 +32,7 @@ export const routes: Routes = [
         component: GamesContainerComponent,
         pathMatch: 'full',
         data: {
-            title: 'Radegast: create a new game'
+            title: 'Radegast: games list'
         },
     },
     {
@@ -47,115 +49,136 @@ export const routes: Routes = [
             title: 'Radegast: add game',
         }
     },
-   /*  {
-        path: `games/:${ROUTER_PARAMS.GAME_ID}`,
-        component: EditorContainerComponent,
-        data: {
-            title: 'Radegast: setup a new game'
-        },
-        children: [
-            {
-                path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/stage`,
-                component: BoardContainerComponent,
-                pathMatch: 'full'
-            },
-            {
-                path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/live-test`,
-                component: TestBoardContainerComponent,
-                pathMatch: 'full',
-                data: <CustomRouteData>{
-                    sandbox_type: SandboxType.widget
-                }
-            },
-            {
-                path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/nodes/:${ROUTER_PARAMS.NODE_ID}/live-test`,
-                component: TestBoardContainerComponent,
-                pathMatch: 'full',
-                data: <CustomRouteData>{
-                    sandbox_type: SandboxType.node
-                }
-            },
-            {
-                path: `modules/:${ROUTER_PARAMS.MODULE_ID}/live-test`,
-                component: TestBoardContainerComponent,
-                pathMatch: 'full',
-                data: <CustomRouteData>{
-                    sandbox_type: SandboxType.module
-                }
-            },
-            {
-                path: `sandboxes/:${ROUTER_PARAMS.SANDBOX_ID}/live-test`,
-                component: TestBoardContainerComponent,
-                pathMatch: 'full',
-            },
-            {
-                path: 'images',
-                component: ImageAssetContainerComponent,
-                data: {
-                    title: 'Image entities'
-                }
-            },
-            {
-                path: 'widgets',
-                component: WidgetsContainerComponent,
-            },
-            {
-                path: 'sandboxes',
-                component: SandboxesContainerComponent,
-            },
-            {
-                path: 'choices',
-                component: ChoicesContainerComponent
-            },
-            {
-                path: 'modules',
-                component: ModulesContainerComponent
-            },
-            {
-                path: 'expressions',
-                component: ExpressionsContainerComponent
-            },
-            {
-                path: 'tokens',
-                component: TokensContainerComponent
-            },
-            {
-                path: 'styles',
-                component: StylesContainerComponent
-            },
-            {
-                path: 'setups',
-                component: SetupsContainerComponent
-            },
-            {
-                path: 'sounds',
-                component: SoundsContainerComponent
-            },
-            {
-                path: 'animations',
-                component: AnimationsContainerComponent
-            },
-            {
-                path: 'transitions',
-                component: TransitionsContainerComponent
-            },
-            {
-                path: 'texts',
-                component: TextsContainerComponent
-            },
-            {
-                path: 'shapes',
-                component: ShapesContainerComponent
-            },
-            {
-                path: 'sonatas',
-                component: SonatasContainerComponent
-            },
-            {
-                path: '**',
-                redirectTo: 'widgets'
-            }
-        ]
-    } */
+    {
+        path: `games/:${ROUTER_PARAMS.GAME_ID}/versions/list`,
+        component: VersionsListComponent,
+        data: <CustomRouteData>{
+            title: 'Radegast: versions list'
+        }
+    },
+    {
+        path: `games/:${ROUTER_PARAMS.GAME_ID}/versions/add`,
+        component: VersionsEditorComponent,
+        data: <CustomRouteData>{
+            title: 'Radegast: add version'
+        }
+    },
+    {
+        path: `games/:${ROUTER_PARAMS.GAME_ID}/versions/edit/:${ROUTER_PARAMS.VERSION_ID}`,
+        component: VersionsEditorComponent,
+        data: <CustomRouteData>{
+            title: 'Radegast: add version'
+        }
+    }
+    /*  {
+         path: `games/:${ROUTER_PARAMS.GAME_ID}`,
+         component: EditorContainerComponent,
+         data: {
+             title: 'Radegast: setup a new game'
+         },
+         children: [
+             {
+                 path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/stage`,
+                 component: BoardContainerComponent,
+                 pathMatch: 'full'
+             },
+             {
+                 path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/live-test`,
+                 component: TestBoardContainerComponent,
+                 pathMatch: 'full',
+                 data: <CustomRouteData>{
+                     sandbox_type: SandboxType.widget
+                 }
+             },
+             {
+                 path: `widgets/:${ROUTER_PARAMS.WIDGET_ID}/nodes/:${ROUTER_PARAMS.NODE_ID}/live-test`,
+                 component: TestBoardContainerComponent,
+                 pathMatch: 'full',
+                 data: <CustomRouteData>{
+                     sandbox_type: SandboxType.node
+                 }
+             },
+             {
+                 path: `modules/:${ROUTER_PARAMS.MODULE_ID}/live-test`,
+                 component: TestBoardContainerComponent,
+                 pathMatch: 'full',
+                 data: <CustomRouteData>{
+                     sandbox_type: SandboxType.module
+                 }
+             },
+             {
+                 path: `sandboxes/:${ROUTER_PARAMS.SANDBOX_ID}/live-test`,
+                 component: TestBoardContainerComponent,
+                 pathMatch: 'full',
+             },
+             {
+                 path: 'images',
+                 component: ImageAssetContainerComponent,
+                 data: {
+                     title: 'Image entities'
+                 }
+             },
+             {
+                 path: 'widgets',
+                 component: WidgetsContainerComponent,
+             },
+             {
+                 path: 'sandboxes',
+                 component: SandboxesContainerComponent,
+             },
+             {
+                 path: 'choices',
+                 component: ChoicesContainerComponent
+             },
+             {
+                 path: 'modules',
+                 component: ModulesContainerComponent
+             },
+             {
+                 path: 'expressions',
+                 component: ExpressionsContainerComponent
+             },
+             {
+                 path: 'tokens',
+                 component: TokensContainerComponent
+             },
+             {
+                 path: 'styles',
+                 component: StylesContainerComponent
+             },
+             {
+                 path: 'setups',
+                 component: SetupsContainerComponent
+             },
+             {
+                 path: 'sounds',
+                 component: SoundsContainerComponent
+             },
+             {
+                 path: 'animations',
+                 component: AnimationsContainerComponent
+             },
+             {
+                 path: 'transitions',
+                 component: TransitionsContainerComponent
+             },
+             {
+                 path: 'texts',
+                 component: TextsContainerComponent
+             },
+             {
+                 path: 'shapes',
+                 component: ShapesContainerComponent
+             },
+             {
+                 path: 'sonatas',
+                 component: SonatasContainerComponent
+             },
+             {
+                 path: '**',
+                 redirectTo: 'widgets'
+             }
+         ]
+     } */
 ];
 
