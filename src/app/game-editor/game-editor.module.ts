@@ -53,6 +53,8 @@ import { EditorToolbarComponent } from './components/editor-toolbar/editor-toolb
 import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
 import { VersionsListComponent } from './containers/versions-list/versions-list.component';
 import { VersionsEditorComponent } from './containers/versions-editor/versions-editor.component';
+import { TreeEditorComponent } from './containers/tree-editor/tree-editor.component';
+import { TreeExplorerComponent } from './containers/tree-explorer/tree-explorer.component';
 
 @NgModule({
   imports: [
@@ -115,6 +117,8 @@ import { VersionsEditorComponent } from './containers/versions-editor/versions-e
     ConfirmDeleteComponent,
     VersionsListComponent,
     VersionsEditorComponent,
+    TreeEditorComponent,
+    TreeExplorerComponent,
   ]
 })
 export class GameEditorModule {

@@ -1,0 +1,11 @@
+:host {
+  display: flex;
+
+  .nav {
+    overflow: auto;
+  }
+
+  .main {
+    flex-grow: 1;
+  }
+}

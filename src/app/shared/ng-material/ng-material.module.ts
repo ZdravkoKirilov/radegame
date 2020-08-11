@@ -23,10 +23,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
     imports: [
         CommonModule,
+        MatTreeModule,
         MatButtonModule,
         MatIconModule,
         MatInputModule,
@@ -73,6 +75,7 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatExpansionModule,
         MatProgressSpinnerModule,
         MatDialogModule,
+        MatTreeModule,
     ],
 })
 export class NgMaterialModule {

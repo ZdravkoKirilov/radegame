@@ -25,6 +25,7 @@ import { SandboxesContainerComponent } from './containers/sandboxes/sandboxes-co
 import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
 import { VersionsListComponent } from './containers/versions-list/versions-list.component';
 import { VersionsEditorComponent } from './containers/versions-editor/versions-editor.component';
+import { TreeEditorComponent } from './containers/tree-editor/tree-editor.component';
 
 export const routes: Routes = [
     {
@@ -69,7 +70,14 @@ export const routes: Routes = [
         data: <CustomRouteData>{
             title: 'Radegast: add version'
         }
-    }
+    },
+    {
+        path: `games/:${ROUTER_PARAMS.GAME_ID}/versions/:${ROUTER_PARAMS.VERSION_ID}/entities`,
+        component: TreeEditorComponent,
+        children: [
+
+        ]
+    },
     /*  {
          path: `games/:${ROUTER_PARAMS.GAME_ID}`,
          component: EditorContainerComponent,
