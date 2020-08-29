@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { TextsContainerComponent } from './texts-container.component';
+import { RootEntityEditorComponent } from './root-entity-editor.component';
 
-describe('TextsContainerComponent', () => {
-  let component: TextsContainerComponent;
-  let fixture: ComponentFixture<TextsContainerComponent>;
+describe('RootEntityEditorComponent', () => {
+  let component: RootEntityEditorComponent;
+  let fixture: ComponentFixture<RootEntityEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ TextsContainerComponent ]
+      declarations: [ RootEntityEditorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(TextsContainerComponent);
+    fixture = TestBed.createComponent(RootEntityEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

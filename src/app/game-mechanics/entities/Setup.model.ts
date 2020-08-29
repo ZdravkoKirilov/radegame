@@ -8,6 +8,7 @@ import { ExpressionFunc } from "./Expression.model";
 import { enrichEntity, parseAndBind } from "../helpers";
 
 export type SetupId = Nominal<string, 'SetupId'>;
+export const toSetupId = (source: unknown) => String(source) as SetupId;
 
 export type Setup = BaseModel<SetupId> & {
   min_players: number;
@@ -19,6 +20,8 @@ export type Setup = BaseModel<SetupId> & {
   get_active_language: string;
 };
 
+type SetupDTO = Setup;
+
 export const Setup = {
   toRuntime(context: ExpressionContext, setup: Setup) {
     if (setup) {
@@ -28,6 +31,9 @@ export const Setup = {
       }, setup);
     }
     return null;
+  },
+  toDTO(source: unknown) {
+    return source as SetupDTO;
   }
 };
 

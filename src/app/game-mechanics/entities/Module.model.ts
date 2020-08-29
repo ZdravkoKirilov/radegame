@@ -7,6 +7,7 @@ import { ExpressionContext } from '../models';
 import { enrichEntity, parseAndBind } from '../helpers';
 
 export type ModuleId = Nominal<string, 'ModuleId'>;
+export const toModuleId = (source: unknown) => String(source) as ModuleId;
 
 export type Module = BaseModel<ModuleId> & WithBoard & Partial<{
 
@@ -14,6 +15,8 @@ export type Module = BaseModel<ModuleId> & WithBoard & Partial<{
   load_done: string;
   loader: number;
 }>;
+
+type ModuleDTO = Module;
 
 export const Module = {
   toRuntime(context: ExpressionContext, module: Module) {
@@ -23,6 +26,9 @@ export const Module = {
       preload: src => parseAndBind(context)(src),
       load_done: src => parseAndBind(context)(src),
     }, module);
+  },
+  toDTO(source: unknown) {
+    return source as ModuleDTO;
   }
 }
 

@@ -7,12 +7,14 @@ import { Widget } from "./Widget.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { TextFrame } from "./Text.model";
 import { GameId } from '../models';
+import { VersionId } from './Version.model';
 
 export type EntityId = Nominal<string, 'id'>;
 
 export type BaseModel<T = EntityId> = WithKeywords & Partial<{
     id: T;
     game: GameId;
+    version: VersionId;
 
     name: string;
     description: string;

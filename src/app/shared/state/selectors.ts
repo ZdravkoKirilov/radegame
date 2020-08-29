@@ -35,5 +35,5 @@ export const selectGameInstanceId = createSelector(
 
 export const selectRouteData = createSelector(
     selectRouterState,
-    state => state ? state.data : null,
+    state => state?.data,
 );

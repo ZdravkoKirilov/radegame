@@ -11,8 +11,8 @@ import {
 import { toDictionary } from '@app/shared';
 
 import {
-  actionTypes, SetItemsAction, FetchItemsSuccessAction, FetchItemAction, FetchItemSuccessAction, FetchItemPayload, PayloadWithItem, ResponseWithEntities, SaveItemAction, SaveItemSuccessAction, SetItemAction, DeleteItemAction,
-  DeleteItemSuccessAction, RemoveItemAction, FetchItemsAction
+  genericActionTypes, SetItemsAction, FetchItemsSuccessAction, FetchItemAction, FetchItemSuccessAction, FetchItemPayload, PayloadWithItem, ResponseWithEntities, SaveItemAction, SaveItemSuccessAction, SetItemAction, DeleteItemAction,
+  DeleteItemSuccessAction, RemoveItemAction, FetchItemsAction, SaveSetup, SaveModule
 } from '../actions';
 
 @Injectable()
@@ -22,7 +22,7 @@ export class GenericEffectsService {
   }
 
   @Effect() fetchItem: Observable<any> = this.actions$.pipe(
-    ofType(actionTypes.FETCH_ITEM),
+    ofType(genericActionTypes.FETCH_ITEM),
     map(payload => payload as FetchItemPayload<EntityId>),
     mergeMap(payload => {
       const { data, key } = payload;
@@ -47,7 +47,7 @@ export class GenericEffectsService {
   )
 
   @Effect() fetchItems: Observable<any> = this.actions$.pipe(
-    ofType(actionTypes.FETCH_ITEMS),
+    ofType(genericActionTypes.FETCH_ITEMS),
     map((action: FetchItemsAction) => action.payload),
     mergeMap(payload => {
       const { key, data: { gameId } } = payload;
@@ -70,8 +70,42 @@ export class GenericEffectsService {
     })
   )
 
+  @Effect() saveSetup = this.actions$.pipe(
+    ofType<SaveSetup>(genericActionTypes.SAVE_SETUP),
+    switchMap(action => this.api.saveSetup(action.payload.setup).pipe(
+      mergeMap((createdSetup: Setup) => {
+        const payload = {
+          key: ALL_ENTITIES.setups,
+          data: createdSetup,
+        };
+        return [
+          new SetItemAction(payload),
+          new SaveItemSuccessAction(payload),
+        ];
+      }),
+      catchError(() => ([]))
+    ))
+  )
+
+  @Effect() saveModule = this.actions$.pipe(
+    ofType<SaveModule>(genericActionTypes.SAVE_MODULE),
+    switchMap(action => this.api.saveModule(action.payload.module).pipe(
+      mergeMap(createdModule => {
+        const payload = {
+          key: ALL_ENTITIES.modules,
+          data: createdModule,
+        };
+        return [
+          new SetItemAction(payload),
+          new SaveItemSuccessAction(payload),
+        ];
+      }),
+      catchError(() => ([]))
+    ))
+  )
+
   @Effect() saveItem: Observable<any> = this.actions$.pipe(
-    ofType(actionTypes.SAVE_ITEM),
+    ofType(genericActionTypes.SAVE_ITEM),
     map((action: SaveItemAction<GameEntity>) => action.payload),
     switchMap(payload => {
       const { key, data } = payload;
@@ -100,7 +134,7 @@ export class GenericEffectsService {
   );
 
   @Effect() deleteItem: Observable<any> = this.actions$.pipe(
-    ofType(actionTypes.DELETE_ITEM),
+    ofType(genericActionTypes.DELETE_ITEM),
     map((action: DeleteItemAction<GameEntity>) => action.payload),
     mergeMap(payload => {
       const { key, data } = payload;

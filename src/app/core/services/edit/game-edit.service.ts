@@ -106,9 +106,9 @@ export class GameEditService {
   saveModule(data: Module) {
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.MODULES(data.game, data.id), data);
+      return this.http.patch<Module>(EDITOR_URLS.MODULES(data.game, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.MODULES(data.game), data);
+      return this.http.post<Module>(EDITOR_URLS.MODULES(data.game), data);
     }
   }
 

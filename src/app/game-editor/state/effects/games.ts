@@ -20,13 +20,17 @@ export class GameEffectsService {
   @Effect()
   fetchGameData = this.actions$.pipe(
     ofType<FetchGameData>(gameActionTypes.FETCH_GAME_DATA),
-    map(action => this.fetcher.getGameData(action.payload.gameId).pipe(
-      map(response => {
-        const payload = formatGameConfigData(response);
-        return new SetGameData({ data: payload });
-      }),
-      catchError(err => null),
-    ))
+    switchMap(action => {
+      return this.fetcher.getGameData(action.payload.gameId).pipe(
+        map(response => {
+          const payload = formatGameConfigData(response);
+          return new SetGameData({ data: payload });
+        }),
+        catchError(err => {
+          return null;
+        }),
+      )
+    })
   )
 
   @Effect()

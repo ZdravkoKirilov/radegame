@@ -2,7 +2,8 @@ import { Params, RouterStateSnapshot } from '@angular/router';
 import { RouterStateSerializer } from '@ngrx/router-store';
 import { Injectable } from "@angular/core";
 
-import { SandboxType } from '@app/game-mechanics';
+import { SandboxType, AllEntity } from '@app/game-mechanics';
+import { FormDefinition } from '@app/dynamic-forms';
 
 export interface RouterStateUrl {
   url: string;
@@ -15,6 +16,8 @@ export type CustomRouteData = Partial<{
   title: string;
   hide_game_warning: boolean;
   sandbox_type: SandboxType;
+  entityType: AllEntity;
+  form: FormDefinition;
 }>;
 
 @Injectable()

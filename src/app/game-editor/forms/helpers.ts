@@ -2,6 +2,7 @@ import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
 import { Dictionary, toDictionary } from '@app/shared';
 import { ImageAsset, GameEntity, INTERACTIVE_ENTITY } from '@app/game-mechanics';
 import { composeStyleForm } from './style';
+import { isArray } from 'lodash';
 
 export function composeEntityOptions(
     items: GameEntity[],
@@ -10,7 +11,7 @@ export function composeEntityOptions(
     imageProp = ['image'],
     withEmptyOption = true,
 ): Option[] {
-
+    items = items || [];
     const result: Option[] = items.map(elem => {
         let image;
         if (key === 'images') {
@@ -159,6 +160,7 @@ export const composeInlineStyleFormContext = (ent: ConnectedEntities) => {
 }
 
 export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => {
+    ent = ent || {};
     const images = toDictionary<ImageAsset>(ent.images);
 
     return {

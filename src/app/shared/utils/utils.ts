@@ -1,9 +1,8 @@
 import keyBy from 'lodash/keyBy';
 
-import { GameTemplate, ImageAsset, GameEntity, Sound } from '@app/game-mechanics';
+import { GameTemplate, GameEntity } from '@app/game-mechanics';
 import { environment } from 'environments/environment';
 
-const { BASE_URL } = environment;
 
 interface ObjectWithId {
     id?: number;

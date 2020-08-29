@@ -3,7 +3,7 @@ import {
 	Input, Output, EventEmitter
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 
 import { FormDefinition, BaseControl, ControlsService, ConnectedEntities } from '@app/dynamic-forms';
 import { GameEntity } from '@app/game-mechanics';
@@ -17,16 +17,21 @@ import { OnChange } from '@app/shared';
 })
 export class EntityEditorComponent implements OnInit {
 
+	@OnChange<FormDefinition>(function () {
+		const self: EntityEditorComponent = this;
+		self.reinitialize();
+	})
 	@Input() formDefinition: FormDefinition;
+
+	@OnChange<GameEntity>(function () {
+		const self: EntityEditorComponent = this;
+		self.reinitialize();
+	})
 	@Input() connectedEntities: ConnectedEntities;
 
-	@OnChange<GameEntity>(function (value) {
+	@OnChange<GameEntity>(function () {
 		const self: EntityEditorComponent = this;
-		self.controls = self.formDefinition(value, self.connectedEntities);
-		self.form = self.cs.toFormGroup(self.controls);
-		self.form.valueChanges.pipe(
-			map(() => self.update.emit(this.form)),
-		).subscribe();
+		self.reinitialize();
 	})
 	@Input() selectedItem: GameEntity;
 
@@ -38,10 +43,16 @@ export class EntityEditorComponent implements OnInit {
 	constructor(private cs: ControlsService) { }
 
 	ngOnInit() {
+		this.reinitialize();
+	}
+
+	private reinitialize() {
 		if (this.formDefinition) {
-			this.controls = this.formDefinition(this.selectedItem, this.connectedEntities);
+			const currentValue = this.selectedItem || this.form?.value || {};
+			this.controls = this.formDefinition(currentValue, this.connectedEntities);
 			this.form = this.cs.toFormGroup(this.controls);
 			this.form.valueChanges.pipe(
+				startWith(currentValue),
 				map(() => this.update.emit(this.form)),
 			).subscribe();
 		}

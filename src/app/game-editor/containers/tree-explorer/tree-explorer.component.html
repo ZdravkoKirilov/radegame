@@ -1,17 +1,27 @@
 <mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
-      Setups
+      <span>Setups</span>
+      <a routerLink="setups/add" mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </a>
     </mat-panel-title>
   </mat-expansion-panel-header>
-  <p>This is the primary content of the panel.</p>
+
 </mat-expansion-panel>
 
 <mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
-      Modules
+      <span>Modules</span>
+      <a routerLink="modules/add" mat-icon-button>
+        <mat-icon>add</mat-icon>
+      </a>
     </mat-panel-title>
   </mat-expansion-panel-header>
-  <p>This is the primary content of the panel.</p>
+
+  <p *ngFor="let module of modules$ | async">
+    <a [routerLink]="['modules', module.id]">{{module.name}}</a>
+  </p>
+
 </mat-expansion-panel>

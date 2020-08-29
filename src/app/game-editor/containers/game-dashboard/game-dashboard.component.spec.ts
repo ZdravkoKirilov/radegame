@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ShapesContainerComponent } from './shapes-container.component';
+import { GameDashboardComponent } from './game-dashboard.component';
 
-describe('ShapesContainerComponent', () => {
-  let component: ShapesContainerComponent;
-  let fixture: ComponentFixture<ShapesContainerComponent>;
+describe('GameDashboardComponent', () => {
+  let component: GameDashboardComponent;
+  let fixture: ComponentFixture<GameDashboardComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ ShapesContainerComponent ]
+      declarations: [ GameDashboardComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ShapesContainerComponent);
+    fixture = TestBed.createComponent(GameDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

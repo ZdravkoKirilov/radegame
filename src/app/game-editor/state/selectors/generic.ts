@@ -2,8 +2,8 @@ import { createSelector } from '@ngrx/store';
 import { values } from 'lodash';
 
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Widget, GameEntity, AllEntity, ALL_ENTITIES, Module, Sandbox } from '@app/game-mechanics';
-import { ROUTER_PARAMS, selectRouterFeature, Dictionary } from '@app/shared';
+import { Widget, GameEntity, AllEntity, ALL_ENTITIES, Module, Sandbox, toSetupId, Setup, toModuleId } from '@app/game-mechanics';
+import { ROUTER_PARAMS, selectRouterFeature, Dictionary, selectRouteData } from '@app/shared';
 
 import { selectFeature } from './common';
 
@@ -12,9 +12,14 @@ const selectForm = createSelector(
   feature => feature.form
 );
 
+export const selectModuleId = createSelector(
+  selectRouterFeature,
+  routerState => toModuleId(routerState.state.params[ROUTER_PARAMS.MODULE_ID])
+);
+
 export const getItems = <T = GameEntity>(key: AllEntity) => createSelector(
   selectForm,
-  form => form[key] && form[key].items ? values(form[key].items as Dictionary<T>) : null,
+  form => values(form[key]?.byId as Dictionary<T>) || [],
 );
 
 export const selectWidgetId = createSelector(
@@ -29,15 +34,13 @@ export const selectNodeId = createSelector(
   router => Number(router.state.params[ROUTER_PARAMS.NODE_ID]) as any
 );
 
-export const selectModuleId = createSelector(
-  selectRouterFeature,
-  router => Number(router.state.params[ROUTER_PARAMS.MODULE_ID]) as any
-);
-
 export const getActiveModule = createSelector(
   selectModuleId,
   getItems<Module>(ALL_ENTITIES.modules),
-  (moduleId, modules) => modules?.find(elem => elem.id === moduleId)
+  (moduleId, modules) => {
+    const module = modules?.find(elem => elem.id == moduleId);
+    return module;
+  }
 );
 
 export const selectSandboxId = createSelector(
@@ -83,12 +86,29 @@ export const getEntities = createSelector(
   }
 );
 
-export const getEditorState = (key: AllEntity) => createSelector(
-  selectFeature,
-  feature => feature.form[key].showEditor
+export const getEntityForm = createSelector(
+  selectRouteData,
+  data => {
+    return data?.form;
+  }
 );
 
-export const getSelectedEntity = (key: AllEntity) => createSelector(
-  selectFeature,
-  feature => feature.form[key].selectedEntity
+export const getEntityType = createSelector(
+  selectRouteData,
+  data => {
+    return data?.entityType;
+  }
+);
+
+const getSetupId = createSelector(
+  selectRouterFeature,
+  routerState => toSetupId(routerState.state.params[ROUTER_PARAMS.SETUP_ID])
+);
+
+export const getSetup = createSelector(
+  getSetupId,
+  selectForm,
+  (setupId, form) => {
+    return form.setups.byId[setupId] as Setup;
+  }
 );

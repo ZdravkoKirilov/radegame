@@ -2,23 +2,19 @@ import { ActionReducer, combineReducers } from '@ngrx/store';
 import produce from 'immer';
 import omit from 'lodash/omit';
 
-import { GameEntity, GameEntityList, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
+import { GameEntityList, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
 
 import { EditorGenericAction } from '../actions';
-import { actionTypes } from '../actions/actionTypes';
+import { genericActionTypes } from '../actions';
 
 export interface EntityFeature {
-  items: GameEntityList;
-  showEditor: boolean;
-  selectedEntity: GameEntity;
+  byId: GameEntityList;
 };
 
 export type EntityForm = Omit<Record<keyof typeof ALL_ENTITIES, EntityFeature>, 'nodes'>;
 
 const entityFeatureState: EntityFeature = {
-  items: null,
-  showEditor: false,
-  selectedEntity: null,
+  byId: {},
 };
 
 export const createEntityReducer = (allowedKey: AllEntity): ActionReducer<EntityFeature> => {
@@ -29,25 +25,17 @@ export const createEntityReducer = (allowedKey: AllEntity): ActionReducer<Entity
 
     if (key === allowedKey) {
       switch (action.type) {
-        case actionTypes.SET_ITEM:
+        case genericActionTypes.SET_ITEM:
           return produce(state, draft => {
-            draft.items[action.payload.data.id] = action.payload.data;
+            draft.byId[action.payload.data.id] = action.payload.data;
           });
-        case actionTypes.REMOVE_ITEM:
+        case genericActionTypes.REMOVE_ITEM:
           return produce(state, draft => {
-            draft.items = omit(draft.items, action.payload.data.id)
+            draft.byId = omit(draft.byId, action.payload.data.id)
           });
-        case actionTypes.SET_ITEMS:
+        case genericActionTypes.SET_ITEMS:
           return produce(state, draft => {
-            draft.items = action.payload.data;
-          });
-        case actionTypes.CHANGE_SELECTED_ITEM:
-          return produce(state, draft => {
-            draft.selectedEntity = action.payload.data;
-          });
-        case actionTypes.TOGGLE_EDITOR:
-          return produce(state, draft => {
-            draft.showEditor = action.payload.data.showEditor;
+            draft.byId = action.payload.data.entities;
           });
         default:
           return state;
