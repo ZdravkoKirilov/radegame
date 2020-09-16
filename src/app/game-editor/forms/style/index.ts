@@ -40,7 +40,7 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             data, font_styles: composeFromObject(FONT_STYLES)
         }
     }, true) as BaseControl[];

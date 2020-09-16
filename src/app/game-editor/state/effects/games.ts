@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, switchMap } from 'rxjs/operators';
+import { of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import { formatGameConfigData } from '@app/shared';
-import { of } from 'rxjs';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import {
   gameActionTypes, FetchGameData, SetGameData, FetchGamesAction, SetGamesAction, SaveGameAction, SetGameAction, DeleteGameAction, RemoveGameAction, FetchGameDetails

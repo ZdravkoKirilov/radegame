@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { GameEntity, AllEntity, GameId, EntityId, Setup, Module } from '@app/game-mechanics';
+import { GameEntity, AllEntity, GameId, EntityId, Setup, Module, Sandbox } from '@app/game-mechanics';
 import { Dictionary } from '@app/shared';
 
 export const genericActionTypes = {
@@ -30,6 +30,9 @@ export const genericActionTypes = {
 
   SAVE_MODULE: '[Editor] SAVE_MODULE',
   DELETE_MODULE: '[Editor] DELETE_MODULE',
+
+  SAVE_SANDBOX: '[Editor] SAVE_SANDBOX',
+  DELETE_SANDBOX: '[Editor] DELETE_SANDBOX',
 
 } as const;
 
@@ -77,6 +80,16 @@ export class DeleteSetup implements Action {
   constructor(public payload: { setup: Setup }) { }
 }
 
+export class SaveSandbox implements Action {
+  readonly type = genericActionTypes.SAVE_SANDBOX;
+  constructor(public payload: { sandbox: Sandbox }) { }
+}
+
+export class DeleteSandbox implements Action {
+  readonly type = genericActionTypes.DELETE_SANDBOX;
+  constructor(public payload: { sandbox: Sandbox }) { }
+}
+
 export class SaveModule implements Action {
   readonly type = genericActionTypes.SAVE_MODULE;
   constructor(public payload: { module: Module }) { }
@@ -107,7 +120,7 @@ export class SaveItemFailAction<T> implements Action {
   constructor(public payload: PayloadWithEntity<T>) { }
 }
 
-export class DeleteItemAction<T> implements Action {
+export class DeleteItemAction<T extends GameEntity> implements Action {
   readonly type = genericActionTypes.DELETE_ITEM;
   constructor(public payload: PayloadWithEntity<T>) { }
 }

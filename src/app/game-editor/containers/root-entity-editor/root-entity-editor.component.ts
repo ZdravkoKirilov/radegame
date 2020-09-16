@@ -13,7 +13,7 @@ import { selectGameId, selectVersionId, AutoUnsubscribe } from '@app/shared';
 
 import {
   getEntityForm, getEntities, getEntityType, getActiveModule, getSetup, SaveModule,
-  SaveSetup, genericActionTypes, SetItemAction, FetchItemsAction
+  SaveSetup, genericActionTypes, SetItemAction, FetchItemsAction, RemoveItemAction
 } from '../../state';
 
 type RootEntityType = typeof ALL_ENTITIES.setups | typeof ALL_ENTITIES.modules;
@@ -33,6 +33,7 @@ export class RootEntityEditorComponent implements OnInit {
   connectedEntities$: Observable<ConnectedEntities>;
   entityType: RootEntityType;
   onEntityCreated$: Subscription;
+  onEntityDeleted$: Subscription;
 
   loading: boolean;
   gameId: GameId;
@@ -72,6 +73,15 @@ export class RootEntityEditorComponent implements OnInit {
       ofType<SetItemAction<Module | Setup>>(genericActionTypes.SET_ITEM),
       map(action => {
         this.router.navigate(['../', action.payload.data.id], { relativeTo: this.route });
+      })
+    ).subscribe();
+
+    this.onEntityDeleted$ = this.actions$.pipe(
+      ofType<RemoveItemAction<Setup | Module>>(genericActionTypes.REMOVE_ITEM),
+      map(action => {
+        if (action.payload.data.id == this.draft.id) {
+          this.router.navigate(['../', '../', 'dashboard'], { relativeTo: this.route })
+        }
       })
     ).subscribe();
 

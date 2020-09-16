@@ -17,6 +17,7 @@ export type CustomRouteData = Partial<{
   hide_game_warning: boolean;
   sandbox_type: SandboxType;
   entityType: AllEntity;
+  nestedEntityType: 'texts' | 'frames';
   form: FormDefinition;
 }>;
 

@@ -9,6 +9,9 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
 
     const template = `
     <Form>
+
+        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+
         ${baseTemplate}
 
         ${UITemplate}
@@ -22,7 +25,7 @@ export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEnti
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             ...composeInlineStyleFormContext(ent),
             data, frames, texts,
         }

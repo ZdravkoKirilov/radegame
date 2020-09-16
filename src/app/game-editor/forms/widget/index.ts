@@ -36,7 +36,7 @@ export function composeWidgetForm(data: Widget, ent: ConnectedEntities): BaseCon
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
+            ...composeCommonFormContext(ent),
             ...composeInlineStyleFormContext(ent),
             data, frames,
         },

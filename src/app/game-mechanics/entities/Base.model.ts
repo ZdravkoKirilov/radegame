@@ -8,6 +8,7 @@ import { ParamedExpressionFunc } from "./Expression.model";
 import { TextFrame } from "./Text.model";
 import { GameId } from '../models';
 import { VersionId } from './Version.model';
+import { ModuleId } from './Module.model';
 
 export type EntityId = Nominal<string, 'id'>;
 
@@ -18,6 +19,10 @@ export type BaseModel<T = EntityId> = WithKeywords & Partial<{
 
     name: string;
     description: string;
+}>;
+
+export type WithModule = Partial<{
+    module: ModuleId;
 }>;
 
 export type WithKeywords = Partial<{

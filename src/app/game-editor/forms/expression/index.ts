@@ -19,7 +19,7 @@ export function composeExpressionForm(data: Expression, ent: ConnectedEntities):
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
+            ...composeCommonFormContext(ent),
             data,
         }
     }, true) as BaseControl[];

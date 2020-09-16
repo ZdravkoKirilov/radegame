@@ -1,6 +1,6 @@
-import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
+import { Option, ConnectedEntities, ToggleContext, FormDefinition, BaseControl, parse } from '@app/dynamic-forms';
 import { Dictionary, toDictionary } from '@app/shared';
-import { ImageAsset, GameEntity, INTERACTIVE_ENTITY } from '@app/game-mechanics';
+import { ImageAsset, GameEntity, INTERACTIVE_ENTITY, ImageFrame, TextFrame } from '@app/game-mechanics';
 import { composeStyleForm } from './style';
 import { isArray } from 'lodash';
 
@@ -159,7 +159,7 @@ export const composeInlineStyleFormContext = (ent: ConnectedEntities) => {
     return { composeStyleForm: composeStyleForm(true), entities: ent };
 }
 
-export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntities) => {
+export const composeCommonFormContext = (ent: ConnectedEntities) => {
     ent = ent || {};
     const images = toDictionary<ImageAsset>(ent.images);
 
@@ -183,4 +183,82 @@ export const composeCommonFormContext = (data: GameEntity, ent: ConnectedEntitie
 
         entity_types: composeFromObject(INTERACTIVE_ENTITY),
     }
+};
+
+export const composeFrameForm: FormDefinition = (data: ImageFrame, ent: ConnectedEntities): BaseControl[] => {
+    data = data || {};
+
+    const template = `
+    <Form>
+
+        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+
+        <TextInput name='name' label='Name'>{data.name}</TextInput>
+
+        <Dropdown name='image' label='Image' options='{image_options}' showImage='{true}'>
+            {data.image}
+        </Dropdown>
+
+        <Dropdown name='widget' label='Widget' options='{widget_options}' showImage='{true}'>{data.widget}</Dropdown>
+
+        <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
+
+        <EmbeddedData 
+            name='style_inline' 
+            label='Inline style'
+            connectedEntities='{entities}' 
+            childrenDefinition='{composeStyleForm}' 
+        >
+            {data.style_inline}
+        </EmbeddedData>
+    </Form>
+    `;
+
+    const result = parse({
+        source: template,
+        context: {
+            ...composeCommonFormContext(ent),
+            ...composeInlineStyleFormContext(ent),
+            data,
+        }
+    }, true) as BaseControl[];
+
+    return result;
+};
+
+export const composeNestedTextForm: FormDefinition = (data: TextFrame, ent: ConnectedEntities): BaseControl[] => {
+    data = data || {} as TextFrame;
+
+    const template = `
+    <Form>
+
+        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+
+        <TextInput name='name' label='Name'>{data.name}</TextInput>
+
+        <Dropdown name='text' label='Text' options='{text_options}'>{data.text}</Dropdown>
+
+        <Dropdown name='style' label='Style' options='{style_options}' showImage='{true}'>{data.style}</Dropdown>
+
+        <EmbeddedData 
+            name='style_inline' 
+            label='Inline style'
+            connectedEntities='{entities}' 
+            childrenDefinition='{composeStyleForm}' 
+        >
+            {data.style_inline}
+        </EmbeddedData>
+    </Form>
+    `;
+
+    const result = parse({
+        source: template,
+        context: {
+            ...composeCommonFormContext(ent),
+            ...composeInlineStyleFormContext(ent),
+            data,
+        }
+    }, true) as BaseControl[];
+
+    return result;
 };

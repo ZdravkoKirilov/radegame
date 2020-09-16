@@ -70,7 +70,7 @@ export const composeSandboxForm = (data: Sandbox, entities: ConnectedEntities): 
     source: template,
     context: {
       data,
-      ...composeCommonFormContext(data, entities),
+      ...composeCommonFormContext(entities),
       node_options
     }
   }, true) as BaseControl[];

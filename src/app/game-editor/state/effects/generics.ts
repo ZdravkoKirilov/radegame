@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
 import { map, mergeMap, catchError, switchMap } from 'rxjs/operators';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
@@ -12,13 +13,13 @@ import { toDictionary } from '@app/shared';
 
 import {
   genericActionTypes, SetItemsAction, FetchItemsSuccessAction, FetchItemAction, FetchItemSuccessAction, FetchItemPayload, PayloadWithItem, ResponseWithEntities, SaveItemAction, SaveItemSuccessAction, SetItemAction, DeleteItemAction,
-  DeleteItemSuccessAction, RemoveItemAction, FetchItemsAction, SaveSetup, SaveModule
+  DeleteItemSuccessAction, RemoveItemAction, FetchItemsAction, SaveSetup, SaveModule, DeleteSetup
 } from '../actions';
 
 @Injectable()
 export class GenericEffectsService {
 
-  constructor(private actions$: Actions, private api: GameEditService, private fetcher: GameFetchService) {
+  constructor(private actions$: Actions, private api: GameEditService, private fetcher: GameFetchService, private snackbar: MatSnackBar) {
   }
 
   @Effect() fetchItem: Observable<any> = this.actions$.pipe(
@@ -133,6 +134,34 @@ export class GenericEffectsService {
     }),
   );
 
+  @Effect() deleteSetup = this.actions$.pipe(
+    ofType<DeleteSetup>(genericActionTypes.DELETE_SETUP),
+    map(action => action.payload),
+    switchMap(payload => {
+      return this.api.deleteSetup(payload.setup).pipe(
+        mergeMap(() => {
+          this.snackbar.open('Setup was deleted', 'Success', { duration: 3000 });
+
+          return [
+            new DeleteItemSuccessAction({
+              key: ALL_ENTITIES.setups,
+              data: payload.setup
+            }),
+            new RemoveItemAction({
+              key: ALL_ENTITIES.setups,
+              data: payload.setup
+            }),
+          ]
+        }),
+        catchError(() => {
+          // return of(new DeleteItemFailAction());
+          this.snackbar.open('Setup could not be deleted', 'Error', { duration: 3000 });
+          return of(null);
+        })
+      )
+    })
+  )
+
   @Effect() deleteItem: Observable<any> = this.actions$.pipe(
     ofType(genericActionTypes.DELETE_ITEM),
     map((action: DeleteItemAction<GameEntity>) => action.payload),
@@ -173,6 +202,8 @@ export class GenericEffectsService {
     switch (key) {
       case ALL_ENTITIES.modules:
         return this.fetcher.getModules(gameId);
+      case ALL_ENTITIES.setups:
+        return this.fetcher.getSetups(gameId);
       case ALL_ENTITIES.widgets:
         return this.fetcher.getWidgets(gameId);
       case ALL_ENTITIES.choices:

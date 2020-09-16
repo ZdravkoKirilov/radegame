@@ -105,7 +105,7 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             ...composeInlineStyleFormContext(ent),
             handlerTypes: composeFromObject(RzEventTypes),
             lifecycleTypes: composeFromObject(NODE_LIFECYCLES),
@@ -137,7 +137,7 @@ export function composeSlotItemForm(data: NodeItem, ent: ConnectedEntities): Bas
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as any, ent),
+            ...composeCommonFormContext(ent),
             data,
         }
     }, true) as BaseControl[];

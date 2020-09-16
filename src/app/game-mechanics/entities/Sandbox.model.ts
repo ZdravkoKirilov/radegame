@@ -2,7 +2,7 @@ import { Omit, Nominal } from 'simplytyped';
 
 import { StatefulComponent } from '@app/render-kit';
 
-import { BaseModel, WithKeywords } from "./Base.model";
+import { BaseModel, WithKeywords, WithModule } from "./Base.model";
 import { ExpressionFunc, ParamedExpressionFunc } from './Expression.model';
 import { Widget } from './Widget.model';
 import { Module } from './Module.model';
@@ -18,7 +18,7 @@ export enum SandboxType {
 
 export type SandboxId = Nominal<string, 'SandboxId'>;
 
-export type Sandbox = BaseModel<SandboxId> & WithKeywords & Partial<{
+export type Sandbox = BaseModel<SandboxId> & WithKeywords & WithModule & Partial<{
   /* shared */
   global_state: string;
   own_data: string; // player data, preferences
@@ -26,7 +26,6 @@ export type Sandbox = BaseModel<SandboxId> & WithKeywords & Partial<{
 
   /* identifiers */
   widget: number;
-  module: number;
   node: number;
 
   /* widget only */

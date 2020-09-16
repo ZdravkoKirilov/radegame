@@ -61,7 +61,7 @@ export function composeChoiceForm(data: Choice, ent: ConnectedEntities): BaseCon
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             data, options, tips,
         },
     }, true);

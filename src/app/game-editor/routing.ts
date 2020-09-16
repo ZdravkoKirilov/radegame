@@ -9,9 +9,13 @@ import { VersionsListComponent } from './containers/versions-list/versions-list.
 import { VersionsEditorComponent } from './containers/versions-editor/versions-editor.component';
 import { TreeEditorComponent } from './containers/tree-editor/tree-editor.component';
 import { GameDashboardComponent } from './containers/game-dashboard/game-dashboard.component';
-import { composeSetupForm, composeModuleForm } from './forms';
+import { composeSetupForm, composeModuleForm, composeTokenForm } from './forms';
 import { RootEntityEditorComponent } from './containers/root-entity-editor/root-entity-editor.component';
 import { GamesContainerComponent } from './containers/games/games.container';
+import { EntityEditorContainerComponent } from './containers/entity-editor/entity-editor-container.component';
+import { NestedEntityEditorComponent } from './containers/nested-entity-editor/nested-entity-editor.component';
+import { composeFrameForm, composeNestedTextForm } from './forms/helpers';
+import { TestBoardContainerComponent } from './containers/test-board/test-board-container.component';
 
 export const routes: Routes = [
     {
@@ -89,6 +93,65 @@ export const routes: Routes = [
                     entityType: ALL_ENTITIES.modules,
                     form: composeModuleForm
                 }
+            }, {
+                path: `modules/:${ROUTER_PARAMS.MODULE_ID}/sandboxes`,
+                children: [
+                    {
+                        path: 'add',
+                        component: TestBoardContainerComponent,
+                    }
+                ]
+            }, {
+                path: `modules/:${ROUTER_PARAMS.MODULE_ID}/tokens`,
+                children: [
+                    {
+                        path: `add`,
+                        component: EntityEditorContainerComponent,
+                        data: <CustomRouteData>{
+                            entityType: ALL_ENTITIES.tokens,
+                            form: composeTokenForm
+                        }
+                    }, {
+                        path: `:${ROUTER_PARAMS.ENTITY_ID}`,
+                        component: EntityEditorContainerComponent,
+                        data: <CustomRouteData>{
+                            entityType: ALL_ENTITIES.tokens,
+                            form: composeTokenForm
+                        }
+                    }, {
+                        path: `:${ROUTER_PARAMS.ENTITY_ID}/texts/add`,
+                        component: NestedEntityEditorComponent,
+                        data: <CustomRouteData>{
+                            entityType: ALL_ENTITIES.tokens,
+                            form: composeNestedTextForm,
+                            nestedEntityType: 'texts'
+                        }
+                    }, {
+                        path: `:${ROUTER_PARAMS.ENTITY_ID}/texts/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
+                        component: NestedEntityEditorComponent,
+                        data: <CustomRouteData>{
+                            entityType: ALL_ENTITIES.tokens,
+                            form: composeNestedTextForm,
+                            nestedEntityType: 'texts',
+                        }
+                    }, {
+                        path: `:${ROUTER_PARAMS.ENTITY_ID}/frames/add`,
+                        component: NestedEntityEditorComponent,
+                        data: <CustomRouteData>{
+                            entityType: ALL_ENTITIES.tokens,
+                            form: composeFrameForm,
+                            nestedEntityType: 'frames'
+                        }
+                    }, {
+                        path: `:${ROUTER_PARAMS.ENTITY_ID}/frames/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
+                        component: NestedEntityEditorComponent,
+                        data: <CustomRouteData>{
+                            entityType: ALL_ENTITIES.tokens,
+                            form: composeFrameForm,
+                            nestedEntityType: 'frames',
+                        }
+                    }
+                ]
             }, {
                 path: 'dashboard',
                 component: GameDashboardComponent,

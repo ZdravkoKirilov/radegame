@@ -45,7 +45,7 @@ export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseContr
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             data, languages
         }
     }, true) as BaseControl[];

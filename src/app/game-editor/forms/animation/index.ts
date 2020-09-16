@@ -81,7 +81,7 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             ...composeInlineStyleFormContext(ent),
             data, steps,
             types: composeFromObject(ANIMATION_PLAY_TYPE),

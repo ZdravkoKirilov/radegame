@@ -2,14 +2,14 @@ import { Nominal } from "simplytyped";
 
 import { Omit } from "@app/shared";
 
-import { BaseModel, WithTemplate, WithFrames, WithTexts } from "./Base.model";
+import { BaseModel, WithTemplate, WithFrames, WithTexts, WithModule } from "./Base.model";
 import { Widget } from "./Widget.model";
 import { GameTemplate } from "../models";
 import { enrichEntity } from "../helpers";
 
 export type TokenId = Nominal<string, 'TokenId'>;
 
-export type Token = BaseModel<TokenId> & WithTemplate & WithFrames & WithTexts;
+export type Token = BaseModel<TokenId> & WithTemplate & WithFrames & WithTexts & WithModule;
 
 export const Token = {
   toRuntime(config: GameTemplate, token: Token) {

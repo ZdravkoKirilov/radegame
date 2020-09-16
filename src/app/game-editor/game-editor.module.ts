@@ -1,5 +1,4 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { EffectsModule } from '@ngrx/effects';
 import { RouterModule } from '@angular/router';
@@ -39,10 +38,12 @@ import { TreeEditorComponent } from './containers/tree-editor/tree-editor.compon
 import { TreeExplorerComponent } from './containers/tree-explorer/tree-explorer.component';
 import { GameDashboardComponent } from './containers/game-dashboard/game-dashboard.component';
 import { RootEntityEditorComponent } from './containers/root-entity-editor/root-entity-editor.component';
+import { GamesContainerComponent } from './containers';
+import { ModulePipe } from './utils/module.pipe';
+import { NestedEntityEditorComponent } from './containers/nested-entity-editor/nested-entity-editor.component';
 
 @NgModule({
   imports: [
-    CommonModule,
     SharedModule,
     StoreModule.forFeature(FEATURE_NAME, reducers, { metaReducers }),
     EffectsModule.forFeature([
@@ -87,6 +88,9 @@ import { RootEntityEditorComponent } from './containers/root-entity-editor/root-
     EntityComponent,
     EntityEditorComponent,
     EntityViewComponent,
+    GamesContainerComponent,
+    ModulePipe,
+    NestedEntityEditorComponent,
   ]
 })
 export class GameEditorModule {

@@ -1,5 +1,5 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Sound, GameEntity } from "@app/game-mechanics";
+import { Sound } from "@app/game-mechanics";
 import { composeCommonFormContext, baseTemplate } from "../helpers";
 
 export const composeSoundForm: FormDefinition = (data: Sound, ent?: ConnectedEntities) => {
@@ -18,7 +18,7 @@ export const composeSoundForm: FormDefinition = (data: Sound, ent?: ConnectedEnt
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data as GameEntity, ent),
+            ...composeCommonFormContext(ent),
             data,
         },
     }, true);

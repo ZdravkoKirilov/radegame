@@ -50,7 +50,7 @@ export const composeSonataForm: FormDefinition = (data: Sonata, ent?: ConnectedE
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             data, steps,
             types: composeFromObject(SONATA_PLAY_TYPE),
         }

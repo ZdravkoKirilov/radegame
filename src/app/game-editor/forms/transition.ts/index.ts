@@ -26,7 +26,7 @@ export const composeTransitionForm: FormDefinition = (data: Transition, ent?: Co
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             data,
         }
     }, true) as BaseControl[];

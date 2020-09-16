@@ -34,7 +34,7 @@ export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl
     const result = parse({
         source: template,
         context: {
-            ...composeCommonFormContext(data, ent),
+            ...composeCommonFormContext(ent),
             ...composeInlineStyleFormContext(ent),
             data, translations
         },
