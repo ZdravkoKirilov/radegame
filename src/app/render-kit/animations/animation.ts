@@ -3,7 +3,7 @@ import { TweenMax, TimelineMax } from 'gsap';
 import { map } from "rxjs/operators";
 
 import { Dictionary } from '@app/shared';
-import { ANIMATION_PLAY_TYPE, RuntimeAnimation, RuntimeAnimationStep, RuntimeTransition } from "@app/game-mechanics";
+import { ANIMATION_PLAY_TYPE, RuntimeAnimation, RuntimeAnimationStep } from "@app/game-mechanics";
 
 import { mapEasing, StatefulComponent } from "../internal";
 
@@ -26,13 +26,13 @@ export class TransitionAnimationsPlayer {
 
     private player = new AnimationPlayer();
 
-    constructor(public config: RuntimeTransition) {
+    constructor(public config: object) {
         this.updates$ = this.player.updates$;
         this.done$ = this.player.done$;
     }
 
     play = (data: AnimationPayload) => {
-        const { animation } = this.config;
+        const { animation } = this.config as any;
         this.player.play(animation, data);
         this.isActive = true;
         this.player.done$.pipe(

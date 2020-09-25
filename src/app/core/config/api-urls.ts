@@ -1,4 +1,4 @@
-import { GameId, VersionId, TextId, ShapeId, SonataId, SandboxId, TransitionId, WidgetId, WidgetNodeId, ModuleId, ChoiceId, TokenId, ImageAssetId, StyleId, SoundId, ExpressionId, AnimationId, SetupId } from '@app/game-mechanics';
+import { GameId, VersionId, TextId, ShapeId, SonataId, SandboxId, WidgetId, WidgetNodeId, ModuleId, TokenId, ImageAssetId, StyleId, SoundId, ExpressionId, AnimationId, SetupId } from '@app/game-mechanics';
 
 import { environment } from '../../../environments/environment';
 import { UserId } from '../models';
@@ -49,10 +49,6 @@ export const EDITOR_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/sandboxes/`;
         return sandboxId ? `${base}${sandboxId}/` : base;
     },
-    CHOICES: (gameId: GameId, choiceId?: ChoiceId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/choices/`;
-        return choiceId ? `${base}${choiceId}/` : base;
-    },
     WIDGETS: (gameId: GameId, widgetId?: WidgetId) => {
         const base = `${API_BASE_URL}/games/${gameId}/widgets/`;
         return widgetId ? `${base}${widgetId}/` : base;
@@ -75,10 +71,6 @@ export const EDITOR_URLS = {
     },
     SOUNDS: (gameId: GameId, itemId?: SoundId) => {
         const base = `${API_BASE_URL}/games/${gameId}/sounds/`;
-        return itemId ? `${base}${itemId}/` : base;
-    },
-    TRANSITIONS: (gameId: GameId, itemId?: TransitionId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/transitions/`;
         return itemId ? `${base}${itemId}/` : base;
     },
     EXPRESSIONS: (gameId: GameId, itemId?: ExpressionId) => {

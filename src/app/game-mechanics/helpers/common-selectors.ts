@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
 import { GameTemplate, ExpressionContext, Game } from '../models';
-import { RuntimeWidgetNode, Shape, Widget, NodeItem, WidgetNode, Text, Module, NodeHandler, NodeLifecycle, Transition } from '../entities';
+import { RuntimeWidgetNode, Shape, Widget, WidgetNode, Text, Module, NodeHandler, NodeLifecycle } from '../entities';
 
 export type CommonGameStore = {
   config: GameTemplate;
@@ -43,35 +43,10 @@ export const selectRuntimeNode = (node: WidgetNode) => createSelector(
   context => WidgetNode.toRuntime(context, node)
 );
 
-export const selectNodeTransitions = (node: RuntimeWidgetNode) => createSelector(
-  selectExpressionContext,
-  (context) => {
-    return context.disableInteractions ? [] : node.transitions
-      .map(transitionId => Transition.toRuntime(context, context.conf.transitions[transitionId]))
-  },
-);
-
-export const selectItemTemplate = (item: NodeItem) => createSelector(
-  selectExpressionContext,
-  context => {
-    const runtimeItem = NodeItem.toRuntime(context, item);
-    const attachedEntity = runtimeItem.choice || runtimeItem.token;
-    const widget = attachedEntity.template;
-    return widget
-  }
-);
-
 export const selectRuntimeModule = (module: Module) => createSelector(
   selectExpressionContext,
   context => {
     return Module.toRuntime(context, module);
-  }
-);
-
-export const selectRuntimeItem = (item: NodeItem) => createSelector(
-  selectExpressionContext,
-  context => {
-    return NodeItem.toRuntime(context, item);
   }
 );
 

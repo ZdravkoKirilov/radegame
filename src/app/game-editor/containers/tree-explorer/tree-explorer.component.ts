@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AppState } from '@app/core';
 import {
   Module, ALL_ENTITIES, ImageAsset, Token, AllEntity, GameEntity, EntityId, Sandbox, Style, Text, Shape, Sound, Sonata,
-  Animation, Transition, Widget, Expression, ModuleId
+  Animation, Widget, Expression, ModuleId
 } from '@app/game-mechanics';
 import { AutoUnsubscribe } from '@app/shared';
 
@@ -46,7 +46,6 @@ export class TreeExplorerComponent implements OnInit {
   sounds$: Observable<Sound[]>;
   sonatas$: Observable<Sonata[]>;
   animations$: Observable<Animation[]>;
-  transitions$: Observable<Transition[]>;
   widgets$: Observable<Widget[]>;
   expressions$: Observable<Expression[]>;
 
@@ -72,7 +71,6 @@ export class TreeExplorerComponent implements OnInit {
     this.sounds$ = this.store.select(getItems(ALL_ENTITIES.sounds));
     this.sonatas$ = this.store.select(getItems(ALL_ENTITIES.sonatas));
     this.animations$ = this.store.select(getItems(ALL_ENTITIES.animations));
-    this.transitions$ = this.store.select(getItems(ALL_ENTITIES.transitions));
     this.widgets$ = this.store.select(getItems(ALL_ENTITIES.widgets));
     this.expressions$ = this.store.select(getItems(ALL_ENTITIES.expressions));
 

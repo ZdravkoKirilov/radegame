@@ -6,8 +6,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { GameEditService, GameFetchService } from '@app/core';
 import {
-  GameEntity, Module, Token, Choice, ImageAsset, Widget, WidgetNode, Style, Setup,
-  AllEntity, ALL_ENTITIES, Transition, Animation, Sonata, Text, Shape, Sandbox, Sound, Expression, EntityId, GameId, toWidgetId
+  GameEntity, Module, Token, ImageAsset, Widget, WidgetNode, Style, Setup,
+  AllEntity, ALL_ENTITIES, Animation, Sonata, Text, Shape, Sandbox, Sound, Expression, EntityId, GameId, toWidgetId
 } from '@app/game-mechanics';
 import { toDictionary } from '@app/shared';
 
@@ -206,8 +206,6 @@ export class GenericEffectsService {
         return this.fetcher.getSetups(gameId);
       case ALL_ENTITIES.widgets:
         return this.fetcher.getWidgets(gameId);
-      case ALL_ENTITIES.choices:
-        return this.fetcher.getChoices(gameId);
       case ALL_ENTITIES.tokens:
         return this.fetcher.getTokens(gameId);
       case ALL_ENTITIES.images:
@@ -229,8 +227,6 @@ export class GenericEffectsService {
         return this.api.saveWidget(<Widget>entity);
       case ALL_ENTITIES.nodes:
         return this.api.saveNode(<WidgetNode>entity);
-      case ALL_ENTITIES.choices:
-        return this.api.saveChoice(<Choice>entity);
       case ALL_ENTITIES.tokens:
         return this.api.saveToken(<Token>entity);
       case ALL_ENTITIES.images:
@@ -245,8 +241,6 @@ export class GenericEffectsService {
         return this.api.saveAnimation(<Animation>entity);
       case ALL_ENTITIES.setups:
         return this.api.saveSetup(<Setup>entity);
-      case ALL_ENTITIES.transitions:
-        return this.api.saveTransition(<Transition>entity);
       case ALL_ENTITIES.texts:
         return this.api.saveText(<Text>entity);
       case ALL_ENTITIES.sonatas:
@@ -268,8 +262,6 @@ export class GenericEffectsService {
         return this.api.deleteWidget(<Widget>entity);
       case ALL_ENTITIES.nodes:
         return this.api.deleteNode(<WidgetNode>entity);
-      case ALL_ENTITIES.choices:
-        return this.api.deleteChoice(<Choice>entity);
       case ALL_ENTITIES.tokens:
         return this.api.deleteToken(<Token>entity);
       case ALL_ENTITIES.images:
@@ -284,8 +276,6 @@ export class GenericEffectsService {
         return this.api.deleteAnimation(<Animation>entity);
       case ALL_ENTITIES.setups:
         return this.api.deleteSetup(<Setup>entity);
-      case ALL_ENTITIES.transitions:
-        return this.api.deleteTransition(<Transition>entity);
       case ALL_ENTITIES.texts:
         return this.api.deleteText(<Text>entity);
       case ALL_ENTITIES.shapes:

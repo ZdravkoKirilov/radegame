@@ -27,7 +27,6 @@ import { TestBoardContainerComponent } from './containers/sandbox-editor/test-bo
 import { TestBoardHeaderComponent } from './components/test-board/header/test-board-header.component';
 import { TestBoardStateComponent } from './components/test-board/state-mocks/test-board-state.component';
 import { TestBoardPresentationComponent } from './components/test-board/presentation/test-board-presentation.component';
-import { EditSidebarComponent } from './components/sidebar';
 import { EntityEditorContainerComponent } from './containers/entity-editor/entity-editor-container.component';
 import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
 import { EditorToolbarComponent } from './components/editor-toolbar/editor-toolbar.component';
@@ -74,7 +73,6 @@ import { GenericFilterPipe } from './utils/generic-filter.pipe';
     TestBoardHeaderComponent,
     TestBoardStateComponent,
     TestBoardPresentationComponent,
-    EditSidebarComponent,
     RootEntityEditorComponent,
     GameDashboardComponent,
     TreeExplorerComponent,

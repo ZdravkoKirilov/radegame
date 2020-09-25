@@ -3,7 +3,10 @@ import { Nominal } from 'simplytyped';
 import { Omit, Dictionary } from '@app/shared';
 import { LobbyPlayer } from '@app/game-arena';
 
-import { WithImage, Module, ExpressionFunc, WithBoard, Token, Expression, Choice, Sonata, Sound, Widget, Text, Setup, ImageAsset, Sandbox, Shape, Style, Transition, Version, Animation } from '../entities';
+import {
+  WithImage, Module, ExpressionFunc, WithBoard, Token, Expression, Sonata, Sound,
+  Widget, Text, Setup, ImageAsset, Sandbox, Shape, Style, Version, Animation
+} from '../entities';
 import { ExpressionContext } from './ExpressionContext.model';
 import { enrichEntity, parseAndBind } from '../helpers';
 
@@ -53,7 +56,6 @@ export type GameLanguage = WithImage & Partial<{
 export type GameTemplate = {
   tokens: Dictionary<Token>;
   expressions: Dictionary<Expression>;
-  choices: Dictionary<Choice>;
   sonatas: Dictionary<Sonata>;
   sounds: Dictionary<Sound>;
   widgets: Dictionary<Widget>;
@@ -64,7 +66,6 @@ export type GameTemplate = {
   sandboxes: Dictionary<Sandbox>;
   shapes: Dictionary<Shape>;
   styles: Dictionary<Style>;
-  transitions: Dictionary<Transition>;
   versions: Dictionary<Version>;
   animations: Dictionary<Animation>;
 }

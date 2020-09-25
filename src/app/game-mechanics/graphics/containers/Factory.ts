@@ -23,7 +23,7 @@ export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
     if (data.board) {
         return createElement<EnhancedWidgetNodeProps>(EnhancedWidgetNode, { data, fromParent });
     }
-    if (data.item) {
+    if (data.token) {
         return createElement<EnhancedItemNodeProps>(EnhancedItemNode, { data, fromParent });
     }
     if (data.module) {

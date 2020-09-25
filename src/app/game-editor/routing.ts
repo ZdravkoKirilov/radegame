@@ -9,7 +9,7 @@ import { VersionsListComponent } from './containers/versions-list/versions-list.
 import { VersionsEditorComponent } from './containers/versions-editor/versions-editor.component';
 import { TreeEditorComponent } from './containers/tree-editor/tree-editor.component';
 import { GameDashboardComponent } from './containers/game-dashboard/game-dashboard.component';
-import { composeSetupForm, composeModuleForm, composeTokenForm, composeImageForm, composeSoundForm, composeStyleForm, composeExpressionForm, composeShapeForm, composeSonataForm, composeTextForm, composeTransitionForm, composeAnimationForm, composeWidgetForm } from './forms';
+import { composeSetupForm, composeModuleForm, composeTokenForm, composeImageForm, composeSoundForm, composeStyleForm, composeExpressionForm, composeShapeForm, composeSonataForm, composeTextForm, composeAnimationForm, composeWidgetForm } from './forms';
 import { RootEntityEditorComponent } from './containers/root-entity-editor/root-entity-editor.component';
 import { GamesContainerComponent } from './containers/games/games.container';
 import { EntityEditorContainerComponent } from './containers/entity-editor/entity-editor-container.component';
@@ -234,25 +234,6 @@ export const routes: Routes = [
             data: <CustomRouteData>{
               entityType: ALL_ENTITIES.texts,
               form: composeTextForm,
-            }
-          }
-        ]
-      }, {
-        path: `modules/:${ROUTER_PARAMS.MODULE_ID}/transitions`,
-        children: [
-          {
-            path: 'add',
-            component: EntityEditorContainerComponent,
-            data: {
-              entityType: ALL_ENTITIES.transitions,
-              form: composeTransitionForm,
-            } as CustomRouteData
-          }, {
-            path: `:${ROUTER_PARAMS.ENTITY_ID}`,
-            component: EntityEditorContainerComponent,
-            data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.transitions,
-              form: composeTransitionForm,
             }
           }
         ]

@@ -1,5 +1,5 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { WidgetNode, NodeItem, NODE_LIFECYCLES } from "@app/game-mechanics";
+import { WidgetNode, NODE_LIFECYCLES } from "@app/game-mechanics";
 import {
     baseTemplate,
     boardTemplate,
@@ -14,7 +14,6 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
     data = data || {};
     const handlers = data.handlers || [];
     const lifecycles = data.lifecycles || [];
-    const transitions = data.transitions || [];
 
     const template = `
         <Form>
@@ -30,14 +29,9 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
                 {data.module}
             </Dropdown>
 
-            <EmbeddedData 
-                name='item' 
-                label='Item'
-                connectedEntities='{entities}' 
-                childrenDefinition='{composeSlotItemForm}' 
-            >
-                {data.item}
-            </EmbeddedData>
+            <Dropdown name='token' label='Token' options='{token_options}'>
+                {data.token}
+            </Dropdown>
 
             <Dropdown name='display_text_inline' label='Display text' options='{text_options}'>
                 {data.display_text_inline}
@@ -94,10 +88,6 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
                     </Dropdown>
                 </Form>
             </Group>
-            
-            <ButtonGroup name='transitions' label='Transitions' options='{transition_options}' multiple='{true}'>
-                {transitions}
-            </ButtonGroup>
 
         </Form>
     `;
@@ -109,38 +99,10 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
             ...composeInlineStyleFormContext(ent),
             handlerTypes: composeFromObject(RzEventTypes),
             lifecycleTypes: composeFromObject(NODE_LIFECYCLES),
-            data, handlers, transitions, lifecycles,
-            entities: ent, composeSlotItemForm
+            data, handlers, lifecycles,
+            entities: ent
         },
     }, true);
 
     return result as BaseControl[];
 };
-
-export function composeSlotItemForm(data: NodeItem, ent: ConnectedEntities): BaseControl[] {
-    data = data || {};
-
-    const template = `
-    <Form>
-
-        <Dropdown name='choice' label='Choice' options='{choice_options}'>
-            {data.choice}
-        </Dropdown>
-
-        <Dropdown name='token' label='Token' options='{token_options}'>
-            {data.token}
-        </Dropdown>
-
-    </Form>
-    `;
-
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            data,
-        }
-    }, true) as BaseControl[];
-
-    return result;
-}

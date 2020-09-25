@@ -1,12 +1,4 @@
-export type InteractiveEntityType = keyof typeof INTERACTIVE_ENTITY;
-
-export const INTERACTIVE_ENTITY = {
-    'TOKEN': 'TOKEN',
-    'CHOICE': 'CHOICE',
-} as const;
-
 export const ALL_ENTITIES = {
-    choices: 'choices',
     modules: 'modules',
     widgets: 'widgets',
     tokens: 'tokens',
@@ -15,7 +7,6 @@ export const ALL_ENTITIES = {
     sounds: 'sounds',
     expressions: 'expressions',
     animations: 'animations',
-    transitions: 'transitions',
     setups: 'setups',
     texts: 'texts',
     sonatas: 'sonatas',

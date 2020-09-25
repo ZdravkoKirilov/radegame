@@ -1,31 +1,31 @@
 import { RenderFunction, createElement } from "@app/render-kit";
 
-import { NodeItem, RuntimeNodeItem, Style, Widget } from "../../entities";
+import { RuntimeToken, Style, Token, Widget } from "../../entities";
 import { connectToStore } from "../../hocs";
-import { CommonGameStore, selectItemTemplate, selectRuntimeItem } from "../../helpers";
+import { CommonGameStore } from "../../helpers";
 import { RootWidgetProps, RootWidget } from "./RootWidget";
 
 export type RootItemProps = {
-  item: NodeItem;
+  token: Token;
   style?: Style;
   fromParent?: {};
 }
 
 type StoreProps = {
-  runtimeItem: RuntimeNodeItem;
+  runtimeToken: RuntimeToken;
   template: Widget;
 }
 
 type Props = RootItemProps & StoreProps;
 
-const rootItem: RenderFunction<Props> = ({ template, runtimeItem, style, fromParent }) => {
+const rootItem: RenderFunction<Props> = ({ template, runtimeToken, style, fromParent }) => {
   return createElement<RootWidgetProps>(
     RootWidget,
     {
       widget: template,
       fromParent: {
         ...fromParent,
-        item: runtimeItem.choice || runtimeItem.token
+        token: runtimeToken
       },
       style,
     }
@@ -33,8 +33,8 @@ const rootItem: RenderFunction<Props> = ({ template, runtimeItem, style, fromPar
 };
 
 const mapStateToProps = (state: CommonGameStore, ownProps: RootItemProps): StoreProps => ({
-  runtimeItem: selectRuntimeItem(ownProps.item)(state),
-  template: selectItemTemplate(ownProps.item)(state),
+  runtimeToken: null, // selectRuntimeToken(ownProps.token)(state),
+  template: null, //selectTokenTemplate(ownProps.token)(state),
 });
 
 export const RootItem = connectToStore(mapStateToProps)(rootItem);

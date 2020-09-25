@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
-  Game, Module, Choice, Widget, Token, Animation, ImageAsset, Style,
-  Sound, Expression, Setup, Transition, Text, Sonata, Shape, WidgetNode, Version, Sandbox,
+  Game, Module, Widget, Token, Animation, ImageAsset, Style,
+  Sound, Expression, Setup, Text, Sonata, Shape, WidgetNode, Version, Sandbox,
 } from '@app/game-mechanics';
 import { toMultipartFormData } from '@app/shared';
 
@@ -37,18 +37,6 @@ export class GameEditService {
 
   deleteSandbox(data: Sandbox) {
     return this.http.delete(EDITOR_URLS.SANDBOXES(data.game, data.id));
-  }
-
-  saveTransition(data: Transition) {
-    if (data.id) {
-      return this.http.patch(EDITOR_URLS.TRANSITIONS(data.game, data.id), data);
-    } else {
-      return this.http.post(EDITOR_URLS.TRANSITIONS(data.game), data);
-    }
-  }
-
-  deleteTransition(data: Transition) {
-    return this.http.delete(EDITOR_URLS.TRANSITIONS(data.game, data.id));
   }
 
   saveWidget(data: Widget) {
@@ -127,19 +115,6 @@ export class GameEditService {
 
   deleteToken(data: Token) {
     return this.http.delete(EDITOR_URLS.TOKENS(data.game, data.id));
-  }
-
-  saveChoice(data: Choice) {
-
-    if (data.id) {
-      return this.http.patch(EDITOR_URLS.CHOICES(data.game, data.id), data);
-    } else {
-      return this.http.post(EDITOR_URLS.CHOICES(data.game), data);
-    }
-  }
-
-  deleteChoice(data: Choice) {
-    return this.http.delete(EDITOR_URLS.CHOICES(data.game, data.id));
   }
 
   saveAnimation(data: Animation) {

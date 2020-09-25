@@ -1,9 +1,10 @@
 import { map } from "rxjs/operators";
 
-import { RuntimeTransition } from "@app/game-mechanics";
 import { Dictionary } from "@app/shared";
 
 import { StatefulComponent, DidUpdatePayload, TransitionAnimationsPlayer, AnimationPayload } from "../../internal";
+
+type RuntimeTransition = any;
 
 export type RzTransitionProps = {
   transitions: RuntimeTransition[];
@@ -78,9 +79,9 @@ export class RzTransition extends StatefulComponent<RzTransitionProps> {
       };
 
       Object.values(this.players).forEach(player => {
-        if (player.config.trigger(reformattedPayload)) {
+      /*   if (player.config.trigger(reformattedPayload)) {
           player.play(reformattedPayload);
-        }
+        } */
       });
     }
   }

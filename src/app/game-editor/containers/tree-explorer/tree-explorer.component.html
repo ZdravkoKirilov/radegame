@@ -509,49 +509,6 @@
 
       </mat-expansion-panel>
 
-      <!-- Transitions -->
-      <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
-        [expanded]="isPanelOpen('modules_' + module.id + '_' + 'transitions' )" #transitionsPanel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span class="folder-icons">
-              <mat-icon *ngIf="!transitionsPanel.expanded">folder</mat-icon>
-              <mat-icon *ngIf="transitionsPanel.expanded">folder_open</mat-icon>
-            </span>
-            <span class="section-title">Transitions</span>
-            <a (click)="stopPropagation($event)" [routerLink]="['modules', module.id, 'transitions', 'add' ]"
-              mat-icon-button>
-              <mat-icon>add</mat-icon>
-            </a>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <ng-template matExpansionPanelContent>
-          <p *ngFor="let transition of transitions$ | async | filterBy:{module: module.id}" class="list-item">
-            <span class="header">
-              <mat-icon fontSet="fa" fontIcon="fa-moon-o" aria-hidden="true"></mat-icon>
-              <span>{{transition.name}}</span>
-              <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-            </span>
-
-            <mat-menu #menu="matMenu">
-              <a [routerLink]="['modules', module.id, 'transitions', transition.id]" mat-menu-item>
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </a>
-
-              <button mat-menu-item (click)="deleteEntity($event, 'transitions', transition)">
-                <mat-icon>close</mat-icon>
-                <span>Remove</span>
-              </button>
-            </mat-menu>
-          </p>
-        </ng-template>
-
-      </mat-expansion-panel>
-
       <!-- Animations -->
       <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
         [expanded]="isPanelOpen('modules_' + module.id + '_' + 'animations' )" #animationsPanel>

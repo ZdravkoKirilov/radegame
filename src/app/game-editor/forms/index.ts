@@ -1,6 +1,5 @@
 export * from './widget';
 export * from './module';
-export * from './choice';
 export * from './game';
 export * from './node';
 export * from './token';
@@ -10,7 +9,6 @@ export * from './sound';
 export * from './expression';
 export * from './animation';
 export * from './setup';
-export * from './transition.ts';
 export * from './text';
 export * from './sonata';
 export * from './shape';

@@ -1,8 +1,8 @@
 import { Option, ConnectedEntities, ToggleContext, FormDefinition, BaseControl, parse } from '@app/dynamic-forms';
 import { Dictionary, toDictionary } from '@app/shared';
-import { ImageAsset, GameEntity, INTERACTIVE_ENTITY, ImageFrame, TextFrame } from '@app/game-mechanics';
+import { ImageAsset, GameEntity, ImageFrame, TextFrame } from '@app/game-mechanics';
+
 import { composeStyleForm } from './style';
-import { isArray } from 'lodash';
 
 export function composeEntityOptions(
     items: GameEntity[],
@@ -169,19 +169,15 @@ export const composeCommonFormContext = (ent: ConnectedEntities) => {
         widget_options: composeEntityOptions(ent.widgets, images, 'widgets'),
         image_options: composeEntityOptions(ent.images, images, 'images', ['thumbnail', 'svg']),
         style_options: composeEntityOptions(ent.styles, images, 'styles'),
-        choice_options: composeEntityOptions(ent.choices, images, 'choices'),
         sound_options: composeEntityOptions(ent.sounds, images, 'sounds'),
         expression_options: composeEntityOptions(ent.expressions, images, 'expressions'),
         animation_options: composeEntityOptions(ent.animations, images, 'animations'),
         module_options: composeEntityOptions(ent.modules, images, 'modules'),
-        transition_options: composeEntityOptions(ent.transitions, images, 'transitions'),
         language_options: composeEntityOptions(ent.languages as any, images, 'languages'),
         text_options: composeEntityOptions(ent.texts, images, 'texts'),
         shape_options: composeEntityOptions(ent.shapes, images, 'shapes'),
 
         boolean_options: composeBooleanOptions(),
-
-        entity_types: composeFromObject(INTERACTIVE_ENTITY),
     }
 };
 

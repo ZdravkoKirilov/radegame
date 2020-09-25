@@ -4,9 +4,8 @@ import { RzEventTypes, StatefulComponent } from "@app/render-kit";
 import { safeJSON } from "@app/shared";
 
 import { BaseModel, WithBoard, WithStyle } from "./Base.model";
-import { Shape } from "./Shape.model";
-import { RuntimeChoice, Choice } from "./Choice.model";
-import { RuntimeToken, Token } from "./Token.model";
+import { Shape, ShapeId } from "./Shape.model";
+import { Token, TokenId } from "./Token.model";
 import { Widget, WidgetId } from "./Widget.model";
 import {
   ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc,
@@ -15,7 +14,7 @@ import {
 import { Style } from "./Style.model";
 import { Text } from "./Text.model";
 import { Sonata } from "./Sonata.model";
-import { Module } from "./Module.model";
+import { Module, ModuleId } from "./Module.model";
 import { enrichEntity, parseAndBind } from "../helpers";
 import { ExpressionContext } from "../models";
 
@@ -26,9 +25,10 @@ export type WidgetNode = BaseModel<WidgetNodeId> & WithBoard & WithStyle & Parti
 
   display_text: string;
   display_text_inline: number;
-  item: string;
-  shape: number;
-  module: number;
+
+  token: TokenId;
+  shape: ShapeId;
+  module: ModuleId;
 
   provide_context: string;
   consume_context: string;
@@ -36,7 +36,6 @@ export type WidgetNode = BaseModel<WidgetNodeId> & WithBoard & WithStyle & Parti
   pass_to_children: string;
 
   handlers: NodeHandler[];
-  transitions: number[]; // TransitionId[]
   lifecycles: NodeLifecycle[];
 }>;
 
@@ -46,7 +45,6 @@ export const WidgetNode = {
     const node = enrichEntity<WidgetNode, RuntimeWidgetNode>(config, {
       style: src => parseAndBind(context)(src),
       style_inline: value => safeJSON(value, null),
-      item: (value: string) => safeJSON(value, null),
       shape: (shapeId: string) => enrichEntity(config, {
         style_inline: (src: string) => safeJSON(src, {})
       }, config.shapes[shapeId]),
@@ -62,9 +60,9 @@ export const WidgetNode = {
   }
 }
 
-export type RuntimeWidgetNode = Omit<WidgetNode, 'board' | 'style' | 'style_inline' | 'item' | 'shape' | 'display_text' | 'provide_context' | 'consume_context' | 'module'> & {
+export type RuntimeWidgetNode = Omit<WidgetNode, 'board' | 'style' | 'style_inline' | 'token' | 'shape' | 'display_text' | 'provide_context' | 'consume_context' | 'module'> & {
 
-  item: RuntimeNodeItem;
+  token: Token;
   shape: Shape;
   board: Widget;
   module: Module;
@@ -106,26 +104,6 @@ export type RuntimeNodeHandler = Omit<NodeHandler, 'effect' | 'sound' | 'static_
   sound: SonataGetterFunc;
   static_sound: Sonata;
 };
-
-export type NodeItem = Partial<{
-  choice: number;
-  token: number;
-}>;
-
-export const NodeItem = {
-  toRuntime(context: ExpressionContext, item: NodeItem) {
-    const config = context.conf;
-    return enrichEntity<NodeItem, RuntimeNodeItem>(config, {
-      token: tokenId => Token.toRuntime(config, config.tokens[tokenId]),
-      choice: choiceId => Choice.toRuntime(context, config.choices[choiceId]),
-    }, item);
-  }
-}
-
-export type RuntimeNodeItem = Omit<NodeItem, 'choice' | 'token'> & Partial<{
-  choice: RuntimeChoice;
-  token: RuntimeToken;
-}>;
 
 export type NodeLifecycle = {
   owner: number;

@@ -1,12 +1,12 @@
-import { createElement, RzElementPrimitiveProps, StatefulComponent, RzTransitionProps, RzTransition, } from "@app/render-kit";
+import { createElement, RzElementPrimitiveProps, StatefulComponent } from "@app/render-kit";
 import { Dictionary } from "@app/shared";
 
-import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeTransition, RuntimeNodeLifecycle } from "../../entities";
+import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeNodeLifecycle } from "../../entities";
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
 import { assignHandlers } from "../../helpers/event-handlers";
-import { selectNodeStyleSync, selectNodeTextSync, selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeTransitions, selectNodeLifecycles, selectChildPropsSync } from "../../helpers";
+import { selectNodeStyleSync, selectNodeTextSync, selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeLifecycles, selectChildPropsSync } from "../../helpers";
 import { RootText, RootTextProps } from "./RootText";
 
 export type EnhancedTextNodeProps = {
@@ -17,7 +17,6 @@ export type EnhancedTextNodeProps = {
 type StoreProps = {
     handlers: RuntimeNodeHandler[];
     context: ExpressionContext;
-    transitions: RuntimeTransition[];
     lifecycles: RuntimeNodeLifecycle[];
 };
 
@@ -32,7 +31,7 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
 
     render() {
         const self = this;
-        const { data, handlers, context, transitions } = this.props;
+        const { data, handlers, context } = this.props;
         const { animated } = this.state;
         const text = selectNodeTextSync(data, context, self);
         const childProps = selectChildPropsSync(data, self);
@@ -46,7 +45,7 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
                 styles: { z: style.z },
                 name: `TextNode_${data.name}`,
             },
-            createElement<RzTransitionProps>(
+           /*  createElement<RzTransitionProps>(
                 RzTransition,
                 {
                     transitions,
@@ -66,7 +65,7 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
                         }
                     }
                 },
-            ),
+            ), */
             createElement<RootTextProps>(
                 RootText,
                 {
@@ -82,7 +81,6 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
 const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedTextNodeProps): StoreProps => ({
     handlers: selectNodeHandlers(ownProps.data)(state),
     context: selectExpressionContext(state),
-    transitions: selectNodeTransitions(ownProps.data)(state),
     lifecycles: selectNodeLifecycles(ownProps.data)(state),
 });
 

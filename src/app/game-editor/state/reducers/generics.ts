@@ -50,7 +50,6 @@ export const createEntityReducer = (allowedKey: AllEntity): ActionReducer<Entity
 export const formReducer: ActionReducer<EntityForm> = combineReducers({
   tokens: createEntityReducer(ALL_ENTITIES.tokens),
   modules: createEntityReducer(ALL_ENTITIES.modules),
-  choices: createEntityReducer(ALL_ENTITIES.choices),
   widgets: createEntityReducer(ALL_ENTITIES.widgets),
   images: createEntityReducer(ALL_ENTITIES.images),
   styles: createEntityReducer(ALL_ENTITIES.styles),
@@ -59,7 +58,6 @@ export const formReducer: ActionReducer<EntityForm> = combineReducers({
   expressions: createEntityReducer(ALL_ENTITIES.expressions),
   animations: createEntityReducer(ALL_ENTITIES.animations),
   setups: createEntityReducer(ALL_ENTITIES.setups),
-  transitions: createEntityReducer(ALL_ENTITIES.transitions),
   texts: createEntityReducer(ALL_ENTITIES.texts),
   sonatas: createEntityReducer(ALL_ENTITIES.sonatas),
   shapes: createEntityReducer(ALL_ENTITIES.shapes),
