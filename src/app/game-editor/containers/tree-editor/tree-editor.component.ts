@@ -7,7 +7,7 @@ import { AutoUnsubscribe, selectGameId } from '@app/shared';
 import { map, filter } from 'rxjs/operators';
 import { GameId } from '@app/game-mechanics';
 
-import { FetchGameData } from '../../state';
+import { FetchGameData, FetchItemsAction } from '../../state';
 
 @Component({
   selector: 'rg-tree-editor',
@@ -27,6 +27,7 @@ export class TreeEditorComponent implements OnInit {
       filter<GameId>(Boolean),
       map(gameId => {
         this.store.dispatch(new FetchGameData({ gameId }));
+        this.store.dispatch(new FetchItemsAction({ key: 'modules', data: { gameId } }));
       })
     ).subscribe();
   }

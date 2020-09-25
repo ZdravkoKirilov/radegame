@@ -23,7 +23,7 @@ import { ShapeEditorComponent } from './components/shape/shape-editor.component'
 import { ShapePreviewComponent } from './components/shape/preview/shape-preview.component';
 import { TextEditorComponent } from './components/text/text-editor.component';
 import { TextPreviewComponent } from './components/text/preview/text-preview.component';
-import { TestBoardContainerComponent } from './containers/test-board/test-board-container.component';
+import { TestBoardContainerComponent } from './containers/sandbox-editor/test-board-container.component';
 import { TestBoardHeaderComponent } from './components/test-board/header/test-board-header.component';
 import { TestBoardStateComponent } from './components/test-board/state-mocks/test-board-state.component';
 import { TestBoardPresentationComponent } from './components/test-board/presentation/test-board-presentation.component';
@@ -41,6 +41,7 @@ import { RootEntityEditorComponent } from './containers/root-entity-editor/root-
 import { GamesContainerComponent } from './containers';
 import { ModulePipe } from './utils/module.pipe';
 import { NestedEntityEditorComponent } from './containers/nested-entity-editor/nested-entity-editor.component';
+import { GenericFilterPipe } from './utils/generic-filter.pipe';
 
 @NgModule({
   imports: [
@@ -90,6 +91,7 @@ import { NestedEntityEditorComponent } from './containers/nested-entity-editor/n
     EntityViewComponent,
     GamesContainerComponent,
     ModulePipe,
+    GenericFilterPipe,
     NestedEntityEditorComponent,
   ]
 })

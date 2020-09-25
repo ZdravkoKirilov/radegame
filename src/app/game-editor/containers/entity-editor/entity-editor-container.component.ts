@@ -11,7 +11,7 @@ import { GameId, VersionId, GameEntity, ModuleId, EntityId, AllEntity } from '@a
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId, selectVersionId } from '@app/shared';
 
-import { getEntityForm, getEntities, SetItemAction, genericActionTypes, selectModuleId, getEntityByIdAndType, selectEntityId, getEntityType, SaveItemAction } from '../../state';
+import { getEntityForm, getEntities, SetItemAction, genericActionTypes, selectModuleId, getEntityByIdAndType, selectEntityId, getEntityType, SaveItemAction, RemoveItemAction } from '../../state';
 
 @Component({
   selector: 'rg-entity-editor-container',
@@ -37,6 +37,7 @@ export class EntityEditorContainerComponent implements OnInit {
   draftValid: boolean;
 
   onEntityCreated$: Subscription;
+  onEntityDeleted$: Subscription;
 
   ngOnInit(): void {
 
@@ -70,6 +71,11 @@ export class EntityEditorContainerComponent implements OnInit {
         this.router.navigate(['../', action.payload.data.id], { relativeTo: this.route });
       })
     ).subscribe();
+
+    this.onEntityDeleted$ = this.actions$.pipe(
+      ofType<RemoveItemAction<GameEntity>>(genericActionTypes.REMOVE_ITEM),
+      map(() => this.closeEditor())
+    ).subscribe();
   }
 
   updateDraft(form: FormGroup) {
@@ -81,11 +87,12 @@ export class EntityEditorContainerComponent implements OnInit {
   saveEntity() {
     const entity = {
       ...this.draft,
+      id: this.entityId,
       game: this.gameId,
       version: this.versionId,
       module: this.moduleId,
     };
-    
+
     this.store.dispatch(new SaveItemAction({
       key: this.entityType,
       data: entity

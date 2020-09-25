@@ -5,7 +5,7 @@ import { switchMap, tap, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
-import { get } from 'lodash';
+import { get, last } from 'lodash';
 
 import { AppState } from '@app/core';
 import { GameId, VersionId, GameEntity, ModuleId, EntityId, AllEntity } from '@app/game-mechanics';
@@ -50,10 +50,10 @@ export class NestedEntityEditorComponent implements OnInit {
     this.connectedEntities$ = this.store.pipe(select(getEntities));
 
     this.parentEntity$ = combineLatest(
-      this.store.pipe(select(selectGameId)), this.store.pipe(select(selectVersionId)),
+      [this.store.pipe(select(selectGameId)), this.store.pipe(select(selectVersionId)),
       this.store.pipe(select(selectModuleId)), this.store.pipe(select(selectEntityId)),
       this.store.pipe(select(getEntityType)), this.store.pipe(select(getNestedEntityType)),
-      this.store.pipe(select(selectNestedEntityId))
+      this.store.pipe(select(selectNestedEntityId))]
     ).pipe(
       tap(([gameId, versionId, moduleId, entityId, entityType, nestedEntityType, nestedEntityId]) => {
         this.gameId = gameId;
@@ -79,8 +79,8 @@ export class NestedEntityEditorComponent implements OnInit {
     this.onEntityCreated$ = this.actions$.pipe(
       ofType<SetItemAction<GameEntity>>(genericActionTypes.SET_ITEM),
       map(action => {
-
-        this.router.navigate(['../', '../', action.payload.data.id], { relativeTo: this.route });
+        const nestedEntityId = get(last(action.payload.data[this.nestedEntityType]), 'id');
+        this.router.navigate(['../', nestedEntityId], { relativeTo: this.route });
       })
     ).subscribe();
   }

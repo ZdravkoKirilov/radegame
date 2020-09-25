@@ -4,11 +4,12 @@ import { StatefulComponent } from '@app/render-kit';
 
 import { BaseModel, WithKeywords, WithModule } from "./Base.model";
 import { ExpressionFunc, ParamedExpressionFunc } from './Expression.model';
-import { Widget } from './Widget.model';
+import { Widget, WidgetId } from './Widget.model';
 import { Module } from './Module.model';
-import { WidgetNode } from './WidgetNode.model';
+import { WidgetNode, WidgetNodeId } from './WidgetNode.model';
 import { ExpressionContext } from '../models';
 import { enrichEntity, parseAndBind } from '../helpers';
+import { TokenId } from './Token.model';
 
 export enum SandboxType {
   'widget' = 'widget',
@@ -25,8 +26,9 @@ export type Sandbox = BaseModel<SandboxId> & WithKeywords & WithModule & Partial
   on_init: string; // assertions may go here
 
   /* identifiers */
-  widget: number;
-  node: number;
+  widget: WidgetId;
+  node: WidgetNodeId;
+  token: TokenId;
 
   /* widget only */
   preload: string; // if there is no module but we need to load entities

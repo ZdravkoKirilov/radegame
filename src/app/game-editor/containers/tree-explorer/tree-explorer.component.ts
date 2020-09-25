@@ -1,17 +1,26 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { AppState } from '@app/core';
-import { Module, ALL_ENTITIES, Setup, ImageAsset, Token, AllEntity, GameEntity, EntityId } from '@app/game-mechanics';
-import { getItems, DeleteSetup, DeleteModule, DeleteItemAction, SaveItemAction } from '../../state';
+import {
+  Module, ALL_ENTITIES, ImageAsset, Token, AllEntity, GameEntity, EntityId, Sandbox, Style, Text, Shape, Sound, Sonata,
+  Animation, Transition, Widget, Expression, ModuleId
+} from '@app/game-mechanics';
+import { AutoUnsubscribe } from '@app/shared';
+
+import {
+  getItems, DeleteModule, DeleteItemAction, SaveItemAction, selectModuleId, selectEntityId, getEntityType, getNestedEntityType,
+  selectNestedEntityId
+} from '../../state';
+import { map } from 'rxjs/operators';
 
 type DeletePayload = Partial<{
-  setup: Setup,
   module: Module,
   entityType: AllEntity,
   entity: GameEntity,
+  sandbox: Sandbox;
   nestedEntityType: 'frames' | 'texts',
   nestedEntity: { id: EntityId },
 }>;
@@ -20,32 +29,84 @@ type DeletePayload = Partial<{
   templateUrl: './tree-explorer.component.html',
   styleUrls: ['./tree-explorer.component.scss']
 })
+@AutoUnsubscribe()
 export class TreeExplorerComponent implements OnInit {
 
   constructor(private store: Store<AppState>, public dialog: MatDialog) { }
 
+  openedPanels = new Set<string>();
+
   modules$: Observable<Module[]>;
-  setups$: Observable<Setup[]>;
   images$: Observable<ImageAsset[]>;
   tokens$: Observable<Token[]>;
+  sandboxes$: Observable<Sandbox[]>;
+  styles$: Observable<Style[]>;
+  shapes$: Observable<Shape[]>;
+  texts$: Observable<Text[]>;
+  sounds$: Observable<Sound[]>;
+  sonatas$: Observable<Sonata[]>;
+  animations$: Observable<Animation[]>;
+  transitions$: Observable<Transition[]>;
+  widgets$: Observable<Widget[]>;
+  expressions$: Observable<Expression[]>;
+
+  activePanel$: Subscription;
+
+  moduleId: ModuleId;
+  entityId: EntityId;
+  entityType: AllEntity;
+  nestedEntityType: 'texts' | 'frames';
+  nestedEntityId: EntityId;
 
   dialogRef: MatDialogRef<any>;
   @ViewChild('confirmDelete') public confirm: TemplateRef<any>;
 
   ngOnInit() {
-    this.modules$ = this.store.pipe(select(getItems<Module>(ALL_ENTITIES.modules)));
-    this.setups$ = this.store.pipe(select(getItems<Setup>(ALL_ENTITIES.setups)));
-    this.images$ = this.store.pipe(select(getItems<ImageAsset>(ALL_ENTITIES.images)));
-    this.tokens$ = this.store.pipe(select(getItems<Token>(ALL_ENTITIES.tokens)));
+    this.modules$ = this.store.pipe(select(getItems(ALL_ENTITIES.modules)));
+    this.images$ = this.store.pipe(select(getItems(ALL_ENTITIES.images)));
+    this.tokens$ = this.store.pipe(select(getItems(ALL_ENTITIES.tokens)));
+    this.sandboxes$ = this.store.select(getItems(ALL_ENTITIES.sandboxes));
+    this.styles$ = this.store.select(getItems(ALL_ENTITIES.styles));
+    this.shapes$ = this.store.select(getItems(ALL_ENTITIES.shapes));
+    this.texts$ = this.store.select(getItems(ALL_ENTITIES.texts));
+    this.sounds$ = this.store.select(getItems(ALL_ENTITIES.sounds));
+    this.sonatas$ = this.store.select(getItems(ALL_ENTITIES.sonatas));
+    this.animations$ = this.store.select(getItems(ALL_ENTITIES.animations));
+    this.transitions$ = this.store.select(getItems(ALL_ENTITIES.transitions));
+    this.widgets$ = this.store.select(getItems(ALL_ENTITIES.widgets));
+    this.expressions$ = this.store.select(getItems(ALL_ENTITIES.expressions));
+
+    this.activePanel$ = combineLatest([
+      this.store.pipe(select(selectModuleId)),
+      this.store.pipe(select(selectEntityId)),
+      this.store.pipe(select(getEntityType)),
+      this.store.pipe(select(getNestedEntityType)),
+    ]).pipe(
+      map(([moduleId, entityId, entityType, nestedEntityType]) => {
+        if (moduleId) {
+          this.openedPanels.add(`modules_${moduleId}`);
+        }
+        if (entityType) {
+          this.openedPanels.add(`modules_${moduleId}_${entityType}`);
+        }
+        if (entityType && entityId) {
+          this.openedPanels.add(`modules_${moduleId}_${entityType}_${entityId}`);
+        }
+        if (nestedEntityType) {
+          this.openedPanels.add(`modules_${moduleId}_${entityType}_${entityId}_${nestedEntityType}`);
+        }
+
+      })
+    ).subscribe();
+
+  }
+
+  isPanelOpen(panelId: string): boolean {
+    return this.openedPanels.has(panelId);
   }
 
   stopPropagation(event: MouseEvent) {
     event.stopPropagation();
-  }
-
-  deleteSetup(event: MouseEvent, setup: Setup) {
-    this.stopPropagation(event);
-    this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { setup } });
   }
 
   deleteModule(event: MouseEvent, module: Module) {
@@ -63,12 +124,13 @@ export class TreeExplorerComponent implements OnInit {
     this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { entityType, entity, nestedEntity, nestedEntityType } });
   }
 
-  onConfirmDelete({ setup, module, entityType, entity, nestedEntity, nestedEntityType }: DeletePayload) {
+  deleteSandbox(event: MouseEvent, sandbox: Sandbox) {
+    this.stopPropagation(event);
+    this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { sandbox } });
+  }
 
-    if (setup) {
-      this.dialogRef.close();
-      return this.store.dispatch(new DeleteSetup({ setup }));
-    }
+  onConfirmDelete({ module, entityType, entity, nestedEntity, nestedEntityType, sandbox }: DeletePayload) {
+
     if (module) {
       this.dialogRef.close();
       return this.store.dispatch(new DeleteModule({ module }));
@@ -84,6 +146,10 @@ export class TreeExplorerComponent implements OnInit {
     if (entityType && entity) {
       this.dialogRef.close();
       return this.store.dispatch(new DeleteItemAction({ key: entityType, data: entity }));
+    }
+    if (sandbox) {
+      this.dialogRef.close();
+      return this.store.dispatch(new DeleteItemAction({ key: ALL_ENTITIES.sandboxes, data: sandbox }));
     }
   }
 

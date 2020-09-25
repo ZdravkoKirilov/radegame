@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { GameEntity, ModuleId } from '@app/game-mechanics';
+import { ModuleId } from '@app/game-mechanics';
 
 @Pipe({ name: 'forModule' })
 export class ModulePipe implements PipeTransform {

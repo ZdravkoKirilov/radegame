@@ -3,6 +3,42 @@
   flex-direction: column;
 
   .section-title {
-    
+    display: flex;
+    align-items: center;;
+  }
+
+  .folder-icons {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+  }
+
+  .add-module {
+    margin-left: 20px;
+    margin-top: 20px;
+    mat-icon {
+      margin-right: 5px;
+    }
+  }
+
+  .module-item {
+    margin: 0;
+  }
+
+  .list-item {
+    margin: 0 0 0 20px;
+
+    .header {
+      display: flex;
+      align-items: center;
+      mat-icon {
+        margin-right: 5px;
+      }
+    }
+  }
+
+
+  mat-expansion-panel {
+    box-shadow: none;
   }
 }

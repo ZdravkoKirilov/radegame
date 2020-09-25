@@ -1,9 +1,9 @@
 import { Nominal } from 'simplytyped';
 
-import { BaseModel } from "./Base.model";
+import { BaseModel, WithModule } from "./Base.model";
 
 export type SoundId = Nominal<string, 'SoundId'>;
 
-export type Sound = BaseModel<SoundId> & Partial<{
+export type Sound = BaseModel<SoundId> & WithModule & Partial<{
     file: string;
 }>

@@ -159,7 +159,11 @@ export class GameEditService {
     const options = { headers: new HttpHeaders({}) };
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.IMAGES(data.game, data.id), formData, options);
+      if (typeof data.image === 'string') {
+        return this.http.patch(EDITOR_URLS.IMAGES(data.game, data.id), data);
+      } else {
+        return this.http.patch(EDITOR_URLS.IMAGES(data.game, data.id), formData, options);
+      }
     } else {
       return this.http.post(EDITOR_URLS.IMAGES(data.game), formData, options);
     }

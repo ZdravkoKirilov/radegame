@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Subscription, combineLatest } from 'rxjs';
-import { map, filter } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Actions, ofType } from '@ngrx/effects';
 
-import { Sandbox, ExpressionContext, Widget, RuntimeSandbox, SandboxType, WidgetNode, Module, AllEntity, ALL_ENTITIES } from '@app/game-mechanics';
+import { Sandbox, ExpressionContext, Widget, RuntimeSandbox, SandboxType, WidgetNode, Module, AllEntity, ALL_ENTITIES, GameId } from '@app/game-mechanics';
 import { FormDefinition } from '@app/dynamic-forms';
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, OnChange, selectRouteData, selectGameId } from '@app/shared';
 
-import { composeSandboxLimitedForm } from '../../forms';
-import { getActiveWidget, getActiveNode, getActiveModule, getActiveSandbox, FetchItemsAction, selectSandboxExpressionContext } from '../../state';
+import { composeSandboxForm } from '../../forms';
+import { getActiveWidget, getActiveNode, getActiveModule, getActiveSandbox, FetchItemsAction, selectSandboxExpressionContext, SaveItemAction, SetItemAction, genericActionTypes } from '../../state';
 
 @AutoUnsubscribe()
 @Component({
@@ -17,7 +19,7 @@ import { getActiveWidget, getActiveNode, getActiveModule, getActiveSandbox, Fetc
   template: `
   <ng-container *ngIf="savedSandbox">
     <header>
-      <rg-test-board-header (onRun)="handleRun()" (onApply)="handleApply()" (onSave)="handleSave()" (onDelete)="handleDelete()">
+      <rg-test-board-header (onRun)="handleRun()" (onApply)="handleApply()" (onSave)="handleSave()" (onDelete)="handleClose()">
       </rg-test-board-header>
     </header>
     <rg-test-board-state [formDefinition]="form" [initialSandbox]="savedSandbox" (onChange)="handleSandboxChange($event)">
@@ -53,10 +55,11 @@ import { getActiveWidget, getActiveNode, getActiveModule, getActiveSandbox, Fetc
 export class TestBoardContainerComponent implements OnInit {
   data$: Subscription;
   gameId$: Subscription;
+  onEntityCreated$: Subscription;
 
   sandboxType: SandboxType;
 
-  form: FormDefinition = composeSandboxLimitedForm;
+  form: FormDefinition = composeSandboxForm;
   savedSandbox: Sandbox;
 
   @OnChange<Sandbox>(function (sandbox) {
@@ -71,15 +74,17 @@ export class TestBoardContainerComponent implements OnInit {
   widget: Widget;
   node: WidgetNode;
   module: Module;
+  gameId: GameId;
 
   updateId = 0;
   rerunId = 0;
 
-  constructor(private store: Store<AppState>) { }
+  constructor(private store: Store<AppState>, private router: Router, private route: ActivatedRoute, private actions$: Actions) { }
 
   ngOnInit(): void {
 
     this.data$ = combineLatest(
+      this.store.pipe(select(selectGameId)),
       this.store.pipe(select(getActiveWidget)),
       this.store.pipe(select(getActiveNode)),
       this.store.pipe(select(getActiveModule)),
@@ -87,16 +92,22 @@ export class TestBoardContainerComponent implements OnInit {
       this.store.pipe(map(state => selectSandboxExpressionContext(state))),
       this.store.pipe(select(selectRouteData), map(data => data.sandbox_type))
     ).pipe(
-      filter(([widget, node, module, sandbox, context]) => {
-        return (widget || node || module || sandbox) && !!context;
-      }),
-      map(([widget, node, module, sandbox, context, sandboxType]) => {
+      map(([gameId, widget, node, module, sandbox, context, sandboxType]) => {
+
         this.context = context;
         this.widget = sandboxType === SandboxType.widget ? widget : null;
         this.node = node;
         this.module = module;
+        this.gameId = gameId;
 
-        this.savedSandbox = { ...(sandbox || {}) };
+        this.savedSandbox = {
+          ...(sandbox || {
+            game: this.gameId,
+            module: this.module?.id,
+            widget: this.widget?.id,
+            node: this.node?.id,
+          })
+        };
         this.draftSandbox = { ...this.savedSandbox };
       })
     ).subscribe();
@@ -105,9 +116,16 @@ export class TestBoardContainerComponent implements OnInit {
       select(selectGameId),
       map(gameId => {
         this.store.dispatch(
-          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: {gameId} })
+          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: { gameId } })
         );
       }),
+    ).subscribe();
+
+    this.onEntityCreated$ = this.actions$.pipe(
+      ofType<SetItemAction<Sandbox>>(genericActionTypes.SET_ITEM),
+      map(action => {
+        this.router.navigate(['../', action.payload.data.id], { relativeTo: this.route });
+      })
     ).subscribe();
   }
 
@@ -131,10 +149,20 @@ export class TestBoardContainerComponent implements OnInit {
   }
 
   handleSave() {
-    debugger;
+    this.store.dispatch(new SaveItemAction({
+      key: ALL_ENTITIES.sandboxes,
+      data: {
+        ...this.draftSandbox,
+        game: this.gameId,
+        module: this.module?.id,
+        widget: this.widget?.id,
+        node: this.node?.id,
+      }
+    }));
   }
-  handleDelete() {
-    debugger;
+
+  handleClose() {
+
   }
 
 }

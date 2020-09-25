@@ -16,6 +16,7 @@ export function editorMetaReducer(anyReducer: ActionReducer<any>) {
         return {
           ...state,
           form: {
+            ...state.form,
             ...updatedForm
           }
         };

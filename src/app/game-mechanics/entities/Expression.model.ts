@@ -3,13 +3,13 @@ import { Omit, Nominal } from 'simplytyped';
 import { GenericEvent, StatefulComponent, DidUpdatePayload } from "@app/render-kit";
 import { GenericSubscription } from "@app/shared";
 
-import { BaseModel } from "./Base.model";
+import { BaseModel, WithModule } from "./Base.model";
 import { Sonata } from "./Sonata.model";
 import { RuntimeWidgetNode } from "./WidgetNode.model";
 
 export type ExpressionId = Nominal<string, 'ExpressionId'>;
 
-export type Expression = BaseModel<ExpressionId> & Partial<{
+export type Expression = BaseModel<ExpressionId> & WithModule & Partial<{
     code: string;
 }>
 
