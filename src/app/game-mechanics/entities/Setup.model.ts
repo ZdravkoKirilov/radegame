@@ -3,7 +3,7 @@ import { Nominal } from 'simplytyped';
 import { Omit } from '@app/shared';
 
 import { BaseModel } from "./Base.model";
-import { GameLanguage, ExpressionContext } from "../models";
+import { ExpressionContext } from "../models";
 import { ExpressionFunc } from "./Expression.model";
 import { enrichEntity, parseAndBind } from "../helpers";
 
@@ -15,7 +15,6 @@ export type Setup = BaseModel<SetupId> & {
   max_players: number;
   recommended_age: number;
 
-  languages: GameLanguage[];
   get_active_module: string;
   get_active_language: string;
 };

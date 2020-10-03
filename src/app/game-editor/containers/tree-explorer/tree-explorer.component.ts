@@ -6,13 +6,12 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AppState } from '@app/core';
 import {
   Module, ALL_ENTITIES, ImageAsset, Token, AllEntity, GameEntity, EntityId, Sandbox, Style, Text, Shape, Sound, Sonata,
-  Animation, Widget, Expression, ModuleId
+  Animation, Widget, Expression, ModuleId, WidgetNode, NodeHandler, NodeLifecycle
 } from '@app/game-mechanics';
 import { AutoUnsubscribe } from '@app/shared';
 
 import {
-  getItems, DeleteModule, DeleteItemAction, SaveItemAction, selectModuleId, selectEntityId, getEntityType, getNestedEntityType,
-  selectNestedEntityId
+  getItems, DeleteModule, DeleteItemAction, SaveItemAction, selectModuleId, selectEntityId, getEntityType, getNestedEntityType, getActiveNode, getActiveHandler, getActiveLifecycle
 } from '../../state';
 import { map } from 'rxjs/operators';
 
@@ -79,22 +78,29 @@ export class TreeExplorerComponent implements OnInit {
       this.store.pipe(select(selectEntityId)),
       this.store.pipe(select(getEntityType)),
       this.store.pipe(select(getNestedEntityType)),
+      this.store.select(getActiveNode),
+      this.store.select(getActiveHandler),
+      this.store.select(getActiveLifecycle),
     ]).pipe(
-      map(([moduleId, entityId, entityType, nestedEntityType]) => {
-        if (moduleId) {
-          this.openedPanels.add(`modules_${moduleId}`);
-        }
-        if (entityType) {
-          this.openedPanels.add(`modules_${moduleId}_${entityType}`);
-        }
-        if (entityType && entityId) {
-          this.openedPanels.add(`modules_${moduleId}_${entityType}_${entityId}`);
-        }
-        if (nestedEntityType) {
-          this.openedPanels.add(`modules_${moduleId}_${entityType}_${entityId}_${nestedEntityType}`);
-        }
+      map<[ModuleId, EntityId, AllEntity, any, WidgetNode, NodeHandler, NodeLifecycle], any>(
+        ([moduleId, entityId, entityType, nestedEntityType, node, handler, lifecycle]) => {
 
-      })
+          if (moduleId) {
+            this.openedPanels.add(`modules_${moduleId}`);
+          }
+          if (entityType) {
+            this.openedPanels.add(`modules_${moduleId}_${entityType}`);
+          }
+          if (entityType && entityId) {
+            this.openedPanels.add(`modules_${moduleId}_${entityType}_${entityId}`);
+          }
+          if (nestedEntityType) {
+            this.openedPanels.add(`modules_${moduleId}_${entityType}_${entityId}_${nestedEntityType}`);
+          }
+          if (node) {
+            this.openedPanels.add(`nodes_${node.id}`);
+          }
+        })
     ).subscribe();
 
   }

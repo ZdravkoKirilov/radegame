@@ -79,7 +79,10 @@ export type RuntimeWidgetNode = Omit<WidgetNode, 'board' | 'style' | 'style_inli
   pass_to_children: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, any>;
 };
 
+export type NodeHandlerId = Nominal<string, "NodeHandlerId">;
+
 export type NodeHandler = {
+  id: NodeHandlerId;
   owner: number;
 
   type: RzEventTypes;
@@ -103,9 +106,12 @@ export type RuntimeNodeHandler = Omit<NodeHandler, 'effect' | 'sound' | 'static_
   effect: EventHandlingExpressionFunc;
   sound: SonataGetterFunc;
   static_sound: Sonata;
-};
+}
+
+export type NodeLifecycleId = Nominal<string, "NodeLifecycleId">;
 
 export type NodeLifecycle = {
+  id: NodeLifecycleId;
   owner: number;
   type: NODE_LIFECYCLES;
 

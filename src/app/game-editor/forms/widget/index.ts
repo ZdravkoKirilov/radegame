@@ -1,4 +1,4 @@
-import { Widget, GameEntity } from '@app/game-mechanics';
+import { Widget } from '@app/game-mechanics';
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
 
 import {

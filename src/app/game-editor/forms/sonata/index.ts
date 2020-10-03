@@ -1,15 +1,15 @@
 import {
-    BaseControl,
-    FormDefinition, ConnectedEntities, parse
+  BaseControl,
+  FormDefinition, ConnectedEntities, parse
 } from '@app/dynamic-forms';
-import { Sonata, SONATA_PLAY_TYPE } from '@app/game-mechanics';
+import { Sonata, SonataStep, SONATA_PLAY_TYPE } from '@app/game-mechanics';
 import { composeCommonFormContext, composeFromObject, baseTemplate } from '../helpers';
 
 export const composeSonataForm: FormDefinition = (data: Sonata, ent?: ConnectedEntities) => {
-    data = data || {};
-    const steps = data.steps || [];
+  data = data || {};
+  const steps = data.steps || [];
 
-    const template = `
+  const template = `
     <Form>
         ${baseTemplate}
 
@@ -19,43 +19,60 @@ export const composeSonataForm: FormDefinition = (data: Sonata, ent?: ConnectedE
             {data.loop}
         </ButtonGroup>
 
-        <Group name='steps' label='Steps' children='{steps}' item='@item' addButtonText='Add'>
-            <Form>
-                <NumberInput name='id' hidden='{true}'>{@item.id}</NumberInput>
+    </Form>
+    `;
 
-                <Dropdown name='sound' label='Sound' options='{sound_options}'>
-                    {@item.sound}
-                </Dropdown>
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      data, steps,
+      types: composeFromObject(SONATA_PLAY_TYPE),
+    }
+  }, true) as BaseControl[];
 
-                <ButtonGroup name='loop' label='Loop' options='{boolean_options}' defaultValue='{false}'>
-                    {@item.loop}
-                </ButtonGroup>
+  return result;
+};
 
-                <NumberInput name='rate' label='Rate'>{@item.rate}</NumberInput>
+export const composeSonataStepForm = (data: SonataStep, ent?: ConnectedEntities) => {
+  data = data || {};
 
-                <NumberInput name='volume' label='Volume'>{@item.volume}</NumberInput>
+  const template = `
+    <Form>
+       
+        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
 
-                <NumberInput name='fade_from' label='Fade from'>{@item.fade_from}</NumberInput>
+        <TextInput name='name' label='Name'>{data.name}</TextInput>
 
-                <NumberInput name='fade_to' label='Fade to'>{@item.fade_to}</NumberInput>
+        <Dropdown name='sound' label='Sound' options='{sound_options}'>
+            {data.sound}
+        </Dropdown>
 
-                <NumberInput name='fade_duration' label='Fade duration'>{@item.fade_duration}</NumberInput>
+        <ButtonGroup name='loop' label='Loop' options='{boolean_options}' defaultValue='{false}'>
+            {data.loop}
+        </ButtonGroup>
 
-            </Form>
-        </Group>
+        <NumberInput name='rate' label='Rate'>{data.rate}</NumberInput>
+
+        <NumberInput name='volume' label='Volume'>{data.volume}</NumberInput>
+
+        <NumberInput name='fade_from' label='Fade from'>{data.fade_from}</NumberInput>
+
+        <NumberInput name='fade_to' label='Fade to'>{data.fade_to}</NumberInput>
+
+        <NumberInput name='fade_duration' label='Fade duration'>{data.fade_duration}</NumberInput>
 
     </Form>
     `;
 
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            data, steps,
-            types: composeFromObject(SONATA_PLAY_TYPE),
-        }
-    }, true) as BaseControl[];
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      data
+    }
+  }, true) as BaseControl[];
 
-    return result;
+  return result;
 };
 

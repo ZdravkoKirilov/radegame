@@ -9,7 +9,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { AppState } from '@app/core';
 import { GameId, VersionId, GameEntity, ModuleId, EntityId, AllEntity } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
-import { selectGameId, selectVersionId } from '@app/shared';
+import { AutoUnsubscribe, selectGameId, selectVersionId } from '@app/shared';
 
 import { getEntityForm, getEntities, SetItemAction, genericActionTypes, selectModuleId, getEntityByIdAndType, selectEntityId, getEntityType, SaveItemAction, RemoveItemAction } from '../../state';
 
@@ -18,6 +18,7 @@ import { getEntityForm, getEntities, SetItemAction, genericActionTypes, selectMo
   templateUrl: './entity-editor-container.component.html',
   styleUrls: ['./entity-editor-container.component.scss']
 })
+@AutoUnsubscribe()
 export class EntityEditorContainerComponent implements OnInit {
 
   constructor(public store: Store<AppState>, private cd: ChangeDetectorRef, private router: Router, private route: ActivatedRoute, private actions$: Actions) { }

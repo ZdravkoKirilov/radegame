@@ -62,6 +62,8 @@ export type AnimationStep = Partial<{
   id: number;
   owner: AnimationId;
 
+  name: string;
+
   from_value: string; // this is the place for dynamic styles as well, but also arbitrary values not part of RzStyle
   to_value: string;
 

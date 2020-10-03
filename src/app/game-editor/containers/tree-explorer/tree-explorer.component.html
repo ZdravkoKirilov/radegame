@@ -252,6 +252,198 @@
 
       </mat-expansion-panel>
 
+      <!-- Sonatas -->
+      <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
+        [expanded]="isPanelOpen('modules_' + module.id + '_' + 'sonatas' )" #sonatasPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="folder-icons">
+              <mat-icon *ngIf="!sonatasPanel.expanded">folder</mat-icon>
+              <mat-icon *ngIf="sonatasPanel.expanded">folder_open</mat-icon>
+            </span>
+            <span class="section-title">Sonatas</span>
+            <a (click)="stopPropagation($event)" [routerLink]="['modules', module.id, 'sonatas', 'add' ]"
+              mat-icon-button>
+              <mat-icon>add</mat-icon>
+            </a>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+
+          <p *ngFor="let sonata of sonatas$ | async | forModule:module.id" class="list-item">
+            <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #sonatasPanel
+              [expanded]="isPanelOpen('modules_' + module.id + '_sonatas_' + sonata.id )">
+              <mat-expansion-panel-header>
+                <span class="header">
+                  <span class="folder-icons">
+                    <mat-icon *ngIf="!sonatasPanel.expanded">folder</mat-icon>
+                    <mat-icon *ngIf="sonatasPanel.expanded">folder_open</mat-icon>
+                  </span>
+                  <mat-icon aria-hidden="true">graphic_eq</mat-icon>
+                  <span>{{sonata.name}}</span>
+                  <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                </span>
+
+                <mat-menu #menu="matMenu">
+                  <a [routerLink]="['modules', module.id, 'sonatas', sonata.id]" mat-menu-item>
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </a>
+
+                  <button mat-menu-item (click)="deleteEntity($event, 'sonatas', sonata)">
+                    <mat-icon>close</mat-icon>
+                    <span>Remove</span>
+                  </button>
+                </mat-menu>
+              </mat-expansion-panel-header>
+
+              <!-- Steps -->
+              <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #sonataStepPanel
+                [expanded]="isPanelOpen('modules_' + module.id + '_sonatas_' + sonata.id + '_steps' )">
+                <mat-expansion-panel-header>
+
+                  <mat-panel-title>
+                    <span class="folder-icons">
+                      <mat-icon *ngIf="!sonataStepPanel.expanded">folder</mat-icon>
+                      <mat-icon *ngIf="sonataStepPanel.expanded">folder_open</mat-icon>
+                    </span>
+                    <span class="section-title">Steps</span>
+                    <a (click)="stopPropagation($event)"
+                      [routerLink]="['modules', module.id, 'sonatas', sonata.id, 'steps', 'add']" mat-icon-button>
+                      <mat-icon>add</mat-icon>
+                    </a>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <p *ngFor="let step of sonata.steps" class="list-item">
+                  <span class="header">
+                    <mat-icon aria-hidden="true" fontSet="fa" fontIcon="fa-step-forward"></mat-icon>
+                    <span>{{step.name}}</span>
+                    <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                  </span>
+
+                  <mat-menu #menu="matMenu">
+                    <a [routerLink]="['modules', module.id, 'sonatas', sonata.id, 'steps', step.id]" mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      <span>Edit</span>
+                    </a>
+
+                    <button mat-menu-item (click)="deleteEntity($event, 'sonatas', sonata, 'steps', step)">
+                      <mat-icon>close</mat-icon>
+                      <span>Remove</span>
+                    </button>
+                  </mat-menu>
+                </p>
+              </mat-expansion-panel>
+
+            </mat-expansion-panel>
+
+          </p>
+        </ng-template>
+
+      </mat-expansion-panel>
+
+      <!-- Texts -->
+      <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
+        [expanded]="isPanelOpen('modules_' + module.id + '_' + 'texts' )" #textsPanel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            <span class="folder-icons">
+              <mat-icon *ngIf="!textsPanel.expanded">folder</mat-icon>
+              <mat-icon *ngIf="textsPanel.expanded">folder_open</mat-icon>
+            </span>
+            <span class="section-title">Texts</span>
+            <a (click)="stopPropagation($event)" [routerLink]="['modules', module.id, 'texts', 'add' ]" mat-icon-button>
+              <mat-icon>add</mat-icon>
+            </a>
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <ng-template matExpansionPanelContent>
+          <p *ngFor="let text of texts$ | async | filterBy:{module: module.id}" class="list-item">
+
+            <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #textsPanel
+              [expanded]="isPanelOpen('modules_' + module.id + '_texts_' + text.id )">
+              <mat-expansion-panel-header>
+                <span class="header">
+                  <span class="folder-icons">
+                    <mat-icon *ngIf="!textsPanel.expanded">folder</mat-icon>
+                    <mat-icon *ngIf="textsPanel.expanded">folder_open</mat-icon>
+                  </span>
+                  <mat-icon aria-hidden="true">title</mat-icon>
+                  <span>{{text.name}}</span>
+                  <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                </span>
+
+                <mat-menu #menu="matMenu">
+                  <a [routerLink]="['modules', module.id, 'texts', text.id]" mat-menu-item>
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </a>
+
+                  <button mat-menu-item (click)="deleteEntity($event, 'texts', text)">
+                    <mat-icon>close</mat-icon>
+                    <span>Remove</span>
+                  </button>
+                </mat-menu>
+              </mat-expansion-panel-header>
+
+              <!-- Translations -->
+              <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #translationPanel
+                [expanded]="isPanelOpen('modules_' + module.id + '_texts_' + text.id + '_translations' )">
+                <mat-expansion-panel-header>
+
+                  <mat-panel-title>
+                    <span class="folder-icons">
+                      <mat-icon *ngIf="!translationPanel.expanded">folder</mat-icon>
+                      <mat-icon *ngIf="translationPanel.expanded">folder_open</mat-icon>
+                    </span>
+                    <span class="section-title">Translations</span>
+                    <a (click)="stopPropagation($event)"
+                      [routerLink]="['modules', module.id, 'texts', text.id, 'translations', 'add']" mat-icon-button>
+                      <mat-icon>add</mat-icon>
+                    </a>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <p *ngFor="let translation of text.translations" class="list-item">
+                  <span class="header">
+                    <mat-icon aria-hidden="true">translate</mat-icon>
+                    <span>{{translation.value}}</span>
+                    <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                  </span>
+
+                  <mat-menu #menu="matMenu">
+                    <a [routerLink]="['modules', module.id, 'texts', text.id, 'translations', translation.id]"
+                      mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      <span>Edit</span>
+                    </a>
+
+                    <button mat-menu-item (click)="deleteEntity($event, 'texts', text, 'translations', translation)">
+                      <mat-icon>close</mat-icon>
+                      <span>Remove</span>
+                    </button>
+                  </mat-menu>
+                </p>
+              </mat-expansion-panel>
+
+            </mat-expansion-panel>
+
+          </p>
+        </ng-template>
+
+      </mat-expansion-panel>
+
       <!-- Sounds -->
       <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
         [expanded]="isPanelOpen('modules_' + module.id + '_' + 'sounds' )" #soundsPanel>
@@ -424,91 +616,6 @@
 
       </mat-expansion-panel>
 
-      <!-- Sonatas -->
-      <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
-        [expanded]="isPanelOpen('modules_' + module.id + '_' + 'sonatas' )" #sonatasPanel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span class="folder-icons">
-              <mat-icon *ngIf="!sonatasPanel.expanded">folder</mat-icon>
-              <mat-icon *ngIf="sonatasPanel.expanded">folder_open</mat-icon>
-            </span>
-            <span class="section-title">Sonatas</span>
-            <a (click)="stopPropagation($event)" [routerLink]="['modules', module.id, 'sonatas', 'add' ]"
-              mat-icon-button>
-              <mat-icon>add</mat-icon>
-            </a>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <ng-template matExpansionPanelContent>
-          <p *ngFor="let sonata of sonatas$ | async | filterBy:{module: module.id}" class="list-item">
-            <span class="header">
-              <mat-icon aria-hidden="true">graphic_eq</mat-icon>
-              <span>{{sonata.name}}</span>
-              <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-            </span>
-
-            <mat-menu #menu="matMenu">
-              <a [routerLink]="['modules', module.id, 'sonatas', sonata.id]" mat-menu-item>
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </a>
-
-              <button mat-menu-item (click)="deleteEntity($event, 'sonatas', sonata)">
-                <mat-icon>close</mat-icon>
-                <span>Remove</span>
-              </button>
-            </mat-menu>
-          </p>
-        </ng-template>
-
-      </mat-expansion-panel>
-
-      <!-- Texts -->
-      <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
-        [expanded]="isPanelOpen('modules_' + module.id + '_' + 'texts' )" #textsPanel>
-        <mat-expansion-panel-header>
-          <mat-panel-title>
-            <span class="folder-icons">
-              <mat-icon *ngIf="!textsPanel.expanded">folder</mat-icon>
-              <mat-icon *ngIf="textsPanel.expanded">folder_open</mat-icon>
-            </span>
-            <span class="section-title">Texts</span>
-            <a (click)="stopPropagation($event)" [routerLink]="['modules', module.id, 'texts', 'add' ]" mat-icon-button>
-              <mat-icon>add</mat-icon>
-            </a>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <ng-template matExpansionPanelContent>
-          <p *ngFor="let text of texts$ | async | filterBy:{module: module.id}" class="list-item">
-            <span class="header">
-              <mat-icon aria-hidden="true">title</mat-icon>
-              <span>{{text.name}}</span>
-              <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-            </span>
-
-            <mat-menu #menu="matMenu">
-              <a [routerLink]="['modules', module.id, 'texts', text.id]" mat-menu-item>
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </a>
-
-              <button mat-menu-item (click)="deleteEntity($event, 'texts', text)">
-                <mat-icon>close</mat-icon>
-                <span>Remove</span>
-              </button>
-            </mat-menu>
-          </p>
-        </ng-template>
-
-      </mat-expansion-panel>
-
       <!-- Animations -->
       <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
         [expanded]="isPanelOpen('modules_' + module.id + '_' + 'animations' )" #animationsPanel>
@@ -528,25 +635,79 @@
 
         <ng-template matExpansionPanelContent>
           <p *ngFor="let animation of animations$ | async | filterBy:{module: module.id}" class="list-item">
-            <span class="header">
-              <mat-icon aria-hidden="true">gesture</mat-icon>
-              <span>{{animation.name}}</span>
-              <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-            </span>
 
-            <mat-menu #menu="matMenu">
-              <a [routerLink]="['modules', module.id, 'animations', animation.id]" mat-menu-item>
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </a>
+            <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #animationsPanel
+              [expanded]="isPanelOpen('modules_' + module.id + '_animations_' + animation.id )">
+              <mat-expansion-panel-header>
+                <span class="header">
+                  <span class="folder-icons">
+                    <mat-icon *ngIf="!animationsPanel.expanded">folder</mat-icon>
+                    <mat-icon *ngIf="animationsPanel.expanded">folder_open</mat-icon>
+                  </span>
+                  <mat-icon aria-hidden="true">toys</mat-icon>
+                  <span>{{animation.name}}</span>
+                  <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                </span>
 
-              <button mat-menu-item (click)="deleteEntity($event, 'animations', animation)">
-                <mat-icon>close</mat-icon>
-                <span>Remove</span>
-              </button>
-            </mat-menu>
+                <mat-menu #menu="matMenu">
+                  <a [routerLink]="['modules', module.id, 'animations', animation.id]" mat-menu-item>
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </a>
+
+                  <button mat-menu-item (click)="deleteEntity($event, 'animations', animation)">
+                    <mat-icon>close</mat-icon>
+                    <span>Remove</span>
+                  </button>
+                </mat-menu>
+              </mat-expansion-panel-header>
+
+              <!-- Step -->
+              <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #animationStepPanel
+                [expanded]="isPanelOpen('modules_' + module.id + '_animations_' + animation.id + '_steps' )">
+                <mat-expansion-panel-header>
+
+                  <mat-panel-title>
+                    <span class="folder-icons">
+                      <mat-icon *ngIf="!animationStepPanel.expanded">folder</mat-icon>
+                      <mat-icon *ngIf="animationStepPanel.expanded">folder_open</mat-icon>
+                    </span>
+                    <span class="section-title">Steps</span>
+                    <a (click)="stopPropagation($event)"
+                      [routerLink]="['modules', module.id, 'animations', animation.id, 'steps', 'add']" mat-icon-button>
+                      <mat-icon>add</mat-icon>
+                    </a>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <p *ngFor="let step of animation.steps" class="list-item">
+                  <span class="header">
+                    <mat-icon aria-hidden="true" fontSet="fa" fontIcon="fa-step-forward"></mat-icon>
+                    <span>{{step.name}}</span>
+                    <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
+                      <mat-icon>more_vert</mat-icon>
+                    </button>
+                  </span>
+
+                  <mat-menu #menu="matMenu">
+                    <a [routerLink]="['modules', module.id, 'animations', animation.id, 'steps', step.id]"
+                      mat-menu-item>
+                      <mat-icon>edit</mat-icon>
+                      <span>Edit</span>
+                    </a>
+
+                    <button mat-menu-item (click)="deleteEntity($event, 'animations', animation, 'steps', step)">
+                      <mat-icon>close</mat-icon>
+                      <span>Remove</span>
+                    </button>
+                  </mat-menu>
+                </p>
+              </mat-expansion-panel>
+
+            </mat-expansion-panel>
+
           </p>
         </ng-template>
 
@@ -571,25 +732,130 @@
 
         <ng-template matExpansionPanelContent>
           <p *ngFor="let widget of widgets$ | async | filterBy:{module: module.id}" class="list-item">
-            <span class="header">
-              <mat-icon aria-hidden="true">widgets</mat-icon>
-              <span>{{widget.name}}</span>
-              <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-            </span>
 
-            <mat-menu #menu="matMenu">
-              <a [routerLink]="['modules', module.id, 'widgets', widget.id]" mat-menu-item>
-                <mat-icon>edit</mat-icon>
-                <span>Edit</span>
-              </a>
+            <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #widgetsPanel
+              [expanded]="isPanelOpen('modules_' + module.id + '_widgets_' + widget.id )">
+              <mat-expansion-panel-header>
+                <span class="header">
+                  <span class="folder-icons">
+                    <mat-icon *ngIf="!widgetsPanel.expanded">folder</mat-icon>
+                    <mat-icon *ngIf="widgetsPanel.expanded">folder_open</mat-icon>
+                  </span>
+                  <mat-icon aria-hidden="true">widgets</mat-icon>
+                  <span>{{widget.name}}</span>
+                  <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                </span>
 
-              <button mat-menu-item (click)="deleteEntity($event, 'widgets', widget)">
-                <mat-icon>close</mat-icon>
-                <span>Remove</span>
-              </button>
-            </mat-menu>
+                <mat-menu #menu="matMenu">
+                  <a [routerLink]="['modules', module.id, 'widgets', widget.id]" mat-menu-item>
+                    <mat-icon>edit</mat-icon>
+                    <span>Edit</span>
+                  </a>
+
+                  <button mat-menu-item (click)="deleteEntity($event, 'widgets', widget)">
+                    <mat-icon>close</mat-icon>
+                    <span>Remove</span>
+                  </button>
+                </mat-menu>
+              </mat-expansion-panel-header>
+
+              <!-- Nodes -->
+              <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #nodesPanel
+                [expanded]="isPanelOpen('modules_' + module.id + '_widgets_' + widget.id + '_nodes' )">
+                <mat-expansion-panel-header>
+
+                  <mat-panel-title>
+                    <span class="folder-icons">
+                      <mat-icon *ngIf="!nodesPanel.expanded">folder</mat-icon>
+                      <mat-icon *ngIf="nodesPanel.expanded">folder_open</mat-icon>
+                    </span>
+                    <span class="section-title">Nodes</span>
+                    <a (click)="stopPropagation($event)"
+                      [routerLink]="['modules', module.id, 'widgets', widget.id, 'nodes', 'add']" mat-icon-button>
+                      <mat-icon>add</mat-icon>
+                    </a>
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+
+                <p *ngFor="let node of widget.nodes" class="list-item">
+                  <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #nodePanel
+                    [expanded]="isPanelOpen('nodes_' + node.id )">
+                    <mat-expansion-panel-header>
+                      <mat-panel-title>
+                        <span class="header">
+                          <span class="folder-icons">
+                            <mat-icon *ngIf="!nodePanel.expanded">folder</mat-icon>
+                            <mat-icon *ngIf="nodePanel.expanded">folder_open</mat-icon>
+                          </span>
+                          <mat-icon aria-hidden="true" fontSet="fa" fontIcon="fa-leaf"></mat-icon>
+                          <span>{{node.name}}</span>
+                          <button mat-icon-button (click)="stopPropagation($event)" [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                          </button>
+                        </span>
+
+                        <mat-menu #menu="matMenu">
+                          <a [routerLink]="['modules', module.id, 'widgets', widget.id, 'nodes', node.id]"
+                            mat-menu-item>
+                            <mat-icon>edit</mat-icon>
+                            <span>Edit</span>
+                          </a>
+
+                          <button mat-menu-item (click)="deleteEntity($event, 'widgets', widget, 'nodes', node)">
+                            <mat-icon>close</mat-icon>
+                            <span>Remove</span>
+                          </button>
+                        </mat-menu>
+                      </mat-panel-title>
+                    </mat-expansion-panel-header>
+
+                    <!-- Handlers -->
+                    <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #handlersPanel
+                      [expanded]="isPanelOpen('handlers')">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <span class="folder-icons">
+                            <mat-icon *ngIf="!handlersPanel.expanded">folder</mat-icon>
+                            <mat-icon *ngIf="handlersPanel.expanded">folder_open</mat-icon>
+                          </span>
+                          <span class="section-title">Handlers</span>
+                          <a (click)="stopPropagation($event)"
+                            [routerLink]="['modules', module.id, 'widgets', widget.id, 'nodes', node.id, 'handlers', 'add']"
+                            mat-icon-button>
+                            <mat-icon>add</mat-icon>
+                          </a>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                    </mat-expansion-panel>
+
+                    <!-- Lifecycles -->
+                    <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before" #lifecyclesPanel
+                      [expanded]="isPanelOpen('lifecycles')">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                          <span class="folder-icons">
+                            <mat-icon *ngIf="!lifecyclesPanel.expanded">folder</mat-icon>
+                            <mat-icon *ngIf="lifecyclesPanel.expanded">folder_open</mat-icon>
+                          </span>
+                          <span class="section-title">Lifecycles</span>
+                          <a (click)="stopPropagation($event)"
+                            [routerLink]="['modules', module.id, 'widgets', widget.id, 'nodes', node.id, 'lifecycles', 'add']"
+                            mat-icon-button>
+                            <mat-icon>add</mat-icon>
+                          </a>
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                    </mat-expansion-panel>
+
+                  </mat-expansion-panel>
+
+                </p>
+              </mat-expansion-panel>
+
+            </mat-expansion-panel>
+
           </p>
         </ng-template>
 

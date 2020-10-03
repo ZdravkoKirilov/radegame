@@ -1,21 +1,20 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { WidgetNode, NODE_LIFECYCLES } from "@app/game-mechanics";
-import {
-    baseTemplate,
-    boardTemplate,
-    composeCommonFormContext,
-    composeInlineStyleFormContext,
-    composeFromObject,
-    styleTemplate,
-} from "../helpers";
+import { WidgetNode, NODE_LIFECYCLES, NodeHandler, NodeLifecycle } from "@app/game-mechanics";
 import { RzEventTypes } from "@app/render-kit";
 
-export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: ConnectedEntities) => {
-    data = data || {};
-    const handlers = data.handlers || [];
-    const lifecycles = data.lifecycles || [];
+import {
+  baseTemplate,
+  boardTemplate,
+  composeCommonFormContext,
+  composeInlineStyleFormContext,
+  composeFromObject,
+  styleTemplate,
+} from "../helpers";
 
-    const template = `
+export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: ConnectedEntities) => {
+  data = data || {};
+
+  const template = `
         <Form>
             ${baseTemplate}
 
@@ -49,60 +48,98 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
 
             <CodeEditor name='pass_to_children' label='Pass to children'>{data.pass_to_children}</CodeEditor>
 
-            <Group name='handlers' label='Handlers' children='{handlers}' item='@handler' addButtonText='Add'>
-                <Form>
-                    <NumberInput name='id' hidden='{true}'>{@handler.id}</NumberInput>
-
-                    <Dropdown name='type' label='Type' options='{handlerTypes}'>{@handler.type}</Dropdown>
-
-                    <CodeEditor name='effect' label='Effect'>
-                        {@handler.effect}
-                    </CodeEditor>
-
-                    <CodeEditor name='sound' label='Sound'>
-                        {@handler.sound}
-                    </CodeEditor>
-
-                    <Dropdown name='static_sound' label='Static sound' options='{sonata_options}'>
-                        {@handler.static_sound}
-                    </Dropdown>
-                </Form>
-            </Group>
-
-            <Group name='lifecycles' label='Lifecycles' children='{lifecycles}' item='@lifecycle' addButtonText='Add'>
-                <Form>
-                    <NumberInput name='id' hidden='{true}'>{@lifecycle.id}</NumberInput>
-
-                    <Dropdown name='type' label='Type' options='{lifecycleTypes}'>{@lifecycle.type}</Dropdown>
-
-                    <CodeEditor name='effect' label='Effect'>
-                        {@lifecycle.effect}
-                    </CodeEditor>
-
-                    <CodeEditor name='sound' label='Sound'>
-                        {@lifecycle.sound}
-                    </CodeEditor>
-
-                    <Dropdown name='static_sound' label='Static sound' options='{sonata_options}'>
-                        {@lifecycle.static_sound}
-                    </Dropdown>
-                </Form>
-            </Group>
-
         </Form>
     `;
 
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            ...composeInlineStyleFormContext(ent),
-            handlerTypes: composeFromObject(RzEventTypes),
-            lifecycleTypes: composeFromObject(NODE_LIFECYCLES),
-            data, handlers, lifecycles,
-            entities: ent
-        },
-    }, true);
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      ...composeInlineStyleFormContext(ent),
+      data,
+      entities: ent
+    },
+  }, true);
 
-    return result as BaseControl[];
+  return result as BaseControl[];
+};
+
+export const composeNodeHandlerForm: FormDefinition = (data: NodeHandler, ent?: ConnectedEntities) => {
+  data = data || {} as NodeHandler;
+
+  const template = `
+ 
+    <Form>
+        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+
+        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+
+        <Dropdown name='type' label='Type' options='{handlerTypes}'>{data.type}</Dropdown>
+
+        <CodeEditor name='effect' label='Effect'>
+            {data.effect}
+        </CodeEditor>
+
+        <CodeEditor name='sound' label='Sound'>
+            {data.sound}
+        </CodeEditor>
+
+        <Dropdown name='static_sound' label='Static sound' options='{sonata_options}'>
+            {data.static_sound}
+        </Dropdown>
+    </Form>
+    `;
+
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      ...composeInlineStyleFormContext(ent),
+      handlerTypes: composeFromObject(RzEventTypes),
+      data,
+      entities: ent
+    },
+  }, true);
+
+  return result as BaseControl[];
+};
+
+export const composeNodeLifecycleForm: FormDefinition = (data: NodeLifecycle, ent?: ConnectedEntities) => {
+  data = data || {} as NodeLifecycle;
+
+  const template = `
+
+    <Form>
+        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+
+        <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
+
+        <Dropdown name='type' label='Type' options='{lifecycleTypes}'>{data.type}</Dropdown>
+
+        <CodeEditor name='effect' label='Effect'>
+            {data.effect}
+        </CodeEditor>
+
+        <CodeEditor name='sound' label='Sound'>
+            {data.sound}
+        </CodeEditor>
+
+        <Dropdown name='static_sound' label='Static sound' options='{sonata_options}'>
+            {data.static_sound}
+        </Dropdown>
+    </Form>
+    `;
+
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      ...composeInlineStyleFormContext(ent),
+      lifecycleTypes: composeFromObject(NODE_LIFECYCLES),
+      data,
+      entities: ent
+    },
+  }, true);
+
+  return result as BaseControl[];
 };

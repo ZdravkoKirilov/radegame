@@ -2,7 +2,7 @@ import { Nominal } from 'simplytyped';
 
 import { Omit } from "@app/shared";
 
-import { Sound } from "./Sound.model";
+import { Sound, SoundId } from "./Sound.model";
 import { BaseModel } from "./Base.model";
 import { enrichEntity } from "../helpers";
 import { GameTemplate } from "../models";
@@ -30,7 +30,9 @@ export type SonataStep = Partial<{
   id: number;
   owner: number;
 
-  sound: number | Sound;
+  name: string;
+
+  sound: SoundId;
 
   volume: number;
   loop: boolean;

@@ -2,11 +2,12 @@ import { createSelector } from '@ngrx/store';
 import { values } from 'lodash';
 
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Widget, GameEntity, AllEntity, ALL_ENTITIES, Module, Sandbox, toSetupId, Setup, toModuleId, EntityId } from '@app/game-mechanics';
+import { Widget, GameEntity, AllEntity, ALL_ENTITIES, Module, Sandbox, toSetupId, Setup, toModuleId, EntityId, NodeLifecycleId, NodeHandlerId, WidgetNode } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, Dictionary, selectRouteData } from '@app/shared';
 
 import { selectFeature } from './common';
 import { EntityFeature } from '../reducers';
+import { selectGame } from './games';
 
 const selectForm = createSelector(
   selectFeature,
@@ -78,29 +79,27 @@ export const getActiveWidget = createSelector(
 export const getActiveNode = createSelector(
   selectNodeId,
   getActiveWidget,
-  (nodeId, widget) => widget?.nodes.find(node => node.id === nodeId)
-);
-
-export const getEntities = createSelector(
-  selectFeature,
-  (feature) => {
-    const form = feature.form || {};
-
-    let result: ConnectedEntities;
-
-    for (let key in form) {
-      result = result || {};
-      result[key] = values(form[key].items);
-    }
-    result.languages = []; /* TODO */
-    return result;
-  }
+  (nodeId, widget) => widget?.nodes.find(node => node.id === nodeId) as WidgetNode
 );
 
 export const getEntityForm = createSelector(
   selectRouteData,
   data => {
     return data?.form;
+  }
+);
+
+export const getEntities = createSelector(
+  selectForm,
+  selectGame,
+  (form, game) => {
+    let result: ConnectedEntities = {};
+    for (let key in form) {
+      const slice: EntityFeature = form[key];
+      result[key] = values(slice.byId);
+    }
+    result.languages = game?.languages;
+    return result;
   }
 );
 
@@ -139,4 +138,30 @@ export const selectEntityId = createSelector(
 export const selectNestedEntityId = createSelector(
   selectRouterFeature,
   router => router.state.params[ROUTER_PARAMS.NESTED_ENTITY_ID]
+);
+
+const selectLifecycleId = createSelector(
+  selectRouterFeature,
+  (routerState) => {
+    return String(routerState.state.params[ROUTER_PARAMS.NODE_LIFECYCLE_ID]) as NodeLifecycleId;
+  }
+);
+
+export const getActiveLifecycle = createSelector(
+  selectLifecycleId,
+  getActiveNode,
+  (lifecycleId, node) => node?.lifecycles.find(lifecycle => lifecycle.id === lifecycleId)
+);
+
+const selectHandlerId = createSelector(
+  selectRouterFeature,
+  (routerState) => {
+    return String(routerState.state.params[ROUTER_PARAMS.NODE_HANDLER_ID]) as NodeHandlerId;
+  }
+);
+
+export const getActiveHandler = createSelector(
+  selectHandlerId,
+  getActiveNode,
+  (handlerId, node) => node?.handlers.find(handler => handler.id === handlerId)
 );

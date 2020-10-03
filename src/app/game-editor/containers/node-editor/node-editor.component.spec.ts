@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EditorContainerComponent } from './editor.container';
+import { NodeEditorComponent } from './node-editor.component';
 
-describe('EditorWrapperComponent', () => {
-  let component: EditorContainerComponent;
-  let fixture: ComponentFixture<EditorContainerComponent>;
+describe('NodeEditorComponent', () => {
+  let component: NodeEditorComponent;
+  let fixture: ComponentFixture<NodeEditorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EditorContainerComponent ]
+      declarations: [ NodeEditorComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EditorContainerComponent);
+    fixture = TestBed.createComponent(NodeEditorComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
