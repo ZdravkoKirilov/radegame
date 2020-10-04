@@ -2,7 +2,7 @@ import isFunction from 'lodash/isFunction';
 
 import { StatefulComponent } from "@app/render-kit";
 
-import { RuntimeWidget, RuntimeWidgetNode, Module, WidgetNode, ImageFrame } from "../entities";
+import { RuntimeWidget, RuntimeWidgetNode, Module, WidgetNode } from "../entities";
 import { ExpressionContext, RuntimeGame } from "../models";
 import { findFirstEntityBy } from "./misc";
 
@@ -40,10 +40,10 @@ const _selectWidgetFrameSync = (widget: RuntimeWidget, context: ExpressionContex
     const { frame_getter } = widget;
     if (typeof frame_getter === 'function') {
       const frame = frame_getter({ widget, component, });
-      return ImageFrame.toRuntime(context, frame);
+      // return ImageFrame.toRuntime(context, frame);
     }
     const frame = widget.frames[0];
-    return ImageFrame.toRuntime(context, frame);
+    // return ImageFrame.toRuntime(context, frame);
   }
   return null;
 }

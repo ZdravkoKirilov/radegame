@@ -1,17 +1,19 @@
 import { Nominal, Omit } from 'simplytyped';
+import { omit } from 'lodash/fp';
 
-import { Dictionary, safeJSON } from "@app/shared";
+import { Dictionary, safeJSON, Tagged } from "@app/shared";
 import { AnimationEasing, AnimationPayload } from "@app/render-kit";
 
 import { Style } from "./Style.model";
 import { ParamedExpressionFunc } from "./Expression.model";
-import { BaseModel } from "./Base.model";
-import { ExpressionContext } from "../models";
+import { BaseModel, GameEntityParser } from "./Base.model";
 import { enrichEntity, parseAndBind } from "../helpers";
+import { toModuleId } from './Module.model';
 
 export type AnimationId = Nominal<string, 'AnimationId'>;
+const toAnimationId = (source: unknown) => String(source) as AnimationId;
 
-export type Animation = BaseModel<AnimationId> & Partial<{
+export type Animation = Tagged<'Animation', BaseModel<AnimationId> & {
 
   type: AnimationPlayType;
   steps: AnimationStep[];
@@ -21,45 +23,52 @@ export type Animation = BaseModel<AnimationId> & Partial<{
   delay: number;
 }>;
 
-export type AnimationDTO = Animation;
+export type DtoAnimation = Omit<Animation, '__tag' | 'type' | 'steps' | 'id' | 'module'> & {
+  type: string;
+  id: number;
+  module: number;
+  steps: DtoAnimationStep[];
+};
 
-export const Animation = {
-  
-  toRuntime(context: ExpressionContext, animation: Animation) {
-    const config = context.conf;
+export type RuntimeAnimation = Omit<Animation, 'steps'> & {
+  steps: RuntimeAnimationStep[];
+};
 
-    return enrichEntity<Animation, RuntimeAnimation>(config, {
-      steps: (step: AnimationStep) => enrichEntity<AnimationStep, RuntimeAnimationStep>(config, {
-        from_style_inline: (src: string) => safeJSON(src, {}),
-        to_style_inline: (src: string) => safeJSON(src, {}),
-        from_value: (src: string) => parseAndBind(context)(src),
-        to_value: (src: string) => parseAndBind(context)(src),
-        output_transformer: src => parseAndBind(context)(src),
-      }, step),
+export const Animation: GameEntityParser<Animation, DtoAnimation, RuntimeAnimation> = {
+
+  toRuntime(context, animation) {
+    return enrichEntity<Animation, RuntimeAnimation>(context.conf, {
+      steps: (step: AnimationStep) => AnimationStep.toRuntime(context, step),
     }, animation);
   },
 
-  toDTO(source: Animation): AnimationDTO {
-    return source;
-  }
+  toDto(animation) {
+    return {
+      ...omit('__tag', animation),
+      id: Number(animation.id),
+      module: Number(animation.module),
+      type: String(animation.type),
+      steps: animation.steps.map(elem => AnimationStep.toDto(elem))
+    };
+  },
+
+  toEntity(animationDto) {
+    return {
+      ...animationDto,
+      __tag: 'Animation',
+      id: toAnimationId(animationDto.id),
+      module: toModuleId(animationDto.module),
+      type: animationDto.type as AnimationPlayType,
+      steps: animationDto.steps.map(elem => AnimationStep.toEntity(elem))
+    };
+  },
 }
 
-const AnimationStep = {
-  toRuntime(context: ExpressionContext, step: AnimationStep) {
-    const config = context.conf;
+type AnimationStepId = Nominal<string, 'AnimationStepId'>;
+const toAnimationStepId = (source: unknown) => String(source) as AnimationStepId;
 
-    return enrichEntity<AnimationStep, RuntimeAnimationStep>(config, {
-      from_style_inline: (src: string) => safeJSON(src, {}),
-      to_style_inline: (src: string) => safeJSON(src, {}),
-      from_value: (src: string) => parseAndBind(context)(src),
-      to_value: (src: string) => parseAndBind(context)(src),
-      output_transformer: src => parseAndBind(context)(src),
-    }, step);
-  }
-}
-
-export type AnimationStep = Partial<{
-  id: number;
+export type AnimationStep = Tagged<'AnimationStep', {
+  id: AnimationStepId;
   owner: AnimationId;
 
   name: string;
@@ -78,13 +87,14 @@ export type AnimationStep = Partial<{
 
   repeat: number;
   bidirectional: boolean;
-}>
+}>;
 
-export type RuntimeAnimation = Omit<Animation, 'steps'> & {
-  steps: RuntimeAnimationStep[];
-};
+type DtoAnimationStep = Omit<AnimationStep, 'id' | 'owner' | '__tag'> & {
+  id: number;
+  owner: number;
+}
 
-export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value' | 'from_style_inline' | 'to_style_inline' | 'output_transformer'> & Partial<{
+export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value' | 'from_style_inline' | 'to_style_inline' | 'output_transformer'> & {
   from_value: ParamedExpressionFunc<AnimationPayload, Dictionary>;
   to_value: ParamedExpressionFunc<AnimationPayload, Dictionary>;
 
@@ -92,7 +102,38 @@ export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value'
   to_style_inline: Style;
 
   output_transformer: ParamedExpressionFunc<Dictionary, Dictionary>;
-}>
+}
+
+const AnimationStep: GameEntityParser<AnimationStep, DtoAnimationStep, RuntimeAnimationStep> = {
+  toRuntime(context, step) {
+
+    return enrichEntity<AnimationStep, RuntimeAnimationStep>(context.conf, {
+      from_style_inline: (src: string) => safeJSON(src, {}),
+      to_style_inline: (src: string) => safeJSON(src, {}),
+      from_value: (src: string) => parseAndBind(context)(src),
+      to_value: (src: string) => parseAndBind(context)(src),
+      output_transformer: src => parseAndBind(context)(src),
+    }, step);
+  },
+
+  toDto(animationStep) {
+    return {
+      ...omit('__tag', animationStep),
+      id: Number(animationStep.id),
+      owner: Number(animationStep.owner),
+    };
+  },
+
+  toEntity(dtoAnimationStep) {
+    return {
+      ...dtoAnimationStep,
+      __tag: 'AnimationStep',
+      id: toAnimationStepId(dtoAnimationStep.id),
+      owner: toAnimationId(dtoAnimationStep.owner),
+    };
+  }
+
+}
 
 export const ANIMATION_PLAY_TYPE = {
   SEQUENCE: 'SEQUENCE',

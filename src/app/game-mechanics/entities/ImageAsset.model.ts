@@ -1,45 +1,46 @@
 import { Omit, Nominal } from 'simplytyped';
+import { omit } from 'lodash/fp';
 
-import { RzStyles } from "@app/render-kit";
-
-import { Widget } from "./Widget.model";
-import { WithStyle, BaseModel } from "./Base.model";
-import { ParamedExpressionFunc } from "./Expression.model";
-import { Style } from "./Style.model";
-import { enrichEntity, parseAndBind } from "../helpers";
-import { ExpressionContext } from "../models";
+import { Tagged } from '@app/shared';
+import { BaseModel, GameEntityParser } from "./Base.model";
+import { toModuleId } from './Module.model';
 
 export type ImageAssetId = Nominal<string, 'ImageAssetId'>;
 
-export type ImageAsset = BaseModel<ImageAssetId> & Partial<{
+export const toImageId = (source: number | string) => String(source) as ImageAssetId;
+
+export type ImageAsset = Tagged<'ImageAsset', BaseModel<ImageAssetId> & {
   image: string;
   thumbnail: string;
   svg: string;
   keywords: string;
-}>
+}>;
 
-export type ImageFrame = WithStyle & Partial<{
+export type DtoImageAsset = Omit<ImageAsset, '__tag' | 'id' | 'module'> & {
   id: number;
-  owner: number;
-  name: string;
+  module: number;
+};
 
-  image: number;
-  widget: number;
-}>
+export const ImageAsset: GameEntityParser<ImageAsset, DtoImageAsset, ImageAsset> = {
 
-export const ImageFrame = {
-  toRuntime(context: ExpressionContext, frame: ImageFrame) {
-    return enrichEntity<ImageFrame, RuntimeImageFrame>(context.conf, {
-      widget: 'widgets',
-      image: 'images',
-      style: src => parseAndBind(context)(src)
-    }, frame);
+  toEntity(dto) {
+    return {
+      ...dto,
+      __tag: 'ImageAsset',
+      id: toImageId(dto.id),
+      module: toModuleId(dto.module),
+    };
+  },
+
+  toDto(entity) {
+    return {
+      ...omit('__tag', entity),
+      id: Number(entity.id),
+      module: Number(entity.module),
+    };
+  },
+
+  toRuntime(_, entity) {
+    return entity;
   }
-}
-
-export type RuntimeImageFrame = Omit<ImageFrame, 'image' | 'widget' | 'style' | 'style_inline'> & {
-  image: ImageAsset;
-  widget: Widget;
-  style: ParamedExpressionFunc<RuntimeImageFrame, Style>;
-  style_inline: RzStyles;
-}
+};
