@@ -1,58 +1,117 @@
 import get from 'lodash/get';
-import { Nominal } from 'simplytyped';
+import { Nominal, Omit } from 'simplytyped';
+import { omit } from 'lodash/fp';
 
-import { Omit, safeJSON } from '@app/shared';
+import { Tagged, safeJSON } from '@app/shared';
+import { RzStyles } from '@app/render-kit';
 
-import { BaseModel, WithStyle, WithRuntimeStyle } from "./Base.model";
+import { BaseModel, GameEntityParser, WithStyle } from "./Base.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { enrichEntity, parseAndBind } from '../helpers';
-import { ExpressionContext } from '../models';
+import { ExpressionContext, Game, GameLanguage, GameLanguageId, toGameLanguageId } from '../models';
+import { toModuleId } from './Module.model';
 
 export type TextId = Nominal<string, 'TextId'>;
+export const toTextId = (source: unknown) => String(source) as TextId;
 
-export type Text = BaseModel<TextId> & WithStyle & Partial<{
+export type Text = BaseModel<TextId> & WithStyle & Tagged<'Text', {
   default_value: string;
   translations: Translation[];
 }>
 
-export const Text = {
+export type DtoText = Omit<Text, '__tag' | 'id' | 'module' | 'translations'> & {
+  id: number;
+  module: number;
+  translations: DtoTranslation[];
+};
 
-  toRuntime(context: ExpressionContext, text: Text, language?: number) {
+export type RuntimeText = Omit<Text, 'style' | 'style_inline'> & {
+
+  style: ParamedExpressionFunc<RuntimeText, Style>;
+  style_inline: RzStyles;
+
+  computed_value: string;
+};
+
+export const Text: GameEntityParser<Text, DtoText, RuntimeText> = {
+
+  toEntity(dto) {
+    return {
+      ...dto,
+      __tag: 'Text',
+      id: toTextId(dto.id),
+      module: toModuleId(dto.module),
+      translations: dto.translations.map(elem => Translation.toEntity(elem))
+    };
+  },
+
+  toDto(entity) {
+    return {
+      ...omit('__tag', entity),
+      id: Number(entity.id),
+      module: Number(entity.module),
+      translations: entity.translations.map(elem => Translation.toDto(elem))
+    };
+  },
+
+  toRuntime(context, text, language: GameLanguageId) {
     let runtimeText = enrichEntity<Text, RuntimeText>(context.conf, {
       style_inline: src => safeJSON(src, {}),
       style: src => parseAndBind(context)(src),
     }, text);
 
-    const translation = (runtimeText.translations || []).find(elem => elem.language === language);
-    runtimeText = { ...runtimeText, computed_value: get(translation, 'value', runtimeText.default_value) };
+    const translation = runtimeText.translations?.find(elem => elem.language === language);
+    runtimeText = { ...runtimeText, computed_value: translation?.value || runtimeText.default_value };
     return runtimeText;
-  }
+  },
 };
 
-export type RuntimeText = Omit<Text, 'style' | 'style_inline'> & {
-  style: ParamedExpressionFunc<RuntimeText, Style>;
-  style_inline: Style;
+type TranslationId = Nominal<string, 'TranslationId'>;
+const toTranslationId = (source: unknown) => String(source) as TranslationId;
 
-  computed_value: string;
-};
+export type Translation = Tagged<'Translation', {
+  id: TranslationId;
+  owner: TextId;
 
-export type Translation = Partial<{
-  id: number;
-  owner: number;
-
-  language: number; // GameLanguage;
+  language: GameLanguageId;
   value: string;
 }>;
 
-export type TextFrame = WithStyle & {
+type DtoTranslation = Omit<Translation, '__tag' | 'id' | 'owner' | 'language'> & {
   id: number;
   owner: number;
-  name: string;
-
-  text: number;
+  language: number;
 };
 
-export type RuntimeTextFrame = Omit<TextFrame, 'text' | 'style' | 'style_inline'> & WithRuntimeStyle & {
-  text: Text;
+type RuntimeTranslation = Omit<Translation, 'language'> & {
+  language: GameLanguage;
+};
+
+const Translation: GameEntityParser<Translation, DtoTranslation, RuntimeTranslation> = {
+
+  toEntity(dto) {
+    return {
+      ...dto,
+      __tag: 'Translation',
+      id: toTranslationId(dto.id),
+      owner: toTextId(dto.owner),
+      language: toGameLanguageId(dto.language),
+    };
+  },
+
+  toDto(entity) {
+    return {
+      ...omit('__tag', entity),
+      id: Number(entity.id),
+      owner: Number(entity.owner),
+      language: Number(entity.language),
+    };
+  },
+
+  toRuntime(context, entity, game: Game) {
+    return enrichEntity<Translation, RuntimeTranslation>(context.conf, {
+      language: id => game.languages.find(lang => lang.id === id)
+    }, entity);
+  }
 };

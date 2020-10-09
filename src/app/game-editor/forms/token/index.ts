@@ -1,35 +1,72 @@
-import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
-import { Token } from "@app/game-mechanics";
-import { baseTemplate, composeCommonFormContext, composeInlineStyleFormContext, framesTemplate, UITemplate, textsTemplate } from "../helpers";
+import { FormDefinition, BaseControl, parse } from "@app/dynamic-forms";
+import { Token, TokenNode } from "@app/game-mechanics";
 
-export const composeTokenForm: FormDefinition = (data: Token, ent: ConnectedEntities): BaseControl[] => {
-    data = data || {};
-    const frames = data.frames || [];
-    const texts = data.texts || [];
+import { baseTemplate, composeCommonFormContext, composeInlineStyleFormContext, styleTemplate } from "../helpers";
 
-    const template = `
+export const composeTokenForm: FormDefinition<Token> = (data, ent) => {
+
+  const template = `
     <Form>
 
         <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
 
         ${baseTemplate}
 
-        ${UITemplate}
+        <Dropdown name='template' label='Template' options='{widget_options}'>
+          {data.template}
+        </Dropdown>
 
-        ${framesTemplate}
-
-        ${textsTemplate}
+        <TagsInput name='keywords' label='Keywords'>{data.keywords}</TagsInput>
     </Form>
     `;
 
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            ...composeInlineStyleFormContext(ent),
-            data, frames, texts,
-        }
-    }, true) as BaseControl[];
+  const result = parse({
+    source: template,
+    context: {
+      data: data || {},
+    }
+  }, true) as BaseControl[];
 
-    return result;
+  return result;
+};
+
+export const composeTokenNodeForm: FormDefinition<TokenNode> = (data, ent) => {
+  const template = `
+    <Form>
+
+        <NumberInput name='id' hidden='{true}'>{data.id}</NumberInput>
+
+        ${baseTemplate}
+
+        ${styleTemplate}
+
+        <Dropdown name='text' label='Text' options='{text_options}'>
+          {data.text}
+        </Dropdown>
+
+        <Dropdown name='image' label='Image' options='{image_options}'>
+          {data.image}
+        </Dropdown>
+
+        <Dropdown name='widget' label='Widget' options='{widget_options}'>
+          {data.widget}
+        </Dropdown>
+
+        <Dropdown name='shape' label='Shape' options='{shape_options}'>
+          {data.shape}
+        </Dropdown>
+
+    </Form>
+    `;
+
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      ...composeInlineStyleFormContext(ent),
+      data: data || {},
+    }
+  }, true) as BaseControl[];
+
+  return result;
 };

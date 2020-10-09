@@ -3,7 +3,7 @@ import { omit } from 'lodash/fp';
 
 import { Tagged } from '@app/shared';
 
-import { GameEntityParser, WithBoard } from './Base.model';
+import { GameEntityParser } from './Base.model';
 import { toWidgetId, Widget, WidgetId } from './Widget.model';
 import { enrichEntity } from '../helpers';
 import { toVersionId, VersionId } from './Version.model';
@@ -11,33 +11,35 @@ import { toVersionId, VersionId } from './Version.model';
 export type ModuleId = Nominal<string, 'ModuleId'>;
 export const toModuleId = (source: unknown) => String(source) as ModuleId;
 
-export type Module = Tagged<'Module', WithBoard & {
+export type Module = Tagged<'Module', {
   id: ModuleId;
   name: string;
   description: string;
   version: VersionId;
+
+  entry: WidgetId;
   loader: WidgetId;
   dependencies: ModuleId[];
 }>;
 
-type DtoModule = Omit<Module, 'id' | '__tag' | 'board' | 'loader' | 'version' | 'dependencies'> & {
+type DtoModule = Omit<Module, 'id' | '__tag' | 'entry' | 'loader' | 'version' | 'dependencies'> & {
   id: number;
   version: number;
-  board: number;
+  entry: number;
   loader: number;
   dependencies: number[];
 };
 
-export type RuntimeModule = Module & Omit<Module, 'loader' | 'board' | 'dependencies'> & {
+export type RuntimeModule = Module & Omit<Module, 'loader' | 'entry' | 'dependencies'> & {
   loader: Widget;
-  board: Widget;
+  entry: Widget;
 };
 
 export const Module: GameEntityParser<Module, DtoModule, RuntimeModule> = {
 
   toRuntime(context, module) {
     return enrichEntity<Module, RuntimeModule>(context.conf, {
-      board: 'widgets',
+      entry: 'widgets',
       loader: 'widgets',
     }, module);
   },
@@ -48,7 +50,7 @@ export const Module: GameEntityParser<Module, DtoModule, RuntimeModule> = {
       id: Number(entity.id),
       version: Number(entity.version),
       loader: Number(entity.loader),
-      board: Number(entity.board),
+      entry: Number(entity.entry),
       dependencies: entity.dependencies.map(moduleId => Number(moduleId)),
     };
   },
@@ -60,7 +62,7 @@ export const Module: GameEntityParser<Module, DtoModule, RuntimeModule> = {
       id: toModuleId(dto.id),
       version: toVersionId(dto.version),
       loader: toWidgetId(dto.loader),
-      board: toWidgetId(dto.board),
+      entry: toWidgetId(dto.entry),
       dependencies: dto.dependencies.map(moduleId => toModuleId(moduleId))
     };
   }

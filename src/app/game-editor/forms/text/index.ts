@@ -1,11 +1,11 @@
 import { Text, Translation } from '@app/game-mechanics';
-import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
+import { BaseControl, ConnectedEntities, FormDefinition, parse } from '@app/dynamic-forms';
+
 import {
   composeCommonFormContext, baseTemplate, styleTemplate, composeInlineStyleFormContext
 } from '../helpers';
 
-export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl[] {
-  data = data || {};
+export const composeTextForm: FormDefinition<Text> = (data, ent) => {
 
   const template = `
     <Form>
@@ -24,15 +24,14 @@ export function composeTextForm(data: Text, ent: ConnectedEntities): BaseControl
     context: {
       ...composeCommonFormContext(ent),
       ...composeInlineStyleFormContext(ent),
-      data
+      data: data || {}
     },
   }, true);
 
   return result as BaseControl[];
 };
 
-export function composeTextTranslationForm(data: Translation, ent: ConnectedEntities): BaseControl[] {
-  data = data || {};
+export const composeTextTranslationForm: FormDefinition<Translation> = (data, ent) => {
 
   const template = `
     <Form>
@@ -50,7 +49,7 @@ export function composeTextTranslationForm(data: Translation, ent: ConnectedEnti
     source: template,
     context: {
       ...composeCommonFormContext(ent),
-      data
+      data: data || {}
     },
   }, true);
 

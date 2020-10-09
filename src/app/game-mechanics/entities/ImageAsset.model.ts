@@ -2,12 +2,13 @@ import { Omit, Nominal } from 'simplytyped';
 import { omit } from 'lodash/fp';
 
 import { Tagged } from '@app/shared';
+
 import { BaseModel, GameEntityParser } from "./Base.model";
 import { toModuleId } from './Module.model';
 
 export type ImageAssetId = Nominal<string, 'ImageAssetId'>;
 
-export const toImageId = (source: number | string) => String(source) as ImageAssetId;
+export const toImageId = (source: unknown) => String(source) as ImageAssetId;
 
 export type ImageAsset = Tagged<'ImageAsset', BaseModel<ImageAssetId> & {
   image: string;

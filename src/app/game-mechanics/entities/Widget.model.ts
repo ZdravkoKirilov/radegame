@@ -1,49 +1,82 @@
-import { Nominal } from 'simplytyped';
+import { Nominal, Omit } from 'simplytyped';
+import { omit } from 'lodash/fp';
 
-import { Omit, safeJSON } from "@app/shared";
+import { safeJSON, Tagged } from "@app/shared";
 import { StatefulComponent, RzNode } from "@app/render-kit";
 
 import { ParamedExpressionFunc } from "./Expression.model";
-import { BaseModel, WithStyle } from "./Base.model";
-import { WidgetNode } from "./WidgetNode.model";
-import { ExpressionContext } from "../models";
+import { BaseModel, GameEntityParser, WithStyle } from "./Base.model";
+import { DtoWidgetNode, WidgetNode } from "./WidgetNode.model";
 import { enrichEntity, parseAndBind } from "../helpers";
+import { ImageAsset, ImageAssetId, toImageId } from './ImageAsset.model';
+import { toModuleId } from './Module.model';
 
 export type WidgetId = Nominal<string, 'WidgetId'>;
 
 export const toWidgetId = (source: string | number) => String(source) as WidgetId;
 
-export type Widget = BaseModel<WidgetId> & WithStyle & Partial<{
+export type Widget = BaseModel<WidgetId> & WithStyle & Tagged<'Widget', {
 
-  node_getter: string; // Expression => WidgetNode[]
+  get_nodes: string; // Expression => WidgetNode[]
   nodes: WidgetNode[];
 
-  frame_getter: string;
-
   render: string;
+  dynamic_background: string;
+  background: ImageAssetId;
 }>;
 
-export const Widget = {
-  toRuntime(context: ExpressionContext, widget: Widget) {
+export type DtoWidget = Omit<Widget, '__tag' | 'id' | 'module' | 'nodes' | 'background'> & {
+  id: number;
+  module: number;
+  background: number;
+  nodes: DtoWidgetNode[];
+}
+
+export type RuntimeWidget = Omit<Widget, 'get_nodes' | 'render' | 'background' | 'dynamic_background'> & {
+  get_nodes: ParamedExpressionFunc<WidgetExpressionPayload, WidgetNode[]>;
+  dynamic_background: ParamedExpressionFunc<WidgetExpressionPayload, ImageAsset | Widget>;
+  render: ParamedExpressionFunc<WidgetExpressionPayload, RzNode>;
+  background: ImageAsset,
+};
+
+export const Widget: GameEntityParser<Widget, DtoWidget, RuntimeWidget> = {
+
+  toRuntime(context, widget) {
     return enrichEntity<Widget, RuntimeWidget>(context.conf, {
-      node_getter: src => parseAndBind(context)(src),
-      frame_getter: src => parseAndBind(context)(src),
+      get_nodes: src => parseAndBind(context)(src),
+      dynamic_background: src => parseAndBind(context)(src),
       render: src => parseAndBind(context)(src),
       style: src => parseAndBind(context)(src),
       style_inline: src => safeJSON(src, {}),
+      background: 'images',
     }, widget);
+  },
+
+  toEntity(dto) {
+    return {
+      ...dto,
+      __tag: 'Widget',
+      id: toWidgetId(dto.id),
+      module: toModuleId(dto.id),
+      background: toImageId(dto.background),
+      nodes: dto.nodes.map(elem => WidgetNode.toEntity(elem))
+    };
+  },
+
+  toDto(entity) {
+    return {
+      ...omit('__tag', entity),
+      id: Number(entity.id),
+      module: Number(entity.module),
+      background: Number(entity.background),
+      nodes: entity.nodes.map(elem => WidgetNode.toDto(elem))
+    };
   }
 }
 
 type WidgetExpressionPayload = {
   widget: RuntimeWidget;
   component: StatefulComponent;
-}
-
-export type RuntimeWidget = Omit<Widget, 'node_getter' | 'frame_getter' | 'render'> & {
-  node_getter: ParamedExpressionFunc<WidgetExpressionPayload, WidgetNode[]>;
-  frame_getter: ParamedExpressionFunc<WidgetExpressionPayload, any>;
-  render: ParamedExpressionFunc<WidgetExpressionPayload, RzNode>;
 };
 
 

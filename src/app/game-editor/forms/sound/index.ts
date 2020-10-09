@@ -1,27 +1,24 @@
 import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
 import { Sound } from "@app/game-mechanics";
+
 import { composeCommonFormContext, baseTemplate } from "../helpers";
 
-export const composeSoundForm: FormDefinition = (data: Sound, ent?: ConnectedEntities) => {
+export const composeSoundForm: FormDefinition<Sound> = (data, ent) => {
 
-    data = data || {};
+  const template = `
+    <Form>
+      ${baseTemplate}
+      <FilePicker name='file' label='Sound file' required='{true}'>{data.file}</FilePicker>
+    </Form>
+  `;
 
-    const template = `
-        <Form>
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      data: data || {},
+    },
+  }, true);
 
-            ${baseTemplate}
-            <FilePicker name='file' label='Sound file' required='{true}'>{data.file}</FilePicker>
-
-        </Form>
-    `;
-
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            data,
-        },
-    }, true);
-
-    return result as BaseControl[];
+  return result as BaseControl[];
 };

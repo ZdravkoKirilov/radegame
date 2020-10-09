@@ -1,13 +1,13 @@
 import {
   BaseControl,
-  FormDefinition, ConnectedEntities, parse
+  FormDefinition, parse
 } from '@app/dynamic-forms';
 import { Animation, AnimationStep, ANIMATION_PLAY_TYPE } from '@app/game-mechanics';
-import { composeCommonFormContext, composeFromObject, composeInlineStyleFormContext, baseTemplate } from '../helpers';
 import { ANIMATION_EASINGS } from '@app/render-kit';
 
-export const composeAnimationForm: FormDefinition = (data: Animation, ent?: ConnectedEntities) => {
-  data = data || {};
+import { composeCommonFormContext, composeFromObject, composeInlineStyleFormContext, baseTemplate } from '../helpers';
+
+export const composeAnimationForm: FormDefinition<Animation> = (data, ent) => {
 
   const template = `
     <Form>
@@ -30,7 +30,7 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
     source: template,
     context: {
       ...composeCommonFormContext(ent),
-      data,
+      data: data || {},
       types: composeFromObject(ANIMATION_PLAY_TYPE),
     }
   }, true) as BaseControl[];
@@ -38,8 +38,7 @@ export const composeAnimationForm: FormDefinition = (data: Animation, ent?: Conn
   return result;
 };
 
-export const composeAnimationStepForm: FormDefinition = (data: AnimationStep, ent?: ConnectedEntities) => {
-  data = data || {};
+export const composeAnimationStepForm: FormDefinition<AnimationStep> = (data, ent) => {
 
   const template = `
     <Form>
@@ -48,21 +47,21 @@ export const composeAnimationStepForm: FormDefinition = (data: AnimationStep, en
         <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
 
         <EmbeddedData 
-            name='from_style_inline' 
-            label='Inline from style' 
+            name='from_style' 
+            label='From style' 
             childrenDefinition='{composeStyleForm}'
             connectedEntities='{entities}' 
         >
-            {data.from_style_inline}
+            {data.from_style}
         </EmbeddedData>
 
         <EmbeddedData 
-            name='to_style_inline' 
-            label='Inline to style' 
+            name='to_style' 
+            label='To style' 
             childrenDefinition='{composeStyleForm}'
             connectedEntities='{entities}' 
         >
-            {data.to_style_inline}
+            {data.to_style}
         </EmbeddedData>
 
         <CodeEditor name='from_value' label='From value'>
@@ -87,8 +86,8 @@ export const composeAnimationStepForm: FormDefinition = (data: AnimationStep, en
             {data.bidirectional}
         </ButtonGroup>
 
-        <CodeEditor name='output_transformer' label='Output transformer'>
-            {data.output_transformer}
+        <CodeEditor name='transform_result' label='Output transformer'>
+            {data.transform_result}
         </CodeEditor>
 
     </Form>
@@ -99,7 +98,7 @@ export const composeAnimationStepForm: FormDefinition = (data: AnimationStep, en
     context: {
       ...composeCommonFormContext(ent),
       ...composeInlineStyleFormContext(ent),
-      data,
+      data: data || {},
       easings: composeFromObject(ANIMATION_EASINGS, true),
     }
   }, true) as BaseControl[];

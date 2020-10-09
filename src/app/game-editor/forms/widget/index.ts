@@ -1,46 +1,44 @@
 import { Widget } from '@app/game-mechanics';
-import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
+import { BaseControl, parse, FormDefinition } from '@app/dynamic-forms';
 
 import {
-    baseTemplate, composeCommonFormContext, framesTemplate, styleTemplate,
-    composeInlineStyleFormContext
+  baseTemplate, composeCommonFormContext, styleTemplate,
+  composeInlineStyleFormContext
 } from '../helpers';
 
-export function composeWidgetForm(data: Widget, ent: ConnectedEntities): BaseControl[] {
-    data = data || {};
-    const frames = data.frames || [];
+export const composeWidgetForm: FormDefinition<Widget> = (data, ent) => {
 
-    const template = `
-        <Form>
-            ${baseTemplate}
+  const template = `
+    <Form>
+        ${baseTemplate}
 
-            <CodeEditor name="render" label="Render">
-                {data.render}
-            </CodeEditor>
+        ${styleTemplate}
 
-            ${styleTemplate}
+        <Dropdown name='background' label='Background' options='{image_options}'>{data.background}</Dropdown>
 
-            <CodeEditor name="node_getter" label="Create nodes">
-                {data.node_getter}
-            </CodeEditor>
+        <CodeEditor name="get_nodes" label="Create nodes">
+            {data.get_nodes}
+        </CodeEditor>
 
-            ${framesTemplate}
+        <CodeEditor name="render" label="Render">
+          {data.render}
+        </CodeEditor>
 
-            <CodeEditor name="frame_getter" label="Get frame via">
-                {data.frame_getter}
-            </CodeEditor>
+        <CodeEditor name="dynamic_background" label="Dynamic background">
+          {data.dynamic_background}
+        </CodeEditor>
 
-        </Form>
+    </Form>
     `;
 
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            ...composeInlineStyleFormContext(ent),
-            data, frames,
-        },
-    }, true);
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      ...composeInlineStyleFormContext(ent),
+      data, frames,
+    },
+  }, true);
 
-    return result as BaseControl[];
+  return result as BaseControl[];
 }

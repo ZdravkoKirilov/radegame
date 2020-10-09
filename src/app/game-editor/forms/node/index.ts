@@ -4,21 +4,21 @@ import { RzEventTypes } from "@app/render-kit";
 
 import {
   baseTemplate,
-  boardTemplate,
   composeCommonFormContext,
   composeInlineStyleFormContext,
   composeFromObject,
   styleTemplate,
 } from "../helpers";
 
-export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: ConnectedEntities) => {
-  data = data || {};
+export const composeNodeForm: FormDefinition<WidgetNode> = (data, ent) => {
 
   const template = `
         <Form>
             ${baseTemplate}
 
-            ${boardTemplate}
+            <Dropdown name='widget' label='Widget' options='{widget_options}'>
+              {data.widget}
+            </Dropdown>
 
             <Dropdown name='shape' label='Shape' options='{shape_options}'>
                 {data.shape}
@@ -32,12 +32,16 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
                 {data.token}
             </Dropdown>
 
-            <Dropdown name='display_text_inline' label='Display text' options='{text_options}'>
-                {data.display_text_inline}
+            <Dropdown name='dynamic_text' label='Dynamic text' options='{text_options}'>
+                {data.dynamic_text}
             </Dropdown>
 
-            <CodeEditor name='display_text' label='Display text getter'>
-                {data.display_text}
+            <CodeEditor name='text' label='Static text'>
+                {data.text}
+            </CodeEditor>
+
+            <CodeEditor name='image' label='Image'>
+                {data.image}
             </CodeEditor>
 
             ${styleTemplate}
@@ -56,7 +60,7 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
     context: {
       ...composeCommonFormContext(ent),
       ...composeInlineStyleFormContext(ent),
-      data,
+      data: data || {},
       entities: ent
     },
   }, true);
@@ -64,8 +68,7 @@ export const composeNodeForm: FormDefinition = (data: WidgetNode, ent?: Connecte
   return result as BaseControl[];
 };
 
-export const composeNodeHandlerForm: FormDefinition = (data: NodeHandler, ent?: ConnectedEntities) => {
-  data = data || {} as NodeHandler;
+export const composeNodeHandlerForm: FormDefinition<NodeHandler> = (data, ent) => {
 
   const template = `
  
@@ -80,12 +83,12 @@ export const composeNodeHandlerForm: FormDefinition = (data: NodeHandler, ent?: 
             {data.effect}
         </CodeEditor>
 
-        <CodeEditor name='sound' label='Sound'>
-            {data.sound}
+        <CodeEditor name='dynamic_sound' label='Dynamic sound'>
+            {data.dynamic_sound}
         </CodeEditor>
 
-        <Dropdown name='static_sound' label='Static sound' options='{sonata_options}'>
-            {data.static_sound}
+        <Dropdown name='sound' label='Sound' options='{sonata_options}'>
+            {data.sound}
         </Dropdown>
     </Form>
     `;
@@ -96,7 +99,7 @@ export const composeNodeHandlerForm: FormDefinition = (data: NodeHandler, ent?: 
       ...composeCommonFormContext(ent),
       ...composeInlineStyleFormContext(ent),
       handlerTypes: composeFromObject(RzEventTypes),
-      data,
+      data: data || {},
       entities: ent
     },
   }, true);
@@ -104,8 +107,7 @@ export const composeNodeHandlerForm: FormDefinition = (data: NodeHandler, ent?: 
   return result as BaseControl[];
 };
 
-export const composeNodeLifecycleForm: FormDefinition = (data: NodeLifecycle, ent?: ConnectedEntities) => {
-  data = data || {} as NodeLifecycle;
+export const composeNodeLifecycleForm: FormDefinition<NodeLifecycle> = (data, ent) => {
 
   const template = `
 
@@ -120,12 +122,12 @@ export const composeNodeLifecycleForm: FormDefinition = (data: NodeLifecycle, en
             {data.effect}
         </CodeEditor>
 
-        <CodeEditor name='sound' label='Sound'>
-            {data.sound}
+        <CodeEditor name='dynamic_sound' label='Dynamic sound'>
+            {data.dynamic_sound}
         </CodeEditor>
 
-        <Dropdown name='static_sound' label='Static sound' options='{sonata_options}'>
-            {data.static_sound}
+        <Dropdown name='sound' label='Sound' options='{sonata_options}'>
+            {data.sound}
         </Dropdown>
     </Form>
     `;
@@ -136,7 +138,7 @@ export const composeNodeLifecycleForm: FormDefinition = (data: NodeLifecycle, en
       ...composeCommonFormContext(ent),
       ...composeInlineStyleFormContext(ent),
       lifecycleTypes: composeFromObject(NODE_LIFECYCLES),
-      data,
+      data: data || {},
       entities: ent
     },
   }, true);

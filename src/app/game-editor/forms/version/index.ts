@@ -1,21 +1,23 @@
 import { FormDefinition, BaseControl, parse } from "@app/dynamic-forms";
 import { Version } from "@app/game-mechanics";
 
-import { baseTemplate } from "../helpers";
+import { baseTemplate, composeCommonFormContext } from "../helpers";
 
-export const composeVersionForm: FormDefinition = (data: Version): BaseControl[] => {
-  data = data || {} as Version;
+export const composeVersionForm: FormDefinition<Version> = (data, ent) => {
 
   const template = `
     <Form>
-      <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
-      <TextInput name='description' label='Description'>{data.description}</TextInput>
+
+      ${baseTemplate}
+
+      <Dropdown name='menu' label='Menu' options='{module_options}'>{data.menu}</Dropdown>
+
     </Form>
     `;
 
   const result = parse({
     source: template,
-    context: { data }
+    context: { data: data || {}, ...composeCommonFormContext(ent) }
   }, true) as BaseControl[];
 
   return result;

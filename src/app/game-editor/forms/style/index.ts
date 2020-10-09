@@ -1,12 +1,12 @@
 import { Style } from '@app/game-mechanics';
-import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
-import { baseTemplate, composeCommonFormContext, composeFromObject } from '../helpers';
+import { BaseControl, FormDefinition, parse } from '@app/dynamic-forms';
 import { FONT_STYLES } from '@app/render-kit';
 
-export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: ConnectedEntities): BaseControl[] => {
-    data = data || {};
+import { baseTemplate, composeCommonFormContext, composeFromObject } from '../helpers';
 
-    const template = `
+export const composeStyleForm = (asInlineForm = false): FormDefinition<Style> => (data, ent) => {
+
+  const template = `
     <Form>
 
         ${asInlineForm ? '' : baseTemplate}
@@ -37,13 +37,13 @@ export const composeStyleForm = (asInlineForm = false) => (data: Style, ent: Con
     </Form>
     `;
 
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            data, font_styles: composeFromObject(FONT_STYLES)
-        }
-    }, true) as BaseControl[];
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      data: data || {}, font_styles: composeFromObject(FONT_STYLES)
+    }
+  }, true) as BaseControl[];
 
-    return result;
+  return result;
 };

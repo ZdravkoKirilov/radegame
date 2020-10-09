@@ -5,15 +5,15 @@ import { Omit, Dictionary, Tagged } from '@app/shared';
 import { LobbyPlayer } from '@app/game-arena';
 
 import {
-  Module, ExpressionFunc, WithBoard, Token, Expression, Sonata, Sound,
+  Module, Token, Expression, Sonata, Sound,
   Widget, Text, Setup, ImageAsset, Sandbox, Shape, Style, Version, Animation, ImageAssetId, GameEntityParser, ModuleId, toImageId, toModuleId
 } from '../entities';
-import { enrichEntity, parseAndBind } from '../helpers';
+import { enrichEntity } from '../helpers';
 
 export type GameId = Nominal<string, 'GameId'>;
 export const toGameId = (source: unknown) => String(source) as GameId;
 
-export type Game = Tagged<'Game', WithBoard & {
+export type Game = Tagged<'Game', {
   id: GameId;
 
   title: string;
@@ -22,7 +22,6 @@ export type Game = Tagged<'Game', WithBoard & {
 
   languages: GameLanguage[];
   menu: ModuleId;
-  get_active_module: string;
 }>;
 
 export type DtoGame = Omit<Game, '__tag' | 'id' | 'languages' | 'menu'> & {
@@ -35,7 +34,6 @@ export const Game: GameEntityParser<Game, DtoGame, RuntimeGame> = {
   toRuntime(context, game) {
     return enrichEntity<Game, RuntimeGame>(context.conf, {
       menu: 'modules',
-      get_active_module: src => parseAndBind(context)(src),
     }, game);
   },
 
@@ -60,9 +58,8 @@ export const Game: GameEntityParser<Game, DtoGame, RuntimeGame> = {
 
 }
 
-export type RuntimeGame = Omit<Game, 'menu' | 'get_active_module'> & {
+export type RuntimeGame = Omit<Game, 'menu'> & {
   menu: Module;
-  get_active_module: ExpressionFunc<string>;
 };
 
 const GameLanguage: GameEntityParser<GameLanguage, DtoGameLanguage, RuntimeGameLanguage> = {
@@ -92,7 +89,7 @@ const GameLanguage: GameEntityParser<GameLanguage, DtoGameLanguage, RuntimeGameL
 };
 
 export type GameLanguageId = Nominal<string, 'GameLanguageId'>;
-const toGameLanguageId = (source: unknown) => String(source) as GameLanguageId;
+export const toGameLanguageId = (source: unknown) => String(source) as GameLanguageId;
 
 export type GameLanguage = Tagged<'GameLanguage', {
   id: GameLanguageId;

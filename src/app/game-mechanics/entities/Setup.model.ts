@@ -19,6 +19,8 @@ export type Setup = Tagged<'Setup', {
   version: VersionId;
 
   image: ImageAssetId;
+  name: string;
+  description: string;
 
   min_players: number;
   max_players: number;

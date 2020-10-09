@@ -2,10 +2,8 @@ import { Nominal } from 'simplytyped';
 
 import { RzStyles } from "@app/render-kit";
 
-import { WidgetId } from "./Widget.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { ExpressionContext, GameId } from '../models';
-import { VersionId } from './Version.model';
 import { ModuleId } from './Module.model';
 
 export type EntityId = Nominal<string, 'id'>;
@@ -18,10 +16,6 @@ export type BaseModel<T = EntityId> = {
   module: ModuleId;
 };
 
-export type WithBoard = {
-  board: WidgetId;
-}
-
 export type WithStyle = {
   style: string; // Expression -> Style
   style_inline: RzStyles;
@@ -33,7 +27,7 @@ export type WithRuntimeStyle<T = any> = {
 };
 
 export type GameEntityParser<E, D, R> = {
-  toRuntime: (context: ExpressionContext, entity: E) => R;
+  toRuntime: (context: ExpressionContext, entity: E, ...args: unknown[]) => R;
   toDto: (entity: E) => D;
   toEntity: (dtoEntity: D) => E;
 };

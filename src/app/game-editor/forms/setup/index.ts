@@ -1,15 +1,16 @@
 import { Setup } from '@app/game-mechanics';
-import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
+import { BaseControl, FormDefinition, parse } from '@app/dynamic-forms';
 
 import { composeCommonFormContext, baseTemplate } from '../helpers';
 
-export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseControl[] => {
-    data = data || {} as Setup;
+export const composeSetupForm: FormDefinition<Setup> = (data, ent) => {
 
-    const template = `
+  const template = `
     <Form>
 
         ${baseTemplate}
+
+        <Dropdown name='image' label='Image'>{data.image}</Dropdown>
 
         <NumberInput name='min_players' label='Min players'>{data.min_players}</NumberInput>
 
@@ -21,16 +22,20 @@ export const composeSetupForm = (data: Setup, ent: ConnectedEntities): BaseContr
             {data.get_active_module}
         </CodeEditor>
 
+        <CodeEditor name='get_active_language' label='Get active language' required='{true}'>
+            {data.get_active_language}
+        </CodeEditor>
+
     </Form>
     `;
 
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            data
-        }
-    }, true) as BaseControl[];
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      data: data || {}
+    }
+  }, true) as BaseControl[];
 
-    return result;
+  return result;
 };

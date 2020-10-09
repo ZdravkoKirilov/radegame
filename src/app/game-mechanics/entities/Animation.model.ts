@@ -76,10 +76,10 @@ export type AnimationStep = Tagged<'AnimationStep', {
   from_value: string; // this is the place for dynamic styles as well, but also arbitrary values not part of RzStyle
   to_value: string;
 
-  from_style_inline: string;
-  to_style_inline: string;
+  from_style: string;
+  to_style: string;
 
-  output_transformer: string;
+  transform_result: string;
 
   easing: AnimationEasing;
   delay: number;
@@ -94,25 +94,25 @@ type DtoAnimationStep = Omit<AnimationStep, 'id' | 'owner' | '__tag'> & {
   owner: number;
 }
 
-export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value' | 'from_style_inline' | 'to_style_inline' | 'output_transformer'> & {
+export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value' | 'from_style' | 'to_style' | 'transform_result'> & {
   from_value: ParamedExpressionFunc<AnimationPayload, Dictionary>;
   to_value: ParamedExpressionFunc<AnimationPayload, Dictionary>;
 
-  from_style_inline: Style;
-  to_style_inline: Style;
+  from_style: Style;
+  to_style: Style;
 
-  output_transformer: ParamedExpressionFunc<Dictionary, Dictionary>;
+  transform_result: ParamedExpressionFunc<Dictionary, Dictionary>;
 }
 
 const AnimationStep: GameEntityParser<AnimationStep, DtoAnimationStep, RuntimeAnimationStep> = {
   toRuntime(context, step) {
 
     return enrichEntity<AnimationStep, RuntimeAnimationStep>(context.conf, {
-      from_style_inline: (src: string) => safeJSON(src, {}),
-      to_style_inline: (src: string) => safeJSON(src, {}),
+      from_style: (src: string) => safeJSON(src, {}),
+      to_style: (src: string) => safeJSON(src, {}),
       from_value: (src: string) => parseAndBind(context)(src),
       to_value: (src: string) => parseAndBind(context)(src),
-      output_transformer: src => parseAndBind(context)(src),
+      transform_result: src => parseAndBind(context)(src),
     }, step);
   },
 

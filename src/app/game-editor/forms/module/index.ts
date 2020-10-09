@@ -1,35 +1,31 @@
 import { Module } from '@app/game-mechanics';
-import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
+import { BaseControl, FormDefinition, parse } from '@app/dynamic-forms';
+
 import {
-    baseTemplate, boardTemplate, composeCommonFormContext
+  baseTemplate, composeCommonFormContext
 } from '../helpers';
 
-export function composeModuleForm(data: Module, ent: ConnectedEntities): BaseControl[] {
-    data = data || {};
+export const composeModuleForm: FormDefinition<Module> = (data, ent) => {
 
-    const template = `
+  const template = `
     <Form>
         ${baseTemplate}
-        ${boardTemplate}
+        
+        <Dropdown name='board' label='Entry' options='{widget_options}' showImage='{true}'>{data.entry}</Dropdown>
+        <Dropdown name='loader' label='Loader' options='{widget_options}' showImage='{true}'>{data.loader}</Dropdown>
 
-        <CodeEditor name="preload" label="Preload">
-            {data.preload}
-        </CodeEditor>
-
-        <CodeEditor name="load_done" label="Has loaded if">
-            {data.load_done}
-        </CodeEditor>
+        <ButtonGroup name='dependencies' label='Dependencies' options='{module_options}'>{data.dependencies}</ButtonGroup>
 
     </Form>
 `;
 
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            data
-        },
-    }, true);
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      data: data || {}
+    },
+  }, true);
 
-    return result as BaseControl[];
+  return result as BaseControl[];
 }

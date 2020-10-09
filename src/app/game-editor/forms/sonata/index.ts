@@ -1,13 +1,12 @@
 import {
   BaseControl,
-  FormDefinition, ConnectedEntities, parse
+  FormDefinition, parse
 } from '@app/dynamic-forms';
 import { Sonata, SonataStep, SONATA_PLAY_TYPE } from '@app/game-mechanics';
+
 import { composeCommonFormContext, composeFromObject, baseTemplate } from '../helpers';
 
-export const composeSonataForm: FormDefinition = (data: Sonata, ent?: ConnectedEntities) => {
-  data = data || {};
-  const steps = data.steps || [];
+export const composeSonataForm: FormDefinition<Sonata> = (data, ent) => {
 
   const template = `
     <Form>
@@ -26,7 +25,7 @@ export const composeSonataForm: FormDefinition = (data: Sonata, ent?: ConnectedE
     source: template,
     context: {
       ...composeCommonFormContext(ent),
-      data, steps,
+      data: data || {},
       types: composeFromObject(SONATA_PLAY_TYPE),
     }
   }, true) as BaseControl[];
@@ -34,8 +33,7 @@ export const composeSonataForm: FormDefinition = (data: Sonata, ent?: ConnectedE
   return result;
 };
 
-export const composeSonataStepForm = (data: SonataStep, ent?: ConnectedEntities) => {
-  data = data || {};
+export const composeSonataStepForm: FormDefinition<SonataStep> = (data, ent) => {
 
   const template = `
     <Form>
@@ -69,7 +67,7 @@ export const composeSonataStepForm = (data: SonataStep, ent?: ConnectedEntities)
     source: template,
     context: {
       ...composeCommonFormContext(ent),
-      data
+      data: data || {}
     }
   }, true) as BaseControl[];
 

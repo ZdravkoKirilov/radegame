@@ -10,7 +10,7 @@ import { WithStyle, BaseModel, GameEntityParser } from "./Base.model";
 import { toModuleId } from "./Module.model";
 
 export type ShapeId = Nominal<string, 'ShapeId'>;
-const toShapeId = (source: unknown) => String(source) as ShapeId;
+export const toShapeId = (source: unknown) => String(source) as ShapeId;
 
 export type Shape = Tagged<'Shape', WithStyle & BaseModel<ShapeId> & {
   type: ShapeType;

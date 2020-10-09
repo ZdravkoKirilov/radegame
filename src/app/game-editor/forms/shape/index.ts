@@ -1,14 +1,15 @@
 import { Shape, SHAPE_TYPES } from '@app/game-mechanics';
-import { BaseControl, ConnectedEntities, parse } from '@app/dynamic-forms';
+import { BaseControl, FormDefinition, parse } from '@app/dynamic-forms';
+
 import {
-    composeCommonFormContext, composeFromObject, styleTemplate, composeInlineStyleFormContext, baseTemplate
+  composeCommonFormContext, composeFromObject, styleTemplate, composeInlineStyleFormContext, baseTemplate
 } from '../helpers';
 
-export function composeShapeForm(data: Shape, ent: ConnectedEntities): BaseControl[] {
-    data = data || {};
-    const points = data.points || [];
+export const composeShapeForm: FormDefinition<Shape> = (data, ent) => {
 
-    const template = `
+  const points = data.points || [];
+
+  const template = `
     <Form>
 
         ${baseTemplate}
@@ -33,14 +34,14 @@ export function composeShapeForm(data: Shape, ent: ConnectedEntities): BaseContr
     </Form>
     `;
 
-    const result = parse({
-        source: template,
-        context: {
-            ...composeCommonFormContext(ent),
-            ...composeInlineStyleFormContext(ent),
-            data, types: composeFromObject(SHAPE_TYPES), points
-        },
-    }, true);
+  const result = parse({
+    source: template,
+    context: {
+      ...composeCommonFormContext(ent),
+      ...composeInlineStyleFormContext(ent),
+      data: data || {}, types: composeFromObject(SHAPE_TYPES), points
+    },
+  }, true);
 
-    return result as BaseControl[];
+  return result as BaseControl[];
 }

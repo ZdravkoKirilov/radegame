@@ -1,15 +1,17 @@
 import { Nominal } from 'simplytyped';
+import { omit } from 'lodash/fp';
 
-import { Omit } from '@app/shared';
+import { Omit, Tagged } from '@app/shared';
 
 import { enrichEntity } from "../helpers";
-import { Module, ModuleId } from "./Module.model";
-import { ExpressionContext, GameId } from "../models";
+import { Module, ModuleId, toModuleId } from "./Module.model";
+import { GameId, toGameId } from "../models";
+import { GameEntityParser } from './Base.model';
 
 export type VersionId = Nominal<string, 'VersionId'>;
 export const toVersionId = (source: unknown) => String(source) as VersionId;
 
-export type Version = {
+export type Version = Tagged<'Version', {
   id: VersionId;
   game: GameId;
 
@@ -20,18 +22,45 @@ export type Version = {
   date_modified: string;
 
   menu: ModuleId;
+}>;
+
+export type DtoVersion = Omit<Version, '__tag' | 'id' | 'game' | 'menu'> & {
+  id: number;
+  game: number;
+  menu: number;
 };
 
 export type RuntimeVersion = Omit<Version, 'menu'> & {
   menu: Module;
 };
 
-export const Version = {
-  toRuntime(context: ExpressionContext, version: Version) {
+export const Version: GameEntityParser<Version, DtoVersion, RuntimeVersion> = {
+
+  toRuntime(context, version) {
     const config = context.conf;
     return enrichEntity<Version, RuntimeVersion>(config, {
       menu: 'modules'
     }, version);
-  }
+  },
+
+  toEntity(dto) {
+    return {
+      ...dto,
+      __tag: 'Version',
+      id: toVersionId(dto.id),
+      game: toGameId(dto.game),
+      menu: toModuleId(dto.menu),
+    };
+  },
+
+  toDto(entity) {
+    return {
+      ...omit('__tag', entity),
+      id: Number(entity.id),
+      game: Number(entity.game),
+      menu: Number(entity.menu),
+    };
+  },
+  
 };
 

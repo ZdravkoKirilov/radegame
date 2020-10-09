@@ -1,34 +1,41 @@
 import { Omit, Nominal } from 'simplytyped';
+import { omit } from 'lodash/fp';
 
-import { RzEventTypes, StatefulComponent } from "@app/render-kit";
-import { safeJSON } from "@app/shared";
+import { RzEventTypes, RzStyles, StatefulComponent } from "@app/render-kit";
+import { safeJSON, Tagged } from "@app/shared";
 
-import { BaseModel, WithBoard, WithStyle } from "./Base.model";
-import { Shape, ShapeId } from "./Shape.model";
-import { Token, TokenId } from "./Token.model";
-import { Widget, WidgetId } from "./Widget.model";
+import { GameEntityParser, WithStyle } from "./Base.model";
+import { Shape, ShapeId, toShapeId } from "./Shape.model";
+import { Token, TokenId, toTokenId } from "./Token.model";
+import { toWidgetId, Widget, WidgetId } from "./Widget.model";
 import {
   ParamedExpressionFunc, EventHandlingExpressionFunc, LifecycleExpressionFunc, ContextSubscribingFunc,
   SonataGetterFunc
 } from "./Expression.model";
-import { Style } from "./Style.model";
-import { Text } from "./Text.model";
-import { Sonata } from "./Sonata.model";
-import { Module, ModuleId } from "./Module.model";
+import { Text, TextId, toTextId } from "./Text.model";
+import { Sonata, SonataId, toSonataId } from "./Sonata.model";
+import { Module, ModuleId, toModuleId } from "./Module.model";
 import { enrichEntity, parseAndBind } from "../helpers";
-import { ExpressionContext } from "../models";
+import { ImageAsset, ImageAssetId, toImageId } from './ImageAsset.model';
+import { Style } from './Style.model';
 
 export type WidgetNodeId = Nominal<string, 'WidgetNodeId'>;
+export const toNodeId = (source: unknown) => String(source) as WidgetNodeId;
 
-export type WidgetNode = BaseModel<WidgetNodeId> & WithBoard & WithStyle & Partial<{
+export type WidgetNode = WithStyle & Tagged<'WidgetNode', {
+  id: WidgetNodeId;
   owner: WidgetId;
 
-  display_text: string;
-  display_text_inline: number;
+  name: string;
+  description: string;
 
   token: TokenId;
   shape: ShapeId;
   module: ModuleId;
+  widget: WidgetId;
+  image: ImageAssetId;
+  text: TextId;
+  dynamic_text: string;
 
   provide_context: string;
   consume_context: string;
@@ -39,39 +46,31 @@ export type WidgetNode = BaseModel<WidgetNodeId> & WithBoard & WithStyle & Parti
   lifecycles: NodeLifecycle[];
 }>;
 
-export const WidgetNode = {
-  toRuntime(context: ExpressionContext, initialNode: WidgetNode) {
-    const config = context.conf;
-    const node = enrichEntity<WidgetNode, RuntimeWidgetNode>(config, {
-      style: src => parseAndBind(context)(src),
-      style_inline: value => safeJSON(value, null),
-      shape: (shapeId: string) => enrichEntity(config, {
-        style_inline: (src: string) => safeJSON(src, {})
-      }, config.shapes[shapeId]),
-      display_text: src => parseAndBind(context)(src),
-      consume_context: src => parseAndBind(context)(src),
-      provide_context: src => parseAndBind(context)(src),
-      pass_to_children: src => parseAndBind(context)(src),
-      display_text_inline: 'texts',
-      board: 'widgets',
-    }, initialNode);
+export type DtoWidgetNode = Omit<WidgetNode, '__tag' | 'id' | 'module' | 'owner' | 'token' | 'shape' | 'widget' | 'image' | 'text' | 'handlers' | 'lifecycles'> & {
+  id: number;
+  owner: number;
+  module: number;
+  widget: number;
+  token: number;
+  image: number;
+  text: number;
+  shape: number;
+  handlers: DtoNodeHandler[];
+  lifecycles: DtoNodeLifecycle[];
+};
 
-    return node;
-  }
-}
-
-export type RuntimeWidgetNode = Omit<WidgetNode, 'board' | 'style' | 'style_inline' | 'token' | 'shape' | 'display_text' | 'provide_context' | 'consume_context' | 'module'> & {
+export type RuntimeWidgetNode = Omit<WidgetNode, 'module' | 'token' | 'shape' | 'text' | 'widget' | 'image' | 'style' | 'style_inline' | 'provide_context' | 'consume_context' | 'pass_to_children'> & {
 
   token: Token;
   shape: Shape;
-  board: Widget;
+  widget: Widget;
   module: Module;
+  image: ImageAsset;
+  dynamic_text: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, Text>;
+  text: Text;
 
   style: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, Style>;
-  style_inline: Style;
-
-  display_text: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, Text>;
-  display_text_inline: Text;
+  style_inline: RzStyles;
 
   provide_context: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, any>; // provideValueToSubscribers
   consume_context: ContextSubscribingFunc;
@@ -79,64 +78,185 @@ export type RuntimeWidgetNode = Omit<WidgetNode, 'board' | 'style' | 'style_inli
   pass_to_children: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, any>;
 };
 
-export type NodeHandlerId = Nominal<string, "NodeHandlerId">;
+export const WidgetNode: GameEntityParser<WidgetNode, DtoWidgetNode, RuntimeWidgetNode> = {
 
-export type NodeHandler = {
+  toRuntime(context, node) {
+    return enrichEntity<WidgetNode, RuntimeWidgetNode>(context.conf, {
+      style: src => parseAndBind(context)(src),
+      style_inline: value => safeJSON(value, null),
+      dynamic_text: src => parseAndBind(context)(src),
+      consume_context: src => parseAndBind(context)(src),
+      provide_context: src => parseAndBind(context)(src),
+      pass_to_children: src => parseAndBind(context)(src),
+
+      text: 'texts',
+      widget: 'widgets',
+      module: 'modules',
+      shape: 'shapes',
+      image: 'images',
+      token: 'tokens',
+    }, node);
+
+  },
+
+  toDto(entity) {
+    return {
+      ...omit('__tag', entity),
+      id: Number(entity.id);
+      owner: Number(entity.owner);
+
+      widget: Number(entity.widget),
+      module: Number(entity.module),
+      token: Number(entity.token),
+      image: Number(entity.image),
+      text: Number(entity.text),
+      shape: Number(entity.shape),
+
+      handlers: entity.handlers.map(elem => NodeHandler.toDto(elem)),
+      lifecycles: entity.lifecycles.map(elem => NodeLifecycle.toDto(elem)),
+    };
+  },
+
+  toEntity(dto) {
+    return {
+      ...dto,
+      __tag: 'WidgetNode',
+      id: toNodeId(dto.id),
+      owner: toWidgetId(dto.owner),
+      module: toModuleId(dto.module),
+      widget: toWidgetId(dto.widget),
+      token: toTokenId(dto.token),
+      text: toTextId(dto.text),
+      shape: toShapeId(dto.shape),
+      image: toImageId(dto.image),
+
+      handlers: dto.handlers.map(elem => NodeHandler.toEntity(elem)),
+      lifecycles: dto.handlers.map(elem => NodeLifecycle.toEntity(elem)),
+    };
+  }
+}
+
+export type NodeHandlerId = Nominal<string, "NodeHandlerId">;
+const toHandlerId = (source: unknown) => String(source) as NodeHandlerId;
+
+export type NodeHandler = Tagged<'NodeHandler', {
   id: NodeHandlerId;
-  owner: number;
+  owner: WidgetNodeId;
+
+  name: string;
 
   type: RzEventTypes;
   effect: string; // Expression
-  sound: string; // Expression -> Sonata
-  static_sound: number; // Sonata
+  dynamic_sound: string; // Expression -> Sonata
+  sound: SonataId;
+}>;
+
+type DtoNodeHandler = Omit<NodeHandler, '__tag' | 'id' | 'owner' | 'sound' | 'type'> & {
+  id: number;
+  owner: number;
+  sound: number;
+  type: string;
 };
 
-export const NodeHandler = {
-  toRuntime(context: ExpressionContext, handler: NodeHandler) {
+export type RuntimeNodeHandler = Omit<NodeHandler, 'effect' | 'sound' | 'dynamic_sound'> & {
+  effect: EventHandlingExpressionFunc;
+  dynamic_sound: SonataGetterFunc;
+  sound: Sonata;
+};
+
+export const NodeHandler: GameEntityParser<NodeHandler, DtoNodeHandler, RuntimeNodeHandler> = {
+
+  toEntity(dto) {
+    return {
+      ...dto,
+      __tag: 'NodeHandler',
+      id: toHandlerId(dto.id),
+      owner: toNodeId(dto.owner),
+      sound: toSonataId(dto.sound),
+      type: dto.type as RzEventTypes,
+    };
+  },
+
+  toDto(entity) {
+    return {
+      ...omit('__tag', entity),
+      id: Number(entity.id),
+      owner: Number(entity.owner),
+      sound: Number(entity.sound),
+    };
+  },
+
+  toRuntime(context, handler) {
     const config = context.conf;
     return enrichEntity<NodeHandler, RuntimeNodeHandler>(config, {
       effect: src => parseAndBind(context)(src),
-      sound: src => parseAndBind(context)(src),
-      static_sound: 'sonatas',
+      dynamic_sound: src => parseAndBind(context)(src),
+      sound: 'sonatas',
     }, handler);
   }
 }
 
-export type RuntimeNodeHandler = Omit<NodeHandler, 'effect' | 'sound' | 'static_sound'> & {
-  effect: EventHandlingExpressionFunc;
-  sound: SonataGetterFunc;
-  static_sound: Sonata;
-}
-
 export type NodeLifecycleId = Nominal<string, "NodeLifecycleId">;
+const toLifecycleId = (source: unknown) => String(source) as NodeLifecycleId;
 
-export type NodeLifecycle = {
+export type NodeLifecycle = Tagged<'NodeLifecycle', {
   id: NodeLifecycleId;
-  owner: number;
+  owner: WidgetNodeId;
+
+  name: string;
+
   type: NODE_LIFECYCLES;
 
   effect: string;
 
-  sound: string; // Expression -> Sonata
-  static_sound: number; // Sonata
-};
+  dynamic_sound: string; // Expression -> Sonata
+  sound: SonataId;
+}>
 
-export const NodeLifecycle = {
-  toRuntime(context: ExpressionContext, lifecycle: NodeLifecycle) {
-    return enrichEntity<NodeLifecycle, RuntimeNodeLifecycle>(context.conf, {
-      effect: src => parseAndBind(context)(src),
-      sound: src => parseAndBind(context)(src),
-      static_sound: 'sonatas',
-    }, lifecycle);
-  }
+type DtoNodeLifecycle = Omit<NodeLifecycle, '__tag' | 'id' | 'owner' | 'sound' | 'type'> & {
+  id: number;
+  owner: number;
+  sound: number;
+  type: string;
 }
 
-export type RuntimeNodeLifecycle = Omit<NodeLifecycle, 'effect' | 'sound' | 'static_sound'> & Partial<{
+export type RuntimeNodeLifecycle = Omit<NodeLifecycle, 'effect' | 'sound' | 'dynamic_sound'> & Partial<{
   effect: LifecycleExpressionFunc;
 
-  sound: SonataGetterFunc;
-  static_sound: Sonata;
+  dynamic_sound: SonataGetterFunc;
+  sound: Sonata;
 }>;
+
+export const NodeLifecycle: GameEntityParser<NodeLifecycle, DtoNodeLifecycle, RuntimeNodeLifecycle> = {
+
+  toEntity(dto) {
+    return {
+      ...dto,
+      __tag: 'NodeLifecycle',
+      id: toLifecycleId(dto.id),
+      owner: toNodeId(dto.owner),
+      sound: toSonataId(dto.sound),
+      type: dto.type as NODE_LIFECYCLES,
+    };
+  },
+
+  toDto(entity) {
+    return {
+      ...omit('__tag', entity),
+      id: Number(entity.id),
+      owner: Number(entity.owner),
+      sound: Number(entity.sound),
+    };
+  },
+
+  toRuntime(context, lifecycle) {
+    return enrichEntity<NodeLifecycle, RuntimeNodeLifecycle>(context.conf, {
+      effect: src => parseAndBind(context)(src),
+      dynamic_sound: src => parseAndBind(context)(src),
+      sound: 'sonatas',
+    }, lifecycle);
+  }
+};
 
 export enum NODE_LIFECYCLES {
   'onUpdate' = 'onUpdate',

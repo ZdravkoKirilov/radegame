@@ -1,5 +1,6 @@
 import { BaseControl, parse, ConnectedEntities } from '@app/dynamic-forms';
 import { Game } from '@app/game-mechanics';
+
 import { composeCommonFormContext } from '../helpers';
 
 export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl[] {
@@ -16,9 +17,9 @@ export function composeGameForm(data: Game, ent: ConnectedEntities): BaseControl
 
             <ImagePicker name='image' label='Image' required='{true}' asBase64='{true}'>{data.image}</ImagePicker>
 
-            <CodeEditor name='get_active_language' label='Get active language' required="true">
-              {data.get_active_language}
-            </CodeEditor>
+            <Dropdown name='menu' label='Menu' options='{module_options}'>
+              {data.menu}
+            </Dropdown>
 
             <Group name='languages' label='Languages' children='{languages}' item='@item' addButtonText='Add'>
               <Form>

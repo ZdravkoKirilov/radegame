@@ -1,27 +1,26 @@
 import { FormDefinition, BaseControl, parse } from "@app/dynamic-forms";
 import { ImageAsset } from "@app/game-mechanics";
+
 import { baseTemplate } from "../helpers";
 
-export const composeImageForm: FormDefinition = (data: ImageAsset) => {
+export const composeImageForm: FormDefinition<ImageAsset> = (data) => {
 
-    data = data || {};
+  const template = `
+    <Form>
 
-    const template = `
-        <Form>
+        ${baseTemplate}
 
-            ${baseTemplate}
+        <ImagePicker name='image' label='Add image' required='{true}'>{data.image}</ImagePicker>
 
-            <ImagePicker name='image' label='Add image' required='{true}'>{data.image}</ImagePicker>
+    </Form>
+  `;
 
-        </Form>
-    `;
+  const result = parse({
+    source: template,
+    context: {
+      data: data || {},
+    },
+  }, true);
 
-    const result = parse({
-        source: template,
-        context: {
-            data,
-        },
-    }, true);
-
-    return result as BaseControl[];
+  return result as BaseControl[];
 };
