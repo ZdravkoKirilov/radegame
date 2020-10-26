@@ -25,12 +25,10 @@ const moduleRenderer = Memo<Props>(({ runtimeModule, fromParent }) => {
     { widget: runtimeModule.loader },
   ) : createElement(DefaultLoader);
 
-  return createElement<DataLoaderProps>(
+ /*  return createElement<DataLoaderProps>(
     DataLoader,
     {
       fallback,
-      load_done: runtimeModule.load_done,
-      preload: runtimeModule.preload,
     },
     createElement<RootWidgetProps>(
       RootWidget,
@@ -38,7 +36,9 @@ const moduleRenderer = Memo<Props>(({ runtimeModule, fromParent }) => {
         widget: runtimeModule.board, fromParent,
       }
     )
-  );
+  ); */
+
+  return null;
 });
 
 const mapStateToProps = (state: CommonGameStore, ownProps: ModuleRendererProps): StoreProps => ({

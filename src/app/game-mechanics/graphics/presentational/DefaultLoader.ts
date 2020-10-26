@@ -8,7 +8,7 @@ export type DefaultLoaderProps = Partial<{
   text: string;
 }>;
 
-export const DefaultLoader: RenderFunction<DefaultLoaderProps> = ({ style = {}, text = 'Loading...' }) => {
+export const DefaultLoader: RenderFunction<DefaultLoaderProps> = ({ style = {} as Style, text = 'Loading...' }) => {
   return (
     createElement<BasicTextNodeProps>(BasicTextNode, {
       text, style

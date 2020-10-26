@@ -6,7 +6,7 @@ export const playSoundIfNeeded = (sound: SonataGetterFunc, static_sound: Sonata,
   const sonata = typeof sound === 'function' ? sound(self) : static_sound;
 
   if (sonata) {
-    const runtimeSonata = Sonata.toRuntime(context.conf, sonata);
+    const runtimeSonata = Sonata.toRuntime(context, sonata);
     const soundPlayer = new SoundPlayer();
     soundPlayer.play(runtimeSonata);
   }

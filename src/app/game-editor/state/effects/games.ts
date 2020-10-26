@@ -10,6 +10,7 @@ import { formatGameConfigData } from '@app/shared';
 import {
   gameActionTypes, FetchGameData, SetGameData, FetchGamesAction, SetGamesAction, SaveGameAction, SetGameAction, DeleteGameAction, RemoveGameAction, FetchGameDetails
 } from '../actions';
+import { Game } from '@app/game-mechanics';
 
 @Injectable()
 export class GameEffectsService {
@@ -59,7 +60,7 @@ export class GameEffectsService {
   saveGame = this.actions$.pipe(
     ofType<SaveGameAction>(gameActionTypes.SAVE_GAME),
     switchMap(action => this.api.saveGame(action.payload.game).pipe(
-      map(game => {
+      map((game: Game) => {
         this.snackbar.open('Game was saved', 'Success', { duration: 3000 });
         return new SetGameAction({ game });
       }),

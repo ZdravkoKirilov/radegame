@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import {
   FetchVersionDetails, versionActionTypes, SetVersion, FetchVersions, SetVersions, SaveVersion, DeleteVersion, RemoveVersion
 } from '../actions';
+import { toGameId } from '@app/game-mechanics';
 
 @Injectable()
 export class VersionEffectsService {
@@ -41,7 +42,7 @@ export class VersionEffectsService {
   @Effect()
   saveVersion = this.actions$.pipe(
     ofType<SaveVersion>(versionActionTypes.SAVE_VERSION),
-    switchMap(action => this.api.saveVersion(action.payload.version).pipe(
+    switchMap(action => this.api.saveVersion(action.payload.version, toGameId(1)).pipe(
       map(version => {
         this.snackbar.open('Version was saved', 'Success', { duration: 3000 });
         return new SetVersion({ version });
@@ -56,7 +57,7 @@ export class VersionEffectsService {
   @Effect()
   deleteVersion = this.actions$.pipe(
     ofType<DeleteVersion>(versionActionTypes.DELETE_VERSION),
-    switchMap(action => this.api.deleteVersion(action.payload.version).pipe(
+    switchMap(action => this.api.deleteVersion(action.payload.version, toGameId(1)).pipe(
       map(() => {
         this.snackbar.open('Version was deleted', 'Success', { duration: 3000 });
         return new RemoveVersion({ version: action.payload.version });

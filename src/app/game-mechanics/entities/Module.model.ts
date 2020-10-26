@@ -22,7 +22,7 @@ export type Module = Tagged<'Module', {
   dependencies: ModuleId[];
 }>;
 
-type DtoModule = Omit<Module, 'id' | '__tag' | 'entry' | 'loader' | 'version' | 'dependencies'> & {
+export type DtoModule = Omit<Module, 'id' | '__tag' | 'entry' | 'loader' | 'version' | 'dependencies'> & {
   id: number;
   version: number;
   entry: number;

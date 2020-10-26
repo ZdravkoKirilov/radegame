@@ -35,7 +35,7 @@ class _RootWidget extends StatefulComponent<Props> {
     const nodes = selectWidgetNodesSync(runtimeWidget, context, self);
     const frame = selectWidgetFrameSync(runtimeWidget, context, self);
     const customRenderFunc = runtimeWidget?.render;
-    const widgetStyle = combineStyles(runtimeWidget);
+    const widgetStyle = combineStyles(runtimeWidget as any);
 
     return (
       isFunction(customRenderFunc) ? customRenderFunc({ widget: runtimeWidget, component: this }) : createElement<WidgetRendererProps>(
@@ -43,7 +43,7 @@ class _RootWidget extends StatefulComponent<Props> {
         {
           renderChild: renderChild || defaultChildRenderFunc(fromParent), nodes, frame,
           widget: runtimeWidget,
-          style: style || { width: widgetStyle.width, height: widgetStyle.height },
+          style: style || { width: widgetStyle.width, height: widgetStyle.height } as Style,
           renderFrame: renderFrame || defaultFrameRenderFunc(fromParent),
         }
       )

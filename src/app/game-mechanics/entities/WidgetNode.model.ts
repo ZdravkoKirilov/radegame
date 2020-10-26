@@ -102,8 +102,8 @@ export const WidgetNode: GameEntityParser<WidgetNode, DtoWidgetNode, RuntimeWidg
   toDto(entity) {
     return {
       ...omit('__tag', entity),
-      id: Number(entity.id);
-      owner: Number(entity.owner);
+      id: Number(entity.id),
+      owner: Number(entity.owner),
 
       widget: Number(entity.widget),
       module: Number(entity.module),
@@ -144,6 +144,7 @@ export type NodeHandler = Tagged<'NodeHandler', {
   owner: WidgetNodeId;
 
   name: string;
+  description: string;
 
   type: RzEventTypes;
   effect: string; // Expression
@@ -204,6 +205,7 @@ export type NodeLifecycle = Tagged<'NodeLifecycle', {
   owner: WidgetNodeId;
 
   name: string;
+  description: string;
 
   type: NODE_LIFECYCLES;
 

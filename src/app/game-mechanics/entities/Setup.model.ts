@@ -30,7 +30,7 @@ export type Setup = Tagged<'Setup', {
   get_active_language: string;
 }>;
 
-type DtoSetup = Omit<Setup, '__tag' | 'id' | 'version' | 'image'> & {
+export type DtoSetup = Omit<Setup, '__tag' | 'id' | 'version' | 'image'> & {
   id: number;
   version: number;
   image: number;

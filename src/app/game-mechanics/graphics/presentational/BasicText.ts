@@ -7,7 +7,7 @@ export type BasicTextNodeProps = {
 };
 
 export const BasicTextNode = Memo<BasicTextNodeProps>(({ style, text }) => {
-    style = style || {};
+    style = style || {} as Style;
     text = text || 'Default value';
 
     return createElement<RzElementPrimitiveProps>(

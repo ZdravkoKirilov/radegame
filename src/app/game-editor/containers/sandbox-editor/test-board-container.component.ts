@@ -59,7 +59,7 @@ export class TestBoardContainerComponent implements OnInit {
 
   sandboxType: SandboxType;
 
-  form: FormDefinition = composeSandboxForm;
+  form: FormDefinition<Sandbox> = composeSandboxForm;
   savedSandbox: Sandbox;
 
   @OnChange<Sandbox>(function (sandbox) {
@@ -138,14 +138,14 @@ export class TestBoardContainerComponent implements OnInit {
   }
 
   handleRun() {
-    if (this.runtimeDraftSandbox?.preload && this.runtimeDraftSandbox?.load_done) {
+  /*   if (this.runtimeDraftSandbox?.preload && this.runtimeDraftSandbox?.load_done) {
       if (!this.runtimeDraftSandbox.load_done()) {
         this.rerunId += 1;
         this.runtimeDraftSandbox.preload();
       }
     } else {
       this.rerunId += 1;
-    }
+    } */
   }
 
   handleSave() {

@@ -14,13 +14,13 @@ export type NodeFactoryProps = {
 }
 
 export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
-    if (data.display_text || data.display_text_inline) {
+    if (data.text || data.dynamic_text) {
         return createElement<EnhancedTextNodeProps>(EnhancedTextNode, { data, fromParent });
     }
     if (data.shape) {
         return createElement<EnhancedShapeNodeProps>(EnhancedShapeNode, { data, fromParent });
     }
-    if (data.board) {
+    if (data.widget) {
         return createElement<EnhancedWidgetNodeProps>(EnhancedWidgetNode, { data, fromParent });
     }
     if (data.token) {

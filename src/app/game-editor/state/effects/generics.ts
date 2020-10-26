@@ -7,7 +7,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { GameEditService, GameFetchService } from '@app/core';
 import {
   GameEntity, Module, Token, ImageAsset, Widget, WidgetNode, Style, Setup,
-  AllEntity, ALL_ENTITIES, Animation, Sonata, Text, Shape, Sandbox, Sound, Expression, EntityId, GameId, toWidgetId
+  AllEntity, ALL_ENTITIES, Animation, Sonata, Text, Shape, Sandbox, Sound, Expression, EntityId, GameId, toWidgetId, toGameId
 } from '@app/game-mechanics';
 import { toDictionary } from '@app/shared';
 
@@ -73,7 +73,7 @@ export class GenericEffectsService {
 
   @Effect() saveSetup = this.actions$.pipe(
     ofType<SaveSetup>(genericActionTypes.SAVE_SETUP),
-    switchMap(action => this.api.saveSetup(action.payload.setup).pipe(
+    switchMap(action => this.api.saveSetup(action.payload.setup, toGameId(1)).pipe(
       mergeMap((createdSetup: Setup) => {
         const payload = {
           key: ALL_ENTITIES.setups,
@@ -90,7 +90,7 @@ export class GenericEffectsService {
 
   @Effect() saveModule = this.actions$.pipe(
     ofType<SaveModule>(genericActionTypes.SAVE_MODULE),
-    switchMap(action => this.api.saveModule(action.payload.module).pipe(
+    switchMap(action => this.api.saveModule(action.payload.module, toGameId(1)).pipe(
       mergeMap(createdModule => {
         const payload = {
           key: ALL_ENTITIES.modules,
@@ -110,7 +110,7 @@ export class GenericEffectsService {
     map((action: SaveItemAction<GameEntity>) => action.payload),
     switchMap(payload => {
       const { key, data } = payload;
-      return this.saveRequest(key, data).pipe(
+      return this.saveRequest(data, toGameId(1)).pipe(
         mergeMap((res: GameEntity) => {
           const response: PayloadWithItem<GameEntity> = {
             key, data: res
@@ -118,12 +118,12 @@ export class GenericEffectsService {
           return [
             new SetItemAction(response),
             new SaveItemSuccessAction(response),
-            key === 'nodes' ? new FetchItemAction({
-              key: ALL_ENTITIES.widgets, data: {
+          /*   key === 'nodes' ? new FetchItemAction({
+              key: "Widget", data: {
                 gameId: data['game'],
                 itemId: data['owner'],
               }
-            }) : null
+            }) : null */
           ].filter(Boolean);
         }),
         catchError(() => {
@@ -138,7 +138,7 @@ export class GenericEffectsService {
     ofType<DeleteSetup>(genericActionTypes.DELETE_SETUP),
     map(action => action.payload),
     switchMap(payload => {
-      return this.api.deleteSetup(payload.setup).pipe(
+      return this.api.deleteSetup(payload.setup, toGameId(1)).pipe(
         mergeMap(() => {
           this.snackbar.open('Setup was deleted', 'Success', { duration: 3000 });
 
@@ -168,17 +168,17 @@ export class GenericEffectsService {
     mergeMap(payload => {
       const { key, data } = payload;
 
-      return this.deleteRequest(key, data).pipe(
+      return this.deleteRequest(data, toGameId(1)).pipe(
         mergeMap(() => {
           return [
             new DeleteItemSuccessAction(payload),
             new RemoveItemAction(payload),
-            key === 'nodes' ? new FetchItemAction({
-              key: ALL_ENTITIES.widgets, data: {
+           /*  key === 'nodes' ? new FetchItemAction({
+              key: "Widget", data: {
                 gameId: data['game'],
                 itemId: data['owner'],
               }
-            }) : null,
+            }) : null, */
           ].filter(Boolean);
         }),
         catchError(() => {
@@ -189,99 +189,99 @@ export class GenericEffectsService {
     })
   );
 
-  fetchSingleItem(key: AllEntity, itemId: EntityId, gameId: GameId) {
+  fetchSingleItem(key: string, itemId: EntityId, gameId: GameId) {
     switch (key) {
-      case ALL_ENTITIES.widgets:
+      case "Widget":
         return this.fetcher.getWidget(gameId, toWidgetId(itemId));
       default:
         return of(null);
     }
   }
 
-  fetchRequest(key: AllEntity, gameId: GameId): Observable<any[]> {
+  fetchRequest(key: string, gameId: GameId): Observable<any[]> {
     switch (key) {
       case ALL_ENTITIES.modules:
         return this.fetcher.getModules(gameId);
       case ALL_ENTITIES.setups:
         return this.fetcher.getSetups(gameId);
-      case ALL_ENTITIES.widgets:
+      case "Widget":
         return this.fetcher.getWidgets(gameId);
       case ALL_ENTITIES.tokens:
         return this.fetcher.getTokens(gameId);
-      case ALL_ENTITIES.images:
+      case "ImageAsset":
         return this.fetcher.getImages(gameId);
-      case ALL_ENTITIES.sandboxes:
+      case "Sandbox":
         return this.fetcher.getSandboxes(gameId);
       default:
         return of(null);
     }
   };
 
-  saveRequest(key: AllEntity, entity: GameEntity): Observable<GameEntity> {
-    switch (key) {
-      case ALL_ENTITIES.sandboxes:
-        return this.api.saveSandbox(<Sandbox>entity);
-      case ALL_ENTITIES.modules:
-        return this.api.saveModule(<Module>entity);
-      case ALL_ENTITIES.widgets:
-        return this.api.saveWidget(<Widget>entity);
-      case ALL_ENTITIES.nodes:
-        return this.api.saveNode(<WidgetNode>entity);
-      case ALL_ENTITIES.tokens:
-        return this.api.saveToken(<Token>entity);
-      case ALL_ENTITIES.images:
-        return this.api.saveImage(<ImageAsset>entity);
-      case ALL_ENTITIES.styles:
-        return this.api.saveStyle(<Style>entity);
-      case ALL_ENTITIES.sounds:
-        return this.api.saveSound(<Sound>entity);
-      case ALL_ENTITIES.expressions:
-        return this.api.saveExpression(<Expression>entity);
-      case ALL_ENTITIES.animations:
-        return this.api.saveAnimation(<Animation>entity);
-      case ALL_ENTITIES.setups:
-        return this.api.saveSetup(<Setup>entity);
-      case ALL_ENTITIES.texts:
-        return this.api.saveText(<Text>entity);
-      case ALL_ENTITIES.sonatas:
-        return this.api.saveSonata(<Sonata>entity);
-      case ALL_ENTITIES.shapes:
-        return this.api.saveShape(<Shape>entity);
+  saveRequest(entity: GameEntity, gameId: GameId) {
+    switch (entity.__tag) {
+      case "Sandbox":
+        return this.api.saveSandbox(entity, gameId);
+      case "Module":
+        return this.api.saveModule(entity, gameId);
+      case "Widget":
+        return this.api.saveWidget(entity, gameId);
+      case "WidgetNode":
+        return this.api.saveNode(entity, gameId);
+      case "Token":
+        return this.api.saveToken(entity, gameId);
+      case "ImageAsset":
+        return this.api.saveImage(entity, gameId);
+      case "Style":
+        return this.api.saveStyle(entity, gameId);
+      case "Sound":
+        return this.api.saveSound(entity, gameId);
+      case "Expression":
+        return this.api.saveExpression(entity, gameId);
+      case "Animation":
+        return this.api.saveAnimation(entity, gameId);
+      case "Setup":
+        return this.api.saveSetup(entity, gameId);
+      case "Text":
+        return this.api.saveText(entity, gameId);
+      case "Sonata":
+        return this.api.saveSonata(entity, gameId);
+      case "Shape":
+        return this.api.saveShape(entity, gameId);
       default:
         return of(null);
     }
   };
 
-  deleteRequest(key: AllEntity, entity: GameEntity): Observable<GameEntity> {
-    switch (key) {
-      case ALL_ENTITIES.sandboxes:
-        return this.api.deleteSandbox(<Sandbox>entity);
-      case ALL_ENTITIES.modules:
-        return this.api.deleteModule(<Module>entity);
-      case ALL_ENTITIES.widgets:
-        return this.api.deleteWidget(<Widget>entity);
-      case ALL_ENTITIES.nodes:
-        return this.api.deleteNode(<WidgetNode>entity);
-      case ALL_ENTITIES.tokens:
-        return this.api.deleteToken(<Token>entity);
-      case ALL_ENTITIES.images:
-        return this.api.deleteImage(<ImageAsset>entity);
-      case ALL_ENTITIES.styles:
-        return this.api.deleteStyle(<Style>entity);
-      case ALL_ENTITIES.sounds:
-        return this.api.deleteSound(<Sound>entity);
-      case ALL_ENTITIES.expressions:
-        return this.api.deleteExpression(<Expression>entity);
-      case ALL_ENTITIES.animations:
-        return this.api.deleteAnimation(<Animation>entity);
-      case ALL_ENTITIES.setups:
-        return this.api.deleteSetup(<Setup>entity);
-      case ALL_ENTITIES.texts:
-        return this.api.deleteText(<Text>entity);
-      case ALL_ENTITIES.shapes:
-        return this.api.deleteShape(<Shape>entity);
-      case ALL_ENTITIES.sonatas:
-        return this.api.deleteSonata(<Sonata>entity);
+  deleteRequest(entity: GameEntity, gameId: GameId) {
+    switch (entity.__tag) {
+      case "Sandbox":
+        return this.api.deleteSandbox(entity, gameId);
+      case "Module":
+        return this.api.deleteModule(entity, gameId);
+      case "Widget":
+        return this.api.deleteWidget(entity, gameId);
+      case "WidgetNode":
+        return this.api.deleteNode(entity, gameId);
+      case "Token":
+        return this.api.deleteToken(entity, gameId);
+      case "ImageAsset":
+        return this.api.deleteImage(entity, gameId);
+      case "Style":
+        return this.api.deleteStyle(entity, gameId);
+      case "Sound":
+        return this.api.deleteSound(entity, gameId);
+      case "Expression":
+        return this.api.deleteExpression(entity, gameId);
+      case "Animation":
+        return this.api.deleteAnimation(entity, gameId);
+      case "Setup":
+        return this.api.deleteSetup(entity, gameId);
+      case "Text":
+        return this.api.deleteText(entity, gameId);
+      case "Shape":
+        return this.api.deleteShape(entity, gameId);
+      case "Sonata":
+        return this.api.deleteSonata(entity, gameId);
       default:
         return of(null);
     }

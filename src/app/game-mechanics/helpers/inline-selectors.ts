@@ -15,10 +15,10 @@ export const selectChildPropsSync = (node: RuntimeWidgetNode, component: Statefu
 };
 
 export const selectModuleFromGameSync = (game: RuntimeGame, context: ExpressionContext) => {
-  if (game && isFunction(game.get_active_module)) {
+ /*  if (game && isFunction(game.get_active_module)) {
     const moduleName = game.get_active_module();
     return moduleName ? findFirstEntityBy<Module>(context.conf, 'modules', { name: moduleName }) : null;
-  }
+  } */
   return null;
 };
 
@@ -36,37 +36,37 @@ export const selectNodeStyleSync = _selectNodeStyleSync;
 
 
 const _selectWidgetFrameSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
-  if (widget) {
-    const { frame_getter } = widget;
-    if (typeof frame_getter === 'function') {
-      const frame = frame_getter({ widget, component, });
+ /*  if (widget) {
+    const { get_nodes } = widget;
+    if (typeof get_nodes === 'function') {
+      const frame = get_nodes({ widget, component, });
       // return ImageFrame.toRuntime(context, frame);
     }
     const frame = widget.frames[0];
     // return ImageFrame.toRuntime(context, frame);
-  }
+  } */
   return null;
 }
 export const selectWidgetFrameSync = _selectWidgetFrameSync;
 
 
 const _selectWidgetNodesSync = (widget: RuntimeWidget, context: ExpressionContext, component: StatefulComponent) => {
-  if (widget) {
+ /*  if (widget) {
     const { node_getter } = widget;
     if (typeof node_getter === 'function') {
       return node_getter({ widget, component }).map(elem => WidgetNode.toRuntime(context, elem));
     }
     return widget.nodes.map(elem => WidgetNode.toRuntime(context, elem));
-  }
+  } */
   return [];
 };
 export const selectWidgetNodesSync = _selectWidgetNodesSync;
 
 
 const _selectNodeTextSync = (node: RuntimeWidgetNode, context: ExpressionContext, component: StatefulComponent, language = 2) => {
-  if (node) {
+/*   if (node) {
     return node?.display_text_inline || node?.display_text({ node: node, component });
-  }
+  } */
   return null;
 }
 export const selectNodeTextSync = _selectNodeTextSync;

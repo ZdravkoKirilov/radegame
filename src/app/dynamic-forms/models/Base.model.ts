@@ -24,7 +24,7 @@ export type BaseControl = Partial<{
     children: BaseControl[];
     childTemplate: BaseControl;
     connectedEntities: ConnectedEntities;
-    childrenDefinition: FormDefinition;
+    childrenDefinition: FormDefinition<object>;
     addButtonText: string;
     multiple: boolean;
     min: number;

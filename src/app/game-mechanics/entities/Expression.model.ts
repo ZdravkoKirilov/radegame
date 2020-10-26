@@ -42,7 +42,7 @@ export const Expression: GameEntityParser<Expression, DtoExpression, RuntimeExpr
   },
 
   toRuntime(context, expression) {
-    return enrichEntity<Expression, RuntimeExpression>(context, {
+    return enrichEntity<Expression, RuntimeExpression>(context.conf, {
       code: src => parseAndBind(context)(src)
     }, expression);
   },

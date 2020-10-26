@@ -1,7 +1,7 @@
 import { createElement, RzElementPrimitiveProps, StatefulComponent } from "@app/render-kit";
 import { Dictionary } from "@app/shared";
 
-import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeNodeLifecycle } from "../../entities";
+import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeNodeLifecycle, Style } from "../../entities";
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
@@ -33,7 +33,7 @@ export class EnhancedShapeNode extends StatefulComponent<Props, State> {
         const { animated } = this.state;
         const style = selectNodeStyleSync(data, self);
         const childProps = selectChildPropsSync(data, self);
-        const styleWithTransitionOverrides = { ...style, ...animated };
+        const styleWithTransitionOverrides = { ...style, ...animated } as Style;
 
         return createElement<RzElementPrimitiveProps>(
             'container',

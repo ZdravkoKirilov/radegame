@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 import {
   Game, Module, Widget, Token, Animation, ImageAsset, Style,
-  Sound, Expression, Setup, Text, Sonata, Shape, WidgetNode, Version, Sandbox,
+  Sound, Expression, Setup, Text, Sonata, Shape, WidgetNode, Version, Sandbox, GameId,
 } from '@app/game-mechanics';
 import { toMultipartFormData } from '@app/shared';
 
@@ -15,201 +15,201 @@ export class GameEditService {
   constructor(private http: HttpClient) {
   }
 
-  saveVersion(data: Version) {
+  saveVersion(data: Version, gameId: GameId) {
     if (data.id) {
-      return this.http.patch<Version>(EDITOR_URLS.VERSIONS(data.game, data.id), data);
+      return this.http.patch<Version>(EDITOR_URLS.VERSIONS(gameId, data.id), data);
     } else {
-      return this.http.post<Version>(EDITOR_URLS.VERSIONS(data.game), data);
+      return this.http.post<Version>(EDITOR_URLS.VERSIONS(gameId), data);
     }
   }
 
-  deleteVersion(data: Version) {
-    return this.http.delete(EDITOR_URLS.VERSIONS(data.game, data.id));
+  deleteVersion(data: Version, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.VERSIONS(gameId, data.id));
   }
 
-  saveSandbox(data: Sandbox) {
+  saveSandbox(data: Sandbox, gameId: GameId) {
     if (data.id) {
-      return this.http.patch<Sandbox>(EDITOR_URLS.SANDBOXES(data.game, data.id), data);
+      return this.http.patch<Sandbox>(EDITOR_URLS.SANDBOXES(gameId, data.id), data);
     } else {
-      return this.http.post<Sandbox>(EDITOR_URLS.SANDBOXES(data.game), data);
+      return this.http.post<Sandbox>(EDITOR_URLS.SANDBOXES(gameId), data);
     }
   }
 
-  deleteSandbox(data: Sandbox) {
-    return this.http.delete(EDITOR_URLS.SANDBOXES(data.game, data.id));
+  deleteSandbox(data: Sandbox, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.SANDBOXES(gameId, data.id));
   }
 
-  saveWidget(data: Widget) {
+  saveWidget(data: Widget, gameId: GameId) {
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.WIDGETS(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.WIDGETS(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.WIDGETS(data.game), data);
+      return this.http.post(EDITOR_URLS.WIDGETS(gameId), data);
     }
   }
 
-  deleteWidget(data: Widget) {
-    return this.http.delete(EDITOR_URLS.WIDGETS(data.game, data.id));
+  deleteWidget(data: Widget, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.WIDGETS(gameId, data.id));
   }
 
-  saveNode(data: WidgetNode) {
+  saveNode(data: WidgetNode, gameId: GameId) {
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.NODES(data.game, data.owner, data.id), data);
+      return this.http.patch(EDITOR_URLS.NODES(gameId, data.owner, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.NODES(data.game, data.owner), data);
+      return this.http.post(EDITOR_URLS.NODES(gameId, data.owner), data);
     }
   }
 
-  deleteNode(data: WidgetNode) {
-    return this.http.delete(EDITOR_URLS.NODES(data.game, data.owner, data.id));
+  deleteNode(data: WidgetNode, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.NODES(gameId, data.owner, data.id));
   }
 
-  saveText(data: Text) {
+  saveText(data: Text, gameId: GameId) {
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.TEXTS(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.TEXTS(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.TEXTS(data.game), data);
+      return this.http.post(EDITOR_URLS.TEXTS(gameId), data);
     }
   }
 
-  deleteText(data: Text) {
-    return this.http.delete(EDITOR_URLS.TEXTS(data.game, data.id));
+  deleteText(data: Text, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.TEXTS(gameId, data.id));
   }
 
-  saveSonata(data: Sonata) {
+  saveSonata(data: Sonata, gameId: GameId) {
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.SONATAS(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.SONATAS(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.SONATAS(data.game), data);
+      return this.http.post(EDITOR_URLS.SONATAS(gameId), data);
     }
   }
 
-  deleteSonata(data: Sonata) {
-    return this.http.delete(EDITOR_URLS.SONATAS(data.game, data.id));
+  deleteSonata(data: Sonata, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.SONATAS(gameId, data.id));
   }
 
-  saveModule(data: Module) {
+  saveModule(data: Module, gameId: GameId) {
 
     if (data.id) {
-      return this.http.patch<Module>(EDITOR_URLS.MODULES(data.game, data.id), data);
+      return this.http.patch<Module>(EDITOR_URLS.MODULES(gameId, data.id), data);
     } else {
-      return this.http.post<Module>(EDITOR_URLS.MODULES(data.game), data);
+      return this.http.post<Module>(EDITOR_URLS.MODULES(gameId), data);
     }
   }
 
-  deleteModule(data: Module) {
-    return this.http.delete(EDITOR_URLS.MODULES(data.game, data.id));
+  deleteModule(data: Module, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.MODULES(gameId, data.id));
   }
 
-  saveToken(data: Token) {
+  saveToken(data: Token, gameId: GameId) {
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.TOKENS(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.TOKENS(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.TOKENS(data.game), data);
+      return this.http.post(EDITOR_URLS.TOKENS(gameId), data);
     }
   }
 
-  deleteToken(data: Token) {
-    return this.http.delete(EDITOR_URLS.TOKENS(data.game, data.id));
+  deleteToken(data: Token, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.TOKENS(gameId, data.id));
   }
 
-  saveAnimation(data: Animation) {
+  saveAnimation(data: Animation, gameId: GameId) {
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.ANIMATIONS(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.ANIMATIONS(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.ANIMATIONS(data.game), data);
+      return this.http.post(EDITOR_URLS.ANIMATIONS(gameId), data);
     }
   }
 
-  deleteAnimation(data: Animation) {
-    return this.http.delete(EDITOR_URLS.ANIMATIONS(data.game, data.id));
+  deleteAnimation(data: Animation, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.ANIMATIONS(gameId, data.id));
   }
 
-  saveImage(data: ImageAsset) {
+  saveImage(data: ImageAsset, gameId: GameId) {
     const formData = toMultipartFormData(data);
     const options = { headers: new HttpHeaders({}) };
 
     if (data.id) {
       if (typeof data.image === 'string') {
-        return this.http.patch(EDITOR_URLS.IMAGES(data.game, data.id), data);
+        return this.http.patch(EDITOR_URLS.IMAGES(gameId, data.id), data);
       } else {
-        return this.http.patch(EDITOR_URLS.IMAGES(data.game, data.id), formData, options);
+        return this.http.patch(EDITOR_URLS.IMAGES(gameId, data.id), formData, options);
       }
     } else {
-      return this.http.post(EDITOR_URLS.IMAGES(data.game), formData, options);
+      return this.http.post(EDITOR_URLS.IMAGES(gameId), formData, options);
     }
   }
 
-  deleteImage(data: ImageAsset) {
-    return this.http.delete(EDITOR_URLS.IMAGES(data.game, data.id));
+  deleteImage(data: ImageAsset, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.IMAGES(gameId, data.id));
   }
 
-  saveSound(data: Sound) {
+  saveSound(data: Sound, gameId: GameId) {
     const formData = toMultipartFormData(data);
     const options = { headers: new HttpHeaders({}) };
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.SOUNDS(data.game, data.id), formData, options);
+      return this.http.patch(EDITOR_URLS.SOUNDS(gameId, data.id), formData, options);
     } else {
-      return this.http.post(EDITOR_URLS.SOUNDS(data.game), formData, options);
+      return this.http.post(EDITOR_URLS.SOUNDS(gameId), formData, options);
     }
   }
 
-  saveStyle(data: Style) {
+  saveStyle(data: Style, gameId: GameId) {
 
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.STYLES(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.STYLES(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.STYLES(data.game), data);
+      return this.http.post(EDITOR_URLS.STYLES(gameId), data);
     }
   }
 
-  deleteStyle(data: Style) {
-    return this.http.delete(EDITOR_URLS.STYLES(data.game, data.id));
+  deleteStyle(data: Style, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.STYLES(gameId, data.id));
   }
 
-  saveExpression(data: Expression) {
+  saveExpression(data: Expression, gameId: GameId) {
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.EXPRESSIONS(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.EXPRESSIONS(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.EXPRESSIONS(data.game), data);
+      return this.http.post(EDITOR_URLS.EXPRESSIONS(gameId), data);
     }
   }
 
-  deleteExpression(data: Expression) {
-    return this.http.delete(EDITOR_URLS.EXPRESSIONS(data.game, data.id));
+  deleteExpression(data: Expression, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.EXPRESSIONS(gameId, data.id));
   }
 
-  saveShape(data: Shape) {
+  saveShape(data: Shape, gameId: GameId) {
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.SHAPES(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.SHAPES(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.SHAPES(data.game), data);
+      return this.http.post(EDITOR_URLS.SHAPES(gameId), data);
     }
   }
 
-  deleteShape(data: Shape) {
-    return this.http.delete(EDITOR_URLS.SHAPES(data.game, data.id));
+  deleteShape(data: Shape, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.SHAPES(gameId, data.id));
   }
 
-  saveSetup(data: Setup) {
+  saveSetup(data: Setup, gameId: GameId) {
     if (data.id) {
-      return this.http.patch(EDITOR_URLS.SETUPS(data.game, data.id), data);
+      return this.http.patch(EDITOR_URLS.SETUPS(gameId, data.id), data);
     } else {
-      return this.http.post(EDITOR_URLS.SETUPS(data.game), data);
+      return this.http.post(EDITOR_URLS.SETUPS(gameId), data);
     }
   }
 
-  deleteSetup(data: Setup) {
-    return this.http.delete(EDITOR_URLS.SETUPS(data.game, data.id));
+  deleteSetup(data: Setup, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.SETUPS(gameId, data.id));
   }
 
-  deleteSound(data: Sound) {
-    return this.http.delete(EDITOR_URLS.SOUNDS(data.game, data.id));
+  deleteSound(data: Sound, gameId: GameId) {
+    return this.http.delete(EDITOR_URLS.SOUNDS(gameId, data.id));
   }
 
   saveGame(data: Game) {

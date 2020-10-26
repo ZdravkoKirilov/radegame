@@ -15,7 +15,7 @@ export const assignHandlers = ({ self, handlers, context }: HandlerParams) => {
     (acc, handler) => {
       acc[handler.type] = (event: GenericEvent) => {
         handler.effect(self, event);
-        playSoundIfNeeded(handler.sound, handler.static_sound, self, context);
+        playSoundIfNeeded(handler.dynamic_sound, handler.sound, self, context);
       };
       return acc;
     },

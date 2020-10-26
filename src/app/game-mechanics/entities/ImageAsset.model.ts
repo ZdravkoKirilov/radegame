@@ -13,8 +13,6 @@ export const toImageId = (source: unknown) => String(source) as ImageAssetId;
 export type ImageAsset = Tagged<'ImageAsset', BaseModel<ImageAssetId> & {
   image: string;
   thumbnail: string;
-  svg: string;
-  keywords: string;
 }>;
 
 export type DtoImageAsset = Omit<ImageAsset, '__tag' | 'id' | 'module'> & {

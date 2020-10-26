@@ -40,7 +40,7 @@ export function WithNodeLifecycles(constructor: Constructor<StatefulComponent<Re
 const doLifecycleStuffBro = (component: StatefulComponent, context: ExpressionContext, payload?: DidUpdatePayload) =>
   (elem: RuntimeNodeLifecycle) => {
     elem.effect(component, payload);
-    playSoundIfNeeded(elem.sound, elem.static_sound, component, context);
+    playSoundIfNeeded(elem.dynamic_sound, elem.sound, component, context);
   };
 
 const getRelatedLifecycles = (forType: NODE_LIFECYCLES, fromPool: RuntimeNodeLifecycle[]) =>

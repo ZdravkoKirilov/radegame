@@ -9,12 +9,11 @@ import { VersionsListComponent } from './containers/versions-list/versions-list.
 import { VersionsEditorComponent } from './containers/versions-editor/versions-editor.component';
 import { TreeEditorComponent } from './containers/tree-editor/tree-editor.component';
 import { GameDashboardComponent } from './containers/game-dashboard/game-dashboard.component';
-import { composeSetupForm, composeModuleForm, composeTokenForm, composeImageForm, composeSoundForm, composeStyleForm, composeExpressionForm, composeShapeForm, composeSonataForm, composeTextForm, composeAnimationForm, composeWidgetForm, composeSonataStepForm, composeTextTranslationForm, composeAnimationStepForm, composeNodeForm, composeNodeHandlerForm, composeNodeLifecycleForm } from './forms';
+import { composeSetupForm, composeModuleForm, composeTokenForm, composeImageForm, composeSoundForm, composeStyleForm, composeExpressionForm, composeShapeForm, composeSonataForm, composeTextForm, composeAnimationForm, composeWidgetForm, composeSonataStepForm, composeTextTranslationForm, composeAnimationStepForm, composeNodeForm, composeNodeHandlerForm, composeNodeLifecycleForm, composeTokenNodeForm } from './forms';
 import { RootEntityEditorComponent } from './containers/root-entity-editor/root-entity-editor.component';
 import { GamesContainerComponent } from './containers/games/games.container';
 import { EntityEditorContainerComponent } from './containers/entity-editor/entity-editor-container.component';
 import { NestedEntityEditorComponent } from './containers/nested-entity-editor/nested-entity-editor.component';
-import { composeFrameForm, composeNestedTextForm } from './forms/helpers';
 import { TestBoardContainerComponent } from './containers/sandbox-editor/test-board-container.component';
 import { NodeEditorComponent } from './containers/node-editor/node-editor.component';
 
@@ -392,36 +391,20 @@ export const routes: Routes = [
               form: composeTokenForm
             }
           }, {
-            path: `:${ROUTER_PARAMS.ENTITY_ID}/texts/add`,
+            path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/add`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
               entityType: ALL_ENTITIES.tokens,
-              form: composeNestedTextForm,
-              nestedEntityType: 'texts'
+              form: composeTokenNodeForm,
+              nestedEntityType: 'nodes'
             }
           }, {
-            path: `:${ROUTER_PARAMS.ENTITY_ID}/texts/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
+            path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
               entityType: ALL_ENTITIES.tokens,
-              form: composeNestedTextForm,
-              nestedEntityType: 'texts',
-            }
-          }, {
-            path: `:${ROUTER_PARAMS.ENTITY_ID}/frames/add`,
-            component: NestedEntityEditorComponent,
-            data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.tokens,
-              form: composeFrameForm,
-              nestedEntityType: 'frames'
-            }
-          }, {
-            path: `:${ROUTER_PARAMS.ENTITY_ID}/frames/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
-            component: NestedEntityEditorComponent,
-            data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.tokens,
-              form: composeFrameForm,
-              nestedEntityType: 'frames',
+              form: composeTokenNodeForm,
+              nestedEntityType: 'nodes',
             }
           }
         ]

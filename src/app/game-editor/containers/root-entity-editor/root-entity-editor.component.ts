@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 
 import { AppState } from '@app/core';
-import { GameId, VersionId, Module, Setup, ALL_ENTITIES } from '@app/game-mechanics';
+import { GameId, VersionId, Module, Setup, ALL_ENTITIES, DtoSetup, DtoModule } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId, selectVersionId, AutoUnsubscribe } from '@app/shared';
 
@@ -29,7 +29,7 @@ export class RootEntityEditorComponent implements OnInit {
   constructor(public store: Store<AppState>, private cd: ChangeDetectorRef, private router: Router, private route: ActivatedRoute, private actions$: Actions) { }
 
   entity$: Observable<Setup | Module>;
-  formDefinition$: Observable<FormDefinition>;
+  formDefinition$: Observable<FormDefinition<Setup | Module>>;
   connectedEntities$: Observable<ConnectedEntities>;
   entityType: RootEntityType;
   onEntityCreated$: Subscription;
@@ -38,7 +38,7 @@ export class RootEntityEditorComponent implements OnInit {
   loading: boolean;
   gameId: GameId;
   versionId: VersionId;
-  draft: Setup | Module;
+  draft: DtoSetup | DtoModule;
   draftValid: boolean;
 
   ngOnInit(): void {
@@ -63,7 +63,7 @@ export class RootEntityEditorComponent implements OnInit {
         select<object, unknown, Module | Setup>(this.entityType === 'modules' ? getActiveModule : getSetup),
         filter<Module | Setup>(Boolean),
         tap(entity => {
-          this.draft = { ...entity };
+          this.draft = entity.__tag === "Module" ? Module.toDto(entity) : Setup.toDto(entity);
           this.loading = false;
           this.cd.detectChanges();
         })))
@@ -79,7 +79,7 @@ export class RootEntityEditorComponent implements OnInit {
     this.onEntityDeleted$ = this.actions$.pipe(
       ofType<RemoveItemAction<Setup | Module>>(genericActionTypes.REMOVE_ITEM),
       map(action => {
-        if (action.payload.data.id == this.draft.id) {
+        if (Number(action.payload.data.id) == this.draft.id) {
           this.router.navigate(['../', '../', 'dashboard'], { relativeTo: this.route })
         }
       })
@@ -95,14 +95,12 @@ export class RootEntityEditorComponent implements OnInit {
 
   saveEntity() {
     if (this.entityType === ALL_ENTITIES.modules) {
-      this.draft.game = this.gameId;
-      this.draft.version = this.versionId;
-      this.store.dispatch(new SaveModule({ module: Module.toDTO(this.draft) }));
+      this.draft.version = Number(this.versionId);
+      this.store.dispatch(new SaveModule({ module: Module.toEntity(this.draft as any) }));
     }
     if (this.entityType === ALL_ENTITIES.setups) {
-      this.draft.game = this.gameId;
-      this.draft.version = this.versionId;
-      this.store.dispatch(new SaveSetup({ setup: Setup.toDTO(this.draft) }));
+      this.draft.version = Number(this.versionId);
+      this.store.dispatch(new SaveSetup({ setup: Setup.toEntity(this.draft as any) }));
     }
   }
 
