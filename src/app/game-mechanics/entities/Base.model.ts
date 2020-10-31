@@ -3,12 +3,12 @@ import { Nominal } from 'simplytyped';
 import { RzStyles } from "@app/render-kit";
 
 import { ParamedExpressionFunc } from "./Expression.model";
-import { ExpressionContext, GameId } from '../models';
+import { ExpressionContext } from '../models';
 import { ModuleId } from './Module.model';
+import { ModularEntity } from './types';
 
-export type EntityId = Nominal<string, 'id'>;
 
-export type BaseModel<T = EntityId> = {
+export type BaseModel<T = ModularEntity['id']> = {
   id: T;
 
   name: string;

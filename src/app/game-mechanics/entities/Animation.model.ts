@@ -34,7 +34,7 @@ export type RuntimeAnimation = Omit<Animation, 'steps'> & {
   steps: RuntimeAnimationStep[];
 };
 
-export const Animation: GameEntityParser<Animation, DtoAnimation, RuntimeAnimation> = {
+export const Animation: GameEntityParser<Animation, DtoAnimation, RuntimeAnimation> & AnimationOperations = {
 
   toRuntime(context, animation) {
     return enrichEntity<Animation, RuntimeAnimation>(context.conf, {
@@ -62,6 +62,18 @@ export const Animation: GameEntityParser<Animation, DtoAnimation, RuntimeAnimati
       steps: animationDto.steps.map(elem => AnimationStep.toEntity(elem))
     };
   },
+
+  saveStep(animation, step) {
+    return {
+      ...animation,
+      steps: animation.steps.map(elem => elem.id === step.id ? step : elem)
+    }
+  },
+  
+}
+
+type AnimationOperations = {
+  saveStep: (animation: Animation, step: AnimationStep) => Animation;
 }
 
 type AnimationStepId = Nominal<string, 'AnimationStepId'>;

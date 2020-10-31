@@ -12,6 +12,7 @@ import { Text, TextId, toTextId } from "./Text.model";
 import { ImageAsset, ImageAssetId, toImageId } from "./ImageAsset.model";
 import { Style, toStyleId } from "./Style.model";
 import { Shape, ShapeId, toShapeId } from "./Shape.model";
+import { tokenName } from "@angular/compiler";
 
 export type TokenId = Nominal<string, 'TokenId'>;
 export const toTokenId = (source: unknown) => String(source) as TokenId;
@@ -35,7 +36,7 @@ export type RuntimeToken = Omit<Token, 'template'> & {
   template: Widget;
 }
 
-export const Token: GameEntityParser<Token, DtoToken, RuntimeToken> = {
+export const Token: GameEntityParser<Token, DtoToken, RuntimeToken> & TokenOperations = {
 
   toEntity(dto) {
     return {
@@ -65,7 +66,19 @@ export const Token: GameEntityParser<Token, DtoToken, RuntimeToken> = {
       }, token);
     }
     return null;
+  },
+
+  saveNode(token, node) {
+    return {
+      ...token,
+      nodes: token.nodes.map(elem => elem.id === node.id ? node : elem)
+    };
   }
+
+}
+
+type TokenOperations = {
+  saveNode: (token: Token, node: TokenNode) => Token;
 }
 
 type TokenNodeId = Nominal<string, 'TokenNodeId'>;

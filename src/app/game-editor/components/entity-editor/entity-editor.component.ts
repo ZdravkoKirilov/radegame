@@ -17,11 +17,11 @@ import { OnChange } from '@app/shared';
 })
 export class EntityEditorComponent implements OnInit {
 
-	@OnChange<FormDefinition>(function () {
+	@OnChange<FormDefinition<GameEntity>>(function () {
 		const self: EntityEditorComponent = this;
 		self.reinitialize();
 	})
-	@Input() formDefinition: FormDefinition;
+	@Input() formDefinition: FormDefinition<GameEntity>;
 
 	@OnChange<GameEntity>(function () {
 		const self: EntityEditorComponent = this;

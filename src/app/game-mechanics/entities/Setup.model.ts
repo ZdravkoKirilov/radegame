@@ -3,13 +3,13 @@ import { omit } from 'lodash/fp';
 
 import { Tagged } from '@app/shared';
 
-import { GameLanguageId } from "../models";
 import { ExpressionFunc } from "./Expression.model";
 import { enrichEntity, parseAndBind } from "../helpers";
 import { ModuleId } from './Module.model';
 import { toVersionId, VersionId } from './Version.model';
 import { ImageAssetId, toImageId } from './ImageAsset.model';
 import { GameEntityParser } from './Base.model';
+import { GameLanguageId } from './Game.model';
 
 export type SetupId = Nominal<string, 'SetupId'>;
 export const toSetupId = (source: unknown) => String(source) as SetupId;

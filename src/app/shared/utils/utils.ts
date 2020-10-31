@@ -5,8 +5,8 @@ import { environment } from 'environments/environment';
 
 
 interface ObjectWithId {
-    id?: number;
-    [key: string]: any;
+  id?: number;
+  [key: string]: any;
 }
 
 export const toDictionary = <T = ObjectWithId>(source: T[], indexProp = 'id'): Dictionary<T> => keyBy(source, indexProp);
@@ -14,36 +14,46 @@ export const toDictionary = <T = ObjectWithId>(source: T[], indexProp = 'id'): D
 export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>
 
 export type WithKeys<T> = {
-    readonly [P in keyof T]: P;
+  readonly [P in keyof T]: P;
 };
 
 export type Dictionary<T = any> = {
-    [key: string]: T;
+  [key: string]: T;
 }
 
 export const genericTrackByFn = <T>(prop: keyof T) => (index: number, item: T) => {
-    return item[prop];
+  return item[prop];
 };
 
 export type WithKeysAs<T, P = any> = {
-    [K in keyof T]: P;
+  [K in keyof T]: P;
 };
 
 export const formatGameConfigData = (data: GameTemplate): GameTemplate => {
-    return Object.keys(data).reduce((acc, key) => {
-        acc[key] = toDictionary<GameEntity>(data[key]);
-        return acc;
-    }, {}) as GameTemplate;
+  return Object.keys(data).reduce((acc, key) => {
+    acc[key] = toDictionary<GameEntity>(data[key]);
+    return acc;
+  }, {}) as GameTemplate;
 };
 
 export const safeJSON = <T = any>(source: any, fallback = null): T => {
-    if (typeof source === 'string') {
-        try {
-            return JSON.parse(source);
-        } catch {
-            return null;
-        }
-    } else {
-        return source;
+  if (typeof source === 'string') {
+    try {
+      return JSON.parse(source);
+    } catch {
+      return null;
     }
+  } else {
+    return source;
+  }
+};
+
+export function arrayFromMap<T>(source: Map<any, T>) {
+  const result = [];
+
+  source.forEach(item => {
+    result.push(item);
+  });
+
+  return result as T[];
 };

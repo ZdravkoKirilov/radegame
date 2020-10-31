@@ -29,7 +29,7 @@ export type RuntimeShape = Omit<Shape, 'style' | 'style_inline'> & {
   style_inline: Style;
 };
 
-export const Shape: GameEntityParser<Shape, DtoShape, RuntimeShape> = {
+export const Shape: GameEntityParser<Shape, DtoShape, RuntimeShape> & ShapeOperations = {
 
   toRuntime(context, shape) {
     return enrichEntity<Shape, RuntimeShape>(context.conf, {
@@ -56,13 +56,24 @@ export const Shape: GameEntityParser<Shape, DtoShape, RuntimeShape> = {
       module: Number(entity.module),
       points: entity.points.map(elem => ShapePoint.toDto(elem))
     };
-  }
+  },
+
+  savePoint(shape, point) {
+    return {
+      ...shape,
+      points: shape.points.map(elem => elem.id === point.id ? point : elem)
+    };
+  },
+}
+
+type ShapeOperations = {
+  savePoint: (shape: Shape, point: ShapePoint) => Shape;
 }
 
 type ShapePointId = Nominal<string, 'ShapePointId'>;
 const toShapePointId = (source: unknown) => String(source) as ShapePointId;
 
-type ShapePoint = Tagged<'ShapePoint', {
+export type ShapePoint = Tagged<'ShapePoint', {
   id: ShapePointId;
   owner: ShapeId;
 
@@ -75,7 +86,7 @@ type DtoShapePoint = Omit<ShapePoint, '__tag' | 'id' | 'owner'> & {
   owner: number;
 };
 
-const ShapePoint: GameEntityParser<ShapePoint, DtoShapePoint, ShapePoint> = {
+export const ShapePoint: GameEntityParser<ShapePoint, DtoShapePoint, ShapePoint> = {
 
   toRuntime(_, entity) {
     return entity;

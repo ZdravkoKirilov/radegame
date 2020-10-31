@@ -7,7 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 
 import { AppState } from '@app/core';
-import { GameId, VersionId, Module, Setup, ALL_ENTITIES, DtoSetup, DtoModule } from '@app/game-mechanics';
+import { GameId, VersionId, Module, Setup, STORE_KEYS, DtoSetup, DtoModule } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId, selectVersionId, AutoUnsubscribe } from '@app/shared';
 
@@ -16,7 +16,7 @@ import {
   SaveSetup, genericActionTypes, SetItemAction, FetchItemsAction, RemoveItemAction
 } from '../../state';
 
-type RootEntityType = typeof ALL_ENTITIES.setups | typeof ALL_ENTITIES.modules;
+type RootEntityType = typeof STORE_KEYS.setups | typeof STORE_KEYS.modules;
 
 @Component({
   selector: 'rg-root-entity-editor',
@@ -54,8 +54,8 @@ export class RootEntityEditorComponent implements OnInit {
         this.versionId = versionId;
         this.entityType = entityType as RootEntityType;
 
-        this.store.dispatch(new FetchItemsAction({ key: ALL_ENTITIES.modules, data: { gameId } }));
-        this.store.dispatch(new FetchItemsAction({ key: ALL_ENTITIES.setups, data: { gameId } }));
+        this.store.dispatch(new FetchItemsAction({ key: STORE_KEYS.modules, data: { gameId } }));
+        this.store.dispatch(new FetchItemsAction({ key: STORE_KEYS.setups, data: { gameId } }));
 
         this.cd.detectChanges();
       }),
@@ -94,11 +94,11 @@ export class RootEntityEditorComponent implements OnInit {
   }
 
   saveEntity() {
-    if (this.entityType === ALL_ENTITIES.modules) {
+    if (this.entityType === STORE_KEYS.modules) {
       this.draft.version = Number(this.versionId);
       this.store.dispatch(new SaveModule({ module: Module.toEntity(this.draft as any) }));
     }
-    if (this.entityType === ALL_ENTITIES.setups) {
+    if (this.entityType === STORE_KEYS.setups) {
       this.draft.version = Number(this.versionId);
       this.store.dispatch(new SaveSetup({ setup: Setup.toEntity(this.draft as any) }));
     }

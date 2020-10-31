@@ -6,6 +6,7 @@ import { StoreRouterConnectingModule, RouterStateSerializer } from '@ngrx/router
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from 'environments/environment';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { enableMapSet } from 'immer';
 
 import { SharedModule } from '@app/shared';
 import { AppRoutingModule } from '../app-routing.module';
@@ -22,6 +23,8 @@ import { OrchestratorComponent } from './components/orchestrator/orchestrator.co
 import { PageTitleProviderComponent } from './components/page-title/page-title-provider.component';
 import { ActiveGamesProviderComponent } from './components/active-games/active-games-provider.component';
 import { CurrentUserProviderComponent } from './components/current-user/current-user-provider.component';
+
+enableMapSet();
 
 @NgModule({
     imports: [

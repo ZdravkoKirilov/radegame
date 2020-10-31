@@ -8,7 +8,7 @@ import { Actions, ofType } from '@ngrx/effects';
 import { get, last } from 'lodash';
 
 import { AppState } from '@app/core';
-import { GameId, VersionId, GameEntity, ModuleId, EntityId, AllEntity } from '@app/game-mechanics';
+import { GameId, VersionId, GameEntity, ModuleId, EntityId, StoreKey } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId, selectVersionId, AutoUnsubscribe } from '@app/shared';
 
@@ -33,7 +33,7 @@ export class NestedEntityEditorComponent implements OnInit {
   versionId: VersionId;
   moduleId: ModuleId;
   entityId: EntityId;
-  entityType: AllEntity;
+  entityType: StoreKey;
   nestedEntityType: 'texts' | 'frames';
   nestedEntityId: EntityId;
   nestedEntity: GameEntity;

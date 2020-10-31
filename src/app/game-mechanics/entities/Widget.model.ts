@@ -39,7 +39,7 @@ export type RuntimeWidget = Omit<Widget, 'get_nodes' | 'render' | 'background' |
   background: ImageAsset,
 };
 
-export const Widget: GameEntityParser<Widget, DtoWidget, RuntimeWidget> = {
+export const Widget: GameEntityParser<Widget, DtoWidget, RuntimeWidget> & { saveNode: SaveNode } = {
 
   toRuntime(context, widget) {
     return enrichEntity<Widget, RuntimeWidget>(context.conf, {
@@ -71,8 +71,17 @@ export const Widget: GameEntityParser<Widget, DtoWidget, RuntimeWidget> = {
       background: Number(entity.background),
       nodes: entity.nodes.map(elem => WidgetNode.toDto(elem))
     };
+  },
+
+  saveNode(widget: Widget, node: WidgetNode) {
+    return {
+      ...widget,
+      nodes: widget.nodes.map(elem => elem.id === node.id ? node : elem)
+    }
   }
 }
+
+type SaveNode = (widget: Widget, nodeWidgetNode) => Widget;
 
 type WidgetExpressionPayload = {
   widget: RuntimeWidget;

@@ -29,7 +29,7 @@ export type RuntimeSonata = Omit<Sonata, 'steps'> & {
   steps: RuntimeSonataStep[];
 };
 
-export const Sonata: GameEntityParser<Sonata, DtoSonata, RuntimeSonata> = {
+export const Sonata: GameEntityParser<Sonata, DtoSonata, RuntimeSonata> & SonataOperations = {
 
   toRuntime(context, sonata) {
     return {
@@ -59,6 +59,17 @@ export const Sonata: GameEntityParser<Sonata, DtoSonata, RuntimeSonata> = {
     };
   },
 
+  saveStep(sonata, step) {
+    return {
+      ...sonata,
+      steps: sonata.steps.map(elem => elem.id === step.id ? step : elem)
+    };
+  }
+
+}
+
+type SonataOperations = {
+  saveStep: (sonata: Sonata, step: SonataStep) => Sonata;
 }
 
 type SonataStepId = Nominal<string, 'SonataStepId'>;
@@ -113,7 +124,7 @@ const SonataStep: GameEntityParser<SonataStep, DtoSonataStep, RuntimeSonataStep>
   },
 
   toRuntime(ctx, entity) {
-    return enrichEntity<SonataStep, RuntimeSonataStep>(ctx, {
+    return enrichEntity<SonataStep, RuntimeSonataStep>(ctx.conf, {
       sound: 'sounds'
     }, entity);
   }

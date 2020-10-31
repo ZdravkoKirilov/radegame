@@ -7,7 +7,7 @@ import { LobbyPlayer } from '@app/game-arena';
 import {
   Module, Token, Expression, Sonata, Sound,
   Widget, Text, Setup, ImageAsset, Sandbox, Shape, Style, Version, Animation, ImageAssetId, GameEntityParser, ModuleId, toImageId, toModuleId
-} from '../entities';
+} from './';
 import { enrichEntity } from '../helpers';
 
 export type GameId = Nominal<string, 'GameId'>;

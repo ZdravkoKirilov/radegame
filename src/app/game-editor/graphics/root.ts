@@ -6,7 +6,7 @@ import {
   StatefulComponent, createElement, AutoClean, RzPoint, RenderFunction
 } from "@app/render-kit";
 import {
-  RuntimeWidgetNode, Widget, ALL_ENTITIES, RuntimeWidget, WidgetNode, StoreProviderProps,
+  RuntimeWidgetNode, Widget, STORE_KEYS, RuntimeWidget, WidgetNode, StoreProviderProps,
   StoreProvider, ExpressionContext, RootWidgetProps, RootWidget, CommonGameStore, selectRuntimeWidget,
   selectExpressionContext,
   connectToStore,
@@ -73,7 +73,7 @@ export class rootComponent extends StatefulComponent<EditorRootProps, State> {
     this.props.selectNode(null);
 
     this.props.store.dispatch(new SaveItemAction({
-      key: ALL_ENTITIES.nodes,
+      key: STORE_KEYS.nodes,
       data: {
         ...newRuntimeWidgetData.nodes[nodeIndex],
         style_inline: JSON.stringify(newRuntimeWidgetData.nodes[nodeIndex].style_inline) as any

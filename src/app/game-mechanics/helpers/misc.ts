@@ -3,7 +3,7 @@ import isArray from 'lodash/isArray';
 import get from 'lodash/get';
 
 import { Points } from '@app/render-kit';
-import { GameEntity, WithRuntimeStyle, Style, AllEntity, GameEntityUnion } from '../entities';
+import { GameEntity, WithRuntimeStyle, Style, StoreKey } from '../entities';
 import { Dictionary, Omit } from '@app/shared';
 import { GameTemplate } from '../models';
 
@@ -34,14 +34,14 @@ export const enrichEntity = <T, P>(
   }) : null;
 };
 
-const findEntitiesBy = <T = GameEntity>(source: GameTemplate, key: AllEntity, predicate: { [key in keyof GameEntityUnion]: any }) => {
+const findEntitiesBy = <T = GameEntity>(source: GameTemplate, key: StoreKey, predicate: { [key in keyof T]: any }) => {
   const entityList: unknown[] = Object.values(source[key]).filter(elem => {
     return Object.keys(predicate).every(key => elem[key] === predicate[key]);
   });
   return entityList as T[];
 };
 
-export const findFirstEntityBy = <T = GameEntity>(source: GameTemplate, key: AllEntity, predicate: { [key in keyof GameEntityUnion]: any }) => {
+export const findFirstEntityBy = <T = GameEntity>(source: GameTemplate, key: StoreKey, predicate: { [key in keyof T]: any }) => {
   const asList = findEntitiesBy<T>(source, key, predicate)
   return asList[0];
 };

@@ -7,7 +7,7 @@ import { AppState } from '@app/core';
 import {
 	getActiveWidget, getItems, getEntities, SaveItemAction, DeleteItemAction,
 } from '../../state';
-import { Widget, WidgetNode, ImageAsset, ALL_ENTITIES } from '@app/game-mechanics';
+import { Widget, WidgetNode, ImageAsset, STORE_KEYS } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId } from '@app/shared';
 
@@ -44,7 +44,7 @@ export class BoardContainerComponent {
 		this.store.pipe(select(getActiveWidget)),
 		this.store.pipe(select(getEntities)),
 		this.store.pipe(select(selectGameId)),
-		this.store.pipe(select(getItems<ImageAsset>(ALL_ENTITIES.images))),
+		this.store.pipe(select(getItems<ImageAsset>(STORE_KEYS.images))),
 	).pipe(
 		filter(data => data.every(elem => !!elem)),
 		map(([widget, entities, gameId, images]) => {
@@ -58,20 +58,18 @@ export class BoardContainerComponent {
 
 	saveNode = (node: WidgetNode) => {
 		node.owner = this.widget.id;
-		node.game = this.widget.game;
 
 		this.store.dispatch(new SaveItemAction({
-			key: ALL_ENTITIES.nodes,
+			key: STORE_KEYS.nodes,
 			data: node,
 		}));
 	}
 
 	deleteNode = (node: WidgetNode) => {
 		node.owner = this.widget.id;
-		node.game = this.widget.game;
 
 		this.store.dispatch(new DeleteItemAction({
-			key: ALL_ENTITIES.nodes,
+			key: STORE_KEYS.nodes,
 			data: node,
 		}));
 	}

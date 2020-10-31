@@ -20,7 +20,7 @@ export class EntityListComponent {
 
 	getImage(item: GameEntity) {
 		const image = this.connectedEntities && 'image' in item ? this.connectedEntities.images.find(elem => String(elem.id) === item.image) : null;
-		return image ? image.thumbnail || image.svg : null;
+		return image ? image.thumbnail : null;
 	}
 
 }

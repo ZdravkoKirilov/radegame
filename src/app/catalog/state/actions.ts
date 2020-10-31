@@ -1,5 +1,5 @@
 import { Dictionary } from "@app/shared";
-import { Game, ImageAsset, Setup, GameId } from "@app/game-mechanics";
+import { Game, ImageAsset, Setup, GameId, ModuleId } from "@app/game-mechanics";
 
 import {
     FETCH_GAMES, FETCH_GAMES_SUCCESS, FETCH_GAMES_FAIL, FETCH_GAME, FETCH_IMAGES,
@@ -25,7 +25,7 @@ export class FetchGame {
 
 export class FetchImages {
     readonly type = FETCH_IMAGES;
-    constructor(public payload: { gameId: GameId }) { }
+    constructor(public payload: { moduleId: ModuleId }) { }
 }
 
 export class FetchImagesSuccess {

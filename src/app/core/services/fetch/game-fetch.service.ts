@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { EDITOR_URLS } from '../../config';
 import {
 	Widget, Module, Token, ImageAsset,
-	Game, Expression, Animation, Setup, GameTemplate, Sandbox, GameId, EntityId, WidgetId, VersionId, Version
+	Game, Expression, Animation, Setup, GameTemplate, Sandbox, GameId, EntityId, WidgetId, VersionId, Version, ModuleId
 } from '@app/game-mechanics';
 
 
@@ -16,17 +16,17 @@ export class GameFetchService {
 	constructor(private http: HttpClient) {
 	}
 
-	getGameData(gameId: GameId, query = '') {
-		const url = EDITOR_URLS.GAME_DATA(gameId, query);
+	getGameData(gameId: GameId, modules: ModuleId[]) {
+		const url = EDITOR_URLS.GAME_DATA(gameId, modules);
 		return this.http.get<GameTemplate>(url);
 	}
 
-	getWidgets(gameId: GameId) {
-		return this.http.get<Widget[]>(EDITOR_URLS.WIDGETS(gameId));
+	getWidgets(moduleId: ModuleId) {
+		return this.http.get<Widget[]>(EDITOR_URLS.WIDGETS(moduleId));
 	}
 
-	getWidget(gameId: GameId, widgetId: WidgetId) {
-		return this.http.get<Widget>(EDITOR_URLS.WIDGETS(gameId, widgetId));
+	getWidget(moduleId: ModuleId, widgetId: WidgetId) {
+		return this.http.get<Widget>(EDITOR_URLS.WIDGETS(moduleId, widgetId));
 	}
 
 	getVersion(gameId: GameId, versionId: VersionId) {
@@ -37,16 +37,16 @@ export class GameFetchService {
 		return this.http.get<Version[]>(EDITOR_URLS.VERSIONS(gameId));
 	}
 
-	getModules(gameId: GameId) {
-		return this.http.get<Module[]>(EDITOR_URLS.MODULES(gameId));
+	getModules(versionId: VersionId) {
+		return this.http.get<Module[]>(EDITOR_URLS.MODULES(versionId));
 	}
 
-	getTokens(gameId: GameId) {
-		return this.http.get<Token[]>(EDITOR_URLS.TOKENS(gameId));
+	getTokens(moduleId: ModuleId) {
+		return this.http.get<Token[]>(EDITOR_URLS.TOKENS(moduleId));
 	}
 
-	getImages(gameId: GameId) {
-		return this.http.get<ImageAsset[]>(EDITOR_URLS.IMAGES(gameId));
+	getImages(moduleId: ModuleId) {
+		return this.http.get<ImageAsset[]>(EDITOR_URLS.IMAGES(moduleId));
 	}
 
 	getGames() {
@@ -57,19 +57,19 @@ export class GameFetchService {
 		return this.http.get<Game>(EDITOR_URLS.GAMES(id));
 	}
 
-	getExpressions(gameId: GameId) {
-		return this.http.get<Expression[]>(EDITOR_URLS.EXPRESSIONS(gameId));
+	getExpressions(moduleId: ModuleId) {
+		return this.http.get<Expression[]>(EDITOR_URLS.EXPRESSIONS(moduleId));
 	}
 
-	getAnimations(gameId: GameId) {
-		return this.http.get<Animation[]>(EDITOR_URLS.ANIMATIONS(gameId));
+	getAnimations(moduleId: ModuleId) {
+		return this.http.get<Animation[]>(EDITOR_URLS.ANIMATIONS(moduleId));
 	}
 
-	getSetups(gameId: GameId) {
-		return this.http.get<Setup[]>(EDITOR_URLS.SETUPS(gameId));
+	getSetups(versionId: VersionId) {
+		return this.http.get<Setup[]>(EDITOR_URLS.SETUPS(versionId));
 	}
 
-	getSandboxes(gameId: GameId) {
-		return this.http.get<Sandbox[]>(EDITOR_URLS.SANDBOXES(gameId));
+	getSandboxes(moduleId: ModuleId) {
+		return this.http.get<Sandbox[]>(EDITOR_URLS.SANDBOXES(moduleId));
 	}
 }

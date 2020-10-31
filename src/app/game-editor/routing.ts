@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { ROUTER_PARAMS } from '@app/shared';
 import { CustomRouteData } from '@app/core';
-import { ALL_ENTITIES } from '@app/game-mechanics';
+import { STORE_KEYS } from '@app/game-mechanics';
 
 import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
 import { VersionsListComponent } from './containers/versions-list/versions-list.component';
@@ -69,28 +69,28 @@ export const routes: Routes = [
         path: 'setups/add',
         component: RootEntityEditorComponent,
         data: <CustomRouteData>{
-          entityType: ALL_ENTITIES.setups,
+          entityType: STORE_KEYS.setups,
           form: composeSetupForm
         }
       }, {
         path: `setups/:${ROUTER_PARAMS.SETUP_ID}`,
         component: RootEntityEditorComponent,
         data: <CustomRouteData>{
-          entityType: ALL_ENTITIES.setups,
+          entityType: STORE_KEYS.setups,
           form: composeSetupForm
         }
       }, {
         path: 'modules/add',
         component: RootEntityEditorComponent,
         data: <CustomRouteData>{
-          entityType: ALL_ENTITIES.modules,
+          entityType: STORE_KEYS.modules,
           form: composeModuleForm
         }
       }, {
         path: `modules/:${ROUTER_PARAMS.MODULE_ID}`,
         component: RootEntityEditorComponent,
         data: <CustomRouteData>{
-          entityType: ALL_ENTITIES.modules,
+          entityType: STORE_KEYS.modules,
           form: composeModuleForm
         }
       }, {
@@ -100,7 +100,7 @@ export const routes: Routes = [
             path: 'add',
             component: TestBoardContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.sandboxes
+              entityType: STORE_KEYS.sandboxes
             } as CustomRouteData
           }
         ]
@@ -111,14 +111,14 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.images,
+              entityType: STORE_KEYS.images,
               form: composeImageForm
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.images,
+              entityType: STORE_KEYS.images,
               form: composeImageForm
             }
           }
@@ -130,14 +130,14 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.sounds,
+              entityType: STORE_KEYS.sounds,
               form: composeSoundForm
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.sounds,
+              entityType: STORE_KEYS.sounds,
               form: composeSoundForm
             }
           }
@@ -149,14 +149,14 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.styles,
+              entityType: STORE_KEYS.styles,
               form: composeStyleForm(false),
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.styles,
+              entityType: STORE_KEYS.styles,
               form: composeStyleForm(false),
             }
           }
@@ -168,14 +168,14 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.expressions,
+              entityType: STORE_KEYS.expressions,
               form: composeExpressionForm,
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.expressions,
+              entityType: STORE_KEYS.expressions,
               form: composeExpressionForm,
             }
           }
@@ -187,14 +187,14 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.shapes,
+              entityType: STORE_KEYS.shapes,
               form: composeShapeForm,
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.shapes,
+              entityType: STORE_KEYS.shapes,
               form: composeShapeForm,
             }
           }
@@ -206,21 +206,21 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.sonatas,
+              entityType: STORE_KEYS.sonatas,
               form: composeSonataForm,
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.sonatas,
+              entityType: STORE_KEYS.sonatas,
               form: composeSonataForm,
             }
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}/steps/add`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.sonatas,
+              entityType: STORE_KEYS.sonatas,
               form: composeSonataStepForm,
               nestedEntityType: 'steps'
             }
@@ -228,7 +228,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/steps/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.sonatas,
+              entityType: STORE_KEYS.sonatas,
               form: composeSonataStepForm,
               nestedEntityType: 'steps',
             }
@@ -241,21 +241,21 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.texts,
+              entityType: STORE_KEYS.texts,
               form: composeTextForm,
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.texts,
+              entityType: STORE_KEYS.texts,
               form: composeTextForm,
             }
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}/translations/add`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.texts,
+              entityType: STORE_KEYS.texts,
               form: composeTextTranslationForm,
               nestedEntityType: 'translations'
             }
@@ -263,7 +263,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/translations/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.texts,
+              entityType: STORE_KEYS.texts,
               form: composeTextTranslationForm,
               nestedEntityType: 'translations',
             }
@@ -276,21 +276,21 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.animations,
+              entityType: STORE_KEYS.animations,
               form: composeAnimationForm,
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.animations,
+              entityType: STORE_KEYS.animations,
               form: composeAnimationForm,
             }
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}/steps/add`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.animations,
+              entityType: STORE_KEYS.animations,
               form: composeAnimationStepForm,
               nestedEntityType: 'steps'
             }
@@ -298,7 +298,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/steps/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.animations,
+              entityType: STORE_KEYS.animations,
               form: composeAnimationStepForm,
               nestedEntityType: 'steps',
             }
@@ -311,21 +311,21 @@ export const routes: Routes = [
             path: 'add',
             component: EntityEditorContainerComponent,
             data: {
-              entityType: ALL_ENTITIES.widgets,
+              entityType: STORE_KEYS.widgets,
               form: composeWidgetForm,
             } as CustomRouteData
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.widgets,
+              entityType: STORE_KEYS.widgets,
               form: composeWidgetForm,
             }
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/add`,
             component: NodeEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.widgets,
+              entityType: STORE_KEYS.widgets,
               nestedEntityType: 'nodes',
               form: composeNodeForm
             }
@@ -333,7 +333,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/:${ROUTER_PARAMS.NODE_ID}`,
             component: NodeEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.widgets,
+              entityType: STORE_KEYS.widgets,
               nestedEntityType: 'nodes',
               form: composeNodeForm
             }
@@ -342,7 +342,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/:${ROUTER_PARAMS.NODE_ID}/handlers/add`,
             component: NodeEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.widgets,
+              entityType: STORE_KEYS.widgets,
               nestedEntityType: 'nodes',
               form: composeNodeHandlerForm
             }
@@ -350,7 +350,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/:${ROUTER_PARAMS.NODE_ID}/handlers/:${ROUTER_PARAMS.NODE_HANDLER_ID}}`,
             component: NodeEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.widgets,
+              entityType: STORE_KEYS.widgets,
               nestedEntityType: 'nodes',
               form: composeNodeHandlerForm
             }
@@ -359,7 +359,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/:${ROUTER_PARAMS.NODE_ID}/lifecycles/add`,
             component: NodeEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.widgets,
+              entityType: STORE_KEYS.widgets,
               nestedEntityType: 'nodes',
               form: composeNodeLifecycleForm
             }
@@ -367,7 +367,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/:${ROUTER_PARAMS.NODE_ID}/lifecycles/:${ROUTER_PARAMS.NODE_LIFECYCLE_ID}}`,
             component: NodeEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.widgets,
+              entityType: STORE_KEYS.widgets,
               nestedEntityType: 'nodes',
               form: composeNodeLifecycleForm
             }
@@ -380,21 +380,21 @@ export const routes: Routes = [
             path: `add`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.tokens,
+              entityType: STORE_KEYS.tokens,
               form: composeTokenForm
             }
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}`,
             component: EntityEditorContainerComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.tokens,
+              entityType: STORE_KEYS.tokens,
               form: composeTokenForm
             }
           }, {
             path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/add`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.tokens,
+              entityType: STORE_KEYS.tokens,
               form: composeTokenNodeForm,
               nestedEntityType: 'nodes'
             }
@@ -402,7 +402,7 @@ export const routes: Routes = [
             path: `:${ROUTER_PARAMS.ENTITY_ID}/nodes/:${ROUTER_PARAMS.NESTED_ENTITY_ID}`,
             component: NestedEntityEditorComponent,
             data: <CustomRouteData>{
-              entityType: ALL_ENTITIES.tokens,
+              entityType: STORE_KEYS.tokens,
               form: composeTokenNodeForm,
               nestedEntityType: 'nodes',
             }

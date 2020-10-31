@@ -5,7 +5,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { AppState } from '@app/core';
 import {
-  Module, ALL_ENTITIES, ImageAsset, Token, AllEntity, GameEntity, EntityId, Sandbox, Style, Text, Shape, Sound, Sonata,
+  Module, STORE_KEYS, ImageAsset, Token, StoreKey, GameEntity, EntityId, Sandbox, Style, Text, Shape, Sound, Sonata,
   Animation, Widget, Expression, ModuleId, WidgetNode, NodeHandler, NodeLifecycle
 } from '@app/game-mechanics';
 import { AutoUnsubscribe } from '@app/shared';
@@ -17,7 +17,7 @@ import { map } from 'rxjs/operators';
 
 type DeletePayload = Partial<{
   module: Module,
-  entityType: AllEntity,
+  entityType: StoreKey,
   entity: GameEntity,
   sandbox: Sandbox;
   nestedEntityType: 'frames' | 'texts',
@@ -52,7 +52,7 @@ export class TreeExplorerComponent implements OnInit {
 
   moduleId: ModuleId;
   entityId: EntityId;
-  entityType: AllEntity;
+  entityType: StoreKey;
   nestedEntityType: 'texts' | 'frames';
   nestedEntityId: EntityId;
 
@@ -60,18 +60,18 @@ export class TreeExplorerComponent implements OnInit {
   @ViewChild('confirmDelete') public confirm: TemplateRef<any>;
 
   ngOnInit() {
-    this.modules$ = this.store.pipe(select(getItems(ALL_ENTITIES.modules)));
-    this.images$ = this.store.pipe(select(getItems(ALL_ENTITIES.images)));
-    this.tokens$ = this.store.pipe(select(getItems(ALL_ENTITIES.tokens)));
-    this.sandboxes$ = this.store.select(getItems(ALL_ENTITIES.sandboxes));
-    this.styles$ = this.store.select(getItems(ALL_ENTITIES.styles));
-    this.shapes$ = this.store.select(getItems(ALL_ENTITIES.shapes));
-    this.texts$ = this.store.select(getItems(ALL_ENTITIES.texts));
-    this.sounds$ = this.store.select(getItems(ALL_ENTITIES.sounds));
-    this.sonatas$ = this.store.select(getItems(ALL_ENTITIES.sonatas));
-    this.animations$ = this.store.select(getItems(ALL_ENTITIES.animations));
-    this.widgets$ = this.store.select(getItems(ALL_ENTITIES.widgets));
-    this.expressions$ = this.store.select(getItems(ALL_ENTITIES.expressions));
+    this.modules$ = this.store.pipe(select(getItems(STORE_KEYS.modules)));
+    this.images$ = this.store.pipe(select(getItems(STORE_KEYS.images)));
+    this.tokens$ = this.store.pipe(select(getItems(STORE_KEYS.tokens)));
+    this.sandboxes$ = this.store.select(getItems(STORE_KEYS.sandboxes));
+    this.styles$ = this.store.select(getItems(STORE_KEYS.styles));
+    this.shapes$ = this.store.select(getItems(STORE_KEYS.shapes));
+    this.texts$ = this.store.select(getItems(STORE_KEYS.texts));
+    this.sounds$ = this.store.select(getItems(STORE_KEYS.sounds));
+    this.sonatas$ = this.store.select(getItems(STORE_KEYS.sonatas));
+    this.animations$ = this.store.select(getItems(STORE_KEYS.animations));
+    this.widgets$ = this.store.select(getItems(STORE_KEYS.widgets));
+    this.expressions$ = this.store.select(getItems(STORE_KEYS.expressions));
 
     this.activePanel$ = combineLatest([
       this.store.pipe(select(selectModuleId)),
@@ -82,7 +82,7 @@ export class TreeExplorerComponent implements OnInit {
       this.store.select(getActiveHandler),
       this.store.select(getActiveLifecycle),
     ]).pipe(
-      map<[ModuleId, EntityId, AllEntity, any, WidgetNode, NodeHandler, NodeLifecycle], any>(
+      map<[ModuleId, EntityId, StoreKey, any, WidgetNode, NodeHandler, NodeLifecycle], any>(
         ([moduleId, entityId, entityType, nestedEntityType, node, handler, lifecycle]) => {
 
           if (moduleId) {
@@ -118,12 +118,12 @@ export class TreeExplorerComponent implements OnInit {
     this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { module } });
   }
 
-  deleteEntity(event: MouseEvent, entityType: AllEntity, entity: GameEntity) {
+  deleteEntity(event: MouseEvent, entityType: StoreKey, entity: GameEntity) {
     this.stopPropagation(event);
     this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { entityType, entity } });
   }
 
-  deleteNestedEntity(event: MouseEvent, entityType: AllEntity, entity: GameEntity, nestedEntityType: DeletePayload['nestedEntityType'], nestedEntity: DeletePayload['nestedEntity']) {
+  deleteNestedEntity(event: MouseEvent, entityType: StoreKey, entity: GameEntity, nestedEntityType: DeletePayload['nestedEntityType'], nestedEntity: DeletePayload['nestedEntity']) {
     this.stopPropagation(event);
     this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { entityType, entity, nestedEntity, nestedEntityType } });
   }
@@ -153,7 +153,7 @@ export class TreeExplorerComponent implements OnInit {
     }
     if (sandbox) {
       this.dialogRef.close();
-      return this.store.dispatch(new DeleteItemAction({ key: ALL_ENTITIES.sandboxes, data: sandbox }));
+      return this.store.dispatch(new DeleteItemAction({ key: STORE_KEYS.sandboxes, data: sandbox }));
     }
   }
 

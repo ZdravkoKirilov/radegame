@@ -5,7 +5,7 @@ import { map } from 'rxjs/operators';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 
-import { Sandbox, ExpressionContext, Widget, RuntimeSandbox, SandboxType, WidgetNode, Module, AllEntity, ALL_ENTITIES, GameId } from '@app/game-mechanics';
+import { Sandbox, ExpressionContext, Widget, RuntimeSandbox, SandboxType, WidgetNode, Module, StoreKey, STORE_KEYS, GameId } from '@app/game-mechanics';
 import { FormDefinition } from '@app/dynamic-forms';
 import { AppState } from '@app/core';
 import { AutoUnsubscribe, OnChange, selectRouteData, selectGameId } from '@app/shared';
@@ -116,7 +116,7 @@ export class TestBoardContainerComponent implements OnInit {
       select(selectGameId),
       map(gameId => {
         this.store.dispatch(
-          new FetchItemsAction({ key: ALL_ENTITIES.sandboxes as AllEntity, data: { gameId } })
+          new FetchItemsAction({ key: STORE_KEYS.sandboxes as StoreKey, data: { gameId } })
         );
       }),
     ).subscribe();
@@ -150,7 +150,7 @@ export class TestBoardContainerComponent implements OnInit {
 
   handleSave() {
     this.store.dispatch(new SaveItemAction({
-      key: ALL_ENTITIES.sandboxes,
+      key: STORE_KEYS.sandboxes,
       data: {
         ...this.draftSandbox,
         game: this.gameId,

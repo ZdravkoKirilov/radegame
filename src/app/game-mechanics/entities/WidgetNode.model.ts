@@ -78,7 +78,7 @@ export type RuntimeWidgetNode = Omit<WidgetNode, 'module' | 'token' | 'shape' | 
   pass_to_children: ParamedExpressionFunc<{ node: RuntimeWidgetNode, component: StatefulComponent }, any>;
 };
 
-export const WidgetNode: GameEntityParser<WidgetNode, DtoWidgetNode, RuntimeWidgetNode> = {
+export const WidgetNode: GameEntityParser<WidgetNode, DtoWidgetNode, RuntimeWidgetNode> & WidgetNodeOperations = {
 
   toRuntime(context, node) {
     return enrichEntity<WidgetNode, RuntimeWidgetNode>(context.conf, {
@@ -133,11 +133,30 @@ export const WidgetNode: GameEntityParser<WidgetNode, DtoWidgetNode, RuntimeWidg
       handlers: dto.handlers.map(elem => NodeHandler.toEntity(elem)),
       lifecycles: dto.handlers.map(elem => NodeLifecycle.toEntity(elem)),
     };
-  }
+  },
+
+  saveHandler(node, handler) {
+    return {
+      ...node,
+      handlers: node.handlers.map(elem => elem.id === handler.id ? handler : elem)
+    };
+  },
+
+  saveLifecycle(node, lifecycle) {
+    return {
+      ...node,
+      lifecycles: node.lifecycles.map(elem => elem.id === lifecycle.id ? lifecycle : elem)
+    };
+  },
+}
+
+type WidgetNodeOperations = {
+  saveHandler: (node: WidgetNode, handler: NodeHandler) => WidgetNode;
+  saveLifecycle: (node: WidgetNode, handler: NodeLifecycle) => WidgetNode;
 }
 
 export type NodeHandlerId = Nominal<string, "NodeHandlerId">;
-const toHandlerId = (source: unknown) => String(source) as NodeHandlerId;
+export const toHandlerId = (source: unknown) => String(source) as NodeHandlerId;
 
 export type NodeHandler = Tagged<'NodeHandler', {
   id: NodeHandlerId;
@@ -198,7 +217,7 @@ export const NodeHandler: GameEntityParser<NodeHandler, DtoNodeHandler, RuntimeN
 }
 
 export type NodeLifecycleId = Nominal<string, "NodeLifecycleId">;
-const toLifecycleId = (source: unknown) => String(source) as NodeLifecycleId;
+export const toLifecycleId = (source: unknown) => String(source) as NodeLifecycleId;
 
 export type NodeLifecycle = Tagged<'NodeLifecycle', {
   id: NodeLifecycleId;

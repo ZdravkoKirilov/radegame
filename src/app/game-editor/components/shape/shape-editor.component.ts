@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 
-import { GameEntity, ExpressionContext } from '@app/game-mechanics';
+import { GameEntity, ExpressionContext, Shape } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { WithTimeout } from '@app/shared';
 
@@ -20,7 +20,7 @@ export class ShapeEditorComponent {
   @Input() showEditor: boolean = false;
   @Input() selectedItem: GameEntity;
   @Input() items: GameEntity[];
-  @Input() formDefinition: FormDefinition;
+  @Input() formDefinition: FormDefinition<Shape>;
   @Input() connectedEntities: ConnectedEntities;
   @Input() expressionContext: ExpressionContext;
 

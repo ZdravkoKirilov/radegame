@@ -70,7 +70,7 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
                 RootText,
                 {
                     text,
-                    style: styleWithTransitionOverrides,
+                    style: styleWithTransitionOverrides as any,
                     fromParent: childProps,
                 }
             )

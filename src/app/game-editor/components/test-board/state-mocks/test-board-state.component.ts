@@ -13,7 +13,7 @@ import { OnChange } from '@app/shared';
 })
 export class TestBoardStateComponent {
 
-  @Input() formDefinition: FormDefinition;
+  @Input() formDefinition: FormDefinition<Sandbox>;
 
   @OnChange<Sandbox>(function (sandbox) {
     if (sandbox) {
@@ -30,7 +30,7 @@ export class TestBoardStateComponent {
   controls: BaseControl[];
 
   initializeForm(sandbox: Sandbox) {
-    this.controls = this.formDefinition(sandbox);
+    this.controls = this.formDefinition(sandbox, {});
     this.form = this.cs.toFormGroup(this.controls);
 
     this.form.valueChanges.pipe(

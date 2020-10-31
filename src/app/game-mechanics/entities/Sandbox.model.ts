@@ -1,4 +1,5 @@
 import { Omit, Nominal } from 'simplytyped';
+import { omit, values } from 'lodash/fp';
 
 import { StatefulComponent } from '@app/render-kit';
 import { Tagged } from '@app/shared';
@@ -10,11 +11,6 @@ import { Module, ModuleId, toModuleId } from './Module.model';
 import { toNodeId, WidgetNode, WidgetNodeId } from './WidgetNode.model';
 import { enrichEntity, parseAndBind } from '../helpers';
 import { Token, TokenId, toTokenId } from './Token.model';
-import { omit, values } from 'lodash/fp';
-import { AnimationId } from './Animation.model';
-import { TextId } from './Text.model';
-import { ShapeId } from './Shape.model';
-import { ImageAsset } from './ImageAsset.model';
 
 export enum SandboxType {
   'widget' = 'widget',
@@ -24,7 +20,7 @@ export enum SandboxType {
 };
 
 export type SandboxId = Nominal<string, 'SandboxId'>;
-const toSandboxid = (source: unknown) => String(source) as SandboxId;
+export const toSandboxId = (source: unknown) => String(source) as SandboxId;
 
 export type Sandbox = Tagged<'Sandbox', {
   id: SandboxId;
@@ -40,13 +36,6 @@ export type Sandbox = Tagged<'Sandbox', {
   node: WidgetNodeId;
   token: TokenId;
   module: ModuleId;
-
-/*   animation: {
-    animationId: AnimationId;
-    text: TextId;
-    shape: ShapeId;
-    image: ImageAsset;
-  } */
 
   from_parent: string;
 }>;
@@ -80,7 +69,7 @@ export const Sandbox: GameEntityParser<Sandbox, DtoSandbox, RuntimeSandbox> = {
     return {
       ...dto,
       __tag: 'Sandbox',
-      id: toSandboxid(dto.id),
+      id: toSandboxId(dto.id),
       module: toModuleId(dto.module),
       token: toTokenId(dto.token),
       widget: toWidgetId(dto.widget),

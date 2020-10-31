@@ -9,8 +9,8 @@ import { BaseModel, GameEntityParser, WithStyle } from "./Base.model";
 import { ParamedExpressionFunc } from "./Expression.model";
 import { Style } from "./Style.model";
 import { enrichEntity, parseAndBind } from '../helpers';
-import { ExpressionContext, Game, GameLanguage, GameLanguageId, toGameLanguageId } from '../models';
 import { toModuleId } from './Module.model';
+import { Game, GameLanguage, GameLanguageId, toGameLanguageId } from './Game.model';
 
 export type TextId = Nominal<string, 'TextId'>;
 export const toTextId = (source: unknown) => String(source) as TextId;
@@ -34,7 +34,7 @@ export type RuntimeText = Omit<Text, 'style' | 'style_inline'> & {
   computed_value: string;
 };
 
-export const Text: GameEntityParser<Text, DtoText, RuntimeText> = {
+export const Text: GameEntityParser<Text, DtoText, RuntimeText> & TextOperations = {
 
   toEntity(dto) {
     return {
@@ -65,7 +65,18 @@ export const Text: GameEntityParser<Text, DtoText, RuntimeText> = {
     runtimeText = { ...runtimeText, computed_value: translation?.value || runtimeText.default_value };
     return runtimeText;
   },
+
+  saveTranslation(text, translation) {
+    return {
+      ...text,
+      translations: text.translations.map(elem => elem.id === translation.id ? translation : elem),
+    };
+  }
 };
+
+type TextOperations = {
+  saveTranslation: (text: Text, Translation: Translation) => Text;
+}
 
 type TranslationId = Nominal<string, 'TranslationId'>;
 const toTranslationId = (source: unknown) => String(source) as TranslationId;

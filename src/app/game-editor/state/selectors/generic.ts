@@ -2,21 +2,21 @@ import { createSelector } from '@ngrx/store';
 import { values } from 'lodash';
 
 import { ConnectedEntities } from '@app/dynamic-forms';
-import { Widget, GameEntity, AllEntity, ALL_ENTITIES, Module, Sandbox, toSetupId, Setup, toModuleId, EntityId, NodeLifecycleId, NodeHandlerId, WidgetNode } from '@app/game-mechanics';
-import { ROUTER_PARAMS, selectRouterFeature, Dictionary, selectRouteData } from '@app/shared';
+import { Widget, StoreKey, STORE_KEYS, Module, Sandbox, toSetupId, toModuleId, toWidgetId, toNodeId, toSandboxId, toLifecycleId, toHandlerId, WidgetNodeId, WidgetNode } from '@app/game-mechanics';
+import { ROUTER_PARAMS, selectRouterFeature, selectRouteData, arrayFromMap, toDictionary } from '@app/shared';
 
 import { selectFeature } from './common';
-import { EntityFeature } from '../reducers';
+import { EntityFeature, StoreEntity } from '../reducers';
 import { selectGame } from './games';
 
-const selectForm = createSelector(
+export const selectForm = createSelector(
   selectFeature,
   feature => feature.form
 );
 
-const selectFormSlice = (key: AllEntity) => createSelector(
+const selectFormSlice = (key: StoreKey) => createSelector(
   selectForm,
-  form => form[key] as EntityFeature
+  form => form[key]
 );
 
 export const selectModuleId = createSelector(
@@ -24,12 +24,23 @@ export const selectModuleId = createSelector(
   routerState => toModuleId(routerState.state.params[ROUTER_PARAMS.MODULE_ID])
 );
 
-export const getItems = <T = GameEntity>(key: AllEntity) => createSelector(
+export const getItems = <T extends StoreEntity>(key: StoreKey) => createSelector(
   selectForm,
-  form => values(form[key]?.byId as Dictionary<T>) || [],
+  form => arrayFromMap<T>(form[key].byId as Map<any, any>),
 );
 
-export const getEntityByIdAndType = (id: EntityId, key: AllEntity) => createSelector(
+export const getIndexedNodes = createSelector(
+  getItems('widgets'),
+  widgets => widgets.reduce((allNodes, currentWidget: Widget) => {
+    allNodes = {
+      ...allNodes,
+      ...toDictionary(currentWidget.nodes),
+    };
+    return allNodes;
+  }, {} as Map<WidgetNodeId, WidgetNode>)
+);
+
+export const getEntityByIdAndType = (id: StoreEntity['id'], key: StoreKey) => createSelector(
   selectFormSlice(key),
   slice => slice?.byId[id]
 );
@@ -37,18 +48,18 @@ export const getEntityByIdAndType = (id: EntityId, key: AllEntity) => createSele
 export const selectWidgetId = createSelector(
   selectRouterFeature,
   (routerState) => {
-    return Number(routerState.state.params[ROUTER_PARAMS.WIDGET_ID]) as any;
+    return toWidgetId(routerState.state.params[ROUTER_PARAMS.WIDGET_ID]);
   }
 );
 
 export const selectNodeId = createSelector(
   selectRouterFeature,
-  router => Number(router.state.params[ROUTER_PARAMS.NODE_ID]) as any
+  router => toNodeId(router.state.params[ROUTER_PARAMS.NODE_ID])
 );
 
 export const getActiveModule = createSelector(
   selectModuleId,
-  getItems<Module>(ALL_ENTITIES.modules),
+  getItems<Module>(STORE_KEYS.modules),
   (moduleId, modules) => {
     const module = modules?.find(elem => elem.id == moduleId);
     return module;
@@ -57,12 +68,12 @@ export const getActiveModule = createSelector(
 
 export const selectSandboxId = createSelector(
   selectRouterFeature,
-  router => Number(router.state.params[ROUTER_PARAMS.SANDBOX_ID]) as any
+  router => toSandboxId(router.state.params[ROUTER_PARAMS.SANDBOX_ID])
 );
 
 export const getActiveSandbox = createSelector(
   selectSandboxId,
-  getItems<Sandbox>(ALL_ENTITIES.sandboxes),
+  getItems<Sandbox>(STORE_KEYS.sandboxes),
   (sandboxId, sandboxes) => {
     return sandboxes?.find(elem => elem.id === sandboxId);
   }
@@ -70,16 +81,16 @@ export const getActiveSandbox = createSelector(
 
 export const getActiveWidget = createSelector(
   selectWidgetId,
-  getItems<Widget>(ALL_ENTITIES.widgets),
+  getItems<Widget>(STORE_KEYS.widgets),
   (widgetId, widgets) => {
-    return widgets && widgets.find(elem => elem.id === widgetId) as Widget;
+    return widgets && widgets.find(elem => elem.id === widgetId);
   }
 );
 
 export const getActiveNode = createSelector(
   selectNodeId,
   getActiveWidget,
-  (nodeId, widget) => widget?.nodes.find(node => node.id === nodeId) as WidgetNode
+  (nodeId, widget) => widget?.nodes.find(node => node.id === nodeId)
 );
 
 export const getEntityForm = createSelector(
@@ -126,13 +137,13 @@ export const getSetup = createSelector(
   getSetupId,
   selectForm,
   (setupId, form) => {
-    return form.setups.byId[setupId] as Setup;
+    return form.setups.byId.get(setupId);
   }
 );
 
 export const selectEntityId = createSelector(
   selectRouterFeature,
-  router => router.state.params[ROUTER_PARAMS.ENTITY_ID] as EntityId
+  router => router.state.params[ROUTER_PARAMS.ENTITY_ID] as StoreEntity['id']
 );
 
 export const selectNestedEntityId = createSelector(
@@ -143,7 +154,7 @@ export const selectNestedEntityId = createSelector(
 const selectLifecycleId = createSelector(
   selectRouterFeature,
   (routerState) => {
-    return String(routerState.state.params[ROUTER_PARAMS.NODE_LIFECYCLE_ID]) as NodeLifecycleId;
+    return toLifecycleId(routerState.state.params[ROUTER_PARAMS.NODE_LIFECYCLE_ID]);
   }
 );
 
@@ -156,7 +167,7 @@ export const getActiveLifecycle = createSelector(
 const selectHandlerId = createSelector(
   selectRouterFeature,
   (routerState) => {
-    return String(routerState.state.params[ROUTER_PARAMS.NODE_HANDLER_ID]) as NodeHandlerId;
+    return toHandlerId(routerState.state.params[ROUTER_PARAMS.NODE_HANDLER_ID]);
   }
 );
 

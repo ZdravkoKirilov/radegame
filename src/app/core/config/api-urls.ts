@@ -26,63 +26,65 @@ export const EDITOR_URLS = {
         const base = `${API_BASE_URL}/games/${gameId}/versions/`;
         return versionId ? `${base}${versionId}/` : base;
     },
-    GAME_DATA: (gameId: GameId, query = '') => {
-        return `${API_BASE_URL}/games/${gameId}/data` + (query ? '?' + query : '');
-    },
-    TEXTS: (gameId: GameId, textId?: TextId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/texts/`;
-        return textId ? `${base}${textId}/` : base;
-    },
-    SHAPES: (gameId: GameId, shapeId?: ShapeId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/shapes/`;
-        return shapeId ? `${base}${shapeId}/` : base;
-    },
-    SONATAS: (gameId: GameId, itemId?: SonataId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/sonatas/`;
+    SETUPS: (versionId: VersionId, itemId?: SetupId) => {
+        const base = `${API_BASE_URL}/versions/${versionId}/setups/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    MODULES: (gameId: GameId, moduleId?: ModuleId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/modules/`;
+    MODULES: (versionId: VersionId, moduleId?: ModuleId) => {
+        const base = `${API_BASE_URL}/versions/${versionId}/modules/`;
         return moduleId ? `${base}${moduleId}/` : base;
     },
-    SANDBOXES: (gameId: GameId, sandboxId?: SandboxId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/sandboxes/`;
+    GAME_DATA: (gameId: GameId, modules: ModuleId[]) => {
+        return `${API_BASE_URL}/games/${gameId}/data`;
+    },
+
+    
+    TEXTS: (moduleId: ModuleId, textId?: TextId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/texts/`;
+        return textId ? `${base}${textId}/` : base;
+    },
+    SHAPES: (moduleId: ModuleId, shapeId?: ShapeId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/shapes/`;
+        return shapeId ? `${base}${shapeId}/` : base;
+    },
+    SONATAS: (moduleId: ModuleId, itemId?: SonataId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/sonatas/`;
+        return itemId ? `${base}${itemId}/` : base;
+    },
+    SANDBOXES: (moduleId: ModuleId, sandboxId?: SandboxId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/sandboxes/`;
         return sandboxId ? `${base}${sandboxId}/` : base;
     },
-    WIDGETS: (gameId: GameId, widgetId?: WidgetId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/widgets/`;
+    WIDGETS: (moduleId: ModuleId, widgetId?: WidgetId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/widgets/`;
         return widgetId ? `${base}${widgetId}/` : base;
     },
-    NODES: (gameId: GameId, widgetId: WidgetId, nodeId?: WidgetNodeId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/widgets/${widgetId}/nodes/`;
+    NODES: (widgetId: WidgetId, nodeId?: WidgetNodeId) => {
+        const base = `${API_BASE_URL}/widgets/${widgetId}/nodes/`;
         return nodeId ? `${base}${nodeId}/` : base;
     },
-    TOKENS: (gameId: GameId, tokenId?: TokenId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/tokens/`;
+    TOKENS: (moduleId: ModuleId, tokenId?: TokenId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/tokens/`;
         return tokenId ? `${base}${tokenId}/` : base;
     },
-    IMAGES: (gameId: GameId, itemId?: ImageAssetId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/imageassets/`;
+    IMAGES: (moduleId: ModuleId, itemId?: ImageAssetId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/imageassets/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    STYLES: (gameId: GameId, itemId?: StyleId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/styles/`;
+    STYLES: (moduleId: ModuleId, itemId?: StyleId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/styles/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    SOUNDS: (gameId: GameId, itemId?: SoundId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/sounds/`;
+    SOUNDS: (moduleId: ModuleId, itemId?: SoundId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/sounds/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    EXPRESSIONS: (gameId: GameId, itemId?: ExpressionId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/expressions/`;
+    EXPRESSIONS: (moduleId: ModuleId, itemId?: ExpressionId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/expressions/`;
         return itemId ? `${base}${itemId}/` : base;
     },
-    ANIMATIONS: (gameId: GameId, itemId?: AnimationId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/animations/`;
-        return itemId ? `${base}${itemId}/` : base;
-    },
-    SETUPS: (gameId: GameId, itemId?: SetupId) => {
-        const base = `${API_BASE_URL}/games/${gameId}/setups/`;
+    ANIMATIONS: (moduleId: ModuleId, itemId?: AnimationId) => {
+        const base = `${API_BASE_URL}/modules/${moduleId}/animations/`;
         return itemId ? `${base}${itemId}/` : base;
     },
 };
@@ -97,8 +99,8 @@ export const ARENA_URLS = {
     GET_ACTIVE_GAMES: (userId: UserId) => {
         return API_BASE_URL + `/arena/active-games/${userId}`;
     },
-    ACTIVE_GAME: (publicGameId: GameId) => {
-        return API_BASE_URL + `/arena/active-game/${publicGameId}`;
+    ACTIVE_GAME: (gameId: GameId) => {
+        return API_BASE_URL + `/arena/active-game/${gameId}`;
     },
     LIVE_ARENA: (game_name: string) => {
         return WS_ARENA_BASE_URL + '/' + game_name;
