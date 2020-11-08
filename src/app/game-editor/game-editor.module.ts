@@ -42,6 +42,8 @@ import { ModulePipe } from './utils/module.pipe';
 import { NestedEntityEditorComponent } from './containers/nested-entity-editor/nested-entity-editor.component';
 import { GenericFilterPipe } from './utils/generic-filter.pipe';
 import { NodeEditorComponent } from './containers/node-editor/node-editor.component';
+import { ModularEntityEditorComponent } from './containers/modular-entity-editor/modular-entity-editor.component';
+import { VersionedEntityEditorComponent } from './containers/versioned-entity-editor/versioned-entity-editor.component';
 
 @NgModule({
   imports: [
@@ -93,6 +95,8 @@ import { NodeEditorComponent } from './containers/node-editor/node-editor.compon
     GenericFilterPipe,
     NestedEntityEditorComponent,
     NodeEditorComponent,
+    ModularEntityEditorComponent,
+    VersionedEntityEditorComponent,
   ]
 })
 export class GameEditorModule {

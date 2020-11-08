@@ -1,10 +1,11 @@
 import { ActionReducer, combineReducers } from '@ngrx/store';
 import produce from 'immer';
 
-import { Animation, AnimationId, Expression, ExpressionId, ImageAsset, ImageAssetId, ModularEntity, Module, ModuleId, Sandbox, SandboxId, Setup, SetupId, Shape, ShapeId, Sonata, SonataId, Sound, SoundId, StoreKey, STORE_KEYS, Style, StyleId, TextId, Token, TokenId, VersionedEntity, Widget, WidgetId, Text } from '@app/game-mechanics';
+import { Animation, AnimationId, Expression, ExpressionId, ImageAsset, ImageAssetId, ModularEntity, Module, ModuleId, Sandbox, SandboxId, Setup, SetupId, Shape, ShapeId, Sonata, SonataId, Sound, SoundId, Style, StyleId, TextId, Token, TokenId, VersionedEntity, Widget, WidgetId, Text } from '@app/game-mechanics';
 
 import { EditorGenericMutators } from '../actions';
 import { genericActionTypes } from '../actions';
+import { StoreKey, STORE_KEYS } from '../../utils';
 
 export type StoreEntity = VersionedEntity | ModularEntity;
 
@@ -54,7 +55,7 @@ export const createEntityReducer = (allowedKey: StoreKey): ActionReducer<EntityF
           };
         case genericActionTypes.SET_ITEMS:
           return produce(state, draft => {
-            draft.byId = new Map(Object.values(action.payload.items).map(item => [item.id, item]));
+            draft.byId = new Map(action.payload.items.map(item => [item.id, item]));
           });
         default:
           return state;

@@ -1,5 +1,5 @@
 import { Omit, Nominal } from 'simplytyped';
-import { omit, values } from 'lodash/fp';
+import { isObject, omit, values } from 'lodash/fp';
 
 import { StatefulComponent } from '@app/render-kit';
 import { Tagged } from '@app/shared';
@@ -40,7 +40,7 @@ export type Sandbox = Tagged<'Sandbox', {
   from_parent: string;
 }>;
 
-type DtoSandbox = Omit<Sandbox, '__tag' | 'id' | 'widget' | 'node' | 'token' | 'module'> & {
+export type DtoSandbox = Omit<Sandbox, '__tag' | 'id' | 'widget' | 'node' | 'token' | 'module'> & {
   id: number;
 
   widget: number;
@@ -64,6 +64,22 @@ export type RuntimeSandbox = Omit<Sandbox, 'global_state' | 'own_data' | 'on_ini
 }>;
 
 export const Sandbox: GameEntityParser<Sandbox, DtoSandbox, RuntimeSandbox> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Sandbox',
+        ...input
+      } as Sandbox;
+    },
+
+  },
 
   toEntity(dto) {
     return {

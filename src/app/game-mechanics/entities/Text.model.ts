@@ -1,6 +1,6 @@
 import get from 'lodash/get';
 import { Nominal, Omit } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { Tagged, safeJSON } from '@app/shared';
 import { RzStyles } from '@app/render-kit';
@@ -35,6 +35,22 @@ export type RuntimeText = Omit<Text, 'style' | 'style_inline'> & {
 };
 
 export const Text: GameEntityParser<Text, DtoText, RuntimeText> & TextOperations = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Text',
+        ...input
+      } as Text;
+    },
+
+  },
 
   toEntity(dto) {
     return {
@@ -71,11 +87,20 @@ export const Text: GameEntityParser<Text, DtoText, RuntimeText> & TextOperations
       ...text,
       translations: text.translations.map(elem => elem.id === translation.id ? translation : elem),
     };
-  }
+  },
+
+  removeTranslation(text, translation) {
+    return {
+      ...text,
+      translations: text.translations.filter(elem => elem.id !== translation.id)
+    };
+  },
+
 };
 
 type TextOperations = {
   saveTranslation: (text: Text, Translation: Translation) => Text;
+  removeTranslation: (text: Text, Translation: Translation) => Text;
 }
 
 type TranslationId = Nominal<string, 'TranslationId'>;
@@ -89,17 +114,33 @@ export type Translation = Tagged<'Translation', {
   value: string;
 }>;
 
-type DtoTranslation = Omit<Translation, '__tag' | 'id' | 'owner' | 'language'> & {
+export type DtoTranslation = Omit<Translation, '__tag' | 'id' | 'owner' | 'language'> & {
   id: number;
   owner: number;
   language: number;
 };
 
-type RuntimeTranslation = Omit<Translation, 'language'> & {
+export type RuntimeTranslation = Omit<Translation, 'language'> & {
   language: GameLanguage;
 };
 
 const Translation: GameEntityParser<Translation, DtoTranslation, RuntimeTranslation> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Translation',
+        ...input
+      } as Translation;
+    },
+
+  },
 
   toEntity(dto) {
     return {

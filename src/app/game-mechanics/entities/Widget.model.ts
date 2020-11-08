@@ -1,5 +1,5 @@
 import { Nominal, Omit } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { safeJSON, Tagged } from "@app/shared";
 import { StatefulComponent, RzNode } from "@app/render-kit";
@@ -39,7 +39,23 @@ export type RuntimeWidget = Omit<Widget, 'get_nodes' | 'render' | 'background' |
   background: ImageAsset,
 };
 
-export const Widget: GameEntityParser<Widget, DtoWidget, RuntimeWidget> & { saveNode: SaveNode } = {
+export const Widget: GameEntityParser<Widget, DtoWidget, RuntimeWidget> & WidgetOperations = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Widget',
+        ...input
+      } as Widget;
+    },
+
+  },
 
   toRuntime(context, widget) {
     return enrichEntity<Widget, RuntimeWidget>(context.conf, {
@@ -73,15 +89,25 @@ export const Widget: GameEntityParser<Widget, DtoWidget, RuntimeWidget> & { save
     };
   },
 
-  saveNode(widget: Widget, node: WidgetNode) {
+  saveNode(widget, node) {
     return {
       ...widget,
       nodes: widget.nodes.map(elem => elem.id === node.id ? node : elem)
     }
-  }
+  },
+
+  removeNode(widget, node) {
+    return {
+      ...widget,
+      nodes: widget.nodes.filter(elem => elem.id !== node.id)
+    };
+  },
 }
 
-type SaveNode = (widget: Widget, nodeWidgetNode) => Widget;
+type WidgetOperations = {
+  saveNode: (widget: Widget, node: WidgetNode) => Widget;
+  removeNode: (widget: Widget, node: WidgetNode) => Widget;
+}
 
 type WidgetExpressionPayload = {
   widget: RuntimeWidget;

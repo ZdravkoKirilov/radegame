@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 
 import { ROUTER_PARAMS } from '@app/shared';
 import { CustomRouteData } from '@app/core';
-import { STORE_KEYS } from '@app/game-mechanics';
 
 import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
 import { VersionsListComponent } from './containers/versions-list/versions-list.component';
@@ -16,6 +15,7 @@ import { EntityEditorContainerComponent } from './containers/entity-editor/entit
 import { NestedEntityEditorComponent } from './containers/nested-entity-editor/nested-entity-editor.component';
 import { TestBoardContainerComponent } from './containers/sandbox-editor/test-board-container.component';
 import { NodeEditorComponent } from './containers/node-editor/node-editor.component';
+import { STORE_KEYS } from './utils';
 
 export const routes: Routes = [
   {

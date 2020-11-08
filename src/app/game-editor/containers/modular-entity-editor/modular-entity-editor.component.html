@@ -1,0 +1,17 @@
+<div *ngIf="loading" class="loader-wrap">
+  <rg-loader></rg-loader>
+</div>
+
+<rg-editor-toolbar
+  [saveEnabled]="draftValid"
+  (save)="saveEntity()"
+  (cancel)="closeEditor()"
+></rg-editor-toolbar>
+
+<rg-entity-editor 
+  [formDefinition]="formDefinition$ | async" 
+  [selectedItem]="entity$ | async" 
+  [connectedEntities]="connectedEntities$ | async"
+  (update)="updateDraft($event)"
+>
+</rg-entity-editor>

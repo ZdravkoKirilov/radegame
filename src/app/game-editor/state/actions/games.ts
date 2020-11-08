@@ -1,6 +1,6 @@
 import { Action } from '@ngrx/store';
 
-import { GameId, Game, GameTemplate } from '@app/game-mechanics';
+import { GameId, Game, GameTemplate, Module } from '@app/game-mechanics';
 import { UserId } from '@app/core';
 
 export const gameActionTypes = {
@@ -51,7 +51,7 @@ export class SetGamesAction implements Action {
 
 export class FetchGameData implements Action {
   readonly type = gameActionTypes.FETCH_GAME_DATA;
-  constructor(public payload: { gameId: GameId }) { }
+  constructor(public payload: { gameId: GameId, module: Module }) { }
 };
 
 export class SetGameData implements Action {

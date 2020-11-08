@@ -1,13 +1,22 @@
 import { createSelector } from '@ngrx/store';
 import { values } from 'lodash';
+import { Omit } from 'simplytyped';
 
-import { ConnectedEntities } from '@app/dynamic-forms';
-import { Widget, StoreKey, STORE_KEYS, Module, Sandbox, toSetupId, toModuleId, toWidgetId, toNodeId, toSandboxId, toLifecycleId, toHandlerId, WidgetNodeId, WidgetNode } from '@app/game-mechanics';
+import { ConnectedEntities, FormDefinition } from '@app/dynamic-forms';
+import { Widget, Module, Sandbox, toSetupId, toModuleId, toWidgetId, toNodeId, toSandboxId, WidgetNodeId, WidgetNode, ModularEntity, VersionedEntity, NestedEntity, GameEntityParser } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, selectRouteData, arrayFromMap, toDictionary } from '@app/shared';
 
-import { selectFeature } from './common';
 import { EntityFeature, StoreEntity } from '../reducers';
+import { StoreKey, STORE_KEYS } from '../../utils';
 import { selectGame } from './games';
+import { selectFeature } from './common';
+
+type CustomRouteData = {
+  form: FormDefinition<ModularEntity | VersionedEntity | NestedEntity>;
+  modularEntity: Pick<GameEntityParser<ModularEntity, unknown, unknown>, 'fromUnknown'>;
+  versionedEntity: Pick<GameEntityParser<VersionedEntity, unknown, unknown>, 'fromUnknown'>;
+  storeSlice: StoreKey;
+}
 
 export const selectForm = createSelector(
   selectFeature,
@@ -94,7 +103,7 @@ export const getActiveNode = createSelector(
 );
 
 export const getEntityForm = createSelector(
-  selectRouteData,
+  selectRouteData<CustomRouteData>(),
   data => {
     return data?.form;
   }
@@ -114,20 +123,6 @@ export const getEntities = createSelector(
   }
 );
 
-export const getEntityType = createSelector(
-  selectRouteData,
-  data => {
-    return data?.entityType;
-  }
-);
-
-export const getNestedEntityType = createSelector(
-  selectRouteData,
-  data => {
-    return data?.nestedEntityType;
-  }
-);
-
 const getSetupId = createSelector(
   selectRouterFeature,
   routerState => toSetupId(routerState.state.params[ROUTER_PARAMS.SETUP_ID])
@@ -141,38 +136,57 @@ export const getSetup = createSelector(
   }
 );
 
-export const selectEntityId = createSelector(
-  selectRouterFeature,
-  router => router.state.params[ROUTER_PARAMS.ENTITY_ID] as StoreEntity['id']
+export const getModularEntityParser = createSelector(
+  selectRouteData<CustomRouteData>(),
+  data => {
+    return data?.modularEntity;
+  }
 );
 
-export const selectNestedEntityId = createSelector(
+export const getVersionedEntityParser = createSelector(
+  selectRouteData<CustomRouteData>(),
+  data => {
+    return data?.versionedEntity;
+  }
+);
+
+const selectModularEntityId = createSelector(
+  selectRouterFeature,
+  router => router.state.params[ROUTER_PARAMS.MODULAR_ENTITY_ID] as ModularEntity['id']
+);
+
+const selectVersionedEntityId = createSelector(
+  selectRouterFeature,
+  router => router.state.params[ROUTER_PARAMS.VERSIONED_ENTITY_ID] as VersionedEntity['id']
+);
+
+const selectNestedEntityId = createSelector(
   selectRouterFeature,
   router => router.state.params[ROUTER_PARAMS.NESTED_ENTITY_ID]
 );
 
-const selectLifecycleId = createSelector(
-  selectRouterFeature,
-  (routerState) => {
-    return toLifecycleId(routerState.state.params[ROUTER_PARAMS.NODE_LIFECYCLE_ID]);
+const selectStoreSlice = createSelector(
+  selectRouteData<CustomRouteData>(),
+  routeData => routeData.storeSlice
+)
+
+export const selectModularEntity = createSelector(
+  selectModularEntityId,
+  selectStoreSlice,
+  selectForm,
+  (id, slice, form) => {
+    const storeSlice = form[slice];
+    return storeSlice.byId.get(id as any) as ModularEntity // TODO: something is wrong :(
   }
 );
 
-export const getActiveLifecycle = createSelector(
-  selectLifecycleId,
-  getActiveNode,
-  (lifecycleId, node) => node?.lifecycles.find(lifecycle => lifecycle.id === lifecycleId)
-);
-
-const selectHandlerId = createSelector(
-  selectRouterFeature,
-  (routerState) => {
-    return toHandlerId(routerState.state.params[ROUTER_PARAMS.NODE_HANDLER_ID]);
+export const selectVersionedEntity = createSelector(
+  selectVersionedEntityId,
+  selectStoreSlice,
+  selectForm,
+  (id, slice, form) => {
+    const storeSlice = form[slice];
+    return storeSlice.byId.get(id as any) as VersionedEntity // TODO: something is wrong :(
   }
 );
 
-export const getActiveHandler = createSelector(
-  selectHandlerId,
-  getActiveNode,
-  (handlerId, node) => node?.handlers.find(handler => handler.id === handlerId)
-);

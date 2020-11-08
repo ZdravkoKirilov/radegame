@@ -1,5 +1,5 @@
 import { Omit, Nominal } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { RzEventTypes, RzStyles, StatefulComponent } from "@app/render-kit";
 import { safeJSON, Tagged } from "@app/shared";
@@ -80,6 +80,22 @@ export type RuntimeWidgetNode = Omit<WidgetNode, 'module' | 'token' | 'shape' | 
 
 export const WidgetNode: GameEntityParser<WidgetNode, DtoWidgetNode, RuntimeWidgetNode> & WidgetNodeOperations = {
 
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'WidgetNode',
+        ...input
+      } as WidgetNode;
+    },
+
+  },
+
   toRuntime(context, node) {
     return enrichEntity<WidgetNode, RuntimeWidgetNode>(context.conf, {
       style: src => parseAndBind(context)(src),
@@ -148,11 +164,27 @@ export const WidgetNode: GameEntityParser<WidgetNode, DtoWidgetNode, RuntimeWidg
       lifecycles: node.lifecycles.map(elem => elem.id === lifecycle.id ? lifecycle : elem)
     };
   },
+
+  removeHandler(node, handler) {
+    return {
+      ...node,
+      handlers: node.handlers.filter(elem => elem.id !== handler.id)
+    };
+  },
+
+  removeLifecycle(node, lifecycle) {
+    return {
+      ...node,
+      lifecycles: node.lifecycles.filter(elem => elem.id !== lifecycle.id)
+    };
+  },
 }
 
 type WidgetNodeOperations = {
   saveHandler: (node: WidgetNode, handler: NodeHandler) => WidgetNode;
   saveLifecycle: (node: WidgetNode, handler: NodeLifecycle) => WidgetNode;
+  removeHandler: (node: WidgetNode, handler: NodeHandler) => WidgetNode;
+  removeLifecycle: (node: WidgetNode, handler: NodeLifecycle) => WidgetNode;
 }
 
 export type NodeHandlerId = Nominal<string, "NodeHandlerId">;
@@ -171,7 +203,7 @@ export type NodeHandler = Tagged<'NodeHandler', {
   sound: SonataId;
 }>;
 
-type DtoNodeHandler = Omit<NodeHandler, '__tag' | 'id' | 'owner' | 'sound' | 'type'> & {
+export type DtoNodeHandler = Omit<NodeHandler, '__tag' | 'id' | 'owner' | 'sound' | 'type'> & {
   id: number;
   owner: number;
   sound: number;
@@ -185,6 +217,22 @@ export type RuntimeNodeHandler = Omit<NodeHandler, 'effect' | 'sound' | 'dynamic
 };
 
 export const NodeHandler: GameEntityParser<NodeHandler, DtoNodeHandler, RuntimeNodeHandler> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'NodeHandler',
+        ...input
+      } as NodeHandler;
+    },
+
+  },
 
   toEntity(dto) {
     return {
@@ -234,7 +282,7 @@ export type NodeLifecycle = Tagged<'NodeLifecycle', {
   sound: SonataId;
 }>
 
-type DtoNodeLifecycle = Omit<NodeLifecycle, '__tag' | 'id' | 'owner' | 'sound' | 'type'> & {
+export type DtoNodeLifecycle = Omit<NodeLifecycle, '__tag' | 'id' | 'owner' | 'sound' | 'type'> & {
   id: number;
   owner: number;
   sound: number;
@@ -249,6 +297,22 @@ export type RuntimeNodeLifecycle = Omit<NodeLifecycle, 'effect' | 'sound' | 'dyn
 }>;
 
 export const NodeLifecycle: GameEntityParser<NodeLifecycle, DtoNodeLifecycle, RuntimeNodeLifecycle> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'NodeLifecycle',
+        ...input
+      } as NodeLifecycle;
+    },
+
+  },
 
   toEntity(dto) {
     return {

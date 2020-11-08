@@ -1,5 +1,5 @@
 import { Nominal, Omit } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { Tagged } from "@app/shared";
 
@@ -30,6 +30,22 @@ export type RuntimeSonata = Omit<Sonata, 'steps'> & {
 };
 
 export const Sonata: GameEntityParser<Sonata, DtoSonata, RuntimeSonata> & SonataOperations = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Sonata',
+        ...input
+      } as Sonata;
+    },
+
+  },
 
   toRuntime(context, sonata) {
     return {
@@ -64,12 +80,20 @@ export const Sonata: GameEntityParser<Sonata, DtoSonata, RuntimeSonata> & Sonata
       ...sonata,
       steps: sonata.steps.map(elem => elem.id === step.id ? step : elem)
     };
-  }
+  },
+
+  removeStep(sonata, step) {
+    return {
+      ...sonata,
+      steps: sonata.steps.filter(elem => elem.id !== step.id)
+    };
+  },
 
 }
 
 type SonataOperations = {
   saveStep: (sonata: Sonata, step: SonataStep) => Sonata;
+  removeStep: (sonata: Sonata, step: SonataStep) => Sonata;
 }
 
 type SonataStepId = Nominal<string, 'SonataStepId'>;
@@ -92,17 +116,33 @@ export type SonataStep = Tagged<'SonataStep', {
   fade_duration: number;
 }>
 
-type DtoSonataStep = Omit<SonataStep, '__tag' | 'id' | 'owner' | 'sound'> & {
+export type DtoSonataStep = Omit<SonataStep, '__tag' | 'id' | 'owner' | 'sound'> & {
   id: number;
   owner: number;
   sound: number;
 }
 
-type RuntimeSonataStep = Omit<SonataStep, 'sound'> & {
+export type RuntimeSonataStep = Omit<SonataStep, 'sound'> & {
   sound: Sound;
 }
 
 const SonataStep: GameEntityParser<SonataStep, DtoSonataStep, RuntimeSonataStep> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'SonataStep',
+        ...input
+      } as SonataStep;
+    },
+
+  },
 
   toEntity(dto) {
     return {

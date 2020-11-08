@@ -1,5 +1,5 @@
 import { Omit, Nominal } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { Tagged } from '@app/shared';
 
@@ -21,6 +21,22 @@ export type DtoImageAsset = Omit<ImageAsset, '__tag' | 'id' | 'module'> & {
 };
 
 export const ImageAsset: GameEntityParser<ImageAsset, DtoImageAsset, ImageAsset> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'ImageAsset',
+        ...input
+      } as ImageAsset;
+    },
+
+  },
 
   toEntity(dto) {
     return {

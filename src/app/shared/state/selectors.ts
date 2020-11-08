@@ -33,7 +33,9 @@ export const selectGameInstanceId = createSelector(
     feature => feature.state.params[ROUTER_PARAMS.GAME_INSTANCE_ID],
 );
 
-export const selectRouteData = createSelector(
-    selectRouterState,
-    state => state?.data,
-);
+export function selectRouteData<ExtendedRouteData = {}>() {
+    return createSelector(
+        selectRouterState,
+        state => state?.data as RouterStateUrl['data'] & ExtendedRouteData,
+    );
+}

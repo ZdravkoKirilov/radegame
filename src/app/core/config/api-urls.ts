@@ -35,7 +35,8 @@ export const EDITOR_URLS = {
         return moduleId ? `${base}${moduleId}/` : base;
     },
     GAME_DATA: (gameId: GameId, modules: ModuleId[]) => {
-        return `${API_BASE_URL}/games/${gameId}/data`;
+        const params = modules.map(moduleId => 'module=' + moduleId).join('&');
+        return `${API_BASE_URL}/games/${gameId}/data?${params}`;
     },
 
     

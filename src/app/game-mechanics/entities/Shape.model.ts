@@ -1,5 +1,5 @@
 import { Nominal, Omit } from "simplytyped";
-import { omit } from "lodash/fp";
+import { isObject, omit } from "lodash/fp";
 
 import { safeJSON, Tagged } from "@app/shared";
 
@@ -30,6 +30,22 @@ export type RuntimeShape = Omit<Shape, 'style' | 'style_inline'> & {
 };
 
 export const Shape: GameEntityParser<Shape, DtoShape, RuntimeShape> & ShapeOperations = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Shape',
+        ...input
+      } as Shape;
+    },
+
+  },
 
   toRuntime(context, shape) {
     return enrichEntity<Shape, RuntimeShape>(context.conf, {
@@ -64,10 +80,18 @@ export const Shape: GameEntityParser<Shape, DtoShape, RuntimeShape> & ShapeOpera
       points: shape.points.map(elem => elem.id === point.id ? point : elem)
     };
   },
+
+  removePoint(shape, point) {
+    return {
+      ...shape,
+      points: shape.points.filter(elem => elem.id !== point.id)
+    };
+  },
 }
 
 type ShapeOperations = {
   savePoint: (shape: Shape, point: ShapePoint) => Shape;
+  removePoint: (shape: Shape, point: ShapePoint) => Shape;
 }
 
 type ShapePointId = Nominal<string, 'ShapePointId'>;
@@ -81,12 +105,28 @@ export type ShapePoint = Tagged<'ShapePoint', {
   y: string;
 }>;
 
-type DtoShapePoint = Omit<ShapePoint, '__tag' | 'id' | 'owner'> & {
+export type DtoShapePoint = Omit<ShapePoint, '__tag' | 'id' | 'owner'> & {
   id: number;
   owner: number;
 };
 
 export const ShapePoint: GameEntityParser<ShapePoint, DtoShapePoint, ShapePoint> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'ShapePoint',
+        ...input
+      } as ShapePoint;
+    },
+
+  },
 
   toRuntime(_, entity) {
     return entity;

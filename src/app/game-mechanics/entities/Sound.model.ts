@@ -1,5 +1,5 @@
 import { Nominal, Omit } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { Tagged } from '@app/shared';
 
@@ -19,6 +19,22 @@ export type DtoSound = Omit<Sound, '__tag' | 'id' | 'module'> & {
 };
 
 export const Sound: GameEntityParser<Sound, DtoSound, Sound> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Sound',
+        ...input
+      } as Sound;
+    },
+
+  },
 
   toEntity(dto) {
     return {

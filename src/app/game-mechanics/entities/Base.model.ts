@@ -1,12 +1,9 @@
-import { Nominal } from 'simplytyped';
-
 import { RzStyles } from "@app/render-kit";
 
 import { ParamedExpressionFunc } from "./Expression.model";
 import { ExpressionContext } from '../models';
 import { ModuleId } from './Module.model';
 import { ModularEntity } from './types';
-
 
 export type BaseModel<T = ModularEntity['id']> = {
   id: T;
@@ -26,8 +23,12 @@ export type WithRuntimeStyle<T = any> = {
   style: ParamedExpressionFunc<T, RzStyles>;
 };
 
-export type GameEntityParser<E, D, R> = {
-  toRuntime: (context: ExpressionContext, entity: E, ...args: unknown[]) => R;
-  toDto: (entity: E) => D;
-  toEntity: (dtoEntity: D) => E;
+export type GameEntityParser<Entity, DtoEntity, RuntimeEntity> = {
+  toRuntime: (context: ExpressionContext, entity: Entity, ...args: unknown[]) => RuntimeEntity;
+  toDto: (entity: Entity) => DtoEntity;
+  toEntity: (dtoEntity: DtoEntity) => Entity;
+
+  fromUnknown: {
+    toEntity: (input: unknown) => Entity;
+  }
 };

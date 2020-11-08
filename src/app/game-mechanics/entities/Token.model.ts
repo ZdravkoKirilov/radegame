@@ -1,5 +1,5 @@
 import { Nominal, Omit } from "simplytyped";
-import { omit } from "lodash/fp";
+import { isObject, omit } from "lodash/fp";
 
 import { safeJSON, Tagged } from "@app/shared";
 import { RzStyles } from "@app/render-kit";
@@ -12,7 +12,6 @@ import { Text, TextId, toTextId } from "./Text.model";
 import { ImageAsset, ImageAssetId, toImageId } from "./ImageAsset.model";
 import { Style, toStyleId } from "./Style.model";
 import { Shape, ShapeId, toShapeId } from "./Shape.model";
-import { tokenName } from "@angular/compiler";
 
 export type TokenId = Nominal<string, 'TokenId'>;
 export const toTokenId = (source: unknown) => String(source) as TokenId;
@@ -24,7 +23,7 @@ export type Token = BaseModel<TokenId> & Tagged<'Token'> & {
   nodes: TokenNode[];
 };
 
-type DtoToken = Omit<Token, '__tag' | 'id' | 'module' | 'template' | 'nodes'> & {
+export type DtoToken = Omit<Token, '__tag' | 'id' | 'module' | 'template' | 'nodes'> & {
   id: number;
   module: number;
   template: number;
@@ -37,6 +36,22 @@ export type RuntimeToken = Omit<Token, 'template'> & {
 }
 
 export const Token: GameEntityParser<Token, DtoToken, RuntimeToken> & TokenOperations = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Token',
+        ...input
+      } as Token;
+    },
+
+  },
 
   toEntity(dto) {
     return {
@@ -73,12 +88,20 @@ export const Token: GameEntityParser<Token, DtoToken, RuntimeToken> & TokenOpera
       ...token,
       nodes: token.nodes.map(elem => elem.id === node.id ? node : elem)
     };
-  }
+  },
+
+  removeNode(token, node) {
+    return {
+      ...token,
+      nodes: token.nodes.filter(elem => elem.id !== node.id)
+    };
+  },
 
 }
 
 type TokenOperations = {
   saveNode: (token: Token, node: TokenNode) => Token;
+  removeNode: (token: Token, node: TokenNode) => Token;
 }
 
 type TokenNodeId = Nominal<string, 'TokenNodeId'>;
@@ -97,7 +120,7 @@ export type TokenNode = Tagged<'TokenNode'> & WithStyle & {
   shape: ShapeId;
 };
 
-type DtoTokenNode = Omit<TokenNode, '__tag' | 'id' | 'owner' | 'style' | 'image' | 'widget' | 'text' | 'shape'> & {
+export type DtoTokenNode = Omit<TokenNode, '__tag' | 'id' | 'owner' | 'style' | 'image' | 'widget' | 'text' | 'shape'> & {
   id: number;
   owner: number;
   style: number;
@@ -107,7 +130,7 @@ type DtoTokenNode = Omit<TokenNode, '__tag' | 'id' | 'owner' | 'style' | 'image'
   shape: number;
 };
 
-type RuntimeTokenNode = Omit<TokenNode, 'style' | 'style_inline' | 'image' | 'widget' | 'text' | 'shape'> & {
+export type RuntimeTokenNode = Omit<TokenNode, 'style' | 'style_inline' | 'image' | 'widget' | 'text' | 'shape'> & {
   style: Style;
   style_inline: RzStyles;
 
@@ -118,6 +141,22 @@ type RuntimeTokenNode = Omit<TokenNode, 'style' | 'style_inline' | 'image' | 'wi
 };
 
 const TokenNode: GameEntityParser<TokenNode, DtoTokenNode, RuntimeTokenNode> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'TokenNode',
+        ...input
+      } as TokenNode;
+    },
+
+  },
 
   toEntity(dto) {
     return {

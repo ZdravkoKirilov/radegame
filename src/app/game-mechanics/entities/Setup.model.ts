@@ -1,5 +1,5 @@
 import { Nominal, Omit } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { Tagged } from '@app/shared';
 
@@ -42,6 +42,22 @@ export type RuntimeSetup = Omit<Setup, 'get_active_language' | 'get_active_modul
 };
 
 export const Setup: GameEntityParser<Setup, DtoSetup, RuntimeSetup> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Setup',
+        ...input
+      } as Setup;
+    },
+
+  },
 
   toRuntime(context, setup) {
     if (setup) {

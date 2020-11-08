@@ -1,5 +1,5 @@
 import { Omit, Nominal } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { Tagged } from '@app/shared';
 
@@ -36,6 +36,22 @@ export type RuntimeModule = Module & Omit<Module, 'loader' | 'entry' | 'dependen
 };
 
 export const Module: GameEntityParser<Module, DtoModule, RuntimeModule> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Module',
+        ...input
+      } as Module;
+    },
+
+  },
 
   toRuntime(context, module) {
     return enrichEntity<Module, RuntimeModule>(context.conf, {

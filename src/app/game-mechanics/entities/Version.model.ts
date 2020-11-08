@@ -1,5 +1,5 @@
 import { Nominal } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { Omit, Tagged } from '@app/shared';
 
@@ -35,6 +35,22 @@ export type RuntimeVersion = Omit<Version, 'menu'> & {
 };
 
 export const Version: GameEntityParser<Version, DtoVersion, RuntimeVersion> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Version',
+        ...input
+      } as Version;
+    },
+
+  },
 
   toRuntime(context, version) {
     const config = context.conf;

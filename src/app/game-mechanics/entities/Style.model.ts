@@ -1,5 +1,5 @@
 import { Nominal, Omit } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { RzStyles } from "@app/render-kit";
 import { Tagged } from '@app/shared';
@@ -18,6 +18,22 @@ export type DtoStyle = Omit<Style, 'id' | 'module' | '__tag'> & {
 };
 
 export const Style: GameEntityParser<Style, DtoStyle, Style> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Style',
+        ...input
+      } as Style;
+    },
+
+  },
 
   toEntity(dto) {
     return {

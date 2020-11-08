@@ -9,6 +9,7 @@ import { ParamedExpressionFunc } from "./Expression.model";
 import { BaseModel, GameEntityParser } from "./Base.model";
 import { enrichEntity, parseAndBind } from "../helpers";
 import { toModuleId } from './Module.model';
+import { isObject } from 'lodash';
 
 export type AnimationId = Nominal<string, 'AnimationId'>;
 const toAnimationId = (source: unknown) => String(source) as AnimationId;
@@ -35,6 +36,22 @@ export type RuntimeAnimation = Omit<Animation, 'steps'> & {
 };
 
 export const Animation: GameEntityParser<Animation, DtoAnimation, RuntimeAnimation> & AnimationOperations = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Animation',
+        ...input
+      } as Animation;
+    },
+
+  },
 
   toRuntime(context, animation) {
     return enrichEntity<Animation, RuntimeAnimation>(context.conf, {
@@ -69,11 +86,19 @@ export const Animation: GameEntityParser<Animation, DtoAnimation, RuntimeAnimati
       steps: animation.steps.map(elem => elem.id === step.id ? step : elem)
     }
   },
-  
+
+  removeStep(animation, step) {
+    return {
+      ...animation,
+      steps: animation.steps.filter(elem => elem.id !== step.id)
+    };
+  },
+
 }
 
 type AnimationOperations = {
   saveStep: (animation: Animation, step: AnimationStep) => Animation;
+  removeStep: (animation: Animation, step: AnimationStep) => Animation;
 }
 
 type AnimationStepId = Nominal<string, 'AnimationStepId'>;
@@ -101,7 +126,7 @@ export type AnimationStep = Tagged<'AnimationStep', {
   bidirectional: boolean;
 }>;
 
-type DtoAnimationStep = Omit<AnimationStep, 'id' | 'owner' | '__tag'> & {
+export type DtoAnimationStep = Omit<AnimationStep, 'id' | 'owner' | '__tag'> & {
   id: number;
   owner: number;
 }
@@ -117,6 +142,23 @@ export type RuntimeAnimationStep = Omit<AnimationStep, 'from_value' | 'to_value'
 }
 
 const AnimationStep: GameEntityParser<AnimationStep, DtoAnimationStep, RuntimeAnimationStep> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'AnimationStep',
+        ...input
+      } as AnimationStep;
+    },
+
+  },
+
   toRuntime(context, step) {
 
     return enrichEntity<AnimationStep, RuntimeAnimationStep>(context.conf, {

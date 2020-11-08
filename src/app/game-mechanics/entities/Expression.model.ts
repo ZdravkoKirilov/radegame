@@ -1,5 +1,5 @@
 import { Omit, Nominal } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { omit, isObject } from 'lodash/fp';
 
 import { GenericEvent, StatefulComponent, DidUpdatePayload } from "@app/render-kit";
 import { GenericSubscription, Tagged } from "@app/shared";
@@ -23,6 +23,21 @@ export type DtoExpression = Omit<Expression, '__tag' | 'id' | 'module'> & {
 };
 
 export const Expression: GameEntityParser<Expression, DtoExpression, RuntimeExpression> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Expression',
+        ...input
+      } as Expression;
+    },
+
+  },
 
   toDto(expression) {
     return {
