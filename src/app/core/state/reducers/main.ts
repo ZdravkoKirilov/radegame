@@ -4,7 +4,6 @@ import { ActionReducerMap } from '@ngrx/store';
 
 import { GameEditorFeature } from '@app/game-editor';
 import { ProfileFeature } from '@app/profile';
-import { CatalogFeatureState } from '@app/catalog';
 import { CoreFeature, coreReducer } from './core';
 import { ArenaState } from '@app/game-arena';
 
@@ -22,6 +21,5 @@ export interface AppState {
     editor: GameEditorFeature;
     profile: ProfileFeature;
     social_auth: SocialAuthState;
-    catalog: CatalogFeatureState;
     arena: ArenaState;
 }

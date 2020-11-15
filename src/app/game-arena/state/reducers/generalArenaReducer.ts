@@ -2,13 +2,13 @@ import produce from 'immer';
 
 import { GameInstance } from "../../models";
 import { GameArenaAction, ArenaGeneralActionTypes, LobbyActionTypes, StartGame } from "../actions";
-import { GameTemplate, Game } from '@app/game-mechanics';
+import { GameTemplate, Game, ModuleId } from '@app/game-mechanics';
 
 export type GeneralArenaState = Partial<{
     game_instance: GameInstance;
     game: Game;
     config: GameTemplate;
-    loaded_chunks: string[];
+    loaded_chunks: ModuleId[];
 }>;
 
 const initialState: GeneralArenaState = {
@@ -31,7 +31,7 @@ export const generalArenaReducer = (state: GeneralArenaState = initialState, act
         case ArenaGeneralActionTypes.FETCH_GAME_CONFIG_SUCCESS:
             return produce(state, draft => {
                 draft.config = action.payload.config;
-                draft.loaded_chunks = [...draft.loaded_chunks, ...action.payload.keywords];
+                // draft.loaded_chunks = [...draft.loaded_chunks, ...action.payload.keywords];
             });
         case ArenaGeneralActionTypes.FETCH_GAME_SUCCESS:
             return produce(state, draft => {

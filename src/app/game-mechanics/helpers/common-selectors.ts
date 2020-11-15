@@ -1,7 +1,7 @@
 import { createSelector } from 'reselect';
 
-import { GameTemplate, ExpressionContext, Game } from '../models';
-import { RuntimeWidgetNode, Shape, Widget, WidgetNode, Text, Module, NodeHandler, NodeLifecycle } from '../entities';
+import { ExpressionContext } from '../models';
+import { RuntimeWidgetNode, Shape, Widget, WidgetNode, Text, Module, NodeHandler, NodeLifecycle, GameTemplate, Game } from '../entities';
 
 export type CommonGameStore = {
   config: GameTemplate;

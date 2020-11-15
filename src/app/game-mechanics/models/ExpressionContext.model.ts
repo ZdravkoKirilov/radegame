@@ -1,15 +1,16 @@
 import get from "lodash/get";
 
-import { GameState, GameTemplate } from "./Game.model";
 import { Player } from "./Player";
 import { HomeMadeEventEmitter } from "../helpers/HomeMadeEventEmitter";
+import { GameState, GameTemplate } from "..";
+import { ModuleId } from "../entities";
 
 export type ExpressionContext = {
   state: GameState;
   conf: GameTemplate;
   private_data: {};
 
-  loaded_modules: number[];
+  loaded_modules: ModuleId[];
 
   players: Player[];
   self: Player,

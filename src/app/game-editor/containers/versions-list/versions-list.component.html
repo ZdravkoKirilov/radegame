@@ -11,7 +11,10 @@
     <mat-card-actions>
       <button mat-button (click)="deleteVersion(item)">Remove</button>
       <a mat-button [routerLink]="['../edit', item.id]">Edit version</a>
-      <a mat-button [routerLink]="['../', item.id]">Edit entities</a>
+      <p>
+        <a mat-button [routerLink]="['../', item.id]">Edit modules</a>
+        <a mat-button [routerLink]="['../', item.id, 'setups', 'list']">Edit setups</a>
+      </p>
     </mat-card-actions>
   </mat-card>
 </ng-template>

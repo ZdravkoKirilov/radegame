@@ -3,8 +3,8 @@ import get from 'lodash/get';
 import { Dictionary } from '@app/shared';
 import { createElement } from '@app/render-kit';
 
-import { ExpressionContext, GameState, GameTemplate, Player } from "../models";
-import { Expression } from "../entities";
+import { ExpressionContext, Player } from "../models";
+import { Expression, GameState, GameTemplate, ModuleId, SetupId } from "../entities";
 import { parseAndBind } from './misc';
 import { HomeMadeEventEmitter } from './HomeMadeEventEmitter';
 
@@ -25,8 +25,8 @@ export const composeStaticMembers = () => {
 };
 
 export type CreateStateParams = {
-  setup: number;
-  module?: number;
+  setup: SetupId;
+  module?: ModuleId;
 };
 
 export const createGameState = (payload: CreateStateParams): GameState => {
@@ -41,7 +41,7 @@ export const createGameState = (payload: CreateStateParams): GameState => {
 export type CreateExpressionParams = {
   conf: GameTemplate;
   state: GameState;
-  loaded_modules: string[] | number[];
+  loaded_modules: ModuleId[];
   players: Player[];
   self: Player;
 }

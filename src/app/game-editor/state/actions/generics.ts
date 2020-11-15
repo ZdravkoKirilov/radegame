@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 
-import { StoreKey, VersionedEntity, VersionId, ModularEntity, ModuleId, NestedEntity } from '@app/game-mechanics';
+import { VersionedEntity, VersionId, ModularEntity, ModuleId, NestedEntity } from '@app/game-mechanics';
+import { StoreKey } from '../../utils';
 
 export const genericActionTypes = {
 

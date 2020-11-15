@@ -1,14 +1,15 @@
 import { Nominal } from 'simplytyped';
-import { omit } from 'lodash/fp';
+import { isObject, omit } from 'lodash/fp';
 
 import { Omit, Dictionary, Tagged } from '@app/shared';
 import { LobbyPlayer } from '@app/game-arena';
 
 import {
   Module, Token, Expression, Sonata, Sound,
-  Widget, Text, Setup, ImageAsset, Sandbox, Shape, Style, Version, Animation, ImageAssetId, GameEntityParser, ModuleId, toImageId, toModuleId
+  Widget, Text, ImageAsset, Sandbox, Shape, Style, Animation, ImageAssetId, GameEntityParser, ModuleId, toImageId, toModuleId
 } from './';
 import { enrichEntity } from '../helpers';
+import { SetupId } from './Setup.model';
 
 export type GameId = Nominal<string, 'GameId'>;
 export const toGameId = (source: unknown) => String(source) as GameId;
@@ -31,6 +32,23 @@ export type DtoGame = Omit<Game, '__tag' | 'id' | 'languages' | 'menu'> & {
 };
 
 export const Game: GameEntityParser<Game, DtoGame, RuntimeGame> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'Game',
+        ...input
+      } as Game;
+    },
+
+  },
+
   toRuntime(context, game) {
     return enrichEntity<Game, RuntimeGame>(context.conf, {
       menu: 'modules',
@@ -63,6 +81,23 @@ export type RuntimeGame = Omit<Game, 'menu'> & {
 };
 
 const GameLanguage: GameEntityParser<GameLanguage, DtoGameLanguage, RuntimeGameLanguage> = {
+
+  fromUnknown: {
+
+    toEntity(input: unknown) {
+
+      if (!isObject(input)) {
+        throw new Error('NotAnObject');
+      }
+
+      return { //TODO: don't spread
+        __tag: 'GameLanguage',
+        ...input
+      } as GameLanguage;
+    },
+
+  },
+
   toDto(language) {
     return {
       ...omit('__tag', language),
@@ -116,19 +151,30 @@ export type GameTemplate = {
   sounds: Dictionary<Sound>;
   widgets: Dictionary<Widget>;
   texts: Dictionary<Text>;
-  modules: Dictionary<Module>;
-  setups: Dictionary<Setup>;
   images: Dictionary<ImageAsset>;
   sandboxes: Dictionary<Sandbox>;
   shapes: Dictionary<Shape>;
   styles: Dictionary<Style>;
-  versions: Dictionary<Version>;
   animations: Dictionary<Animation>;
 };
 
+export type GameData = {
+  tokens: Array<Token>;
+  expressions: Array<Expression>;
+  sonatas: Array<Sonata>;
+  sounds: Array<Sound>;
+  widgets: Array<Widget>;
+  texts: Array<Text>;
+  images: Array<ImageAsset>;
+  sandboxes: Array<Sandbox>;
+  shapes: Array<Shape>;
+  styles: Array<Style>;
+  animations: Array<Animation>;
+};
+
 export type GameState = {
-  setup: number;
-  module: number; //
+  setup: SetupId;
+  module: ModuleId;
 };
 
 export type CreateGamePayload = {

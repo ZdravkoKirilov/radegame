@@ -1,15 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { map, catchError, switchMap } from 'rxjs/operators';
-
-import { GameEditService, GameFetchService } from '@app/core';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { GameEditService, GameFetchService } from '@app/core';
 
 import {
   FetchVersionDetails, versionActionTypes, SetVersion, FetchVersions, SetVersions, SaveVersion, DeleteVersion, RemoveVersion
 } from '../actions';
-import { toGameId } from '@app/game-mechanics';
 
 @Injectable()
 export class VersionEffectsService {
@@ -42,7 +41,7 @@ export class VersionEffectsService {
   @Effect()
   saveVersion = this.actions$.pipe(
     ofType<SaveVersion>(versionActionTypes.SAVE_VERSION),
-    switchMap(action => this.api.saveVersion(action.payload.version, toGameId(1)).pipe(
+    switchMap(action => this.api.saveVersion(action.payload.version).pipe(
       map(version => {
         this.snackbar.open('Version was saved', 'Success', { duration: 3000 });
         return new SetVersion({ version });
@@ -57,7 +56,7 @@ export class VersionEffectsService {
   @Effect()
   deleteVersion = this.actions$.pipe(
     ofType<DeleteVersion>(versionActionTypes.DELETE_VERSION),
-    switchMap(action => this.api.deleteVersion(action.payload.version, toGameId(1)).pipe(
+    switchMap(action => this.api.deleteVersion(action.payload.version).pipe(
       map(() => {
         this.snackbar.open('Version was deleted', 'Success', { duration: 3000 });
         return new RemoveVersion({ version: action.payload.version });

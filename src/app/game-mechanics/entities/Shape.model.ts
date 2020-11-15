@@ -94,7 +94,7 @@ type ShapeOperations = {
   removePoint: (shape: Shape, point: ShapePoint) => Shape;
 }
 
-type ShapePointId = Nominal<string, 'ShapePointId'>;
+export type ShapePointId = Nominal<string, 'ShapePointId'>;
 const toShapePointId = (source: unknown) => String(source) as ShapePointId;
 
 export type ShapePoint = Tagged<'ShapePoint', {

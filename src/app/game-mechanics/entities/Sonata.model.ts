@@ -96,7 +96,7 @@ type SonataOperations = {
   removeStep: (sonata: Sonata, step: SonataStep) => Sonata;
 }
 
-type SonataStepId = Nominal<string, 'SonataStepId'>;
+export type SonataStepId = Nominal<string, 'SonataStepId'>;
 const toSonataStepId = (source: unknown) => String(source) as SonataStepId;
 
 export type SonataStep = Tagged<'SonataStep', {

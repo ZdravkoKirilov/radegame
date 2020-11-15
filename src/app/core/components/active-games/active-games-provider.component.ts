@@ -40,7 +40,7 @@ export class ActiveGamesProviderComponent implements OnInit {
 
     this.activeGames$ = this.store.pipe(select(getActiveGames));
     this.showActiveGames$ = this.store.pipe(
-      select(selectRouteData),
+      select(selectRouteData()),
       filter<CustomRouteData>(Boolean),
       map(data => {
         return !data.hide_game_warning;

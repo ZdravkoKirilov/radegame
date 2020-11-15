@@ -46,7 +46,7 @@ export class GameMenuLoaderComponent implements OnInit {
       filter<Game>(Boolean),
       map(game => {
         this.game = game;
-        this.store.dispatch(new FetchGameConfig({ gameId: game.id, keywords: game.core_data.split(',') }));
+        // this.store.dispatch(new FetchGameConfig({ gameId: game.id, keywords: game.core_data.split(',') }));
       })
     ).subscribe();
 
@@ -85,9 +85,9 @@ export class GameMenuLoaderComponent implements OnInit {
   }
 
   get menuModule() {
-    if (this.game_config && this.game) {
+   /*  if (this.game_config && this.game) {
       return this.game_config.modules[this.game.menu];
-    }
+    } */
     return null;
   }
 }

@@ -11,4 +11,6 @@ export class ConfirmDeleteComponent {
   @Output() confirm = new EventEmitter();
   @Output() cancel = new EventEmitter();
 
+  data: object;
+
 }

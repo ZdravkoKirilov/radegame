@@ -10,7 +10,7 @@
 
 <rg-entity-editor 
   [formDefinition]="formDefinition$ | async" 
-  [selectedItem]="nestedEntity" 
+  [selectedItem]="entity$ | async" 
   [connectedEntities]="connectedEntities$ | async"
   (update)="updateDraft($event)"
 >

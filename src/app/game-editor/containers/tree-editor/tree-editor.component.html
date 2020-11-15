@@ -3,5 +3,9 @@
 </nav>
 
 <main class="main">
+  <rg-editor-toolbar>
+    <a [routerLink]="['/', 'editor', 'games', gameId, 'versions', 'list']">Back to versions</a>
+  </rg-editor-toolbar>
+
   <router-outlet></router-outlet>
 </main>

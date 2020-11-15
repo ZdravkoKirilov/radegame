@@ -66,7 +66,7 @@ export class ArenaEffectsService {
     })
   )
 
-  @Effect()
+/*   @Effect()
   getGameConfig = this.actions$.pipe(
     ofType<FetchGameConfig>(ArenaGeneralActionTypes.FETCH_GAME_CONFIG),
     mergeMap(action => {
@@ -84,5 +84,5 @@ export class ArenaEffectsService {
         })
       )
     })
-  )
+  ) */
 }

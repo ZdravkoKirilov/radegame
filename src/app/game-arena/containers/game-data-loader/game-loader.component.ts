@@ -46,7 +46,7 @@ export class GameLoaderComponent implements OnInit {
       select(selectGame),
       filter<Game>(Boolean),
       map(game => {
-        this.store.dispatch(new FetchGameConfig({ gameId: game.id, keywords: game.core_data.split(',') }));
+        // this.store.dispatch(new FetchGameConfig({ gameId: game.id, keywords: game.core_data.split(',') }));
       })
     ).subscribe();
 

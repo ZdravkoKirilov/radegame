@@ -1,19 +1,17 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { combineLatest, Observable, Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { AppState } from '@app/core';
 import {
-  Module, STORE_KEYS, ImageAsset, Token, StoreKey, GameEntity, EntityId, Sandbox, Style, Text, Shape, Sound, Sonata,
-  Animation, Widget, Expression, ModuleId, WidgetNode, NodeHandler, NodeLifecycle
+  Module, ImageAsset, Token, GameEntity, Sandbox, Style, Text, Shape, Sound, Sonata,
+  Animation, Widget, Expression, ModuleId, NestedEntity, ModularEntity
 } from '@app/game-mechanics';
 import { AutoUnsubscribe } from '@app/shared';
 
-import {
-  getItems, DeleteModule, DeleteItemAction, SaveItemAction, selectModuleId, selectEntityId, getEntityType, getNestedEntityType, getActiveNode, getActiveHandler, getActiveLifecycle
-} from '../../state';
-import { map } from 'rxjs/operators';
+import { StoreKey, STORE_KEYS } from '../../utils';
+import { getItems } from '../../state';
 
 type DeletePayload = Partial<{
   module: Module,
@@ -21,7 +19,7 @@ type DeletePayload = Partial<{
   entity: GameEntity,
   sandbox: Sandbox;
   nestedEntityType: 'frames' | 'texts',
-  nestedEntity: { id: EntityId },
+  nestedEntity: NestedEntity,
 }>;
 @Component({
   selector: 'rg-tree-explorer',
@@ -51,10 +49,9 @@ export class TreeExplorerComponent implements OnInit {
   activePanel$: Subscription;
 
   moduleId: ModuleId;
-  entityId: EntityId;
-  entityType: StoreKey;
-  nestedEntityType: 'texts' | 'frames';
-  nestedEntityId: EntityId;
+
+  modularEntityId: ModularEntity['id'];
+  nestedEntityId: NestedEntity['id'];
 
   dialogRef: MatDialogRef<any>;
   @ViewChild('confirmDelete') public confirm: TemplateRef<any>;
@@ -73,36 +70,6 @@ export class TreeExplorerComponent implements OnInit {
     this.widgets$ = this.store.select(getItems(STORE_KEYS.widgets));
     this.expressions$ = this.store.select(getItems(STORE_KEYS.expressions));
 
-    this.activePanel$ = combineLatest([
-      this.store.pipe(select(selectModuleId)),
-      this.store.pipe(select(selectEntityId)),
-      this.store.pipe(select(getEntityType)),
-      this.store.pipe(select(getNestedEntityType)),
-      this.store.select(getActiveNode),
-      this.store.select(getActiveHandler),
-      this.store.select(getActiveLifecycle),
-    ]).pipe(
-      map<[ModuleId, EntityId, StoreKey, any, WidgetNode, NodeHandler, NodeLifecycle], any>(
-        ([moduleId, entityId, entityType, nestedEntityType, node, handler, lifecycle]) => {
-
-          if (moduleId) {
-            this.openedPanels.add(`modules_${moduleId}`);
-          }
-          if (entityType) {
-            this.openedPanels.add(`modules_${moduleId}_${entityType}`);
-          }
-          if (entityType && entityId) {
-            this.openedPanels.add(`modules_${moduleId}_${entityType}_${entityId}`);
-          }
-          if (nestedEntityType) {
-            this.openedPanels.add(`modules_${moduleId}_${entityType}_${entityId}_${nestedEntityType}`);
-          }
-          if (node) {
-            this.openedPanels.add(`nodes_${node.id}`);
-          }
-        })
-    ).subscribe();
-
   }
 
   isPanelOpen(panelId: string): boolean {
@@ -113,48 +80,8 @@ export class TreeExplorerComponent implements OnInit {
     event.stopPropagation();
   }
 
-  deleteModule(event: MouseEvent, module: Module) {
-    this.stopPropagation(event);
-    this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { module } });
-  }
+  onConfirmDelete() {
 
-  deleteEntity(event: MouseEvent, entityType: StoreKey, entity: GameEntity) {
-    this.stopPropagation(event);
-    this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { entityType, entity } });
-  }
-
-  deleteNestedEntity(event: MouseEvent, entityType: StoreKey, entity: GameEntity, nestedEntityType: DeletePayload['nestedEntityType'], nestedEntity: DeletePayload['nestedEntity']) {
-    this.stopPropagation(event);
-    this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { entityType, entity, nestedEntity, nestedEntityType } });
-  }
-
-  deleteSandbox(event: MouseEvent, sandbox: Sandbox) {
-    this.stopPropagation(event);
-    this.dialogRef = this.dialog.open<TemplateRef<any>, DeletePayload>(this.confirm, { data: { sandbox } });
-  }
-
-  onConfirmDelete({ module, entityType, entity, nestedEntity, nestedEntityType, sandbox }: DeletePayload) {
-
-    if (module) {
-      this.dialogRef.close();
-      return this.store.dispatch(new DeleteModule({ module }));
-    }
-    if (entityType && entity && nestedEntity && nestedEntityType) {
-      const withoutNestedEntity = {
-        ...entity,
-        [nestedEntityType]: entity[nestedEntityType].filter(elem => elem.id !== nestedEntity.id)
-      };
-      this.dialogRef.close();
-      return this.store.dispatch(new SaveItemAction({ key: entityType, data: withoutNestedEntity }));
-    }
-    if (entityType && entity) {
-      this.dialogRef.close();
-      return this.store.dispatch(new DeleteItemAction({ key: entityType, data: entity }));
-    }
-    if (sandbox) {
-      this.dialogRef.close();
-      return this.store.dispatch(new DeleteItemAction({ key: STORE_KEYS.sandboxes, data: sandbox }));
-    }
   }
 
   onCancelDelete() {

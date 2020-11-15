@@ -7,11 +7,10 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 
 import { AppState } from '@app/core';
-import { GameId, VersionId, ModularEntity, GameEntityParser, VersionedEntity } from '@app/game-mechanics';
+import { GameId, VersionId, GameEntityParser, VersionedEntity } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId, selectVersionId, AutoUnsubscribe } from '@app/shared';
 import {
-  FetchModularItems,
   FetchVersionedItems, genericActionTypes, getEntities, getEntityForm, getVersionedEntityParser, RemoveItem,
   SaveItem, selectVersionedEntity, SetItem
 } from '../../state';
@@ -29,7 +28,7 @@ export class VersionedEntityEditorComponent implements OnInit {
   entity$: Observable<VersionedEntity>;
   entityParser: Pick<GameEntityParser<VersionedEntity, unknown, unknown>, 'fromUnknown'>;
 
-  formDefinition$: Observable<FormDefinition<ModularEntity>>;
+  formDefinition$: Observable<FormDefinition<VersionedEntity>>;
   connectedEntities$: Observable<ConnectedEntities>;
 
   onEntityCreated$: Subscription;

@@ -10,9 +10,6 @@ const routes: Routes = [
         path: 'profile', loadChildren: () => import('./profile').then(m => m.ProfileModule)
     },
     {
-        path: 'catalog', loadChildren: () => import('./catalog').then(m => m.CatalogModule)
-    },
-    {
         path: 'arena', loadChildren: () => import('./game-arena').then(m => m.GameArenaModule)
     },
     {

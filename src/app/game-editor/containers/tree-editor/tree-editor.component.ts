@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-import { Subscription } from 'rxjs';
+import { Store } from '@ngrx/store';
+import { combineLatest, Subscription } from 'rxjs';
+import { map, filter } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
-import { AutoUnsubscribe, selectGameId } from '@app/shared';
-import { map, filter } from 'rxjs/operators';
+import { AutoUnsubscribe, selectGameId, selectVersionId } from '@app/shared';
 import { GameId } from '@app/game-mechanics';
 
-import { FetchGameData, FetchGameDetails, FetchItemsAction } from '../../state';
+import { FetchVersionedItems } from '../../state';
 
 @Component({
   selector: 'rg-tree-editor',
@@ -19,16 +19,19 @@ export class TreeEditorComponent implements OnInit {
 
   constructor(private store: Store<AppState>) { }
 
-  gameId$: Subscription;
+  data$: Subscription;
+  gameId: GameId;
 
   ngOnInit(): void {
-    this.gameId$ = this.store.pipe(
-      select(selectGameId),
-      filter<GameId>(Boolean),
-      map(gameId => {
-        this.store.dispatch(new FetchGameData({ gameId }));
-        this.store.dispatch(new FetchGameDetails({ gameId }));
-        this.store.dispatch(new FetchItemsAction({ key: 'modules', data: { gameId } }));
+
+    this.data$ = combineLatest(
+      this.store.select(selectGameId),
+      this.store.select(selectVersionId),
+    ).pipe(
+      filter(data => data.every(Boolean)),
+      map(([gameId, versionId]) => {
+        this.gameId = gameId;
+        this.store.dispatch(new FetchVersionedItems({ versionId, entityType: 'Module' }));
       })
     ).subscribe();
   }

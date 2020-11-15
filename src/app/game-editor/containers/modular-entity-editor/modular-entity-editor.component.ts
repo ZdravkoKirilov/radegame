@@ -7,14 +7,13 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
 
 import { AppState } from '@app/core';
-import { GameId, VersionId, ModularEntity, GameEntityParser, Module } from '@app/game-mechanics';
+import { GameId, VersionId, ModularEntity, GameEntityParser, ModuleId } from '@app/game-mechanics';
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId, selectVersionId, AutoUnsubscribe } from '@app/shared';
 import {
   FetchGameData,
-  FetchVersionedItems,
-  genericActionTypes, getActiveModule, getEntities, getEntityForm, getModularEntityParser, RemoveItem, SaveItem,
-  selectModularEntity, SetItem
+  genericActionTypes, getEntities, getEntityForm, getModularEntityParser, RemoveItem, SaveItem,
+  selectModularEntity, selectModuleId, SetItem
 } from '../../state';
 
 @Component({
@@ -39,7 +38,7 @@ export class ModularEntityEditorComponent implements OnInit {
   loading: boolean;
   gameId: GameId;
   versionId: VersionId;
-  module: Module;
+  moduleId: ModuleId;
   draft: {};
   draftValid: boolean;
 
@@ -52,19 +51,15 @@ export class ModularEntityEditorComponent implements OnInit {
       this.store.select(selectGameId),
       this.store.select(selectVersionId),
       this.store.select(getModularEntityParser),
-      this.store.select(getActiveModule),
+      this.store.select(selectModuleId),
     ).pipe(
-      tap(([gameId, versionId, entityParser, module]) => {
+      tap(([gameId, versionId, entityParser, moduleId]) => {
         this.gameId = gameId;
         this.versionId = versionId;
         this.entityParser = entityParser;
-        this.module = module;
+        this.moduleId = moduleId;
 
-        this.store.dispatch(new FetchVersionedItems({ entityType: 'Module', versionId: versionId }));
-
-        if (module) {
-          this.store.dispatch(new FetchGameData({ gameId, module }));
-        }
+        this.store.dispatch(new FetchGameData({ gameId, moduleId, versionId }));
 
         this.cd.detectChanges();
       }),
@@ -97,7 +92,7 @@ export class ModularEntityEditorComponent implements OnInit {
   }
 
   updateDraft(form: FormGroup) {
-    this.draft = { ...this.draft, ...form.value, module: this.module.id };
+    this.draft = { ...this.draft, ...form.value, module: this.moduleId };
     this.draftValid = form.valid;
     this.cd.detectChanges();
   }

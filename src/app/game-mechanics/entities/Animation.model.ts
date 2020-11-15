@@ -101,7 +101,7 @@ type AnimationOperations = {
   removeStep: (animation: Animation, step: AnimationStep) => Animation;
 }
 
-type AnimationStepId = Nominal<string, 'AnimationStepId'>;
+export type AnimationStepId = Nominal<string, 'AnimationStepId'>;
 const toAnimationStepId = (source: unknown) => String(source) as AnimationStepId;
 
 export type AnimationStep = Tagged<'AnimationStep', {

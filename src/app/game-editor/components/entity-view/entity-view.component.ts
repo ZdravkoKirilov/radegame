@@ -19,7 +19,7 @@ export class EntityViewComponent {
 	@Input() showEditor: boolean = false;
 	@Input() selectedItem: GameEntity;
 	@Input() items: GameEntity[];
-	@Input() formDefinition: FormDefinition;
+	@Input() formDefinition: FormDefinition<GameEntity>;
 	@Input() connectedEntities: ConnectedEntities;
 
 	@Output() toggleEditor: EventEmitter<boolean> = new EventEmitter();

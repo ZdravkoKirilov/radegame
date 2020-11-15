@@ -45,12 +45,6 @@ const selectSetup = createSelector(
   state => state ? state.setup : null,
 );
 
-export const selectSetupData = createSelector(
-  selectSetup,
-  selectConfig,
-  (setup, config) => config && setup ? config.setups[setup] as Setup : null,
-);
-
 const selectExpressionContext = createSelector(
   selectUser,
   selectConfig,

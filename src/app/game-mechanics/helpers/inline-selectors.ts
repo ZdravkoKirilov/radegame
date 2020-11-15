@@ -2,9 +2,8 @@ import isFunction from 'lodash/isFunction';
 
 import { StatefulComponent } from "@app/render-kit";
 
-import { RuntimeWidget, RuntimeWidgetNode, Module, WidgetNode } from "../entities";
-import { ExpressionContext, RuntimeGame } from "../models";
-import { findFirstEntityBy } from "./misc";
+import { RuntimeWidget, RuntimeWidgetNode, RuntimeGame } from "../entities";
+import { ExpressionContext } from "../models";
 
 export const selectChildPropsSync = (node: RuntimeWidgetNode, component: StatefulComponent) => {
   const handler = node.pass_to_children;

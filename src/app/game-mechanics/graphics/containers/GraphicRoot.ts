@@ -1,8 +1,8 @@
 import { Memo, createElement, RzElement } from "@app/render-kit";
 
 import { CommonGameStore, selectRuntimeGame, selectExpressionContext, selectModuleFromGameSync } from "../../helpers";
-import { Module, Widget, WidgetNode, RuntimeWidgetNode } from "../../entities";
-import { Game, RuntimeGame, ExpressionContext } from "../../models";
+import { Module, Widget, WidgetNode, RuntimeWidgetNode, RuntimeGame, Game } from "../../entities";
+import {  ExpressionContext } from "../../models";
 import { connectToStore } from "../../hocs";
 
 import { RootWidgetProps, RootWidget } from "./RootWidget";

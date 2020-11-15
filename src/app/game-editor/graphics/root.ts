@@ -6,7 +6,7 @@ import {
   StatefulComponent, createElement, AutoClean, RzPoint, RenderFunction
 } from "@app/render-kit";
 import {
-  RuntimeWidgetNode, Widget, STORE_KEYS, RuntimeWidget, WidgetNode, StoreProviderProps,
+  RuntimeWidgetNode, Widget, RuntimeWidget, WidgetNode, StoreProviderProps,
   StoreProvider, ExpressionContext, RootWidgetProps, RootWidget, CommonGameStore, selectRuntimeWidget,
   selectExpressionContext,
   connectToStore,
@@ -14,7 +14,7 @@ import {
 } from "@app/game-mechanics";
 import { AppState } from "@app/core";
 
-import { SaveItemAction, selectCommonGameStore } from "../state";
+import { selectCommonGameStore } from "../state";
 
 import DraggableNode, { Props as NodeProps } from './node/DraggableNode';
 
@@ -72,13 +72,13 @@ export class rootComponent extends StatefulComponent<EditorRootProps, State> {
     this.setState({ selectedNode: null, runtimeWidget: newRuntimeWidgetData });
     this.props.selectNode(null);
 
-    this.props.store.dispatch(new SaveItemAction({
+/*     this.props.store.dispatch(new SaveItemAction({
       key: STORE_KEYS.nodes,
       data: {
         ...newRuntimeWidgetData.nodes[nodeIndex],
         style_inline: JSON.stringify(newRuntimeWidgetData.nodes[nodeIndex].style_inline) as any
       },
-    }));
+    })); */
   }
 
   render() {

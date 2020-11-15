@@ -34,7 +34,6 @@
       "@app/rendering": ["app/rendering/index"],
       "@app/render-kit": ["app/render-kit/index"],
       "@app/engines/pixi": ["app/engines/pixijs/index"],
-      "@app/catalog": ["app/catalog/index"],
       "@app/lobby": ["app/lobby/index"]
     }
   }

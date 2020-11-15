@@ -23,11 +23,9 @@ import { ShapeEditorComponent } from './components/shape/shape-editor.component'
 import { ShapePreviewComponent } from './components/shape/preview/shape-preview.component';
 import { TextEditorComponent } from './components/text/text-editor.component';
 import { TextPreviewComponent } from './components/text/preview/text-preview.component';
-import { TestBoardContainerComponent } from './containers/sandbox-editor/test-board-container.component';
 import { TestBoardHeaderComponent } from './components/test-board/header/test-board-header.component';
 import { TestBoardStateComponent } from './components/test-board/state-mocks/test-board-state.component';
 import { TestBoardPresentationComponent } from './components/test-board/presentation/test-board-presentation.component';
-import { EntityEditorContainerComponent } from './containers/entity-editor/entity-editor-container.component';
 import { GamesEditorContainerComponent } from './containers/games-editor/games-editor-container.component';
 import { EditorToolbarComponent } from './components/editor-toolbar/editor-toolbar.component';
 import { ConfirmDeleteComponent } from './components/confirm-delete/confirm-delete.component';
@@ -36,14 +34,13 @@ import { VersionsEditorComponent } from './containers/versions-editor/versions-e
 import { TreeEditorComponent } from './containers/tree-editor/tree-editor.component';
 import { TreeExplorerComponent } from './containers/tree-explorer/tree-explorer.component';
 import { GameDashboardComponent } from './containers/game-dashboard/game-dashboard.component';
-import { RootEntityEditorComponent } from './containers/root-entity-editor/root-entity-editor.component';
 import { GamesContainerComponent } from './containers';
 import { ModulePipe } from './utils/module.pipe';
 import { NestedEntityEditorComponent } from './containers/nested-entity-editor/nested-entity-editor.component';
 import { GenericFilterPipe } from './utils/generic-filter.pipe';
-import { NodeEditorComponent } from './containers/node-editor/node-editor.component';
 import { ModularEntityEditorComponent } from './containers/modular-entity-editor/modular-entity-editor.component';
 import { VersionedEntityEditorComponent } from './containers/versioned-entity-editor/versioned-entity-editor.component';
+import { SetupsListComponent } from './containers/setups-list/setups-list.component';
 
 @NgModule({
   imports: [
@@ -72,11 +69,9 @@ import { VersionedEntityEditorComponent } from './containers/versioned-entity-ed
     ShapePreviewComponent,
     TextEditorComponent,
     TextPreviewComponent,
-    TestBoardContainerComponent,
     TestBoardHeaderComponent,
     TestBoardStateComponent,
     TestBoardPresentationComponent,
-    RootEntityEditorComponent,
     GameDashboardComponent,
     TreeExplorerComponent,
     TreeEditorComponent,
@@ -85,7 +80,6 @@ import { VersionedEntityEditorComponent } from './containers/versioned-entity-ed
     ConfirmDeleteComponent,
     EditorToolbarComponent,
     GamesEditorContainerComponent,
-    EntityEditorContainerComponent,
     EntityListComponent,
     EntityComponent,
     EntityEditorComponent,
@@ -94,9 +88,9 @@ import { VersionedEntityEditorComponent } from './containers/versioned-entity-ed
     ModulePipe,
     GenericFilterPipe,
     NestedEntityEditorComponent,
-    NodeEditorComponent,
     ModularEntityEditorComponent,
     VersionedEntityEditorComponent,
+    SetupsListComponent,
   ]
 })
 export class GameEditorModule {

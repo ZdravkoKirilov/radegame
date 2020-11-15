@@ -103,7 +103,7 @@ type TextOperations = {
   removeTranslation: (text: Text, Translation: Translation) => Text;
 }
 
-type TranslationId = Nominal<string, 'TranslationId'>;
+export type TranslationId = Nominal<string, 'TranslationId'>;
 const toTranslationId = (source: unknown) => String(source) as TranslationId;
 
 export type Translation = Tagged<'Translation', {

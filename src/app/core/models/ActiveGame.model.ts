@@ -1,8 +1,8 @@
-import { Player, GameId } from "@app/game-mechanics";
+import { Player, GameId, SetupId } from "@app/game-mechanics";
 
 export type ActiveGame = {
     game_id: GameId;
-    setup: number;
+    setup: SetupId;
     players: Player[];
     public_id: number;
 };

@@ -4,12 +4,14 @@ import { map, filter } from 'rxjs/operators';
 import { combineLatest, Observable } from 'rxjs';
 
 import { AppState } from '@app/core';
-import {
-	getActiveWidget, getItems, getEntities, SaveItemAction, DeleteItemAction,
-} from '../../state';
-import { Widget, WidgetNode, ImageAsset, STORE_KEYS } from '@app/game-mechanics';
+import { Widget, WidgetNode, ImageAsset } from '@app/game-mechanics';
 import { ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId } from '@app/shared';
+
+import {
+ getItems, getEntities, selectModularEntity,
+} from '../../state';
+import { STORE_KEYS } from '../../utils';
 
 @Component({
 	selector: 'rg-board-container',
@@ -41,7 +43,7 @@ export class BoardContainerComponent {
 		gameId: number,
 		images: ImageAsset[],
 	}> = combineLatest<any>(
-		this.store.pipe(select(getActiveWidget)),
+		this.store.pipe(select(selectModularEntity)),
 		this.store.pipe(select(getEntities)),
 		this.store.pipe(select(selectGameId)),
 		this.store.pipe(select(getItems<ImageAsset>(STORE_KEYS.images))),
@@ -59,18 +61,18 @@ export class BoardContainerComponent {
 	saveNode = (node: WidgetNode) => {
 		node.owner = this.widget.id;
 
-		this.store.dispatch(new SaveItemAction({
+	/* 	this.store.dispatch(new SaveItemAction({
 			key: STORE_KEYS.nodes,
 			data: node,
-		}));
+		})); */
 	}
 
 	deleteNode = (node: WidgetNode) => {
 		node.owner = this.widget.id;
 
-		this.store.dispatch(new DeleteItemAction({
+/* 		this.store.dispatch(new DeleteItemAction({
 			key: STORE_KEYS.nodes,
 			data: node,
-		}));
+		})); */
 	}
 }

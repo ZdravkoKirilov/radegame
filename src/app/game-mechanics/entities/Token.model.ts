@@ -104,7 +104,7 @@ type TokenOperations = {
   removeNode: (token: Token, node: TokenNode) => Token;
 }
 
-type TokenNodeId = Nominal<string, 'TokenNodeId'>;
+export type TokenNodeId = Nominal<string, 'TokenNodeId'>;
 const toTokenNodeId = (source: unknown) => String(source) as TokenNodeId;
 
 export type TokenNode = Tagged<'TokenNode'> & WithStyle & {

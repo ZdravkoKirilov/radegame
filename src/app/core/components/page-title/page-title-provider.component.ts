@@ -21,11 +21,11 @@ export class PageTitleProviderComponent implements OnInit {
 
   ngOnInit() {
     this.routeData$ = this.store.pipe(
-      select(selectRouteData),
+      /* select(selectRouteData()),
       filter(data => data && !!data.title),
       map(data => {
         this.titleService.setTitle(data.title);
-      })
+      }) */
     ).subscribe();
   }
 }

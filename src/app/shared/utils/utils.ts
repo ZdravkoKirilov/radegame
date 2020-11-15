@@ -47,13 +47,3 @@ export const safeJSON = <T = any>(source: any, fallback = null): T => {
     return source;
   }
 };
-
-export function arrayFromMap<T>(source: Map<any, T>) {
-  const result = [];
-
-  source.forEach(item => {
-    result.push(item);
-  });
-
-  return result as T[];
-};

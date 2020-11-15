@@ -5,8 +5,8 @@ import { Omit, Tagged } from '@app/shared';
 
 import { enrichEntity } from "../helpers";
 import { Module, ModuleId, toModuleId } from "./Module.model";
-import { GameId, toGameId } from "../models";
 import { GameEntityParser } from './Base.model';
+import { GameId, toGameId } from './Game.model';
 
 export type VersionId = Nominal<string, 'VersionId'>;
 export const toVersionId = (source: unknown) => String(source) as VersionId;

@@ -1,35 +1,49 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, catchError, switchMap } from 'rxjs/operators';
+import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Store } from '@ngrx/store';
+import { isEmpty } from 'lodash/fp';
 
-import { GameEditService, GameFetchService } from '@app/core';
-import { formatGameConfigData } from '@app/shared';
+import { AppState, GameEditService, GameFetchService } from '@app/core';
 
 import {
-  gameActionTypes, FetchGameData, SetGameData, FetchGamesAction, SetGamesAction, SaveGameAction, SetGameAction, DeleteGameAction, RemoveGameAction, FetchGameDetails
+  gameActionTypes, FetchGameData, FetchGamesAction, SetGamesAction, SaveGameAction, SetGameAction, DeleteGameAction, RemoveGameAction, FetchGameDetails, SetGameData, SetItems
 } from '../actions';
-import { Game } from '@app/game-mechanics';
+import { Game, Module } from '@app/game-mechanics';
+import { getItems } from '../selectors';
 
 @Injectable()
 export class GameEffectsService {
 
-  constructor(private actions$: Actions, private api: GameEditService, private fetcher: GameFetchService, private snackbar: MatSnackBar,) {
-  }
+  constructor(
+    private actions$: Actions,
+    private api: GameEditService,
+    private fetcher: GameFetchService,
+    private snackbar: MatSnackBar,
+    private store: Store<AppState>
+  ) { }
 
   @Effect()
   fetchGameData = this.actions$.pipe(
     ofType<FetchGameData>(gameActionTypes.FETCH_GAME_DATA),
-    switchMap(action => {
-      return this.fetcher.getGameData(action.payload.gameId).pipe(
-        map(response => {
-          const payload = formatGameConfigData(response);
-          return new SetGameData({ data: payload });
-        }),
-        catchError(err => {
-          return null;
-        }),
+    withLatestFrom(this.store.select(getItems<Module>('modules'))),
+    switchMap(async ([action, modules]) => {
+      const { gameId, moduleId, versionId } = action.payload;
+      const actions = [];
+      if (isEmpty(modules)) {
+        modules = await this.fetcher.getModules(versionId).toPromise();
+        actions.push(new SetItems({ storeKey: 'modules', items: modules }))
+      }
+      const module = modules.find(elem => elem.id === moduleId);
+      const moduleIds = [...module.dependencies, module.id];
+      return this.fetcher.getGameData(gameId, moduleIds).pipe(
+        map(entities => [new SetGameData({ data: entities }), ...actions]),
+        catchError(() => {
+          this.snackbar.open(`Failed to fetch game data`, 'Error', { duration: 3000});
+          return [];
+        })
       )
     })
   )
