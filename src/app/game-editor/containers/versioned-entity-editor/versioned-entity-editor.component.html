@@ -4,8 +4,8 @@
 
 <rg-editor-toolbar
   [saveEnabled]="draftValid"
+  [backURL]="backURL()"
   (save)="saveEntity()"
-  (cancel)="closeEditor()"
 ></rg-editor-toolbar>
 
 <rg-entity-editor 

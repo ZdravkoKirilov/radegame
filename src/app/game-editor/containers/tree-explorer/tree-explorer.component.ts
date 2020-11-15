@@ -1,26 +1,18 @@
 import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { Observable, Subscription } from 'rxjs';
+import { combineLatest, Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { AppState } from '@app/core';
 import {
-  Module, ImageAsset, Token, GameEntity, Sandbox, Style, Text, Shape, Sound, Sonata,
-  Animation, Widget, Expression, ModuleId, NestedEntity, ModularEntity
+  Module, ImageAsset, Token, Sandbox, Style, Text, Shape, Sound, Sonata,
+  Animation, Widget, Expression, GameId, VersionId
 } from '@app/game-mechanics';
-import { AutoUnsubscribe } from '@app/shared';
+import { AutoUnsubscribe, selectGameId, selectVersionId } from '@app/shared';
 
-import { StoreKey, STORE_KEYS } from '../../utils';
-import { getItems } from '../../state';
-
-type DeletePayload = Partial<{
-  module: Module,
-  entityType: StoreKey,
-  entity: GameEntity,
-  sandbox: Sandbox;
-  nestedEntityType: 'frames' | 'texts',
-  nestedEntity: NestedEntity,
-}>;
+import { STORE_KEYS } from '../../utils';
+import { FetchGameData, getItems } from '../../state';
 @Component({
   selector: 'rg-tree-explorer',
   templateUrl: './tree-explorer.component.html',
@@ -46,12 +38,10 @@ export class TreeExplorerComponent implements OnInit {
   widgets$: Observable<Widget[]>;
   expressions$: Observable<Expression[]>;
 
-  activePanel$: Subscription;
+  data$: Subscription;
 
-  moduleId: ModuleId;
-
-  modularEntityId: ModularEntity['id'];
-  nestedEntityId: NestedEntity['id'];
+  gameId: GameId;
+  versionId: VersionId;
 
   dialogRef: MatDialogRef<any>;
   @ViewChild('confirmDelete') public confirm: TemplateRef<any>;
@@ -70,6 +60,20 @@ export class TreeExplorerComponent implements OnInit {
     this.widgets$ = this.store.select(getItems(STORE_KEYS.widgets));
     this.expressions$ = this.store.select(getItems(STORE_KEYS.expressions));
 
+    this.data$ = combineLatest([
+      this.store.select(selectGameId),
+      this.store.select(selectVersionId),
+    ]).pipe(
+      map(([gameId, versionId]) => {
+        this.gameId = gameId;
+        this.versionId = versionId;
+      })
+    ).subscribe();
+
+  }
+
+  loadModuleData(module: Module) {
+    this.store.dispatch(new FetchGameData({ gameId: this.gameId, versionId: this.versionId, module }));
   }
 
   isPanelOpen(panelId: string): boolean {

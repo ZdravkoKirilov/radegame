@@ -100,7 +100,11 @@ export class VersionedEntityEditorComponent implements OnInit {
   }
 
   closeEditor() {
-    this.router.navigate(['../', '../', '../', '../', 'dashboard'], { relativeTo: this.route });
+    this.router.navigate(['../', '../'], { relativeTo: this.route });
+  }
+
+  backURL() {
+    return this.draft && 'id' in this.draft ? ['../..'] : ['../'];
   }
 
 }

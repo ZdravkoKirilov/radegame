@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { ROUTER_PARAMS } from '@app/shared';
-import { Module, Sandbox, Setup } from '@app/game-mechanics';
+import { Module, Sandbox, Setup, Token } from '@app/game-mechanics';
 
 import { STORE_KEYS } from './utils';
 import { EditorRoutesData } from './state';
@@ -10,7 +10,7 @@ import { GamesEditorContainerComponent } from './containers/games-editor/games-e
 import { VersionsListComponent } from './containers/versions-list/versions-list.component';
 import { VersionsEditorComponent } from './containers/versions-editor/versions-editor.component';
 import { TreeEditorComponent } from './containers/tree-editor/tree-editor.component';
-import { composeSetupForm, composeModuleForm, composeSandboxForm } from './forms';
+import { composeSetupForm, composeModuleForm, composeSandboxForm, composeTokenForm } from './forms';
 import { GamesContainerComponent } from './containers/games/games.container';
 import { VersionedEntityEditorComponent } from './containers/versioned-entity-editor/versioned-entity-editor.component';
 import { ModularEntityEditorComponent } from './containers/modular-entity-editor/modular-entity-editor.component';
@@ -86,7 +86,7 @@ export const routes: Routes = [
         },
         children: [
           { path: 'add', component: VersionedEntityEditorComponent },
-          { path: `:${ROUTER_PARAMS.VERSIONED_ENTITY_ID}`, component: VersionedEntityEditorComponent },
+          { path: `edit/:${ROUTER_PARAMS.VERSIONED_ENTITY_ID}`, component: VersionedEntityEditorComponent },
           {
             path: `:${ROUTER_PARAMS.VERSIONED_ENTITY_ID}`,
             children: [
@@ -96,6 +96,18 @@ export const routes: Routes = [
                   modularEntity: Sandbox,
                   form: composeSandboxForm,
                   storeSlice: 'sandboxes'
+                },
+                children: [
+                  { path: 'add', component: ModularEntityEditorComponent },
+                  { path: `:${ROUTER_PARAMS.MODULAR_ENTITY_ID}`, component: ModularEntityEditorComponent }
+                ]
+              },
+              {
+                path: 'tokens',
+                data: <EditorRoutesData>{
+                  modularEntity: Token,
+                  form: composeTokenForm,
+                  storeSlice: 'tokens'
                 },
                 children: [
                   { path: 'add', component: ModularEntityEditorComponent },

@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, catchError, switchMap, withLatestFrom, mergeMap, concatMap } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 import { isEmpty } from 'lodash/fp';
 
 import { AppState, GameEditService, GameFetchService } from '@app/core';
+import { Game, Module } from '@app/game-mechanics';
 
 import {
-  gameActionTypes, FetchGameData, FetchGamesAction, SetGamesAction, SaveGameAction, SetGameAction, DeleteGameAction, RemoveGameAction, FetchGameDetails, SetGameData, SetItems
+  gameActionTypes, FetchGameData, FetchGamesAction, SetGamesAction, SaveGameAction, SetGameAction, DeleteGameAction, RemoveGameAction, FetchGameDetails, SetGameData, SetItems, AddLoadedModules
 } from '../actions';
-import { Game, Module } from '@app/game-mechanics';
-import { getItems } from '../selectors';
+import { getItems, selectLoadedModules } from '../selectors';
 
 @Injectable()
 export class GameEffectsService {
@@ -28,23 +28,29 @@ export class GameEffectsService {
   @Effect()
   fetchGameData = this.actions$.pipe(
     ofType<FetchGameData>(gameActionTypes.FETCH_GAME_DATA),
-    withLatestFrom(this.store.select(getItems<Module>('modules'))),
-    switchMap(async ([action, modules]) => {
-      const { gameId, moduleId, versionId } = action.payload;
+    withLatestFrom(this.store.select(selectLoadedModules)),
+    switchMap(([action, loaded_modules]) => {
+      const { gameId, module, versionId } = action.payload;
       const actions = [];
-      if (isEmpty(modules)) {
-        modules = await this.fetcher.getModules(versionId).toPromise();
-        actions.push(new SetItems({ storeKey: 'modules', items: modules }))
+      const moduleIds = [...module.dependencies, module.id].filter(moduleId => !loaded_modules.includes(moduleId));
+      debugger;
+      if (moduleIds.length) {
+        return this.fetcher.getGameData(gameId, moduleIds).pipe(
+          switchMap(response => {
+            this.snackbar.open(`Fetched game data`, 'Success', { duration: 3000 });
+            return [
+              new SetGameData({ data: response }),
+              ...actions,
+              new AddLoadedModules({ modules: moduleIds })
+            ];
+          }),
+          catchError(() => {
+            this.snackbar.open(`Failed to fetch game data`, 'Error', { duration: 3000 });
+            return [];
+          })
+        )
       }
-      const module = modules.find(elem => elem.id === moduleId);
-      const moduleIds = [...module.dependencies, module.id];
-      return this.fetcher.getGameData(gameId, moduleIds).pipe(
-        map(entities => [new SetGameData({ data: entities }), ...actions]),
-        catchError(() => {
-          this.snackbar.open(`Failed to fetch game data`, 'Error', { duration: 3000});
-          return [];
-        })
-      )
+      return [];
     })
   )
 

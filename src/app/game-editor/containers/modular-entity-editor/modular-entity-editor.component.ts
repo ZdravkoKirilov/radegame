@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, combineLatest, Subscription } from 'rxjs';
-import { switchMap, tap, map, filter } from 'rxjs/operators';
+import { tap, map, filter } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
@@ -13,7 +13,7 @@ import { selectGameId, selectVersionId, AutoUnsubscribe } from '@app/shared';
 import {
   FetchGameData,
   genericActionTypes, getEntities, getEntityForm, getModularEntityParser, RemoveItem, SaveItem,
-  selectModularEntity, selectModuleId, SetItem
+  selectModularEntity, selectModule, selectVersionedEntityId, SetItem
 } from '../../state';
 
 @Component({
@@ -34,6 +34,7 @@ export class ModularEntityEditorComponent implements OnInit {
 
   onEntityCreated$: Subscription;
   onEntityDeleted$: Subscription;
+  data$: Subscription;
 
   loading: boolean;
   gameId: GameId;
@@ -47,31 +48,34 @@ export class ModularEntityEditorComponent implements OnInit {
     this.formDefinition$ = this.store.pipe(select(getEntityForm));
     this.connectedEntities$ = this.store.pipe(select(getEntities));
 
-    this.entity$ = combineLatest(
+    this.data$ = combineLatest([
       this.store.select(selectGameId),
       this.store.select(selectVersionId),
       this.store.select(getModularEntityParser),
-      this.store.select(selectModuleId),
-    ).pipe(
-      tap(([gameId, versionId, entityParser, moduleId]) => {
+      this.store.select(selectVersionedEntityId),
+      this.store.select(selectModule)
+    ]).pipe(
+      map(([gameId, versionId, entityParser, moduleId, module]) => {
         this.gameId = gameId;
         this.versionId = versionId;
         this.entityParser = entityParser;
-        this.moduleId = moduleId;
+        this.moduleId = moduleId as ModuleId;
 
-        this.store.dispatch(new FetchGameData({ gameId, moduleId, versionId }));
+        if (gameId && versionId && module) {
+          this.store.dispatch(new FetchGameData({ gameId, versionId, module }));
+        }
 
+      })).subscribe();
+
+    this.entity$ = this.store.pipe(
+      select(selectModularEntity),
+      filter<ModularEntity>(Boolean),
+      tap(entity => {
+        this.draft = { ...entity };
+        this.loading = false;
         this.cd.detectChanges();
-      }),
-      switchMap(() => this.store.pipe(
-        select(selectModularEntity),
-        filter<ModularEntity>(Boolean),
-        tap(entity => {
-          this.draft = { ...entity };
-          this.loading = false;
-          this.cd.detectChanges();
-        })))
-    );
+      })
+    )
 
     this.onEntityCreated$ = this.actions$.pipe(
       ofType<SetItem>(genericActionTypes.SET_ITEM),

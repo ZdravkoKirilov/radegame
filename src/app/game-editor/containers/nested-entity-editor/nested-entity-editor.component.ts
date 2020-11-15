@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { switchMap, tap, map, filter } from 'rxjs/operators';
+import { tap, map, filter } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
@@ -11,7 +11,7 @@ import { GameId, VersionId, ModuleId, NestedEntity, GameEntityParser, EntityWith
 import { FormDefinition, ConnectedEntities } from '@app/dynamic-forms';
 import { selectGameId, selectVersionId, AutoUnsubscribe } from '@app/shared';
 
-import { getEntityForm, getEntities, genericActionTypes, selectModuleId, getNestedEntityParser, FetchGameData, selectNestedEntity, SetItem, RemoveItem, SaveItem, selectParentEntityId } from '../../state';
+import { getEntityForm, getEntities, genericActionTypes, getNestedEntityParser, FetchGameData, selectNestedEntity, SetItem, SaveItem, selectParentEntityId, selectModule, selectVersionedEntityId } from '../../state';
 
 @Component({
   selector: 'rg-nested-entity-editor',
@@ -30,6 +30,7 @@ export class NestedEntityEditorComponent implements OnInit {
   connectedEntities$: Observable<ConnectedEntities>;
 
   onEntityCreated$: Subscription;
+  data$: Subscription;
 
   loading: boolean;
   gameId: GameId;
@@ -44,33 +45,37 @@ export class NestedEntityEditorComponent implements OnInit {
     this.formDefinition$ = this.store.pipe(select(getEntityForm));
     this.connectedEntities$ = this.store.pipe(select(getEntities));
 
-    this.entity$ = combineLatest(
+    this.data$ = combineLatest([
       this.store.select(selectGameId),
       this.store.select(selectVersionId),
       this.store.select(getNestedEntityParser),
-      this.store.select(selectModuleId),
-      this.store.select(selectParentEntityId)
-    ).pipe(
-      tap(([gameId, versionId, entityParser, moduleId, parentId]) => {
+      this.store.select(selectVersionedEntityId),
+      this.store.select(selectParentEntityId),
+      this.store.select(selectModule)
+    ]).pipe(
+      map(([gameId, versionId, entityParser, moduleId, parentId, module]) => {
         this.gameId = gameId;
         this.versionId = versionId;
         this.entityParser = entityParser;
-        this.moduleId = moduleId;
+        this.moduleId = moduleId as ModuleId;
         this.parentId = parentId;
 
-        this.store.dispatch(new FetchGameData({ gameId, moduleId, versionId }));
+        if (gameId && versionId && module) {
+          this.store.dispatch(new FetchGameData({ gameId, module, versionId }));
+        }
 
         this.cd.detectChanges();
       }),
-      switchMap(() => this.store.pipe(
-        select(selectNestedEntity),
-        filter<NestedEntity>(Boolean),
-        tap(entity => {
-          this.draft = { ...entity };
-          this.loading = false;
-          this.cd.detectChanges();
-        })))
-    );
+    ).subscribe();
+
+    this.entity$ = this.store.pipe(
+      select(selectNestedEntity),
+      filter<NestedEntity>(Boolean),
+      tap(entity => {
+        this.draft = { ...entity };
+        this.loading = false;
+        this.cd.detectChanges();
+      }));
 
     this.onEntityCreated$ = this.actions$.pipe(
       ofType<SetItem>(genericActionTypes.SET_ITEM),

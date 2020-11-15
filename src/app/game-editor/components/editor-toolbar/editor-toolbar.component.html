@@ -10,9 +10,14 @@
         <mat-icon>check</mat-icon>
       </button>
 
-      <button mat-mini-fab color="primary" class="cancel-btn" (click)="cancel.emit()">
+      <a *ngIf="backURL" mat-mini-fab color="primary" class="cancel-btn" [routerLink]="backURL">
+        <mat-icon>close</mat-icon>
+      </a>
+
+      <button *ngIf="!backURL" mat-mini-fab color="primary" class="cancel-btn" (click)="cancel.emit()">
         <mat-icon>close</mat-icon>
       </button>
+
     </ng-container>
 
     <ng-container *ngIf="mode === 'add'">

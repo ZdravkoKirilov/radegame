@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { Observable, of } from 'rxjs';
-import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
+import { map, catchError, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
 
@@ -124,9 +124,8 @@ export class GenericEffectsService {
         )
       }
     }),
-    map(action => {
+    tap(action => {
       this.snackbar.open(`${action.payload.item.__tag} was saved`, 'Success', { duration: 3000});
-      return action;
     }),
     catchError(err => {
       this.snackbar.open(`Item was not saved`, 'Error', { duration: 3000});
@@ -234,9 +233,8 @@ export class GenericEffectsService {
         )
       }
     }),
-    map(action => {
+    tap(action => {
       this.snackbar.open(`${action.payload.item.__tag} was deleted`, 'Success', { duration: 3000});
-      return action;
     }),
     catchError(err => {
       this.snackbar.open(`Item was not deleted`, 'Error', { duration: 3000});
@@ -258,9 +256,8 @@ export class GenericEffectsService {
         )
       }
     }),
-    map(action => {
+    tap(action => {
       this.snackbar.open(`${action.payload.storeKey} data fetched`, 'Success', { duration: 3000});
-      return action;
     }),
     catchError(err => {
       this.snackbar.open("Couldn't fetch items", 'Error', { duration: 3000});
@@ -294,9 +291,8 @@ export class GenericEffectsService {
         )
       }
     }),
-    map(action => {
+    tap(action => {
       this.snackbar.open(`${action.payload.storeKey} data fetched`, 'Success', { duration: 3000});
-      return action;
     }),
     catchError(err => {
       this.snackbar.open(`Couldn't fetch items`, 'Error', { duration: 3000});

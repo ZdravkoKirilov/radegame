@@ -4,14 +4,12 @@ import { values } from 'lodash';
 import { ConnectedEntities, FormDefinition } from '@app/dynamic-forms';
 import {
   Widget, toModuleId, WidgetNodeId, WidgetNode,
-  ModularEntity, VersionedEntity, NestedEntity, GameEntityParser, EntityWithChildren, AnimationStep, AnimationStepId, SonataStep, SonataStepId, TokenNode, TokenNodeId, Translation, TranslationId, NodeHandlerId, NodeHandler, NodeLifecycleId, NodeLifecycle, GameLanguageId, GameLanguage, ShapePoint, ShapePointId, Animation, Sonata, Token,
-  Text,
-  Shape
+  ModularEntity, VersionedEntity, NestedEntity, GameEntityParser, EntityWithChildren, AnimationStep, AnimationStepId, SonataStep, SonataStepId, TokenNode, TokenNodeId, Translation, TranslationId, NodeHandlerId, NodeHandler, NodeLifecycleId, NodeLifecycle, GameLanguageId, GameLanguage, ShapePoint, ShapePointId, Animation, Sonata, Token, Text, Shape, Module
 } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, selectRouteData } from '@app/shared';
 
 import { EntityFeature, StoreEntity } from '../reducers';
-import { StoreKey, STORE_KEYS } from '../../utils';
+import { StoreKey } from '../../utils';
 import { selectGame } from './games';
 import { selectFeature } from './common';
 
@@ -171,7 +169,7 @@ const selectModularEntityId = createSelector(
   router => router.state.params[ROUTER_PARAMS.MODULAR_ENTITY_ID] as ModularEntity['id']
 );
 
-const selectVersionedEntityId = createSelector(
+export const selectVersionedEntityId = createSelector(
   selectRouterFeature,
   router => router.state.params[ROUTER_PARAMS.VERSIONED_ENTITY_ID] as VersionedEntity['id']
 );
@@ -184,6 +182,12 @@ const selectNestedEntityId = createSelector(
 export const selectParentEntityId = createSelector(
   selectRouterFeature,
   router => router.state.params[ROUTER_PARAMS.PARENT_ENTITY_ID] as EntityWithChildren['id']
+);
+
+export const selectModule = createSelector(
+  selectVersionedEntityId,
+  selectForm,
+  (moduleId, form,) => form.modules.byId[moduleId] as Module
 );
 
 const selectStoreSlice = createSelector(

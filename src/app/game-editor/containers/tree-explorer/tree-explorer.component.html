@@ -1,6 +1,8 @@
+<a class="back-to-versions" [routerLink]="['/editor', 'games', gameId, 'versions', 'list']">Back to versions</a>
+
 <p *ngFor="let module of modules$ | async" class="module-item">
   <mat-expansion-panel displayMode="flat" multi="true" togglePosition="before"
-    [expanded]="isPanelOpen('modules_' + module.id)" #modulePanel>
+    [expanded]="isPanelOpen('modules_' + module.id)" #modulePanel (afterExpand)="loadModuleData(module)">
     <mat-expansion-panel-header>
       <mat-panel-title>
         <span class="folder-icons">
@@ -17,7 +19,7 @@
 
     <mat-menu #menu="matMenu">
 
-      <a [routerLink]="['modules', module.id]" mat-menu-item>
+      <a [routerLink]="['modules', 'edit', module.id]" mat-menu-item>
         <mat-icon>edit</mat-icon>
         <span>Edit</span>
       </a>
@@ -31,15 +33,15 @@
     <ng-template matExpansionPanelContent>
 
       <!-- Sandboxes -->
-      <mat-expansion-panel displayMode="flat" togglePosition="before" #testsPanel
+      <mat-expansion-panel displayMode="flat" togglePosition="before" #sandboxPanel
         [expanded]="isPanelOpen('modules_' + module.id + '_' + 'sandboxes' )">
         <mat-expansion-panel-header>
           <mat-panel-title>
             <span class="folder-icons">
-              <mat-icon *ngIf="!testsPanel.expanded">folder</mat-icon>
-              <mat-icon *ngIf="testsPanel.expanded">folder_open</mat-icon>
+              <mat-icon *ngIf="!sandboxPanel.expanded">folder</mat-icon>
+              <mat-icon *ngIf="sandboxPanel.expanded">folder_open</mat-icon>
             </span>
-            <span class="section-title">Tests</span>
+            <span class="section-title">Sandboxes</span>
             <a (click)="stopPropagation($event)" [routerLink]="['modules', module.id, 'sandboxes', 'add' ]"
               mat-icon-button>
               <mat-icon>add</mat-icon>

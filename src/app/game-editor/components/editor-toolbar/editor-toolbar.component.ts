@@ -10,6 +10,7 @@ export class EditorToolbarComponent {
 
   @Input() saveEnabled: boolean;
   @Input() mode: 'edit' | 'add' = 'edit';
+  @Input() backURL: string;
 
   @Output() save = new EventEmitter();
   @Output() cancel = new EventEmitter();
