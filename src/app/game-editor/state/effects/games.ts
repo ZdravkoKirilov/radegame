@@ -33,7 +33,7 @@ export class GameEffectsService {
       const { gameId, module, versionId } = action.payload;
       const actions = [];
       const moduleIds = [...module.dependencies, module.id].filter(moduleId => !loaded_modules.includes(moduleId));
-      debugger;
+
       if (moduleIds.length) {
         return this.fetcher.getGameData(gameId, moduleIds).pipe(
           switchMap(response => {
