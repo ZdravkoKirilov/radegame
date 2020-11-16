@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { VersionedEntityEditorComponent } from './versioned-entity-editor.component';
 
@@ -6,7 +6,7 @@ describe('VersionedEntityEditorComponent', () => {
   let component: VersionedEntityEditorComponent;
   let fixture: ComponentFixture<VersionedEntityEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ VersionedEntityEditorComponent ]
     })

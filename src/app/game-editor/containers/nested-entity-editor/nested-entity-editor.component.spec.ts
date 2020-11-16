@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { NestedEntityEditorComponent } from './nested-entity-editor.component';
 
@@ -6,7 +6,7 @@ describe('NestedEntityEditorComponent', () => {
   let component: NestedEntityEditorComponent;
   let fixture: ComponentFixture<NestedEntityEditorComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ NestedEntityEditorComponent ]
     })

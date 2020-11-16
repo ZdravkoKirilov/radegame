@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed, waitForAsync } from '@angular/core/testing';
 
 import { EditorSidebarLayoutComponent } from './editor-sidebar-layout.component';
 
@@ -6,7 +6,7 @@ describe('EditorSidebarLayoutComponent', () => {
   let component: EditorLayoutComponent;
   let fixture: ComponentFixture<EditorLayoutComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
       declarations: [ EditorLayoutComponent ]
     })
