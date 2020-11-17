@@ -8,52 +8,54 @@ export const createComponent = (
     element: RzElement,
     factory: AbstractFactory,
     meta: MetaProps,
-    parent: Component,
-): Component => {
+    parent: Component | undefined,
+): Component | undefined => {
     if (!element || !element.type) {
-        return null;
+        return undefined;
     }
-
-    let component: Component;
 
     if (typeof element.type === 'string') {
         let { type } = element;
 
         if (isOfPrimitiveType(element.type)) {
-            component = createPrimitiveComponent(element, factory, meta);
-            component.parent = parent;
-            component.type = element.type;
-            const children = (element.children as RzElement[]).map(child => {
-                const comp = createComponent(child, factory, meta, component);
-                if (comp) {
-                    comp.parent = component;
+            const component = createPrimitiveComponent(element, factory, meta);
+            if (component) {
+                component.parent = parent;
+                component.type = element.type;
+                const children = (element.children as RzElement[]).map(child => {
+                    const comp = createComponent(child, factory, meta, component);
+                    if (comp) {
+                        comp.parent = component;
+                    }
+                    return comp;
+                }).filter(Boolean);
+
+                if (component.graphic) {
+                    component.graphic.component = component;
                 }
-                return comp;
-            });
-            if (component.graphic) {
-                component.graphic.component = component;
+                component.children = children as Component[];
+                return component;
             }
-            component.children = children;
-            return component;
+
         } else {
             let realType = getRealType(factory, type);
 
             if (realType) {
-                return createComponent({ ...element, type: realType }, factory, meta, component);
+                return createComponent({ ...element, type: realType }, factory, meta, parent);
             }
         }
     }
 
     if (isStatefulType(element.type)) {
-        component = createStatefulComponent(element, meta);
+        const component = createStatefulComponent(element, meta);
         component.type = element.type;
         component.parent = parent;
-        const rendered = callWithErrorPropagation(parent, () => flatRender(component['render']()));
+        const rendered = callWithErrorPropagation<RzElement>(parent, () => flatRender(component.render()));
         const child = createComponent(rendered, factory, meta, component);
         if (child) {
             child.parent = component;
         }
-        const children = [child];
+        const children = [child] as Component[];
         component.children = children;
         return component;
     }
@@ -75,11 +77,7 @@ export const createComponent = (
         return renderFunc;
     }
 
-    if (!component && element.type) {
-        console.warn('Unrecognized component: ', element);
-    }
-
-    return null;
+    throw new Error(`Unrecognized component: ${JSON.stringify(element)}`);
 };
 
 const createPrimitiveComponent = (element: RzElement, factory: AbstractFactory, meta: MetaProps): BasicComponent => {

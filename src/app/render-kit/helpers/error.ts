@@ -2,10 +2,10 @@ import { get } from 'lodash';
 
 import { Component } from "../internal";
 
-export const callWithErrorPropagation = <T = any>(parent: Component, callback: Function): T => {
+export const callWithErrorPropagation = <ReturnType = any>(parent: Component | undefined, callback: Function): ReturnType => {
     try {
         const result = callback();
-        return result;
+        return result as ReturnType;
     } catch (err) {
         let nextAncestor = parent;
         let stack = [];

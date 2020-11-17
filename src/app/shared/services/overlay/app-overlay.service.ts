@@ -1,4 +1,4 @@
-import { Injectable, ComponentRef, Component } from '@angular/core';
+import { Injectable, ComponentRef } from '@angular/core';
 import { Overlay, OverlayConfig, OverlayRef } from '@angular/cdk/overlay';
 import { ComponentPortal } from '@angular/cdk/portal';
 

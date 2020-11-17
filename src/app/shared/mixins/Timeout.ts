@@ -1,19 +1,19 @@
 export function WithTimeout(milliseconds: number = 0) {
 
-    return function (target, key, descriptor) {
+  return function (_target: {}, _key: string, descriptor: PropertyDescriptor) {
 
-        var originalMethod = descriptor.value;
+    var originalMethod = descriptor.value;
 
-        descriptor.value = function (...args) {
+    descriptor.value = function (...args: unknown[]) {
 
-            setTimeout(() => {
-                originalMethod.apply(this, args);
-            }, milliseconds);
+      setTimeout(() => {
+        originalMethod.apply(this, args);
+      }, milliseconds);
 
-        };
+    };
 
-        return descriptor;
-    }
+    return descriptor;
+  }
 
 
 }

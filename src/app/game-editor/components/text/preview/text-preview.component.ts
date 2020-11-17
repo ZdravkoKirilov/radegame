@@ -30,20 +30,20 @@ export class TextPreviewComponent {
 
   @ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
 
-  @OnChange<Text>(function (text) {
-    const mount: MountRef = this.mount;
-    const context: ExpressionContext = this.context;
+  @OnChange<TextPreviewComponent, Text>(function (ctx, text) {
+    const mount: MountRef = ctx.mount;
+    const context: ExpressionContext = ctx.context;
     const component = mount ? mount.component as RootComponent : null;
     if (component && text && context) {
       const runtimeText = Text.toRuntime(context, text);
       const textStyle = combineStyles(runtimeText);
-      component.updateProps({ text: runtimeText, style: textStyle, translation: this.translationId });
+      component.updateProps({ text: runtimeText, style: textStyle, translation: ctx.translationId });
     }
   })
   @Input() data: Text;
 
-  @OnChange<number>(function (translationId) {
-    const mount: MountRef = this.mount;
+  @OnChange<TextPreviewComponent, number>(function (ctx, translationId) {
+    const mount: MountRef = ctx.mount;
     const component = mount ? mount.component as RootComponent : null;
     if (component) {
       component.updateProps({ translation: translationId });

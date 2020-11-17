@@ -15,9 +15,9 @@ export class TestBoardStateComponent {
 
   @Input() formDefinition: FormDefinition<Sandbox>;
 
-  @OnChange<Sandbox>(function (sandbox) {
+  @OnChange<TestBoardStateComponent, Sandbox>(function (self, sandbox) {
     if (sandbox) {
-      this.initializeForm(sandbox);
+      self.initializeForm(sandbox);
     }
   })
   @Input() initialSandbox: Sandbox;

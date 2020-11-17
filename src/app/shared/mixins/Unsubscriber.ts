@@ -1,19 +1,21 @@
-export function AutoUnsubscribe(blackList = []) {
+import { ConstructorFunction } from "simplytyped";
 
-    return function (constructor) {
-        const original = constructor.prototype.ngOnDestroy;
+export function AutoUnsubscribe() {
 
-        constructor.prototype.ngOnDestroy = function () {
-            for (let prop in this) {
-                const property = this[prop];
-                if (!blackList.includes(prop)) {
-                    if (property && (typeof property.unsubscribe === "function")) {
-                        property.unsubscribe();
-                    }
-                }
-            }
-            original && typeof original === 'function' && original.apply(this, arguments);
-        };
-    }
+  return function (constructor: ConstructorFunction<{}>) {
+    const original = constructor.prototype.ngOnDestroy;
+
+    constructor.prototype.ngOnDestroy = function () {
+      for (let prop in this) {
+        const property = this[prop];
+
+        if (property && (typeof property.unsubscribe === "function")) {
+          property.unsubscribe();
+        }
+
+      }
+      original && typeof original === 'function' && original.apply(this, arguments);
+    };
+  }
 
 }

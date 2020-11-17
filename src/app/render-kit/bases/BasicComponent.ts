@@ -4,8 +4,8 @@ export class BasicComponent<T extends RzElementPrimitiveProps = {}> {
     static defaultProps = {};
     type: RzElementType;
     container: AbstractContainer;
-    children: Component[];
-    parent: Component;
+    children?: Component[];
+    parent?: Component;
 
     constructor(public props: T & Partial<RzElementPrimitiveProps>, public graphic: any, public meta: MetaProps) {
         this.props = { ...BasicComponent.defaultProps, ...(props as any) };

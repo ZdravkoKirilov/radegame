@@ -128,20 +128,19 @@ export type RzPoint = { x: number, y: number };
 export type RzSize = { width: number, height: number };
 
 export type MetaProps = {
-    engine?: AbstractRenderEngine;
-    context?: ContextManager;
-    assets?: AssetManager;
-    hooks?: {
+    engine: AbstractRenderEngine;
+    context: ContextManager;
+    assets: AssetManager;
+    hooks: {
         state: StateHooks;
         effect: EffectHooks;
         memos: MemoHooks;
         refs: RefHooks;
     }
-    root?: Component;
+    root: Component;
 };
 
 export type PrimitiveType = keyof typeof PRIMS;
-
 
 export type DefaultEvents = Partial<{
     [key in RzEventTypes]: GenericEventHandler;

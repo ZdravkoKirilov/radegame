@@ -4,8 +4,8 @@ import { Dictionary } from "@app/shared";
 
 import { Component, RzElementType, isRzElementType } from "../internal";
 
-export const isDescendantOf = (target: Component, potentialParent: Component) => {
-    if (target && potentialParent) {
+export const isDescendantOf = (target: Component, potentialParent: Component): boolean => {
+    if (target && potentialParent && potentialParent.children) {
         const isDirectChild = potentialParent.children.includes(target);
         return isDirectChild || potentialParent.children.some(child => isDescendantOf(target, child));
     }
@@ -23,7 +23,7 @@ const matchByType = (type: RzElementType) => (target: Component) => {
     return get(target, 'type') === type;
 };
 
-export const findInDescendants = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T => {
+export const findInDescendants = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T | null => {
     if (isRzElementType(criteria)) {
         const matcher = matchByType(criteria);
         return iterateUntil('child', matcher)(startPoint) as any;
@@ -35,7 +35,7 @@ export const findInDescendants = <T = Component>(startPoint: Component) => (crit
     return null;
 };
 
-export const findInAncestors = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T => {
+export const findInAncestors = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T | null => {
     if (isRzElementType(criteria)) {
         const matcher = matchByType(criteria);
         return iterateUntil('parent', matcher)(startPoint) as any;
@@ -47,7 +47,7 @@ export const findInAncestors = <T = Component>(startPoint: Component) => (criter
     return null;
 };
 
-export const findInSiblings = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T => {
+export const findInSiblings = <T = Component>(startPoint: Component) => (criteria: Dictionary | RzElementType): T | null => {
     if (isRzElementType(criteria)) {
         const matcher = matchByType(criteria);
         return iterateUntil('sibling', matcher)(startPoint) as any;
@@ -71,7 +71,7 @@ const iterateUntil = (direction: 'parent' | 'child' | 'sibling', matcher: (targe
         return null;
     } else if (direction === 'child') {
         const children: Component[] = get(target, 'children', []);
-        let firstMatch = children.find(child => matcher(child));
+        let firstMatch = children.find(child => matcher(child)) || null;
         if (recursive && !firstMatch) {
             let index = 0;
             while (!firstMatch && index < children.length) {
@@ -87,7 +87,7 @@ const iterateUntil = (direction: 'parent' | 'child' | 'sibling', matcher: (targe
         return firstMatch;
     } else { // sibling
         const allSiblings: Component[] = get(target, ['parent', 'children'], []);
-        return allSiblings.find(sibling => matcher(sibling));
+        return allSiblings.find(sibling => matcher(sibling)) || null;
     }
 };
 

@@ -17,21 +17,18 @@ import { OnChange } from '@app/shared';
 })
 export class EntityEditorComponent implements OnInit {
 
-	@OnChange<FormDefinition<GameEntity>>(function () {
-		const self: EntityEditorComponent = this;
-		self.reinitialize();
+	@OnChange<EntityEditorComponent, FormDefinition<GameEntity>>(function (ctx) {
+		ctx.reinitialize();
 	})
 	@Input() formDefinition: FormDefinition<GameEntity>;
 
-	@OnChange<GameEntity>(function () {
-		const self: EntityEditorComponent = this;
-		self.reinitialize();
+	@OnChange<EntityEditorComponent, GameEntity>(function (ctx) {
+		ctx.reinitialize();
 	})
 	@Input() connectedEntities: ConnectedEntities;
 
-	@OnChange<GameEntity>(function () {
-		const self: EntityEditorComponent = this;
-		self.reinitialize();
+	@OnChange<EntityEditorComponent, GameEntity>(function (ctx) {
+		ctx.reinitialize();
 	})
 	@Input() selectedItem: GameEntity;
 

@@ -14,9 +14,9 @@ export class OverlayComponent implements OnInit, OnDestroy {
 
 	constructor(private overlay: AppOverlayService) { }
 
-	@OnChange(function (value) {
-		if (this.componentRef) {
-			this.componentRef.data = value;
+	@OnChange<OverlayComponent, {}>(function (ctx, value) {
+		if (ctx.componentRef) {
+			ctx.componentRef.data = value;
 		}
 	})
 	@Input() data = {};

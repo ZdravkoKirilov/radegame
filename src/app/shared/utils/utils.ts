@@ -1,9 +1,5 @@
 import keyBy from 'lodash/keyBy';
 
-import { GameTemplate, GameEntity } from '@app/game-mechanics';
-import { environment } from 'environments/environment';
-
-
 interface ObjectWithId {
   id?: number;
   [key: string]: any;
@@ -21,7 +17,7 @@ export type Dictionary<T = any> = {
   [key: string]: T;
 }
 
-export const genericTrackByFn = <T>(prop: keyof T) => (index: number, item: T) => {
+export const genericTrackByFn = <T>(prop: keyof T) => (_index: number, item: T) => {
   return item[prop];
 };
 
@@ -29,19 +25,12 @@ export type WithKeysAs<T, P = any> = {
   [K in keyof T]: P;
 };
 
-export const formatGameConfigData = (data: GameTemplate): GameTemplate => {
-  return Object.keys(data).reduce((acc, key) => {
-    acc[key] = toDictionary<GameEntity>(data[key]);
-    return acc;
-  }, {}) as GameTemplate;
-};
-
-export const safeJSON = <T = any>(source: any, fallback = null): T => {
+export const safeJSON = <T = {}>(source: any, fallback?: unknown): T => {
   if (typeof source === 'string') {
     try {
       return JSON.parse(source);
     } catch {
-      return null;
+      return fallback as T;
     }
   } else {
     return source;

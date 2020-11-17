@@ -32,8 +32,7 @@ export class TestBoardPresentationComponent {
 
   @Input() sandbox: RuntimeSandbox;
 
-  @OnChange<number>(function (_, meta) {
-    const self: TestBoardPresentationComponent = this;
+  @OnChange<TestBoardPresentationComponent, number>(function (self, _, meta) {
     const { mountRef, sandbox } = self;
     if (mountRef && !meta.firstChange && sandbox) {
 
@@ -51,35 +50,34 @@ export class TestBoardPresentationComponent {
   })
   @Input() updateId: number;
 
-  @OnChange(async function () {
-    const self: TestBoardPresentationComponent = this;
-    const domHost = this.canvasWrapper.nativeElement;
-    const { sandbox } = this;
+  @OnChange<TestBoardPresentationComponent, number>(async function (ctx) {
+    const domHost = ctx.canvasWrapper.nativeElement;
+    const { sandbox } = ctx;
 
-    if (self.mountRef) {
-      self.mountRef.destroy();
+    if (ctx.mountRef) {
+      ctx.mountRef.destroy();
     }
 
     const pixiEngine = await import('@app/engines/pixi');
-    self.mountRef = await pixiEngine.mountPixi<EditorSandboxRootProps>(EditorSandboxRoot, domHost, {
-      width: self.windowRef.nativeWindow.innerWidth,
-      height: self.windowRef.nativeWindow.innerHeight,
+    ctx.mountRef = await pixiEngine.mountPixi<EditorSandboxRootProps>(EditorSandboxRoot, domHost, {
+      width: ctx.windowRef.nativeWindow.innerWidth,
+      height: ctx.windowRef.nativeWindow.innerHeight,
       props: {
-        widget: self.widget,
-        module: self.module,
-        node: self.node,
+        widget: ctx.widget,
+        module: ctx.module,
+        node: ctx.node,
         fromParent: isFunction(sandbox?.from_parent) ? sandbox.from_parent() || {} : {},
-        store: self.store,
+        store: ctx.store,
         selectCommonGameStore: selectCommonGameStoreWithOverrides({
-          state: isFunction(self.sandbox?.global_state) ? self.sandbox?.global_state() || {} : {},
-          private_data: isFunction(self.sandbox?.own_data) ? self.sandbox?.own_data() || {} : {},
+          state: isFunction(ctx.sandbox?.global_state) ? ctx.sandbox?.global_state() || {} : {},
+          private_data: isFunction(ctx.sandbox?.own_data) ? ctx.sandbox?.own_data() || {} : {},
           other: {},
         }),
       },
-      assets: new Set(Object.values(self.assets || {})),
+      assets: new Set(Object.values(ctx.assets || {})),
       registerComponents,
     });
-    window['pixiroot'] = self.mountRef.component;
+    window['pixiroot'] = ctx.mountRef.component;
   })
   @Input() rerunId: number;
 

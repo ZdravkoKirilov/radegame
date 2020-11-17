@@ -11,8 +11,8 @@ export class StatefulComponent<P = {}, S = {}> {
     props: P & Partial<RzElementProps> & { children?: RzElement };
     type: RzElementType;
     container: AbstractContainer;
-    children: Component[];
-    parent: Component;
+    children?: Component[];
+    parent?: Component;
 
     constructor(props: P, meta: MetaProps) {
         this.props = { ...((this.constructor as any).defaultProps || {}) as any, ...props as any };
@@ -90,7 +90,7 @@ export class StatefulComponent<P = {}, S = {}> {
         return nextProps !== this.props || nextState !== this.state;
     }
 
-    render(): RzElement {
+    render(): RzElement | null {
         return null;
     };
 

@@ -17,9 +17,9 @@ export class ShapePreviewComponent implements OnInit {
 
   @ViewChild('canvasWrapper', { static: true }) canvasWrapper: ElementRef<HTMLDivElement>;
 
-  @OnChange<Shape>(function (shape) {
-    const mount: MountRef = this.mount;
-    const context: ExpressionContext = this.context;
+  @OnChange<ShapePreviewComponent, Shape>(function (ctx, shape) {
+    const mount: MountRef = ctx.mount;
+    const context: ExpressionContext = ctx.context;
     const component = mount ? mount.component as StatefulComponent : null;
     if (component && shape && context) {
       const runtimeShape = Shape.toRuntime(context, shape);

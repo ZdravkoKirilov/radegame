@@ -13,9 +13,6 @@ const routes: Routes = [
         path: 'arena', loadChildren: () => import('./game-arena').then(m => m.GameArenaModule)
     },
     {
-        path: 'signin/social',
-        loadChildren: () => import('app/social-auth/social-auth.module').then(m => m.SocialAuthModule)
-    }, {
         path: '**',
         component: NotFoundComponent
     }

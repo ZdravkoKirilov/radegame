@@ -8,7 +8,7 @@ export interface GenericSubscription {
 
 export interface SubscribableBase<T = any> {
   provideValueToSubscribers(): T;
-  subscribe?(callback: Callback<T>): GenericSubscription;
+  subscribe(callback: Callback<T>): GenericSubscription;
 }
 
 export function WithSubscriptions<TBase extends Constructor, ValueType = any>(Base: TBase) {
@@ -16,13 +16,14 @@ export function WithSubscriptions<TBase extends Constructor, ValueType = any>(Ba
     private callbacks = new Set();
 
     subscribe = (callback: Callback<ValueType>) => {
+      const self = this;
       this.callbacks.add(callback);
 
       callback(this.provideValueToSubscribers());
 
       return {
         unsubscribe() {
-          this.callbacks.delete(callback);
+          self.callbacks.delete(callback);
         }
       };
     };
