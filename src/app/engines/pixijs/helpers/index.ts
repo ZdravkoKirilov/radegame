@@ -1,6 +1,6 @@
 import { DisplayObject, Sprite, Graphics, TextStyle } from "pixi.js";
 
-import { Component, RzStyles, BasicComponent, toHexColor, RzTextStyles, toHexColorString } from "@app/render-kit";
+import { RzStyles, BasicComponent, toHexColor, RzTextStyles, toHexColorString } from "@app/render-kit";
 
 export const bringToFront = (obj: DisplayObject) => {
     const parent = obj.parent;
@@ -10,11 +10,11 @@ export const bringToFront = (obj: DisplayObject) => {
     }
 };
 
-export const getValue = (value: any, prop: keyof RzStyles, comp: Component): any => {
+export const getValue = (value: any): any => {
     return value;
 }
 
-export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: string | number | number[]) => {
+export const setProp = (graphic: DisplayObject | any, prop: keyof RzStyles, value: string | number | number[]) => {
     let result = value as any;
 
     if (result) {
@@ -23,7 +23,7 @@ export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: str
         }
 
         if (prop === 'pivot') {
-            const [x, y] = result.split(' ').map(elem => Number(elem));
+            const [x, y] = result.split(' ').map((elem: any) => Number(elem));
             graphic.pivot.x = x;
             graphic.pivot.y = y || x;
             return;
@@ -35,7 +35,7 @@ export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: str
         }
 
         if (prop === 'scale') {
-            const [x, y] = result.split(' ').map(elem => Number(elem));
+            const [x, y] = result.split(' ').map((elem: any) => Number(elem));
             graphic.scale.x = x;
             graphic.scale.y = y || x; // when just one number is provided
             return;
@@ -55,7 +55,7 @@ export const setProp = (graphic: DisplayObject, prop: keyof RzStyles, value: str
 };
 
 export const applyMask = (comp: BasicComponent, value: number[]) => {
-    const { graphic, props } = comp;
+    const { graphic, props }: any = comp;
     if (props.styles.mask) {
         if (value.length === 4) {
             const [x, y, width, height] = value;
@@ -66,7 +66,7 @@ export const applyMask = (comp: BasicComponent, value: number[]) => {
             graphic.mask = mask;
         }
         if (value.length === 3) {
-            let [x, y, radius] = value;
+            let [x, y] = value;
 
             if (!x) {
                 x = graphic.x + (graphic.width / 2);
@@ -98,7 +98,7 @@ const centeredRotation = (style: Partial<RzStyles>): Partial<RzStyles> => {
 
 export const applyTransformations = (styles: Partial<RzStyles>): Partial<RzStyles> => {
     styles = styles || {};
-    let copy = { ...styles };
+    let copy = { ...styles } as any;
 
     if (styles.rotation) {
         copy.rotation = copy.rotation * Math.PI / 180;

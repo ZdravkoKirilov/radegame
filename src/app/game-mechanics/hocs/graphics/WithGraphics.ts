@@ -9,11 +9,11 @@ export const provideGraphics = (component: RzElementType) => {
       super(props, meta);
       meta.engine.factory.addCustomResolver({
         'Widget': RootWidget,
-      })
+      } as any)
     }
 
     render() {
-      return createElement(component, {...this.props}, this.props.children);
+      return createElement(component, {...this.props}, this.props.children as any);
     }
   };
 };

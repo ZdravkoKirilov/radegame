@@ -60,13 +60,12 @@ export const Setup: GameEntityParser<Setup, DtoSetup, RuntimeSetup> = {
   },
 
   toRuntime(context, setup) {
-    if (setup) {
-      return enrichEntity<Setup, RuntimeSetup>(context.conf, {
-        get_active_language: src => parseAndBind(context)(src),
-        get_active_module: src => parseAndBind(context)(src),
-      }, setup);
-    }
-    return null;
+
+    return enrichEntity<Setup, RuntimeSetup>(context.conf, {
+      get_active_language: src => parseAndBind(context)(src),
+      get_active_module: src => parseAndBind(context)(src),
+    }, setup);
+
   },
 
   toDto(entity) {

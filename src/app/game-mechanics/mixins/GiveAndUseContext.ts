@@ -1,5 +1,5 @@
 import { StatefulComponent, findContextProvider } from "@app/render-kit";
-import { SubscribableBase, GenericSubscription, WithSubscriptions } from "@app/shared";
+import { GenericSubscription, WithSubscriptions } from "@app/shared";
 
 import { RuntimeWidgetNode } from "../entities";
 
@@ -23,8 +23,8 @@ export function GiveAndUseContext(constructor: Constructor<StatefulComponent<Req
       if (result.length) {
         this.subscriptions = new Set(result.map(contextName => {
           if (typeof contextName === 'string') {
-            const targetContext: SubscribableBase = findContextProvider(this, contextName);
-            const sub = targetContext ? targetContext.subscribe(newValue => this.setState({
+            const targetContext = findContextProvider(this, contextName);
+            const sub = targetContext ? targetContext.subscribe((newValue: unknown) => this.setState({
               elem: newValue,
             })) : null;
             return sub;
@@ -49,9 +49,9 @@ export function GiveAndUseContext(constructor: Constructor<StatefulComponent<Req
     originalWillUnmount && originalWillUnmount.apply(this, arguments);
   };
 
-  prototype.provideValueToSubscribers = () => {
-    const node: RuntimeWidgetNode = this.props.data;
-    return node.provide_context ? node.provide_context({ node: node, component: this }) : null;
+  prototype.provideValueToSubscribers = function () {
+    const node: RuntimeWidgetNode = this!.props.data;
+    return node.provide_context ? node.provide_context({ node: node, component: this! }) : null;
   };
 
   return WithSubscriptions<any>(constructor) as typeof StatefulComponent;

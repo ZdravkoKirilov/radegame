@@ -7,7 +7,7 @@ export type DataLoaderProps = {
     children?: RzElement;
 };
 
-export const DataLoader: RenderFunction<DataLoaderProps> = ({ preload, load_done, fallback, children }, { useEffect }) => {
+export const DataLoader: RenderFunction<DataLoaderProps> = ({ preload, load_done, fallback, children }: any, { useEffect }: any) => {
     useEffect(() => {
         if (preload && load_done && !load_done()) {
             preload();

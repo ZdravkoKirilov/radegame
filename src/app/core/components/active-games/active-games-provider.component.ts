@@ -32,9 +32,9 @@ export class ActiveGamesProviderComponent implements OnInit {
   ngOnInit() {
     this.user$ = this.store.pipe(
       select(selectUserId),
-      filter<UserId>(Boolean),
+      filter<UserId | undefined>(Boolean),
       map(userId => {
-        this.store.dispatch(new FetchActiveGames({ userId }));
+        this.store.dispatch(new FetchActiveGames({ userId: userId! }));
       })
     ).subscribe();
 

@@ -1,3 +1,5 @@
+import { isFunction } from "lodash";
+
 import {
     CompositeComponent, Component, AbstractContainer, StatefulComponent, BasicComponent, PRIMS, RenderFunction,
     isStateful, isPrimitive, isFunctional, cleanAllHooks, callWithErrorPropagation
@@ -23,15 +25,15 @@ export const unmountComponent = (component: Component) => {
 
 export const unmountStatefulComponent = (component: StatefulComponent) => {
 
-    if ('willUnmount' in component) {
-        component.willUnmount();
+    if (isFunction(component.willUnmount)) {
+        component!.willUnmount();
     }
 
     unmountChildren(component);
 };
 
 export const unmountFunctionalComponent = (component: RenderFunction) => {
-    cleanAllHooks(component, component.meta);
+    cleanAllHooks(component);
     unmountChildren(component);
 };
 
@@ -39,7 +41,7 @@ export const unmountPrimitiveComponent = (component: BasicComponent) => {
     component.remove();
 };
 
-export const mountComponent = (component: Component, container: AbstractContainer): Component => {
+export const mountComponent = (component: Component, container: AbstractContainer): Component | any => {
     if (!component) {
         return;
     }
@@ -62,13 +64,13 @@ const mountStatefulComponent = (component: StatefulComponent, container: Abstrac
     component.container = container;
 
     if ('willMount' in component) {
-        callWithErrorPropagation(component.parent, () => component.willMount.call(component));
+        callWithErrorPropagation(component.parent, () => component.willMount!.call(component));
     }
 
-    component.children = component.children.map(child => mountComponent(child, container));
+    component.children = component.children!.map(child => mountComponent(child, container));
 
     if ('didMount' in component) {
-        callWithErrorPropagation(component.parent, () => component.didMount.call(component));
+        callWithErrorPropagation(component.parent, () => component.didMount!.call(component));
     }
 
     return component;
@@ -76,7 +78,7 @@ const mountStatefulComponent = (component: StatefulComponent, container: Abstrac
 
 const mountFunctionalComponent = (component: RenderFunction, container: AbstractContainer) => {
     component.container = container;
-    component.children = component.children.map(child => mountComponent(child, container));
+    component.children = component.children!.map(child => mountComponent(child, container));
     return component;
 };
 
@@ -86,7 +88,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
         case PRIMS.container:
         case PRIMS.collection:
             container.addChild(component.graphic);
-            component.children = component.children.map(child => mountComponent(child, component.graphic));
+            component.children = component.children!.map(child => mountComponent(child, component.graphic));
             component.update();
             break;
         case PRIMS.rectangle:
@@ -95,7 +97,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
         case PRIMS.polygon:
         case PRIMS.sprite:
             container.addChild(component.graphic);
-            component.children = component.children.map(child => mountComponent(child, container));
+            component.children = component.children!.map(child => mountComponent(child, container));
             component.update();
             break;
         case PRIMS.text:
@@ -105,7 +107,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
             component.update();
             break;
         case PRIMS.fragment:
-            component.children = component.children.map(child => mountComponent(child, container));
+            component.children = component.children!.map(child => mountComponent(child, container));
             component.update();
             break;
         case PRIMS.input:
@@ -120,7 +122,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
 };
 
 export const unmountChildren = async (component: CompositeComponent) => {
-    (component.children as any).forEach(child => {
+    component.children!.forEach(child => {
         if (child) {
             unmountComponent(child);
         }

@@ -7,7 +7,8 @@
     "start": "ng serve --host 0.0.0.0 --port 4201",
     "start2": "ng serve --host 0.0.0.0 --port 4202",
     "build": "ng build",
-    "test": "ng test",
+    "test": "node --max-old-space-size=4096 ./node_modules/@angular/cli/bin/ng test",
+    "test:watch": "ng test --watch=true",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "postinstall": "ngcc"
@@ -60,6 +61,7 @@
     "@types/jasmine": "~3.6.0",
     "@types/jasminewd2": "^2.0.8",
     "@types/lodash": "^4.14.149",
+    "@types/mocha": "^8.0.4",
     "@types/node": "^12.12.35",
     "@types/reselect": "^2.2.0",
     "codelyzer": "^6.0.0",

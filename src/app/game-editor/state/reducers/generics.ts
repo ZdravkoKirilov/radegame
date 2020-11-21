@@ -1,5 +1,6 @@
 import { ActionReducer, combineReducers } from '@ngrx/store';
 import produce from 'immer';
+import { set, unset } from 'lodash';
 
 import {
   Animation, AnimationId, Expression, ExpressionId, ImageAsset, ImageAssetId, ModularEntity, Module, ModuleId, Sandbox, SandboxId, Setup, SetupId, Shape, ShapeId, Sonata, SonataId, Sound, SoundId, Style,
@@ -46,14 +47,14 @@ export const createEntityReducer = (allowedKey: StoreKey): ActionReducer<EntityF
           return {
             ...state,
             byId: produce(state.byId, draft => {
-              draft[action.payload.item.id] = action.payload.item;
+              set(draft, action.payload.item.id, action.payload.item)
             }),
           };
         case genericActionTypes.REMOVE_ITEM:
           return {
             ...state,
             byId: produce(state.byId, draft => {
-              delete draft[action.payload.item.id];
+              unset(draft, action.payload.item.id);
             }),
           };
         case genericActionTypes.SET_ITEMS:
@@ -68,7 +69,7 @@ export const createEntityReducer = (allowedKey: StoreKey): ActionReducer<EntityF
     return state;
   }
 
-  return entityReducer;
+  return entityReducer as any;
 };
 
 export const formReducer: ActionReducer<EntityForm> = combineReducers({

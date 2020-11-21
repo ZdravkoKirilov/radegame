@@ -20,6 +20,6 @@ export const selectGame = createSelector(
   selectAllGames,
   selectGameId,
   (games, id) => {
-    return games ? games.find(elem => elem.id == toGameId(id)) : null;
+    return games.find(elem => elem.id == toGameId(id));
   }
 );

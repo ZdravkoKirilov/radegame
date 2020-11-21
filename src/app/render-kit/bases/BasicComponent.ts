@@ -25,7 +25,7 @@ export class BasicComponent<T extends RzElementPrimitiveProps = {}> {
 
         if (this.shouldRerender(newProps)) {
             this.props = next;
-            updateComponent(this, this.render());
+            updateComponent(this, this.render() as any);
         } else {
             this.props = next;
         }

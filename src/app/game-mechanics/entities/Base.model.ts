@@ -24,7 +24,7 @@ export type WithRuntimeStyle<T = any> = {
 };
 
 export type GameEntityParser<Entity, DtoEntity, RuntimeEntity> = {
-  toRuntime: (context: ExpressionContext, entity: Entity, ...args: unknown[]) => RuntimeEntity;
+  toRuntime: (context: ExpressionContext, entity: Entity, ...args: any[]) => RuntimeEntity;
   toDto: (entity: Entity) => DtoEntity;
   toEntity: (dtoEntity: DtoEntity) => Entity;
 

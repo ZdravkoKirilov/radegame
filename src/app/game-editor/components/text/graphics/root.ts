@@ -18,8 +18,8 @@ export default class RootComponent extends StatefulComponent<Props> {
     } as Style;
 
     if (this.props.text) {
-      return createElement<BasicTextNodeProps>(BasicTextNode, { style, text: this.props.text.computed_value });
+      return createElement<BasicTextNodeProps>(BasicTextNode as any, { style, text: this.props.text.computed_value });
     }
-    return createElement(null);
+    return null;
   }
 }

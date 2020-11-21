@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription, combineLatest } from 'rxjs';
-import { switchMap, tap, map, mergeMap } from 'rxjs/operators';
+import {  tap, map, filter } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
@@ -25,19 +25,20 @@ export class VersionsEditorComponent implements OnInit {
 
   formDefinition = composeVersionForm;
 
-  version$: Observable<Version>;
+  version$: Observable<Version | undefined>;
 
   loading: boolean;
   gameId: GameId;
   versionId: VersionId;
   draft: Version;
   draftValid: boolean;
+  data$: Subscription;
 
   onVersionCreated$: Subscription;
 
   ngOnInit(): void {
 
-    this.version$ = combineLatest(
+    this.data$ = combineLatest(
       this.store.pipe(select(selectGameId)), this.store.pipe(select(selectVersionId))
     ).pipe(
       tap(([gameId, versionId]) => {
@@ -51,11 +52,16 @@ export class VersionsEditorComponent implements OnInit {
         }
         this.cd.detectChanges();
       }),
-      switchMap(() => this.store.pipe(select(selectVersion), tap(version => {
-        this.draft = { ...version };
+    ).subscribe();
+
+    this.version$ = this.store.pipe(
+      select(selectVersion),
+      filter<Version | undefined>(Boolean),
+      tap(entity => {
+        this.draft = { ...entity! };
         this.loading = false;
         this.cd.detectChanges();
-      })))
+      })
     )
 
     this.onVersionCreated$ = this.actions$.pipe(

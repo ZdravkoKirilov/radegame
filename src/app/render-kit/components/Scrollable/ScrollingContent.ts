@@ -5,11 +5,11 @@ export type ScrollingContentProps = {
   currentPosition: RzPoint;
 
   onScroll?: (point: RzPoint) => void;
-}
+} & any;
 
 export const ScrollingContent: RenderFunction<ScrollingContentProps> = ({ startPosition, currentPosition, children, onScroll }) => {
   return createElement<RzDraggableProps>(
-    RzDraggable,
+    RzDraggable as any,
     {
       startPosition,
       render: () => {
@@ -20,9 +20,9 @@ export const ScrollingContent: RenderFunction<ScrollingContentProps> = ({ startP
             name: 'InnerScrollWrapper'
           },
           children,
-        );
+        ) as any;
       },
       onDragMove: onScroll
     }
-  );
+  ) as any;
 };

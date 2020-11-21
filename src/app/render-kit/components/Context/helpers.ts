@@ -7,7 +7,7 @@ export const findContextProvider = (startFrom: Component, parentName?: string, k
   if (parentName) {
       matcher = { name: parentName };
   } else {
-      matcher = key;
+      matcher = key as any;
   }
   const providerContext = findInAncestors<typeof ContextProvider.prototype & SubscribableBase>(startFrom)(matcher);
   return providerContext;

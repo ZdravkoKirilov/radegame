@@ -1,4 +1,4 @@
-import { Memo, createElement } from "@app/render-kit";
+import { createElement } from "@app/render-kit";
 
 import { RuntimeWidgetNode } from "../../entities";
 
@@ -13,7 +13,7 @@ export type NodeFactoryProps = {
     fromParent?: any;
 }
 
-export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
+export const NodeFactory = ({ data, fromParent }: any) => {
     if (data.text || data.dynamic_text) {
         return createElement<EnhancedTextNodeProps>(EnhancedTextNode, { data, fromParent });
     }
@@ -24,7 +24,7 @@ export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
         return createElement<EnhancedWidgetNodeProps>(EnhancedWidgetNode, { data, fromParent });
     }
     if (data.token) {
-        return createElement<EnhancedItemNodeProps>(EnhancedItemNode, { data, fromParent });
+        return createElement<EnhancedItemNodeProps>(EnhancedItemNode as any, { data, fromParent });
     }
     if (data.module) {
         return createElement<ModuleNodeProps>(EnhancedModuleNode, { data, fromParent });
@@ -32,6 +32,6 @@ export const NodeFactory = Memo<NodeFactoryProps>(({ data, fromParent }) => {
 
     throw new Error('Undetermined node type: ' + data.name);
 
-});
+};
 
 export default NodeFactory;

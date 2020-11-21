@@ -10,7 +10,7 @@ import { WidgetNode, Widget, ImageAsset, GameId } from '@app/game-mechanics';
 })
 export class BoardEditorComponent {
 
-	@Input() entities: ConnectedEntities = {};
+	@Input() entities: ConnectedEntities;
 	@Input() nodes: WidgetNode[];
 	@Input() widget: Widget;
 	@Input() gameId: GameId;
@@ -26,7 +26,7 @@ export class BoardEditorComponent {
 
 	nodeForm = composeNodeForm;
 
-	selectedNode: WidgetNode;
+	selectedNode: WidgetNode | null;
 
 	viewMode: 'board' | 'list' = 'board';
 
@@ -67,7 +67,7 @@ export class BoardEditorComponent {
 	}
 
 	handleSaveNode(payload: WidgetNode) {
-		const node = <WidgetNode>{ ...payload, id: null, game: this.gameId, owner: this.widget.id };
+		const node = WidgetNode.fromUnknown.toEntity({ ...payload, id: null, game: this.gameId, owner: this.widget.id });
 		if (this.selectedNode) {
 			node.id = this.selectedNode.id;
 		}

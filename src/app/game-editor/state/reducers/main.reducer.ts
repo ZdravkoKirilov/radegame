@@ -17,13 +17,13 @@ export interface GameEditorFeature {
 
 export const reducers: ActionReducerMap<GameEditorFeature> = {
     form: formReducer,
-    context_overrides: contextReducer,
-    games: gamesReducer,
-    versions: versionsReducer,
-    loaders: loadersReducer,
+    context_overrides: contextReducer as any,
+    games: gamesReducer as any,
+    versions: versionsReducer as any,
+    loaders: loadersReducer as any,
 };
 
 export const metaReducers: MetaReducer<any>[] = [
-    editorMetaReducer
+    editorMetaReducer as any
 ];
 

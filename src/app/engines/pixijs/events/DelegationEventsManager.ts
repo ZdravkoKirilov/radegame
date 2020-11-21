@@ -1,4 +1,6 @@
 import { DisplayObject, interaction } from "pixi.js";
+import { get } from "lodash";
+
 import {
   AbstractEventManager, BasicComponent, propagateEvent,
   GenericEventHandler,
@@ -38,7 +40,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     Object.keys(comp.props).forEach((genericEventType) => {
       if (graphic && isGenericEventType(genericEventType)) {
         graphic.interactive = true;
-        const handler: GenericEventHandler = comp.props[genericEventType];
+        const handler = get(comp.props, genericEventType) as GenericEventHandler;
         const pixiEventName = toPixiEvent(genericEventType);
 
         /* that event only works with PrimitiveInput, its ignored otherwise */
@@ -60,7 +62,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     /* I don't think onChange will work for controlled components thus oninput is used*/
     input.oninput = event => {
       const genericEvent = createGenericEventFromDOMEvent(
-        event, RzEventTypes.onChange, component, { value: event.target['value'] }
+        event, RzEventTypes.onChange, component, { value: get(event.target, 'value') }
       );
       callWithErrorPropagation(component, () => handler(genericEvent));
       propagateEvent(genericEvent, RzEventTypes.onChange);
@@ -72,7 +74,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     if (pixiEventType === 'pointerover' || pixiEventType === 'pointerout') { // doesnt fire on interactionManager for some reason
       graphic.off(pixiEventType);
       graphic.on(pixiEventType, event => {
-        const component = graphic['component'] as BasicComponent;
+        const component = get(graphic, 'component') as BasicComponent;
         const position = event.data.getLocalPosition(component.graphic.parent);
         const genericEventType = toGenericEvent(pixiEventType);
         const genericEvent = createGenericEventFromPixiEvent(
@@ -86,7 +88,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
         const genericEventType = toGenericEvent(pixiEventType);
         const currentBranch = this.registeredEvents[genericEventType];
         currentBranch.forEach((handler, component) => {
-          const targetComponent: BasicComponent = event.target ? event.target['component'] : null;
+          const targetComponent: BasicComponent = get(event.target, 'component');
           if (targetComponent === component || isDescendantOf(targetComponent, component)) {
             const position = event.data.getLocalPosition(component.graphic.parent);
             const genericEvent = createGenericEventFromPixiEvent(
@@ -102,14 +104,14 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
 
   onGraphicClick = (event: interaction.InteractionEvent) => {
     if (event.currentTarget) {
-      const targetComponent = event.currentTarget['component'] as BasicComponent;
+      const targetComponent = get(event.currentTarget, 'component') as BasicComponent;
       this.focusComponent(targetComponent, event);
     }
   }
 
   onInputClick = (event: PointerEvent) => {
-    if (event.target && event.target['component'] instanceof PrimitiveInput) {
-      const targetComponent = event.target['component'];
+    const targetComponent = get(event.target, 'component');
+    if (get(event.target, 'component') instanceof PrimitiveInput) {
       this.focusComponent(targetComponent, event as any); // I'm dishonest
     }
   }
@@ -119,7 +121,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     if (this.focusedComponent && this.focusedComponent.props.onWheel) {
       const fakeNativeEvent = { target: { component: this.focusedComponent } } as any;
       const genericEvent = createGenericEventFromPixiEvent(fakeNativeEvent, RzEventTypes.onWheel, this.focusedComponent, { deltaY });
-      callWithErrorPropagation(this.focusedComponent, () => this.focusedComponent.props.onWheel(genericEvent));
+      callWithErrorPropagation(this.focusedComponent, () => this.focusedComponent.props.onWheel!(genericEvent));
       propagateEvent(genericEvent, RzEventTypes.onWheel);
     }
   }
@@ -131,7 +133,7 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
       const genericEvent = createGenericEventFromPixiEvent(fakeNativeEvent, RzEventTypes.onKeypress, this.focusedComponent,
         { key, keyCode, ctrlKey, altKey, shiftKey }
       );
-      callWithErrorPropagation(this.focusedComponent, () => this.focusedComponent.props.onKeypress(genericEvent));
+      callWithErrorPropagation(this.focusedComponent, () => this.focusedComponent.props.onKeypress!(genericEvent));
       propagateEvent(genericEvent, RzEventTypes.onKeypress);
     }
   }
@@ -142,17 +144,17 @@ export class PixiDelegationEventsManager implements AbstractEventManager {
     if (targetComponent !== focused && !isDescendantOf(targetComponent, focused)) {
       if (focused && focused.props.onBlur) {
         const genericEvent = createGenericEventFromPixiEvent(
-          event, RzEventTypes.onBlur, focused
+          event as any, RzEventTypes.onBlur, focused
         );
-        callWithErrorPropagation(focused, () => focused.props.onBlur(genericEvent));
+        callWithErrorPropagation(focused, () => focused.props.onBlur!(genericEvent));
         propagateEvent(genericEvent, RzEventTypes.onBlur);
       }
     }
     if (targetComponent.props.onFocus) {
       const genericEvent = createGenericEventFromPixiEvent(
-        event, RzEventTypes.onFocus, focused
+        event as any, RzEventTypes.onFocus, focused
       );
-      callWithErrorPropagation(targetComponent, () => targetComponent.props.onFocus(genericEvent));
+      callWithErrorPropagation(targetComponent, () => targetComponent.props.onFocus!(genericEvent));
       propagateEvent(genericEvent, RzEventTypes.onFocus);
     }
 

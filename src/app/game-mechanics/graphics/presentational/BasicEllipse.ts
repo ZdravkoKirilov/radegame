@@ -5,7 +5,7 @@ export type BasicEllipseNodeProps = {
     style: Style;
 }
 
-const BasicEllipse: RenderFunction<BasicEllipseNodeProps> = ({ style }) => {
+const BasicEllipse: RenderFunction<BasicEllipseNodeProps> = ({ style }: any) => {
     
     return createElement<EllipseProps>('ellipse', {
         styles: {
@@ -16,7 +16,7 @@ const BasicEllipse: RenderFunction<BasicEllipseNodeProps> = ({ style }) => {
             width: style.width,
             height: style.height
         }
-    });
+    }) as any;
 };
 
 export default BasicEllipse; 

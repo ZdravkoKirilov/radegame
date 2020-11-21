@@ -18,7 +18,7 @@ import { FetchGamesAction, selectAllGames, DeleteGameAction } from '../../state'
 })
 @AutoUnsubscribe()
 export class GamesContainerComponent implements OnInit {
-  private userId$: Subscription;
+  userId$: Subscription;
   dialogRef: MatDialogRef<any>;
 
   @ViewChild('confirmDelete') public confirm: TemplateRef<any>;
@@ -30,7 +30,7 @@ export class GamesContainerComponent implements OnInit {
   ngOnInit() {
     this.userId$ = this.store.pipe(
       select(selectUserId),
-      map(userId => this.store.dispatch(new FetchGamesAction({ userId }))),
+      map(userId => this.store.dispatch(new FetchGamesAction({ userId: userId! }))),
     ).subscribe();
 
     this.games$ = this.store.pipe(select(selectAllGames));

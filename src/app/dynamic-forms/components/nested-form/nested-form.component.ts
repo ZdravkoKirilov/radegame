@@ -20,7 +20,7 @@ export class NestedFormComponent {
     constructor() {
     }
 
-    fieldChange(data) {
+    fieldChange(data: unknown) {
         this.change.emit({
             index: this.index,
             data, group: this.group

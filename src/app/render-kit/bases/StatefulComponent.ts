@@ -29,11 +29,11 @@ export class StatefulComponent<P = {}, S = {}> {
         if (this.shouldRerender(this.props, next)) {
             this.state = next as S;
             setTimeout(() => {
-                updateComponent(this, this.render());
+                updateComponent(this, this.render() as any);
                 if (callback) {
                     callback();
                 }
-                if ('didUpdate' in this) {
+                if (this.didUpdate) {
                     this.didUpdate({
                         prev: { state: current, props: this.props },
                         next: { state: next, props: this.props },
@@ -60,15 +60,15 @@ export class StatefulComponent<P = {}, S = {}> {
             const next = { ...(current as any), ...(props as any) } as P;
 
             if (this.shouldRerender(next, this.state)) {
-                if ('willReceiveProps' in this) {
+                if (this.willReceiveProps) {
                     this.willReceiveProps(next);
                 }
                 this.props = next;
-                updateComponent(this, this.render());
+                updateComponent(this, this.render() as any);
                 if (callback) {
                     callback();
                 }
-                if ('didUpdate' in this) {
+                if (this.didUpdate) {
                     this.didUpdate({
                         prev: { state: this.state, props: current },
                         next: { state: this.state, props: next },

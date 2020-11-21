@@ -16,7 +16,7 @@ export class FilePickerComponent implements OnInit {
 	}
 
 	@Input() form: FormGroup;
-	@Input() data: BaseControl = {};
+	@Input() data: BaseControl = {} as any;
 	@Output() change: EventEmitter<BaseControl> = new EventEmitter();
 	@ViewChild('filePicker') filePicker: ElementRef;
 	@ViewChild('ownForm') ownForm: ElementRef;
@@ -27,7 +27,7 @@ export class FilePickerComponent implements OnInit {
 	}
 
 	existingFile?: any;
-	file: File;
+	file?: File;
 
 	ngOnInit() {
 		this.existingFile = this.data.value;
@@ -40,11 +40,11 @@ export class FilePickerComponent implements OnInit {
 	removeFile() {
 		const payload = { [this.data.name]: null };
 		this.existingFile = null;
-		this.file = null;
-		this.change.emit(payload);
+		this.file = undefined;
+		this.change.emit(payload as any);
 	}
 
-	handleFile(event) {
+	handleFile(event: any) {
 		event.stopPropagation();
 		const file = event.currentTarget.files[0];
 		this.file = file;
@@ -55,12 +55,12 @@ export class FilePickerComponent implements OnInit {
 				reader.onloadend = (event: any) => {
 					this.existingFile = event.target.result;
 					const payload = { [this.data.name]: event.currentTarget.result };
-					this.change.emit(payload);
+					this.change.emit(payload as any);
 				}
 			} else {
 				this.existingFile = this.sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
 				const payload = { [this.data.name]: file };
-				this.change.emit(payload);
+				this.change.emit(payload as any);
 			}
 		}
 	}

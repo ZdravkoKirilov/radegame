@@ -1,5 +1,5 @@
 import {
-  Expression, composeStaticMembers, MutateStatePayload, ExpressionContext, composeHelpers,
+  Expression, composeStaticMembers, MutateStatePayload, composeHelpers,
   CreateExpressionParams
 } from "@app/game-mechanics";
 
@@ -11,7 +11,7 @@ export const createEditorExpressionContext = (params: CreateExpressionParams) =>
     ...composeStaticMembers(),
     conf, state, loaded_modules, self, players,
 
-    mutateState: (payload: MutateStatePayload) => null,
+    mutateState: (_payload: MutateStatePayload) => null,
     listenTo: () => null,
     sendMessage: () => null,
     helpers: null,
@@ -19,7 +19,7 @@ export const createEditorExpressionContext = (params: CreateExpressionParams) =>
 
     disableInteractions: true,
 
-  } as ExpressionContext;
+  } as any;
 
   context.helpers = composeHelpers(helpers, context);
 
@@ -34,13 +34,13 @@ export const createSandboxExpressionContext = (params: CreateExpressionParams) =
     ...composeStaticMembers(),
     conf, state, loaded_modules, self, players,
 
-    mutateState: (payload: MutateStatePayload) => null,
+    mutateState: (_payload: MutateStatePayload) => null,
     listenTo: () => null,
     sendMessage: () => null,
     helpers: null,
     saveToProfile: null,
 
-  } as ExpressionContext;
+  } as any;
 
   context.helpers = composeHelpers(helpers, context);
 

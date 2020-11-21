@@ -1,4 +1,4 @@
-import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
+import { FormDefinition, BaseControl, parse } from "@app/dynamic-forms";
 import { WidgetNode, NODE_LIFECYCLES, NodeHandler, NodeLifecycle } from "@app/game-mechanics";
 import { RzEventTypes } from "@app/render-kit";
 

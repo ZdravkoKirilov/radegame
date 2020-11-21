@@ -22,7 +22,7 @@ export class TextInputComponent implements OnInit {
         return true;
     }
 
-    handleChange(event) {
+    handleChange(event: any) {
         event.stopPropagation();
         this.value = event.target.value;
         this.change.emit({

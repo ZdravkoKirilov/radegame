@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormArray, FormGroup } from '@angular/forms';
+import { get } from 'lodash';
 
-import { BaseControl, FormDefinition } from '../../models';
+import { BaseControl } from '../../models';
 import { ControlsService } from '../../services';
 import { controlTypes } from '../../config';
 
@@ -22,21 +23,22 @@ export class FormArrayComponent implements OnInit {
     }
 
     addChild() {
-        this.formArray.push(this.cs.toFormGroup(this.data.childTemplate.children));
+        this.formArray.push(this.cs.toFormGroup(get(this.data, 'childTemplate.children')));
         this.controls.push({ ...this.data.childTemplate });
     }
 
-    removeChild(index) {
+    removeChild(index: number) {
         this.controls.splice(index, 1);
         this.formArray.removeAt(index);
     }
 
-    valueChange({ index, data }) {
+    valueChange({ index, data }: { index: number, data: unknown}) {
         this.formArray.controls[index].patchValue(data);
     }
 
     ngOnInit() {
-        this.controls = [...this.data.children];
-        this.formArray = <FormArray>this.form.controls[this.data.name] || <FormArray>this.group.controls[this.data.name];
+        this.controls = [...this.data.children!];
+        const name = get(this.data, 'name')!;
+        this.formArray = <FormArray>this.form.controls[name] || <FormArray>this.group.controls[name];
     }
 }

@@ -1,17 +1,15 @@
 import { Injectable } from '@angular/core';
-import { Subject, Observable, Subscription } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { Store } from '@ngrx/store';
 
-import { ARENA_URLS, AppState } from '@app/core';
+import { ARENA_URLS } from '@app/core';
 import { AutoUnsubscribe } from '@app/shared';
-import { Player } from '@app/game-mechanics';
 
 @Injectable()
 @AutoUnsubscribe()
 export class GameBroadcastService {
 
-  constructor(private store: Store<AppState>) {
+  constructor() {
     // this.self$ = this.store.pipe(select(selectActivePlayerData), map(player => {
     //   this.self = player;
     // })).subscribe();
@@ -19,9 +17,9 @@ export class GameBroadcastService {
 
   private stream$ = new Subject<any>();
   private socket: WebSocket;
-  private self$: Subscription;
+/*   private self$: Subscription;
 
-  private self: Player;
+  private self: Player; */
 
   public ofType<T extends any>(...types: string[]) {
     return this.stream$.pipe(
@@ -37,20 +35,20 @@ export class GameBroadcastService {
 
     };
 
-    this.socket.onmessage = (e: MessageEvent) => {
+/*     this.socket.onmessage = (e: MessageEvent) => {
       // const data: GameActionsPayload = JSON.parse(e.data);
       // const actions = this.processor.toMutators(data.actions);
       // if (data.initiator !== this.self.id) {
       //   actions.filter(Boolean).forEach(action => this.store.dispatch(action));
       // }
-    };
+    }; */
 
-    this.socket.onclose = (e: CloseEvent) => {
-    };
+/*     this.socket.onclose = (e: CloseEvent) => {
+    }; */
 
-    this.socket.onerror = (e: ErrorEvent) => {
+/*     this.socket.onerror = (e: ErrorEvent) => {
       console.error(e);
-    }
+    } */
   }
 
   closeConnection() {

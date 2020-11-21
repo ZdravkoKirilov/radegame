@@ -1,5 +1,5 @@
 import { Text, Translation } from '@app/game-mechanics';
-import { BaseControl, ConnectedEntities, FormDefinition, parse } from '@app/dynamic-forms';
+import { BaseControl, FormDefinition, parse } from '@app/dynamic-forms';
 
 import {
   composeCommonFormContext, baseTemplate, styleTemplate, composeInlineStyleFormContext

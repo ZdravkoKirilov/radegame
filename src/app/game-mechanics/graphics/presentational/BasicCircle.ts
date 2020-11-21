@@ -5,7 +5,7 @@ export type BasicCircleNodeProps = {
     style: Style;
 }
 
-const BasicCircle: RenderFunction<BasicCircleNodeProps> = ({ style }) => {
+const BasicCircle: RenderFunction<BasicCircleNodeProps> = ({ style }: any) => {
     return createElement<CircleProps>('circle', {
         styles: {
             stroke_thickness: style.stroke_thickness,
@@ -14,7 +14,7 @@ const BasicCircle: RenderFunction<BasicCircleNodeProps> = ({ style }) => {
             y: style.y,
             width: style.width,
         }
-    });
+    }) as any;
 };
 
 export default BasicCircle; 

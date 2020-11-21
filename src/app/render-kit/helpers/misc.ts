@@ -1,19 +1,20 @@
 import * as Color from 'color';
 
 import {
-  AbstractFactory, StatefulComponent, BasicComponent, MemoRenderFunction, Component, RenderFunction, CompositeComponent, RzElement, MetaProps, RzElementType
+  AbstractFactory, StatefulComponent, BasicComponent, MemoRenderFunction, Component, RenderFunction, CompositeComponent, RzElement, MetaProps
 } from '../internal';
 
 export const getRealType = (factory: AbstractFactory, type: string) => {
-  const realType = factory.customResolvers.reduce(
-    (acc, resolver) => {
+  const realType = factory.customResolvers!.reduce(
+    (acc: any, resolver) => {
       if (type in resolver) {
         return resolver[type] as any;
       }
+      return acc;
     },
     null
   );
-  return realType as RzElementType;
+  return realType as any;
 }
 
 export const isComposite = (component: Component): component is CompositeComponent => isStateful(component) || isFunctional(component);
@@ -27,7 +28,7 @@ export const isStateful = (component: Component): component is StatefulComponent
 }
 
 export const isMemo = (component: Component): component is MemoRenderFunction => {
-  return isFunctional(component) && 'memo' in component.type;
+  return isFunctional(component) && 'memo' in component.type!;
 }
 
 export const flatRender = (source: any): RzElement => {
@@ -39,11 +40,11 @@ export const flatRender = (source: any): RzElement => {
   return result;
 }
 
-export const cloneRenderFunction = (originalType: RenderFunction, meta: MetaProps): RenderFunction => {
+export const cloneRenderFunction = (originalType: RenderFunction | any, meta: MetaProps): RenderFunction => {
   const component = originalType.bind({
     ...originalType,
     meta
-  }) as RenderFunction;
+  }) as RenderFunction | any;
   for (let key in originalType) {
     component[key] = originalType[key];
   }

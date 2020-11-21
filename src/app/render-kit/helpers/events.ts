@@ -1,42 +1,42 @@
 import { GenericEvent, GenericEventHandler, Component, callWithErrorPropagation } from "../internal";
 
 export const propagateEvent = (event: GenericEvent, handlerName: RzEventTypes) => {
-    if (!event.propagationStopped) {
-        let parent: Component = event.currentTarget.parent;
+  if (!event.propagationStopped) {
+    let parent: Component | any = event.currentTarget.parent;
 
-        do {
-            const handler: GenericEventHandler = parent.props[handlerName];
-            if (handler) {
-                callWithErrorPropagation(parent, () => handler(event));
-            }
-            parent = parent.parent;
-        } while (parent && !event.propagationStopped);
-    }
+    do {
+      const handler: GenericEventHandler = parent.props[handlerName];
+      if (handler) {
+        callWithErrorPropagation(parent, () => handler(event));
+      }
+      parent = parent.parent;
+    } while (parent && !event.propagationStopped);
+  }
 };
 
 export enum RzEventTypes {
-    onClick = 'onClick',
+  onClick = 'onClick',
 
-    onPointerDown = 'onPointerDown',
-    onPointerUp = 'onPointerUp',
-    onPointerUpOutside = 'onPointerUpOutside',
-    onPointerOver = 'onPointerOver',
-    onPointerOut = 'onPointerOut',
-    onPointerMove = 'onPointerMove',
+  onPointerDown = 'onPointerDown',
+  onPointerUp = 'onPointerUp',
+  onPointerUpOutside = 'onPointerUpOutside',
+  onPointerOver = 'onPointerOver',
+  onPointerOut = 'onPointerOut',
+  onPointerMove = 'onPointerMove',
 
-    onDragEnd = 'onDragEnd',
-    onDragMove = 'onDragMove',
-    onScroll = 'onScroll',
-    onScrollEnd = 'onScrollEnd',
+  onDragEnd = 'onDragEnd',
+  onDragMove = 'onDragMove',
+  onScroll = 'onScroll',
+  onScrollEnd = 'onScrollEnd',
 
-    onWheel = 'onWheel',
-    onKeypress = 'onKeypress',
-    onFocus = 'onFocus',
-    onBlur = 'onBlur',
+  onWheel = 'onWheel',
+  onKeypress = 'onKeypress',
+  onFocus = 'onFocus',
+  onBlur = 'onBlur',
 
-    onChange = 'onChange',
+  onChange = 'onChange',
 };
 
 export const isGenericEventType = (name: string): name is RzEventTypes => {
-    return name in RzEventTypes;
+  return name in RzEventTypes;
 };

@@ -2,7 +2,6 @@ import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators as vd } from '@angular/forms';
 
 import { LOGIN_MODES, LoginMode, SignInPayload, AuthPayload } from '../../models';
-import { emailValidator } from '@app/dynamic-forms';
 
 @Component({
 	selector: 'rg-sign-in-form',
@@ -17,7 +16,7 @@ export class SignInFormComponent implements OnInit {
 	ngOnInit() {
 		const { isLogin } = this;
 		this.form = new FormGroup({
-			email: new FormControl('', vd.compose([vd.required, emailValidator])),
+			email: new FormControl('', vd.compose([vd.required])),
 			password: new FormControl('', vd.required),
 		});
 		if (!isLogin) {

@@ -1,4 +1,4 @@
-import { createFeatureSelector, createSelector } from "@ngrx/store";
+import { createFeatureSelector } from "@ngrx/store";
 import { ProfileFeature } from "./reducers";
 import { FEATURE_NAME } from "../config";
 

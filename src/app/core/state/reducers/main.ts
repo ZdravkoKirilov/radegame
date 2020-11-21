@@ -8,11 +8,10 @@ import { CoreFeature, coreReducer } from './core';
 import { ArenaState } from '@app/game-arena';
 
 import { RouterStateUrl } from '../../router-custom.serializer';
-import { SocialAuthState } from '../../../social-auth';
 
 export const reducers: ActionReducerMap<Partial<AppState>> = {
     router: routerReducer,
-    core: coreReducer,
+    core: coreReducer as any,
 };
 
 export interface AppState {
@@ -20,6 +19,5 @@ export interface AppState {
     core: CoreFeature;
     editor: GameEditorFeature;
     profile: ProfileFeature;
-    social_auth: SocialAuthState;
     arena: ArenaState;
 }

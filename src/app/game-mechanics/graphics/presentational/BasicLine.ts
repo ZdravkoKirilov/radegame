@@ -1,12 +1,12 @@
 import { Shape, Style } from "../../entities";
-import { RenderFunction, createElement, LineProps } from "@app/render-kit";
+import { createElement, LineProps } from "@app/render-kit";
 
 export type BasicLineNodeProps = {
     style: Style;
     shape: Shape;
 }
 
-const BasicLineNode: RenderFunction<BasicLineNodeProps> = ({ style, shape }) => {
+const BasicLineNode: any = ({ style, shape }: any) => {
 
     return createElement<LineProps>('line', {
         styles: {
@@ -15,7 +15,7 @@ const BasicLineNode: RenderFunction<BasicLineNodeProps> = ({ style, shape }) => 
             x: style.x || 0,
             y: style.y || 0,
         },
-        points: shape.points.map(point => {
+        points: shape.points.map((point: any) => {
             return [Number(point.x), Number(point.y)]
         }),
     });

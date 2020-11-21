@@ -7,7 +7,7 @@ import { AppState } from '@app/core';
 import { AutoUnsubscribe, selectGameId } from '@app/shared';
 import { Game, GameTemplate, ImageAsset, GameId } from '@app/game-mechanics';
 import {
-  selectGame, FetchGameConfig, selectGameConfig, FetchGame, isDownloadingGameMenuData, CreateGameState,
+  selectGame, selectGameConfig, FetchGame, isDownloadingGameMenuData, CreateGameState,
   selectGameState
 } from '../../state';
 
@@ -43,9 +43,9 @@ export class GameMenuLoaderComponent implements OnInit {
 
     this.game$ = this.store.pipe(
       select(selectGame),
-      filter<Game>(Boolean),
+      filter<Game | undefined>(Boolean),
       map(game => {
-        this.game = game;
+        this.game = game!;
         // this.store.dispatch(new FetchGameConfig({ gameId: game.id, keywords: game.core_data.split(',') }));
       })
     ).subscribe();
@@ -53,7 +53,7 @@ export class GameMenuLoaderComponent implements OnInit {
     this.game_config$ = this.store.pipe(
       select(selectGameConfig),
       map(config => {
-        this.game_config = config;
+        this.game_config = config!;
       })
     ).subscribe();
 

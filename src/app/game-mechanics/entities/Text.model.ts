@@ -1,4 +1,3 @@
-import get from 'lodash/get';
 import { Nominal, Omit } from 'simplytyped';
 import { isObject, omit } from 'lodash/fp';
 

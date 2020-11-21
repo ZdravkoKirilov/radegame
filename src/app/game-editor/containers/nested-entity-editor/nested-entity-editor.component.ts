@@ -26,7 +26,7 @@ export class NestedEntityEditorComponent implements OnInit {
   entity$: Observable<NestedEntity>;
   entityParser: Pick<GameEntityParser<NestedEntity, unknown, unknown>, 'fromUnknown'>;
 
-  formDefinition$: Observable<FormDefinition<NestedEntity>>;
+  formDefinition$: Observable<FormDefinition<NestedEntity> | undefined>;
   connectedEntities$: Observable<ConnectedEntities>;
 
   onEntityCreated$: Subscription;
@@ -56,7 +56,7 @@ export class NestedEntityEditorComponent implements OnInit {
       map(([gameId, versionId, entityParser, moduleId, parentId, module]) => {
         this.gameId = gameId;
         this.versionId = versionId;
-        this.entityParser = entityParser;
+        this.entityParser = entityParser!;
         this.moduleId = moduleId as ModuleId;
         this.parentId = parentId;
 

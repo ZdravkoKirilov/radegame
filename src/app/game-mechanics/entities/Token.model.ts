@@ -75,12 +75,10 @@ export const Token: GameEntityParser<Token, DtoToken, RuntimeToken> & TokenOpera
   },
 
   toRuntime(context, token) {
-    if (token) {
-      return enrichEntity<Token, RuntimeToken>(context.conf, {
-        template: 'widgets',
-      }, token);
-    }
-    return null;
+
+    return enrichEntity<Token, RuntimeToken>(context.conf, {
+      template: 'widgets',
+    }, token);
   },
 
   saveNode(token, node) {

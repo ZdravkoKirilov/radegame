@@ -32,7 +32,7 @@ export class CodeEditorComponent implements AfterViewInit {
         theme: "vs-dark",
       });
 
-      ref.onDidChangeModelContent(event => {
+      ref.onDidChangeModelContent(() => {
         this.change.emit({
           [this.data.name]: ref.getValue()
         });

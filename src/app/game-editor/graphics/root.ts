@@ -23,7 +23,7 @@ export type EditorRootProps = OwnProps & StoreProps;
 type OwnProps = {
   store: Store<AppState>;
   widget: Widget;
-  selectNode: (node: WidgetNode) => void;
+  selectNode: (node: WidgetNode | undefined) => void;
 }
 
 type StoreProps = {
@@ -53,10 +53,14 @@ export class rootComponent extends StatefulComponent<EditorRootProps, State> {
     this.setState({ runtimeWidget: this.props.runtimeWidget });
   }
 
-  selectNode = (node: RuntimeWidgetNode) => {
-    const selectedNode = this.props.widget.nodes.find(elem => elem.id === node.id);
-    this.setState({ selectedNode });
-    this.props.selectNode(selectedNode);
+  selectNode = (node: RuntimeWidgetNode | undefined) => {
+    if (node) {
+      const selectedNode = this.props.widget.nodes.find(elem => elem.id === node.id);
+      if (selectedNode) {
+        this.setState({ selectedNode });
+        this.props.selectNode(selectedNode);
+      }
+    }
   }
 
   handleDragEnd = (id: WidgetNodeId, coords: RzPoint) => {
@@ -64,21 +68,21 @@ export class rootComponent extends StatefulComponent<EditorRootProps, State> {
 
     const newRuntimeWidgetData = clone(this.state.runtimeWidget, draft => {
       const targetNode = draft.nodes[nodeIndex];
-      targetNode.style_inline = isString(targetNode.style_inline) ?  JSON.parse(targetNode.style_inline) : {};
+      targetNode.style_inline = isString(targetNode.style_inline) ? JSON.parse(targetNode.style_inline) : {};
       targetNode.style_inline.x = coords.x;
       targetNode.style_inline.y = coords.y;
     });
 
-    this.setState({ selectedNode: null, runtimeWidget: newRuntimeWidgetData });
-    this.props.selectNode(null);
+    this.setState({ selectedNode: undefined, runtimeWidget: newRuntimeWidgetData });
+    this.props.selectNode(undefined);
 
-/*     this.props.store.dispatch(new SaveItemAction({
-      key: STORE_KEYS.nodes,
-      data: {
-        ...newRuntimeWidgetData.nodes[nodeIndex],
-        style_inline: JSON.stringify(newRuntimeWidgetData.nodes[nodeIndex].style_inline) as any
-      },
-    })); */
+    /*     this.props.store.dispatch(new SaveItemAction({
+          key: STORE_KEYS.nodes,
+          data: {
+            ...newRuntimeWidgetData.nodes[nodeIndex],
+            style_inline: JSON.stringify(newRuntimeWidgetData.nodes[nodeIndex].style_inline) as any
+          },
+        })); */
   }
 
   render() {
@@ -90,24 +94,24 @@ export class rootComponent extends StatefulComponent<EditorRootProps, State> {
       {
         name: 'background',
         onClick: () => {
-          selectNode(null);
+          selectNode(undefined);
         },
       },
       createElement<RootWidgetProps>(
         RootWidget,
         {
           renderChild: (node: RuntimeWidgetNode) => {
-            return createElement<NodeProps>(DraggableNode, {
+            return createElement<NodeProps>(DraggableNode as any, {
               data: node,
               key: node.id,
               onDragEnd: handleDragEnd,
               onSelect: selectNode,
               selected: selectedNode && selectedNode.id === node.id,
-            });
+            }) as any;
           },
           widget,
         }
-      )
+      ) as any
     );
   }
 }
@@ -117,14 +121,14 @@ const mapStateToProps = (state: CommonGameStore, ownProps: OwnProps): StoreProps
   context: selectExpressionContext(state),
 });
 
-const RootComponent = connectToStore(mapStateToProps)(rootComponent);
+const RootComponent = connectToStore(mapStateToProps)(rootComponent as any);
 
-export const ConnectedRootComponent: RenderFunction<EditorRootProps> = (props: EditorRootProps) => {
+export const ConnectedRootComponent: RenderFunction<EditorRootProps> | any = (props: EditorRootProps) => {
   return (
     createElement<StoreProviderProps>(
       StoreProvider,
       { store: props.store, selectCommonGameStore },
-      createElement(RootComponent, { ...props })
+      createElement(RootComponent, { ...props }) as any
     )
   );
 };

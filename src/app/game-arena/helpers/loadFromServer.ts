@@ -2,7 +2,7 @@ import keyBy from 'lodash/keyBy';
 
 import { FetchGameConfig } from "@app/game-arena";
 
-export const loadFromServer = ({ action_config }) => {
+export const loadFromServer = ({ action_config }: any) => {
     const { payload } = action_config;
     const payloadDict = keyBy(payload, 'key');
 

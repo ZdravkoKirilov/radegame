@@ -5,7 +5,7 @@ import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeNodeLifecycle, Style } fr
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
-import { assignHandlers, selectNodeStyleSync, selectNodeHandlers, selectExpressionContext, selectNodeLifecycles, CommonGameStore, selectChildPropsSync } from '../../helpers';
+import { assignHandlers, selectNodeHandlers, selectExpressionContext, selectNodeLifecycles, CommonGameStore } from '../../helpers';
 import { RootShapeProps, RootShape } from "./RootShape";
 
 export type EnhancedShapeNodeProps = {
@@ -31,8 +31,8 @@ export class EnhancedShapeNode extends StatefulComponent<Props, State> {
         const self = this;
         const { handlers, context, data } = this.props;
         const { animated } = this.state;
-        const style = selectNodeStyleSync(data, self);
-        const childProps = selectChildPropsSync(data, self);
+        const style = {} as any; // selectNodeStyleSync(data, self);
+        const childProps = {} as any; //selectChildPropsSync(data, self);
         const styleWithTransitionOverrides = { ...style, ...animated } as Style;
 
         return createElement<RzElementPrimitiveProps>(
@@ -70,7 +70,7 @@ export class EnhancedShapeNode extends StatefulComponent<Props, State> {
                     style: styleWithTransitionOverrides,
                     fromParent: childProps,
                 }
-            )
+            ) as any
         );
     }
 }
@@ -81,4 +81,4 @@ const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedShapeNodeProp
     lifecycles: selectNodeLifecycles(ownProps.data)(state),
 });
 
-export default connectToStore(mapStateToProps)(EnhancedShapeNode);
+export default connectToStore(mapStateToProps)(EnhancedShapeNode as any);

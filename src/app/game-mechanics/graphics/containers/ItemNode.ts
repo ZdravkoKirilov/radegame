@@ -5,7 +5,7 @@ import { RuntimeWidgetNode, RuntimeNodeHandler, RuntimeNodeLifecycle, Style } fr
 import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
-import { selectNodeStyleSync, assignHandlers, CommonGameStore, selectNodeHandlers, selectExpressionContext, selectNodeLifecycles, selectChildPropsSync } from "../../helpers";
+import { assignHandlers, CommonGameStore, selectNodeHandlers, selectExpressionContext, selectNodeLifecycles } from "../../helpers";
 import { RootItem, RootItemProps } from "./RootItem";
 
 export type EnhancedItemNodeProps = {
@@ -31,8 +31,8 @@ class EnhancedItemNode extends StatefulComponent<Props, State> {
     const self = this;
     const { context, data, handlers } = this.props;
     const { animated } = this.state;
-    const style = selectNodeStyleSync(data, self);
-    const childProps = selectChildPropsSync(data, self);
+    const style = {} as any; // selectNodeStyleSync(data, self);
+    const childProps = {}; // selectChildPropsSync(data, self);
     const styleWithTransitionOverrides = { ...style, ...animated } as Style;
 
     return createElement<RzElementPrimitiveProps>(
@@ -70,7 +70,7 @@ class EnhancedItemNode extends StatefulComponent<Props, State> {
           style: styleWithTransitionOverrides,
           fromParent: childProps,
         }
-      )
+      ) as any
     );
   }
 };

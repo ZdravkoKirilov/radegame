@@ -2,6 +2,7 @@ import {
 	Component, OnInit, ViewChild, ElementRef, OnDestroy, Output, Input, EventEmitter
 } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { set } from 'lodash';
 
 import { AppState } from '@app/core';
 import { WindowRefService, OnChange } from '@app/shared';
@@ -22,8 +23,8 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 
 	@Input() images: ImageAsset[] = [];
 
-	@OnChange<Widget>(function (newWidget) {
-		const mount: MountRef = this.mount;
+	@OnChange<BoardMainComponent, Widget>(function (ctx, newWidget) {
+		const mount: MountRef = ctx.mount;
 		if (mount && mount.component) {
 			const component = mount.component as RenderFunction;
 			const newProps = {
@@ -59,7 +60,7 @@ export class BoardMainComponent implements OnInit, OnDestroy {
 			assets: new Set(this.images.map(img => img.image)),
 			registerComponents,
 		});
-		window['pixiroot'] = this.mount.component;
+		set(window, 'pixiroot', this.mount.component);
 	}
 
 	_selectNode = (node: WidgetNode) => {

@@ -5,13 +5,13 @@ import { map, filter, tap } from 'rxjs/operators';
 
 import { AppState } from '@app/core';
 import { selectGameInstanceId, AutoUnsubscribe } from '@app/shared';
+import { GameTemplate, Game, ImageAsset } from '@app/game-mechanics';
 
 import {
-  FetchGameInstance, selectGameInstance, FetchGameConfig,
+  FetchGameInstance, selectGameInstance,
   isDownloadingGameData, FetchGame, selectGameConfig, CreateGameState, selectGame
 } from '../../state';
 import { GameInstance } from '../../models';
-import { GameTemplate, Game, ImageAsset } from '@app/game-mechanics';
 
 @Component({
   selector: 'rg-game-loader',
@@ -44,25 +44,25 @@ export class GameLoaderComponent implements OnInit {
 
     this.game$ = this.store.pipe(
       select(selectGame),
-      filter<Game>(Boolean),
-      map(game => {
+      filter<Game | undefined>(Boolean),
+      map(_game => {
         // this.store.dispatch(new FetchGameConfig({ gameId: game.id, keywords: game.core_data.split(',') }));
       })
     ).subscribe();
 
     this.game_instance$ = this.store.pipe(
       select(selectGameInstance),
-      filter<GameInstance>(Boolean),
+      filter<GameInstance | undefined>(Boolean),
       map(instance => {
-        this.game_instance = instance;
-        this.store.dispatch(new FetchGame({ gameId: instance.game_id }));
+        this.game_instance = instance!;
+        this.store.dispatch(new FetchGame({ gameId: instance!.game_id }));
       })
     ).subscribe();
 
     this.game_config$ = this.store.pipe(
       select(selectGameConfig),
       map(config => {
-        this.game_config = config;
+        this.game_config = config!;
       })
     ).subscribe();
 

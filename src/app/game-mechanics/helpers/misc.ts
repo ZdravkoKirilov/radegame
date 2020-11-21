@@ -2,7 +2,6 @@ import clone from 'immer';
 import isArray from 'lodash/isArray';
 import get from 'lodash/get';
 
-import { Points } from '@app/render-kit';
 import { Dictionary, Omit } from '@app/shared';
 
 import { GameEntity, WithRuntimeStyle, Style, GameTemplate } from '../entities';
@@ -12,7 +11,7 @@ export const enrichEntity = <T, P>(
   parseConfig: ParseConfig<T>,
   source: T,
 ): P => {
-  return source ? clone<P>(source as any, (draft: any) => {
+  return clone<P>(source as any, (draft: any) => {
     for (let key in parseConfig) {
       const parser = parseConfig[key] as any;
       const currentPropertyValue = draft[key];
@@ -31,11 +30,11 @@ export const enrichEntity = <T, P>(
         }
       }
     }
-  }) : null;
+  });
 };
 
-const findEntitiesBy = <T = GameEntity>(source: GameTemplate, key: string, predicate: { [key in keyof T]: any }) => {
-  const entityList: unknown[] = Object.values(source[key]).filter(elem => {
+const findEntitiesBy = <T = GameEntity>(source: any, key: string, predicate: any) => {
+  const entityList: any[] = Object.values(source[key]).filter((elem: any) => {
     return Object.keys(predicate).every(key => elem[key] === predicate[key]);
   });
   return entityList as T[];
@@ -80,14 +79,14 @@ export const combineStyles = (...args: Array<WithRuntimeStyle | Omit<Style, 'id'
       ...item,
     } as Style;
 
-  }, {} as Style);
+  }, {} as any);
 };
 
 const isEntityWithRuntimeStyle = (item: any): item is WithRuntimeStyle => {
   return 'style' in item && 'style_inline' in item;
 };
 
-const computePolygon = (sprite, text): Points => {
+/* const computePolygon = (sprite, text): Points => {
   const padding = 0;
   const x1 = sprite.styles.x;
   const y1 = sprite.styles.y - text.textStyle.fontSize;
@@ -102,4 +101,4 @@ const computePolygon = (sprite, text): Points => {
   ];
 
   return polygon as Points;
-};
+}; */

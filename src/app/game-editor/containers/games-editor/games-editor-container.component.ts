@@ -1,7 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { Observable, Subscription } from 'rxjs';
-import { switchMap, tap, map } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
@@ -25,17 +25,18 @@ export class GamesEditorContainerComponent implements OnInit {
 
   formDefinition = composeGameForm;
 
-  game$: Observable<Game>;
+  game$: Observable<Game | undefined>;
 
   loading: boolean;
   gameId: GameId;
-  draft: Game;
+  draft: {};
   draftValid: boolean;
 
   onGameCreated$: Subscription;
+  data$: Subscription;
 
   ngOnInit(): void {
-    this.game$ = this.store.pipe(
+    this.data$ = this.store.pipe(
       select(selectGameId), tap(gameId => {
         if (gameId) {
           this.loading = true;
@@ -43,13 +44,14 @@ export class GamesEditorContainerComponent implements OnInit {
           this.cd.detectChanges();
           this.store.dispatch(new FetchGameDetails({ gameId }));
         }
-      }),
-      switchMap(() => this.store.pipe(select(selectGame), tap(game => {
-        this.draft = { ...game };
-        this.loading = false;
-        this.cd.detectChanges();
-      })))
-    );
+      })
+    ).subscribe();
+
+    this.game$ = this.store.pipe(select(selectGame), tap(game => {
+      this.draft = { ...game };
+      this.loading = false;
+      this.cd.detectChanges();
+    }))
 
     this.onGameCreated$ = this.actions$.pipe(
       ofType<SetGameAction>(gameActionTypes.SET_GAME),
@@ -68,7 +70,8 @@ export class GamesEditorContainerComponent implements OnInit {
   }
 
   saveGame() {
-    this.store.dispatch(new SaveGameAction({ game: this.draft }));
+    const game = Game.fromUnknown.toEntity(this.draft);
+    this.store.dispatch(new SaveGameAction({ game }));
   }
 
   closeEditor() {

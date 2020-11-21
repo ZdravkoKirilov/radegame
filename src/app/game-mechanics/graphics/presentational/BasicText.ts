@@ -1,12 +1,12 @@
 import { Style } from "../../entities";
-import { Memo, createElement, PrimitiveTextProps, RzElementPrimitiveProps } from "@app/render-kit";
+import { createElement, PrimitiveTextProps, RzElementPrimitiveProps } from "@app/render-kit";
 
 export type BasicTextNodeProps = {
     style: Style;
     text: string;
 };
 
-export const BasicTextNode = Memo<BasicTextNodeProps>(({ style, text }) => {
+export const BasicTextNode = ({ style, text }: any) => {
     style = style || {} as Style;
     text = text || 'Default value';
 
@@ -18,7 +18,7 @@ export const BasicTextNode = Memo<BasicTextNodeProps>(({ style, text }) => {
         createElement<PrimitiveTextProps>('text', {
             value: text,
             textStyle: style,
-        }),
+        }) as any,
     );
 
-}, ['style', 'text']);
+};

@@ -1,4 +1,4 @@
-import { RenderFunction, createElement } from "@app/render-kit";
+import { createElement } from "@app/render-kit";
 import { Style, Shape } from "../../entities";
 import BasicCircle, { BasicCircleNodeProps } from "./BasicCircle";
 import BasicRectangle, { BasicRectangleProps } from "./BasicRectangle";
@@ -11,21 +11,21 @@ export type BasicShapeNodeProps = {
     shape: Shape;
 }
 
-export const BasicShapeNode: RenderFunction<BasicShapeNodeProps> = ({ style, shape }) => {
+export const BasicShapeNode: any = ({ style, shape }: any) => {
 
     if (shape.type === 'rectange') {
-        return createElement<BasicRectangleProps>(BasicRectangle, { style });
+        return createElement<BasicRectangleProps>(BasicRectangle as any, { style });
     }
     if (shape.type === 'circle') {
-        return createElement<BasicCircleNodeProps>(BasicCircle, { style });
+        return createElement<BasicCircleNodeProps>(BasicCircle as any, { style });
     }
     if (shape.type === 'polygon') {
-        return createElement<PolygonNodeProps>(BasicPolygon, { style, shape });
+        return createElement<PolygonNodeProps>(BasicPolygon as any, { style, shape });
     }
     if (shape.type === 'line') {
-        return createElement<BasicLineNodeProps>(BasicLineNode, { style, shape });
+        return createElement<BasicLineNodeProps>(BasicLineNode as any, { style, shape });
     }
     if (shape.type === 'ellipse') {
-        return createElement<BasicEllipseNodeProps>(BasicEllipse, { style });
+        return createElement<BasicEllipseNodeProps>(BasicEllipse as any, { style });
     }
 };

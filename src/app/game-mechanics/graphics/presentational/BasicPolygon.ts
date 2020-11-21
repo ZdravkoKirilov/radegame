@@ -1,4 +1,4 @@
-import { RenderFunction, createElement, PolygonProps } from "@app/render-kit";
+import { createElement, PolygonProps } from "@app/render-kit";
 
 import { Shape, Style } from "../../entities";
 
@@ -7,7 +7,7 @@ export type PolygonNodeProps = {
     shape: Shape;
 }
 
-const BasicPolygon: RenderFunction<PolygonNodeProps> = ({ style, shape }) => {
+const BasicPolygon: any = ({ style, shape }: any) => {
 
     return createElement<PolygonProps>('polygon', {
         styles: {
@@ -16,7 +16,7 @@ const BasicPolygon: RenderFunction<PolygonNodeProps> = ({ style, shape }) => {
             x: style.x || 0,
             y: style.y || 0,
         },
-        points: shape.points.map(point => {
+        points: shape.points.map((point: any) => {
             return [Number(point.x), Number(point.y)]
         }),
     });

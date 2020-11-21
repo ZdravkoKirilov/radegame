@@ -6,7 +6,7 @@ import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
 import { assignHandlers } from "../../helpers/event-handlers";
-import { selectNodeStyleSync, selectNodeTextSync, selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeLifecycles, selectChildPropsSync } from "../../helpers";
+import { selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeLifecycles } from "../../helpers";
 import { RootText, RootTextProps } from "./RootText";
 
 export type EnhancedTextNodeProps = {
@@ -33,9 +33,9 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
         const self = this;
         const { data, handlers, context } = this.props;
         const { animated } = this.state;
-        const text = selectNodeTextSync(data, context, self);
-        const childProps = selectChildPropsSync(data, self);
-        const style = selectNodeStyleSync(data, self);
+        const text = {} as any //selectNodeTextSync(data, context, self);
+        const childProps = {} as any //selectChildPropsSync(data, self);
+        const style = {} as any // selectNodeStyleSync(data, self);
         const styleWithTransitionOverrides = { ...style, ...animated };
 
         return createElement<RzElementPrimitiveProps>(
@@ -73,7 +73,7 @@ class EnhancedTextNode extends StatefulComponent<Props, State> {
                     style: styleWithTransitionOverrides as any,
                     fromParent: childProps,
                 }
-            )
+            ) as any
         );
     }
 };
@@ -84,4 +84,4 @@ const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedTextNodeProps
     lifecycles: selectNodeLifecycles(ownProps.data)(state),
 });
 
-export default connectToStore(mapStateToProps)(EnhancedTextNode);
+export default connectToStore(mapStateToProps)(EnhancedTextNode as any);

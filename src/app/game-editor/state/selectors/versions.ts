@@ -20,6 +20,6 @@ export const selectVersion = createSelector(
   selectAllVersions,
   selectVersionId,
   (versions, id) => {
-    return versions?.find(elem => elem.id == toVersionId(id));
+    return versions.find(elem => elem.id == toVersionId(id));
   }
 );

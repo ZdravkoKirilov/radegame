@@ -14,7 +14,7 @@
     "strictPropertyInitialization": false,
     "target": "es2018",
     "allowSyntheticDefaultImports": true,
-    "types": ["pixi.js"],
+    "types": ["pixi.js", "mocha"],
     "typeRoots": [
       "node_modules/@types"
     ],

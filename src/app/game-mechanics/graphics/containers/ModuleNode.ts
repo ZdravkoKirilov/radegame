@@ -6,7 +6,7 @@ import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
 import { assignHandlers } from "../../helpers/event-handlers";
-import { selectNodeStyleSync, selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeLifecycles, selectChildPropsSync } from "../../helpers";
+import { selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeLifecycles } from "../../helpers";
 import { ModuleRendererProps, ModuleRenderer } from "./ModuleRenderer";
 
 export type ModuleNodeProps = {
@@ -33,8 +33,8 @@ class EnhancedModuleNode extends StatefulComponent<Props, State> {
     const self = this;
     const { data, handlers, context } = this.props;
     const { animated } = this.state;
-    const style = selectNodeStyleSync(data, self);
-    const childProps = selectChildPropsSync(data, self);
+    const style = {} as any //selectNodeStyleSync(data, self);
+    const childProps = {} as any //selectChildPropsSync(data, self);
     const styleWithTransitionOverrides = { ...style, ...animated };
 
     return createElement<RzElementPrimitiveProps>(
@@ -71,8 +71,8 @@ class EnhancedModuleNode extends StatefulComponent<Props, State> {
         createElement<ModuleRendererProps>(
           ModuleRenderer,
           { module: data.module, fromParent: childProps }
-        )
-      )
+        ) as any
+      ) as any
     );
   }
 };
@@ -83,4 +83,4 @@ const mapStateToProps = (state: CommonGameStore, ownProps: ModuleNodeProps): Sto
   lifecycles: selectNodeLifecycles(ownProps.data)(state),
 });
 
-export default connectToStore(mapStateToProps)(EnhancedModuleNode);
+export default connectToStore(mapStateToProps)(EnhancedModuleNode as any);

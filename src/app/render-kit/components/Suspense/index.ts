@@ -1,28 +1,28 @@
 import { StatefulComponent, RzElement } from "../../internal";
 
 type State = {
-    suspended: boolean;
+  suspended: boolean;
 }
 
 export type SuspenseProps = {
-    fallback?: RzElement;
+  fallback?: RzElement;
 }
 
 export class Suspense extends StatefulComponent<SuspenseProps, State> {
-    state = { suspended: false };
+  state = { suspended: false };
 
-    didCatch(thrown: Error | Promise<any>) {
-        if (thrown instanceof Promise) {
-            this.setState({ suspended: true });
-            thrown.then(() => {
-                this.setState({ suspended: false });
-            });
-        } else {
-            throw (thrown);
-        }
+  didCatch(thrown: Error | Promise<any>) {
+    if (thrown instanceof Promise) {
+      this.setState({ suspended: true });
+      thrown.then(() => {
+        this.setState({ suspended: false });
+      });
+    } else {
+      throw (thrown);
     }
+  }
 
-    render() {
-        return this.state.suspended ? this.props.fallback : this.props.children;
-    }
+  render() {
+    return this.state.suspended ? this.props.fallback : this.props.children as any;
+  }
 }

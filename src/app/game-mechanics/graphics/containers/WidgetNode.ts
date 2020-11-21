@@ -6,7 +6,7 @@ import { ExpressionContext } from "../../models";
 import { AddedStoreProps, connectToStore } from "../../hocs";
 import { GiveAndUseContext, WithNodeLifecycles } from "../../mixins";
 import {
-    selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeLifecycles, selectNodeStyleSync, selectChildPropsSync, assignHandlers
+    selectNodeHandlers, CommonGameStore, selectExpressionContext, selectNodeLifecycles, assignHandlers
 } from "../../helpers";
 import { RootWidgetProps, RootWidget } from "./RootWidget";
 
@@ -34,8 +34,8 @@ class EnhancedWidgetNode extends StatefulComponent<Props, State> {
         const self = this;
         const { data, handlers, context } = this.props;
         const { animated } = this.state;
-        const childProps = selectChildPropsSync(data, self);
-        const style = selectNodeStyleSync(data, self);
+        const childProps = {}; // selectChildPropsSync(data, self);
+        const style = {} as any; //selectNodeStyleSync(data, self);
         const styleWithTransitionOverrides = { ...style, ...animated } as Style;
 
         return createElement<RzElementPrimitiveProps>(
@@ -73,7 +73,7 @@ class EnhancedWidgetNode extends StatefulComponent<Props, State> {
                     fromParent: childProps,
                     style: styleWithTransitionOverrides,
                 }
-            )
+            ) as any
         );
     }
 };
@@ -84,4 +84,4 @@ const mapStateToProps = (state: CommonGameStore, ownProps: EnhancedWidgetNodePro
     lifecycles: selectNodeLifecycles(ownProps.data)(state),
 });
 
-export default connectToStore(mapStateToProps)(EnhancedWidgetNode);
+export default connectToStore(mapStateToProps)(EnhancedWidgetNode as any);

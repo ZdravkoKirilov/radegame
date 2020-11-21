@@ -27,7 +27,7 @@ export class PixiMutator implements AbstractMutator {
       const bounds = graphic.getLocalBounds();
       return { width: bounds.width, height: bounds.height };
     }
-    return null;
+    return { width: 0, height: 0};
   }
 }
 
@@ -56,7 +56,7 @@ const unmountGeneric = (component: BasicComponent) => {
 };
 
 const unmountChildren = (component: PrimitiveFragment): void => {
-  component.children.forEach(child => unmountComponent(child));
+  component.children!.forEach(child => unmountComponent(child));
 };
 
 const updatePrimitive = (component: BasicComponent<any>) => {
@@ -114,12 +114,12 @@ const updatePrimitive = (component: BasicComponent<any>) => {
 };
 
 const updateHTMLInput = (comp: PrimitiveInput, ) => {
-  const input: HTMLInputElement = comp.graphic;
-  const parentContainer: AbstractContainer = input['paretContainer'];
+  const input: HTMLInputElement | any = comp.graphic;
+  const parentContainer: AbstractContainer = input['parentContainer'];
   const parentPosition = parentContainer?.getGlobalPosition();
-  const style = applyCSSTransformations(comp.props.styles);
-  const totalLeft = style.left + parentPosition?.x ?? 0;
-  const totalTop = style.top + parentPosition?.y ?? 0;
+  const style = applyCSSTransformations(comp.props.styles!);
+  const totalLeft = style.left! + parentPosition?.x ?? 0;
+  const totalTop = style.top! + parentPosition?.y ?? 0;
 
   const CSS: Partial<CSSStyleDeclaration> = {
     ...style,
@@ -170,13 +170,13 @@ const updateGeneric = (comp: BasicComponent) => {
   applyZOrder(comp);
 
   if (graphic && styles) {
-    Object.keys(styles).forEach((key: keyof RzStyles) => {
-      setProp(graphic, key, props.styles[key] as any);
+    Object.keys(styles).forEach((key: string) => {
+      setProp(graphic, key as any, (props as any).styles[key as any] as any);
     });
   }
 };
 
-const updateRectangle = (props: RzElementPrimitiveProps, graphic: Graphics) => {
+const updateRectangle = (props: RzElementPrimitiveProps | any, graphic: Graphics) => {
   const { styles } = props;
   graphic.clear();
 
@@ -215,7 +215,7 @@ const updateSprite = (comp: PrimitiveSprite) => {
   if (graphic && !graphic.texture.textureCacheIds.includes(image)) {
     const newGraphic = new Sprite(image);
     comp.graphic = newGraphic;
-    const isMounted = container.children.indexOf(graphic) !== -1;
+    const isMounted = container.children!.indexOf(graphic) !== -1;
     if (graphic && isMounted) {
       const index = container.getChildIndex(graphic);
       container.addChildAt(newGraphic, index);
@@ -230,23 +230,23 @@ const updateSprite = (comp: PrimitiveSprite) => {
 
 export const updateText = (comp: PrimitiveText) => {
   const { props } = comp;
-  const styleObject = comp.style as TextStyle;
+  const styleObject = comp.style as TextStyle | any;
   const graphic = comp.graphic as Text;
   const textStyle = props.textStyle || {};
-  const remappedTextStyle = applyTextTransformations(textStyle);
+  const remappedTextStyle = applyTextTransformations(textStyle) as any;
 
   Object.keys(remappedTextStyle || {}).forEach(key => {
     const value = remappedTextStyle[key];
-    const result = getValue(value as string, key as any, comp);
+    const result = getValue(value);
     styleObject[key] = result;
   });
   graphic.text = props.value;
 };
 
-const updateLine = (props: LineProps, line: Graphics) => {
+const updateLine = (props: LineProps | any, line: Graphics) => {
   const points = [...props.points] as Points;
   const { styles } = props;
-  const start = points.shift();
+  const start = points.shift() as any;
   const dash = props.dashGap || 0;
 
   line.clear();
@@ -267,7 +267,7 @@ const updateLine = (props: LineProps, line: Graphics) => {
 
 };
 
-const updatePolygon = (props: RzElementPrimitiveProps, graphic: Graphics) => {
+const updatePolygon = (props: RzElementPrimitiveProps | any, graphic: Graphics) => {
   const points = [...props.points] as Points;
   const { styles } = props;
 
@@ -284,7 +284,7 @@ const updatePolygon = (props: RzElementPrimitiveProps, graphic: Graphics) => {
   graphic.drawPolygon(polygon);
 };
 
-const updateCircle = (comp: PrimitiveCircle, styles: RzStyles) => {
+const updateCircle = (comp: PrimitiveCircle, styles: RzStyles | any) => {
   const graphic: Graphics = comp.graphic;
 
   if (styles) {
@@ -297,7 +297,7 @@ const updateCircle = (comp: PrimitiveCircle, styles: RzStyles) => {
   }
 };
 
-const updateEllipse = (comp: PrimitiveEllipse, styles: RzStyles) => {
+const updateEllipse = (comp: PrimitiveEllipse, styles: RzStyles | any) => {
   const graphic: Graphics = comp.graphic;
 
   if (styles) {

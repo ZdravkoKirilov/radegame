@@ -10,7 +10,7 @@ export type Option = {
     context?: ToggleContext;
 }
 
-export type BaseControl = Partial<{
+export type BaseControl = {
     value: any;
     defaultValue: any;
     name: string;
@@ -41,4 +41,4 @@ export type BaseControl = Partial<{
     asBase64: boolean;
     asString: boolean;
     valueField: string;
-}>
+};

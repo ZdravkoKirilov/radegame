@@ -39,5 +39,5 @@ export const ANIMATION_EASINGS = {
 export type AnimationEasing = keyof typeof ANIMATION_EASINGS;
 
 export const mapEasing = (key: string) => {
-    return ANIMATION_EASINGS[key] || Power0.easeInOut;
+    return (ANIMATION_EASINGS as any)[key] || Power0.easeInOut;
 };

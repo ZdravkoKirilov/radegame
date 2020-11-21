@@ -1,4 +1,4 @@
-import { RenderFunction, createElement } from "@app/render-kit";
+import { createElement } from "@app/render-kit";
 
 import { BasicTextNode, BasicTextNodeProps } from "./BasicText";
 import { Style } from "../../entities";
@@ -8,9 +8,9 @@ export type DefaultLoaderProps = Partial<{
   text: string;
 }>;
 
-export const DefaultLoader: RenderFunction<DefaultLoaderProps> = ({ style = {} as Style, text = 'Loading...' }) => {
+export const DefaultLoader: any = ({ style = {} as Style, text = 'Loading...' }) => {
   return (
-    createElement<BasicTextNodeProps>(BasicTextNode, {
+    createElement<BasicTextNodeProps>(BasicTextNode as any, {
       text, style
     })
   )

@@ -1,18 +1,17 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
-import { map, catchError, switchMap, withLatestFrom, mergeMap, concatMap } from 'rxjs/operators';
+import { map, catchError, switchMap, withLatestFrom } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Store } from '@ngrx/store';
-import { isEmpty } from 'lodash/fp';
+import { Action, Store } from '@ngrx/store';
 
 import { AppState, GameEditService, GameFetchService } from '@app/core';
-import { Game, Module } from '@app/game-mechanics';
+import { Game } from '@app/game-mechanics';
 
 import {
-  gameActionTypes, FetchGameData, FetchGamesAction, SetGamesAction, SaveGameAction, SetGameAction, DeleteGameAction, RemoveGameAction, FetchGameDetails, SetGameData, SetItems, AddLoadedModules
+  gameActionTypes, FetchGameData, FetchGamesAction, SetGamesAction, SaveGameAction, SetGameAction, DeleteGameAction, RemoveGameAction, FetchGameDetails, SetGameData, AddLoadedModules
 } from '../actions';
-import { getItems, selectLoadedModules } from '../selectors';
+import { selectLoadedModules } from '../selectors';
 
 @Injectable()
 export class GameEffectsService {
@@ -30,8 +29,8 @@ export class GameEffectsService {
     ofType<FetchGameData>(gameActionTypes.FETCH_GAME_DATA),
     withLatestFrom(this.store.select(selectLoadedModules)),
     switchMap(([action, loaded_modules]) => {
-      const { gameId, module, versionId } = action.payload;
-      const actions = [];
+      const { gameId, module } = action.payload;
+      const actions: Action[] = [];
       const moduleIds = [...module.dependencies, module.id].filter(moduleId => !loaded_modules.includes(moduleId));
 
       if (moduleIds.length) {
@@ -59,7 +58,7 @@ export class GameEffectsService {
     ofType<FetchGameDetails>(gameActionTypes.FETCH_GAME_DETAILS),
     switchMap(action => this.fetcher.getGame(action.payload.gameId).pipe(
       map(game => new SetGameAction({ game })),
-      catchError(err => {
+      catchError(() => {
         return of({ type: 'ERRROR' });
       }),
     ))
@@ -68,9 +67,9 @@ export class GameEffectsService {
   @Effect()
   fetchGames = this.actions$.pipe(
     ofType<FetchGamesAction>(gameActionTypes.FETCH_GAMES),
-    switchMap(action => this.fetcher.getGames().pipe(
+    switchMap(_action => this.fetcher.getGames().pipe(
       map(games => new SetGamesAction({ games })),
-      catchError(err => {
+      catchError(() => {
         return of({ type: 'ERROR' });
       }),
     ))
@@ -84,7 +83,7 @@ export class GameEffectsService {
         this.snackbar.open('Game was saved', 'Success', { duration: 3000 });
         return new SetGameAction({ game });
       }),
-      catchError(err => {
+      catchError(() => {
         this.snackbar.open('Game could not be saved', 'Error', { duration: 3000 });
         return of({ type: 'ERROR' });
       }),
@@ -99,7 +98,7 @@ export class GameEffectsService {
         this.snackbar.open('Game was deleted', 'Success', { duration: 3000 });
         return new RemoveGameAction({ game: action.payload.game });
       }),
-      catchError(err => {
+      catchError(() => {
         this.snackbar.open('Game could not be deleted', 'Error', { duration: 3000 });
         return of({ type: 'ERROR' });
       }),

@@ -1,6 +1,6 @@
 import { StatefulComponent, DidUpdatePayload } from "@app/render-kit";
+import { isFunction } from "lodash";
 import { RuntimeNodeLifecycle, NODE_LIFECYCLES } from "../entities";
-import { playSoundIfNeeded } from "../helpers";
 import { ExpressionContext } from "../models";
 
 type RequiredProps = {
@@ -18,29 +18,31 @@ export function WithNodeLifecycles(constructor: Constructor<StatefulComponent<Re
 
   prototype.didMount = function () {
     const relatedLifecycles = getRelatedLifecycles(NODE_LIFECYCLES.onMount, this.props['lifecycles']);
-    relatedLifecycles.forEach(doLifecycleStuffBro(this, this.props['context']));
+    relatedLifecycles.forEach(doLifecycleStuffBro(this));
     originalDidMount && originalDidMount.apply(this, arguments);
   }
 
   prototype.didUpdate = function (payload: DidUpdatePayload) {
     const relatedLifecycles = getRelatedLifecycles(NODE_LIFECYCLES.onUpdate, this.props['lifecycles']);
-    relatedLifecycles.forEach(doLifecycleStuffBro(this, this.props['context'], payload));
+    relatedLifecycles.forEach(doLifecycleStuffBro(this, payload));
     originalDidUpdate && originalDidUpdate.apply(this, arguments);
   }
 
   prototype.willUnmount = function () {
     const relatedLifecycles = getRelatedLifecycles(NODE_LIFECYCLES.onUnmount, this.props['lifecycles']);
-    relatedLifecycles.forEach(doLifecycleStuffBro(this, this.props['context']));
+    relatedLifecycles.forEach(doLifecycleStuffBro(this));
     originalwillUnmount && originalwillUnmount.apply(this, arguments);
   }
 
   return constructor as typeof StatefulComponent;
 }
 
-const doLifecycleStuffBro = (component: StatefulComponent, context: ExpressionContext, payload?: DidUpdatePayload) =>
+const doLifecycleStuffBro = (component: StatefulComponent, payload?: DidUpdatePayload) =>
   (elem: RuntimeNodeLifecycle) => {
-    elem.effect(component, payload);
-    playSoundIfNeeded(elem.dynamic_sound, elem.sound, component, context);
+    if (isFunction(elem.effect)) {
+      elem.effect(component, payload);
+    }
+    
   };
 
 const getRelatedLifecycles = (forType: NODE_LIFECYCLES, fromPool: RuntimeNodeLifecycle[]) =>

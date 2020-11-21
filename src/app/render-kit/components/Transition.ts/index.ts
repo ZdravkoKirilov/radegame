@@ -2,7 +2,7 @@ import { map } from "rxjs/operators";
 
 import { Dictionary } from "@app/shared";
 
-import { StatefulComponent, DidUpdatePayload, TransitionAnimationsPlayer, AnimationPayload } from "../../internal";
+import { StatefulComponent, TransitionAnimationsPlayer } from "../../internal";
 
 type RuntimeTransition = any;
 
@@ -41,7 +41,7 @@ export class RzTransition extends StatefulComponent<RzTransitionProps> {
 
         if (this.props.onDone) {
           player.done$.pipe(
-            map(() => this.props.onDone(player.config))
+            map(() => this.props.onDone!(player.config))
           ).subscribe();
         }
 
@@ -60,8 +60,8 @@ export class RzTransition extends StatefulComponent<RzTransitionProps> {
     }
   }
 
-  didUpdate(payload: DidUpdatePayload<RzTransitionProps>) {
-    if (Object.values(this.players).every(player => !player.isActive)) {
+  didUpdate(/* payload: DidUpdatePayload<RzTransitionProps> */) {
+    /*if (Object.values(this.players).every(player => !player.isActive)) {
       const prevContext = payload.prev.props.context;
       const nextContext = payload.next.props.context;
 
@@ -79,11 +79,11 @@ export class RzTransition extends StatefulComponent<RzTransitionProps> {
       };
 
       Object.values(this.players).forEach(player => {
-      /*   if (player.config.trigger(reformattedPayload)) {
+         if (player.config.trigger(reformattedPayload)) {
           player.play(reformattedPayload);
-        } */
+        } 
       });
-    }
+    } */
   }
 
   willUnmount() {
@@ -91,6 +91,6 @@ export class RzTransition extends StatefulComponent<RzTransitionProps> {
   }
 
   render() {
-    return this.props.children;
+    return this.props.children as any;
   }
 }

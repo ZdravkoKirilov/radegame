@@ -4,40 +4,40 @@ import { FormGroup } from '@angular/forms';
 import { BaseControl } from '../../models/Base.model';
 
 @Component({
-    selector: 'rg-number-input',
-    templateUrl: './number-input.component.html',
-    styleUrls: ['./number-input.component.scss']
+  selector: 'rg-number-input',
+  templateUrl: './number-input.component.html',
+  styleUrls: ['./number-input.component.scss']
 })
-export class NumberInputComponent implements OnInit{
+export class NumberInputComponent implements OnInit {
 
-    @Input() form: FormGroup;
-    @Input() data: BaseControl;
-    @Output() change: EventEmitter<any> = new EventEmitter();
-    value: number;
+  @Input() form: FormGroup;
+  @Input() data: BaseControl;
+  @Output() change: EventEmitter<any> = new EventEmitter();
+  value: number;
 
-    constructor() {
+  constructor() {
+  }
+
+  get isValid() {
+    const name = this.data.name;
+    const controls = this.form.controls;
+    if (controls && name in controls) {
+      return controls[name].valid;
     }
+  }
 
-    get isValid() {
-        const name = this.data.name;
-        const controls = this.form.controls;
-        if (controls && name in controls) {
-            return controls[name].valid;
-        }
-    }
+  handleChange(event: any) {
+    event.stopPropagation();
+    this.value = event.target.value;
+    this.change.emit({
+      [this.data.name]: event.target.value
+    });
+  }
 
-    handleChange(event) {
-        event.stopPropagation();
-        this.value = event.target.value;
-        this.change.emit({
-            [this.data.name]: event.target.value
-        });
-    }
-
-    ngOnInit() {
-        this.value = this.data.value || this.data.defaultValue;
-        this.change.emit({
-            [this.data.name]: this.value
-        });
-    }
+  ngOnInit() {
+    this.value = this.data.value || this.data.defaultValue;
+    this.change.emit({
+      [this.data.name]: this.value
+    });
+  }
 }

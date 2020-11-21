@@ -17,9 +17,9 @@ type StoreProps = {
 
 type Props = RootTextProps & StoreProps;
 
-const rootText: RenderFunction<Props> = ({ runtimeText, style }) => {
+const rootText: RenderFunction<Props | any> = ({ runtimeText, style }) => {
   const composedStyle = combineStyles(runtimeText, style);
-  return createElement<BasicTextNodeProps>(BasicTextNode, { text: runtimeText.computed_value, style: composedStyle });
+  return createElement<BasicTextNodeProps>(BasicTextNode as any, { text: runtimeText.computed_value, style: composedStyle }) as any;
 };
 
 const mapStateToProps = (state: CommonGameStore, ownProps: RootTextProps): StoreProps => ({

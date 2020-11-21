@@ -46,13 +46,13 @@ export class TagsInputComponent implements OnInit {
     this._tags = value;
   }
 
-  addTag(tag) {
+  addTag(tag: string) {
     if (this.tags.indexOf(tag) === -1) {
       this.tags.push(tag);
     }
   }
 
-  onAdd(event?: MatChipInputEvent) {
+  onAdd(event: MatChipInputEvent) {
     const value = event.value;
     const input = event.input;
     const { maxItems } = this.data;
@@ -68,7 +68,7 @@ export class TagsInputComponent implements OnInit {
     }
   }
 
-  onRemove(tag?: string) {
+  onRemove(tag: string) {
     let index = this.tags.indexOf(tag);
     if (index >= 0) {
       this.tags.splice(index, 1);

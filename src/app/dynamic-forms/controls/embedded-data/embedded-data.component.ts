@@ -1,5 +1,5 @@
 import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 
 import { BaseControl } from '../../models';
 import { ControlsService } from '../../services';
@@ -34,7 +34,7 @@ export class EmbeddedDataComponent implements OnInit {
     this.ownGroup = this.cs.toFormGroup(this.embeddedChildren);
   }
 
-  handleChange({ data }) {
+  handleChange({ data }: any) {
     this.draft = {
       ...this.draft,
       ...data,

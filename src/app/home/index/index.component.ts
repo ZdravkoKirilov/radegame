@@ -8,26 +8,26 @@ import { AutoUnsubscribe } from '@app/shared';
 import { User } from '@app/core';
 
 @Component({
-    selector: 'rg-index',
-    templateUrl: './index.component.html',
-    styleUrls: ['./index.component.scss']
+  selector: 'rg-index',
+  templateUrl: './index.component.html',
+  styleUrls: ['./index.component.scss']
 })
 @AutoUnsubscribe()
 export class IndexComponent implements OnInit {
 
-    user$: Subscription;
-    user: User;
+  user$: Subscription;
+  user?: User;
 
-    constructor(private store: Store<AppState>) {
-    }
+  constructor(private store: Store<AppState>) {
+  }
 
-    ngOnInit() {
-        this.user$ = this.store.pipe(
-            select(selectUser),
-            map(user => {
-                this.user = user;
-            })
-        ).subscribe();
-    }
+  ngOnInit() {
+    this.user$ = this.store.pipe(
+      select(selectUser),
+      map(user => {
+        this.user = user;
+      })
+    ).subscribe();
+  }
 
 }

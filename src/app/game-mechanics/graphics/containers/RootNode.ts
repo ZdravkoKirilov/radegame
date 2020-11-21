@@ -16,18 +16,18 @@ type StoreProps = {
 
 type Props = RootNodeProps & StoreProps;
 
-const rootNode: RenderFunction<Props> = ({ runtimeNode, fromParent }) => {
+const rootNode: RenderFunction<Props> = (props: any) => {
   return (
     createElement<NodeFactoryProps>(
-      NodeFactory,
-      { data: runtimeNode, fromParent }
+      NodeFactory as any,
+      { data: props.runtimeNode, fromParent: props.fromParent }
     )
-  )
+  ) as any
 };
 
 const mapStateToProps = (state: CommonGameStore, ownProps: RootNodeProps): StoreProps => ({
   runtimeNode: selectRuntimeNode(ownProps.node)(state)
 });
 
-export const RootNode = connectToStore(mapStateToProps)(rootNode);
+export const RootNode = connectToStore(mapStateToProps)(rootNode as any);
 export default RootNode;

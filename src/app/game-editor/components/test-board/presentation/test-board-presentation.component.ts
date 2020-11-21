@@ -1,6 +1,7 @@
 import { Component, Input, ElementRef, ViewChild } from '@angular/core';
 import { Store } from '@ngrx/store';
 import isFunction from 'lodash/isFunction';
+import { set } from 'lodash';
 
 import { MountRef, updateWithNewProps } from '@app/render-kit';
 import { OnChange, WindowRefService, Dictionary } from '@app/shared';
@@ -77,7 +78,7 @@ export class TestBoardPresentationComponent {
       assets: new Set(Object.values(ctx.assets || {})),
       registerComponents,
     });
-    window['pixiroot'] = ctx.mountRef.component;
+    set(window, 'pixiroot', ctx.mountRef.component);
   })
   @Input() rerunId: number;
 

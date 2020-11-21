@@ -3,7 +3,7 @@ import { RenderFunction, createElement } from "@app/render-kit";
 
 export type EditorSandboxRootProps = GraphicRootRendererProps & StoreProviderProps;
 
-export const EditorSandboxRoot: RenderFunction<EditorSandboxRootProps> = ({ store, selectCommonGameStore, ...rest }) => {
+export const EditorSandboxRoot: RenderFunction<EditorSandboxRootProps> | any = ({ store, selectCommonGameStore, ...rest }: any) => {
 
   return (
     createElement<StoreProviderProps>(
@@ -12,7 +12,7 @@ export const EditorSandboxRoot: RenderFunction<EditorSandboxRootProps> = ({ stor
       createElement<GraphicRootRendererProps>(
         GraphicRootRenderer,
         { ...rest }
-      )
+      ) as any
     )
   )
 };

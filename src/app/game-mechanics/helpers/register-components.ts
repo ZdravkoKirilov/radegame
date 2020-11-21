@@ -16,5 +16,5 @@ export const registerComponents = (engine: AbstractRenderEngine) => {
 
     BasicText: BasicTextNode,
     BasicShape: BasicShapeNode,
-  });
+  } as any);
 };

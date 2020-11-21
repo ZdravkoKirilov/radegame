@@ -4,12 +4,14 @@ import { Observable, of } from 'rxjs';
 import { map, catchError, switchMap, withLatestFrom, tap } from 'rxjs/operators';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Store } from '@ngrx/store';
+import { get } from 'lodash';
 
 import { AppState, GameEditService, GameFetchService } from '@app/core';
-import { Token, Widget, Text, Animation, Sonata, Shape, WidgetNode } from '@app/game-mechanics';
+import { Token, Widget, Text, Animation, Sonata, Shape, WidgetNode, WidgetId, TokenId, TextId, SonataId, ShapeId, AnimationId, Game } from '@app/game-mechanics';
+import { Dictionary } from '@app/shared';
 
-import { DeleteItem, EditorGenericMutators, FetchModularItems, FetchVersionedItems, genericActionTypes, RemoveItem, SaveItem, SetItem, SetItems } from '../actions';
-import { getIndexedNodes, selectForm } from '../selectors';
+import { DeleteItem, EditorGenericMutators, FetchModularItems, FetchVersionedItems, genericActionTypes, RemoveItem, SaveItem, SetGameAction, SetItem, SetItems } from '../actions';
+import { getIndexedNodes, selectForm, selectGame } from '../selectors';
 import { STORE_KEYS } from '../../utils';
 
 
@@ -24,10 +26,10 @@ export class GenericEffectsService {
     private store: Store<AppState>
   ) { }
 
-  @Effect() saveItem: Observable<EditorGenericMutators> = this.actions$.pipe(
+  @Effect() saveItem = this.actions$.pipe(
     ofType<SaveItem>(genericActionTypes.SAVE_ITEM),
-    withLatestFrom(this.store.select(selectForm), this.store.select(getIndexedNodes)),
-    switchMap(([action, entities, indexedNodes]) => {
+    withLatestFrom(this.store.select(selectForm), this.store.select(getIndexedNodes), this.store.select(selectGame)),
+    switchMap(([action, entities, indexedNodes, game]) => {
       const item = action.payload.item;
 
       switch (item.__tag) {
@@ -36,7 +38,7 @@ export class GenericEffectsService {
         )
         case 'WidgetNode': return this.api.saveNode(item).pipe(
           map(node => {
-            const parentWidget = entities.widgets.byId[node.owner];
+            const parentWidget = get<Dictionary<Widget>, WidgetId>(entities.widgets.byId, node.owner);
             const updatedWidget = Widget.saveNode(parentWidget, node);
             return new SetItem({ item: updatedWidget, storeKey: STORE_KEYS.widgets });
           })
@@ -55,7 +57,7 @@ export class GenericEffectsService {
           map(token => new SetItem({ item: token, storeKey: STORE_KEYS.tokens }))
         )
         case 'TokenNode': {
-          const parentToken = entities.tokens.byId[item.owner];
+          const parentToken = get<Dictionary<Token>, TokenId>(entities.tokens.byId, item.owner);
           const updatedToken = Token.saveNode(parentToken, item);
           return this.api.saveToken(updatedToken).pipe(
             map(token => new SetItem({ item: token, storeKey: STORE_KEYS.tokens }))
@@ -65,7 +67,7 @@ export class GenericEffectsService {
           map(text => new SetItem({ item: text, storeKey: STORE_KEYS.texts }))
         )
         case 'Translation': {
-          const parentText = entities.texts.byId[item.owner];
+          const parentText = get<Dictionary<Text>, TextId>(entities.texts.byId, item.owner);
           const updatedText = Text.saveTranslation(parentText, item);
           return this.api.saveText(updatedText).pipe(
             map(text => new SetItem({ item: text, storeKey: STORE_KEYS.texts }))
@@ -84,7 +86,7 @@ export class GenericEffectsService {
           map(sonata => new SetItem({ item: sonata, storeKey: STORE_KEYS.sonatas }))
         )
         case 'SonataStep': {
-          const parentSonata = entities.sonatas.byId[item.owner];
+          const parentSonata = get<Dictionary<Sonata>, SonataId>(entities.sonatas.byId, item.owner);
           const updatedSonata = Sonata.saveStep(parentSonata, item);
           return this.api.saveSonata(updatedSonata).pipe(
             map(sonata => new SetItem({ item: sonata, storeKey: STORE_KEYS.sonatas }))
@@ -94,7 +96,7 @@ export class GenericEffectsService {
           map(shape => new SetItem({ item: shape, storeKey: STORE_KEYS.shapes }))
         )
         case 'ShapePoint': {
-          const parentShape = entities.shapes.byId[item.owner];
+          const parentShape = get<Dictionary<Shape>, ShapeId>(entities.shapes.byId, item.owner);
           const updatedShape = Shape.savePoint(parentShape, item);
           return this.api.saveShape(updatedShape).pipe(
             map(shape => new SetItem({ item: shape, storeKey: STORE_KEYS.shapes }))
@@ -107,7 +109,7 @@ export class GenericEffectsService {
           map(animation => new SetItem({ item: animation, storeKey: STORE_KEYS.animations }))
         )
         case 'AnimationStep': {
-          const parentAnimation = entities.animations.byId[item.owner];
+          const parentAnimation = get<Dictionary<Animation>, AnimationId>(entities.animations.byId, item.owner);
           const updatedAnimation = Animation.saveStep(parentAnimation, item);
           return this.api.saveAnimation(updatedAnimation).pipe(
             map(animation => new SetItem({ item: animation, storeKey: STORE_KEYS.animations }))
@@ -122,21 +124,27 @@ export class GenericEffectsService {
         case 'Sandbox': return this.api.saveSandbox(item).pipe(
           map(sandbox => new SetItem({ item: sandbox, storeKey: STORE_KEYS.sandboxes }))
         )
+        case 'GameLanguage':
+          const updatedGame = Game.saveLanguage(game!, item);
+          return this.api.saveGame(updatedGame).pipe(
+            map(result => new SetGameAction({ game: result }))
+          )
       }
     }),
     tap(action => {
-      this.snackbar.open(`${action.payload.item.__tag} was saved`, 'Success', { duration: 3000});
+      const identifier = 'item' in action.payload ? action.payload.item.__tag : 'GameLanguage';
+      this.snackbar.open(`${identifier} was saved`, 'Success', { duration: 3000 });
     }),
-    catchError(err => {
-      this.snackbar.open(`Item was not saved`, 'Error', { duration: 3000});
+    catchError(() => {
+      this.snackbar.open(`Item was not saved`, 'Error', { duration: 3000 });
       return [];
     })
   )
 
-  @Effect() deleteItem: Observable<EditorGenericMutators> = this.actions$.pipe(
+  @Effect() deleteItem = this.actions$.pipe(
     ofType<DeleteItem>(genericActionTypes.DELETE_ITEM),
-    withLatestFrom(this.store.select(selectForm), this.store.select(getIndexedNodes)),
-    switchMap(([action, entities, indexedNodes]) => {
+    withLatestFrom(this.store.select(selectForm), this.store.select(getIndexedNodes), this.store.select(selectGame)),
+    switchMap(([action, entities, indexedNodes, game]) => {
       const item = action.payload.item;
 
       switch (item.__tag) {
@@ -145,7 +153,7 @@ export class GenericEffectsService {
         )
         case 'WidgetNode': return this.api.deleteNode(item).pipe(
           map(() => {
-            const parentWidget = entities.widgets.byId[item.owner];
+            const parentWidget = get<Dictionary<Widget>, WidgetId>(entities.widgets.byId, item.owner);
             const updatedWidget = Widget.removeNode(parentWidget, item);
             return new SetItem({ item: updatedWidget, storeKey: STORE_KEYS.widgets });
           })
@@ -164,7 +172,7 @@ export class GenericEffectsService {
           map(() => new RemoveItem({ item, storeKey: STORE_KEYS.tokens }))
         )
         case 'TokenNode': {
-          const parentToken = entities.tokens.byId[item.owner];
+          const parentToken = get<Dictionary<Token>, TokenId>(entities.tokens.byId, item.owner);
           const updatedToken = Token.removeNode(parentToken, item);
           return this.api.saveToken(updatedToken).pipe(
             map(token => new SetItem({ item: token, storeKey: STORE_KEYS.tokens }))
@@ -174,7 +182,7 @@ export class GenericEffectsService {
           map(() => new RemoveItem({ item, storeKey: STORE_KEYS.texts }))
         )
         case 'Translation': {
-          const parentText = entities.texts.byId[item.owner];
+          const parentText = get<Dictionary<Text>, TextId>(entities.texts.byId, item.owner);
           const updatedText = Text.removeTranslation(parentText, item);
           return this.api.saveText(updatedText).pipe(
             map(text => new SetItem({ item: text, storeKey: STORE_KEYS.texts }))
@@ -193,7 +201,7 @@ export class GenericEffectsService {
           map(() => new RemoveItem({ item, storeKey: STORE_KEYS.sonatas }))
         )
         case 'SonataStep': {
-          const parentSonata = entities.sonatas.byId[item.owner];
+          const parentSonata = get<Dictionary<Sonata>, SonataId>(entities.sonatas.byId, item.owner);
           const updatedSonata = Sonata.removeStep(parentSonata, item);
           return this.api.saveSonata(updatedSonata).pipe(
             map(sonata => new SetItem({ item: sonata, storeKey: STORE_KEYS.sonatas }))
@@ -203,7 +211,7 @@ export class GenericEffectsService {
           map(() => new RemoveItem({ item, storeKey: STORE_KEYS.shapes }))
         )
         case 'ShapePoint': {
-          const parentShape = entities.shapes.byId[item.owner];
+          const parentShape = get<Dictionary<Shape>, ShapeId>(entities.shapes.byId, item.owner);
           const updatedShape = Shape.removePoint(parentShape, item);
           return this.api.saveShape(updatedShape).pipe(
             map(shape => new SetItem({ item: shape, storeKey: STORE_KEYS.shapes }))
@@ -216,7 +224,7 @@ export class GenericEffectsService {
           map(() => new RemoveItem({ item, storeKey: STORE_KEYS.animations }))
         )
         case 'AnimationStep': {
-          const parentAnimation = entities.animations.byId[item.owner];
+          const parentAnimation = get<Dictionary<Animation>, AnimationId>(entities.animations.byId, item.owner);
           const updatedAnimation = Animation.removeStep(parentAnimation, item);
           return this.api.saveAnimation(updatedAnimation).pipe(
             map(animation => new SetItem({ item: animation, storeKey: STORE_KEYS.animations }))
@@ -231,13 +239,19 @@ export class GenericEffectsService {
         case 'Sandbox': return this.api.deleteSandbox(item).pipe(
           map(() => new RemoveItem({ item, storeKey: STORE_KEYS.sandboxes }))
         )
+        case 'GameLanguage':
+          const updatedGame = Game.removeLanguage(game!, item);
+          return this.api.saveGame(updatedGame).pipe(
+            map(result => new SetGameAction({ game: result }))
+          )
       }
     }),
     tap(action => {
-      this.snackbar.open(`${action.payload.item.__tag} was deleted`, 'Success', { duration: 3000});
+      const msg = `${'item' in action.payload ? action.payload.item.__tag : 'GameLanguage'} was deleted`;
+      this.snackbar.open(msg, 'Success', { duration: 3000 });
     }),
-    catchError(err => {
-      this.snackbar.open(`Item was not deleted`, 'Error', { duration: 3000});
+    catchError(() => {
+      this.snackbar.open(`Item was not deleted`, 'Error', { duration: 3000 });
       return [];
     })
   )
@@ -257,17 +271,17 @@ export class GenericEffectsService {
       }
     }),
     tap(action => {
-      this.snackbar.open(`${action.payload.storeKey} data fetched`, 'Success', { duration: 3000});
+      this.snackbar.open(`${action.payload.storeKey} data fetched`, 'Success', { duration: 3000 });
     }),
-    catchError(err => {
-      this.snackbar.open("Couldn't fetch items", 'Error', { duration: 3000});
+    catchError(() => {
+      this.snackbar.open("Couldn't fetch items", 'Error', { duration: 3000 });
       return [];
     })
   )
 
-  @Effect() fetchModularItems: Observable<EditorGenericMutators> = this.actions$.pipe(
+  @Effect() fetchModularItems = this.actions$.pipe(
     ofType<FetchModularItems>(genericActionTypes.FETCH_MODULAR_ITEMS),
-    switchMap((action) => {
+    switchMap(action => {
       const { entityType, moduleId } = action.payload;
 
       switch (entityType) {
@@ -289,13 +303,15 @@ export class GenericEffectsService {
         case 'Expression': return this.fetcher.getExpressions(moduleId).pipe(
           map(expressions => new SetItems({ storeKey: STORE_KEYS.expressions, items: expressions }))
         )
+        default:
+          throw new Error('Unrecognized input provided to fetchModularItems: ' + JSON.stringify(action))
       }
     }),
     tap(action => {
-      this.snackbar.open(`${action.payload.storeKey} data fetched`, 'Success', { duration: 3000});
+      this.snackbar.open(`${action.payload.storeKey} data fetched`, 'Success', { duration: 3000 });
     }),
-    catchError(err => {
-      this.snackbar.open(`Couldn't fetch items`, 'Error', { duration: 3000});
+    catchError(() => {
+      this.snackbar.open(`Couldn't fetch items`, 'Error', { duration: 3000 });
       return [];
     })
   )

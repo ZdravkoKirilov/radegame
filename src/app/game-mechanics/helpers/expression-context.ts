@@ -34,7 +34,7 @@ export const createGameState = (payload: CreateStateParams): GameState => {
 
   return {
     setup,
-    module,
+    module: module as any,
   };
 };
 

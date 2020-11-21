@@ -17,7 +17,7 @@ import { AutoUnsubscribe } from '../../mixins';
 export class ProfileMenuComponent implements OnInit {
 
   user$: Subscription;
-  user: User;
+  user?: User;
 
   constructor(private store: Store<AppState>) { }
 

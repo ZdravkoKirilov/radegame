@@ -17,7 +17,6 @@ import {
 import { BoardEditorComponent } from './components/board/board-editor.component';
 import { BoardToolbarComponent } from './components/board/toolbar/board-toolbar.component';
 import { BoardMainComponent } from './components/board/main/board-main.component';
-import { EditorSidebarLayoutComponent, } from './layouts';
 import { EditHeaderComponent } from './components/header/edit-header.component';
 import { ShapeEditorComponent } from './components/shape/shape-editor.component';
 import { ShapePreviewComponent } from './components/shape/preview/shape-preview.component';
@@ -63,7 +62,6 @@ import { SetupsListComponent } from './containers/setups-list/setups-list.compon
     BoardEditorComponent,
     BoardToolbarComponent,
     BoardMainComponent,
-    EditorSidebarLayoutComponent,
     EditHeaderComponent,
     ShapeEditorComponent,
     ShapePreviewComponent,

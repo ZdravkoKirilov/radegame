@@ -31,7 +31,21 @@ export type DtoGame = Omit<Game, '__tag' | 'id' | 'languages' | 'menu'> & {
   languages: DtoGameLanguage[];
 };
 
-export const Game: GameEntityParser<Game, DtoGame, RuntimeGame> = {
+export const Game: GameEntityParser<Game, DtoGame, RuntimeGame> & GameOperations = {
+
+  saveLanguage(game, language) {
+    return {
+      ...game,
+      languages: game.languages.map(elem => elem.id === language.id ? language : elem),
+    };
+  },
+
+  removeLanguage(game, language) {
+    return {
+      ...game,
+      languages: game.languages.filter(elem => elem.id !== language.id)
+    };
+  },
 
   fromUnknown: {
 
@@ -74,6 +88,11 @@ export const Game: GameEntityParser<Game, DtoGame, RuntimeGame> = {
     }
   }
 
+}
+
+type GameOperations = {
+  saveLanguage: (game: Game, language: GameLanguage) => Game;
+  removeLanguage: (game: Game, language: GameLanguage) => Game;
 }
 
 export type RuntimeGame = Omit<Game, 'menu'> & {

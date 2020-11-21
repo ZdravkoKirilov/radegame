@@ -1,9 +1,9 @@
 import { createSelector } from '@ngrx/store';
-import { values } from 'lodash';
+import { values, set } from 'lodash';
 
-import { ConnectedEntities, FormDefinition } from '@app/dynamic-forms';
+import { FormDefinition } from '@app/dynamic-forms';
 import {
-  Widget, toModuleId, WidgetNodeId, WidgetNode,
+  toModuleId, WidgetNode,
   ModularEntity, VersionedEntity, NestedEntity, GameEntityParser, EntityWithChildren, AnimationStep, AnimationStepId, SonataStep, SonataStepId, TokenNode, TokenNodeId, Translation, TranslationId, NodeHandlerId, NodeHandler, NodeLifecycleId, NodeLifecycle, GameLanguageId, GameLanguage, ShapePoint, ShapePointId, Animation, Sonata, Token, Text, Shape, Module
 } from '@app/game-mechanics';
 import { ROUTER_PARAMS, selectRouterFeature, selectRouteData } from '@app/shared';
@@ -52,12 +52,12 @@ export const getItems = <T extends StoreEntity>(key: StoreKey) => createSelector
 
 export const getIndexedNodes = createSelector(
   getItems('widgets'),
-  widgets => widgets.reduce((allNodes, currentWidget: Widget) => {
-    currentWidget.nodes.forEach(node => {
+  widgets => widgets.reduce((allNodes: any, currentWidget: any) => {
+    currentWidget.nodes.forEach((node: any) => {
       allNodes[node.id] = node;
     });
     return allNodes;
-  }, {} as Record<WidgetNodeId, WidgetNode>
+  }, {} as any
   )
 );
 
@@ -68,44 +68,44 @@ const selectNestedEntities = createSelector(
   (form, game, nodes) => {
 
     const animationSteps = Object.values<Animation>(form.animations.byId).reduce((total, item) => {
-      item.steps.forEach(step => total[step.id] = step);
+      item.steps.forEach(step => set(total, step.id, step));
       return total;
     }, {} as Record<AnimationStepId, AnimationStep>);
 
     const sonataSteps = Object.values<Sonata>(form.sonatas.byId).reduce((total, item) => {
-      item.steps.forEach(step => total[step.id] = step);
+      item.steps.forEach(step => set(total, step.id, step));
       return total;
     }, {} as Record<SonataStepId, SonataStep>);
 
     const tokenNodes = Object.values<Token>(form.tokens.byId).reduce((total, item) => {
-      item.nodes.forEach(node => total[node.id] = node);
+      item.nodes.forEach(node => set(total, node.id, node));
       return total;
     }, {} as Record<TokenNodeId, TokenNode>);
 
     const translations = Object.values<Text>(form.texts.byId).reduce((total, item) => {
-      item.translations.forEach(translation => total[translation.id] = translation);
+      item.translations.forEach(translation => set(total, translation.id, translation));
       return total;
     }, {} as Record<TranslationId, Translation>);
 
     const points = Object.values<Shape>(form.shapes.byId).reduce((total, item) => {
-      item.points.forEach(point => total[point.id] = point);
+      item.points.forEach(point => set(total, point.id, point));
       return total;
     }, {} as Record<ShapePointId, ShapePoint>);
 
     const handlers = Object.values<WidgetNode>(nodes).reduce((total, item) => {
-      item.handlers.forEach(handler => total[handler.id] = handler);
+      item.handlers.forEach(handler => set(total, handler.id, handler));
       return total;
     }, {} as Record<NodeHandlerId, NodeHandler>);
 
     const lifecycles = Object.values<WidgetNode>(nodes).reduce((total, item) => {
-      item.lifecycles.forEach(lifecycle => total[lifecycle.id] = lifecycle);
+      item.lifecycles.forEach(lifecycle => set(total, lifecycle.id, lifecycle));
       return total;
     }, {} as Record<NodeLifecycleId, NodeLifecycle>);
 
-    const languages = game.languages.reduce((total, item) => {
-      total[item.id] = item;
+    const languages = game ? game.languages.reduce((total, item) => {
+      set(total, item.id, item);
       return total;
-    }, {} as Record<GameLanguageId, GameLanguage>);
+    }, {} as Record<GameLanguageId, GameLanguage>) : [];
 
     return {
       [DERIVED_STORE_KEYS["widget-nodes"]]: { byId: nodes },
@@ -125,15 +125,15 @@ const selectNestedEntities = createSelector(
 export const getEntityForm = createSelector(
   selectRouteData<EditorRoutesData>(),
   data => {
-    return data?.form;
+    return data.form;
   }
 );
 
 export const getEntities = createSelector(
   selectForm,
   selectGame,
-  (form, game) => {
-    let result: ConnectedEntities = {};
+  (form: any, game) => {
+    let result = {} as any;
     for (let key in form) {
       const slice: EntityFeature = form[key];
       result[key] = values(slice.byId);
@@ -146,7 +146,7 @@ export const getEntities = createSelector(
 export const getModularEntityParser = createSelector(
   selectRouteData<EditorRoutesData>(),
   data => {
-    return data?.modularEntity;
+    return data.modularEntity;
   }
 );
 
@@ -187,7 +187,7 @@ export const selectParentEntityId = createSelector(
 export const selectModule = createSelector(
   selectVersionedEntityId,
   selectForm,
-  (moduleId, form,) => form.modules.byId[moduleId] as Module
+  (moduleId, form: any,) => form.modules.byId[moduleId] as Module
 );
 
 const selectStoreSlice = createSelector(
@@ -199,7 +199,7 @@ export const selectModularEntity = createSelector(
   selectModularEntityId,
   selectStoreSlice,
   selectForm,
-  (id, slice, form) => {
+  (id, slice: any, form: any) => {
     const storeSlice = form[slice];
     return storeSlice.byId[id] as ModularEntity // TODO: something is wrong :(
   }
@@ -209,7 +209,7 @@ export const selectVersionedEntity = createSelector(
   selectVersionedEntityId,
   selectStoreSlice,
   selectForm,
-  (id, slice, form) => {
+  (id, slice: any, form: any) => {
     const storeSlice = form[slice];
     return storeSlice.byId[id] as VersionedEntity // TODO: something is wrong :(
   }
@@ -219,7 +219,7 @@ export const selectNestedEntity = createSelector(
   selectNestedEntityId,
   selectStoreSlice,
   selectNestedEntities,
-  (id, slice, form) => {
+  (id, slice: any, form: any) => {
     const storeSlice = form[slice];
     return storeSlice.byId[id] as NestedEntity;
   }

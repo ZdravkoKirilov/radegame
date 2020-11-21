@@ -1,5 +1,5 @@
 import { Style, Widget } from "../../entities";
-import { RenderFunction, createElement, SpriteProps, DynamicSprite, RzElement } from "@app/render-kit";
+import { createElement, SpriteProps, DynamicSprite, RzElement } from "@app/render-kit";
 import { combineStyles } from "../../helpers";
 
 export type FrameRendererProps = {
@@ -8,14 +8,14 @@ export type FrameRendererProps = {
   style: Style;
 };
 
-export const FrameRenderer: RenderFunction<FrameRendererProps> = ({ frame, renderWidget, style }) => {
+export const FrameRenderer = ({ frame, renderWidget, style }: any) => {
   const composedStyle = combineStyles(style, frame);
   if (frame.widget) {
     return renderWidget(frame.widget, style);
   }
 
   if (frame.image) {
-    return createElement<SpriteProps>(DynamicSprite, {
+    return createElement<SpriteProps>(DynamicSprite as any, {
       image: frame.image.image, styles: {
         width: composedStyle.width,
         height: composedStyle.height,

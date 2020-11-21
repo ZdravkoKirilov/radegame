@@ -1,9 +1,9 @@
 import { toDictionary } from "@app/shared";
 import { ActionReducer } from "@ngrx/store";
+import { get } from 'lodash';
 
-import { StoreKey } from "../../utils";
 import { gameActionTypes, SetGameData } from "../actions";
-import { EntityForm, StoreEntity } from "./generics";
+import { StoreEntity } from "./generics";
 import { GameEditorFeature } from "./main.reducer";
 
 export function editorMetaReducer(anyReducer: ActionReducer<any>) {
@@ -11,11 +11,11 @@ export function editorMetaReducer(anyReducer: ActionReducer<any>) {
 
     switch (action.type) {
       case gameActionTypes.SET_GAME_DATA:
-        const updatedForm = Object.keys(action.payload.data).reduce((acc, key: StoreKey) => {
-          const entities: StoreEntity[] = action.payload.data[key];
+        const updatedForm: any = Object.keys(action.payload.data).reduce((acc, key) => {
+          const entities: StoreEntity[] = get(action.payload.data, key);
           acc[key] = { byId: toDictionary(entities) };
           return acc;
-        }, {} as EntityForm);
+        }, {} as any);
 
         return {
           ...state,
@@ -23,7 +23,7 @@ export function editorMetaReducer(anyReducer: ActionReducer<any>) {
             ...state.form,
             ...updatedForm
           }
-        };
+        } as any;
       default:
         return anyReducer(state, action);
     }

@@ -157,14 +157,14 @@ export class AnimationPlayer {
       };
       timeline.fromTo(target, start as any, toVars);
 
-      timeline.eventCallback('onUpdate', (...args) => {
+      timeline.eventCallback('onUpdate', () => {
         if (transform_result) {
-          const copy = { ...target };
-          delete copy['_gsap'];
+          const copy = { ...target } as any;
+          delete copy['_gsap'] as any;
           onUpdate(transform_result(copy));
         } else {
-          const copy = { ...target };
-          delete copy['_gsap'];
+          const copy = { ...target } as any;
+          delete copy['_gsap'] as any;
           onUpdate(copy);
         }
       });
@@ -198,11 +198,11 @@ export class AnimationPlayer {
 
     tween.eventCallback('onUpdate', () => {
       if (transform_result) {
-        const copy = { ...target };
+        const copy = { ...target } as any;
         delete copy['_gsap'];
         onUpdate(transform_result(copy));
       } else {
-        const copy = { ...target };
+        const copy = { ...target } as any;
         delete copy['_gsap'];
         onUpdate(copy);
       }

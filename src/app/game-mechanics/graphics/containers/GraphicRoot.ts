@@ -1,6 +1,6 @@
-import { Memo, createElement, RzElement } from "@app/render-kit";
+import { createElement, RzElement } from "@app/render-kit";
 
-import { CommonGameStore, selectRuntimeGame, selectExpressionContext, selectModuleFromGameSync } from "../../helpers";
+import { CommonGameStore, selectRuntimeGame, selectExpressionContext } from "../../helpers";
 import { Module, Widget, WidgetNode, RuntimeWidgetNode, RuntimeGame, Game } from "../../entities";
 import {  ExpressionContext } from "../../models";
 import { connectToStore } from "../../hocs";
@@ -24,10 +24,8 @@ export type GraphicRootRendererProps = Partial<{
   renderWidgetChild?: (node: RuntimeWidgetNode) => RzElement;
 }>
 
-type Props = StoreProps & GraphicRootRendererProps;
-
-const graphicRootRenderer = Memo<Props>(props => {
-  const { module, widget, node, fromParent, runtimeGame, renderWidgetChild, context } = props;
+const graphicRootRenderer = (props: any) => {
+  const { module, widget, node, fromParent, runtimeGame, renderWidgetChild } = props;
 
   if (widget) {
     return createElement<RootWidgetProps>(
@@ -48,7 +46,7 @@ const graphicRootRenderer = Memo<Props>(props => {
 
   let currentModule = module;
   if (!currentModule && runtimeGame) { // ignore dynamic module calculation if it is passed statically already
-    currentModule = selectModuleFromGameSync(runtimeGame, context);
+    currentModule = {} as any //selectModuleFromGameSync(runtimeGame, context);
   }
 
   if (currentModule) {
@@ -57,11 +55,11 @@ const graphicRootRenderer = Memo<Props>(props => {
 
   console.error(props);
   throw new Error('Misconfigured GraphicRoot. It requires either a top level Widget or Module, but none was found.');
-});
+};
 
 const mapStateToProps = (state: CommonGameStore, ownProps: GraphicRootRendererProps): StoreProps => ({
-  runtimeGame: selectRuntimeGame(ownProps.game)(state),
+  runtimeGame: selectRuntimeGame(ownProps.game as any)(state),
   context: selectExpressionContext(state),
 });
 
-export const GraphicRootRenderer = connectToStore(mapStateToProps)(graphicRootRenderer);
+export const GraphicRootRenderer = connectToStore(mapStateToProps)(graphicRootRenderer as any);

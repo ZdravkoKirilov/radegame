@@ -1,4 +1,6 @@
-import { Option, ConnectedEntities, ToggleContext } from '@app/dynamic-forms';
+import { get } from 'lodash';
+
+import { Option, ConnectedEntities } from '@app/dynamic-forms';
 import { Dictionary, toDictionary } from '@app/shared';
 import { ImageAsset, GameEntity } from '@app/game-mechanics';
 
@@ -12,12 +14,12 @@ export function composeEntityOptions<T = GameEntity>(
   withEmptyOption = true,
 ): Option[] {
   items = items || [];
-  const result: Option[] = items.map(elem => {
-    let image;
+  const result: Option[] = items.map((elem: any) => {
+    let image: any;
     if (key === 'images') {
       image = elem[imageProp[0]] || elem[imageProp[1]];
     } else {
-      const img = images[elem['image']];
+      const img = images[elem['image']] as any;
       if (img) {
         image = img[imageProp[0]] || img[imageProp[1]];
       }
@@ -49,17 +51,8 @@ export function composeBooleanOptions(positive = 'Yes', negative = 'No'): Option
 }
 
 export function composeFromObject(obj: object, useKeyOnly = false): Option[] {
-  return Object.keys(obj).map(key => ({ value: key, label: useKeyOnly ? key : obj[key] }));
+  return Object.keys(obj).map(key => ({ value: key, label: useKeyOnly ? key : get(obj, key) }));
 };
-
-export function combineContexts(base: ToggleContext, contexts: ToggleContext[] = []): ToggleContext {
-  const newContext = { ...base, show: { ...base.show } };
-
-  contexts.forEach(ctx => {
-    newContext.show.equals = [...newContext.show.equals, ...ctx.show.equals];
-  });
-  return newContext;
-}
 
 export const baseTemplate = `
     <TextInput name='name' required='{true}' label='Name'>{data.name}</TextInput>
@@ -89,8 +82,8 @@ export const composeInlineStyleFormContext = (ent: ConnectedEntities) => {
   return { composeStyleForm: composeStyleForm(true), entities: ent };
 }
 
-export const composeCommonFormContext = (ent: ConnectedEntities) => {
-  ent = ent || {};
+export const composeCommonFormContext = (ent: any) => {
+  ent = ent || {} as any;
   const images = toDictionary<ImageAsset>(ent.images);
 
   return {

@@ -17,8 +17,8 @@ export class AuthEffectsService {
 
     @Effect()
     emailRegister: Observable<any> = this.actions$.pipe(
-        ofType(actionTypes.EMAIL_REGISTER),
-        mergeMap((action: EmailRegisterAction) => {
+        ofType<EmailRegisterAction>(actionTypes.EMAIL_REGISTER),
+        mergeMap(action => {
             return this.api.registerWithEmail(action.payload).pipe(
                 mergeMap((res: AuthResponse) => {
                     return [new EmailRegisterSuccessAction(res)];
@@ -32,8 +32,8 @@ export class AuthEffectsService {
 
     @Effect()
     emailLogin: Observable<any> = this.actions$.pipe(
-        ofType(actionTypes.EMAIL_LOGIN),
-        mergeMap((action: EmailLoginAction) => {
+        ofType<EmailLoginAction>(actionTypes.EMAIL_LOGIN),
+        mergeMap(action => {
             return this.api.loginWithEmail(action.payload).pipe(
                 mergeMap((res: AuthResponse) => {
                     return [new EmailLoginSuccessAction(res), new SaveAuthTokenAction(res.token)];

@@ -20,7 +20,7 @@ export const createArenaExpressionContext = (params: CreateExpressionParams): Ex
     helpers: null,
     saveToProfile: null,
 
-  } as ExpressionContext;
+  } as any;
 
   context.helpers = composeHelpers(helpers, context);
 

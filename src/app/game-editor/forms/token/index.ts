@@ -3,7 +3,7 @@ import { Token, TokenNode } from "@app/game-mechanics";
 
 import { baseTemplate, composeCommonFormContext, composeInlineStyleFormContext, styleTemplate } from "../helpers";
 
-export const composeTokenForm: FormDefinition<Token> = (data, ent) => {
+export const composeTokenForm: FormDefinition<Token> = (data) => {
 
   const template = `
     <Form>

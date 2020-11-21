@@ -7,7 +7,7 @@ export const createElement = <T>(
 ): RzElement | null => {
     children = children || [];
     props = props || {} as T;
-    let computedChildren = [];
+    let computedChildren = [] as any;
 
     if (type === null) {
         return null;
@@ -23,5 +23,5 @@ export const createElement = <T>(
 
     props['children'] = computedChildren;
 
-    return { type, props, children: computedChildren };
+    return { type, props, children: computedChildren } as any;
 };

@@ -42,7 +42,7 @@ export class ShapePreviewComponent implements OnInit {
   async mountWidget() {
     const domHost = this.canvasWrapper.nativeElement;
     const pixiEngine = await import('@app/engines/pixi');
-    this.mount = await pixiEngine.mountPixi(RootComponent, domHost, {
+    this.mount = await pixiEngine.mountPixi(RootComponent as any, domHost, {
       width: 500,
       height: 500,
       props: {

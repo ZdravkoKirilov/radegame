@@ -1,4 +1,4 @@
-import { Memo, createElement,  RzElementPrimitiveProps, RzPoint, RzNode, GenericEventHandler} from "../../internal";
+/* import { Memo, createElement,  RzElementPrimitiveProps, RzPoint, RzNode, GenericEventHandler} from "../../internal";
 
 export type RzDraggableProps = {
     onDragEnd?: (position: RzPoint) => void;
@@ -7,7 +7,7 @@ export type RzDraggableProps = {
     render: (points: RzPoint) => RzNode;
 };
 
-export const RzDraggable = Memo<RzDraggableProps>(({ startPosition, onDragEnd, onDragMove, render, children }, { useRef, useState }) => {
+export const RzDraggable = Memo<RzDraggableProps>() => {
     const dragStartPosition = useRef<RzPoint>();
     const dragStartPositionStatic = useRef<RzPoint>();
     const activeDragPosition = useRef<RzPoint>();
@@ -69,4 +69,4 @@ const dragWasReal = (initial: RzPoint, result: RzPoint) => {
     const validDragX = Math.abs(initial.x - result.x) > 0;
     const validDragY = Math.abs(initial.y - result.y) > 0;
     return validDragX && validDragY;
-};
+}; */

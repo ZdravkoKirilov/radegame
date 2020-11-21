@@ -5,6 +5,7 @@ import { tap, map, filter } from 'rxjs/operators';
 import { FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Actions, ofType } from '@ngrx/effects';
+import { get } from 'lodash';
 
 import { AppState } from '@app/core';
 import { GameId, VersionId, ModularEntity, GameEntityParser, ModuleId } from '@app/game-mechanics';
@@ -29,7 +30,7 @@ export class ModularEntityEditorComponent implements OnInit {
   entity$: Observable<ModularEntity>;
   entityParser: Pick<GameEntityParser<ModularEntity, unknown, unknown>, 'fromUnknown'>;
 
-  formDefinition$: Observable<FormDefinition<ModularEntity>>;
+  formDefinition$: Observable<FormDefinition<ModularEntity> | undefined>;
   connectedEntities$: Observable<ConnectedEntities>;
 
   onEntityCreated$: Subscription;
@@ -58,7 +59,7 @@ export class ModularEntityEditorComponent implements OnInit {
       map(([gameId, versionId, entityParser, moduleId, module]) => {
         this.gameId = gameId;
         this.versionId = versionId;
-        this.entityParser = entityParser;
+        this.entityParser = entityParser!;
         this.moduleId = moduleId as ModuleId;
 
         if (gameId && versionId && module) {
@@ -87,7 +88,7 @@ export class ModularEntityEditorComponent implements OnInit {
     this.onEntityDeleted$ = this.actions$.pipe(
       ofType<RemoveItem>(genericActionTypes.REMOVE_ITEM),
       map(action => {
-        if (Number(action.payload.item.id) == this.draft['id']) {
+        if (Number(action.payload.item.id) == get(this.draft, 'id')) {
           this.router.navigate(['../', '../', 'dashboard'], { relativeTo: this.route })
         }
       })

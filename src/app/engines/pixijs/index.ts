@@ -52,7 +52,7 @@ export async function mountPixi<T>(
     const PixiEngine = createPixiEngine(app, DOMHost.ownerDocument);
     config.registerComponents && config.registerComponents(PixiEngine);
     const render = createRenderer(PixiEngine, config.assets || new Set());
-    const renderedComponent = await render(createElement(component, config.props), stage);
+    const renderedComponent = await render(createElement(component, config.props) as any, stage);
     const startRenderLoop = () => {
         renderLoop = requestAnimationFrame(startRenderLoop);
         app.renderer.render(stage);

@@ -10,7 +10,7 @@ export const selectRouterFeature = createFeatureSelector<RouterReducerState<Rout
 
 const selectRouterState = createSelector(
     selectRouterFeature,
-    feature => feature ? feature.state : null,
+    feature => feature.state,
 );
 
 export const selectGameId = createSelector<AppState, any, GameId>(
@@ -36,6 +36,6 @@ export const selectGameInstanceId = createSelector(
 export function selectRouteData<ExtendedRouteData = {}>() {
     return createSelector(
         selectRouterState,
-        state => state?.data as RouterStateUrl['data'] & ExtendedRouteData,
+        state => state.data as RouterStateUrl['data'] & ExtendedRouteData,
     );
 }

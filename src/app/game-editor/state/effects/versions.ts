@@ -21,8 +21,8 @@ export class VersionEffectsService {
     ofType<FetchVersionDetails>(versionActionTypes.FETCH_VERSION_DETAILS),
     switchMap(action => this.fetcher.getVersion(action.payload.gameId, action.payload.versionId).pipe(
       map(version => new SetVersion({ version })),
-      catchError(err => {
-        return of({ type: 'ERRROR' });
+      catchError(() => {
+        return of({ type: 'ERROR' });
       }),
     ))
   )
@@ -32,7 +32,7 @@ export class VersionEffectsService {
     ofType<FetchVersions>(versionActionTypes.FETCH_VERSIONS),
     switchMap(action => this.fetcher.getVersions(action.payload.gameId).pipe(
       map(versions => new SetVersions({ versions })),
-      catchError(err => {
+      catchError(() => {
         return of({ type: 'ERROR' });
       }),
     ))
@@ -46,7 +46,7 @@ export class VersionEffectsService {
         this.snackbar.open('Version was saved', 'Success', { duration: 3000 });
         return new SetVersion({ version });
       }),
-      catchError(err => {
+      catchError(() => {
         this.snackbar.open('Version could not be saved', 'Error', { duration: 3000 });
         return of({ type: 'ERROR' });
       }),
@@ -61,7 +61,7 @@ export class VersionEffectsService {
         this.snackbar.open('Version was deleted', 'Success', { duration: 3000 });
         return new RemoveVersion({ version: action.payload.version });
       }),
-      catchError(err => {
+      catchError(() => {
         this.snackbar.open('Version could not be deleted', 'Error', { duration: 3000 });
         return of({ type: 'ERROR' });
       }),

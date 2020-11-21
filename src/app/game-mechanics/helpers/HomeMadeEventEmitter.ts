@@ -36,8 +36,8 @@ export class HomeMadeEventEmitter {
     }
 
     if (callback && context) {
-      const events = this.listeners.get(context);
-      Object.values(events).forEach(callbacks => {
+      const events = this.listeners.get(context) as any;
+      Object.values(events).forEach((callbacks: any) => {
         callbacks.delete(callback);
       });
       return;

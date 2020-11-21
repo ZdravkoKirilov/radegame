@@ -7,14 +7,13 @@ import {
   PrimitiveEllipse, PRIMS, RzElementType, PrimitiveInput, PrimitiveInputProps
 } from "@app/render-kit";
 import { Dictionary } from '@app/shared';
-import { BasicComponent } from "@app/render-kit";
 
 import { updateText } from "../mutator";
 
 export class PixiFactory implements AbstractFactory {
   constructor(private document: Document) { }
 
-  createComponent(elem: RzElement, meta: MetaProps): BasicComponent {
+  createComponent(elem: RzElement, meta: MetaProps): any {
     switch (elem.type) {
       case PRIMS.container:
         return this.createContainer(elem, meta);
@@ -47,7 +46,7 @@ export class PixiFactory implements AbstractFactory {
     component.container = {
       addChild: (child: HTMLInputElement | HTMLTextAreaElement) => doc.appendChild(child),
       removeChild: (child: HTMLInputElement | HTMLTextAreaElement) => doc.removeChild(child),
-    };
+    } as any;
     return component;
   }
 
@@ -99,7 +98,7 @@ export class PixiFactory implements AbstractFactory {
 
   customResolvers = [];
 
-  addCustomResolver(config: Dictionary<RzElementType>) {
-    this.customResolvers.push(config);
+  addCustomResolver(_config: Dictionary<RzElementType>) {
+    // this.customResolvers.push(config );
   }
 }

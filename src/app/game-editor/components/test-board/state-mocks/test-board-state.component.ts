@@ -30,7 +30,7 @@ export class TestBoardStateComponent {
   controls: BaseControl[];
 
   initializeForm(sandbox: Sandbox) {
-    this.controls = this.formDefinition(sandbox, {});
+    this.controls = this.formDefinition(sandbox, {} as any);
     this.form = this.cs.toFormGroup(this.controls);
 
     this.form.valueChanges.pipe(

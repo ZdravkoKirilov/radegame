@@ -1,4 +1,4 @@
-import { FormDefinition, ConnectedEntities, BaseControl, parse } from "@app/dynamic-forms";
+import { FormDefinition, BaseControl, parse } from "@app/dynamic-forms";
 import { Sound } from "@app/game-mechanics";
 
 import { composeCommonFormContext, baseTemplate } from "../helpers";

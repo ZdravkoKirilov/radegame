@@ -2,7 +2,6 @@ import { RenderFunction, createElement } from "@app/render-kit";
 
 import { RuntimeToken, Style, Token, Widget } from "../../entities";
 import { connectToStore } from "../../hocs";
-import { CommonGameStore } from "../../helpers";
 import { RootWidgetProps, RootWidget } from "./RootWidget";
 
 export type RootItemProps = {
@@ -18,7 +17,7 @@ type StoreProps = {
 
 type Props = RootItemProps & StoreProps;
 
-const rootItem: RenderFunction<Props> = ({ template, runtimeToken, style, fromParent }) => {
+const rootItem: RenderFunction<Props | any> = ({ template, runtimeToken, style, fromParent }) => {
   return createElement<RootWidgetProps>(
     RootWidget,
     {
@@ -29,12 +28,12 @@ const rootItem: RenderFunction<Props> = ({ template, runtimeToken, style, fromPa
       },
       style,
     }
-  );
+  ) as any;
 };
 
-const mapStateToProps = (state: CommonGameStore, ownProps: RootItemProps): StoreProps => ({
+const mapStateToProps = (): StoreProps => ({
   runtimeToken: null, // selectRuntimeToken(ownProps.token)(state),
   template: null, //selectTokenTemplate(ownProps.token)(state),
-});
+} as any);
 
 export const RootItem = connectToStore(mapStateToProps)(rootItem);
