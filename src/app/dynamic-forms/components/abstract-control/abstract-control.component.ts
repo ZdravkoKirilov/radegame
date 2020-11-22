@@ -14,6 +14,7 @@ export class AbstractControlComponent {
     @Input() group: FormGroup;
     @Input() data: BaseControl;
     @Output() fieldChange: EventEmitter<any> = new EventEmitter();
+    
     types = controlTypes;
 
     constructor() {
