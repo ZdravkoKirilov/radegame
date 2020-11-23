@@ -14,7 +14,7 @@
     "strictPropertyInitialization": false,
     "target": "es2018",
     "allowSyntheticDefaultImports": true,
-    "types": ["pixi.js", "mocha"],
+    "types": ["pixi.js"],
     "typeRoots": [
       "node_modules/@types"
     ],
@@ -35,6 +35,7 @@
       "@app/rendering": ["app/rendering/index"],
       "@app/render-kit": ["app/render-kit/index"],
       "@app/engines/pixi": ["app/engines/pixijs/index"],
+      "fs": ["fs.ts"]
     }
   }
 }
