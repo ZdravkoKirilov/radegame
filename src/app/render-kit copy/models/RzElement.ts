@@ -22,6 +22,8 @@ export type RzElementProps = {
   id: string | number;
   name: string;
   points: Points;
+  key: string | number;
+  keyedChildren: boolean;
   children: CustomComponentChildrenProp;
 };
 
