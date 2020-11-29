@@ -1,3 +1,5 @@
+import { flatten } from "lodash";
+
 import { RzElementPrimitiveProps, MetaProps, Component, RzSize, AbstractContainer, updateComponent } from "../internal";
 import { PrimitiveType } from "../models";
 
@@ -5,12 +7,16 @@ export class BasicComponent<T extends Partial<RzElementPrimitiveProps> = {}> {
   static defaultProps = {};
   type: PrimitiveType;
   container: AbstractContainer;
-  children: Array<Component | null> = [];
+  _children: Array<Component | null | Array<Component | null>> = [];
   parent?: Component;
 
   constructor(public props: T & Partial<RzElementPrimitiveProps>, public graphic: any, public meta: MetaProps) {
     this.props = { ...BasicComponent.defaultProps, ...(props as any) };
     this.meta.engine.event.assignEvents(this);
+  }
+
+  get children() {
+    return flatten(this._children);
   }
 
   toString() {

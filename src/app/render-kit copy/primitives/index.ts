@@ -1,7 +1,6 @@
 export * from './Sprite';
 export * from './Text';
 export * from './Container';
-export * from './Collection';
 export * from './Line';
 export * from './Fragment';
 export * from './Polygon';
@@ -17,7 +16,6 @@ export const PRIMS = {
     ellipse: 'ellipse',
     line: 'line',
     rectangle: 'rectangle',
-    collection: 'collection',
     container: 'container',
     fragment: 'fragment',
     polygon: 'polygon',

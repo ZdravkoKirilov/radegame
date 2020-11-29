@@ -1,28 +1,33 @@
-import { get } from "lodash";
+import { flatten, get } from "lodash";
+import { CustomProps } from "../helpers";
 
 import {
   RzElementProps, MetaProps, updateComponent,
-  DidUpdatePayload, Component, AbstractContainer, ComponentRenderResult
+  DidUpdatePayload, Component, AbstractContainer, RzRenderedNode, IntrinsicProps
 } from "../internal";
 
-export class CustomComponent<P extends Partial<RzElementProps> = {}, S = {}> {
-
+export class CustomComponent<P extends IntrinsicProps & CustomProps = {}, S = {}> {
+  static readonly __custom_component__ = true;
   static defaultProps: Partial<RzElementProps>;
 
   meta: MetaProps;
 
   state: S;
-  props: P;
+  props: P & RzElementProps;
 
   type: CustomComponent;
 
   container: AbstractContainer;
-  children: Array<Component | null> = [];
+  _children: Array<Component | null | Array<Component | null>> = [];
   parent?: Component;
 
   constructor(props: P, meta: MetaProps) {
     this.props = { ...get(this, 'constructor.defaultProps', {}), ...props };
     this.meta = meta;
+  }
+
+  get children() {
+    return flatten(this._children);
   }
 
   toString() {
@@ -64,7 +69,7 @@ export class CustomComponent<P extends Partial<RzElementProps> = {}, S = {}> {
         if (this.willReceiveProps) {
           this.willReceiveProps(next);
         }
-        this.props = next;
+        this.props = next as P & RzElementProps;
         updateComponent(this, this.render() as any);
         if (callback) {
           callback();
@@ -76,7 +81,7 @@ export class CustomComponent<P extends Partial<RzElementProps> = {}, S = {}> {
           });
         }
       } else {
-        this.props = next;
+        this.props = next as P & RzElementProps;
         if (callback) {
           callback();
         }
@@ -88,7 +93,7 @@ export class CustomComponent<P extends Partial<RzElementProps> = {}, S = {}> {
     return nextProps !== this.props || nextState !== this.state;
   }
 
-  render(): ComponentRenderResult {
+  render(): RzRenderedNode {
     throw new Error('"render()" must be implemented in CustomComponents');
   };
 

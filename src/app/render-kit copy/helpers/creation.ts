@@ -3,7 +3,7 @@ import {
   RzElement, MetaProps, Component, isOfPrimitiveType, isCustomType,
   AbstractFactory, BasicComponent, CustomComponent, getRealType, callWithErrorPropagation
 } from "../internal";
-import { ComponentConstructor, ComponentRenderResult, isRzElement, RzElementPrimitiveProps } from "../models";
+import { ComponentConstructor, RzRenderedNode, isRzElement } from "../models";
 
 export const createComponent = (
   element: RzElement,
@@ -23,24 +23,41 @@ export const createComponent = (
       const component = createPrimitiveComponent(element, factory, meta);
 
       const type = element.type;
-      const props = element.props as RzElementPrimitiveProps;
 
       component.parent = parent;
       component.type = type;
 
-      const children = props.children.map(child => {
+      const children = element.children.map(child => {
+
         if (isRzElement(child)) {
           const comp = createComponent(child, factory, meta, component);
           comp.parent = component;
           return comp;
         }
-        return child;
+
+        if (isArray(child)) {
+          return child.map(nestedChild => {
+            if (isRzElement(nestedChild)) {
+              const comp = createComponent(nestedChild, factory, meta, component);
+              comp.parent = component;
+              return comp;
+            }
+            return nestedChild;
+          })
+        }
+
+        if (isNull(child)) {
+          return child;
+        }
+
+        throw new Error('Invalid child in component. ' + component + ': ' + child);
       });
 
       if (component.graphic) {
         component.graphic.component = component;
       }
-      component.children = children;
+
+      component._children = children;
       return component;
 
 
@@ -59,28 +76,46 @@ export const createComponent = (
     component.type = element.type;
     component.parent = parent;
 
-    const rendered = callWithErrorPropagation<ComponentRenderResult>(parent, () => component.render());
+    const rendered = callWithErrorPropagation<RzRenderedNode>(parent, () => component.render());
 
     if (isNull(rendered)) {
-      component.children = [];
+      component._children = [null];
     }
 
     if (isRzElement(rendered)) {
-      component.children = [createComponent(rendered, factory, meta, component)];
+      component._children = [createComponent(rendered, factory, meta, component)];
     }
 
     if (isArray(rendered)) {
-      component.children = rendered.map(child => {
+
+      const children = element.children.map(child => {
+        
         if (isRzElement(child)) {
           const comp = createComponent(child, factory, meta, component);
           comp.parent = component;
           return comp;
         }
+
+        if (isArray(child)) {
+          return child.map(nestedChild => {
+            if (isRzElement(nestedChild)) {
+              const comp = createComponent(nestedChild, factory, meta, component);
+              comp.parent = component;
+              return comp;
+            }
+            return nestedChild;
+          })
+        }
+        
         return child;
       });
+
+      component._children = children;
+      return component;
+
     }
 
-    return component;
+    throw new Error('Invalid render result from component. ' + component + ': ' + rendered);
 
   }
 

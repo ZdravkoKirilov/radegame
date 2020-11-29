@@ -1,11 +1,20 @@
-import { createElement, RenderFunction, SpriteProps, WithAssets, WithAssetProps } from '../../internal';
+import { createElement, SpriteProps, WithAssets, WithAssetProps, CustomComponent } from '../../internal';
 
-export const DynamicSprite: RenderFunction<SpriteProps> = props => {
-    return props!.image ? createElement<WithAssetProps>(
-        WithAssets, { urls: [props!.image] },
-        createElement<SpriteProps>(
-            'sprite',
-            { ...props! },
-        ) as any,
-    ) as any : null;
-};
+export class DynamicSprite extends CustomComponent<SpriteProps> {
+  
+  render() {
+    const { props } = this;
+
+    return props.image ? createElement<WithAssetProps>(
+      WithAssets,
+
+      { urls: [props.image] },
+
+      createElement<SpriteProps>(
+        'sprite',
+        { ...props },
+      ),
+    ) : null;
+  }
+
+}

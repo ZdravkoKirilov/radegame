@@ -65,7 +65,7 @@ const mountCustomComponent = (component: CustomComponent, container: AbstractCon
     callWithErrorPropagation(component.parent, () => component.willMount!.call(component));
   }
 
-  component.children = component.children.map(child => child ? mountComponent(child, container) : null);
+  component.children.forEach(child => child ? mountComponent(child, container) : null);
 
   if (isFunction(component.didMount)) {
     callWithErrorPropagation(component.parent, () => component.didMount!.call(component));
@@ -79,9 +79,8 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
   
   switch (component.type) {
     case PRIMS.container:
-    case PRIMS.collection:
       container.addChild(component.graphic);
-      component.children = component.children.map(child => child ? mountComponent(child, component.graphic) : null);
+      component.children.forEach(child => child ? mountComponent(child, component.graphic) : null);
       component.update();
       break;
     case PRIMS.rectangle:
@@ -89,7 +88,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
     case PRIMS.ellipse:
     case PRIMS.polygon:
       container.addChild(component.graphic);
-      component.children = component.children.map(child => child ? mountComponent(child, component.graphic) : null);
+      component.children.forEach(child => child ? mountComponent(child, component.graphic) : null);
       component.update();
       break;
     case PRIMS.text:
@@ -99,7 +98,7 @@ const mountPrimitiveComponent = (component: BasicComponent, container: AbstractC
       component.update();
       break;
     case PRIMS.fragment:
-      component.children = component.children.map(child => child ? mountComponent(child, component.graphic) : null);
+      component.children.forEach(child => child ? mountComponent(child, component.graphic) : null);
       component.update();
       break;
     case PRIMS.input:

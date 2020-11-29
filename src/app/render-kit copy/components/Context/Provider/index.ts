@@ -10,8 +10,8 @@ export interface ContextSubscription extends GenericSubscription { };
 
 @WithSubscriptions
 export class ContextProvider<T = {}> extends CustomComponent<Props<T>> implements SubscribableBase<T> {
-  subscribe = null as any;
-  handlers = null as any;
+
+  callbacks = new Set<(data: T) => void>();
 
   provideValueToSubscribers() {
     return this.props.value;
@@ -22,12 +22,14 @@ export class ContextProvider<T = {}> extends CustomComponent<Props<T>> implement
   }
 
   willReceiveProps(nextProps: Props) {
+
     if (nextProps.value !== this.props.value) {
-      this['handlers'].forEach((cb: (value: T) => void) => cb(nextProps.value));
+      this.callbacks.forEach((cb: (value: T) => void) => cb(nextProps.value));
     }
+
   }
 
   render() {
-    return this.props.children!;
+    return this.props.children;
   }
 }

@@ -3,7 +3,7 @@ import {
 } from "../internal";
 import { RzElementPrimitiveProps } from "./RzElement";
 
-export type Component<T extends Partial<RzElementProps> & Partial<RzElementPrimitiveProps> = {}> =
+export type Component<T extends Partial<RzElementPrimitiveProps> = {}> =
   BasicComponent<T> | CustomComponent<T>;
 
 export type DidUpdatePayload<Props = any, State = any> = {

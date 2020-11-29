@@ -141,8 +141,8 @@ export class AnimationPlayer {
         duration, delay, bidirectional, repeat, easing, transform_result
       } = step;
 
-      const start = from_value ? { ...from_value(this.data) } : { ...from_style };
-      const end = to_value ? { ...to_value(this.data) } : { ...to_style };
+      const start = from_value ? { ...from_value(this.data as any) } : { ...from_style };
+      const end = to_value ? { ...to_value(this.data as any) } : { ...to_style };
       const target = {};
 
       // TODO: support scale: "1.2 1.2" and so on
@@ -181,8 +181,8 @@ export class AnimationPlayer {
     const { from_value, to_value, from_style, to_style,
       easing, duration, delay = 0, repeat, bidirectional, transform_result } = data;
 
-    const start = from_value ? { ...from_value(this.data) } : { ...from_style };
-    const end = to_value ? { ...to_value(this.data) } : { ...to_style };
+    const start = from_value ? { ...from_value(this.data as any) } : { ...from_style };
+    const end = to_value ? { ...to_value(this.data as any) } : { ...to_style };
     const target = {};
 
     const toVars: gsap.AnimationVars = {

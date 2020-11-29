@@ -8,12 +8,16 @@ export interface GenericSubscription {
 
 export interface SubscribableBase<T = any> {
   provideValueToSubscribers(): T;
-  subscribe(callback: Callback<T>): GenericSubscription;
+  callbacks: Set<Callback<T>>;
+}
+
+export type WithSubscribe<ValueType = any> = {
+  subscribe: (callback: Callback<ValueType>) => GenericSubscription;
 }
 
 export function WithSubscriptions<TBase extends Constructor, ValueType = any>(Base: TBase) {
-  return class extends Base implements SubscribableBase<any> {
-    private callbacks = new Set();
+  return class extends Base implements SubscribableBase<ValueType> {
+    callbacks = new Set<Callback<ValueType>>();
 
     subscribe = (callback: Callback<ValueType>) => {
       const self = this;
@@ -28,6 +32,7 @@ export function WithSubscriptions<TBase extends Constructor, ValueType = any>(Ba
       };
     };
 
-    provideValueToSubscribers = () => { throw new Error('getExpectedValue must be implemented.') };
+    provideValueToSubscribers = () => { throw new Error('provideValueToSubscribers must be implemented.') };
+
   };
 }

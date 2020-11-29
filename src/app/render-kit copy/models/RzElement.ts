@@ -4,37 +4,47 @@ import {
   AbstractRenderEngine, GenericEventHandler, Component,
   ContextManager, AssetManager, PRIMS, RzEventTypes, CustomComponent
 } from "../internal";
+import { ComponentConstructor } from "./Component";
 
 export type RzElement<T extends Partial<RzElementProps> = {}> = {
   type: RzElementType;
-  props: Readonly<T>,
+  props: Readonly<T>;
+  children: RzElementChildren;
 };
 
-export type ComponentRenderResult = null | RzElement | Array<RzElement | null>;
-export type CustomComponentChildrenProp = RzElement | Array<RzElement | null>;
 
-export type RzElementPrimitiveProps = DefaultEvents & RzElementProps & {
-  children: Array<RzElement | null>;
+/* It's always an array
+1. Could be an array of RzElement or null
+2. Could be a nested array of the former which will be considered a keyed collection
+   by the mutation handlers
+*/
+type RzElementChildren = Array<RzElement | null | Array<RzElement | null>>;
+
+/* a component could render either a null, a single RzElement or an array of the former */
+export type RzRenderedNode = null | RzElement | Array<RzElement | null>;
+
+export type RzElementPrimitiveProps = Partial<DefaultEvents> & RzElementProps & {
   styles?: Partial<RzStyles>;
 };
 
 export type RzElementProps = {
-  id: string | number;
-  name: string;
-  points: Points;
-  key: string | number;
-  keyedChildren: boolean;
-  children: CustomComponentChildrenProp;
+
+  id?: string | number;
+  name?: string;
+  points?: Points;
+  key?: string | number;
+
+  children: RzRenderedNode;
 };
 
-export type RzElementType = PrimitiveType | typeof CustomComponent;
+export type RzElementType<T = any> = PrimitiveType | ComponentConstructor<T>;
 
 export const isOfPrimitiveType = (type: any): type is PrimitiveType => {
   return new Set(Object.values(PRIMS)).has(type as any)
 };
 
 export const isCustomType = (type: any): type is CustomComponent => {
-  return isFunction(type);
+  return isFunction(type) && get(type.prototype, '__custom_component__') === true;
 };
 
 export const isRzElementType = (type: any): type is RzElementType => {
@@ -104,6 +114,6 @@ export type MetaProps = {
 
 export type PrimitiveType = keyof typeof PRIMS;
 
-export type DefaultEvents = Partial<{
+export type DefaultEvents = {
   [key in RzEventTypes]: GenericEventHandler;
-}>;
+};
