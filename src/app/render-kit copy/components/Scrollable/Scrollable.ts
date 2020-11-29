@@ -1,5 +1,6 @@
-/* import {
-  BasicComponent, createElement, RzElementPrimitiveProps, RzPoint, RzNode, RenderFunction,
+import {
+  createElement, RzElementPrimitiveProps, RzPoint, CustomComponent, RzRenderedNode,
+  DidUpdatePayload
 } from '../../internal';
 
 import { RzScrollBoundary, enforceBoundary, scrollWasReal } from './helpers';
@@ -9,94 +10,102 @@ import { ScrollingContentProps, ScrollingContent } from "./ScrollingContent";
 export type RzScrollableProps = {
   width: number;
   height: number;
-  boundary?: RzScrollBoundary;
+  boundary: RzScrollBoundary;
   horizontal?: boolean;
   swipeContent?: boolean;
 
-  renderBar?: (data: ScrollHandleBarProps) => RzNode;
+  renderBar?: (data: ScrollHandleBarProps) => RzRenderedNode;
 
   controlledPosition?: RzPoint;
   controlledStartPosition?: RzPoint;
   onScroll?: (points: RzPoint) => void;
 }
 
-export const RzScrollable: any = (
-  { width, height, horizontal = false, controlledPosition, controlledStartPosition,
-    swipeContent, renderBar, boundary, onScroll, children },
-  { useRef, useState, useEffect }) => {
+type State = {
+  currentScrollPosition: RzPoint;
+  totalHeight: number;
+}
 
-  const lastScrollPosition = useRef<RzPoint>({
-    x: boundary?.minX || 0,
-    y: boundary?.minY || 0,
-  });
-  const [currentScrollPosition, setScrollPosition] = useState<RzPoint>({
-    x: boundary?.minX || 0,
-    y: boundary?.minY || 0,
-  });
-  const [totalHeight, setTotalHeight] = useState(height);
+export class RzScrollable extends CustomComponent<RzScrollableProps, State> {
 
-  useEffect(() => {
-    if (controlledPosition) {
-      setScrollPosition(controlledPosition);
-      lastScrollPosition.current = controlledPosition;
-    }
-  }, [controlledPosition]);
+  lastScrollPosition: RzPoint;
 
-  const handleBarProps: ScrollHandleBarProps = {
-    viewportHeight: height,
-    totalHeight,
-    startPosition: controlledStartPosition || { x: 0, y: 0 },
-    currentPosition: currentScrollPosition,
-    onScroll: point => {
-      const withBoundary = enforceBoundary(point, boundary);
-      if (scrollWasReal(withBoundary, lastScrollPosition.current)) {
-        onScroll(withBoundary);
-        setScrollPosition(withBoundary);
-        lastScrollPosition.current = withBoundary;
-      }
+  didUpdate(payload: DidUpdatePayload<RzScrollableProps>) {
+
+    if (this.props.controlledPosition && this.props.controlledPosition !== payload.prev.props.controlledPosition) {
+
+      this.setState({ currentScrollPosition: this.props.controlledPosition });
+      this.lastScrollPosition = this.props.controlledPosition;
     }
   }
 
-  return createElement<RzElementPrimitiveProps>(
-    'container',
-    {
-      styles: { x: 0, y: 0, mask: [0, 0, width, height] },
-      name: 'OuterScrollWrapper'
-    },
-    createElement<RzElementPrimitiveProps>(
+  render() {
+
+    const { height, width, controlledStartPosition, boundary, onScroll, swipeContent, children,
+      renderBar } = this.props;
+    const { currentScrollPosition, totalHeight } = this.state;
+    const { lastScrollPosition } = this;
+
+    const handleBarProps: ScrollHandleBarProps = {
+      viewportHeight: height,
+      totalHeight,
+      startPosition: controlledStartPosition || { x: 0, y: 0 },
+      currentPosition: currentScrollPosition,
+      onScroll: point => {
+        const withBoundary = enforceBoundary(point, boundary);
+
+        if (scrollWasReal(withBoundary, lastScrollPosition)) {
+          onScroll && onScroll(withBoundary);
+          this.lastScrollPosition = withBoundary;
+          this.setState({ currentScrollPosition: withBoundary });
+        }
+      }
+    };
+
+    return createElement<RzElementPrimitiveProps>(
       'container',
       {
-        ref: component => {
-          const dimensions = (component as BasicComponent).getSize();
-          if (dimensions) {
-            setTotalHeight(dimensions.height);
-          }
-        },
+        styles: { x: 0, y: 0, mask: [0, 0, width, height] },
+        name: 'OuterScrollWrapper'
       },
-      createElement<ScrollingContentProps>(
-        ScrollingContent,
+      createElement<RzElementPrimitiveProps>(
+        'container',
         {
-          startPosition: controlledStartPosition || { x: 0, y: 0 },
-          currentPosition: currentScrollPosition,
-          onScroll: swipeContent ? (point: any) => {
-            const withBoundary = enforceBoundary(point, boundary);
-            if (scrollWasReal(withBoundary, lastScrollPosition.current)) {
-              onScroll(withBoundary);
-              setScrollPosition(withBoundary);
-              lastScrollPosition.current = withBoundary;
-            }
-          } : null,
+          /*           ref: component => {
+                      const dimensions = (component as BasicComponent).getSize();
+                      if (dimensions) {
+                        setTotalHeight(dimensions.height);
+                      }
+                    }, */
         },
-        children,
-      ) as any,
-    ) as any,
-    createElement<RzElementPrimitiveProps>(
-      'container',
-      { styles: { x: width, y: 0 } },
-      renderBar ? renderBar(handleBarProps) : createElement<ScrollHandleBarProps>(
-        ScrollHandleBar as any,
-        handleBarProps,
+        createElement<ScrollingContentProps>(
+          ScrollingContent,
+          {
+            startPosition: controlledStartPosition || { x: 0, y: 0 },
+            currentPosition: currentScrollPosition,
+            onScroll: swipeContent && onScroll ? (point: RzPoint) => {
+              const withBoundary = enforceBoundary(point, boundary);
+
+              if (scrollWasReal(withBoundary, lastScrollPosition)) {
+                onScroll(withBoundary);
+                this.setState({ currentScrollPosition: withBoundary });
+                this.lastScrollPosition = withBoundary;
+              }
+            } : undefined,
+          },
+          children,
+        ),
+      ),
+      createElement<RzElementPrimitiveProps>(
+        'container',
+        { styles: { x: width, y: 0 } },
+        renderBar ? renderBar(handleBarProps) : createElement<ScrollHandleBarProps>(
+          ScrollHandleBar,
+          handleBarProps,
+        )
       )
-    ) as any
-  );
-}; */
+    );
+  }
+
+
+}

@@ -19,4 +19,5 @@ export const enforceBoundary = (source: RzPoint, boundary: RzScrollBoundary): Rz
   return source;
 };
 
-export const scrollWasReal = (newPoint: RzPoint, currentPoint: RzPoint) => currentPoint.x !== newPoint.x || currentPoint.y !== newPoint.y;
+export const scrollWasReal = (newPoint: RzPoint, currentPoint: RzPoint) =>
+  currentPoint.x !== newPoint.x || currentPoint.y !== newPoint.y;
