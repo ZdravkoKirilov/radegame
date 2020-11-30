@@ -11,7 +11,7 @@ type ReturnedProps = IntrinsicProps & { children: RzRenderedNode };
 
 export const createElement = <T extends IntrinsicProps & CustomProps = {}>(
   type: RzElementType,
-  props: (Omit<T, 'children'> & IntrinsicProps) | null,
+  props?: (Omit<T, 'children'> & IntrinsicProps),
   ...children: RzRenderedNode[]
 ): RzElement<T & ReturnedProps> => {
 

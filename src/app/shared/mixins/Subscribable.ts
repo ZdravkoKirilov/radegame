@@ -1,4 +1,4 @@
-type Callback<T = any> = (value: T) => void;
+export type Callback<T = any> = (value: T) => void;
 
 type Constructor<T = {}> = new (...args: any[]) => T;
 

@@ -24,7 +24,7 @@ export function GiveAndUseContext(constructor: Constructor<StatefulComponent<Req
         this.subscriptions = new Set(result.map(contextName => {
           if (typeof contextName === 'string') {
             const targetContext = findContextProvider(this, contextName);
-            const sub = targetContext ? targetContext.subscribe((newValue: unknown) => this.setState({
+            const sub = targetContext ? (targetContext as any).subscribe((newValue: unknown) => this.setState({
               elem: newValue,
             })) : null;
             return sub;

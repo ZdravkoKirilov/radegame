@@ -29,7 +29,7 @@ export class ContextConsumer<T = any> extends StatefulComponent<ContextConsumerP
   didMount() {
     const providerContext = findContextProvider(this, this.props.parentName, this.key);
     if (providerContext) {
-      providerContext.subscribe((newValue: T) => this.setState({ value: newValue }));
+      (providerContext as any).subscribe((newValue: T) => this.setState({ value: newValue }));
     }
   }
 

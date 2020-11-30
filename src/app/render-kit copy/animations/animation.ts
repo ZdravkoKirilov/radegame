@@ -10,7 +10,7 @@ import { mapEasing, CustomComponent } from "../internal";
 export type AnimationPayloadSegment<Props = any, State = any> = {
   state: State,
   props: Props,
-  component: CustomComponent<Props, State>,
+  component: CustomComponent,
 };
 
 export type AnimationPayload<Props = any, State = any> = {
