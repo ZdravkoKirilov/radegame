@@ -10,7 +10,7 @@ import {
 } from '../actions';
 import { AppLocalStorageService } from '@app/shared';
 import { User } from '@app/core';
-import { GameArenaService } from 'app/core/services/arena/game-arena.service';
+import { GameArenaService } from '../../services';
 
 @Injectable()
 export class CoreEffectsService {

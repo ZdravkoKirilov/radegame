@@ -34,8 +34,7 @@
       "@app/profile": ["app/profile/index"],
       "@app/rendering": ["app/rendering/index"],
       "@app/render-kit": ["app/render-kit/index"],
-      "@app/engines/pixi": ["app/engines/pixijs/index"],
-      "fs": ["fs.ts"]
+      "@app/engines/pixi": ["app/engines/pixijs/index"]
     }
   }
 }
