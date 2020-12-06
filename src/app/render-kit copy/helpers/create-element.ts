@@ -1,4 +1,4 @@
-import { flatten, isNull } from "lodash";
+import { flatten, isArray, isNull } from "lodash";
 
 import { Omit } from '@app/shared';
 import { RzElementProps, RzElement, RzElementType } from "../internal";
@@ -11,7 +11,7 @@ type ReturnedProps = IntrinsicProps & { children: RzRenderedNode };
 
 export const createElement = <T extends IntrinsicProps & CustomProps = {}>(
   type: RzElementType,
-  props?: (Omit<T, 'children'> & IntrinsicProps),
+  props?: (Omit<T, 'children'> & IntrinsicProps) | null,
   ...children: RzRenderedNode[]
 ): RzElement<T & ReturnedProps> => {
 
@@ -31,6 +31,10 @@ export const createElement = <T extends IntrinsicProps & CustomProps = {}>(
 
     if (childIsSingleRzElement(firstChild) || isNull(firstChild)) {
       computedChildren = firstChild;
+    } else if (isArray(firstChild)) {
+      computedChildren = firstChild;
+    } else {
+      throw new Error('Unrecognized child element: ' + firstChild);
     }
 
   } else {
@@ -46,5 +50,5 @@ export const createElement = <T extends IntrinsicProps & CustomProps = {}>(
 };
 
 const childIsSingleRzElement = (child: unknown): child is RzElement => {
-  return isRzElement(child)
+  return isRzElement(child);
 };
