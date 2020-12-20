@@ -36,3 +36,10 @@ export const safeJSON = <T = {}>(source: any, fallback?: unknown): T => {
     return source;
   }
 };
+
+export const arrayToMap = <Key, Value>(items: Value[], key: keyof Value) => {
+  return items.reduce((acc, item) => {
+    acc.set(item[key] as any, item);
+    return acc;
+  }, new Map<Key, Value>())
+}
